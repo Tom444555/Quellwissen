@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<meta name="description" content="Quellwissen – Kompendium für Natur, Selbstversorgung und Gesundheit: Pflanzen, Getreide & Brot, Biochemie, Autoren">
+<meta name="description" content="Quellwissen – Kompendium für Natur, Selbstversorgung und Gesundheit: Pflanzen, Boden, Getreide & Brot, Biochemie, Autoren">
 <title>Quellwissen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,600;0,800;1,400&family=Alegreya+Sans:wght@400;500;700&family=Alegreya+Sans+SC:wght@500;700&display=swap">
@@ -1306,6 +1306,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
    {"id":"chemie","titel":"Chemie & Biologie","bloecke":[
     {"typ":"text","text":"Im Inneren arbeiten Bakterien, Pilze, Asseln und Regenwürmer. Sie zerlegen das Material Schicht für Schicht. Was dabei passiert, erklärt fast alle Stärken und Probleme des Hügelbeets."},
     {"typ":"illu","id":"huegel_klima","titel":"Wärme und Wasser im Hügelbeet"},
+    {"typ":"hinweis","text":"**Vertiefung:** Humus, Kationenaustausch, Stickstoffkreislauf und die Stickstoff-Phasen im Hügelbeet stehen ausführlich im Kapitel {{s:boden-stickstoff|Boden & fruchtbare Erde}}."},
     {"typ":"abschnitt","titel":"1. Die Rotte","liste":["Mikroorganismen bauen Zellulose, Hemizellulose und Eiweiße ab. Dabei entstehen Kohlendioxid, Wasser, Wärme und Nährsalze.","Holz enthält viel **Lignin**, das fast nur Pilze (z. B. Weißfäulepilze) abbauen. Deshalb verrottet der Holzkern so langsam.","Aus den Resten entsteht **Humus**: dunkle, stabile Verbindungen, die Wasser und Nährstoffe festhalten."]},
     {"typ":"abschnitt","titel":"2. Das C:N-Verhältnis","liste":["Mikroben brauchen zum Wachsen Kohlenstoff (C) als Energie und Stickstoff (N) für Eiweiß, ideal etwa 25–30 Teile C auf 1 Teil N.","Holz hat sehr viel Kohlenstoff und kaum Stickstoff. Fehlt der Stickstoff, holen ihn sich die Mikroben aus der Umgebung – er ist dann für Pflanzen vorübergehend blockiert (**Stickstoffsperre**, Immobilisierung).","Nach ein bis zwei Jahren kehrt sich das um: Die Mikroben sterben ab und geben den Stickstoff wieder frei.","Deshalb liegt das Holz tief unten und stickstoffreiches Material (Gras, Mist, Kompost) darüber. Mehr dazu: {{b:cn-verhaeltnis|C:N-Verhältnis}}."]},
     {"typ":"tabelle","kopf":["Material","C:N (Faustwert)","Wirkung"],"zeilen":[
@@ -1381,6 +1382,142 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
     {"typ":"text","text":"C:N-Werte und Monatsplan sind allgemeine Gartenbau-Faustwerte. Noch offen: eigene Fotos vom Bau, Originaltexte von Andrä und Beba."}
    ]}
   ]},
+ {"id":"boden","titel":"Boden & fruchtbare Erde","nr":"S-02","illu":"boden_profil","fotos":[],"text":"Was Boden ist, wie fruchtbare Erde entsteht, was beim Kompostieren und Pflanzen chemisch passiert, der Stickstoffkreislauf im Hügelbeet, Bodentests und was dem Boden schadet.","stichworte":["Boden","Erde","fruchtbar","Humus","Ton-Humus-Komplex","Kationenaustausch","pH","Kalk","Stickstoff","Nitrat","Ammonium","Mineralisierung","Kompost","Rotte","Bodenleben","Regenwurm","Mykorrhiza","Rhizosphäre","Bodenprobe","Zeigerpflanzen","Torf","Terra Preta","Pflanzenkohle","Gründüngung","Mulch"],"pflanzen":[],
+  "kurz":"Fruchtbare Erde ist kein Material, das man kauft, sondern ein lebendiges System: Mineralteile, Wasser, Luft, Humus und Milliarden Lebewesen. Wer versteht, wie sie zusammenarbeiten, baut Jahr für Jahr besseren Boden auf – ohne Kunstdünger und ohne Torf.",
+  "steckbrief":[["Zusammensetzung","ca. 45 % Mineralteile, 25 % Wasser, 25 % Luft, 5 % Humus und Leben (Volumen, Idealboden)"],["Bodenleben","oft über 10 t pro Hektar; mehr als eine Billiarde Bakterien pro m²"],["Idealer pH","für die meisten Gemüse ca. 6–7"],["Kompost","höchstens ca. 3 l pro m² und Jahr im Gemüsegarten"],["Bodenuntersuchung","alle 4–5 Jahre: pH, Phosphor, Kalium, Magnesium; Humus alle 6–10 Jahre"],["Leitlinie","Boden bedeckt halten, füttern, nicht verdichten, nicht wenden"]],
+  "reiter":[
+   {"id":"grundlagen","titel":"Grundlagen","bloecke":[
+    {"typ":"text","text":"Boden ist die oberste, belebte Schicht der Erdkruste. Er entsteht über Jahrtausende aus verwittertem Gestein und abgestorbenen Pflanzen. Im Garten zählt vor allem der Oberboden – hier leben fast alle Wurzeln und Bodentiere."},
+    {"typ":"illu","id":"boden_anteile","titel":"Woraus Boden besteht"},
+    {"typ":"tabelle","kopf":["Bodenart","Korngröße","Eigenschaften","Was hilft"],"zeilen":[
+     ["Sand","0,063–2 mm","locker, warm, durchlässig; speichert kaum Wasser und Nährstoffe","viel Kompost, Mulch, Gründüngung, Tonmehl (Bentonit)"],
+     ["Schluff","0,002–0,063 mm","fruchtbar, aber verschlämmt und verkrustet leicht","Boden immer bedeckt halten, nicht bei Nässe betreten"],
+     ["Ton","unter 0,002 mm","speichert viel Wasser und Nährstoffe; schwer, kalt, neigt zu Staunässe","Kompost, grober Sand, Gründüngung mit Tiefwurzlern, Hügel- oder Hochbeet"],
+     ["Lehm","Mischung aus allen drei","der ideale Gartenboden","pflegen: mulchen, Kompost"]]},
+    {"typ":"abschnitt","titel":"Die Bodenschichten (Horizonte)","liste":["**O – Auflage:** Laub, Halme, Streu – das Futter des Bodenlebens.","**A – Oberboden:** dunkel durch Humus, voller Leben und Wurzeln; im Garten 20–40 cm.","**B – Unterboden:** heller, oft rostbraun durch Eisen; tiefe Wurzeln holen hier Wasser und Mineralstoffe.","**C – Ausgangsgestein:** verwittertes Gestein, aus dem der Boden entstanden ist."]},
+    {"typ":"abschnitt","titel":"Was einen fruchtbaren Boden ausmacht","liste":["**Krümelstruktur:** lockere, stabile Krümel mit vielen Poren für Luft und Wasser.","**Humus:** speichert Wasser und Nährstoffe, nährt das Bodenleben.","**Bodenleben:** zersetzt, mischt und erschließt Nährstoffe.","**Passender pH-Wert:** damit Nährstoffe verfügbar sind.","**Ausgewogene Nährstoffe:** weder Mangel noch Überschuss."]}
+   ]},
+   {"id":"leben","titel":"Bodenleben","bloecke":[
+    {"typ":"text","text":"Auf einem Hektar Acker leben oft mehr als 10 Tonnen Bodenorganismen – so viel wie 15 Kühe. Pilze stellen mehr als 40 % dieser Masse, Bakterien 15–30 %, Regenwürmer bis 20 %. Auf einem Quadratmeter fruchtbaren Bodens leben mehr als eine Billiarde Bakterien."},
+    {"typ":"illu","id":"bodenleben","titel":"Das Bodennahrungsnetz"},
+    {"typ":"tabelle","kopf":["Gruppe","Beispiele","Aufgabe"],"zeilen":[
+     ["Bakterien","Strahlenpilze, Knöllchenbakterien, Nitrifizierer","zersetzen, mineralisieren Stickstoff, binden Luftstickstoff (mit Leguminosen)"],
+     ["Pilze","Mykorrhiza, Schimmel- und Weißfäulepilze","bauen Holz und Lignin ab, versorgen Wurzeln mit Phosphor und Wasser, verkleben Krümel"],
+     ["Regenwürmer","Tauwurm, Kompostwurm","fressen Streu und Erde, hinterlassen nährstoffreiche Krümel, graben Röhren"],
+     ["Kleintiere","Springschwänze, Milben, Asseln, Tausendfüßer","zerkleinern Pflanzenreste, regulieren Pilze und Bakterien"],
+     ["Räuber","Laufkäfer, Raubmilben, Hundertfüßer","halten das Gleichgewicht"]]},
+    {"typ":"abschnitt","titel":"Was das Bodenleben fördert","liste":["Futter: Mulch, Kompost, Gründüngung, Ernterückstände – organisches Material ist meist der knappste Faktor.","Ruhe: flach lockern statt umgraben; tief eingegrabenes Material gerät unter Luftabschluss.","Bedeckung: nie offenen Boden lassen; Sonne und Regen zerstören die Krümel.","Vielfalt: Fruchtfolge, Mischkultur, Zwischenfrüchte.","Keine Gifte: Herbizide, Fungizide und viel Kupfer schaden dem Bodenleben."]}
+   ]},
+   {"id":"chemie","titel":"Humus & Chemie","bloecke":[
+    {"typ":"text","text":"Fruchtbarkeit ist zu einem großen Teil Chemie an winzigen Oberflächen: Ton und Humus sind negativ geladen und halten positiv geladene Nährstoffe fest wie Magnete – bis eine Wurzel sie eintauscht."},
+    {"typ":"illu","id":"ton_humus","titel":"Ton-Humus-Komplex und Kationenaustausch"},
+    {"typ":"abschnitt","titel":"Humus","liste":["Humus ist die abgestorbene, umgewandelte organische Substanz im Boden.","**Nährhumus:** leicht abbaubar, liefert schnell Nährstoffe (z. B. frischer Kompost, Mist).","**Dauerhumus:** stabile, dunkle Verbindungen (Huminstoffe), die über Jahrzehnte bleiben und Struktur geben.","Humus speichert ein Vielfaches seines Gewichts an Wasser.","Bei 1,5 % Humus werden jährlich etwa 4 g Stickstoff pro m² frei, bei 4–8 % Humus mehr als 11 g – das deckt den Bedarf vieler Gemüse fast allein."]},
+    {"typ":"abschnitt","titel":"Kationenaustausch","liste":["Ton und Humus tragen negative Ladungen. Daran haften Kationen: Calcium (Ca²⁺), Magnesium (Mg²⁺), Kalium (K⁺), Ammonium (NH₄⁺).","Die Wurzel gibt Wasserstoff-Ionen (H⁺) ab und tauscht sie gegen diese Nährstoffe ein.","Je mehr Ton und Humus, desto größer der Speicher (Kationenaustauschkapazität, KAK). Sandböden haben einen kleinen Speicher – Nährstoffe werden leicht ausgewaschen.","Nitrat (NO₃⁻) ist negativ geladen, haftet nicht und wird bei Regen leicht ausgewaschen."]},
+    {"typ":"abschnitt","titel":"pH-Wert","liste":["Der pH-Wert misst, wie sauer oder basisch der Boden ist. Die meisten Gemüse wachsen am besten bei pH 6–7.","Saure Böden (unter 5,5): Phosphor, Calcium und Magnesium werden knapp, Aluminium und Mangan können giftig werden.","Alkalische Böden (über 7,5): Eisen, Mangan, Zink werden schlechter verfügbar – Blätter vergilben zwischen den Adern.","Kalk hebt den pH-Wert, Laubkompost und Nadelstreu senken ihn leicht. Kalken nur nach Messung."]},
+    {"typ":"illu","id":"ph_band","titel":"Nährstoffverfügbarkeit nach pH-Wert"},
+    {"typ":"tabelle","kopf":["Nährstoff","Aufgabe in der Pflanze","Mangel sieht man an"],"zeilen":[
+     ["Stickstoff (N)","Wachstum, Blattgrün, Eiweiß","hellgrüne bis gelbe ältere Blätter, Kümmerwuchs"],
+     ["Phosphor (P)","Energie, Wurzeln, Blüte","rötlich-violette Blätter, schwache Wurzeln"],
+     ["Kalium (K)","Wasserhaushalt, Frostschutz, Geschmack","braune Blattränder, welke Pflanzen"],
+     ["Magnesium (Mg)","Zentralatom im Chlorophyll","gelbe Flecken zwischen grünen Adern an älteren Blättern"],
+     ["Calcium (Ca)","Zellwände, Bodenstruktur","Blütenendfäule bei Tomaten, Innenbrand bei Salat"],
+     ["Eisen (Fe)","Blattgrün-Bildung","junge Blätter gelb mit grünen Adern"]]}
+   ]},
+   {"id":"stickstoff","titel":"Stickstoff","bloecke":[
+    {"typ":"text","text":"Stickstoff ist der Wachstumsmotor – und der beweglichste Nährstoff. Er wandert ständig zwischen Luft, Boden, Lebewesen und Pflanze. Wer den Kreislauf kennt, düngt weniger und erntet besser."},
+    {"typ":"illu","id":"n_kreislauf","titel":"Der Stickstoffkreislauf"},
+    {"typ":"abschnitt","titel":"Die Stationen","nummern":["**Bindung aus der Luft:** Knöllchenbakterien an Erbsen, Bohnen, Klee und Lupinen binden Luftstickstoff (N₂) – kostenloser Dünger.","**Mineralisierung:** Bakterien und Pilze zersetzen Eiweiß in Pflanzenresten, Kompost und Humus zu Ammonium (NH₄⁺). Wärme und Feuchtigkeit beschleunigen das.","**Nitrifikation:** Andere Bakterien wandeln Ammonium über Nitrit in Nitrat (NO₃⁻) um. Nitrat ist die Hauptnahrung der meisten Pflanzen.","**Aufnahme:** Wurzeln nehmen Nitrat und Ammonium auf und bauen daraus Eiweiß.","**Immobilisierung:** Bekommen Bodenlebewesen viel Kohlenstoff (Holz, Stroh, frischer Rindenmulch), holen sie sich Stickstoff aus dem Boden – er ist vorübergehend gebunden ({{b:cn-verhaeltnis|C:N-Verhältnis}}).","**Verluste:** Nitrat wird mit Regen ins Grundwasser ausgewaschen; bei Staunässe wandeln Bakterien es zurück in Gas (Denitrifikation)."]},
+    {"typ":"abschnitt","titel":"Stickstoff im Hügelbeet – die Phasen","nummern":["**Monate 0–6:** Die obere Kompost- und Mistschicht mineralisiert schnell – viel Nitrat und Wärme. Gleichzeitig bindet der Holzkern Stickstoff, weil Pilze und Bakterien das kohlenstoffreiche Holz besiedeln. Für Starkzehrer oben trotzdem reichlich.","**Jahr 1–2:** Höchstes Nitratangebot in der Pflanzerde. Blattgemüse würde zu viel Nitrat einlagern ({{b:nitrat|Nitrat}}). Wurzeln, die bis in den Holzkern wachsen, finden dort weniger Stickstoff.","**Jahr 2–3:** Die Mikroben im Holz sterben nach und nach ab und geben ihren Stickstoff wieder frei. Das Angebot wird ausgeglichener.","**Jahr 4–6:** Nährstoffe nehmen ab, Humus ist aufgebaut. Schwachzehrer, Gründüngung und Kompost halten das Beet fruchtbar."]},
+    {"typ":"illu","id":"n_huegel","titel":"Stickstoff und Wärme im Hügelbeet (schematisch)"},
+    {"typ":"tabelle","kopf":["Bedarf","Gemüse (Beispiele)","Stickstoff pro m² und Jahr (Richtwert)"],"zeilen":[
+     ["Schwachzehrer","Feldsalat, Radieschen, Erbsen, Bohnen, Möhren, Zwiebeln, Spinat","ca. 5–7 g"],
+     ["Mittelzehrer","Kohlrabi, Lauch, Sellerie, Tomate, Chinakohl","ca. 10–13 g"],
+     ["Starkzehrer","Kohl, Kürbis, Zucchini, Gurke, Tomate auf magerem Boden","ca. 15–20 g"]]},
+    {"typ":"text","text":"Richtwerte abgeleitet aus den Düngeempfehlungen der Bayerischen Gartenakademie (Hornmehl 50/100/150 g pro m², ca. 13 % Stickstoff). Humusreiche Böden (über 4 %) brauchen davon nur einen kleinen Startanteil."}
+   ]},
+   {"id":"kompost","titel":"Kompost","bloecke":[
+    {"typ":"text","text":"Kompost ist gelenkte Verrottung: Aus Küchen- und Gartenabfällen wird in einem halben bis ganzen Jahr dunkle, krümelige Erde. Er ist Bodenverbesserer und milder Dünger zugleich – aber kein Allheilmittel und in zu großen Mengen sogar schädlich."},
+    {"typ":"illu","id":"kompost_phasen","titel":"Die drei Phasen der Rotte"},
+    {"typ":"abschnitt","titel":"Was beim Kompostieren passiert","nummern":["**Abbauphase (Tage bis Wochen):** Bakterien vermehren sich explosionsartig und bauen Zucker und Eiweiß ab. Die Temperatur steigt auf 50–70 °C – Krankheitskeime und viele Unkrautsamen sterben.","**Umbauphase (Wochen bis Monate):** Die Temperatur sinkt, Pilze bauen Zellulose und Lignin ab, Asseln, Springschwänze und Kompostwürmer ziehen ein.","**Aufbauphase (Monate):** Aus den Resten entstehen stabile Huminstoffe und Ton-Humus-Krümel. Der Kompost riecht nach Walderde."]},
+    {"typ":"abschnitt","titel":"Was passiert, wenn Kompost auf den Boden kommt","liste":["Die Bodenlebewesen werden schlagartig aktiver (Primingeffekt) – sie bauen auch vorhandenen Humus schneller um.","Stickstoff wird langsam frei: Reifer Kompost liefert pro Jahr nur einen kleinen Teil seines Stickstoffs; der Rest baut Humus auf.","Phosphor und Kalium kommen fast vollständig an – deshalb ist zu viel Kompost auf Dauer eine Überdüngung mit Phosphor.","Der pH-Wert wird gepuffert, meist leicht angehoben.","Die Krümelstruktur verbessert sich, der Boden speichert mehr Wasser und erwärmt sich schneller."]},
+    {"typ":"tabelle","kopf":["Material","C:N-Typ","Hinweis"],"zeilen":[
+     ["Rasenschnitt, Küchenabfälle, Brennnessel, Mist","grün, stickstoffreich","nass, fault in dicken Schichten – mit Braunem mischen"],
+     ["Laub, Stroh, Häckselgut, Pappe","braun, kohlenstoffreich","sorgt für Luft und Struktur"],
+     ["Faustregel","etwa 1 Teil Grün auf 2 Teile Braun","feucht wie ein ausgedrückter Schwamm halten"]]},
+    {"typ":"karten","art":"anwendung","filter":[["alle","Alle"]],"eintraege":[
+     {"id":"aufsetzen","titel":"Kompost richtig aufsetzen","kat":"alle","beleg":"T","teil":"Praxis","kurz":"Ein Platz im Halbschatten, Kontakt zum Erdboden, gemischte Schichten.","zutaten":["Lattenkomposter oder Mieten-Platz, ca. 1 × 1 m","grobes Material als unterste Lage","Grün- und Braunmaterial"],"schritte":["Unten 20 cm grobe Äste für die Belüftung.","Grün und Braun abwechselnd oder gemischt aufschichten.","Ab und zu eine Schaufel fertigen Kompost oder Gartenerde als Impfung dazugeben.","Feucht halten, bei Regen abdecken.","Nach 2–3 Monaten umsetzen: außen nach innen, oben nach unten.","Nach 6–12 Monaten sieben."]},
+     {"id":"reife","titel":"Reife prüfen (Kressetest)","kat":"alle","beleg":"T","teil":"Test","kurz":"Unreifer Kompost kann Keimlinge schädigen.","zutaten":["Kompostprobe","Kressesamen","Schale"],"schritte":["Kompost in eine Schale füllen, Kresse aussäen, feucht halten.","Nach 5–7 Tagen ansehen: gleichmäßig grün und kräftig = reif; gelb, lückig, braune Wurzeln = noch unreif."]},
+     {"id":"menge","titel":"Richtig dosieren","kat":"alle","beleg":"W","teil":"Menge","kurz":"Höchstens ca. 3 Liter pro m² und Jahr im Gemüsebeet.","zutaten":["reifer Kompost","Eimer mit Literskala"],"schritte":["Im Frühjahr 1–3 l pro m² oberflächlich einarbeiten.","Starkzehrer zusätzlich gezielt mit Stickstoff versorgen (z. B. Hornspäne, Brennnesseljauche).","Alle 4–5 Jahre eine Bodenprobe – sind Phosphor und Kalium hoch, Kompost reduzieren."]}
+    ]}
+   ]},
+   {"id":"wurzelraum","titel":"Pflanzen & Wurzelraum","bloecke":[
+    {"typ":"text","text":"Sobald eine Pflanze wurzelt, verändert sie ihren Boden. In der Zone direkt um die Wurzel – der Rhizosphäre – ist das Bodenleben bis zu hundertmal dichter als im übrigen Boden."},
+    {"typ":"illu","id":"rhizosphaere","titel":"Die Rhizosphäre"},
+    {"typ":"abschnitt","titel":"Was beim Einpflanzen passiert","nummern":["**Erste Tage:** Feine Wurzelhaare wachsen in die Poren. Gießwasser schließt Hohlräume und bringt Bodenteilchen an die Wurzel – darum angießen.","**Wurzelausscheidungen:** Die Pflanze gibt bis zu einem Fünftel ihres Zuckers über die Wurzeln ab. Damit füttert sie Bakterien, die ihr im Gegenzug Stickstoff und Phosphor freisetzen.","**Mykorrhiza:** Pilzfäden verbinden sich mit den Wurzeln, verlängern sie um ein Vielfaches und tauschen Wasser und Phosphor gegen Zucker. Kohl- und Spinatgewächse bilden keine Mykorrhiza.","**Ionentausch:** Die Wurzel gibt H⁺ ab und säuert die Wurzelzone leicht an; dadurch lösen sich Nährstoffe vom Ton-Humus-Komplex.","**Ab der Blüte:** Die Pflanze braucht mehr Kalium und Phosphor, weniger Stickstoff."]},
+    {"typ":"abschnitt","titel":"Im Hügelbeet","liste":["Jungpflanzen wurzeln zuerst in der lockeren Pflanzerde und im Kompost – dort ist am meisten Nitrat.","Erreichen die Wurzeln den Holzkern, finden sie Feuchtigkeit, aber im 1. Jahr wenig Stickstoff (Immobilisierung).","Die Wärme aus der Rotte beschleunigt Mineralisierung und Wurzelwachstum – deshalb geht es im Frühjahr schneller los.","Tiefwurzler wie Tomaten und Kürbis nutzen auch das Wasser im Holzkern."]}
+   ]},
+   {"id":"aufbauen","titel":"Erde aufbauen","bloecke":[
+    {"typ":"text","text":"Fruchtbare Erde entsteht, wenn man das Bodenleben füttert und schützt. Diese Maßnahmen ergänzen sich und wirken über Jahre."},
+    {"typ":"karten","art":"anwendung","filter":[["alle","Alle"],["schuetzen","Schützen"],["fuettern","Füttern"],["verbessern","Verbessern"]],"eintraege":[
+     {"id":"mulch","titel":"Mulchen","kat":"schuetzen","beleg":"W","teil":"Bedeckung","kurz":"Eine Decke aus organischem Material schützt vor Austrocknung, Erosion und Verschlämmung und füttert die Würmer.","zutaten":["Rasenschnitt (angewelkt), Laub, Stroh, Häcksel aus Gemüseresten"],"schritte":["2–5 cm dick zwischen die Pflanzen legen.","Dünn und oft statt dick und selten.","Bei Schneckenproblemen eher Stroh als frisches Grün."]},
+     {"id":"gruenduengung","titel":"Gründüngung","kat":"fuettern","beleg":"W","teil":"Zwischenfrucht","kurz":"Pflanzen, die nur für den Boden wachsen: Wurzeln lockern, Leguminosen sammeln Stickstoff, das Grün wird zu Humus.","zutaten":["Phacelia, Senf, Ölrettich, Buchweizen, Klee, Lupine, Winterroggen"],"schritte":["Nach der Ernte säen, Boden nie offen lassen.","Vor der Samenreife abmähen und als Mulch liegen lassen.","Kreuzblütler (Senf, Ölrettich) nicht vor Kohl – gleiche Krankheiten."]},
+     {"id":"nicht-umgraben","titel":"Lockern statt umgraben","kat":"schuetzen","beleg":"W","teil":"Bodenbearbeitung","kurz":"Umgraben zerstört die Schichtung und das Pilzgeflecht; Oberbodenlebewesen landen in der Tiefe.","zutaten":["Grabegabel oder Sauzahn"],"schritte":["Mit der Grabegabel einstechen und nur leicht hebeln.","Nur bei schwerem, verdichtetem Boden einmalig tiefer lockern.","Nie bei nassem Boden arbeiten oder ihn betreten – feste Wege anlegen."]},
+     {"id":"kompost-nutzen","titel":"Kompost und Mist","kat":"fuettern","beleg":"W","teil":"Organische Düngung","kurz":"Reifer Kompost und gut verrotteter Mist bauen Humus auf.","zutaten":["reifer Kompost (max. ca. 3 l/m²)","verrotteter Pferde-, Rinder- oder Schafmist"],"schritte":["Im Frühjahr flach einarbeiten.","Frischen Mist nur im Herbst oder auf den Kompost.","Wurmhumus aus der Wurmkiste ist besonders fein und nährstoffreich."]},
+     {"id":"pflanzenkohle","titel":"Pflanzenkohle und Terra Preta","kat":"verbessern","beleg":"W","teil":"Bodenverbesserer","kurz":"Poröse Holzkohle speichert Wasser und Nährstoffe und bietet Mikroben Lebensraum. Vorbild ist die Schwarzerde (Terra Preta) im Amazonasgebiet.","zutaten":["Pflanzenkohle (zertifiziert, z. B. EBC)","Kompost oder Jauche zum Aufladen"],"schritte":["Kohle zuerst mit Nährstoffen aufladen: einige Wochen in Kompost oder Jauche mischen.","Nur aufgeladen ausbringen – frische Kohle bindet Nährstoffe zunächst selbst.","Wenige Liter pro m² genügen; Grillkohle und Grillasche sind nicht geeignet."]},
+     {"id":"kalk","titel":"Kalken nach Maß","kat":"verbessern","beleg":"W","teil":"pH","kurz":"Nur kalken, wenn der pH-Wert zu niedrig ist.","zutaten":["pH-Test oder Bodenlabor","kohlensaurer Kalk oder Algenkalk"],"schritte":["Bodenprobe messen.","Bei pH unter ca. 6 im Herbst nach Herstellerangabe kalken.","Nicht gleichzeitig mit Mist oder Kompost ausbringen (Stickstoffverlust als Ammoniak)."]},
+     {"id":"bodentiere","titel":"Regenwürmer fördern","kat":"schuetzen","beleg":"W","teil":"Bodenleben","kurz":"Regenwürmer brauchen Futter an der Oberfläche und Ruhe.","zutaten":["Mulch, Laub","eine Wurmkiste für Küchenabfälle"],"schritte":["Laub im Herbst auf den Beeten lassen.","Keine Fräse auf Dauer; sie zerkleinert Würmer.","Im Winter offene Beete mit Mulch oder Gründüngung bedecken."]}
+    ]}
+   ]},
+   {"id":"vermeiden","titel":"Was schadet","bloecke":[
+    {"typ":"text","text":"Manche gut gemeinte Maßnahme schadet dem Boden auf Dauer. Diese Liste zeigt, was man meiden oder nur sehr gezielt einsetzen sollte."},
+    {"typ":"tabelle","kopf":["Nicht verwenden bzw. meiden","Warum","Besser"],"zeilen":[
+     ["Torf und torfhaltige Erde","Moore sind große CO₂-Speicher; Torf ist nährstoffarm, sauer und für den Garten unnötig","torffreie Erde, eigener Kompost, Rindenhumus"],
+     ["Blaukorn und andere phosphatreiche Volldünger","Gartenböden sind meist schon mit Phosphor und Kalium überversorgt","reine Stickstoffdünger wie Hornspäne, Jauchen; vorher Bodenprobe"],
+     ["Chloridhaltige Kalidünger","Chlorid schadet empfindlichen Pflanzen und dem Bodenleben","Kaliumsulfat, Kalimagnesia – nur bei nachgewiesenem Mangel"],
+     ["Unkrautvernichter, chemische Pilzmittel","schädigen Bodenleben, Bienen, Grundwasser","Mulchen, Hacken, robuste Sorten, Mischkultur"],
+     ["Kupfer in größeren Mengen","reichert sich im Boden an, schadet Regenwürmern","nur sparsam und gezielt, Vorbeugung"],
+     ["Streusalz","versalzt den Boden, schädigt Wurzeln","Sand, Splitt"],
+     ["Asche von Kohle, Briketts, behandeltem oder lackiertem Holz","Schwermetalle und Schadstoffe","höchstens wenig Asche von unbehandeltem Holz, nicht auf Gemüse in Mengen"],
+     ["Hunde- und Katzenkot","Parasiten und Krankheitskeime","Restmüll"],
+     ["Fleisch, Fisch, Milchprodukte, gekochte Essensreste im offenen Kompost","locken Ratten an, faulen","Bokashi-Eimer oder Biotonne"],
+     ["Kranke Pflanzen, samentragendes Unkraut, Wurzelunkräuter","verbreiten Krankheiten und Unkraut im ganzen Garten","Biotonne oder heiße Kompostierung"],
+     ["Frischer Rindenmulch auf Gemüsebeeten","bindet Stickstoff, Gerbstoffe hemmen Keimung","unter Gehölzen verwenden"],
+     ["Zu viel Kompost oder Mist","Überdüngung mit Phosphor und Kalium, Nitratauswaschung","maßvoll nach Bodenprobe"],
+     ["Zu viel Kalk","bindet Spurenelemente, beschleunigt Humusabbau","nur nach Messung"],
+     ["Betreten oder Befahren nasser Böden","Verdichtung: Poren gehen verloren, Wurzeln und Würmer leiden","feste Wege, Bretter, warten"],
+     ["Offener, nackter Boden","Erosion, Verschlämmung, Austrocknung, Humusverlust","Mulch, Gründüngung"],
+     ["Plastik, Hochglanzpapier, kompostierbare Tüten","zerfallen nicht oder zu langsam; Mikroplastik","Restmüll oder Papiertüten"],
+     ["Erde und Kompost unbekannter Herkunft","mögliche Schadstoffe oder Unkräuter","geprüfte Erde, Gütesiegel (RAL)"]]}
+   ]},
+   {"id":"test","titel":"Boden testen","bloecke":[
+    {"typ":"text","text":"Bevor man düngt oder kalkt, sollte man seinen Boden kennen. Vieles lässt sich mit einfachen Tests selbst herausfinden; für Nährstoffe lohnt sich ein Labor."},
+    {"typ":"karten","art":"anwendung","filter":[["alle","Alle"]],"eintraege":[
+     {"id":"fingerprobe","titel":"Fingerprobe","kat":"alle","beleg":"W","teil":"Bodenart","kurz":"Eine Handvoll feuchte Erde zwischen den Fingern rollen.","zutaten":["feuchte Erde aus 10–20 cm Tiefe"],"schritte":["Rieselt durch, nicht formbar, körnig: Sand.","Mehlig, samtig, kaum klebrig: Schluff.","Formbar, glänzt beim Reiben, klebt: Ton.","Formbar, etwas körnig und etwas klebrig: Lehm."]},
+     {"id":"spatenprobe","titel":"Spatenprobe","kat":"alle","beleg":"W","teil":"Struktur","kurz":"Einen Spatenstich Erde herausheben und ansehen.","zutaten":["Spaten"],"schritte":["Spatenblatt-tief ausstechen und vorsichtig auf ein Brett legen.","Krümelig, dunkel, viele Wurzeln und Wurmgänge = gut.","Scharfkantige Brocken, Schichten, Fäulnisgeruch = verdichtet oder staunass.","Zählen: mehr als 5 Regenwürmer pro Spatenstich ist ein gutes Zeichen."]},
+     {"id":"schlaemm","titel":"Schlämmprobe","kat":"alle","beleg":"W","teil":"Bodenart","kurz":"Zeigt die Anteile von Sand, Schluff und Ton.","zutaten":["großes Schraubglas","Erde, Wasser, Prise Spülmittel"],"schritte":["Glas zu einem Drittel mit Erde füllen, mit Wasser auffüllen, Spülmittel dazu.","Kräftig schütteln und 1–2 Tage stehen lassen.","Schichten messen (siehe Zeichnung)."]},
+     {"id":"ph-test","titel":"pH-Wert messen","kat":"alle","beleg":"W","teil":"pH","kurz":"Teststreifen oder Messset aus dem Gartenhandel.","zutaten":["Bodenprobe","destilliertes Wasser","pH-Test"],"schritte":["Erde mit destilliertem Wasser verrühren, absetzen lassen.","Messen und mit dem Zielbereich (6–7) vergleichen."]},
+     {"id":"labor","titel":"Bodenlabor","kat":"alle","beleg":"W","teil":"Nährstoffe","kurz":"Alle 4–5 Jahre: pH, Phosphor, Kalium, Magnesium, Bodenart; Humus alle 6–10 Jahre.","zutaten":["Mischprobe aus 10–15 Einstichen, 0–30 cm"],"schritte":["Einstiche über das Beet verteilen, in einem Eimer mischen.","Ca. 500 g an ein Bodenlabor schicken (Adressen bei Gartenakademien und Landwirtschaftsämtern).","Düngeempfehlung des Labors befolgen."]}
+    ]},
+    {"typ":"illu","id":"schlaemmprobe","titel":"Schlämmprobe im Glas"},
+    {"typ":"tabelle","kopf":["Zeigerpflanze","zeigt an"],"zeilen":[
+     ["{{p:p01|Brennnessel}}, {{p:p02|Giersch}}, Vogelmiere","stickstoffreichen, humosen Boden"],
+     ["Ackerschachtelhalm, Binsen, Hahnenfuß","Staunässe, verdichteten Untergrund"],
+     ["Sauerampfer, Hundskamille, Heidekraut","sauren Boden"],
+     ["Huflattich, Ackerwinde","lehmigen, verdichteten Boden"],
+     ["Kamille, Wegerich, Gänsefingerkraut","verdichteten, festgetretenen Boden"],
+     ["Klatschmohn, Ackersenf","kalkhaltigen Boden"]]},
+    {"typ":"text","text":"Zeigerpflanzen sind Hinweise, keine Messung: Erst mehrere Arten zusammen ergeben ein verlässliches Bild."}
+   ]},
+   {"id":"quellen","titel":"Quellen","bloecke":[
+    {"typ":"quellen","eintraege":[
+     ["Bayerische Gartenakademie: Düngung leicht gemacht","https://www.lwg.bayern.de/mam/cms06/gartenakademie/dateien/infoschrift_duengung_leicht_gemacht.pdf"],
+     ["LfL Bayern: Zehn Tonnen Leben unter einem Hektar","https://www.lfl.bayern.de/mam/cms07/iab/dateien/zehn_tonnen_leben_dlz_2009.pdf"],
+     ["Bayerische Gartenakademie: Torffrei gärtnern","https://www.lwg.bayern.de/mam/cms06/gartenakademie/dateien/1202-torffrei_gaertnern.pdf"],
+     ["Umweltbundesamt: Verlust der Biodiversität im Boden","https://www.umweltbundesamt.de/themen/boden-flaeche/bodenbelastungen/verlust-der-biodiversitaet-im-boden"]]},
+    {"typ":"text","text":"Zusammensetzung, Bodenarten, Horizonte, Kationenaustausch, pH-Verfügbarkeit und Rottephasen sind Lehrbuchwissen der Bodenkunde; Zahlen als Richtwerte. Diagramme zum Stickstoff im Hügelbeet sind schematisch."}
+   ]}
+  ]},
+
  {"id":"jauche","titel":"Pflanzenjauche","text":"Gärender Pflanzenauszug als Flüssigdünger. Kraut wird in Wasser angesetzt, gärt 1–3 Wochen und wird verdünnt (meist 1:10) auf den Boden gegossen. Gesteinsmehl bindet Geruch. Gefäße aus Kunststoff, Holz oder Ton, kein Metall.","pflanzen":["p01#selbstversorgung-jauche"]},
  {"id":"auszug","titel":"Kaltwasserauszug und Brühe","text":"Kurz angesetzte, nicht gärende Auszüge zum Spritzen. Kaltwasserauszug: 12–24 Stunden ziehen lassen. Brühe: Kraut einweichen und anschließend aufkochen. Beide frisch verwenden.","pflanzen":["p01#selbstversorgung-kaltwasserauszug"]},
  {"id":"trocknen","titel":"Kräuter trocknen","text":"Kräuter vormittags bei trockenem Wetter ernten, nicht waschen wenn sauber. In Bündeln kopfüber oder locker ausgebreitet an einem schattigen, luftigen Ort trocknen, bis die Blätter rascheln. Dunkel, trocken und luftdicht lagern und innerhalb eines Jahres verbrauchen. Im Dörrgerät höchstens 40 °C.","pflanzen":["p01#rezepte-salz"]},
@@ -1873,6 +2010,97 @@ const IL = (()=>{
       g+=`<defs><marker id="pa" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#9c7432"/></marker></defs>`;
       g+=netz(20,95,false)+lbl(170,244,'Weizen: dichtes, elastisches Netz hält das Gas')+netz(360,80,true)+lbl(510,244,'Dinkel: dehnbar, aber reißt – Gas entweicht');
       return {vb:'0 0 680 252', breit:true, leg:['Kleber-Netz (braun) mit Gärbläschen (hell) – schematisch'], svg:g}; },
+    boden_profil(){ seed=101; let g='';
+      const hz=[[40,62,'#3f2f22','O','Streu und Auflage'],[62,150,'#5a3f28','A','Oberboden: Humus, Bodenleben, Wurzeln'],[150,240,'#9a7348','B','Unterboden: Ton, Eisen, tiefe Wurzeln'],[240,300,'#c9b08a','C','Ausgangsgestein, verwittert']];
+      for(const [a,b,f] of hz) g+=`<rect x="20" y="${a}" width="380" height="${b-a}" fill="${f}"/>`;
+      for(let i=0;i<40;i++) g+=`<path d="M${R(24+rnd()*370)},${R(42+rnd()*16)} l${R(6+rnd()*6)},${R((rnd()-.5)*4)}" stroke="#7a5a2a" stroke-width="2" stroke-linecap="round"/>`;
+      for(let i=0;i<35;i++) g+=`<ellipse cx="${R(24+rnd()*370)}" cy="${R(250+rnd()*46)}" rx="${R(4+rnd()*10)}" ry="${R(3+rnd()*6)}" fill="#a8946e" stroke="#8a7656" stroke-width=".6"/>`;
+      for(let i=0;i<30;i++) g+=`<ellipse cx="${R(24+rnd()*370)}" cy="${R(160+rnd()*76)}" rx="${R(1.5+rnd()*3)}" ry="${R(1+rnd()*2)}" fill="#c98a4a" opacity=".6"/>`;
+      g+=stiel('M90,40 L90,8',2,C.stem)+blatt(90,14,16,6,-140,{adern:false})+blatt(90,14,16,6,-40,{adern:false})+fasern(90,42,7,120,80,'#e3d3b0',1.2);
+      g+=stiel('M300,40 L300,4',2.4,C.stem)+blatt(300,10,18,7,-150,{adern:false})+blatt(300,10,18,7,-30,{adern:false})+pfahl(300,40,170,6,'#e3cf9a','#9c8250');
+      g+=`<path d="M170,80 C190,90 200,110 230,112 C250,114 262,104 270,96" stroke="#c97a6a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M200,160 C200,190 210,210 206,236" stroke="#5a3f28" stroke-width="4" fill="none" stroke-dasharray="2 4"/>`;
+      for(const [x,y] of [[140,100],[220,70],[350,120],[150,130]]) g+=`<circle cx="${x}" cy="${y}" r="2.4" fill="#e9e1cf"/>`;
+      for(const [a,b,f,k,t] of hz){ g+=`<text class="lbl" x="420" y="${(a+b)/2+5}" style="text-anchor:start">${k}</text><text class="lbl2" x="444" y="${(a+b)/2+5}" style="text-anchor:start">${t}</text>`; }
+      g+=mk(240,104,1)+mk(206,226,2)+mk(150,100,3);
+      return {vb:'0 -24 700 334', breit:true, leg:['Regenwurm im Oberboden','Wurmgang bis in den Unterboden – Wege für Luft, Wasser und Wurzeln','Pilzgeflechte und Bakterien (hell) zersetzen Streu zu Humus'], svg:g}; },
+    boden_anteile(){ let g=''; const parts=[['Mineralteile',45,'#b08a52'],['Wasser',25,'#5aa0d8'],['Luft',25,'#d9e6ee'],['Humus und Bodenleben',5,'#3f2f22']]; let x=20;
+      for(const [t,p,f] of parts){ const w=p*6.6; g+=`<rect x="${x}" y="30" width="${w}" height="56" fill="${f}" stroke="var(--surface)" stroke-width="2"/><text class="lbl" x="${x+w/2}" y="112">${p} %</text>${wrap(x+w/2,140,t,16)}`; x+=w; }
+      return {vb:'0 0 700 160', breit:true, leg:['Idealer Gartenboden nach Volumen (Faustwerte aus der Bodenkunde): Wasser und Luft teilen sich die Poren'], svg:g}; },
+    bodenleben(){ let g=`<defs><marker id="pn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--muted)"/></marker></defs>`;
+      const box=(x,y,w,t,s,f)=>`<rect x="${x}" y="${y}" width="${w}" height="56" rx="10" fill="${f}" opacity=".22"/><rect x="${x}" y="${y}" width="${w}" height="56" rx="10" fill="none" stroke="${f}" stroke-width="1.6"/><text class="lbl" x="${x+w/2}" y="${y+24}">${t}</text><text class="lbl2" x="${x+w/2}" y="${y+42}">${s}</text>`;
+      const ar=(x1,y1,x2,y2)=>`<path d="M${x1},${y1} L${x2},${y2}" stroke="var(--muted)" stroke-width="1.6" marker-end="url(#pn)"/>`;
+      g+=box(250,10,200,'Pflanzen','Laub, Wurzeln, Wurzelsäfte','#5a8a3a');
+      g+=box(250,100,200,'Abgestorbenes Material','Streu, Kompost, Mist','#8a6a45');
+      g+=box(20,190,190,'Zersetzer I','Regenwurm, Asseln, Springschwänze','#c97a6a');
+      g+=box(255,190,190,'Zersetzer II','Pilze und Bakterien','#b9a24a');
+      g+=box(490,190,190,'Räuber','Milben, Fadenwürmer, Laufkäfer','#7a6aa0');
+      g+=box(250,280,200,'Nährstoffe und Humus','für die Pflanzen','#3f6a27');
+      g+=ar(350,66,350,98)+ar(300,156,140,188)+ar(350,156,350,188)+ar(210,218,253,218)+ar(447,218,488,218)+ar(350,246,350,278)+`<path d="M452,308 C640,300 640,60 452,40" stroke="var(--muted)" stroke-width="1.6" fill="none" marker-end="url(#pn)"/>`;
+      return {vb:'0 0 700 340', breit:true, leg:['Bodennahrungsnetz: Tiere zerkleinern, Pilze und Bakterien zersetzen, Räuber halten das Gleichgewicht; am Ende stehen Nährstoffe und Humus für die Pflanzen'], svg:g}; },
+    ton_humus(){ seed=102; let g='';
+      g+=`<path d="M120,150 L260,110 L300,150 L160,190Z" fill="#b8a07a" stroke="#7d6a4a"/><path d="M130,160 L270,120 L310,160 L170,200Z" fill="#a8906a" stroke="#7d6a4a"/><path d="M140,170 L280,130 L320,170 L180,210Z" fill="#c9b08a" stroke="#7d6a4a"/>`;
+      g+=`<path d="M300,150 C340,120 380,170 420,140 C460,110 470,180 430,200 C390,220 350,190 320,200 C290,210 280,175 300,150Z" fill="#3f2f22"/>`;
+      for(let i=0;i<14;i++){ const x=R(140+rnd()*300), y=R(118+rnd()*90); g+=`<text x="${x}" y="${y}" style="fill:#fff;font:700 10px var(--body)">−</text>`; }
+      const ion=(x,y,t,f)=>`<circle cx="${x}" cy="${y}" r="15" fill="${f}" stroke="var(--surface)" stroke-width="1.5"/><text x="${x}" y="${y+4}" style="fill:#fff;font:700 10px var(--body);text-anchor:middle">${t}</text>`;
+      for(const [x,y,t,f] of [[120,96,'Ca²⁺','#5a7fa8'],[190,80,'K⁺','#a85a7f'],[262,84,'Mg²⁺','#5aa08a'],[340,100,'NH₄⁺','#b9862a'],[460,100,'Ca²⁺','#5a7fa8'],[150,232,'K⁺','#a85a7f'],[270,230,'H⁺','#c94a3a'],[390,226,'Mg²⁺','#5aa08a']]) g+=ion(x,y,t,f);
+      g+=`<path d="M560,150 C540,130 520,130 498,140" stroke="var(--muted)" stroke-width="1.4" fill="none" marker-end="url(#pq)"/><defs><marker id="pq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--muted)"/></marker></defs>`;
+      g+=stiel('M620,40 L620,250',3,'#e3d3b0')+fasern(620,200,4,40,80,'#e3d3b0',1)+`<text class="lbl2" x="620" y="270">Wurzel</text>${ion(580,160,'K⁺','#a85a7f')}${ion(580,200,'H⁺','#c94a3a')}`;
+      g+=lbl(220,290,'Tonplättchen')+lbl(380,290,'Humus');
+      g+=mk(210,150,1)+mk(380,170,2)+mk(340,72,3)+mk(560,120,4);
+      return {vb:'0 0 700 300', breit:true, leg:['Tonminerale sind winzige, negativ geladene Plättchen','Humus ist ebenfalls negativ geladen und verklebt mit Ton zum Ton-Humus-Komplex (Krümel)','Positiv geladene Nährstoffe (Kationen) haften an der Oberfläche – geschützt vor Auswaschung','Die Wurzel gibt H⁺ ab und tauscht es gegen Nährstoffe wie K⁺ (Kationenaustausch)'], svg:g}; },
+    ph_band(){ let g=''; const X=ph=>R(130+(ph-4)*100);
+      const rows=[['Stickstoff',[[4,.3],[5,.6],[6,1],[7,1],[8,.7],[9,.4]],'#3f6a27'],['Phosphor',[[4,.25],[5,.4],[6,.9],[6.8,1],[7.5,.5],[8.5,.6],[9,.4]],'#b9862a'],['Kalium',[[4,.35],[5,.6],[6,1],[9,1]],'#a85a7f'],['Calcium, Magnesium',[[4,.3],[5,.5],[6.5,1],[9,1]],'#5a7fa8'],['Eisen, Mangan',[[4,1],[6,.9],[7,.5],[8,.25],[9,.2]],'#c94a3a'],['Bor, Kupfer, Zink',[[4,.8],[6,1],[7,.6],[8,.35],[9,.3]],'#7a6aa0']];
+      rows.forEach(([t,pts,f],i)=>{ const y=30+i*44; const top=pts.map(([p,v])=>`${X(p)},${R(y-v*14)}`), bot=pts.slice().reverse().map(([p,v])=>`${X(p)},${R(y+v*14)}`); g+=`<path d="M${top.join(' L')} L${bot.join(' L')}Z" fill="${f}" opacity=".75"/><text class="lbl2" x="120" y="${y+4}" style="text-anchor:end">${t}</text>`; });
+      g+=`<rect x="${X(6)}" y="6" width="${X(7)-X(6)}" height="270" fill="var(--accent)" opacity=".08"/>`;
+      for(let p=4;p<=9;p++) g+=`<text class="lbl2" x="${X(p)}" y="296">pH ${p}</text>`;
+      g+=`<text class="lbl2" x="${X(4.5)}" y="314">sauer</text><text class="lbl2" x="${X(6.5)}" y="314">ideal für die meisten Gemüse</text><text class="lbl2" x="${X(8.5)}" y="314">alkalisch</text>`;
+      return {vb:'0 0 700 322', breit:true, leg:['Je breiter das Band, desto besser ist der Nährstoff für Pflanzen verfügbar (schematisch, nach dem klassischen Verfügbarkeits-Diagramm)'], svg:g}; },
+    n_kreislauf(){ let g=`<defs><marker id="pz" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--muted)"/></marker></defs>`;
+      const nd=(x,y,t,s,f)=>`<circle cx="${x}" cy="${y}" r="44" fill="${f}" opacity=".18"/><circle cx="${x}" cy="${y}" r="44" fill="none" stroke="${f}" stroke-width="1.6"/><text class="lbl" x="${x}" y="${y-2}">${t}</text><text class="lbl2" x="${x}" y="${y+16}">${s}</text>`;
+      const ar=(d,t,tx,ty)=>`<path d="${d}" stroke="var(--muted)" stroke-width="1.6" fill="none" marker-end="url(#pz)"/><text class="lbl2" x="${tx}" y="${ty}">${t}</text>`;
+      g+=nd(110,70,'Luft','N₂ (78 %)','#5aa0d8')+nd(350,70,'Pflanze','Eiweiß','#5a8a3a')+nd(590,70,'Ernte','Entzug','#b9862a');
+      g+=nd(110,250,'Organisch','Streu, Kompost, Humus','#8a6a45')+nd(350,250,'Ammonium','NH₄⁺','#b9a24a')+nd(590,250,'Nitrat','NO₃⁻','#3f6a27');
+      g+=ar('M150,90 C220,120 260,120 312,96','Leguminosen binden N₂',230,140);
+      g+=ar('M110,116 L110,204','Absterben',70,160)+ar('M154,250 L304,250','Mineralisierung',229,240);
+      g+=ar('M394,250 L544,250','Nitrifikation',469,240);
+      g+=ar('M560,212 C500,150 420,120 386,104','Aufnahme',480,170)+ar('M330,210 L338,116','',0,0)+ar('M394,70 L544,70','',0,0)+ar('M320,98 C240,140 170,190 140,212','Rückstände',200,200);
+      g+=ar('M590,296 L590,326','Auswaschung (Grundwasser)',590,340)+ar('M626,232 C680,180 680,120 640,96','Denitrifikation bei Nässe',650,160).replace('text class="lbl2" x="650"','text class="lbl2" style="text-anchor:end" x="680"');
+      g+=ar('M330,290 C280,320 180,320 140,292','Immobilisierung (z. B. durch Holz)',235,334);
+      return {vb:'0 0 700 350', breit:true, leg:['Stickstoffkreislauf im Gartenboden: Pflanzen nehmen Stickstoff vor allem als Nitrat und Ammonium auf'], svg:g}; },
+    n_huegel(){ let g=''; const X=m=>R(70+m*8.6), Y=v=>R(250-v*2);
+      for(let j=0;j<=6;j++) g+=`<path d="M${X(j*12)},20 V250" stroke="var(--line)"/><text class="lbl2" x="${X(j*12+6)}" y="270">${j<6?'Jahr '+(j+1):''}</text>`;
+      g+=`<path d="M70,${Y(0)} H${X(72)}" stroke="var(--ink)" stroke-width="1"/><text class="lbl2" x="60" y="${Y(0)+4}" style="text-anchor:end">0</text><text class="lbl2" x="60" y="${Y(90)}" style="text-anchor:end">viel</text>`;
+      const kurve=(f,col,dash)=>{ let d=''; for(let m=0;m<=72;m+=1) d+=(m?' L':'M')+X(m)+','+Y(f(m)); return `<path d="${d}" stroke="${col}" stroke-width="3" fill="none" ${dash?'stroke-dasharray="6 4"':''}/>`; };
+      g+=kurve(m=>Math.max(5,95*Math.exp(-m/16)+8*Math.sin(m/12*Math.PI*2)*Math.exp(-m/30)),'#3f6a27');
+      g+=kurve(m=>-40*Math.exp(-Math.pow((m-8)/7,2))+30*Math.exp(-Math.pow((m-34)/14,2)),'#b9862a',true);
+      g+=kurve(m=>Math.max(4,70*Math.exp(-Math.pow((m-6)/10,2))+20*Math.exp(-Math.pow((m-30)/14,2))),'#c94a3a');
+      g+=`<path d="M70,${Y(0)} V250" stroke="var(--ink)"/><text class="lbl2" x="${X(14)}" y="${Y(-38)}">Holz bindet N</text><text class="lbl2" x="${X(36)}" y="${Y(36)}">Holz gibt N frei</text>`;
+      const le=[['#3f6a27','Verfügbarer N in Pflanzerde und Kompostschicht',false],['#c94a3a','Wärme aus der Rotte',false],['#b9862a','N-Bilanz im Holzkern (unter 0 = gebunden)',true]];
+      le.forEach(([c,t,d],i)=>{ g+=`<path d="M80,${292+i*16} h28" stroke="${c}" stroke-width="3" ${d?'stroke-dasharray="6 4"':''}/><text class="lbl2" x="116" y="${296+i*16}" style="text-anchor:start">${t}</text>`; });
+      return {vb:'0 0 700 340', breit:true, leg:['Schematischer Verlauf über sechs Jahre, keine Messwerte: oben viel Stickstoff zu Beginn, im Holzkern zuerst Bindung, später Freisetzung'], svg:g}; },
+    kompost_phasen(){ let g=''; const X=w=>R(70+w*11.5), Y=c=>R(250-c*3);
+      for(const c of [20,40,60]) g+=`<path d="M70,${Y(c)} H640" stroke="var(--line)"/><text class="lbl2" x="62" y="${Y(c)+4}" style="text-anchor:end">${c} °C</text>`;
+      const ph=[[0,6,'Abbauphase','#c94a3a'],[6,20,'Umbauphase','#b9862a'],[20,49,'Aufbauphase','#3f6a27']];
+      for(const [a,b,t,f] of ph) g+=`<rect x="${X(a)}" y="20" width="${X(b)-X(a)}" height="230" fill="${f}" opacity=".08"/><text class="lbl" x="${(X(a)+X(b))/2}" y="40">${t}</text>`;
+      let d=''; for(let w=0;w<=49;w+=.5){ const c=w<1.5?15+w*30:(w<6?62-(w-1.5)*1.5:(w<20?55-(w-6)*2.1:Math.max(14,25.6-(w-20)*0.4))); d+=(w?' L':'M')+X(w)+','+Y(c); }
+      g+=`<path d="${d}" stroke="var(--accent)" stroke-width="3" fill="none"/>`;
+      for(const w of [0,4,8,12,20,30,40,48]) g+=`<text class="lbl2" x="${X(w)}" y="270">${w} Wo.</text>`;
+      g+=`<text class="lbl2" x="${X(8)}" y="${Y(62)}" style="text-anchor:start">bis ca. 70 °C: Keime und Samen sterben</text><text class="lbl2" x="${X(13)}" y="${Y(44)}">Pilze, Asseln, Würmer ziehen ein</text><text class="lbl2" x="${X(34)}" y="${Y(28)}">Humus bildet sich, Erdgeruch</text>`;
+      return {vb:'0 0 660 282', breit:true, leg:['Temperaturverlauf im gut aufgesetzten Komposthaufen (Richtwerte; im Gartenkompost oft kühler und langsamer)'], svg:g}; },
+    rhizosphaere(){ seed=103; let g=`<rect x="0" y="0" width="700" height="300" fill="#8b6a45" opacity=".14"/>`;
+      g+=`<path d="M60,40 C200,60 320,90 460,150 C540,184 600,220 660,260" stroke="#e3d3b0" stroke-width="16" fill="none" stroke-linecap="round"/>`;
+      for(let i=0;i<46;i++){ const t=i/45, x=R(60+600*t), y=R(40+220*Math.pow(t,1.1)); g+=`<path d="M${x},${y} l${R(-4+rnd()*8)},${R(10+rnd()*10)}" stroke="#efe4c8" stroke-width="1"/>`; }
+      for(let i=0;i<24;i++){ const t=rnd(), x=R(60+600*t), y=R(40+220*Math.pow(t,1.1)); g+=`<circle cx="${R(x+(rnd()-.5)*40)}" cy="${R(y+(rnd()-.5)*40)}" r="${R(4+rnd()*6)}" fill="#e8c86a" opacity=".35"/>`; }
+      for(let i=0;i<60;i++){ const t=rnd(), x=R(60+600*t+(rnd()-.5)*50), y=R(40+220*Math.pow(t,1.1)+(rnd()-.5)*50); g+=`<ellipse cx="${x}" cy="${y}" rx="2.4" ry="1.3" fill="#7a6aa0" transform="rotate(${R(rnd()*180)} ${x} ${y})"/>`; }
+      let h=''; let x=260,y=100; for(let k=0;k<40;k++){ const nx=R(x+(rnd()-.4)*30), ny=R(y+(rnd()-.3)*24); h+=`<path d="M${x},${y} L${nx},${ny}" stroke="#f4f0e2" stroke-width=".9"/>`; x=nx; y=ny; if(rnd()<.2){x=260+rnd()*80;y=100+rnd()*40;} } g+=h;
+      for(const [x,y,t,f] of [[540,90,'NO₃⁻','#3f6a27'],[600,140,'K⁺','#a85a7f'],[150,170,'PO₄³⁻','#b9862a']]) g+=`<circle cx="${x}" cy="${y}" r="16" fill="${f}"/><text x="${x}" y="${y+4}" style="fill:#fff;font:700 10px var(--body);text-anchor:middle">${t}</text>`;
+      g+=mk(120,60,1)+mk(330,100,2)+mk(300,180,3)+mk(470,190,4)+mk(570,116,5);
+      return {vb:'0 0 700 300', breit:true, leg:['Wurzel mit Wurzelhaaren – die Aufnahmefläche','Pilzfäden (Mykorrhiza) verlängern die Wurzel und holen Phosphor und Wasser','Wurzelausscheidungen (gelb): Zucker und Säuren füttern Bakterien','Bakterien (lila) mineralisieren Stickstoff direkt an der Wurzel','Gelöste Nährstoffe als Ionen werden aufgenommen'], svg:g}; },
+    schlaemmprobe(){ let g='';
+      g+=`<path d="M60,30 L60,250 Q60,270 80,270 L180,270 Q200,270 200,250 L200,30" fill="#dbe9f2" opacity=".5" stroke="var(--muted)" stroke-width="2"/>`;
+      for(const [a,b,f,t] of [[220,268,'#c9b08a','Sand (sinkt sofort)'],[180,220,'#a8906a','Schluff (nach Stunden)'],[150,180,'#7d6a4a','Ton (nach 1–2 Tagen)'],[140,150,'#3f2f22','Humus (schwimmt oder obenauf)']]) g+=`<rect x="62" y="${a}" width="136" height="${b-a}" fill="${f}"/><path d="M200,${(a+b)/2} H240" stroke="var(--muted)"/><text class="lbl2" x="246" y="${(a+b)/2+4}" style="text-anchor:start">${t}</text>`;
+      g+=`<rect x="62" y="60" width="136" height="80" fill="#c9b08a" opacity=".2"/><text class="lbl2" x="130" y="22">Wasser mit einer Prise Spülmittel</text>`;
+      return {vb:'0 0 460 290', breit:true, leg:['Schlämmprobe: Boden mit Wasser schütteln und absetzen lassen; die Schichtdicken zeigen den Anteil von Sand, Schluff und Ton'], svg:g}; },
   };
   const cache={};
   const get=id=>cache[id]||(cache[id]=Z[id]&&Z[id]());
