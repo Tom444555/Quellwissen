@@ -116,9 +116,42 @@ tr:last-child td{border-bottom:0}
 .lage-5{background:transparent;border:2px dashed var(--muted);padding-block:5px}
 .grund{width:100%;text-align:center;font:700 .72rem var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:3px solid var(--muted);padding-top:4px}
 @media (max-width:520px){.lage{width:100%}}
+.kopfgrid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:720px){.kopfgrid{grid-template-columns:minmax(0,1fr)}}
+.illu{margin:0;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px;display:grid;gap:8px;min-width:0}
+.illu svg{width:100%;height:auto;display:block}
+.illu-breit svg{max-height:340px}
+.illu ol{margin:0;padding-left:1.5em;font-size:.9rem;display:grid;gap:3px}
+.illu figcaption{font-size:.75rem;color:var(--muted)}
+.illu .mk circle{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.illu .mk text{fill:var(--accent-ink);font:700 10px var(--body);text-anchor:middle}
+.illu .lbl{fill:var(--ink);font:600 13px var(--body);text-anchor:middle}
+.illu .boden,.mini .boden{stroke:var(--muted);stroke-width:1.2;stroke-dasharray:4 4}
+.mini svg{height:120px;width:auto;max-width:100%;display:block;margin:0 auto}
+.ministreifen{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.ministreifen a{display:grid;gap:4px;justify-items:center;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:8px 4px;font-weight:500;font-size:.9rem}
+.ministreifen a:hover{border-color:var(--accent)}
+.ministreifen svg{height:96px;width:auto}
+.fotos{display:grid;gap:10px}
+.fotos-kopf{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.knopf{border:1px solid var(--accent);color:var(--accent);background:var(--surface);padding:6px 12px;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer}
+.knopf:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.galerie{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.galerie:empty{display:none}
+.foto{margin:0;display:grid;gap:4px;min-width:0}
+.foto-btn{padding:0;border:0;background:none;border-radius:10px;overflow:hidden;aspect-ratio:4/3;max-width:100%}
+.foto-btn img{width:100%;height:100%;object-fit:cover;display:block}
+.foto figcaption{font-size:.82rem;color:var(--muted);display:grid}
+.foto figcaption span{font-size:.72rem;font-weight:700;letter-spacing:.03em}
+.foto-weg{justify-self:start;border:0;background:none;color:var(--sting);font-size:.8rem;padding:0;text-decoration:underline}
+.klein{font-size:.85rem;color:var(--muted)}
+#lightbox{position:fixed;inset:0;z-index:50;background:rgb(0 0 0 / .85);display:grid;place-items:center;padding:16px;gap:8px}
+#lightbox img{max-width:100%;max-height:80vh;border-radius:8px}
+#lightbox p{color:#fff;margin:0}
+#lightbox button{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:14px;font-size:2rem;background:none;border:0;color:#fff}
 mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px}
 @media (prefers-reduced-motion:no-preference){.karte,.eintrag{transition:box-shadow .2s,border-color .2s}}
-@media print{.kopf,.reiter,.filter,.auf{display:none!important}.panel[hidden]{display:grid!important}.koerper[hidden]{display:grid!important}body{background:#fff;color:#000}}
+@media print{.kopf,.reiter,.filter,.auf,.knopf,.foto-weg{display:none!important}.panel[hidden]{display:grid!important}.koerper[hidden]{display:grid!important}body{background:#fff;color:#000}}
 </style>
 
 <header class="kopf">
@@ -145,7 +178,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
 {
 "pflanzen":[
 {
- "id":"p01","nr":"P-01","name":"Brennnessel","botan":"Urtica dioica L.","volksnamen":["Nessel","Hanfnessel","Haarnessel"],
+ "id":"p01","nr":"P-01","illu":"brennnessel","fotos":[],"name":"Brennnessel","botan":"Urtica dioica L.","volksnamen":["Nessel","Hanfnessel","Haarnessel"],
  "kurz":"Eine der vielseitigsten Wildpflanzen Mitteleuropas: Gemüse, Heilpflanze, Dünger und Faserlieferant in einem.",
  "steckbrief":[["Familie","Brennnesselgewächse (Urticaceae)"],["Verwandt","Kleine Brennnessel (Urtica urens L.), einjährig"],["Lebensform","ausdauernde Staude mit Wurzelstock"],["Größe","bis ca. 1,4 m"],["Blütezeit","etwa Juni bis September"],["Sammelzeit","Blätter März–Juni, Samen Spätsommer, Wurzel Frühjahr oder Herbst"],["Verwendete Teile","Blätter, Kraut, Wurzel, Samen"],["Rechtlich","Lebensmittel; in Arzneidosis traditionelles pflanzliches Arzneimittel"]],
  "reiter":[
@@ -249,7 +282,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
  ]
 },
 {
- "id":"p02","nr":"P-02","name":"Giersch","botan":"Aegopodium podagraria L.","volksnamen":["Geißfuß","Zipperleinskraut","Podagrakraut","Gichtkraut"],
+ "id":"p02","nr":"P-02","illu":"giersch","fotos":[],"name":"Giersch","botan":"Aegopodium podagraria L.","volksnamen":["Geißfuß","Zipperleinskraut","Podagrakraut","Gichtkraut"],
  "kurz":"Gefürchtetes Gartenunkraut und eines der besten Wildgemüse: mild-würzig nach Petersilie und Möhre, reich an Kalium und Vitamin C. Wichtig: Er hat giftige Doppelgänger.",
  "steckbrief":[["Familie","Doldenblütler (Apiaceae)"],["Lebensform","ausdauernde Staude mit unterirdischen Ausläufern"],["Größe","bis ca. 90 cm"],["Blütezeit","Mai bis September, weiße Doppeldolden"],["Sammelzeit","März bis September; am zartesten März bis Mai"],["Verwendete Teile","Blätter, Blattstiele, Blüten, Samen"],["Nicht essen","Wurzel (laut Altmeyers giftig)"],["Name","Aegopodium = Ziegenfuß (Blattform), podagraria = von Podagra, Gicht"]],
  "reiter":[
@@ -339,7 +372,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
  ]
 },
 {
- "id":"p03","nr":"P-03","name":"Löwenzahn","botan":"Taraxacum officinale (F. H. Wigg.)","volksnamen":["Pusteblume","Kuhblume","Butterblume","Bettsaicher (Saarland, Pfalz)"],
+ "id":"p03","nr":"P-03","illu":"loewenzahn","fotos":[],"name":"Löwenzahn","botan":"Taraxacum officinale (F. H. Wigg.)","volksnamen":["Pusteblume","Kuhblume","Butterblume","Bettsaicher (Saarland, Pfalz)"],
  "kurz":"Von der Wurzel bis zur Blüte essbar und eine der ältesten Bitterpflanzen der Volksmedizin. Die Bitterstoffe regen Appetit, Verdauung und Galle an, die Blätter treiben Wasser aus. Im Saarland kennt man ihn als Bettsaicher-Salat.",
  "steckbrief":[["Familie","Korbblütler (Asteraceae)"],["Lebensform","ausdauernde Staude mit langer Pfahlwurzel"],["Größe","10–40 cm"],["Blütezeit","Hauptblüte April–Mai, Nachblüte bis Herbst"],["Sammelzeit","Blätter März–Mai (vor der Blüte am mildesten), Blüten April–Mai, Wurzel Herbst oder zeitiges Frühjahr"],["Verwendete Teile","Wurzel, Blätter, Blüten, Knospen"],["Arzneidroge","Löwenzahnwurzel mit Kraut (Taraxaci radix cum herba), Qualität im Europäischen Arzneibuch"],["Name","Taraxacum vermutlich aus dem Arabischen/Persischen für Bitterkraut; Löwenzahn nach den gezähnten Blättern"]],
  "reiter":[
@@ -424,7 +457,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
  ]
 },
 {
- "id":"p04","nr":"P-04","name":"Schwarzer Holunder","botan":"Sambucus nigra L.","volksnamen":["Holler","Holder","Flieder (nordd.)","Fliederbeere"],
+ "id":"p04","nr":"P-04","illu":"holunder","fotos":[],"name":"Schwarzer Holunder","botan":"Sambucus nigra L.","volksnamen":["Holler","Holder","Flieder (nordd.)","Fliederbeere"],
  "kurz":"Der Hausbaum der Selbstversorger: Blüten für Sirup und Erkältungstee, Beeren für Saft und Gelee. Wichtig: Beeren und grüne Teile nie roh essen, erst erhitzen.",
  "steckbrief":[["Familie","Moschuskrautgewächse (Adoxaceae), früher Geißblattgewächse"],["Lebensform","Strauch oder kleiner Baum, bis ca. 6 m"],["Blütezeit","Mai–Juni, cremeweiße, flache Schirmrispen"],["Fruchtreife","August–September, schwarzviolette Beeren"],["Verwendete Teile","Blüten, reife Beeren (nur erhitzt)"],["Arzneidroge","Holunderblüten (Sambuci flos), HMPC: traditionell bei beginnender Erkältung"],["Giftig","rohe Beeren, unreife Beeren, Blätter, Rinde, Samen (Sambunigrin)"],["Heilpflanze des Jahres","2024 (Naturheilverein Theophrastus)"]],
  "reiter":[
@@ -504,7 +537,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
  ]
 },
 {
- "id":"p05","nr":"P-05","name":"Ringelblume","botan":"Calendula officinalis L.","volksnamen":["Calendula","Studentenblume (regional)","Totenblume","Goldblume"],
+ "id":"p05","nr":"P-05","illu":"ringelblume","fotos":[],"name":"Ringelblume","botan":"Calendula officinalis L.","volksnamen":["Calendula","Studentenblume (regional)","Totenblume","Goldblume"],
  "kurz":"Die Wundblume des Bauerngartens: Ringelblumensalbe ist eines der bekanntesten Hausmittel überhaupt. Die Blüten färben und würzen Speisen, und im Beet hält sie den Boden gesund.",
  "steckbrief":[["Familie","Korbblütler (Asteraceae)"],["Lebensform","einjährig, sät sich selbst aus"],["Größe","30–60 cm"],["Blütezeit","Juni bis zum ersten Frost"],["Sammelzeit","laufend, voll geöffnete Blüten an trockenen Vormittagen"],["Verwendete Teile","Blüten (ganze Körbe oder Zungenblüten)"],["Arzneidroge","Ringelblumenblüten (Calendulae flos), HMPC, ESCOP, Kommission E"],["Name","Calendula von lateinisch calendae (Monatsanfang): Sie blüht fast jeden Monat"]],
  "reiter":[
@@ -582,7 +615,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
  ]
 },
 {
- "id":"p06","nr":"P-06","name":"Spitzwegerich","botan":"Plantago lanceolata L.","volksnamen":["Wegerich","Lungenblattl","Schlangenzunge","Rossrippe"],
+ "id":"p06","nr":"P-06","illu":"spitzwegerich","fotos":[],"name":"Spitzwegerich","botan":"Plantago lanceolata L.","volksnamen":["Wegerich","Lungenblattl","Schlangenzunge","Rossrippe"],
  "kurz":"Das Pflaster vom Wegesrand: Ein zerkautes Blatt auf den Mückenstich, ein Sirup gegen Reizhusten. Spitzwegerich wächst auf fast jeder Wiese und war Arzneipflanze des Jahres 2014.",
  "steckbrief":[["Familie","Wegerichgewächse (Plantaginaceae)"],["Lebensform","ausdauernde Staude mit Blattrosette"],["Größe","10–50 cm"],["Blütezeit","Mai–September"],["Sammelzeit","Blätter April–September, am besten vor und während der Blüte"],["Verwendete Teile","Blätter (Kraut), junge Blütenknospen, Samen"],["Arzneidroge","Spitzwegerichkraut (Plantaginis lanceolatae herba), HMPC, ESCOP, Kommission E"],["Name","Wegerich = König der Wege; wächst gern auf festgetretenem Boden"]],
  "reiter":[
@@ -655,7 +688,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
  ]
 },
 {
- "id":"p07","nr":"P-07","name":"Schafgarbe","botan":"Achillea millefolium L. s. l.","volksnamen":["Achilleskraut","Zimmermannskraut","Augenbraue der Venus","Tausendblatt"],
+ "id":"p07","nr":"P-07","illu":"schafgarbe","fotos":[],"name":"Schafgarbe","botan":"Achillea millefolium L. s. l.","volksnamen":["Achilleskraut","Zimmermannskraut","Augenbraue der Venus","Tausendblatt"],
  "kurz":"Eine Wundpflanze seit der Antike und Arzneipflanze des Jahres 2025: krampflösend bei Bauch- und Regelschmerzen, appetitanregend, und mit ihren fein gefiederten Blättern ein würziges Wildkraut.",
  "steckbrief":[["Familie","Korbblütler (Asteraceae)"],["Lebensform","ausdauernde Staude mit Ausläufern"],["Größe","bis ca. 80 cm"],["Blütezeit","Juni–Oktober"],["Sammelzeit","Blätter März–Juni, blühendes Kraut Juni–August"],["Verwendete Teile","blühendes Kraut, Blüten, junge Blätter"],["Arzneidroge","Schafgarbenkraut (Millefolii herba), Ph. Eur.; HMPC traditionell"],["Name","Nach Achilles, der laut Sage damit Wunden heilte; millefolium = tausendblättrig"]],
  "reiter":[
@@ -728,7 +761,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
  ]
 },
 {
- "id":"p08","nr":"P-08","name":"Johanniskraut","botan":"Hypericum perforatum L.","volksnamen":["Tüpfel-Johanniskraut","Herrgottsblut","Hexenkraut","Sonnwendkraut"],
+ "id":"p08","nr":"P-08","illu":"johanniskraut","fotos":[],"name":"Johanniskraut","botan":"Hypericum perforatum L.","volksnamen":["Tüpfel-Johanniskraut","Herrgottsblut","Hexenkraut","Sonnwendkraut"],
  "kurz":"Die Sonnenpflanze um den Johannistag (24. Juni): Als Extrakt ist sie eines der am besten untersuchten pflanzlichen Mittel gegen leichte bis mittelschwere Depressionen, als Rotöl ein Hausmittel für Haut und Muskeln. Wichtig: viele Wechselwirkungen mit Medikamenten.",
  "steckbrief":[["Familie","Johanniskrautgewächse (Hypericaceae)"],["Lebensform","ausdauernde Staude"],["Größe","30–80 cm"],["Blütezeit","Juni–August, Höhepunkt um den 24. Juni"],["Sammelzeit","obere Triebspitzen zur Hauptblüte"],["Verwendete Teile","blühendes Kraut"],["Arzneidroge","Johanniskraut (Hyperici herba); HMPC: Extrakte gut belegt bei leichter bis mittelschwerer Depression"],["Achtung","viele Wechselwirkungen, u. a. mit der Pille; macht lichtempfindlich"]],
  "reiter":[
@@ -985,7 +1018,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
 }
 ],
 "getreide":[
- {"id":"brot","titel":"Getreide & Brot","nr":"G-01","text":"Weizen, Dinkel, Roggen, Gerste, Hafer und Urgetreide: Aufbau des Korns, Kleber, Mehltypen, Mahlen, Hefe, Sauerteig, warum Dinkel anders backt, Rezepte, Anbau und Gesundheit.","stichworte":["Weizen","Dinkel","Roggen","Gerste","Hafer","Emmer","Einkorn","Grünkern","Gluten","Kleber","Mehltyp","Mahlen","Getreidemühle","Hefe","Sauerteig","Brot backen","Vorteig","Kochstück","Zöliakie"],"pflanzen":[],
+ {"id":"brot","titel":"Getreide & Brot","nr":"G-01","illu":"aehren","fotos":[],"text":"Weizen, Dinkel, Roggen, Gerste, Hafer und Urgetreide: Aufbau des Korns, Kleber, Mehltypen, Mahlen, Hefe, Sauerteig, warum Dinkel anders backt, Rezepte, Anbau und Gesundheit.","stichworte":["Weizen","Dinkel","Roggen","Gerste","Hafer","Emmer","Einkorn","Grünkern","Gluten","Kleber","Mehltyp","Mahlen","Getreidemühle","Hefe","Sauerteig","Brot backen","Vorteig","Kochstück","Zöliakie"],"pflanzen":[],
   "kurz":"Getreide ist seit 10.000 Jahren die Grundlage der Selbstversorgung. Wer versteht, was im Korn steckt und was im Teig passiert, backt mit jedem Mehl gutes Brot – auch mit Dinkel, der anders behandelt werden will als Weizen.",
   "steckbrief":[["Getreidearten","Weizen, Dinkel, Emmer, Einkorn, Roggen, Gerste, Hafer; dazu Pseudogetreide wie Buchweizen"],["Backfähig durch Kleber","Weizen > Dinkel > Emmer > Einkorn; Roggen nur mit Sauerteig"],["Mehltyp","mg Mineralstoffe (Asche) pro 100 g Mehl-Trockenmasse"],["Hefe","1 Würfel Frischhefe (42 g) ≈ 2 Päckchen Trockenhefe (je 7 g)"],["Wohlfühltemperatur Hefe","ca. 24–32 °C; ab ca. 50 °C stirbt sie"],["Dinkel-Regel","kürzer und sanfter kneten, mehr Zeit, Wasser über ein Kochstück binden"],["Glutenfrei?","nein: Weizen, Dinkel, Emmer, Einkorn, Roggen, Gerste; Hafer nur als zertifiziert glutenfreier"],["Lagerung","Korn trocken jahrelang, helles Mehl ca. 1 Jahr, Vollkornmehl nur wenige Wochen"]],
   "reiter":[
@@ -1000,6 +1033,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
      ["Gerste","Hordeum vulgare","wenig backfähig","mild-süßlich","Graupen, Malz, Bier, Gerstenkaffee, Fladen"],
      ["Hafer","Avena sativa","kein backfähiger Kleber","mild, cremig","Flocken, Brei, Kekse, als Beimischung"]]},
     {"typ":"abschnitt","titel":"Spelzgetreide","liste":["Dinkel, Emmer und Einkorn sitzen fest in ihren Spelzen. Nach dem Dreschen muss das Korn in einer Schälmühle entspelzt werden (Gerbgang).","Die Spelzen schützen das Korn vor Schädlingen und Umwelteinflüssen; darum gelten Spelzgetreide als robust und für den Bio-Anbau gut geeignet.","Für die Haushaltsmühle nur entspelztes Korn kaufen."]},
+    {"typ":"illu","id":"korn","titel":"Aufbau des Getreidekorns"},
     {"typ":"abschnitt","titel":"Aufbau des Korns","liste":["**Mehlkörper (ca. 80–85 %):** Stärke und Kleber-Eiweiß – daraus besteht helles Mehl.","**Keimling (ca. 3 %):** Fett, Vitamin E, B-Vitamine; macht Vollkornmehl schnell ranzig.","**Randschichten und Schale (ca. 12–15 %):** Ballaststoffe, Mineralstoffe; die Aleuronschicht ist besonders eiweiß- und mineralstoffreich.","Vollkornmehl enthält alle drei Teile, helles Mehl fast nur den Mehlkörper."]},
     {"typ":"abschnitt","titel":"Gerste und Hafer im Haus","liste":["**Graupen:** geschliffene, polierte Gerstenkörner für Suppen und Eintöpfe; Rollgerste sind große Graupen.","**Malz:** Gerste keimen lassen und darren – die Keimung bildet Enzyme, die Stärke in Malzzucker umwandeln. Grundlage für Bier und Malzextrakt.","**Gerstenkaffee (Muckefuck):** geröstete Gerste als koffeinfreier Kaffee-Ersatz.","**Hafer:** wird gequetscht zu Flocken; ganz wichtig für Brei und Müsli.","Gerste und Hafer enthalten viele Beta-Glucane ({{b:beta-glucane|Beta-Glucane}})."]}
    ]},
@@ -1121,7 +1155,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
     {"typ":"text","text":"Temperaturen, Mengen, Backzeiten und Erträge sind Faustwerte aus der Bäcker- und Gartenpraxis. Rezepte sind erprobte Grundrezepte; jeder Ofen backt etwas anders. Weiter in {{g:mais|G-02 Mais, Hirse & Buchweizen}} und {{g:bier|G-03 Bier brauen}}. Noch offen: Rezepte von dir."}
    ]}
   ]},
- {"id":"mais","titel":"Mais, Hirse & Buchweizen","nr":"G-02","text":"Glutenfreie Körner für die Selbstversorgung: Mais aus Amerika, Hirse als altes europäisches Grundnahrungsmittel und Buchweizen als Pseudogetreide.","stichworte":["Mais","Polenta","Popcorn","Nixtamalisierung","Masa","Hirse","Sorghum","Buchweizen","Pseudogetreide","Quinoa","Amaranth","glutenfrei","Drei Schwestern"],"pflanzen":[],
+ {"id":"mais","titel":"Mais, Hirse & Buchweizen","nr":"G-02","illu":"mais3","fotos":[],"text":"Glutenfreie Körner für die Selbstversorgung: Mais aus Amerika, Hirse als altes europäisches Grundnahrungsmittel und Buchweizen als Pseudogetreide.","stichworte":["Mais","Polenta","Popcorn","Nixtamalisierung","Masa","Hirse","Sorghum","Buchweizen","Pseudogetreide","Quinoa","Amaranth","glutenfrei","Drei Schwestern"],"pflanzen":[],
   "kurz":"Drei Körner ohne Kleber: Mais, Hirse und Buchweizen. Sie backen kein lockeres Brot, sind aber nahrhaft, glutenfrei und für Garten und Küche wertvoll – Buchweizen wächst sogar auf magerem Boden in nur zehn Wochen.",
   "steckbrief":[["Mais","Zea mays, Süßgras aus Mexiko, ca. 9.000 Jahre kultiviert"],["Hirse","Sammelbegriff für kleinkörnige Gräser, z. B. Rispenhirse (Panicum miliaceum), Sorghum"],["Buchweizen","Fagopyrum esculentum, Knöterichgewächs – kein Getreide"],["Gluten","alle drei glutenfrei"],["Backen","nur mit Weizen/Dinkel gemischt oder mit Bindemitteln locker"],["Anbau","alle wärmebedürftig, Aussaat Mai"]],
   "reiter":[
@@ -1173,7 +1207,7 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
     {"typ":"text","text":"Anbauzeiten und Mengen sind Faustwerte aus der Gartenpraxis; Rezepte sind Grundrezepte."}
    ]}
   ]},
- {"id":"bier","titel":"Bier brauen","nr":"G-03","text":"Vom Gerstenkorn zum Hausbier: Mälzen, Maischen, Läutern, Hopfen kochen, Gären, Abfüllen – mit Grundrezept und den rechtlichen Regeln für Hobbybrauer.","stichworte":["Bier","brauen","Malz","Mälzen","Hopfen","Maischen","Läutern","Würze","Stammwürze","Plato","obergärig","untergärig","Hauptzollamt","Biersteuer"],"pflanzen":[],
+ {"id":"bier","titel":"Bier brauen","nr":"G-03","illu":"bier","fotos":[],"text":"Vom Gerstenkorn zum Hausbier: Mälzen, Maischen, Läutern, Hopfen kochen, Gären, Abfüllen – mit Grundrezept und den rechtlichen Regeln für Hobbybrauer.","stichworte":["Bier","brauen","Malz","Mälzen","Hopfen","Maischen","Läutern","Würze","Stammwürze","Plato","obergärig","untergärig","Hauptzollamt","Biersteuer"],"pflanzen":[],
   "kurz":"Bier ist flüssiges Getreide: Malz liefert den Zucker, Hopfen die Bittere, Hefe den Alkohol und die Kohlensäure. Mit Küchenausstattung und etwas Geduld braut man 20 Liter an einem Tag.",
   "steckbrief":[["Grundzutaten","Wasser, Malz, Hopfen, Hefe"],["Zeitaufwand","Brautag ca. 6–8 Std., dann 1 Woche Gärung, 2–4 Wochen Reifung"],["Ausstattung","Topf ab 30 l, Thermometer, Läuterhilfe, Gäreimer, Flaschen"],["Obergärig","Ale, Weizen, Kölsch: Gärung 15–24 °C"],["Untergärig","Pils, Helles: Gärung 8–12 °C"],["Recht","bis 200 l pro Jahr steuerfrei; vorher beim Hauptzollamt anmelden"]],
   "reiter":[
@@ -1463,6 +1497,223 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
 const D = JSON.parse(document.getElementById('daten').textContent);
 const main = document.getElementById('inhalt');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- Eigene botanische Zeichnungen (SVG, ohne fremde Bildrechte) ---------- */
+const IL = (()=>{
+  const C={leaf:'#5a8a3a',leafD:'#3f6a27',vein:'#2f4f1d',stem:'#6a8f45',wood:'#7d6249',root:'#c9a66b',white:'#f6f3e7',whiteS:'#a9a38b',yellow:'#f4c430',yellowD:'#b98208',orange:'#f08a24',orangeD:'#b85d0f',brown:'#7a5634',berry:'#2a1f33',berryS:'#9a3b5a',green2:'#a4b85a'};
+  const R=n=>Math.round(n*10)/10;
+  const rot=(pts,x,y,a)=>{a*=Math.PI/180;const c=Math.cos(a),s=Math.sin(a);return pts.map(([u,v])=>[R(x+u*c-v*s),R(y+u*s+v*c)]);};
+  const P=pts=>'M'+pts.map(p=>p.join(',')).join('L')+'Z';
+  const L=pts=>'M'+pts.map(p=>p.join(',')).join('L');
+  const stiel=(d,w,col)=>`<path d="${d}" stroke="${col}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const mk=(x,y,n)=>`<g class="mk"><circle cx="${x}" cy="${y}" r="9"/><text x="${x}" y="${y+3.6}">${n}</text></g>`;
+  const boden=y=>`<path d="M8,${y} H292" class="boden"/>`;
+  const lbl=(x,y,t)=>`<text class="lbl" x="${x}" y="${y}">${t}</text>`;
+  function form(len,wid,o){
+    const n=o.teeth?o.teeth*2:22, up=[], dn=[];
+    for(let i=0;i<=n;i++){ const t=i/n; let w;
+      if(o.heart) w=wid*Math.pow(Math.sin(Math.PI*(0.2+0.8*t)),0.8);
+      else if(o.spatel) w=wid*Math.pow(Math.sin(Math.PI*Math.pow(t,1.6)),0.7);
+      else w=wid*Math.pow(Math.sin(Math.PI*Math.pow(t,o.shape||0.75)),0.85);
+      if(o.teeth&&i%2===1&&t<0.96) w*=(o.deep||1.16);
+      up.push([R(t*len),R(-w)]); dn.push([R(t*len),R(w)]); }
+    const pts=up.concat(dn.reverse()); if(o.heart) pts.unshift([R(len*0.08),0]); return pts;
+  }
+  function blatt(x,y,len,wid,a,o={}){
+    let g=`<path d="${P(rot(form(len,wid,o),x,y,a))}" fill="${o.fill||C.leaf}" stroke="${o.stroke||C.leafD}" stroke-width="1" stroke-linejoin="round"/>`;
+    g+=`<path d="${L(rot([[0,0],[len*0.92,0]],x,y,a))}" stroke="${C.vein}" stroke-width="1" fill="none" opacity=".7"/>`;
+    if(o.nerven){ for(const v of [-0.4,0.4]) g+=`<path d="${L(rot([[len*0.04,0],[len*0.5,v*wid],[len*0.92,0]],x,y,a))}" stroke="${C.vein}" stroke-width=".7" fill="none" opacity=".6"/>`; }
+    else if(o.adern!==false){ for(let k=1;k<=3;k++){ const t=k/4*0.85; for(const s of [-1,1]) g+=`<path d="${L(rot([[len*t,0],[len*(t+0.12),s*wid*0.6]],x,y,a))}" stroke="${C.vein}" stroke-width=".6" fill="none" opacity=".45"/>`; } }
+    return g;
+  }
+  function korb(x,y,r,n,col,colD,mitte,mr){ let g=''; for(let i=0;i<n;i++) g+=`<ellipse cx="${x}" cy="${R(y-r*0.55)}" rx="${R(r*0.15)}" ry="${R(r*0.48)}" fill="${col}" stroke="${colD}" stroke-width=".6" transform="rotate(${R(360*i/n)} ${x} ${y})"/>`; return g+`<circle cx="${x}" cy="${y}" r="${mr}" fill="${mitte}"/>`; }
+  function stern(x,y,r,n,col,colD,mitte){ let g=''; for(let i=0;i<n;i++) g+=`<ellipse cx="${x}" cy="${R(y-r*0.52)}" rx="${R(r*0.34)}" ry="${R(r*0.46)}" fill="${col}" stroke="${colD}" stroke-width=".6" transform="rotate(${R(360*i/n)} ${x} ${y})"/>`; return g+`<circle cx="${x}" cy="${y}" r="${R(r*0.34)}" fill="${mitte}"/>`; }
+  function jblute(x,y,r){ let g=''; for(let i=0;i<5;i++){ const a=72*i; g+=`<ellipse cx="${x}" cy="${R(y-r*0.55)}" rx="${R(r*0.32)}" ry="${R(r*0.5)}" fill="${C.yellow}" stroke="${C.yellowD}" stroke-width=".6" transform="rotate(${a} ${x} ${y})"/>`; const [dx,dy]=rot([[0,-r*0.95]],x,y,a)[0]; g+=`<circle cx="${dx}" cy="${dy}" r="1.1" fill="#2a2a2a"/>`; }
+    for(let i=0;i<16;i++){ const [sx,sy]=rot([[0,-r*0.55]],x,y,i*22.5)[0]; g+=`<path d="M${x},${y} L${sx},${sy}" stroke="${C.yellowD}" stroke-width=".5"/><circle cx="${sx}" cy="${sy}" r=".9" fill="${C.yellowD}"/>`; } return g; }
+  function aehre(x,top,len,o){ let g=stiel(`M${x},300 L${x},${top+len}`,2.4,o.halm||'#b9a05c'); const n=o.n;
+    for(let i=0;i<n;i++){ const y=top+len-i*(len/n), s=i%2?1:-1, cx=R(x+s*o.w*0.42), cy=R(y-4);
+      if(o.awn) g+=`<path d="M${cx},${R(cy-o.h)} l${R(s*o.awn*0.16)},${-o.awn}" stroke="${o.colD}" stroke-width=".7"/>`;
+      g+=`<ellipse cx="${cx}" cy="${cy}" rx="${R(o.w*0.42)}" ry="${o.h}" fill="${o.col}" stroke="${o.colD}" stroke-width=".7" transform="rotate(${s*o.tilt} ${cx} ${cy})"/>`; }
+    return g; }
+
+  const Z={
+    brennnessel(){ let g=boden(318);
+      g+=stiel('M150,318 C150,326 120,330 60,329 M150,318 C170,328 220,327 272,330',4,C.root);
+      for(const [x,y] of [[88,330],[118,331],[232,329],[258,331]]) g+=stiel(`M${x},${y} l-3,7 M${x},${y} l4,6`,1,C.root);
+      g+=stiel('M150,318 L150,38',5,C.stem);
+      for(let y=60;y<310;y+=13) g+=`<path d="M147,${y} l-4,-3 M153,${y+6} l4,-3" stroke="${C.leafD}" stroke-width=".8"/>`;
+      for(const y of [232,182]) for(const dx of [-1,1]) for(let k=0;k<3;k++){ const ex=150+dx*(18+k*10), ey=y+40+k*8;
+        g+=stiel(`M150,${y} Q${150+dx*(10+k*6)},${y+12} ${ex},${ey}`,1.2,C.green2);
+        for(let j=1;j<=5;j++){ const t=j/6; g+=`<circle cx="${R(150+(ex-150)*t)}" cy="${R(y+(ey-y)*t+3)}" r="1.9" fill="${C.green2}"/>`; } }
+      for(const [y,len] of [[282,80],[232,72],[182,62],[132,48],[88,32]]){ g+=blatt(150,y,len,len*0.3,26,{heart:true,teeth:9})+blatt(150,y,len,len*0.3,154,{heart:true,teeth:9}); }
+      g+=blatt(150,40,18,6,-90,{teeth:3});
+      g+=mk(150,306,1)+mk(196,256,2)+mk(118,262,3)+mk(250,322,4);
+      return {vb:'0 0 300 340', leg:['Vierkantiger Stängel mit Brennhaaren','Gegenständige, herzförmige, grob gesägte Blätter','Hängende, grünliche Blütenrispen in den Blattachseln','Gelber Wurzelstock mit Ausläufern'], svg:g}; },
+    giersch(){ let g=boden(318);
+      g+=stiel('M150,318 C170,326 230,327 282,330 M150,318 C120,327 70,328 18,331',3,'#e4dcc6');
+      g+=stiel('M150,318 C152,250 148,160 150,94',3,C.stem);
+      const ends=[]; for(let i=0;i<9;i++){ const a=(-160+i*17.5)*Math.PI/180, ex=150+52*Math.cos(a), ey=94+40*Math.sin(a); ends.push([R(ex),R(ey)]); g+=stiel(`M150,94 L${R(ex)},${R(ey)}`,1,C.stem); }
+      for(const [ex,ey] of ends) for(let j=0;j<9;j++){ const a=(-170+j*20)*Math.PI/180, px=R(ex+9*Math.cos(a)), py=R(ey+7*Math.sin(a)); g+=stiel(`M${ex},${ey} L${px},${py}`,.5,C.stem)+`<circle cx="${px}" cy="${py}" r="2.2" fill="${C.white}" stroke="${C.whiteS}" stroke-width=".5"/>`; }
+      const dreier=(x,y,a)=>[-55,0,55].map(d=>blatt(x,y,30,11,a+d,{teeth:6})).join('');
+      const bl=(bx,nx,ny,arms)=>stiel(`M${bx},318 Q${(bx+nx)/2+8},${(318+ny)/2} ${nx},${ny}`,2.4,C.stem)+arms.map(([ax,ay,an])=>stiel(`M${nx},${ny} L${ax},${ay}`,1.5,C.stem)+dreier(ax,ay,an)).join('');
+      g+=bl(118,92,190,[[52,160,-160],[92,128,-90],[132,160,-20]])+bl(185,212,212,[[176,188,-160],[214,160,-90],[252,190,-20]]);
+      g+=mk(92,104,1)+mk(112,258,2)+mk(150,34,3)+mk(262,322,4);
+      return {vb:'0 0 300 340', leg:['Blatt dreiteilig, jeder Teil noch einmal dreiteilig (3 × 3)','Dreikantiger, oben rinniger Blattstiel; Möhrenduft beim Zerreiben','Weiße Doppeldolde (Mai–September)','Weiße, unterirdische Ausläufer'], svg:g}; },
+    loewenzahn(){ let g=boden(296);
+      g+=stiel('M150,296 C151,310 149,322 152,338',9,C.root)+stiel('M150,312 l-14,10 M151,324 l12,8',1.2,C.root);
+      g+=stiel('M150,294 C142,230 128,160 125,112',4,'#8fae5d')+stiel('M150,294 C165,220 190,140 195,102',3.5,'#8fae5d')+stiel('M150,294 C158,270 166,240 168,222',3,'#8fae5d')+blatt(168,222,16,6,-90,{fill:'#7aa04c',adern:false});
+      for(const [a,len] of [[-170,118],[-150,132],[-125,108],[-58,112],[-32,130],[-12,116]]) g+=blatt(150,294,len,20,a,{teeth:7,deep:1.6});
+      g+=korb(125,96,30,32,C.yellow,C.yellowD,'#e7a91a',8)+korb(125,96,15,18,'#f8d34a',C.yellowD,'#e2a015',5);
+      for(let i=0;i<28;i++){ const a=i*Math.PI*2/28, ex=R(195+28*Math.cos(a)), ey=R(74+28*Math.sin(a)); g+=`<path d="M195,74 L${ex},${ey}" stroke="var(--muted)" stroke-width=".5"/><circle cx="${ex}" cy="${ey}" r="2.4" fill="none" stroke="var(--muted)" stroke-width=".6"/>`; }
+      g+=`<circle cx="195" cy="74" r="4" fill="#b48a4a"/>`;
+      g+=mk(50,262,1)+mk(162,98,2)+mk(132,200,3)+mk(236,52,4)+mk(172,322,5);
+      return {vb:'0 0 300 340', leg:['Tief gezähnte Blätter in einer Rosette','Goldgelber Blütenkorb aus 100–200 Zungenblüten','Hohler, blattloser Stängel mit weißem Milchsaft','Pusteblume: Früchte mit Schirmchen','Fleischige Pfahlwurzel'], svg:g}; },
+    holunder(){ let g='';
+      g+=stiel('M40,335 C80,280 120,230 150,170 C175,120 205,95 228,72',8,C.wood)+stiel('M150,172 C135,162 118,156 106,152',4,C.wood);
+      for(const [x,y] of [[70,300],[104,250],[138,192],[186,118],[126,160]]) g+=`<ellipse cx="${x}" cy="${y}" rx="2.6" ry="1.4" fill="#e3d3b4"/>`;
+      const fieder=(x,y,a)=>{ const pts=rot([[0,0],[68,0]],x,y,a); let h=stiel(L(pts),1.5,C.stem); for(const t of [24,48]){ const [px,py]=rot([[t,0]],x,y,a)[0]; h+=blatt(px,py,30,11,a-60,{teeth:6})+blatt(px,py,30,11,a+60,{teeth:6}); } return h+blatt(pts[1][0],pts[1][1],32,12,a,{teeth:6}); };
+      g+=fieder(96,262,200)+fieder(124,216,-25)+fieder(172,138,195);
+      for(let i=0;i<11;i++){ const d=i-5, ex=R(106+d*8), ey=R(188+(25-d*d)*0.9); g+=stiel(`M106,152 Q${R(106+d*3)},170 ${ex},${ey}`,.7,C.berryS); for(const [dx,dy] of [[0,0],[-5,4],[5,5],[0,9]]) g+=`<circle cx="${R(ex+dx)}" cy="${R(ey+dy)}" r="3.6" fill="${C.berry}" stroke="#4a3a55" stroke-width=".6"/>`; }
+      for(let i=0;i<15;i++){ const ex=R(176+i*7.5), ey=R(44+Math.abs(i-7)*1.3); g+=stiel(`M228,72 L${ex},${ey}`,.8,C.stem); for(const [dx,dy] of [[0,0],[-3,-3],[3,-2]]) g+=stern(R(ex+dx),R(ey+dy),3,5,C.white,C.whiteS,'#e9d98f'); }
+      g+=mk(230,22,1)+mk(56,226,2)+mk(212,160,3)+mk(54,300,4);
+      return {vb:'0 0 300 340', leg:['Flache, cremeweiße Schirmrispe (Mai–Juni)','Schwarze Beeren an roten Stielen – nur erhitzt essen','Gefiederte Blätter mit 5–7 gesägten Fiedern','Graubraune Rinde mit Korkwarzen, innen weißes Mark'], svg:g}; },
+    ringelblume(){ let g=boden(318);
+      g+=stiel('M150,318 L150,96',4,C.stem)+stiel('M150,210 C175,180 200,150 214,128',3,C.stem)+stiel('M150,170 C130,160 112,150 104,142',2.5,C.stem);
+      for(const [y,a,len] of [[300,-150,58],[282,-30,62],[256,-155,54],[236,-25,56],[190,-160,44],[150,-28,40]]) g+=blatt(150,y,len,13,a,{spatel:true,fill:'#7ba152'});
+      g+=korb(150,84,36,22,C.orange,C.orangeD,'#9a4e10',11)+korb(150,84,20,16,'#f6a33b',C.orangeD,'#8a440c',7)+korb(216,118,24,18,'#f7b532',C.yellowD,'#9a5a12',7);
+      g+=`<ellipse cx="104" cy="134" rx="7" ry="9" fill="#7ba152" stroke="${C.leafD}"/>`;
+      for(const [x,y,s] of [[44,300,1],[70,306,-1],[56,286,1]]) g+=`<path d="M${x},${y} c${8*s},-10 ${16*s},-4 ${14*s},6" stroke="${C.brown}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+      g+=mk(200,66,1)+mk(232,262,2)+mk(58,268,3)+mk(162,230,4);
+      return {vb:'0 0 300 340', leg:['Orange bis gelbe Blütenkörbe; schließen sich bei Regen und abends','Länglich-spatelförmige, weiche Blätter','Gekrümmte, ringförmige Samen – daher der Name','Kantiger, drüsig behaarter, leicht klebriger Stängel'], svg:g}; },
+    spitzwegerich(){ let g=boden(310);
+      g+=stiel('M150,310 l-8,22 M150,310 l0,26 M150,310 l9,22 M150,312 l-18,14 M150,312 l18,16',1.2,C.root);
+      for(const [x2,y2] of [[96,62],[160,44],[216,74]]) g+=stiel(`M150,306 Q${(150+x2)/2},200 ${x2},${y2+16}`,2,'#7c9a52');
+      for(const [a,len] of [[-165,120],[-148,140],[-128,118],[-60,124],[-38,142],[-18,118]]) g+=blatt(150,306,len,11,a,{nerven:true,shape:0.9});
+      for(const [x,y] of [[96,62],[160,44],[216,74]]) g+=`<ellipse cx="${x}" cy="${y}" rx="7" ry="17" fill="#6b4a2e" stroke="#4a311c"/>`;
+      for(let i=0;i<14;i++){ const a=i*Math.PI*2/14, x=R(160+12*Math.cos(a)), y=R(54+4*Math.sin(a)); g+=`<path d="M160,48 L${x},${y}" stroke="${C.whiteS}" stroke-width=".6"/><ellipse cx="${x}" cy="${y}" rx="2.2" ry="1.4" fill="${C.white}" stroke="${C.whiteS}" stroke-width=".5"/>`; }
+      g+=mk(38,262,1)+mk(118,56,2)+mk(190,40,3)+mk(198,170,4);
+      return {vb:'0 0 300 340', leg:['Schmale, lanzettliche Blätter mit 3–7 parallelen Längsnerven','Kurze, dunkelbraune Blütenähre','Kranz weißer Staubbeutel zur Blütezeit','Langer, gefurchter, blattloser Stängel'], svg:g}; },
+    schafgarbe(){ let g=boden(318);
+      const feder=(x,y,a,len)=>{ let h=stiel(L(rot([[0,0],[len,0]],x,y,a)),1.2,C.stem); for(let t=5;t<len;t+=5){ const l=6*Math.sin(Math.PI*t/len)+2; for(const s of [-1,1]) h+=`<path d="${L(rot([[t,0],[t+3,s*l]],x,y,a))}" stroke="${C.leaf}" stroke-width="2.2" stroke-linecap="round"/>`; } return h; };
+      g+=stiel('M150,318 L150,100',3.5,C.stem);
+      for(const [a,len] of [[-160,70],[-130,60],[-50,62],[-20,72]]) g+=feder(150,316,a,len);
+      for(const [y,a,len] of [[270,-150,50],[235,-30,48],[195,-155,40],[160,-25,36]]) g+=feder(150,y,a,len);
+      const heads=[]; for(let i=0;i<13;i++){ const x=96+i*9, y=R(58+Math.abs(i-6)*2.2+(i%2)*5); heads.push([x,y]); g+=stiel(`M150,100 Q${(150+x)/2},${R((100+y)/2+10)} ${x},${y}`,.8,C.stem); }
+      for(const [x,y] of heads) g+=stern(x,y,5.5,5,C.white,C.whiteS,'#e8dca8');
+      g+=`<path d="M216,112 L190,76" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="244" cy="128" r="31" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.2"/>`+stern(244,128,22,5,C.white,C.whiteS,'#e3d394');
+      g+=mk(150,38,1)+mk(244,172,2)+mk(64,282,3);
+      return {vb:'0 0 300 340', leg:['Flache Doldentraube aus vielen kleinen Körbchen','Jedes Körbchen mit meist 5 weißen bis rosa Zungenblüten (vergrößert)','Zwei- bis dreifach fein gefiederte, federartige Blätter'], svg:g}; },
+    johanniskraut(){ let g=boden(318);
+      g+=`<rect x="148" y="110" width="4" height="208" fill="${C.stem}"/>`+stiel('M147,318 L147,112',1,C.leafD)+stiel('M153,318 L153,112',1,C.leafD);
+      for(const [x,y] of [[110,78],[150,62],[192,80],[128,104],[176,108]]) g+=stiel(`M150,130 Q${(150+x)/2},${(130+y)/2+6} ${x},${y}`,1.6,C.stem);
+      for(const [y,len] of [[290,46],[250,44],[210,40],[170,34],[140,26]]) for(const a of [10,170]){ g+=blatt(150,y,len,10,a,{adern:false,fill:'#6f9a45'}); for(let k=1;k<=4;k++){ const [px,py]=rot([[len*k/5,(k%2)?-3:3]],150,y,a)[0]; g+=`<circle cx="${px}" cy="${py}" r="1.3" fill="#d9eaa9"/>`; } }
+      for(const [x,y,r] of [[110,74,14],[150,58,16],[192,76,14],[128,100,10],[176,104,10]]) g+=jblute(x,y,r);
+      g+=`<path d="M214,226 L194,212" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="246" cy="238" r="34" fill="var(--surface)" stroke="var(--muted)" stroke-width="1.2"/>`+blatt(222,238,48,15,0,{adern:false,fill:'#6f9a45'});
+      for(const [x,y] of [[232,236],[240,242],[248,233],[256,240],[244,229],[236,246],[252,247],[262,236]]) g+=`<circle cx="${x}" cy="${y}" r="1.8" fill="#e6f3bf"/>`;
+      g+=mk(150,32,1)+mk(246,284,2)+mk(132,250,3);
+      return {vb:'0 0 300 340', leg:['Goldgelbe, fünfzählige Blüten mit vielen Staubblättern; zerrieben färben sie rot','Gegen das Licht durchscheinend punktierte Blätter (vergrößert)','Stängel mit zwei feinen Längsleisten'], svg:g}; },
+    aehren(){ let g='';
+      g+=aehre(50,120,120,{n:16,w:20,h:9,tilt:25,col:'#dcb162',colD:'#9c7432'})+lbl(50,322,'Weizen');
+      g+=aehre(135,90,150,{n:14,w:13,h:8,tilt:16,col:'#cf9f55',colD:'#8f6730'})+lbl(135,322,'Dinkel');
+      g+=aehre(220,100,135,{n:20,w:11,h:6,tilt:20,awn:34,col:'#bda872',colD:'#7f6c3a',halm:'#a89a6a'})+lbl(220,322,'Roggen');
+      g+=aehre(305,110,115,{n:18,w:17,h:7,tilt:30,awn:58,col:'#dcbd6a',colD:'#9d7f2d'})+lbl(305,322,'Gerste');
+      g+=stiel('M390,300 L390,96',2.2,'#b9a05c');
+      for(const [y,s] of [[120,1],[150,-1],[185,1],[215,-1],[245,1]]) for(const k of [0,1]){ const ex=390+s*(26+k*14), ey=y+18+k*10; g+=stiel(`M390,${y} Q${390+s*14},${y+2} ${ex},${ey}`,1,'#b9a05c')+`<path d="M${ex},${ey} q${s*4},10 0,20 q${-s*4},-10 0,-20" fill="#d9c27a" stroke="#9d8a45" stroke-width=".7"/>`; }
+      g+=lbl(390,322,'Hafer');
+      g+=stiel('M475,300 C474,220 478,140 486,104 C496,80 514,90 516,130',2.2,'#b9a05c');
+      for(let i=0;i<18;i++){ const t=i/17, bx=R(486+30*t), by=R(104-10*Math.sin(Math.PI*t)+40*t*t); for(let j=1;j<=3;j++) g+=`<circle cx="${R(bx-6+j*3)}" cy="${R(by+j*5)}" r="2.3" fill="#e6c66e" stroke="#a88a37" stroke-width=".4"/>`; }
+      g+=lbl(490,322,'Hirse');
+      return {vb:'0 0 540 330', breit:true, leg:[], svg:g}; },
+    korn(){ let g='';
+      g+=`<ellipse cx="160" cy="92" rx="132" ry="62" fill="#b88a4a"/><ellipse cx="160" cy="92" rx="125" ry="56" fill="#8f6a3a"/><ellipse cx="162" cy="92" rx="120" ry="52" fill="#f1e6c8"/>`;
+      g+=`<path d="M60,92 C110,88 210,96 280,92" stroke="#d8c79e" stroke-width="1.2" fill="none"/>`;
+      g+=`<path d="M30,110 C28,86 44,72 62,76 C70,90 70,112 60,128 C46,132 34,124 30,110Z" fill="#e6c45a" stroke="#a88a2a"/>`;
+      for(const [dx,dy] of [[0,-8],[6,-4],[8,2],[6,8],[0,10]]) g+=`<path d="M290,${92+dy} l${10+dx},${dy}" stroke="#a07a40" stroke-width="1.2"/>`;
+      g+=mk(160,22,1)+mk(222,48,2)+mk(160,92,3)+mk(48,104,4)+mk(306,72,5);
+      return {vb:'0 0 320 184', breit:true, leg:['Schale (Kleie, ca. 12–15 % mit Aleuron): Ballaststoffe, Mineralstoffe','Aleuronschicht: Eiweiß, Mineralstoffe, B-Vitamine','Mehlkörper (ca. 80–85 %): Stärke und Kleber – daraus wird helles Mehl','Keimling (ca. 3 %): Fett, Vitamin E – macht Vollkornmehl schnell ranzig','Bärtchen'], svg:g}; },
+    mais3(){ let g='';
+      g+=stiel('M90,300 L90,46',5,C.stem);
+      for(const [y,a] of [[270,-150],[230,-28],[190,-155],[140,-30]]) g+=blatt(90,y,110,9,a,{shape:1,adern:false,fill:'#6f9a45'});
+      for(let i=0;i<7;i++) g+=stiel(`M90,48 l${-24+i*8},${-26+Math.abs(i-3)*3}`,1.4,'#c9b06a');
+      g+=`<path d="M92,214 C86,190 88,160 100,140 C112,160 114,190 106,214Z" fill="#88ad58" stroke="${C.leafD}"/><ellipse cx="100" cy="176" rx="11" ry="32" fill="#f2c14e" stroke="#c4902a"/>`;
+      for(let r=0;r<8;r++) for(let c=-2;c<=2;c++) g+=`<circle cx="${R(100+c*3.6)}" cy="${150+r*7}" r="1.5" fill="#d8a43a"/>`;
+      g+=`<path d="M86,214 C80,190 82,160 92,146" fill="none" stroke="${C.leafD}" stroke-width="5" opacity=".6"/>`+stiel('M100,142 c-4,-14 -12,-20 -22,-24 M100,142 c0,-16 -4,-24 -10,-30 M100,142 c4,-12 10,-18 18,-22',1,'#b9893a');
+      g+=lbl(90,322,'Mais');
+      g+=stiel('M270,300 C268,220 272,150 280,110 C290,84 310,94 312,140',3,C.stem);
+      for(const [y,a] of [[262,-150],[220,-30],[176,-152]]) g+=blatt(270,y,90,8,a,{shape:1,adern:false,fill:'#6f9a45'});
+      for(let i=0;i<20;i++){ const t=i/19, bx=R(280+32*t), by=R(110-12*Math.sin(Math.PI*t)+46*t*t); g+=stiel(`M${bx},${by} l${-8+i%3*3},${14+i%4*3}`,.6,'#a88a37'); for(let j=1;j<=2;j++) g+=`<circle cx="${R(bx-8+i%3*3+j*1.5)}" cy="${R(by+8+j*6)}" r="2.2" fill="#e6c66e" stroke="#a88a37" stroke-width=".4"/>`; }
+      g+=lbl(275,322,'Hirse');
+      g+=stiel('M450,300 C449,240 452,180 450,110 M450,200 C470,180 485,160 492,130 M450,160 C432,140 420,120 414,96',3,'#b0574a');
+      for(const [x,y,a,l] of [[450,270,200,44],[450,270,-20,44],[450,230,195,40],[450,230,-15,40],[470,180,-40,30],[432,140,220,28]]) g+=blatt(x,y,l,l*0.42,a,{heart:true,fill:'#78a24c'});
+      for(const [x,y] of [[450,100],[492,120],[414,88],[462,104]]) for(let k=0;k<7;k++){ const a=k*51; const [px,py]=rot([[6,0]],x,y,a)[0]; g+=`<circle cx="${px}" cy="${py}" r="3" fill="#f6e6ee" stroke="#d9a3bb" stroke-width=".6"/>`; }
+      for(const [x,y] of [[494,262],[508,276],[488,284]]) g+=`<path d="M${x},${y-7} L${x+6},${y+4} L${x-6},${y+4}Z" fill="#6b4e33" stroke="#4a3522"/>`;
+      g+=lbl(455,322,'Buchweizen');
+      return {vb:'0 0 540 330', breit:true, leg:[], svg:g}; },
+    bier(){ let g='';
+      g+=stiel('M60,300 C70,220 100,150 120,40',2.5,C.stem);
+      for(const [x,y,a] of [[96,190,-160],[108,120,-20]]) for(const d of [-40,0,40]) g+=blatt(x,y,40,16,a+d,{teeth:7,fill:'#6f9a45'});
+      for(const [cx,cy] of [[132,214],[148,160],[120,86]]){ for(let r=0;r<6;r++) for(const s of [-1,1]) g+=`<ellipse cx="${R(cx+s*6)}" cy="${cy-18+r*7}" rx="8" ry="6" fill="#c3d87a" stroke="#86a03f" stroke-width=".7"/>`; g+=`<ellipse cx="${cx}" cy="${cy+22}" rx="6" ry="5" fill="#c3d87a" stroke="#86a03f" stroke-width=".7"/>`; }
+      g+=lbl(110,322,'Hopfen');
+      g+=aehre(280,110,115,{n:18,w:17,h:7,tilt:30,awn:58,col:'#dcbd6a',colD:'#9d7f2d'})+lbl(280,322,'Gerste');
+      for(const [x,y] of [[420,170],[470,200],[440,240]]){ g+=`<ellipse cx="${x}" cy="${y}" rx="18" ry="9" fill="#d9b25e" stroke="#9c7432" transform="rotate(-20 ${x} ${y})"/>`+stiel(`M${x-16},${y+4} c-6,8 -10,14 -18,16 M${x-16},${y+5} c-2,10 0,18 -4,24 M${x-15},${y+6} c4,8 4,16 2,22`,1,'#f0e6c8')+stiel(`M${x-6},${y-6} C${x+4},${y-14} ${x+14},${y-14} ${x+20},${y-10}`,1.6,'#9cbf58'); }
+      g+=lbl(445,322,'Malz (gekeimte Gerste)');
+      return {vb:'0 0 540 330', breit:true, leg:[], svg:g}; }
+  };
+  const cache={};
+  const get=id=>cache[id]||(cache[id]=Z[id]&&Z[id]());
+  const svgTag=(d,inner,label)=>`<svg viewBox="${d.vb}" role="img" aria-label="${esc(label)}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  return {
+    has:id=>!!Z[id],
+    breit:id=>!!(get(id)||{}).breit,
+    figur(id,titel){ const d=get(id); if(!d) return ''; return `<figure class="illu${d.breit?' illu-breit':''}">${svgTag(d,d.svg,'Zeichnung: '+(titel||id))}${d.leg.length?`<ol>${d.leg.map(l=>`<li>${esc(l)}</li>`).join('')}</ol>`:''}<figcaption>Zeichnung: Quellwissen</figcaption></figure>`; },
+    mini(id,titel){ const d=get(id); if(!d) return ''; return svgTag(d,d.svg.replace(/<g class="mk">.*?<\/g>/g,''),titel||id); }
+  };
+})();
+
+/* ---------- Fotos: im Kompendium hinterlegt oder lokal auf diesem Gerät ---------- */
+const FOTO = (()=>{
+  let dbp=null;
+  const db=()=>dbp||(dbp=new Promise((res,rej)=>{ try{ const r=indexedDB.open('quellwissen',1); r.onupgradeneeded=()=>{ const s=r.result.createObjectStore('fotos',{keyPath:'id'}); s.createIndex('seite','seite'); }; r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }catch(e){ rej(e); } }));
+  const tx=(mode,fn)=>db().then(d=>new Promise((res,rej)=>{ const t=d.transaction('fotos',mode); const out=fn(t.objectStore('fotos')); t.oncomplete=()=>res(out&&out.result); t.onerror=()=>rej(t.error); }));
+  return {
+    liste:seite=>tx('readonly',s=>s.index('seite').getAll(seite)).catch(()=>[]),
+    add:(seite,blob,text)=>tx('readwrite',s=>s.put({id:Date.now()+'-'+Math.random().toString(36).slice(2,7),seite,blob,text,datum:new Date().toISOString()})),
+    del:id=>tx('readwrite',s=>s.delete(id)),
+    klein:file=>new Promise(res=>{ const u=URL.createObjectURL(file), img=new Image(); img.onload=()=>{ const k=Math.min(1,1600/Math.max(img.width,img.height)), c=document.createElement('canvas'); c.width=Math.round(img.width*k); c.height=Math.round(img.height*k); c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(u); c.toBlob(b=>res(b||file),'image/jpeg',0.85); }; img.onerror=()=>{ URL.revokeObjectURL(u); res(file); }; img.src=u; })
+  };
+})();
+function fotoBereich(seite, fotos){
+  const fest=(fotos||[]).map(f=>`<figure class="foto"><button class="foto-btn" data-src="${esc(f.src)}" data-text="${esc(f.text||'')}"><img src="${esc(f.src)}" alt="${esc(f.text||'')}" loading="lazy"></button><figcaption>${esc(f.text||'')}${f.quelle?`<span>${esc(f.quelle)}</span>`:''}</figcaption></figure>`).join('');
+  return `<section class="fotos" data-seite="${esc(seite)}"><div class="fotos-kopf"><h3>Fotos</h3><label class="knopf">+ Foto hinzufügen<input type="file" accept="image/*" multiple hidden></label></div>
+    <div class="galerie">${fest}</div>
+    <p class="klein leer"${fest?' hidden':''}>Noch keine Fotos. Füge eigene hinzu – sie bleiben auf diesem Gerät. Damit ein Foto für alle im Kompendium erscheint, schick es an Claude.</p></section>`;
+}
+async function initFotos(){
+  const sec=main.querySelector('.fotos'); if(!sec) return;
+  const seite=sec.dataset.seite, gal=sec.querySelector('.galerie'), leer=sec.querySelector('.leer');
+  const zeigen=async()=>{ gal.querySelectorAll('.lokal').forEach(n=>{ const i=n.querySelector('img'); if(i) URL.revokeObjectURL(i.src); n.remove(); });
+    const lst=await FOTO.liste(seite);
+    for(const f of lst){ const u=URL.createObjectURL(f.blob); const fig=document.createElement('figure'); fig.className='foto lokal';
+      fig.innerHTML=`<button class="foto-btn" data-src="${u}" data-text="${esc(f.text||'')}"><img src="${u}" alt="${esc(f.text||'Eigenes Foto')}"></button><figcaption>${esc(f.text||'Eigenes Foto')}<span>nur auf diesem Gerät</span></figcaption><button class="foto-weg" data-id="${f.id}">Entfernen</button>`;
+      gal.appendChild(fig); }
+    leer.hidden = gal.children.length>0; };
+  sec.querySelector('input[type=file]').addEventListener('change', async ev=>{ const files=[...ev.target.files]; ev.target.value='';
+    for(const file of files){ try{ await FOTO.add(seite, await FOTO.klein(file), file.name.replace(/\.[^.]+$/,'')); }catch(e){ leer.hidden=false; leer.textContent='Speichern ist in diesem Browser nicht möglich (z. B. privates Fenster). Schick das Foto an Claude.'; } }
+    zeigen(); });
+  gal.addEventListener('click', async ev=>{ const w=ev.target.closest('.foto-weg');
+    if(w){ if(w.dataset.ok){ try{ await FOTO.del(w.dataset.id); }catch(e){} zeigen(); } else { w.dataset.ok='1'; w.textContent='Wirklich entfernen?'; } return; }
+    const b=ev.target.closest('.foto-btn'); if(b) lightbox(b.dataset.src,b.dataset.text); });
+  zeigen();
+}
+function lightbox(src,text){ let lb=document.getElementById('lightbox');
+  if(!lb){ lb=document.createElement('div'); lb.id='lightbox'; lb.innerHTML='<button aria-label="Schließen">×</button><img alt=""><p></p>'; document.body.appendChild(lb); lb.addEventListener('click',()=>lb.hidden=true); document.addEventListener('keydown',e=>{ if(e.key==='Escape') lb.hidden=true; }); }
+  lb.querySelector('img').src=src; lb.querySelector('p').textContent=text||''; lb.hidden=false; }
+function kopfBereich(p){
+  const dl=`<dl class="steck" style="margin:0">${p.steckbrief.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${inline(v)}</dd></div>`).join('')}</dl>`;
+  if(!p.illu||!IL.has(p.illu)) return dl;
+  const fig=IL.figur(p.illu, p.name||p.titel);
+  return IL.breit(p.illu) ? fig+dl : `<div class="kopfgrid">${fig}${dl}</div>`;
+}
 const belegName = {W:'W · belegt',T:'T · traditionell',A:'A · alternativ'};
 const badge = k => `<span class="b b-${k}" title="${belegName[k]}">${k}</span>`;
 const pflanzenName = id => (D.pflanzen.find(p=>p.id===id)||{}).name || id;
@@ -1576,6 +1827,7 @@ function block(b, pid, rid){
     return `<section class="abschnitt"><h3>${esc(b.titel)}</h3>${items}</section>`;
   }
   if(b.typ==='tabelle') return `<div class="tab-wrap"><table><thead><tr>${b.kopf.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.zeilen.map(z=>`<tr>${z.map(c=>`<td>${inline(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  if(b.typ==='illu') return IL.figur(b.id, b.titel);
   if(b.typ==='schichten'){
     const n = b.eintraege.length;
     return `<figure class="schnitt" aria-label="${esc(b.titel)}"><figcaption class="unter">${esc(b.titel)}</figcaption>
@@ -1620,11 +1872,13 @@ function pflanzenSeite(p, rid, eid, pre, teil){
     ${unterzeile?`<div class="botan">${esc(unterzeile)}</div>`:''}
     <p>${inline(p.kurz)}</p>
   </div>
-  <dl class="steck" style="margin:0">${p.steckbrief.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${inline(v)}</dd></div>`).join('')}</dl>
+  ${kopfBereich(p)}
+  ${teil!=='A'&&teil!=='B'?fotoBereich(pre,p.fotos):''}
   ${legende()}
   <div class="reiter" role="tablist" aria-label="Kapitel">${p.reiter.map(x=>`<button role="tab" id="tab-${x.id}" aria-selected="${x.id===r.id}" aria-controls="panel-${x.id}" data-r="${x.id}">${esc(x.titel)}</button>`).join('')}</div>
   ${p.reiter.map(x=>`<section class="panel" role="tabpanel" id="panel-${x.id}" aria-labelledby="tab-${x.id}" ${x.id===r.id?'':'hidden'}><h2>${esc(x.titel)}</h2>${x.bloecke.map(b=>block(b,pre,x.id)).join('')}</section>`).join('')}
   <p class="fuss">Stand 12.10.2026 · Kapitel ${esc(p.nr)} · ${teil==='A'?'Zusammenfassungen aus Verlags-, Presse- und Rezensionsquellen.':'Angaben ersetzen keine ärztliche Beratung.'}</p>`;
+  initFotos();
   main.querySelectorAll('.reiter button').forEach(b=>b.addEventListener('click',()=>{ history.replaceState(null,'','#'+pre+'-'+b.dataset.r); zeigeReiter(b.dataset.r); }));
   main.querySelectorAll('[data-karten]').forEach(g=>{
     g.querySelectorAll('.filter button').forEach(fb=>fb.addEventListener('click',()=>{
@@ -1651,7 +1905,7 @@ function teilSeite(teil, ziel){
     liste = `<div class="teilkarten">${D.autoren.map(a=>`<a class="teilkarte" href="#a-${a.id}" style="text-decoration:none;color:inherit"><div class="eyebrow">${esc(a.nr)}</div><h2>${esc(a.name)}</h2><div class="botan" style="font-size:1rem">${esc(a.botan)}</div><p style="font-size:.95rem">${esc(a.kurz)}</p></a>`).join('')}</div>`;
   } else if(teil==='P'){
     kopf = ['Teil P','Pflanzenkunde','Ein Kapitel pro Pflanze, immer nach derselben Vorlage: Botanik, Inhaltsstoffe, Wirkung, Heilkunde, Rezepte, Selbstversorgung, Sicherheit, Quellen.'];
-    liste = `<div class="teilkarten">${D.pflanzen.map(p=>`<a class="teilkarte" href="#${p.id}" style="text-decoration:none;color:inherit"><div class="eyebrow">${esc(p.nr)}</div><h2>${esc(p.name)}</h2><div class="botan" style="font-size:1rem">${esc(p.botan)}</div><p style="font-size:.95rem">${esc(p.kurz)}</p></a>`).join('')}</div>`;
+    liste = `<div class="teilkarten">${D.pflanzen.map(p=>`<a class="teilkarte" href="#${p.id}" style="text-decoration:none;color:inherit">${p.illu?`<div class="mini">${IL.mini(p.illu,p.name)}</div>`:''}<div class="eyebrow">${esc(p.nr)}</div><h2>${esc(p.name)}</h2><div class="botan" style="font-size:1rem">${esc(p.botan)}</div><p style="font-size:.95rem">${esc(p.kurz)}</p></a>`).join('')}</div>`;
   } else {
     const arr = {B:D.biochemie,S:D.selbstversorgung,G:D.getreide}[teil], pre = teil.toLowerCase()+'-';
     kopf = {B:['Teil B','Biochemie','Wirkstoffe und Stoffgruppen einfach erklärt, mit Verweis auf die Pflanzen, in denen sie vorkommen.'],
@@ -1667,6 +1921,7 @@ function startSeite(){
   main.innerHTML = `
   <div class="stack"><div class="eyebrow">Quellwissen</div><h1>Kompendium für Natur, Selbstversorgung und Gesundheit</h1>
   <p>Gib oben einen Begriff ein, zum Beispiel <a href="#p02-rezepte-pesto">Gierschpesto</a>, <a href="#b-lithium-nehls">Nehls</a>, <a href="#b-amine">Histamin</a> oder <a href="#s-jauche">Jauche</a>, und du landest direkt bei der Erklärung.</p></div>
+  <div class="ministreifen">${D.pflanzen.filter(p=>p.illu).map(p=>`<a href="#${p.id}">${IL.mini(p.illu,p.name)}<span>${esc(p.name)}</span></a>`).join('')}</div>
   ${legende()}
   <div class="teilkarten">
     <a class="teilkarte" href="#teil-P" style="text-decoration:none;color:inherit"><div class="buchst">P</div><h2>Pflanzenkunde</h2><p>${D.pflanzen.length} Kapitel</p><div class="liste-links">${D.pflanzen.map(p=>`<span class="chip">${esc(p.name)}</span>`).join('')}</div></a>
