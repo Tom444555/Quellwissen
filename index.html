@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Quellwissen">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="qw-stand" content="202610161700">
+<meta name="qw-stand" content="202610161706">
 <script>
 if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
 addEventListener("load",function(){try{var s=document.querySelector("meta[name=qw-stand]").content,a=localStorage.getItem("qw-stand");if(a&&a!==s){var d=document.createElement("div");d.id="qw-neu";d.textContent="Neue Version geladen";document.body.appendChild(d);setTimeout(function(){d.remove();},4000);}localStorage.setItem("qw-stand",s);}catch(e){}});
@@ -2133,7 +2133,8 @@ function uebersicht(){
   const rest=D.pflanzen.filter(p=>!zugeteilt.has(p.id)).map(p=>p.id);
   const T=[
    {k:'P',t:'Pflanzenkunde',h:'#teil-P',g:[['Wildkräuter',pl(['p01','p02','p03','p06','p10','p11','p07','p09'])],['Heilpflanzen',pl(['p05','p08','p12','p16','p20'].concat(rest))],['Bäume & Sträucher',pl(['p04','p14','p17'])],['Gewürze',pl(['p15','p18','p19'])],['Pilze',pl(['p13'])]]},
-   {k:'S',t:'Selbstversorgung',h:'#teil-S',g:[['Garten & Boden',kp(D.selbstversorgung,'s-',['boden','huegelbeet','mischkultur'])],['Sammeln',kp(D.selbstversorgung,'s-',['knospen'])],['Verfahren',D.selbstversorgung.filter(e=>!e.reiter).map(e=>[e.titel,'#s-'+e.id])]]},
+   {k:'S',t:'Selbstversorgung',h:'#teil-S',g:(()=>{ const SG=[['Garten & Boden',['huegelbeet','boden','mischkultur']],['Anbau',['tabak','hanf']],['Sammeln & Küche',['knospen','blueten']],['Hausapotheke',['tinkturen']]]; const vg=new Set(SG.flatMap(x=>x[1])); const weitere=D.selbstversorgung.filter(e=>e.reiter&&!vg.has(e.id)).map(e=>e.id);
+     return SG.map(([t,ids])=>[t,kp(D.selbstversorgung,'s-',ids)]).concat([['Weitere',kp(D.selbstversorgung,'s-',weitere)],['Verfahren',D.selbstversorgung.filter(e=>!e.reiter).map(e=>[e.titel,'#s-'+e.id])]]); })()},
    {k:'G',t:'Getreide & Brot',h:'#teil-G',g:[['Kapitel',D.getreide.map(e=>[e.titel,'#g-'+e.id,e.illu])]]},
    {k:'B',t:'Biochemie',h:'#teil-B',g:[['Themen',D.biochemie.filter(e=>e.reiter).map(e=>[e.titel,'#b-'+e.id,e.illu])],['Wirkstoffe',[[`Alle Stoffe von A bis Z`,'#teil-B']],D.biochemie.filter(e=>!e.reiter).length]]},
    {k:'A',t:'Autoren',h:'#teil-A',g:[['Porträts',D.autoren.map(a=>[a.name.replace('Dr. ',''),'#a-'+a.id])]]}];
