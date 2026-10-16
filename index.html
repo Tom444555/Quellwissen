@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Quellwissen">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="qw-stand" content="202610161128">
+<meta name="qw-stand" content="202610161349">
 <script>
 if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
 addEventListener("load",function(){try{var s=document.querySelector("meta[name=qw-stand]").content,a=localStorage.getItem("qw-stand");if(a&&a!==s){var d=document.createElement("div");d.id="qw-neu";d.textContent="Neue Version geladen";document.body.appendChild(d);setTimeout(function(){d.remove();},4000);}localStorage.setItem("qw-stand",s);}catch(e){}});
@@ -2075,6 +2075,12 @@ function zeigeReiter(id){
   main.querySelectorAll('.panel').forEach(pn=>pn.hidden = pn.id!=='panel-'+id);
 }
 
+function teilBaum(teil,titel){
+  const arr={P:D.pflanzen,A:D.autoren,B:D.biochemie,S:D.selbstversorgung,G:D.getreide}[teil], pre=teil==='P'?'':teil.toLowerCase()+'-';
+  const kn=arr.map(e=>{ const id=pre+e.id, rs=e.reiter||[], max=6; const k=rs.slice(0,max).map(r=>({t:r.titel,h:'#'+id+'-'+r.id})); if(rs.length>max) k.push({t:`+ ${rs.length-max} weitere`,h:'#'+id}); return {t:e.name||e.titel,h:'#'+id,k}; });
+  let offen=true; try{ offen=localStorage.getItem('qw-tb')!=='zu'; }catch(e){}
+  return `<details class="tb-auto"${offen?' open':''}><summary>Themenbaum</summary>${baumBlock({wurzel:esc(titel),knoten:kn})}</details>`;
+}
 function teilSeite(teil, ziel){
   let kopf, liste;
   if(teil==='A'){
@@ -2090,7 +2096,8 @@ function teilSeite(teil, ziel){
             G:['Teil G','Getreide & Brot','Getreidearten, Mehl, Mahlen, Hefe, Sauerteig, Backen, Anbau und Gesundheit.']}[teil];
     liste = `<div class="stack">${arr.map(e=>`<article class="eintrag${ziel===e.id?' ziel':''}" id="${pre}${e.id}"><h2>${esc(e.titel)}</h2><p>${inline(e.text)}</p>${e.stichworte?`<div class="liste-links">${e.stichworte.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>`:''}<div class="liste-links"><span class="eyebrow" style="align-self:center">Vorkommen</span>${e.pflanzen.map(zielLink).join('')}</div>${e.reiter?`<p><a href="#${pre}${e.id}-${e.reiter[0].id}"><strong>Ganzes Kapitel öffnen →</strong></a> ${e.reiter.length} Reiter: ${e.reiter.map(r=>esc(r.titel)).join(', ')}</p>`:''}</article>`).join('')}</div>`;
   }
-  main.innerHTML = `<div class="stack"><div class="eyebrow">${kopf[0]}</div><h1>${kopf[1]}</h1><p>${kopf[2]}</p></div>${teil==='B'?legende():''}${liste}`;
+  main.innerHTML = `<div class="stack"><div class="eyebrow">${kopf[0]}</div><h1>${kopf[1]}</h1><p>${kopf[2]}</p></div>${teilBaum(teil,kopf[1])}${teil==='B'?legende():''}${liste}`;
+  const tbd=main.querySelector('.tb-auto'); if(tbd) tbd.addEventListener('toggle',()=>{ try{ localStorage.setItem('qw-tb',tbd.open?'auf':'zu'); }catch(e){} });
   if(ziel){ const el=document.getElementById(teil.toLowerCase()+'-'+ziel); if(el) requestAnimationFrame(()=>el.scrollIntoView({behavior:'smooth',block:'start'})); } else scrollTo(0,0);
 }
 
