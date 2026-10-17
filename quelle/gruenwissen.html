@@ -265,6 +265,18 @@ mark{background:var(--accent-soft);color:inherit;padding:0 2px;border-radius:3px
 #qw3d .d3-leg span{display:flex;gap:8px;align-items:center}
 #qw3d .d3-leg i{width:14px;height:14px;border-radius:3px;flex:none;border:1px solid rgba(0,0,0,.25)}
 #qw3d .d3-lade{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);padding:16px;text-align:center}
+
+@media (min-width:621px){.bm-gen .bm-aeste{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.bm-gen .bm-ast:first-child::before{left:-6px}.bm-gen .bm-ast:last-child::before{right:-6px}}
+.bm-gen .bm-knoten{color:#fff}
+.bm-gen .bm-knoten .bu{color:var(--tc)}
+div.bm-knoten{cursor:default}
+.bm-direkt{margin:10px 0 0 12px;border-left:2px solid color-mix(in srgb,var(--tc) 55%,transparent)}
+.bm-zweige .bm-z{display:flex;align-items:center;gap:7px;padding:3px 6px;border-radius:7px;text-decoration:none;color:var(--ink);font-size:.92rem;line-height:1.25}
+a.bm-z:hover{background:var(--accent-soft)}
+.bm-zweige .bm-zweige{margin-left:20px}
+.bm-titel{margin:0 0 8px}
+.bu-ico{width:30px!important;height:30px!important;overflow:hidden}.bu-ico svg{max-width:24px;max-height:24px;width:auto;height:auto}
+.tb-auto .bm{margin-top:10px}
 </style>
 
 <header class="kopf">
@@ -1988,7 +2000,15 @@ const STUFE={licht:['','Schatten','Halbschatten','Halbschatten bis Sonne','sonni
 const BFARBE=['#3e6b2a','#2f5f8a','#8a5a2b','#7a4b8c','#b5301e','#a07a12','#2a7a7a','#5f8f3c','#6a5aa0','#a85a2a'];
 function baumListe(k){ return k&&k.length?`<ul>${k.map(n=>`<li>${n.h?`<a href="${esc(n.h)}">${inline(n.t)}</a>`:inline(n.t)}${baumListe(n.k)}</li>`).join('')}</ul>`:''; }
 function baumBlock(b){
-  return `<div class="tbaum">${b.titel?`<h3>${inline(b.titel)}</h3>`:''}<div class="tb-wurzel">${inline(b.wurzel||'')}</div><div class="tb-aeste">${b.knoten.map((n,i)=>`<div class="tb-ast" style="--bc:${BFARBE[i%BFARBE.length]}"><div class="tb-kopf">${n.h?`<a href="${esc(n.h)}">${inline(n.t)}</a>`:inline(n.t)}</div>${baumListe(n.k)}</div>`).join('')}</div></div>`;
+  const txt=s=>String(s||'').replace(/<[^>]+>|\*\*/g,'').trim();
+  const link=(n,inner,cls)=>n.h?`<a class="${cls}" href="${esc(n.h)}">${inner}</a>`:`<div class="${cls}">${inner}</div>`;
+  const zweig=n=>`<li>${link(n,`${n.i&&IL.has(n.i)?`<span class="bm-mini">${IL.mini(n.i,txt(n.t))}</span>`:'<span class="bm-punkt"></span>'}<span>${inline(n.t)}</span>`,'bm-z')}${n.k&&n.k.length?`<ul class="bm-zweige">${n.k.map(zweig).join('')}</ul>`:''}</li>`;
+  const inhalt=k=>{ if(!k||!k.length) return ''; const gr=k.filter(n=>n.k&&n.k.length), ei=k.filter(n=>!(n.k&&n.k.length));
+    return `${ei.length?`<ul class="bm-zweige bm-direkt">${ei.map(zweig).join('')}</ul>`:''}${gr.length?`<ul class="bm-gruppen">${gr.map(g=>`<li><details open><summary class="bm-gruppe">${inline(g.t)} <span>${g.k.length}</span></summary><ul class="bm-zweige">${g.k.map(zweig).join('')}</ul></details></li>`).join('')}</ul>`:''}`; };
+  const w=txt(b.wurzel);
+  return `${b.titel?`<h3 class="bm-titel">${inline(b.titel)}</h3>`:''}<nav class="bm bm-gen" aria-label="Themenbaum">
+    <div class="bm-wurzel"><span class="bm-logo">${esc(w.charAt(0)||'Q')}</span><span><strong>${inline(b.wurzel||'')}</strong>${b.unter?`<small>${esc(b.unter)}</small>`:''}</span></div>
+    <ul class="bm-aeste">${b.knoten.map((n,i)=>`<li class="bm-ast" style="--tc:${BFARBE[i%BFARBE.length]}">${link(n,`${n.i&&IL.has(n.i)?`<span class="bu bu-ico">${IL.mini(n.i,txt(n.t))}</span>`:`<span class="bu">${esc(txt(n.t).charAt(0))}</span>`}${inline(n.t)}`,'bm-knoten')}${inhalt(n.k)}</li>`).join('')}</ul></nav>`;
 }
 function autoBaum(p,pre){
   const kn=p.reiter.map(r=>{ const k=[]; r.bloecke.forEach(b=>{
@@ -2000,7 +2020,7 @@ function autoBaum(p,pre){
       else if(b.typ==='standort') k.push({t:'Standort: Licht, Wasser, Nährstoffe'}); });
     const max=7, rest=k.length-max; return {t:r.titel,h:'#'+pre+'-'+r.id,k:rest>1?k.slice(0,max).concat([{t:`+ ${rest} weitere`,h:'#'+pre+'-'+r.id}]):k}; });
   let offen=true; try{ offen=localStorage.getItem('qw-tb')!=='zu'; }catch(e){}
-  return `<details class="tb-auto"${offen?' open':''}><summary>Themenbaum</summary>${baumBlock({wurzel:esc(p.name||p.titel),knoten:kn})}</details>`;
+  return `<details class="tb-auto"${offen?' open':''}><summary>Themenbaum</summary>${baumBlock({wurzel:esc(p.name||p.titel),unter:[p.nr,p.botan].filter(Boolean).join(' · '),knoten:kn})}</details>`;
 }
 function standortBlock(b){
   const z=(k,n)=>`<div class="st-zeile st-${k}">${ICON[k]}<div><div class="st-k">${{licht:'Licht',wasser:'Wasser',naehrstoffe:'Nährstoffe'}[k]}</div><div class="st-bar" aria-label="${n} von 5">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'an':''}"></i>`).join('')}</div><div class="st-v">${STUFE[k][n]}</div></div></div>`;
@@ -2081,8 +2101,9 @@ function zeigeReiter(id){
 function teilBaum(teil,titel){
   const arr={P:D.pflanzen,A:D.autoren,B:D.biochemie,S:D.selbstversorgung,G:D.getreide}[teil], pre=teil==='P'?'':teil.toLowerCase()+'-';
   const kn=arr.map(e=>{ const id=pre+e.id, rs=e.reiter||[], max=6; const k=rs.slice(0,max).map(r=>({t:r.titel,h:'#'+id+'-'+r.id})); if(rs.length>max) k.push({t:`+ ${rs.length-max} weitere`,h:'#'+id}); return {t:e.name||e.titel,h:'#'+id,k}; });
+  if(teil==='P') kn.forEach((n,j)=>n.i=arr[j].illu);
   let offen=true; try{ offen=localStorage.getItem('qw-tb')!=='zu'; }catch(e){}
-  return `<details class="tb-auto"${offen?' open':''}><summary>Themenbaum</summary>${baumBlock({wurzel:esc(titel),knoten:kn})}</details>`;
+  return `<details class="tb-auto"${offen?' open':''}><summary>Themenbaum</summary>${baumBlock({wurzel:esc(titel),unter:arr.length+' Themen',knoten:kn})}</details>`;
 }
 function teilSeite(teil, ziel){
   let kopf, liste;
