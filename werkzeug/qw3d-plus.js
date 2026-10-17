@@ -49,7 +49,7 @@ function grasWiese(scene, frei, anzahl, rmax) {
   for (let i = 0; i <= S; i++) { const t = i / S, w = 0.006 * (1 - t * 0.9); pos.push(-w, t, 0, w, t, 0); const c = new THREE.Color(0x142408).lerp(new THREE.Color(0x5f8a30), Math.pow(t, 0.9)); col.push(c.r, c.g, c.b, c.r, c.g, c.b); if (i < S) { const a = i * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); } }
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setIndex(idx);
   const p = g.attributes.position; for (let i = 0; i < p.count; i++) { const t = p.getY(i); p.setZ(i, 0.25 * t * t); } g.computeVertexNormals();
-  const m = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.75 });
+  const m = durchlicht(new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.75 }), 0.8);
   const im = new THREE.InstancedMesh(g, m, anzahl), o = new THREE.Object3D(), c = new THREE.Color(); let sd = 5; const r = () => (sd = sd * 16807 % 2147483647) / 2147483647; let k = 0;
   while (k < anzahl) { const a = r() * Math.PI * 2, d = Math.pow(r(), 0.75) * rmax, x = Math.cos(a) * d, z = Math.sin(a) * d - 0.7; if (frei(x, z)) continue;
     o.position.set(x, -0.03, z); o.rotation.set(0, r() * Math.PI * 2, (r() - 0.5) * 0.3); const h = 0.025 + r() * 0.06 * (0.6 + 0.9 * fbm(x * 0.7 + 3, z * 0.7 + 3, 64, 4, 2)); o.scale.set(1 + r(), h, h); o.updateMatrix(); im.setMatrixAt(k, o.matrix);
@@ -95,25 +95,134 @@ const Farbe = { vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Positio
 
 /* ---- Qualitaet je nach Geraet ---- */
 const KERNE = navigator.hardwareConcurrency || 4, RAM = navigator.deviceMemory || 8;
-const HOCH = !(KERNE <= 4 || RAM <= 3);
+const HOCH = /[?&]hoch/.test(location.search) || !(KERNE <= 4 || RAM <= 3);
 let TX = null; const tex = () => TX || (TX = { erde: erdTexturen(512, 'erde'), mulch: erdTexturen(512, 'mulch'), blatt: blattTexturen(), stengel: stengelTexturen() });
 
 /* Pflanze veredeln (auch nach Umschalten ♀/♂) */
 window.QW3D_PLUS_P = (pflanze) => { const { blatt: bt, stengel: st } = tex(); const haare = [];
   pflanze.traverse(o => { if (!o.isMesh) return; o.castShadow = true; o.receiveShadow = true; const m = o.material;
-    if (m.vertexColors && m.side === THREE.DoubleSide) o.material = new THREE.MeshPhysicalMaterial({ vertexColors: true, side: THREE.DoubleSide, map: bt.map, normalMap: bt.nor, normalScale: new THREE.Vector2(0.9, 0.9), roughness: 0.5, sheen: 0.6, sheenRoughness: 0.45, sheenColor: new THREE.Color(0x9fdc70), specularIntensity: 0.45, clearcoat: 0.15, clearcoatRoughness: 0.4, emissive: new THREE.Color(0x0e1c06) });
+    if (m.vertexColors && m.side === THREE.DoubleSide) o.material = durchlicht(new THREE.MeshPhysicalMaterial({ vertexColors: true, side: THREE.DoubleSide, map: bt.map, normalMap: bt.nor, normalScale: new THREE.Vector2(0.9, 0.9), roughness: 0.5, sheen: 0.6, sheenRoughness: 0.45, sheenColor: new THREE.Color(0x9fdc70), specularIntensity: 0.45, clearcoat: 0.15, clearcoatRoughness: 0.4, emissive: new THREE.Color(0x0e1c06) }), 0.55);
     else if (m.vertexColors && !o.isInstancedMesh) { st.map.repeat.set(1, 3); st.nor.repeat.set(1, 3); o.material = new THREE.MeshPhysicalMaterial({ vertexColors: true, map: st.map, normalMap: st.nor, normalScale: new THREE.Vector2(1.2, 1.2), roughness: 0.55, sheen: 0.4, sheenColor: new THREE.Color(0xc8e0a0), specularIntensity: 0.5 }); haare.push(o); }
     else if (m.isMeshStandardMaterial && !o.isInstancedMesh && m.color && m.color.g > m.color.r) { o.material = m.clone(); o.material.map = st.map; o.material.normalMap = st.nor; o.material.roughness = 0.55; } });
   if (HOCH) haare.forEach(o => { const tri = o.geometry.attributes.position.count / 3; pflanze.add(haerchen(o, Math.min(2500, Math.round(tri * 0.6)), 0.003, 0xc8d8b0)); }); };
 
-window.QW3D_PLUS = ({ scene, renderer, cam, c, pflanze }) => {
+
+/* ================= Wurzeln: plastisch, verzweigt, als Relief in der Schnittflaeche ================= */
+function puffer() { return { pos: [], nor: [], uv: [], col: [], idx: [] }; }
+function pufferGeo(B) { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(B.pos, 3)); g.setAttribute('normal', new THREE.Float32BufferAttribute(B.nor, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(B.uv, 2)); g.setAttribute('color', new THREE.Float32BufferAttribute(B.col, 3)); g.setIndex(B.idx); return g; }
+function rohrIn(B, pts, r0, r1, ca, cb, rs, knoten) {
+  const cu = new THREE.CatmullRomCurve3(pts), L = cu.getLength(), seg = Math.max(4, Math.min(80, Math.round(L / 0.008))); const fr = cu.computeFrenetFrames(seg, false);
+  const base = B.pos.length / 3, P = new THREE.Vector3(), N = new THREE.Vector3(), c = new THREE.Color();
+  for (let i = 0; i <= seg; i++) { const t = i / seg; cu.getPointAt(t, P); let r = r0 + (r1 - r0) * Math.pow(t, 0.7); if (knoten) r *= 1 + 0.1 * Math.max(0, Math.sin(t * L * 90)) ** 6; if (i === seg) r *= 0.3;
+    c.copy(ca).lerp(cb, Math.pow(t, 1.4));
+    for (let j = 0; j <= rs; j++) { const a = j / rs * Math.PI * 2; N.copy(fr.normals[i]).multiplyScalar(Math.cos(a)).addScaledVector(fr.binormals[i], Math.sin(a)).normalize();
+      const w = 1 + 0.06 * Math.sin(a * 3 + t * 20); B.pos.push(P.x + N.x * r * w, P.y + N.y * r * w, P.z + N.z * r * w); B.nor.push(N.x, N.y, N.z); B.uv.push(j / rs, t * L * 6); const k = 0.92 + 0.08 * Math.sin(a * 5 + t * 31); B.col.push(c.r * k, c.g * k, c.b * k); } }
+  for (let i = 0; i < seg; i++) for (let j = 0; j < rs; j++) { const a = base + i * (rs + 1) + j, b = a + rs + 1; B.idx.push(a, b, a + 1, b, b + 1, a + 1); } }
+function wurzelTextur() { const N = 128, M = 512, H = new Float32Array(N * M);
+  for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) { const u = i / N, v = j / M; H[j * N + i] = 0.5 * fbm(u * 8, v * 64, 8, 21, 3) + 0.35 * Math.pow(Math.abs(Math.sin((v * 40 + fbm(u * 4, v * 8, 4, 2, 2) * 3) * Math.PI)), 8) + 0.25 * fbm(u * 32, v * 8, 32, 7, 2); }
+  return hoeheZuNormal(N, M, H, 6); }
+window.QW3D_PLUS_W = (w, s, info, c) => {
+  if (!w) return null; s = s || 1; let sd = 4242; const r = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+  const B = puffer(), haar = []; const farbe = new THREE.Color(w.farbe || 0xd8c8a0); const alt = farbe.clone().multiplyScalar(0.72).lerp(new THREE.Color(0x6a4a2a), 0.25), jung = farbe.clone().lerp(new THREE.Color(0xf4efe0), 0.3);
+  const hind = []; if (info.boden) info.boden.children.forEach(o => { if (o.isMesh && o.geometry.type === 'CircleGeometry' && o.position.z > 0 && o.geometry.parameters.radius < 0.25) hind.push([o.position.x, o.position.y - info.y0, o.geometry.parameters.radius + 0.012]); });
+  const ymax = x => info.profil(x) - info.y0 - 0.015, ymin = info.UNTEN - info.y0 + 0.04, xm = info.BX * 0.94;
+  const relief = p => new THREE.Vector3(p.x, p.y, 0.02 + Math.max(-0.25, Math.min(0.25, p.z)) * 0.06);
+  function pfad(st, d0, len, grav, wand) { const n = Math.max(4, Math.round(len / 0.02)), sl = len / n, pts = [st.clone()]; let p = st.clone(), d = d0.clone().normalize();
+    for (let k = 0; k < n; k++) { d.add(new THREE.Vector3((r() - .5) * wand, (r() - .5) * wand - grav, (r() - .5) * wand * 0.6)).normalize(); p = p.clone().addScaledVector(d, sl);
+      if (p.y > ymax(p.x)) { p.y = ymax(p.x); d.y = -Math.abs(d.y) - 0.2; } if (p.y < ymin) { p.y = ymin; d.y = Math.abs(d.y) * 0.2; d.x += Math.sign(d.x || 1) * 0.5; } if (Math.abs(p.x) > xm) { p.x = Math.sign(p.x) * xm; d.x *= -0.5; }
+      for (const [hx, hy, hr] of hind) { const dx = p.x - hx, dy = p.y - hy, dd = Math.hypot(dx, dy); if (dd < hr) { p.x = hx + dx / (dd || 1) * hr; p.y = hy + dy / (dd || 1) * hr; d.x += dx / (dd || 1) * 0.8; d.y += dy / (dd || 1) * 0.8; d.normalize(); } } pts.push(p); }
+    return pts; }
+  function ast(st, d, len, rad, stufe, maxStufe) { if (len < 0.015 || rad < 0.0006) return;
+    const pts = pfad(st, d, len, stufe === 0 ? 0.3 : 0.1 + 0.05 * stufe, stufe === 0 ? 0.22 : 0.5); const rp = pts.map(relief);
+    const ca = alt.clone().lerp(jung, stufe * 0.25), cb = jung.clone(); rohrIn(B, rp, rad, rad * (stufe === 0 ? 0.15 : 0.25), ca, cb, stufe === 0 ? 12 : stufe === 1 ? 8 : 5, stufe <= 1);
+    if (stufe < maxStufe) { const n = stufe === 0 ? (w.seiten || 18) : stufe === 1 ? 7 : 4;
+      for (let k = 0; k < n; k++) { const t = 0.06 + r() * 0.86, i = Math.min(pts.length - 2, Math.floor(t * (pts.length - 1))); const sx = r() < 0.5 ? -1 : 1;
+        const sdv = new THREE.Vector3(sx * (0.6 + r() * 0.6), -0.2 - r() * 0.5, (r() - .5) * 0.8); ast(pts[i], sdv, len * (0.22 + r() * 0.3) * (1 - t * 0.45), rad * (0.3 + 0.2 * r()) * (1 - t * 0.5), stufe + 1, maxStufe); } }
+    else { for (let i = Math.floor(rp.length * 0.4); i < rp.length; i++) for (let q = 0; q < 5; q++) { const p = rp[i], a = r() * Math.PI * 2, l = 0.002 + r() * 0.004; haar.push(p.x, p.y, p.z, p.x + Math.cos(a) * l, p.y + Math.sin(a) * l, p.z + 0.002); } } }
+  const O = new THREE.Vector3(0, -0.005, 0); const g = new THREE.Group();
+  if (w.typ === 'pfahl') ast(O, new THREE.Vector3(0.02, -1, 0), w.l * s, Math.max(0.006, w.r * s), 0, 3);
+  else if (w.typ === 'faser' || w.typ === 'flach') { const n = w.typ === 'flach' ? 9 : Math.min(w.n || 20, 34); for (let k = 0; k < n; k++) { const a = -1.35 + 2.7 * (k + r() * 0.6) / n; const d = w.typ === 'flach' ? new THREE.Vector3(Math.sin(a) * 1.2, -0.25 - r() * 0.2, (r() - .5) * 0.5) : new THREE.Vector3(Math.sin(a), -Math.cos(a) * 0.9 - 0.2, (r() - .5) * 0.6);
+      ast(O.clone().add(new THREE.Vector3((r() - .5) * 0.02, 0, 0)), d, (w.l || 0.4) * s * (0.6 + 0.5 * r()), (w.typ === 'flach' ? 0.022 : w.dick ? 0.005 : 0.003) * s, 1, w.typ === 'flach' ? 3 : 2); }
+    if (w.stuetz) for (let k = 0; k < 6; k++) { const a = k * 1.05; rohrIn(B, [new THREE.Vector3(0, 0.08, 0), new THREE.Vector3(Math.cos(a) * 0.06, 0.03, 0.005), new THREE.Vector3(Math.cos(a) * 0.1, -0.04, 0.005)].map(p => new THREE.Vector3(p.x, p.y, 0.005 + p.z * 0.06)), 0.005, 0.003, alt, jung, 8); } }
+  else if (w.typ === 'rhizom') { const om = new THREE.Color(w.farbe), im = new THREE.Color(w.innen || w.farbe);
+    if (w.knollig) { const kg = new THREE.SphereGeometry(1, 20, 14); const kp = kg.attributes.position; for (let i = 0; i < kp.count; i++) { const v = new THREE.Vector3().fromBufferAttribute(kp, i); v.multiplyScalar(1 + 0.18 * (fbm(v.x * 2 + 5, v.y * 2 + v.z, 1e9, 3, 3) - 0.5) + 0.04 * Math.sin(v.y * 18)); kp.setXYZ(i, v.x, v.y, v.z); } kg.computeVertexNormals();
+      const mo = new THREE.MeshPhysicalMaterial({ color: om.clone().multiplyScalar(0.7), roughness: 0.75, normalMap: tex().stengel.nor, normalScale: new THREE.Vector2(1.5, 1.5), sheen: 0.3 }), mi = new THREE.MeshStandardMaterial({ color: im, roughness: 0.45 });
+      for (let k = 0; k < 9; k++) { const x = -0.26 + k * 0.065, y = -0.055 - 0.02 * Math.sin(k * 1.7); const b = new THREE.Mesh(kg, mo); b.scale.set(0.038, 0.026, 0.022); b.position.set(x, y, -0.004); b.rotation.z = (r() - .5) * 0.6; g.add(b);
+        const fi = new THREE.Mesh(kg, mo); fi.scale.set(0.016, 0.034, 0.016); fi.position.set(x + 0.02, y - 0.045 * (k % 2 ? 1 : -0.7), -0.004); fi.rotation.z = (r() - .5); g.add(fi);
+        if (k % 2 === 0) { const cg = new THREE.CircleGeometry(1, 28); const cp = cg.attributes.position; for (let i = 1; i < cp.count; i++) { const f = 1 + 0.08 * Math.sin(i * 1.3); cp.setXY(i, cp.getX(i) * f, cp.getY(i) * f); } const cut = new THREE.Mesh(cg, mi); cut.scale.set(0.034, 0.022, 1); cut.position.set(x, y, 0.0185); g.add(cut);
+          const ring = new THREE.Mesh(new THREE.RingGeometry(0.85, 1, 28), new THREE.MeshStandardMaterial({ color: om.clone().multiplyScalar(0.7), roughness: 0.6 })); ring.scale.copy(cut.scale); ring.position.set(x, y, 0.0187); g.add(ring); } }
+      for (let k = 0; k < 14; k++) ast(new THREE.Vector3(-0.26 + r() * 0.52, -0.08, 0), new THREE.Vector3((r() - .5), -1, 0), 0.15 * s, 0.0022, 2, 3); }
+    else { const pts = []; const W = w.weit ? 0.6 : 0.45; for (let i = 0; i <= 10; i++) pts.push(new THREE.Vector3(-W + 2 * W * i / 10, -0.05 - 0.025 * Math.sin(i * 1.3), 0.005)); rohrIn(B, pts, 0.01, 0.008, om, om.clone().lerp(new THREE.Color(0xffffff), 0.2), 10, true);
+      for (let i = 1; i < 10; i++) { const p = pts[i]; ast(p, new THREE.Vector3((r() - .5) * 0.6, -1, 0), 0.16 * s, 0.003, 2, 3); } } }
+  else if (w.typ === 'myzel') { const lp = []; for (let i = 0; i < 1600; i++) { const x = (r() - .5) * 2.6, y = -0.02 - Math.pow(r(), 1.5) * 0.4, a = r() * 6.28, l = 0.02 + r() * 0.07; lp.push(x, y, 0.006, x + Math.cos(a) * l, y + Math.sin(a) * l * 0.6, 0.006); }
+    const lg = new THREE.BufferGeometry(); lg.setAttribute('position', new THREE.Float32BufferAttribute(lp, 3)); g.add(new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: 0xf4efe2, transparent: true, opacity: 0.55 })));
+    for (let k = 0; k < 10; k++) ast(new THREE.Vector3((r() - .5) * 1.6, -0.02, 0), new THREE.Vector3(r() - .5, -0.4, 0), 0.4, 0.0018, 2, 3); }
+  if (B.pos.length) { const nm = wurzelTextur(); const m = new THREE.Mesh(pufferGeo(B), new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: 0.72, normalMap: nm, normalScale: new THREE.Vector2(1.1, 1.1), clearcoat: 0.12, clearcoatRoughness: 0.6, specularIntensity: 0.3, envMapIntensity: 0.5 })); m.castShadow = true; m.receiveShadow = true; g.add(m); }
+  if (haar.length) { const hg = new THREE.BufferGeometry(); hg.setAttribute('position', new THREE.Float32BufferAttribute(haar, 3)); g.add(new THREE.LineSegments(hg, new THREE.LineBasicMaterial({ color: 0xd8ccb0, transparent: true, opacity: 0.22 }))); }
+  return g; };
+
+/* ================= Huegelbeet: plastische Schnittflaeche, Holz, Erdschollen ================= */
+function rindeTexturen() { const N = 256, M = 512, H = new Float32Array(N * M), A = new Float32Array(N * M);
+  for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) { const u = i / N, v = j / M; const ri = Math.pow(Math.abs(Math.sin((u * 10 + fbm(u * 6, v * 3, 6, 31, 3) * 2.2) * Math.PI)), 0.35); const pl = fbm(u * 12, v * 6, 12, 33, 4);
+    H[j * N + i] = ri * 0.7 + pl * 0.5; A[j * N + i] = 0.35 + ri * 0.45 + (pl - 0.5) * 0.3; }
+  const nor = hoeheZuNormal(N, M, H, 10); const map = canvasTex(N, M, x => { const im = x.createImageData(N, M); for (let k = 0; k < N * M; k++) { const l = A[k]; im.data[k * 4] = l * 150; im.data[k * 4 + 1] = l * 128; im.data[k * 4 + 2] = l * 104; im.data[k * 4 + 3] = 255; } x.putImageData(im, 0, 0); });
+  map.colorSpace = THREE.SRGBColorSpace; return { map, nor }; }
+function hirnholz(seed) { const N = 256, H = new Float32Array(N * N), A = new Float32Array(N * N * 3);
+  for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) { const x = (i / N - 0.5) * 2, y = (j / N - 0.5) * 2, rr = Math.hypot(x, y), a = Math.atan2(y, x); const k = j * N + i;
+    const st = fbm(a * 2 + 10, rr * 3, 1e9, seed, 3); const rings = Math.sin((rr * 18 + st * 1.6) * Math.PI); const riss = Math.exp(-Math.pow(((a + Math.PI) * 3 / Math.PI % 1 - 0.5) / 0.02, 2)) * (rr > 0.15 ? 1 : 0) * (fbm(a * 3, 1, 1e9, seed + 1, 1) > 0.55 ? 1 : 0);
+    const kern = rr < 0.55 ? 0.82 : 1; let l = (0.78 + 0.1 * rings) * kern - riss * 0.5; if (rr > 0.92) l = 0.38 + 0.1 * st; H[k] = rings * 0.2 - riss + (rr > 0.92 ? 0.4 : 0);
+    A[k * 3] = l * 0.86; A[k * 3 + 1] = l * 0.68; A[k * 3 + 2] = l * 0.46; }
+  const nor = hoeheZuNormal(N, N, H, 4); const map = canvasTex(N, N, x => { const im = x.createImageData(N, N); for (let k = 0; k < N * N; k++) { im.data[k * 4] = A[k * 3] * 255; im.data[k * 4 + 1] = A[k * 3 + 1] * 255; im.data[k * 4 + 2] = A[k * 3 + 2] * 255; im.data[k * 4 + 3] = 255; } x.putImageData(im, 0, 0); });
+  map.colorSpace = THREE.SRGBColorSpace; map.wrapS = map.wrapT = THREE.ClampToEdgeWrapping; return { map, nor }; }
+function veredleHuegel(boden, info) {
+  const { profil, BX, UNTEN, SCH } = info; const lagen = SCH.map(([f, c0, c1]) => [f, new THREE.Color(c0), new THREE.Color(c1)]); const unter = [new THREE.Color(0x5a4a3a), new THREE.Color(0x6e5a44)];
+  // alte flache Schnittbaender vorne ausblenden
+  boden.children.forEach(o => { if (!o.isMesh) return; o.geometry.computeBoundingBox(); const b = o.geometry.boundingBox; const z0 = b.min.z + o.position.z, z1 = b.max.z + o.position.z;
+    if (o.material.vertexColors && z1 < 0.002 && z0 > -0.001 && o.geometry.attributes.position.count < 3000) o.visible = false;
+    if ((o.geometry.type === 'RingGeometry') && o.position.z > 0) o.visible = false; });
+  // neue Schnittflaeche mit Relief
+  const nx = 300, ny = 160, pos = [], col = [], uv = [], idx = []; const c = new THREE.Color();
+  for (let j = 0; j <= ny; j++) for (let i = 0; i <= nx; i++) { const x = -BX + 2 * BX * i / nx, top = profil(x), v = j / ny, y = UNTEN + (top - UNTEN) * v;
+    let f = y > 0 ? y / Math.max(top, 1e-4) : -1; const st = fbm(x * 5 + 7, y * 5, 1e9, 41, 3) - 0.5; const fn = f + st * 0.07;
+    let k = -1; if (f >= 0) { k = lagen.length - 1; for (let q = 0; q < lagen.length; q++) { const fu = q < lagen.length - 1 ? lagen[q + 1][0] : 0; if (fn > fu) { k = q; break; } } }
+    const fo = k >= 0 ? lagen[k][0] : 0, fu2 = k >= 0 ? (k < lagen.length - 1 ? lagen[k + 1][0] : 0) : -1; const tl = k >= 0 ? Math.min(1, Math.max(0, (fn - fu2) / Math.max(1e-3, fo - fu2))) : Math.min(1, Math.max(0, (y - UNTEN) / -UNTEN));
+    const [ca, cb] = k >= 0 ? [lagen[k][1], lagen[k][2]] : unter; c.copy(ca).lerp(cb, tl);
+    const nm = SCH[k] ? SCH[k][3] : ''; let d = (fbm(x * 18, y * 18, 1e9, 43, 4) - 0.5) * 0.014;
+    if (nm.startsWith('Laub')) { const fa = fbm(x * 2.5, y * 70, 1e9, 44, 3); c.lerp(new THREE.Color(0xc8a24a), Math.max(0, fa - 0.5) * 1.4); d += (fa - 0.5) * 0.008; }
+    if (nm === 'Grassoden') { const fa = fbm(x * 30, y * 30, 1e9, 45, 2); c.lerp(new THREE.Color(0x4a5a26), Math.max(0, fa - 0.55) * 1.6); }
+    if (nm === 'Kompost' || nm === 'Mutterboden') { const kr = fbm(x * 45, y * 45, 1e9, 46, 2); d += Math.max(0, kr - 0.6) * 0.03; c.multiplyScalar(0.9 + kr * 0.25); }
+    const kante = Math.min(1, (top - y) / 0.03, (BX - Math.abs(x)) / 0.06, Math.max(0, y - UNTEN) / 0.02); const z = 0.001 + Math.max(0, kante) * d;
+    const sch = 0.9 + 0.2 * fbm(x * 9, y * 9, 1e9, 47, 2); pos.push(x, y, z); col.push(c.r * sch, c.g * sch, c.b * sch); uv.push(x * 3, y * 3); }
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) { const a = j * (nx + 1) + i, b = a + 1, cc = a + nx + 1, dd = cc + 1; idx.push(a, b, cc, b, dd, cc); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
+  const { erde } = tex(); const sm = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.97, map: erde.map, normalMap: erde.nor, normalScale: new THREE.Vector2(1.2, 1.2) })); sm.receiveShadow = true; boden.add(sm);
+  // Holz: Rinde und Hirnholz, leicht vorstehend
+  const ri = rindeTexturen(); let n = 0;
+  boden.children.forEach(o => { if (!o.isMesh) return; const gp = o.geometry.parameters || {};
+    if (o.geometry.type === 'CylinderGeometry' && gp.radiusTop > 0.05) { o.material = new THREE.MeshStandardMaterial({ color: 0xffffff, map: ri.map, normalMap: ri.nor, normalScale: new THREE.Vector2(1.5, 1.5), roughness: 0.95 }); ri.map.repeat.set(1, 3); ri.nor.repeat.set(1, 3); o.position.z += 0.014; o.castShadow = true; o.receiveShadow = true; }
+    if (o.geometry.type === 'CircleGeometry' && gp.radius < 0.2 && o.position.z > 0) { const h = hirnholz(60 + n++); o.material = new THREE.MeshStandardMaterial({ map: h.map, normalMap: h.nor, roughness: 0.85 }); o.geometry = new THREE.CircleGeometry(gp.radius / 0.92, 48); o.position.z = 0.0145; o.receiveShadow = true; } });
+  // Erdschollen auf der Oberflaeche
+  boden.children.forEach(o => { if (!o.isMesh || !o.material.vertexColors || o.geometry.attributes.position.count < 3000) return; const p = o.geometry.attributes.position;
+    for (let i = 0; i < p.count; i++) { const x = p.getX(i), z = p.getZ(i); if (Math.abs(x) > BX) continue; const k = Math.min(1, (BX - Math.abs(x)) / 0.15, -z / 0.05); const kl = fbm(x * 9 + 3, z * 9, 1e9, 51, 4), gr = fbm(x * 40, z * 40, 1e9, 52, 2);
+      p.setY(i, p.getY(i) + k * ((kl - 0.5) * 0.03 + Math.max(0, gr - 0.62) * 0.025)); } p.needsUpdate = true; o.geometry.computeVertexNormals(); });
+  // Regenwuermer feucht glaenzend
+  boden.traverse(o => { if (o.isMesh && o.geometry.type === 'TubeGeometry') o.material = new THREE.MeshPhysicalMaterial({ color: 0xb46a6a, roughness: 0.35, clearcoat: 0.8, clearcoatRoughness: 0.2, sheen: 0.4 }); });
+}
+/* Blatt-Durchlicht (Gegenlicht laesst Blaetter leuchten) */
+function durchlicht(m, staerke) { m.onBeforeCompile = sh => { sh.fragmentShader = sh.fragmentShader.replace('#include <lights_fragment_end>', `#include <lights_fragment_end>
+  #if NUM_DIR_LIGHTS > 0
+    { vec3 vd = normalize(vViewPosition); float bl = pow(max(dot(vd, directionalLights[0].direction), 0.0), 3.0); reflectedLight.directDiffuse += diffuseColor.rgb * directionalLights[0].color * bl * ${staerke.toFixed(2)}; }
+  #endif`); }; m.customProgramCacheKey = () => 'durchlicht' + staerke; return m; }
+
+window.QW3D_PLUS = ({ scene, renderer, cam, c, pflanze, boden, info }) => {
+  if (boden && info && (!c.szene || c.szene === 'huegel')) veredleHuegel(boden, info);
   renderer.setPixelRatio(Math.min(HOCH ? 1.5 : 1.25, devicePixelRatio));
   cam.far = 800; cam.updateProjectionMatrix(); renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.92; renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.shadowMap.type = THREE.PCFShadowMap;
   const sonne = new THREE.Vector3().setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - 24), THREE.MathUtils.degToRad(-35));
   const sky = new Sky(); sky.scale.setScalar(90); const u = sky.material.uniforms; u.turbidity.value = 4.5; u.rayleigh.value = 1.6; u.mieCoefficient.value = 0.006; u.mieDirectionalG.value = 0.82; u.sunPosition.value.copy(sonne);
   const pm = new THREE.PMREMGenerator(renderer); const hs = new THREE.Scene(); hs.add(sky.clone()); scene.environment = pm.fromScene(hs, 0.02).texture; scene.environmentIntensity = 0.12; scene.add(sky); scene.background = null;
-  scene.fog = new THREE.FogExp2(0xd6e0e8, 0.04);
-  scene.traverse(o => { if (o.isHemisphereLight) o.intensity = 0.15; if (o.isDirectionalLight) { if (o.castShadow) { o.color.set(0xffd09a); o.intensity = 5.5; o.position.copy(sonne).multiplyScalar(8); o.shadow.mapSize.set(HOCH ? 2048 : 1024, HOCH ? 2048 : 1024); o.shadow.normalBias = 0.015; o.shadow.radius = 3; Object.assign(o.shadow.camera, { left: -3.5, right: 3.5, top: 4.5, bottom: -2.5, far: 30 }); o.shadow.camera.updateProjectionMatrix(); if (o.shadow.map) { o.shadow.map.dispose(); o.shadow.map = null; } } else { o.intensity = 0.25; o.color.set(0xbcd2ff); } } });
+  scene.fog = new THREE.FogExp2(0xdde6ee, 0.03);
+  scene.traverse(o => { if (o.isHemisphereLight) o.intensity = 0.15; if (o.isDirectionalLight) { if (o.castShadow) { o.color.set(0xffd09a); o.intensity = 5.5; o.position.copy(sonne).multiplyScalar(8); o.shadow.mapSize.set(HOCH ? 4096 : 1024, HOCH ? 4096 : 1024); o.shadow.normalBias = 0.015; o.shadow.radius = 3; Object.assign(o.shadow.camera, { left: -3.5, right: 3.5, top: 4.5, bottom: -2.5, far: 30 }); o.shadow.camera.updateProjectionMatrix(); if (o.shadow.map) { o.shadow.map.dispose(); o.shadow.map = null; } } else { o.intensity = 0.25; o.color.set(0xbcd2ff); } } });
   // Erde: alle Bodenflaechen (Vertexfarben, Rauheit 1)
   const { erde, mulch } = tex(); const neu = new Map(), pfl = new Set(); if (pflanze) pflanze.traverse(o => pfl.add(o));
   scene.traverse(o => { if (!o.isMesh || pfl.has(o) || !o.material.vertexColors || o.material.roughness !== 1) return; uvsPlanar(o.geometry, 3); const oben = o.geometry.attributes.position.count > 3000; const k = o.material.uuid + oben; let m = neu.get(k);
@@ -128,7 +237,7 @@ window.QW3D_PLUS = ({ scene, renderer, cam, c, pflanze }) => {
   if (!HOCH) return null;
   const w = renderer.domElement.width, h = renderer.domElement.height;
   const rt = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: 4 }); const comp = new EffectComposer(renderer, rt); comp.addPass(new RenderPass(scene, cam));
-  const ao = new GTAOPass(scene, cam, w, h); ao.blendIntensity = 1.0; ao.updateGtaoMaterial({ radius: 0.3, distanceExponent: 1.6, thickness: 1.2, scale: 1.1 }); comp.addPass(ao);
+  const ao = new GTAOPass(scene, cam, w, h); ao.blendIntensity = 0.4; ao.updateGtaoMaterial({ radius: 0.06, distanceExponent: 2, thickness: 0.25, scale: 0.8 }); if (!/noao/.test(location.search)) comp.addPass(ao);
   comp.addPass(new UnrealBloomPass(new THREE.Vector2(w, h), 0.1, 0.4, 2.2)); comp.addPass(new OutputPass()); comp.addPass(new ShaderPass(Farbe));
   const gr = () => { comp.setPixelRatio(renderer.getPixelRatio()); comp.setSize(renderer.domElement.clientWidth, renderer.domElement.clientHeight); }; addEventListener('resize', gr); gr();
   return { render: () => comp.render(), ende: () => { removeEventListener('resize', gr); comp.dispose(); } };
