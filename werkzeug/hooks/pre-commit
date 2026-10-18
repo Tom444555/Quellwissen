@@ -1,0 +1,6 @@
+#!/bin/bash
+# Verhindert Commits mit kaputten Links, fehlenden Zeichnungen oder JS-Fehlern.
+cd "$(git rev-parse --show-toplevel)"
+if git diff --cached --name-only | grep -qE '^(quelle/|werkzeug/qw3d-plus.js)'; then
+  python3 werkzeug/pruefen.py | tail -3; python3 werkzeug/pruefen.py | grep -q '^OK$' || { echo "pre-commit: Prüfung fehlgeschlagen"; exit 1; }
+fi
