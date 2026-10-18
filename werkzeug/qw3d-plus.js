@@ -101,9 +101,13 @@ const KERNE = navigator.hardwareConcurrency || 4, RAM = navigator.deviceMemory |
 const HOCH = /[?&]hoch/.test(location.search) || !(KERNE <= 4 || RAM <= 3);
 let TX = null; const tex = () => TX || (TX = { erde: erdTexturen(512, 'erde'), mulch: erdTexturen(512, 'mulch'), blatt: blattTexturen(), stengel: stengelTexturen() });
 
+let FL = null; function flecken() { if (FL) return FL; FL = canvasTex(256, 256, (x, N) => { x.fillStyle = '#d8dcd6'; x.fillRect(0, 0, N, N); let sd = 77; const r = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+  for (let i = 0; i < 26; i++) { x.fillStyle = `rgba(250,252,246,${0.5 + r() * 0.4})`; x.beginPath(); x.ellipse(r() * N, r() * N, 3 + r() * 6, 1.5 + r() * 2, 0, 0, Math.PI * 2); x.fill(); }
+  const im = x.getImageData(0, 0, N, N); for (let k = 0; k < N * N; k++) { const n = 0.94 + 0.06 * fbm((k % N) / 20, Math.floor(k / N) / 20, 1e9, 88, 2); for (let c = 0; c < 3; c++) im.data[k * 4 + c] *= n; } x.putImageData(im, 0, 0); }); FL.colorSpace = THREE.SRGBColorSpace; FL.repeat.set(3, 1); return FL; }
 /* Pflanze veredeln (auch nach Umschalten ♀/♂) */
 window.QW3D_PLUS_P = (pflanze) => { const { blatt: bt, stengel: st } = tex(); const haare = [];
   pflanze.traverse(o => { if (!o.isMesh) return; o.castShadow = true; o.receiveShadow = true; const m = o.material;
+    if (m.userData && m.userData.dick) { o.material = durchlicht(new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: 0.42, clearcoat: 0.55, clearcoatRoughness: 0.35, sheen: 0.25, sheenColor: new THREE.Color(0xc8e0d0), map: flecken(), normalMap: tex().erde.nor, normalScale: new THREE.Vector2(0.12, 0.12) }), 0.3); return; }
     if (m.vertexColors && m.side === THREE.DoubleSide) o.material = durchlicht(new THREE.MeshPhysicalMaterial({ vertexColors: true, side: THREE.DoubleSide, map: bt.map, normalMap: bt.nor, normalScale: new THREE.Vector2(0.9, 0.9), roughness: 0.5, sheen: 0.6, sheenRoughness: 0.45, sheenColor: new THREE.Color(0x9fdc70), specularIntensity: 0.45, clearcoat: 0.15, clearcoatRoughness: 0.4, emissive: new THREE.Color(0x0e1c06) }), 0.55);
     else if (m.vertexColors && !o.isInstancedMesh) { st.map.repeat.set(1, 3); st.nor.repeat.set(1, 3); o.material = new THREE.MeshPhysicalMaterial({ vertexColors: true, map: st.map, normalMap: st.nor, normalScale: new THREE.Vector2(1.2, 1.2), roughness: 0.55, sheen: 0.4, sheenColor: new THREE.Color(0xc8e0a0), specularIntensity: 0.5 }); haare.push(o); }
     else if (m.isMeshStandardMaterial && !o.isInstancedMesh && m.color && m.color.g > m.color.r) { o.material = m.clone(); o.material.map = st.map; o.material.normalMap = st.nor; o.material.roughness = 0.55; } });
