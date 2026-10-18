@@ -2508,7 +2508,7 @@ function pflanzenSeite(p, rid, eid, pre, teil){
     }));
   });
   main.querySelectorAll('.karte>button').forEach(b=>b.addEventListener('click',()=>{ const c=b.parentElement; oeffne(c, c.querySelector('.koerper').hidden); }));
-  main.querySelectorAll('[data-karten]').forEach(g=>{ const k=g.querySelectorAll('.karte'); if(k.length===1) oeffne(k[0],true); });
+  main.querySelectorAll('[data-karten]').forEach(g=>{ const k=g.querySelectorAll('.karte'); if(k.length===1){ k[0].style.gridColumn='1/-1'; k[0].style.maxWidth='760px'; oeffne(k[0],true); } });
   if(eid){
     const c = document.getElementById(pre+'-'+r.id+'-'+eid);
     if(c){ oeffne(c,true); c.classList.add('ziel'); requestAnimationFrame(()=>{ const y=c.getBoundingClientRect().top+scrollY-140; scrollTo({top:y,behavior:'smooth'}); }); return; }
