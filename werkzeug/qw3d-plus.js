@@ -44,12 +44,15 @@ function uvsPlanar(g, s) { const p = g.attributes.position; g.computeVertexNorma
     if (ay >= ax && ay >= az) { u = p.getX(i); v = p.getZ(i); } else if (az >= ax) { u = p.getX(i); v = p.getY(i); } else { u = p.getZ(i); v = p.getY(i); }
     uv[i * 2] = u * s; uv[i * 2 + 1] = v * s; } g.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); }
 
-function grasWiese(scene, frei, anzahl, rmax) {
+function halmGeo() {
   const g = new THREE.BufferGeometry(); const pos = [], col = [], idx = []; const S = 5;
   for (let i = 0; i <= S; i++) { const t = i / S, w = 0.006 * (1 - t * 0.9); pos.push(-w, t, 0, w, t, 0); const c = new THREE.Color(0x142408).lerp(new THREE.Color(0x5f8a30), Math.pow(t, 0.9)); col.push(c.r, c.g, c.b, c.r, c.g, c.b); if (i < S) { const a = i * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); } }
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setIndex(idx);
   const p = g.attributes.position; for (let i = 0; i < p.count; i++) { const t = p.getY(i); p.setZ(i, 0.25 * t * t); } g.computeVertexNormals();
-  const m = durchlicht(new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.75 }), 0.8);
+  return g; }
+let HALM = null, HALM_M = null;
+function grasWiese(scene, frei, anzahl, rmax) { const g = HALM || (HALM = halmGeo());
+  const m = HALM_M || (HALM_M = durchlicht(new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.75 }), 0.8));
   const im = new THREE.InstancedMesh(g, m, anzahl), o = new THREE.Object3D(), c = new THREE.Color(); let sd = 5; const r = () => (sd = sd * 16807 % 2147483647) / 2147483647; let k = 0;
   while (k < anzahl) { const a = r() * Math.PI * 2, d = Math.pow(r(), 0.75) * rmax, x = Math.cos(a) * d, z = Math.sin(a) * d - 0.7; if (frei(x, z)) continue;
     o.position.set(x, -0.03, z); o.rotation.set(0, r() * Math.PI * 2, (r() - 0.5) * 0.3); const h = 0.025 + r() * 0.06 * (0.6 + 0.9 * fbm(x * 0.7 + 3, z * 0.7 + 3, 64, 4, 2)); o.scale.set(1 + r(), h, h); o.updateMatrix(); im.setMatrixAt(k, o.matrix);
@@ -214,8 +217,53 @@ function durchlicht(m, staerke) { m.onBeforeCompile = sh => { sh.fragmentShader 
     { vec3 vd = normalize(vViewPosition); float bl = pow(max(dot(vd, directionalLights[0].direction), 0.0), 3.0); reflectedLight.directDiffuse += diffuseColor.rgb * directionalLights[0].color * bl * ${staerke.toFixed(2)}; }
   #endif`); }; m.customProgramCacheKey = () => 'durchlicht' + staerke; return m; }
 
+
+/* ================= Bodenprofil & Kompost: plastische Schnittflaechen ================= */
+function holzTex() { return canvasTex(128, 512, (x, N, M) => { const im = x.createImageData(N, M); for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) { const k = (j * N + i) * 4, u = i / N, v = j / M;
+  const g = fbm(u * 3, v * 40, 3, 61, 3), r = Math.pow(Math.abs(Math.sin((u * 9 + g * 3) * Math.PI)), 6); const l = 0.55 + 0.25 * g - 0.18 * r + 0.08 * fbm(u * 20, v * 4, 20, 62, 2);
+  im.data[k] = l * 175; im.data[k + 1] = l * 132; im.data[k + 2] = l * 88; im.data[k + 3] = 255; } x.putImageData(im, 0, 0); }); }
+function schnittRelief(scene, sn) {
+  const { lagen, x0, x1, d, art } = sn; const L = lagen.map(([o, u, c0, c1, t]) => ({ o, u, a: new THREE.Color(c0), b: new THREE.Color(c1), t }));
+  const yTop = L[0].o + (art === 'boden' ? 0.02 : 0.02), yBot = L[L.length - 1].u;
+  // alte flache Baender ausblenden
+  scene.children.forEach(o => { if (o.isMesh && o.material.vertexColors && o.material.side === THREE.DoubleSide && o.geometry.attributes.position.count < 500) o.visible = false; });
+  const flaechen = [ { pt: (u, y) => new THREE.Vector3(x0 + (x1 - x0) * u, y, 0), n: new THREE.Vector3(0, 0, 1), len: x1 - x0 },
+    { pt: (u, y) => new THREE.Vector3(x0, y, -d * u), n: new THREE.Vector3(-1, 0, 0), len: d }, { pt: (u, y) => new THREE.Vector3(x1, y, -d * u), n: new THREE.Vector3(1, 0, 0), len: d } ];
+  const { erde } = tex(); const mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.96, map: erde.map, normalMap: erde.nor, normalScale: new THREE.Vector2(1.1, 1.1) });
+  const c = new THREE.Color(), weiss = new THREE.Color(0xf0eadc), gelb = new THREE.Color(0xd2b058), gruen = new THREE.Color(0x5a7a2a), rost = new THREE.Color(0xa8582a), grau = new THREE.Color(0x8a8478), dunkel = new THREE.Color(0x1a120a), orange = new THREE.Color(0xc87a2a);
+  flaechen.forEach((F, fi) => { const nu = Math.round(F.len * 140), nv = Math.round((yTop - yBot) * 140); const pos = [], col = [], uv = [], idx = [];
+    for (let j = 0; j <= nv; j++) for (let i = 0; i <= nu; i++) { const u = i / nu, y = yBot + (yTop - yBot) * j / nv; const P = F.pt(u, y); const s = fi * 100 + u * F.len;
+      const st = (fbm(s * 4, y * 4, 1e9, 71, 3) - 0.5) * 0.06; const yy = y + st; let k = L.length - 1; for (let q = 0; q < L.length; q++) if (yy > L[q].u) { k = q; break; } const Lk = L[k];
+      const tl = Math.min(1, Math.max(0, (yy - Lk.u) / Math.max(1e-3, Lk.o - Lk.u))); c.copy(Lk.b).lerp(Lk.a, 1 - tl); let dd = (fbm(s * 16, y * 16, 1e9, 72, 4) - 0.5) * 0.012; const t = Lk.t;
+      const n1 = fbm(s * 40, y * 40, 1e9, 73, 2), n2 = fbm(s * 9, y * 9, 1e9, 74, 3), str = fbm(s * 2, y * 60, 1e9, 75, 3);
+      if (art === 'boden') {
+        if (t.startsWith('O')) { c.lerp(n1 > 0.55 ? orange : dunkel, Math.abs(n1 - 0.5) * 1.2); dd += (n1 - 0.5) * 0.012; }
+        else if (t.startsWith('A')) { c.multiplyScalar(0.85 + n1 * 0.35); dd += Math.max(0, n1 - 0.62) * 0.03; if (str > 0.68) c.lerp(new THREE.Color(0xd8c8a8), (str - 0.68) * 2); }
+        else if (t.startsWith('B')) { c.lerp(rost, Math.max(0, n2 - 0.5) * 1.2); c.lerp(grau, Math.max(0, 0.42 - n2) * 1.5); }
+        else { const stein = fbm(s * 7 + 3, y * 7, 1e9, 76, 2); if (stein > 0.56) { c.copy(grau).multiplyScalar(0.75 + n1 * 0.5); dd += (stein - 0.56) * 0.12; } } }
+      else {
+        if (t.startsWith('Abdeckung')) { c.lerp(gelb, Math.max(0, str - 0.45) * 1.5); dd += (str - 0.5) * 0.02; }
+        else if (t.startsWith('Frisch')) { c.lerp(n2 > 0.55 ? gruen : orange, Math.abs(n2 - 0.5) * 1.3); if (n1 > 0.78) c.lerp(weiss, 0.7); dd += (n2 - 0.5) * 0.02; }
+        else if (t.startsWith('Rotte')) { if (n1 > 0.72) c.lerp(weiss, (n1 - 0.72) * 2.5); dd += (n2 - 0.5) * 0.014; }
+        else if (t.startsWith('Reifer')) { c.multiplyScalar(0.8 + n1 * 0.4); dd += Math.max(0, n1 - 0.6) * 0.025; }
+        else { if (str > 0.55) c.lerp(new THREE.Color(0x7a5a38), (str - 0.55) * 2); dd += (str - 0.5) * 0.02; } }
+      const kante = Math.min(1, u / 0.03, (1 - u) / 0.03, (yTop - y) / 0.02, (y - yBot) / 0.02); const Q = P.clone().addScaledVector(F.n, Math.max(0, kante) * dd + 0.002);
+      pos.push(Q.x, Q.y, Q.z); col.push(c.r, c.g, c.b); uv.push(s * 3, y * 3); }
+    for (let j = 0; j < nv; j++) for (let i = 0; i < nu; i++) { const a = j * (nu + 1) + i, b = a + 1, cc = a + nu + 1, e = cc + 1; if (fi === 1) idx.push(a, cc, b, b, cc, e); else idx.push(a, b, cc, b, e, cc); }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
+    const m = new THREE.Mesh(g, mat); m.receiveShadow = true; m.castShadow = true; scene.add(m); });
+  if (art === 'kompost') { const ht = holzTex(); ht.colorSpace = THREE.SRGBColorSpace; const hm = new THREE.MeshStandardMaterial({ map: ht, roughness: 0.9 });
+    scene.traverse(o => { if (o.isMesh && o.geometry.type === 'BoxGeometry') { o.material = hm; o.castShadow = true; o.receiveShadow = true; } }); }
+  scene.traverse(o => { if (o.isMesh && o.geometry.type === 'DodecahedronGeometry') { o.material = o.material.clone(); o.material.color.multiplyScalar(0.42); o.material.color.offsetHSL(0.02, 0.03, 0); o.material.roughness = 0.85; o.material.normalMap = tex().erde.nor; o.castShadow = true; } });
+  // Grasbueschel auf dem Bodenblock als echte Halme
+  scene.traverse(o => { if (o.isInstancedMesh && o.geometry.type === 'ConeGeometry') { o.geometry = HALM || (HALM = halmGeo()); o.material = HALM_M || (HALM_M = durchlicht(new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.75 }), 0.8));
+    const M4 = new THREE.Matrix4(), p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3(); for (let i = 0; i < o.count; i++) { o.getMatrixAt(i, M4); M4.decompose(p, q, sc); p.y -= sc.y / 2; sc.set(1.4, sc.y * 1.3, sc.y * 1.3); M4.compose(p, q, sc); o.setMatrixAt(i, M4); } o.instanceMatrix.needsUpdate = true; o.castShadow = true; } }); }
+
 window.QW3D_PLUS = ({ scene, renderer, cam, c, pflanze, boden, info }) => {
   if (boden && info && (!c.szene || c.szene === 'huegel')) veredleHuegel(boden, info);
+  if (info && info.schnitt) schnittRelief(scene, info.schnitt);
+  // kleine Pflanzen der Szene (Salat, Kohl, Löwenzahn) mit neuen Materialien
+  scene.children.forEach(o => { if (o.isGroup && o !== pflanze && o !== boden && !o.userData.qwP) { let hatBlatt = false; o.traverse(m => { if (m.isMesh && m.material.vertexColors && m.material.side === THREE.DoubleSide) hatBlatt = true; }); if (hatBlatt) { o.userData.qwP = true; window.QW3D_PLUS_P(o); } } });
   renderer.setPixelRatio(Math.min(HOCH ? 1.5 : 1.25, devicePixelRatio));
   cam.far = 800; cam.updateProjectionMatrix(); renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.92; renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.shadowMap.type = THREE.PCFShadowMap;
   const sonne = new THREE.Vector3().setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - 24), THREE.MathUtils.degToRad(-35));
