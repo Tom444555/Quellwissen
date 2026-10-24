@@ -20,10 +20,9 @@ if 'class="welt-teaser"' not in s:
     s=s.replace("  ${uebersicht()}\n  ${legende()}`;","""  <a class="welt-teaser" href="#welt"><span class="wt-globus"></span><span class="wt-text"><b>🌍 Weltkarte</b><small>Bevölkerung, Wachstum, Getreide, Rohstoffe, Klima, Böden und alle Pflanzen des Kompendiums – interaktiv auf dem Globus</small></span><span class="wt-pfeil">→</span></a>
   ${uebersicht()}
   ${legende()}`;""",1)
-    css=""".welt-teaser{display:flex;align-items:center;gap:16px;margin:18px 0 22px;padding:16px 18px;border-radius:18px;background:radial-gradient(circle at 12% 50%,#16335a,#070c18 70%);color:#eaf2ff;text-decoration:none;box-shadow:0 10px 30px rgba(5,10,25,.35);border:1px solid #1f2b44}
+    css=""".welt-teaser{box-sizing:border-box;width:100%;max-width:100%;display:flex;align-items:center;gap:16px;margin:18px 0 22px;padding:16px 18px;border-radius:18px;background:radial-gradient(circle at 12% 50%,#16335a,#070c18 70%);color:#eaf2ff;text-decoration:none;box-shadow:0 10px 30px rgba(5,10,25,.35);border:1px solid #1f2b44}
 .welt-teaser b{font:700 19px Georgia,serif;display:block}.welt-teaser small{color:#9fb0d0;font-size:13px;line-height:1.4}
-.wt-globus{flex:none;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8ad8ff,#2a6fb0 45%,#0b2a50 75%);box-shadow:0 0 0 3px rgba(80,170,255,.15),0 0 26px rgba(80,170,255,.55);animation:wtdreh 8s linear infinite;background-size:200% 100%}
-@keyframes wtdreh{to{background-position:200% 0}}
+.wt-globus{flex:none;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8ad8ff,#2a6fb0 45%,#0b2a50 75%);box-shadow:0 0 0 3px rgba(80,170,255,.15),0 0 26px rgba(80,170,255,.55)}
 .wt-pfeil{margin-left:auto;font-size:24px;color:#4ad0a0}
 .teile .welt-knopf{background:#0d1a30;color:#cfe3ff;border-color:#1f3a60}
 </style>"""
