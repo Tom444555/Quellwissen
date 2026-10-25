@@ -13,6 +13,9 @@ s=re.sub(r'<script type="application/json" id="weltdaten">.*?</script>\n(<script
 i=s.index('<script type="application/json" id="daten">'); s=s[:i]+blk+s[i:]
 if 'window.QW_DATEN=D;' not in s: s=s.replace("const D = JSON.parse(document.getElementById('daten').textContent);","const D = JSON.parse(document.getElementById('daten').textContent); window.QW_DATEN=D;",1)
 if 'data-ziel="welt"' not in s: s=s.replace('<button data-ziel="teil-A">A · Autoren</button>','<button data-ziel="teil-A">A · Autoren</button>\n      <button data-ziel="welt" class="welt-knopf">🌍 Weltkarte</button>',1)
+s=s.replace("else if(h==='welt'){ teil='W'; weltSeite(); }","else if(h==='welt'||h.startsWith('welt-')){ teil='WK'; weltSeite(h.slice(5)); }")
+s=s.replace("function weltSeite(){ main.innerHTML='<div id=\"welt-wurzel\"></div>'; if(window.QWWELT) QWWELT.oeffne(document.getElementById('welt-wurzel'));","function weltSeite(eb){ main.innerHTML='<div id=\"welt-wurzel\"></div>'; if(window.QWWELT) QWWELT.oeffne(document.getElementById('welt-wurzel'),eb);")
+s=s.replace("(teil==='W'&&b.dataset.ziel==='welt')","(teil==='WK'&&b.dataset.ziel==='welt')")
 if 'function weltSeite' not in s:
     s=s.replace('function route(){',"""function weltSeite(){ main.innerHTML='<div id="welt-wurzel"></div>'; if(window.QWWELT) QWWELT.oeffne(document.getElementById('welt-wurzel')); scrollTo(0,0); }
 function route(){""",1)

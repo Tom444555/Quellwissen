@@ -2,7 +2,7 @@
 import json,re,os,subprocess,tempfile
 Q=os.path.join(os.path.dirname(__file__),'..','quelle','gruenwissen.html')
 h=open(Q).read(); d=json.loads(re.search(r'id="daten">(.*?)</script>',h,re.S).group(1))
-B={'p':'pflanzen','s':'selbstversorgung','g':'getreide','b':'biochemie','a':'autoren'}
+B={'p':'pflanzen','s':'selbstversorgung','g':'getreide','b':'biochemie','a':'autoren','w':'welt'}
 ids={k:{e['id'] for e in d[v]} for k,v in B.items()}
 fehler=0
 for t,ref in re.findall(r'\{\{(\w):([^|}]+)',json.dumps(d,ensure_ascii=False)):
