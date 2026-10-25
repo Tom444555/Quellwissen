@@ -133,6 +133,18 @@ const DEX={"BW":[79.64,83.93,44.0,31966,59335,14.0],"BY":[78.94,83.51,44.3,33204
 const DEBUND={de_su:12.4,de_dem:null,de_hz:6894,de_aq:58.0,de_le:80.58,de_alt:44.8,de_ek:30069,de_bip:53516,de_oeko:11.1};
 function deWert(c,k){ const d=DE[c]; if(!d) return null; if(k==='de_su') return d[0]; if(k==='de_hz') return d[5]; if(k==='de_aq') return d[6]; if(k==='de_dem') return d[4]*1000/(d[3]/d[0]*1e5)*100; const x=DEX[c]; if(k==='de_le') return (x[0]+x[1])/2; if(k==='de_alt') return x[2]; if(k==='de_ek') return x[3]; if(k==='de_bip') return x[4]; if(k==='de_oeko') return x[5]; return null; }
 const TIEFEN=[['Marianengraben',142.2,11.35,10935],['Tongagraben',-174.7,-23.25,10800],['Philippinengraben',126.6,10.4,10540],['Kermadecgraben',-177.4,-31.9,10047],['Kurilengraben',152.5,44.2,9600],['Puerto-Rico-Graben',-66.5,19.8,8400],['Südsandwichgraben',-25.0,-56.2,8265],['Atacamagraben',-71.5,-23.4,8065],['Sundagraben',110.0,-10.6,7290],['Molloytief (Arktis)',2.8,79.1,5550],['Calypsotief (Mittelmeer)',21.1,36.6,5267],['Landsorttief (Ostsee)',18.3,58.6,459]];
+/* Staats- und Regierungsform (vereinfacht, Stand 2026); nicht gelistete Staaten = Präsidial-/semipräsidentielle Republik */
+const STAAT={
+ pr:['Parlamentarische Republik','#4a9ad8','DEU AUT ITA IRL ISL MLT GRC ALB MKD MNE SRB BIH HRV SVN HUN CZE SVK POL EST LVA FIN CHE ISR IND PAK BGD NPL IRQ LBN ARM GEO MDA BGR SGP TTO DMA BRB MUS ETH SOM VUT SMR FJI WSM NRU MHL BWA ZAF XKX MNG'],
+ pm:['Parlamentarische Monarchie','#9a7ad8','GBR CAN AUS NZL JAM BHS BLZ ATG KNA LCA VCT GRD PNG SLB TUV NOR SWE DNK NLD BEL LUX ESP AND MCO LIE JPN THA KHM MYS BTN LSO TON'],
+ pp:['Präsidial- / semipräsidentielle Republik','#e8a050',''],
+ am:['Monarchie mit starker Herrschermacht','#d8607a','SAU OMN QAT ARE BRN SWZ MAR JOR KWT BHR'],
+ ep:['Einparteienstaat','#c03030','CHN VNM LAO CUB PRK ERI'],
+ th:['Theokratie / geistliche Führung','#2a8a6a','IRN AFG VAT'],
+ mi:['Militär-, Übergangs- oder Bürgerkriegsregierung','#8a8a8a','MMR MLI BFA NER SDN GIN SYR LBY HTI YEM'],
+ na:['abhängiges oder umstrittenes Gebiet','#3a4458','GRL PRI NCL PYF FLK ESH ATF ATA HKG MAC ABW CUW BMU CYM TCA VGB VIR GUM MNP ASM FRO IMN JEY GGY ALA SPM WLF NIU COK PCN SHN SGS HMD IOT AIA MSR BLM MAF SXM NFK PSE SML NCY']};
+const STAATI={}; Object.entries(STAAT).forEach(([k,v])=>v[2].split(' ').forEach(i=>i&&(STAATI[i]=k)));
+function staatVon(i){ return STAATI[i]||'pp'; }
 /* Grundkarten: n Name, u Einheit, k Datenschlüssel, s Skala(v)->0..1, p Palette, lg Legende [links, mitte, rechts] */
 const GRUND={
  relief:{n:'Relief (Topografie)',g:'Natur',e:'⛰️'},
@@ -148,6 +160,7 @@ const GRUND={
  energie:{n:'Energie pro Kopf',g:'Wirtschaft',e:'⚡',u:'kWh pro Kopf',k:'epc',p:TEAL,s:v=>Math.log10(Math.max(v,300))/5.2-0.45,lg:['wenig','','viel']},
  erneuerbar:{n:'Erneuerbarer Strom',g:'Wirtschaft',e:'🌱',u:'% des Stroms',k:'ren',p:GRN,s:v=>v/100,lg:['0 %','50 %','100 %']},
  keine:{n:'Nur Länder',g:'Natur',e:'🗺️'},
+ staat:{n:'Staatsform',g:'Politik',e:'🏛️',kat:1,l:'#w-politik'},
  de_su:{n:'Suizidrate',g:'Deutschland',de:1,e:'🕯️',u:'je 100.000 Ew. · 2024',p:ROT,s:v=>(v-8)/9,lg:['8','12,5','17'],q:'Destatis, Todesursachenstatistik 2024 (Darstellung NaSPro)',l:'#w-suizid'},
  de_dem:{n:'Demenz (65+)',g:'Deutschland',de:1,e:'🧠',u:'Betroffene je 100 Ew. · berechnet',p:MAGMA,s:v=>(v-1.5)/1.2,lg:['1,5','2,1','2,7'],q:'Deutsche Alzheimer Gesellschaft, Infoblatt 1 (Stand 2025); Einwohner aus Destatis',l:'#w-demenz'},
  de_hz:{n:'Straftaten',g:'Deutschland',de:1,e:'🚔',u:'Fälle je 100.000 Ew. · PKS 2024',p:ROT,s:v=>(v-4500)/11000,lg:['4.500','10.000','15.200'],q:'BKA, Polizeiliche Kriminalstatistik 2024',l:'#w-kriminalitaet'},
@@ -199,7 +212,7 @@ function wert(i,art,jahr){ const c=DAT.idx[i];
   if(art==='su'){ const m=ser(i,'sm',jahr), f=ser(i,'sf',jahr); return m&&f?(m.v+f.v)/2:null; }
   const g=GRUND[art]; if(g&&g.k){ const r=ser(i,g.k,jahr); return r&&r.v; } return null; }
 function stand(i,art,jahr){ const k=art==='su'?'sm':(GRUND[art]&&GRUND[art].k); if(!k) return null; const r=ser(i,k,jahr); return r&&r.j; }
-function farbe(i){ const g=GRUND[S.grund]; if(!g.p) return null; const v=wert(i,S.grund,S.jahr); return v==null?null:ramp(g.p,g.s(v)); }
+function farbe(i){ const g=GRUND[S.grund]; if(g.kat) return STAAT[staatVon(i)][1]; if(!g.p) return null; const v=wert(i,S.grund,S.jahr); return v==null?null:ramp(g.p,g.s(v)); }
 function fmt(v,d=0){ return v==null?'–':v.toLocaleString('de-DE',{maximumFractionDigits:d,minimumFractionDigits:d}); }
 function zstufe(){ return 2.2+2.4*Math.log2(Math.max(S.zoom,.5)); }
 
@@ -348,6 +361,7 @@ function info(){
   <div class="qwk-kpi"><div><small>Einwohner</small><b>${pop?pop>=1e6?fmt(pop/1e6,2)+' Mrd.':pop>=1000?fmt(pop/1000,1)+' Mio.':fmt(pop)+' Tsd.':'–'}</b></div><div><small>Dichte</small><b>${fmt(di)} <i>/km²</i></b></div><div><small>Wachstum</small><b class="${wa>0?'plus':'minus'}">${wa==null?'–':(wa>0?'+':'')+fmt(wa,1)+' %'}</b></div><div><small>Fläche (ca.)</small><b>${fmt(c.a/1000)} <i>Tsd. km²</i></b></div></div>
   <div class="qwk-box"><small>Bevölkerung 1960–2023</small>${spark(i)}</div>`;
   const ges=[['le','❤️ Lebenserwartung',v=>fmt(v,1)+' Jahre'],['fr','👶 Geburtenrate',v=>fmt(v,2)+' Kinder je Frau'],['km','🍼 Kindersterblichkeit',v=>fmt(v)+' je 1.000'],['su','🕯️ Suizidrate',v=>fmt(v,1)+' je 100.000'],['gl','😊 Lebenszufriedenheit',v=>fmt(v,1)+' von 10'],['un','🥣 Unterernährung',v=>fmt(v,1)+' %']].map(([k,n,f])=>{ const v=wert(i,k,j), st=stand(i,k,j); return v==null?'':chip(`${n}: ${f(v)}${st&&st!==j?` (${st})`:''}`); }).join('');
+  h+=`<h4>Politik</h4><div>${chip('🏛️ '+STAAT[staatVon(i)][0],'#w-politik-systeme','k')}${i==='DEU'?chip('📜 Deutsche Geschichte','#w-dgeschichte','k'):''}</div>`;
   if(ges) h+=`<h4>Gesellschaft</h4><div>${ges}</div>`;
   const gt=Object.entries(GETREIDE).filter(([k,G2])=>G2.d[i]).map(([k,G2])=>chip(`${G2.e} ${G2.n} ${fmt(G2.d[i],1)} ${k==='hopfen'?'Tsd. t':'Mio. t'}`,G2.l));
   if(gt.length) h+=`<h4>Getreide (2022)</h4><div>${gt.join('')}</div>`;
@@ -372,6 +386,7 @@ function legende(){
   else if(g.r){ const t=g.r===2?KLIMA:g.r===3?BODEN:VEGN; h+=`<div class="qwk-kl">${Object.values(t).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div><div class="qwk-hin">Vereinfachtes Schema (2°-Raster), keine Messkarte</div>`; }
   else if(S.grund==='relief') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#4e7842,#b0aa70,#aa8a60,#8c6c56,#f6f4f0)"></div><div class="qwk-rl"><span>Tiefland</span><span>Hochland</span><span>Hochgebirge, Eis</span></div>`;
   if(g.de) h+=`<div class="qwk-hin">Quelle: ${g.q}</div>`;
+  if(g.kat) h+=`<div class="qwk-kl">${Object.values(STAAT).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div><div class="qwk-hin">Vereinfachte Einordnung, Stand 2026. Mehr im Kapitel W-08 Politik.</div>`;
   if(S.grund==='relief') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#468cb9,#1e508a,#133768,#081a40,#05112e)"></div><div class="qwk-rl"><span>Schelf 0–200 m</span><span>4.000 m</span><span>über 8.000 m</span></div>`;
   if(S.grund==='su') h+=`<div class="qwk-hin">Mittel aus Männer- und Frauenrate (IHME). Hilfe in Deutschland: Telefonseelsorge 0800 111 0 111</div>`;
   const ov=[]; Object.entries(GETREIDE).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="r" style="background:${G2.c}"></i>${G2.n}</span>`)); Object.entries(ROH).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="d" style="background:${G2.c}"></i>${G2.n}</span>`));
@@ -437,6 +452,7 @@ function ui(root){
    <h3>Grundkarte · Natur</h3><div class="qwk-grund">${gruppe('Natur')}</div>
    <h3>Grundkarte · Menschen</h3><div class="qwk-grund">${gruppe('Menschen')}</div>
    <h3>Grundkarte · Wirtschaft</h3><div class="qwk-grund">${gruppe('Wirtschaft')}</div>
+   <h3>Grundkarte · Politik</h3><div class="qwk-grund">${gruppe('Politik')}</div>
    <h3>Deutschland · Bundesländer</h3><div class="qwk-grund">${gruppe('Deutschland')}</div>
    <label class="qwk-sw" style="margin-top:6px"><input type="checkbox" data-unterlage ${S.unterlage?'checked':''}><span class="k"></span>Relief unter Statistik legen</label>
    <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('staedte','Städte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
