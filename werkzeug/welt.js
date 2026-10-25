@@ -6,6 +6,7 @@ let DAT=null;
 function daten(){ if(DAT) return DAT;
   DAT=JSON.parse(document.getElementById('weltdaten').textContent); DAT.idx={};
   DAT.laender.forEach(c=>{ DAT.idx[c.i]=c; let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9; c.p.forEach(r=>r.forEach(([x,y])=>{x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);})); c.bb=[x0,x1,y0,y1]; c.mitte=c.lp; });
+  (DAT.bl||[]).forEach(b=>{ let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9; b.p.forEach(r=>r.forEach(([x,y])=>{x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);})); b.bb=[x0,x1,y0,y1]; });
   DAT.rmap={}; DAT.raster.forEach(g=>{ if(!g[5]) DAT.rmap[g[0]+','+g[1]]=g; });
   return DAT; }
 
@@ -125,6 +126,11 @@ const TEAL=['#0e2a3a','#145a6a','#1a8a8a','#4ac0a0','#b8f0b0'];
 const GRN=['#2a2420','#3a4a2a','#4a7a3a','#6ab04a','#c8f07a'];
 const ROT=['#2a1a2a','#5a2048','#9a2a4a','#d8503a','#ffb05a'];
 const BLAU=['#3a1a1a','#7a3a2a','#c08040','#80c0a0','#5ad0ff'];
+/* Deutschland nach Bundesländern (amtliche Zahlen): [Suizidrate 2024, Männer, Frauen, Suizide 2024, Demenz 65+ in Tsd., Straftaten je 100.000 (PKS 2024), Aufklärungsquote %] */
+const DE={MV:[16.6,27.2,6.3,261,38,6661,64.4],SN:[15.9,24.1,8.0,645,104,7287,60.5],ST:[15.7,23.9,7.7,335,55,8447,55.3],HB:[15.3,20.4,10.4,108,14,15235,45.5],SH:[14.6,19.8,9.6,431,64,7196,60.6],BY:[14.0,20.0,8.2,1854,253,4635,67.9],BE:[13.7,16.5,11.1,505,67,14252,45.5],HE:[12.9,18.9,7.1,811,120,6046,61.9],TH:[12.8,20.8,4.9,269,52,7355,60.9],BB:[12.2,18.7,5.9,312,61,6842,58.4],RP:[12.0,18.1,6.1,496,83,5735,64.3],BW:[11.9,16.7,7.2,1336,219,5180,62.6],NI:[11.1,16.3,6.0,888,165,6485,62.8],HH:[10.9,13.1,8.8,202,32,11775,47.9],NW:[10.2,15.1,5.4,1835,353,7689,53.5],SL:[8.3,14.0,2.7,84,22,6597,61.2]};
+const DEBUND={de_su:12.4,de_dem:null,de_hz:6894,de_aq:58.0};
+function deWert(c,k){ const d=DE[c]; if(!d) return null; if(k==='de_su') return d[0]; if(k==='de_hz') return d[5]; if(k==='de_aq') return d[6]; if(k==='de_dem') return d[4]*1000/(d[3]/d[0]*1e5)*100; return null; }
+const TIEFEN=[['Marianengraben',142.2,11.35,10935],['Tongagraben',-174.7,-23.25,10800],['Philippinengraben',126.6,10.4,10540],['Kermadecgraben',-177.4,-31.9,10047],['Kurilengraben',152.5,44.2,9600],['Puerto-Rico-Graben',-66.5,19.8,8400],['Südsandwichgraben',-25.0,-56.2,8265],['Atacamagraben',-71.5,-23.4,8065],['Sundagraben',110.0,-10.6,7290],['Molloytief (Arktis)',2.8,79.1,5550],['Calypsotief (Mittelmeer)',21.1,36.6,5267],['Landsorttief (Ostsee)',18.3,58.6,459]];
 /* Grundkarten: n Name, u Einheit, k Datenschlüssel, s Skala(v)->0..1, p Palette, lg Legende [links, mitte, rechts] */
 const GRUND={
  relief:{n:'Relief (Topografie)',g:'Natur',e:'⛰️'},
@@ -139,12 +145,17 @@ const GRUND={
  un:{n:'Unter\u00adernährung',g:'Menschen',e:'🥣',u:'% der Bevölkerung',k:'un',p:ROT,s:v=>v/50,lg:['0 %','25 %','50 %']},
  energie:{n:'Energie pro Kopf',g:'Wirtschaft',e:'⚡',u:'kWh pro Kopf',k:'epc',p:TEAL,s:v=>Math.log10(Math.max(v,300))/5.2-0.45,lg:['wenig','','viel']},
  erneuerbar:{n:'Erneuerbarer Strom',g:'Wirtschaft',e:'🌱',u:'% des Stroms',k:'ren',p:GRN,s:v=>v/100,lg:['0 %','50 %','100 %']},
- keine:{n:'Nur Länder',g:'Natur',e:'🗺️'}};
+ keine:{n:'Nur Länder',g:'Natur',e:'🗺️'},
+ de_su:{n:'Suizidrate',g:'Deutschland',de:1,e:'🕯️',u:'je 100.000 Ew. · 2024',p:ROT,s:v=>(v-8)/9,lg:['8','12,5','17'],q:'Destatis, Todesursachenstatistik 2024 (Darstellung NaSPro)',l:'#w-suizid'},
+ de_dem:{n:'Demenz (65+)',g:'Deutschland',de:1,e:'🧠',u:'Betroffene je 100 Ew. · berechnet',p:MAGMA,s:v=>(v-1.5)/1.2,lg:['1,5','2,1','2,7'],q:'Deutsche Alzheimer Gesellschaft, Infoblatt 1 (Stand 2025); Einwohner aus Destatis',l:'#w-demenz'},
+ de_hz:{n:'Straftaten',g:'Deutschland',de:1,e:'🚔',u:'Fälle je 100.000 Ew. · PKS 2024',p:ROT,s:v=>(v-4500)/11000,lg:['4.500','10.000','15.200'],q:'BKA, Polizeiliche Kriminalstatistik 2024',l:'#w-kriminalitaet'},
+ de_aq:{n:'Aufklärungs\u00adquote',g:'Deutschland',de:1,e:'🔎',u:'% der Fälle · PKS 2024',p:GRN,s:v=>(v-45)/23,lg:['45 %','56 %','68 %'],q:'BKA, Polizeiliche Kriminalstatistik 2024',l:'#w-kriminalitaet'}};
 function ramp(stops,t){ t=Math.max(0,Math.min(1,t)); const n=stops.length-1, k=Math.min(n-1,Math.floor(t*n)), f=t*n-k; const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)); const a=hx(stops[k]),b=hx(stops[k+1]); return `rgb(${a.map((v,i)=>Math.round(v+(b[i]-v)*f)).join(',')})`; }
 
 /* ---------- Zustand ---------- */
 const S={modus:'globus',lam:-15,phi:25,zoom:1,px:0,py:0,grund:'relief',jahr:2023,unterlage:true,
- ov:{namen:true,staedte:true,grenzen:true,fluesse:true,landschaft:false,gipfel:false,weizen:false,mais:false,reis:false,gerste:false,hopfen:false,oel:false,gas:false,kohle:false,gold:false,silber:false,uran:false,lithium:false,pfl:false,rez:false,aut:false,nacht:false,kriege:false,wander:false,erf:false,geld:false,goethe:false},
+ ov:{namen:true,staedte:true,grenzen:true,fluesse:true,landschaft:false,gipfel:false,weizen:false,mais:false,reis:false,gerste:false,hopfen:false,oel:false,gas:false,kohle:false,gold:false,silber:false,uran:false,lithium:false,pfl:false,rez:false,aut:false,nacht:false,kriege:false,wander:false,erf:false,geld:false,goethe:false,tiefen:false},
+ bl:null,
  epoche:'',pflanze:'',sel:null,klick:null,hist:null,spin:true,bewegt:false};
 let cv,ctx,W=0,H=0,DPR=1,wrap;
 
@@ -225,6 +236,7 @@ function zeichne(fein){
   if(rast){ const half=1.02, tab=rast===2?KLIMA:rast===3?BODEN:VEGN; ctx.save(); ctx.beginPath(); DAT.laender.forEach(c=>c.p.forEach(rg=>pfad(rg))); ctx.clip();
     DAT.raster.forEach(g=>{ const k=g[rast]; const q=proj(g[0],g[1]); if(q[2]<0.05) return; const a=proj(g[0]-half,g[1]+half),b=proj(g[0]+half,g[1]+half),c2=proj(g[0]+half,g[1]-half),d=proj(g[0]-half,g[1]-half);
       if(!glob && Math.abs(a[0]-b[0])>W/2) return; ctx.fillStyle=tab[k][1]; ctx.globalAlpha=.86; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c2[0],c2[1]); ctx.lineTo(d[0],d[1]); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; }); ctx.restore(); }
+  if(G.de&&DAT.bl){ DAT.bl.forEach(b=>{ const v=deWert(b.i,S.grund); ctx.beginPath(); let ok=false; b.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=.88; ctx.fillStyle=v==null?'#333':ramp(G.p,G.s(v)); ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle=S.bl===b.i?'#fff':'rgba(255,255,255,.7)'; ctx.lineWidth=S.bl===b.i?2.6:.9; ctx.stroke(); }); }
   // Gewässer
   if(S.ov.fluesse){ ctx.fillStyle=mitRelief?'rgba(30,80,140,.9)':'#0c2c52'; DAT.seen.forEach(([n,rg])=>{ ctx.beginPath(); if(pfad(rg)) ctx.fill(); });
     const zs=zstufe(); ctx.strokeStyle=mitRelief?'rgba(90,170,255,.85)':'rgba(90,170,255,.55)'; DAT.fluesse.forEach(([sr,n,l])=>{ if(sr>zs+3) return; ctx.lineWidth=Math.max(.5,2-sr*0.18)*Math.min(1.6,Math.sqrt(S.zoom)); ctx.beginPath(); if(pfad(l,true)) ctx.stroke(); }); }
@@ -250,12 +262,14 @@ function zeichne(fein){
   if(S.ov.pfl) Object.entries(PFL).forEach(([id,P])=>{ const q=proj(P[0][0],P[0][1]); if(q[2]<0.1) return; pin(q[0],q[1],'#ff6a8a'); if(S.zoom>1.3||S.pflanze===id) text(pname(id),q[0]+7,q[1]-6,11,'#ffd0dc'); });
   if(S.ov.rez) REZ.forEach(([id,n,lo,la])=>{ const q=proj(lo,la); if(q[2]<0.1) return; pin(q[0],q[1],'#c79aff'); if(S.zoom>1.8) text(n,q[0]+7,q[1]-6,11,'#e8d8ff'); });
   if(S.ov.aut) AUT.forEach(([id,n,lo,la])=>{ const q=proj(lo,la); if(q[2]<0.1) return; pin(q[0],q[1],'#6ac8ff'); if(S.zoom>1.8) text(n,q[0]+7,q[1]-6,11,'#d0ecff'); });
+  if(G.de&&DAT.bl&&S.zoom>3.5){ const big=S.zoom>6; DAT.bl.slice().reverse().forEach(b=>{ const q=proj(b.lp[0],b.lp[1]); if(q[2]<0.2) return; const v=deWert(b.i,S.grund); const kurz=['BE','HB','HH'].includes(b.i); text(big&&!kurz?b.n:b.i,q[0],q[1]-2,big?11.5:10.5,'#ffffff',true,'700'); if(v!=null) text(fmt(v,S.grund==='de_hz'?0:1),q[0],q[1]+11,10.5,'#ffe8c0',true,'600'); }); }
   // Beschriftung: Landschaften, Gipfel, Länder, Städte
   const zs=zstufe();
   if(S.ov.landschaft) DAT.regionen.forEach(([n,k,lo,la,sr])=>{ if(sr>zs+0.5) return; const q=proj(lo,la); if(q[2]<0.2) return; text(n.toUpperCase(),q[0],q[1],10,k==='Range/mtn'?'#f0d8b8':k==='Desert'?'#ffe0a0':'#d8e8c8',true,'italic 600'); });
   if(S.ov.gipfel) DAT.gipfel.forEach(([n,lo,la,hm,sr])=>{ if(sr>zs+1) return; const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(q[0],q[1]-5); ctx.lineTo(q[0]+4,q[1]+2); ctx.lineTo(q[0]-4,q[1]+2); ctx.closePath(); ctx.fill(); text(`${n} ${fmt(hm)} m`,q[0]+6,q[1]+3,10,'#ffffff'); });
-  if(S.ov.namen) DAT.laender.slice().sort((a,b)=>a.lr-b.lr).forEach(c=>{ if(c.lr>zs) return; const q=proj(c.lp[0],c.lp[1]); if(q[2]<0.25) return; text(c.n,q[0],q[1],c.lr<3?13:c.lr<4.5?11.5:10.5,'#ffffff',true,'700'); });
+  if(S.ov.namen) DAT.laender.slice().sort((a,b)=>a.lr-b.lr).forEach(c=>{ if(c.lr>zs||(G.de&&c.i==='DEU')) return; const q=proj(c.lp[0],c.lp[1]); if(q[2]<0.25) return; text(c.n,q[0],q[1],c.lr<3?13:c.lr<4.5?11.5:10.5,'#ffffff',true,'700'); });
   if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs) return; const q=proj(lo,la); if(q[2]<0.15) return; const R=1.6+Math.sqrt(Math.max(p,.1))*0.8; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; if(!text(n,q[0]+R+3,q[1]+4,10.5,'#fff3d8')) return; BOX.push([q[0]-R,q[1]+R,R*2,R*2]); ctx.fillStyle=hs?'#ffd860':'#ffe9b8'; ctx.strokeStyle='rgba(0,0,0,.7)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); });
+  if(S.ov.tiefen) TIEFEN.forEach(([n,lo,la,t])=>{ const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#7fe0ff'; ctx.strokeStyle='#02101e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(q[0]-5,q[1]-4); ctx.lineTo(q[0]+5,q[1]-4); ctx.lineTo(q[0],q[1]+4); ctx.closePath(); ctx.fill(); ctx.stroke(); text(`${n} −${fmt(t)} m`,q[0]+7,q[1]+4,10.5,'#bff0ff'); });
   if(S.klick){ const q=proj(S.klick[0],S.klick[1]); if(q[2]>0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(q[0],q[1],6,0,7); ctx.stroke(); } }
   if(glob){ ctx.restore(); const sh=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.2,W/2,H/2,r*1.02); sh.addColorStop(0,'rgba(255,255,255,.07)'); sh.addColorStop(.7,'rgba(0,0,0,0)'); sh.addColorStop(1,'rgba(0,5,20,.55)'); ctx.fillStyle=sh; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     ctx.strokeStyle='rgba(140,200,255,.35)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.stroke(); }
@@ -286,6 +300,7 @@ function nacht(){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]; 
 /* ---------- Treffer ---------- */
 function inring(x,y,r){ let c=false; for(let i=0,j=r.length-1;i<r.length;j=i++){ const [xi,yi]=r[i],[xj,yj]=r[j]; if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/((yj-yi)||1e-9)+xi) c=!c; } return c; }
 function landAn(lon,lat){ for(const c of DAT.laender){ const b=c.bb; if(lon<b[0]||lon>b[1]||lat<b[2]||lat>b[3]) continue; if(c.p.some(r=>inring(lon,lat,r))) return c; } return null; }
+function blAn(lon,lat){ const L=DAT.bl||[]; for(let k=L.length-1;k>=0;k--){ const b=L[k], bb=b.bb; if(lon<bb[0]||lon>bb[1]||lat<bb[2]||lat>bb[3]) continue; if(b.p.some(r=>inring(lon,lat,r))) return b; } return null; }
 function rasterAn(lon,lat){ const x=Math.round((lon+179)/2)*2-179, y=Math.round((lat+89)/2)*2-89; return DAT.rmap[x+','+y]; }
 function histAn(x,y){ let best=null,bd=18; if(S.ov.kriege) KRIEGE.forEach((k,i)=>{ if(S.epoche&&epocheVon(k[1])!==S.epoche) return; const q=proj(k[3],k[4]); if(q[2]<0.1) return; const d=Math.hypot(q[0]-x,q[1]-y); if(d<bd){bd=d;best=['k',i];} });
   if(S.ov.wander) WANDER.forEach((w,i)=>{ if(S.epoche&&w[2]!==S.epoche) return; w[6].forEach(p=>p.forEach(pt=>{ const q=proj(pt[0],pt[1]); if(q[2]<0.1) return; const d=Math.hypot(q[0]-x,q[1]-y); if(d<bd){bd=d;best=['w',i];} })); });
@@ -305,8 +320,20 @@ function infoHist(){ const box=$('.qwk-info',wrap); const [art,i]=S.hist;
   else if(art==='g'){ const g=GOETHE[i], alle=GOETHE.filter(x=>x[0]===g[0]); box.innerHTML=kopf('✒️',g[0],'Goethes Lebens- und Reisestationen')+alle.filter(x=>x[6]).map(x=>`<div class="qwk-box"><small>${x[1]===x[2]?x[1]:x[1]+'–'+x[2]} · ${x[5]}</small><p class="qwk-txt" style="margin:4px 0 0">${x[6]}</p></div>`).join('')+`<div style="margin-top:10px">${chip('👤 Goethe im Kompendium','#a-goethe','k')}</div>`; }
   else { const w=WANDER[i]; box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🧭</span><div><h2>${w[0]}</h2><small>${w[1]} · ${EPOCHE[w[2]]}</small></div><button class="qwk-x" aria-label="Schließen">✕</button></div><p class="qwk-txt">${w[5]}</p>${w[4]?`<h4>Umfang</h4><div>${chip('👣 '+w[4])}</div>`:''}<p class="qwk-hin2">Pfeile zeigen die Hauptrichtungen vereinfacht, nicht die genauen Wege.</p>`; }
   $('.qwk-x',box).onclick=()=>{ S.hist=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
+function balken(k,hl){ const G=GRUND[k], arr=Object.keys(DE).map(c=>[c,deWert(c,k)]).sort((a,b)=>b[1]-a[1]), mx=Math.max(...arr.map(a=>a[1])), name=c=>((DAT.bl||[]).find(b=>b.i===c)||{n:c}).n, bund=DEBUND[k];
+  return `<div class="qwk-bars">${arr.map(([c,v])=>`<div class="${c===hl?'hl':''}" data-bl="${c}"><span>${name(c)}</span><i><b style="width:${(v/mx*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${fmt(v,k==='de_hz'?0:1)}</em></div>`).join('')}${bund!=null?`<div class="bund"><span>Deutschland</span><i><b style="width:${(bund/mx*100).toFixed(1)}%"></b></i><em>${fmt(bund,k==='de_hz'?0:1)}</em></div>`:''}</div>`; }
+function infoBL(){ const box=$('.qwk-info',wrap), b=DAT.bl.find(x=>x.i===S.bl), d=DE[S.bl], G=GRUND[S.grund], ew=d[3]/d[0]*1e5;
+  const rang=k=>{ const a=Object.keys(DE).map(c=>deWert(c,k)).sort((x,y)=>y-x); return a.indexOf(deWert(S.bl,k))+1; };
+  box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${b.n}</h2><small>Bundesland · ca. ${fmt(ew/1e6,2)} Mio. Einwohner</small></div><button class="qwk-x" aria-label="Schließen">✕</button></div>
+  <div class="qwk-kpi"><div><small>🕯️ Suizidrate 2024</small><b>${fmt(d[0],1)}</b> <i>je 100.000 · Rang ${rang('de_su')}/16</i></div><div><small>🧠 Demenz 65+</small><b>${fmt(d[4])} Tsd.</b> <i>${fmt(deWert(S.bl,'de_dem'),1)} je 100 Ew.</i></div><div><small>🚔 Straftaten 2024</small><b>${fmt(d[5])}</b> <i>je 100.000 · Rang ${rang('de_hz')}/16</i></div><div><small>🔎 Aufklärung</small><b>${fmt(d[6],1)} %</b> <i>Rang ${rang('de_aq')}/16</i></div></div>
+  <div class="qwk-box"><small>Suizide 2024: ${fmt(d[3])} (Männer ${fmt(d[1],1)}, Frauen ${fmt(d[2],1)} je 100.000)</small></div>
+  <h4>${G.e} ${G.n} – alle Länder</h4>${balken(S.grund,S.bl)}
+  <div>${chip('📖 Suizid','#w-suizid','k')}${chip('📖 Demenz','#w-demenz','k')}${chip('📖 Kriminalität','#w-kriminalitaet','k')}</div><p class="qwk-hin2">Quelle: ${G.q}. Einwohner aus Suizidzahl und -rate errechnet.</p>`;
+  box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); });
+  $('.qwk-x',box).onclick=()=>{ S.bl=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 function info(){
-  const box=$('.qwk-info',wrap); if(S.hist) return infoHist(); if(!S.sel){ box.innerHTML=`<div class="qwk-leer"><div class="qwk-gl">🌍</div><b>Land antippen</b><p>Tippe auf ein Land, um Einwohner, Dichte, Lebenserwartung, Ernten, Rohstoffe und passende Kapitel aus dem Kompendium zu sehen.</p><p class="qwk-mini">Ziehen = drehen · Zwei Finger oder Mausrad = zoomen · Beim Hineinzoomen erscheinen Städte, Flüsse und Landschaften</p></div>`; return; }
+  const box=$('.qwk-info',wrap); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
+  if(!S.sel){ box.innerHTML=`<div class="qwk-leer"><div class="qwk-gl">🌍</div><b>Land antippen</b><p>Tippe auf ein Land, um Einwohner, Dichte, Lebenserwartung, Ernten, Rohstoffe und passende Kapitel aus dem Kompendium zu sehen.</p><p class="qwk-mini">Ziehen = drehen · Zwei Finger oder Mausrad = zoomen · Beim Hineinzoomen erscheinen Städte, Flüsse und Landschaften</p></div>`; return; }
   const c=DAT.idx[S.sel], i=c.i, j=S.jahr, o=ow(i);
   const pop=wert(i,'pop',j), di=wert(i,'dichte',j), wa=wert(i,'wachstum',j);
   let h=`<div class="qwk-kopf"><span class="qwk-flag">${c.f||'🏳️'}</span><div><h2>${c.n}</h2><small>Stand ${j}${S.klick?` · ${fmt(Math.abs(S.klick[1]),1)}° ${S.klick[1]>=0?'N':'S'}, ${fmt(Math.abs(S.klick[0]),1)}° ${S.klick[0]>=0?'O':'W'}`:''}</small></div><button class="qwk-x" aria-label="Schließen">✕</button></div>
@@ -325,8 +352,9 @@ function info(){
   const pf=Object.entries(PFL).filter(([id,P])=>{ const oc=landAn(P[0][0],P[0][1]); if(oc&&oc.i===i) return true; if(S.klick){ const g=rasterAn(S.klick[0],S.klick[1]); return g&&inBereich(P,g); } return false; }).map(([id,P])=>chip('🌿 '+pname(id),'#'+id,'k'));
   const rz=REZ.filter(r=>r[4]===i).map(r=>chip('🍽️ '+r[1],'#r-'+r[0],'k'));
   const au=AUT.filter(a=>{ const oc=landAn(a[2],a[3]); return oc&&oc.i===i; }).map(a=>chip('👤 '+a[1].split(' · ')[0],'#a-'+a[0],'k'));
+  if(i==='DEU') h+=`<h4>Deutschland nach Bundesländern</h4><div>${['de_su','de_dem','de_hz','de_aq'].map(k=>`<button class="qwk-chip k" data-dek="${k}">${GRUND[k].e} ${GRUND[k].n.replace('\u00ad','')}</button>`).join('')}</div>`;
   const kp=[...pf,...rz,...au]; if(kp.length) h+=`<h4>Im Kompendium</h4><div>${kp.join('')}</div>`;
-  box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.sel=null; S.klick=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); };
+  box.innerHTML=h; box.querySelectorAll('[data-dek]').forEach(b=>b.onclick=()=>grundSetzen(b.dataset.dek)); $('.qwk-x',box).onclick=()=>{ S.sel=null; S.klick=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); };
 }
 
 /* ---------- Legende ---------- */
@@ -335,9 +363,11 @@ function legende(){
   if(g.p) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${g.p.join(',')})"></div><div class="qwk-rl"><span>${g.lg[0]}</span><span>${g.lg[1]}</span><span>${g.lg[2]}</span></div>`;
   else if(g.r){ const t=g.r===2?KLIMA:g.r===3?BODEN:VEGN; h+=`<div class="qwk-kl">${Object.values(t).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div><div class="qwk-hin">Vereinfachtes Schema (2°-Raster), keine Messkarte</div>`; }
   else if(S.grund==='relief') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#4e7842,#b0aa70,#aa8a60,#8c6c56,#f6f4f0)"></div><div class="qwk-rl"><span>Tiefland</span><span>Hochland</span><span>Hochgebirge, Eis</span></div>`;
+  if(g.de) h+=`<div class="qwk-hin">Quelle: ${g.q}</div>`;
+  if(S.grund==='relief') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#468cb9,#1e508a,#133768,#081a40,#05112e)"></div><div class="qwk-rl"><span>Schelf 0–200 m</span><span>4.000 m</span><span>über 8.000 m</span></div>`;
   if(S.grund==='su') h+=`<div class="qwk-hin">Mittel aus Männer- und Frauenrate (IHME). Hilfe in Deutschland: Telefonseelsorge 0800 111 0 111</div>`;
   const ov=[]; Object.entries(GETREIDE).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="r" style="background:${G2.c}"></i>${G2.n}</span>`)); Object.entries(ROH).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="d" style="background:${G2.c}"></i>${G2.n}</span>`));
-  if(S.ov.kriege) ov.push('<span><i class="r" style="background:#d8302a"></i>Kriege</span>'); if(S.ov.wander) ov.push('<span><i class="l"></i>Wanderungen</span>'); if(S.ov.erf) ov.push('<span><i class="r" style="background:#ffe14a"></i>Erfindungen</span>'); if(S.ov.geld) ov.push('<span><i class="r" style="background:#e8b030"></i>Geldgeschichte</span>'); if(S.ov.goethe) ov.push('<span><i class="r" style="background:#ff8c6e"></i>Goethe (Größe = Dauer)</span>');
+  if(S.ov.kriege) ov.push('<span><i class="r" style="background:#d8302a"></i>Kriege</span>'); if(S.ov.wander) ov.push('<span><i class="l"></i>Wanderungen</span>'); if(S.ov.erf) ov.push('<span><i class="r" style="background:#ffe14a"></i>Erfindungen</span>'); if(S.ov.geld) ov.push('<span><i class="r" style="background:#e8b030"></i>Geldgeschichte</span>'); if(S.ov.tiefen) ov.push('<span><i class="d" style="background:#7fe0ff"></i>Tiefseegräben (tiefste Stellen, ca.)</span>'); if(S.ov.goethe) ov.push('<span><i class="r" style="background:#ff8c6e"></i>Goethe (Größe = Dauer)</span>');
   if(S.ov.pfl) ov.push('<span><i class="r" style="background:#ff6a8a"></i>Pflanzen-Herkunft</span>'); if(S.ov.rez) ov.push('<span><i class="r" style="background:#c79aff"></i>Rezepte</span>'); if(S.ov.aut) ov.push('<span><i class="r" style="background:#6ac8ff"></i>Autoren</span>');
   if(ov.length) h+=`<div class="qwk-kl qwk-ov">${ov.join('')}</div>`;
   L.innerHTML=h; }
@@ -381,6 +411,7 @@ const CSS=`
 .qwk-zeit{grid-column:1/4;display:flex;align-items:center;gap:14px;padding:10px 18px;background:#0a101d;border-top:1px solid var(--k-l)}
 .qwk-play{all:unset;cursor:pointer;width:38px;height:38px;border-radius:50%;background:linear-gradient(180deg,#1f8a6a,#14664e);display:grid;place-items:center;box-shadow:0 0 14px rgba(74,208,160,.35);font-size:14px}
 .qwk-zeit input{flex:1;accent-color:#4ad0a0}.qwk-jahr{font:700 22px Georgia,serif;min-width:64px;text-align:right}.qwk-q{color:var(--k-m);font-size:10.5px;max-width:540px;line-height:1.35}
+.qwk-bars{display:flex;flex-direction:column;gap:3px;margin:4px 0 10px}.qwk-bars div{display:grid;grid-template-columns:118px 1fr 52px;align-items:center;gap:7px;font-size:11.8px;color:#cdd6ea;cursor:pointer;padding:1px 3px;border-radius:6px}.qwk-bars div:hover,.qwk-bars .hl{background:rgba(255,255,255,.07);color:#fff;font-weight:700}.qwk-bars span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qwk-bars i{height:11px;background:#141d30;border-radius:6px;overflow:hidden}.qwk-bars i b{display:block;height:100%;border-radius:6px;animation:qwkbar .8s ease-out}.qwk-bars em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}.qwk-bars .bund{border-top:1px dashed #2a3858;margin-top:3px;padding-top:4px;color:#fff}.qwk-bars .bund b{background:repeating-linear-gradient(45deg,#8d9ab8 0 4px,#5a6888 4px 8px)}@keyframes qwkbar{from{width:0}}
 .qwk-mob{display:none}
 @media (max-width:980px){.qwk{grid-template-columns:1fr;grid-template-rows:auto minmax(440px,1fr) auto;height:calc(100vh - 16px);width:calc(100vw - 16px);margin-left:calc(50% - 50vw + 8px);border-radius:14px}.qwk-top{grid-column:1;padding:10px 12px;gap:8px}.qwk-titel small{display:none}.qwk-zeit{grid-column:1}.qwk-side,.qwk-info{position:absolute;z-index:5;left:0;right:0;bottom:62px;max-height:52%;border:1px solid var(--k-l);border-radius:18px 18px 0 0;transform:translateY(calc(100% + 90px));transition:.3s;box-shadow:0 -10px 40px rgba(0,0,0,.5)}.qwk.qwk-ebenen-auf .qwk-side,.qwk.qwk-info-auf .qwk-info{transform:none}.qwk-mob{display:inline-flex}.qwk-such{margin-left:0;width:100%}.qwk-such input{width:100%}.qwk-leg{bottom:10px;left:10px;max-width:70%}.qwk-q{display:none}}
 `;
@@ -398,8 +429,9 @@ function ui(root){
    <h3>Grundkarte · Natur</h3><div class="qwk-grund">${gruppe('Natur')}</div>
    <h3>Grundkarte · Menschen</h3><div class="qwk-grund">${gruppe('Menschen')}</div>
    <h3>Grundkarte · Wirtschaft</h3><div class="qwk-grund">${gruppe('Wirtschaft')}</div>
+   <h3>Deutschland · Bundesländer</h3><div class="qwk-grund">${gruppe('Deutschland')}</div>
    <label class="qwk-sw" style="margin-top:6px"><input type="checkbox" data-unterlage ${S.unterlage?'checked':''}><span class="k"></span>Relief unter Statistik legen</label>
-   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('staedte','Städte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
+   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('staedte','Städte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
    <h3>Geschichte</h3>${sw('kriege','⚔️ Kriege','#d8302a')}${sw('wander','🧭 Völkerwanderungen','#ffd28a')}${sw('erf','💡 Erfindungen','#ffe14a')}${sw('geld','🪙 Geldgeschichte','#e8b030')}${sw('goethe','✒️ Goethes Reisen','#ff8c6e')}<select class="qwk-sel" data-epoche><option value="">Alle Epochen</option>${Object.entries(EPOCHE).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
    <h3>Getreide · Teil G</h3>${Object.entries(GETREIDE).map(([k,G2])=>sw(k,G2.e+' '+G2.n,G2.c)).join('')}
    <h3>Rohstoffe & Energie</h3>${Object.entries(ROH).map(([k,G2])=>sw(k,G2.e+' '+G2.n,G2.c,1)).join('')}
@@ -416,7 +448,7 @@ function neu(){ S.bewegt=true; zeichne(false); }
 function ereignisse(){
   wrap.querySelectorAll('[data-ov]').forEach(i=>i.onchange=()=>{ S.ov[i.dataset.ov]=i.checked; legende(); zeichne(); });
   $('[data-unterlage]',wrap).onchange=e=>{ S.unterlage=e.target.checked; zeichne(); };
-  wrap.querySelectorAll('[data-grund]').forEach(b=>b.onclick=()=>{ S.grund=b.dataset.grund; wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x===b)); legende(); zeichne(); info(); });
+  wrap.querySelectorAll('[data-grund]').forEach(b=>b.onclick=()=>grundSetzen(b.dataset.grund));
   wrap.querySelectorAll('[data-modus]').forEach(b=>b.onclick=()=>{ S.modus=b.dataset.modus; S.zoom=1; S.px=S.py=0; wrap.querySelectorAll('[data-modus]').forEach(x=>x.setAttribute('aria-pressed',x===b)); zeichne(); });
   wrap.querySelectorAll('[data-auf]').forEach(b=>b.onclick=()=>{ wrap.classList.toggle('qwk-'+b.dataset.auf+'-auf'); });
   wrap.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{ const z=+b.dataset.z; S.spin=false; if(!z){ S.zoom=1; S.px=S.py=0; } else S.zoom=Math.max(.6,Math.min(40,S.zoom*z)); zeichne(); });
@@ -434,16 +466,17 @@ function ereignisse(){
     const dx=e.clientX-start.x, dy=e.clientY-start.y; if(Math.hypot(dx,dy)>4) bewegt=true; if(!bewegt) return;
     if(S.modus==='globus'){ const f=57/radius(); S.lam=start.lam-dx*f; S.phi=Math.max(-85,Math.min(85,start.phi+dy*f)); } else { S.px=start.px+dx; S.py=start.py+dy; }
     neu(); });
-  const ende=e=>{ if(!P.has(e.pointerId)) return; P.delete(e.pointerId); if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const ll=inv(x,y); if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=null; info(); zeichne(); } } } };
+  const ende=e=>{ if(!P.has(e.pointerId)) return; P.delete(e.pointerId); if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const ll=inv(x,y); if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=null; info(); zeichne(); } } } };
   m.addEventListener('pointerup',ende); m.addEventListener('pointercancel',ende);
   m.addEventListener('wheel',e=>{ e.preventDefault(); S.spin=false; S.zoom=Math.max(.6,Math.min(40,S.zoom*(e.deltaY<0?1.15:1/1.15))); neu(); },{passive:false});
   addEventListener('resize',()=>{ if(document.body.contains(wrap)) groesse(); });
 }
+function grundSetzen(k){ S.grund=k; wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; legende(); zeichne(); info(); }
 function waehle(c,ll){ S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
 function flieg(lon,lat,zz){ S.spin=false; if(S.modus!=='globus'){ S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
   (function st(t){ const k=Math.min(1,(t-t0)/900), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; S.lam=a.l+dl*e; S.phi=a.p+(b.p-a.p)*e; S.zoom=a.z+(b.z-a.z)*e; S.bewegt=k<1; zeichne(k>=1); if(k<1&&document.body.contains(wrap)) requestAnimationFrame(st); })(t0); }
 let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; if(S.spin&&S.modus==='globus'){ S.lam+=0.08; S.bewegt=true; zeichne(false); } else if(S.ov.wander&&t-letzt>80){ letzt=t; zeichne(); } requestAnimationFrame(dreh); }
 
-window.QWWELT={ oeffne(root,ebene){ daten(); if(ebene){ if(GRUND[ebene]) S.grund=ebene; else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!window.QW_STANDBILD; requestAnimationFrame(dreh); },
-  zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); } };
+window.QWWELT={ oeffne(root,ebene){ daten(); if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!window.QW_STANDBILD&&!(GRUND[S.grund].de); requestAnimationFrame(dreh); },
+  zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); } };
 })();
