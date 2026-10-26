@@ -182,16 +182,19 @@ let cv,ctx,W=0,H=0,DPR=1,wrap;
 /* ---------- Projektion ---------- */
 function radius(){ return Math.min(W,H)*0.42*S.zoom; }
 function kf(){ return Math.min(W/360,H/180)*S.zoom; }
+function rd(){ return Math.min(W,H)*0.44*S.zoom; }
 function proj(lon,lat){
   if(S.modus==='globus'){ const l=(lon-S.lam)*R2,p=lat*R2,p0=S.phi*R2, r=radius();
     const cosc=Math.sin(p0)*Math.sin(p)+Math.cos(p0)*Math.cos(p)*Math.cos(l);
     return [W/2+r*Math.cos(p)*Math.sin(l), H/2-r*(Math.cos(p0)*Math.sin(p)-Math.sin(p0)*Math.cos(p)*Math.cos(l)), cosc]; }
+  if(S.modus==='scheibe'){ const r=(90-lat)/180*rd(), a=(lon-S.lam)*R2; return [W/2+S.px+r*Math.sin(a), H/2+S.py+r*Math.cos(a), 1]; }
   const k=kf(); let x=lon-S.lam; x=((x+540)%360)-180; return [W/2+x*k+S.px, H/2-lat*k+S.py, 1]; }
 function inv(x,y){
   if(S.modus==='globus'){ const r=radius(), X=(x-W/2)/r, Y=-(y-H/2)/r, rho=Math.hypot(X,Y); if(rho>1) return null; const c=Math.asin(rho), p0=S.phi*R2;
     const lat=Math.asin(Math.cos(c)*Math.sin(p0)+(rho?Y*Math.sin(c)*Math.cos(p0)/rho:0));
     const lon=S.lam*R2+Math.atan2(X*Math.sin(c), rho*Math.cos(p0)*Math.cos(c)-Y*Math.sin(p0)*Math.sin(c));
     return [((lon/R2+540)%360)-180, lat/R2]; }
+  if(S.modus==='scheibe'){ const dx=x-W/2-S.px, dy=y-H/2-S.py, r=Math.hypot(dx,dy), R0=rd(); if(r>R0) return null; return [((Math.atan2(dx,dy)/R2+S.lam+540)%360)-180, 90-r/R0*180]; }
   const k=kf(); const lon=(x-W/2-S.px)/k+S.lam, lat=-(y-H/2-S.py)/k; if(Math.abs(lat)>90) return null; return [((lon+540)%360)-180,lat]; }
 function pfad(ring,offen){
   if(S.modus==='globus'){ const r=radius(); let start=true, sichtbar=false; const pts=ring.map(([a,b])=>proj(a,b));
@@ -199,6 +202,7 @@ function pfad(ring,offen){
     if(offen){ for(const q of pts){ if(q[2]<0){start=true;continue;} if(start){ctx.moveTo(q[0],q[1]);start=false;} else ctx.lineTo(q[0],q[1]); } return true; }
     for(const q of pts){ let x=q[0],y=q[1]; if(q[2]<0){ const dx=x-W/2,dy=y-H/2,d=Math.hypot(dx,dy)||1; x=W/2+dx/d*r; y=H/2+dy/d*r; }
       if(start){ctx.moveTo(x,y);start=false;} else ctx.lineTo(x,y); } ctx.closePath(); return true; }
+  if(S.modus==='scheibe'){ ring.forEach(([a,b],k)=>{ const q=proj(a,b); k?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); }); if(!offen) ctx.closePath(); return true; }
   let lx=null; ring.forEach(([a,b],k)=>{ const q=proj(a,b); if(k===0||Math.abs(q[0]-lx)>W*0.5) ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); lx=q[0]; }); if(!offen) ctx.closePath(); return true; }
 
 /* ---------- Werte ---------- */
@@ -229,6 +233,9 @@ function relief(fein){
         const lat=Math.asin(z*sp+Y*cp), lon=l0+Math.atan2(X, z*cp-Y*sp);
         let u=((lon/(2*Math.PI)+0.5)%1+1)%1, v=0.5-lat/Math.PI; const tx=(u*TW)|0, ty=Math.min(TH-1,(v*TH)|0), ti=(ty*TW+tx)*4, o=(py*w+px)*4;
         const sh=0.55+0.45*z; d[o]=TEX[ti]*sh; d[o+1]=TEX[ti+1]*sh; d[o+2]=TEX[ti+2]*sh; d[o+3]=255; } } }
+  else if(S.modus==='scheibe'){ const R0=rd()*s, cx=(W/2+S.px)*s, cy=(H/2+S.py)*s, y0=Math.max(0,Math.floor(cy-R0)), y1=Math.min(h-1,Math.ceil(cy+R0));
+    for(let py=y0;py<=y1;py++){ const dy=py-cy; for(let px=0;px<w;px++){ const dx=px-cx, r=Math.sqrt(dx*dx+dy*dy); if(r>R0) continue; const lat=90-r/R0*180, lon=Math.atan2(dx,dy)/R2+S.lam;
+      const u=(((lon+180)/360)%1+1)%1, ty=Math.min(TH-1,((0.5-lat/180)*TH)|0), ti=(ty*TW+((u*TW)|0))*4, o=(py*w+px)*4; d[o]=TEX[ti]; d[o+1]=TEX[ti+1]; d[o+2]=TEX[ti+2]; d[o+3]=255; } } }
   else { const k=kf()*s; for(let py=0;py<h;py++){ const lat=-((py-H/2*s-S.py*s)/k); if(lat>90||lat<-90) continue; const ty=Math.min(TH-1,((0.5-lat/180)*TH)|0);
       for(let px=0;px<w;px++){ const lon=(px-W/2*s-S.px*s)/k+S.lam; const u=(((lon+180)/360)%1+1)%1, ti=(ty*TW+((u*TW)|0))*4, o=(py*w+px)*4; d[o]=TEX[ti]; d[o+1]=TEX[ti+1]; d[o+2]=TEX[ti+2]; d[o+3]=255; } } }
   x.putImageData(img,0,0); RKEY=key; return RC; }
@@ -244,6 +251,9 @@ function zeichne(fein){
   if(glob){ const at=ctx.createRadialGradient(W/2,H/2,r*0.92,W/2,H/2,r*1.18); at.addColorStop(0,'rgba(80,170,255,.55)'); at.addColorStop(.35,'rgba(60,140,255,.18)'); at.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=at; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.18,0,7); ctx.fill();
     const oz=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.1,W/2,H/2,r); oz.addColorStop(0,'#1d4f86'); oz.addColorStop(.6,'#0c2c52'); oz.addColorStop(1,'#071a33'); ctx.fillStyle=oz; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     ctx.save(); ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.clip(); }
+  else if(S.modus==='scheibe'){ const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const kg=ctx.createRadialGradient(cx,cy,R0*0.98,cx,cy,R0*1.35); kg.addColorStop(0,'rgba(120,180,255,.35)'); kg.addColorStop(1,'rgba(60,120,255,0)'); ctx.fillStyle=kg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.35,0,7); ctx.fill();
+    const eg=ctx.createRadialGradient(cx,cy,R0,cx,cy,R0*1.07); eg.addColorStop(0,'#f4f8ff'); eg.addColorStop(.6,'#c8d6e8'); eg.addColorStop(1,'#8aa0bc'); ctx.fillStyle=eg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.fill();
+    ctx.fillStyle='#0a2240'; ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.fill(); ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.clip(); }
   else { ctx.fillStyle='#0a2240'; const a=proj(-180,90),b=proj(180,-90); ctx.fillRect(0,a[1],W,b[1]-a[1]); }
   if(mitRelief){ textur(); const rc=relief(fein!==false&&!S.bewegt); if(rc){ ctx.imageSmoothingEnabled=true; ctx.drawImage(rc,0,0,W,H); if(!fein&&!S.bewegt){} } }
   // Gradnetz
@@ -291,6 +301,7 @@ function zeichne(fein){
   if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs) return; const q=proj(lo,la); if(q[2]<0.15) return; const R=1.6+Math.sqrt(Math.max(p,.1))*0.8; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; if(!text(n,q[0]+R+3,q[1]+4,10.5,'#fff3d8')) return; BOX.push([q[0]-R,q[1]+R,R*2,R*2]); ctx.fillStyle=hs?'#ffd860':'#ffe9b8'; ctx.strokeStyle='rgba(0,0,0,.7)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); });
   if(S.ov.tiefen) TIEFEN.forEach(([n,lo,la,t])=>{ const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#7fe0ff'; ctx.strokeStyle='#02101e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(q[0]-5,q[1]-4); ctx.lineTo(q[0]+5,q[1]-4); ctx.lineTo(q[0],q[1]+4); ctx.closePath(); ctx.fill(); ctx.stroke(); text(`${n} −${fmt(t)} m`,q[0]+7,q[1]+4,10.5,'#bff0ff'); });
   if(S.klick){ const q=proj(S.klick[0],S.klick[1]); if(q[2]>0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(q[0],q[1],6,0,7); ctx.stroke(); } }
+  if(S.modus==='scheibe'){ ctx.restore(); const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; if(S.zoom<2.5){ text('Eiswall (Antarktis)',cx,cy+R0*1.035+4,10.5,'#e8f0ff',true,'italic 700'); text('Nordpol',cx,cy-6,10,'#ffffff',true,'700'); } ctx.strokeStyle='rgba(180,210,255,.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.stroke(); }
   if(glob){ ctx.restore(); const sh=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.2,W/2,H/2,r*1.02); sh.addColorStop(0,'rgba(255,255,255,.07)'); sh.addColorStop(.7,'rgba(0,0,0,0)'); sh.addColorStop(1,'rgba(0,5,20,.55)'); ctx.fillStyle=sh; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     ctx.strokeStyle='rgba(140,200,255,.35)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.stroke(); }
   if(mitRelief&&(S.bewegt||fein===false)){ clearTimeout(RTIMER); RTIMER=setTimeout(()=>{ S.bewegt=false; zeichne(true); },160); }
@@ -313,7 +324,9 @@ function pname(id){ const p=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).find
 function inBereich(P,g){ return P[2].some(b=>g[1]>=b[0]&&g[1]<=b[1]&&g[0]>=b[2]&&g[0]<=b[3]) && P[3].some(z=>g[2].startsWith(z)); }
 function sonne(){ const d=new Date(), t=(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())-Date.UTC(d.getUTCFullYear(),0,0))/864e5; const dekl=-23.44*Math.cos(2*Math.PI/365*(t+10)); const h=d.getUTCHours()+d.getUTCMinutes()/60; return [(12-h)*15,dekl]; }
 function nacht(){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]; for(let i=0;i<=180;i++){ const b=i*2*R2, d=90*R2, p1=ap*R2, l1=al*R2; const la=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(b)); const lo=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(la)); pts.push([((lo/R2+540)%360)-180,la/R2]); }
-  if(S.modus==='globus'){ ctx.beginPath(); pfad(pts); ctx.fillStyle='rgba(2,6,20,.55)'; ctx.fill(); }
+  if(S.modus==='scheibe'){ const q=proj(sl,sp), m=proj(sl+180,-sp), R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const gg=ctx.createRadialGradient(q[0],q[1],R0*0.12,q[0],q[1],R0*1.1); gg.addColorStop(0,'rgba(2,6,20,0)'); gg.addColorStop(.45,'rgba(2,6,20,.15)'); gg.addColorStop(.7,'rgba(2,6,20,.6)'); gg.addColorStop(1,'rgba(2,6,20,.7)'); ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.clip(); ctx.fillStyle=gg; ctx.fillRect(0,0,W,H); ctx.restore();
+    ctx.fillStyle='#e8ecf4'; ctx.shadowColor='#c8d8ff'; ctx.shadowBlur=12; ctx.beginPath(); ctx.arc(m[0],m[1],5,0,7); ctx.fill(); ctx.shadowBlur=0; text('Mond',m[0]+8,m[1]+4,10,'#e8ecf4'); text('Sonne',q[0]+9,q[1]+4,10,'#ffe8a0'); }
+  else if(S.modus==='globus'){ ctx.beginPath(); pfad(pts); ctx.fillStyle='rgba(2,6,20,.55)'; ctx.fill(); }
   else { ctx.fillStyle='rgba(2,6,20,.5)'; for(let lo=-180;lo<180;lo+=2) for(let la=-89;la<90;la+=2){ const x=Math.cos(la*R2)*Math.cos((lo-sl)*R2)*Math.cos(sp*R2)+Math.sin(la*R2)*Math.sin(sp*R2); if(x<0){ const a=proj(lo,la+1),b=proj(lo+2,la-1); if(Math.abs(a[0]-b[0])<W/4) ctx.fillRect(a[0],a[1],b[0]-a[0]+.6,b[1]-a[1]+.6); } } }
   const q=proj(sl,sp); if(q[2]>0){ ctx.fillStyle='#ffd860'; ctx.shadowColor='#ffd860'; ctx.shadowBlur=14; ctx.beginPath(); ctx.arc(q[0],q[1],5,0,7); ctx.fill(); ctx.shadowBlur=0; } }
 
@@ -385,6 +398,7 @@ function legende(){
   if(g.p) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${g.p.join(',')})"></div><div class="qwk-rl"><span>${g.lg[0]}</span><span>${g.lg[1]}</span><span>${g.lg[2]}</span></div>`;
   else if(g.r){ const t=g.r===2?KLIMA:g.r===3?BODEN:VEGN; h+=`<div class="qwk-kl">${Object.values(t).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div><div class="qwk-hin">Vereinfachtes Schema (2°-Raster), keine Messkarte</div>`; }
   else if(S.grund==='relief') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#4e7842,#b0aa70,#aa8a60,#8c6c56,#f6f4f0)"></div><div class="qwk-rl"><span>Tiefland</span><span>Hochland</span><span>Hochgebirge, Eis</span></div>`;
+  if(S.modus==='scheibe') h+=`<div class="qwk-hin">◎ Scheibe: Darstellung nach dem Flache-Erde-Modell – Nordpol in der Mitte, Antarktis als Eiswall am Rand (Kartennetz wie Gleason 1892). Sonne und Mond kreisen als Scheinwerfer (Tag & Nacht einschalten). Vergleich im Kapitel W-12.</div>`;
   if(g.de) h+=`<div class="qwk-hin">Quelle: ${g.q}</div>`;
   if(g.kat) h+=`<div class="qwk-kl">${Object.values(STAAT).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div><div class="qwk-hin">Vereinfachte Einordnung, Stand 2026. Mehr im Kapitel W-08 Politik.</div>`;
   if(S.grund==='relief') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#468cb9,#1e508a,#133768,#081a40,#05112e)"></div><div class="qwk-rl"><span>Schelf 0–200 m</span><span>4.000 m</span><span>über 8.000 m</span></div>`;
@@ -445,7 +459,7 @@ function ui(root){
   const pl=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).map(p=>`<option value="${p.id}">${p.nr} ${p.name.replace(' & Kiefernknospen','')}</option>`).join('');
   root.innerHTML=`<style>${CSS}</style><div class="qwk" lang="de">
   <div class="qwk-top"><div class="qwk-titel"><span class="qwk-gl2"></span><div>Weltkarte<small>Natur · Menschen · Rohstoffe · Geschichte</small></div></div>
-   <div class="qwk-seg"><button data-modus="globus" aria-pressed="true">◉ Globus</button><button data-modus="flach" aria-pressed="false">▭ Karte</button></div>
+   <div class="qwk-seg"><button data-modus="globus" aria-pressed="${S.modus==='globus'}">◉ Globus</button><button data-modus="flach" aria-pressed="${S.modus==='flach'}">▭ Karte</button><button data-modus="scheibe" aria-pressed="${S.modus==='scheibe'}" title="Darstellung im Flache-Erde-Modell">◎ Scheibe</button></div>
    <div class="qwk-seg qwk-mob"><button data-auf="ebenen">☰ Ebenen</button><button data-auf="info">ⓘ Info</button></div>
    <div class="qwk-such"><input list="qwk-dl" placeholder="Land, Stadt oder Pflanze …"><datalist id="qwk-dl">${DAT.laender.map(c=>`<option value="${c.n}">`).join('')}${DAT.staedte.slice(0,400).map(s=>`<option value="${s[0]}">`).join('')}${Object.keys(PFL).map(id=>`<option value="${pname(id)}">`).join('')}</datalist></div></div>
   <aside class="qwk-side">
@@ -473,7 +487,7 @@ function ereignisse(){
   wrap.querySelectorAll('[data-ov]').forEach(i=>i.onchange=()=>{ S.ov[i.dataset.ov]=i.checked; legende(); zeichne(); });
   $('[data-unterlage]',wrap).onchange=e=>{ S.unterlage=e.target.checked; zeichne(); };
   wrap.querySelectorAll('[data-grund]').forEach(b=>b.onclick=()=>grundSetzen(b.dataset.grund));
-  wrap.querySelectorAll('[data-modus]').forEach(b=>b.onclick=()=>{ S.modus=b.dataset.modus; S.zoom=1; S.px=S.py=0; wrap.querySelectorAll('[data-modus]').forEach(x=>x.setAttribute('aria-pressed',x===b)); zeichne(); });
+  wrap.querySelectorAll('[data-modus]').forEach(b=>b.onclick=()=>{ S.modus=b.dataset.modus; S.zoom=1; S.px=S.py=0; wrap.querySelectorAll('[data-modus]').forEach(x=>x.setAttribute('aria-pressed',x===b)); if(S.modus==='scheibe') S.spin=false; legende(); zeichne(); });
   wrap.querySelectorAll('[data-auf]').forEach(b=>b.onclick=()=>{ wrap.classList.toggle('qwk-'+b.dataset.auf+'-auf'); });
   wrap.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{ const z=+b.dataset.z; S.spin=false; if(!z){ S.zoom=1; S.px=S.py=0; } else S.zoom=Math.max(.6,Math.min(40,S.zoom*z)); zeichne(); });
   $('[data-pflanze]',wrap).onchange=e=>{ S.pflanze=e.target.value; if(S.pflanze){ const P=PFL[S.pflanze]; flieg(P[0][0],P[0][1]); } zeichne(); };
@@ -497,10 +511,10 @@ function ereignisse(){
 }
 function grundSetzen(k){ S.grund=k; wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; legende(); zeichne(); info(); }
 function waehle(c,ll){ S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
-function flieg(lon,lat,zz){ S.spin=false; if(S.modus!=='globus'){ S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
+function flieg(lon,lat,zz){ S.spin=false; if(S.modus==='scheibe'){ if(zz) S.zoom=zz; const r=(90-lat)/180*rd(), a=(lon-S.lam)*R2; S.px=-r*Math.sin(a); S.py=-r*Math.cos(a); zeichne(); return; } if(S.modus!=='globus'){ S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
   (function st(t){ const k=Math.min(1,(t-t0)/900), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; S.lam=a.l+dl*e; S.phi=a.p+(b.p-a.p)*e; S.zoom=a.z+(b.z-a.z)*e; S.bewegt=k<1; zeichne(k>=1); if(k<1&&document.body.contains(wrap)) requestAnimationFrame(st); })(t0); }
 let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; if(S.spin&&S.modus==='globus'){ S.lam+=0.08; S.bewegt=true; zeichne(false); } else if(S.ov.wander&&t-letzt>80){ letzt=t; zeichne(); } requestAnimationFrame(dreh); }
 
-window.QWWELT={ oeffne(root,ebene){ daten(); if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!window.QW_STANDBILD&&!(GRUND[S.grund].de); requestAnimationFrame(dreh); },
+window.QWWELT={ oeffne(root,ebene){ daten(); if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!window.QW_STANDBILD&&!(GRUND[S.grund].de)&&S.modus==='globus'; requestAnimationFrame(dreh); },
   zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); } };
 })();
