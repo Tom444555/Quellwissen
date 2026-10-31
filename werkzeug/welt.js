@@ -322,7 +322,7 @@ function pfeil(p,col,sel){ const pts=[]; for(let i=0;i<p.length-1;i++){ const [a
 function epocheVon(j){ return j<1500?'mittel':j<1900?'neu':j<2000?'20':'heute'; }
 function pname(id){ const p=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).find(x=>x.id===id); return p?p.name.replace(' & Kiefernknospen',''):id; }
 function inBereich(P,g){ return P[2].some(b=>g[1]>=b[0]&&g[1]<=b[1]&&g[0]>=b[2]&&g[0]<=b[3]) && P[3].some(z=>g[2].startsWith(z)); }
-function sonne(){ const d=new Date(), t=(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())-Date.UTC(d.getUTCFullYear(),0,0))/864e5; const dekl=-23.44*Math.cos(2*Math.PI/365*(t+10)); const h=d.getUTCHours()+d.getUTCMinutes()/60; return [(12-h)*15,dekl]; }
+function sonne(d){ d=d||new Date(); const t=(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())-Date.UTC(d.getUTCFullYear(),0,0))/864e5; const dekl=-23.44*Math.cos(2*Math.PI/365*(t+10)); const h=d.getUTCHours()+d.getUTCMinutes()/60; return [(12-h)*15,dekl]; }
 function nacht(){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]; for(let i=0;i<=180;i++){ const b=i*2*R2, d=90*R2, p1=ap*R2, l1=al*R2; const la=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(b)); const lo=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(la)); pts.push([((lo/R2+540)%360)-180,la/R2]); }
   if(S.modus==='scheibe'){ const q=proj(sl,sp), m=proj(sl+180,-sp), R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const gg=ctx.createRadialGradient(q[0],q[1],R0*0.12,q[0],q[1],R0*1.1); gg.addColorStop(0,'rgba(2,6,20,0)'); gg.addColorStop(.45,'rgba(2,6,20,.15)'); gg.addColorStop(.7,'rgba(2,6,20,.6)'); gg.addColorStop(1,'rgba(2,6,20,.7)'); ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.clip(); ctx.fillStyle=gg; ctx.fillRect(0,0,W,H); ctx.restore();
     ctx.fillStyle='#e8ecf4'; ctx.shadowColor='#c8d8ff'; ctx.shadowBlur=12; ctx.beginPath(); ctx.arc(m[0],m[1],5,0,7); ctx.fill(); ctx.shadowBlur=0; text('Mond',m[0]+8,m[1]+4,10,'#e8ecf4'); text('Sonne',q[0]+9,q[1]+4,10,'#ffe8a0'); }
@@ -459,7 +459,7 @@ function ui(root){
   const pl=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).map(p=>`<option value="${p.id}">${p.nr} ${p.name.replace(' & Kiefernknospen','')}</option>`).join('');
   root.innerHTML=`<style>${CSS}</style><div class="qwk" lang="de">
   <div class="qwk-top"><div class="qwk-titel"><span class="qwk-gl2"></span><div>Weltkarte<small>Natur · Menschen · Rohstoffe · Geschichte</small></div></div>
-   <div class="qwk-seg"><button data-modus="globus" aria-pressed="${S.modus==='globus'}">◉ Globus</button><button data-modus="flach" aria-pressed="${S.modus==='flach'}">▭ Karte</button><button data-modus="scheibe" aria-pressed="${S.modus==='scheibe'}" title="Darstellung im Flache-Erde-Modell">◎ Scheibe</button></div>
+   <div class="qwk-seg"><button data-modus="globus" aria-pressed="${S.modus==='globus'}">◉ Globus</button><button data-modus="flach" aria-pressed="${S.modus==='flach'}">▭ Karte</button><button data-modus="scheibe" aria-pressed="${S.modus==='scheibe'}" title="Darstellung im Flache-Erde-Modell">◎ Scheibe</button><button data-d3 title="Relief der Scheibe in 3D (Flache-Erde-Modell)">⛰ 3D-Scheibe</button></div>
    <div class="qwk-seg qwk-mob"><button data-auf="ebenen">☰ Ebenen</button><button data-auf="info">ⓘ Info</button></div>
    <div class="qwk-such"><input list="qwk-dl" placeholder="Land, Stadt oder Pflanze …"><datalist id="qwk-dl">${DAT.laender.map(c=>`<option value="${c.n}">`).join('')}${DAT.staedte.slice(0,400).map(s=>`<option value="${s[0]}">`).join('')}${Object.keys(PFL).map(id=>`<option value="${pname(id)}">`).join('')}</datalist></div></div>
   <aside class="qwk-side">
@@ -488,6 +488,7 @@ function ereignisse(){
   $('[data-unterlage]',wrap).onchange=e=>{ S.unterlage=e.target.checked; zeichne(); };
   wrap.querySelectorAll('[data-grund]').forEach(b=>b.onclick=()=>grundSetzen(b.dataset.grund));
   wrap.querySelectorAll('[data-modus]').forEach(b=>b.onclick=()=>{ S.modus=b.dataset.modus; S.zoom=1; S.px=S.py=0; wrap.querySelectorAll('[data-modus]').forEach(x=>x.setAttribute('aria-pressed',x===b)); if(S.modus==='scheibe') S.spin=false; legende(); zeichne(); });
+  $('[data-d3]',wrap).onclick=()=>scheibe3d();
   wrap.querySelectorAll('[data-auf]').forEach(b=>b.onclick=()=>{ wrap.classList.toggle('qwk-'+b.dataset.auf+'-auf'); });
   wrap.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{ const z=+b.dataset.z; S.spin=false; if(!z){ S.zoom=1; S.px=S.py=0; } else S.zoom=Math.max(.6,Math.min(40,S.zoom*z)); zeichne(); });
   $('[data-pflanze]',wrap).onchange=e=>{ S.pflanze=e.target.value; if(S.pflanze){ const P=PFL[S.pflanze]; flieg(P[0][0],P[0][1]); } zeichne(); };
@@ -513,8 +514,117 @@ function grundSetzen(k){ S.grund=k; wrap.querySelectorAll('[data-grund]').forEac
 function waehle(c,ll){ S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
 function flieg(lon,lat,zz){ S.spin=false; if(S.modus==='scheibe'){ if(zz) S.zoom=zz; const r=(90-lat)/180*rd(), a=(lon-S.lam)*R2; S.px=-r*Math.sin(a); S.py=-r*Math.cos(a); zeichne(); return; } if(S.modus!=='globus'){ S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
   (function st(t){ const k=Math.min(1,(t-t0)/900), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; S.lam=a.l+dl*e; S.phi=a.p+(b.p-a.p)*e; S.zoom=a.z+(b.z-a.z)*e; S.bewegt=k<1; zeichne(k>=1); if(k<1&&document.body.contains(wrap)) requestAnimationFrame(st); })(t0); }
+/* ---------- 3D-Scheibe (three.js, wird erst beim Klick geladen) ---------- */
+let D3=null;
+function bildDaten(id){ return new Promise((res,rej)=>{ const el=document.getElementById(id); if(!el) return rej(new Error(id+' fehlt')); const im=new Image(); im.onload=()=>{ const c=document.createElement('canvas'); c.width=im.width; c.height=im.height; const x=c.getContext('2d'); x.drawImage(im,0,0); res({d:x.getImageData(0,0,c.width,c.height).data,w:c.width,h:c.height}); }; im.onerror=rej; im.src='data:image/jpeg;base64,'+el.textContent.trim(); }); }
+function ladeSkript(src,ok){ return new Promise(res=>{ if(ok()) return res(); const s=document.createElement('script'); s.src=src; s.onload=()=>res(); s.onerror=()=>{ s.remove(); res(); }; document.head.appendChild(s); }); }
+async function dreiLaden(){
+  try{ const T=await import('three'); const O=await import('three/addons/controls/OrbitControls.js'); return {T,OC:O.OrbitControls}; }
+  catch(e){ console.warn('three (Modul) nicht geladen, versuche lib/',e); }
+  if(!(window.THREE&&THREE.WebGLRenderer)) await ladeSkript('lib/three.min.js',()=>window.THREE&&THREE.WebGLRenderer);
+  if(window.THREE&&!THREE.OrbitControls) await ladeSkript('lib/OrbitControls.js',()=>window.THREE.OrbitControls);
+  if(window.THREE&&THREE.WebGLRenderer) return {T:window.THREE,OC:THREE.OrbitControls||null};
+  throw new Error('three.js nicht verfügbar');
+}
+const CSS3D=`.qwk-3d{position:fixed;inset:0;z-index:9000;background:#03060f;color:#e8eefb;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:none}
+.qwk-3d canvas{display:block;width:100%;height:100%;outline:none}
+.qwk-3d .k3-bar{position:absolute;top:12px;left:12px;right:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;pointer-events:none}
+.qwk-3d .k3-bar>*{pointer-events:auto}
+.qwk-3d .k3-t{font:700 17px Georgia,serif;padding:7px 14px;border-radius:12px;background:rgba(8,14,28,.72);border:1px solid #1f2b44;backdrop-filter:blur(6px)}
+.qwk-3d .k3-t small{display:block;font:500 11px system-ui;color:#8d9ab8}
+.qwk-3d button,.qwk-3d label{all:unset;cursor:pointer;padding:8px 12px;border-radius:11px;background:rgba(8,14,28,.72);border:1px solid #1f2b44;color:#cfe0ff;font-weight:600;font-size:13px;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:6px}
+.qwk-3d button[aria-pressed=true]{background:linear-gradient(180deg,#1d3a5c,#15304e);color:#fff;border-color:#2e5b8a}
+.qwk-3d .k3-zu{margin-left:auto;width:20px;justify-content:center;font-size:16px}
+.qwk-3d input[type=range]{width:110px;accent-color:#4ad0a0}
+.qwk-3d .k3-uhr{font-variant-numeric:tabular-nums;color:#ffd860}
+.qwk-3d .k3-hin{position:absolute;left:12px;bottom:12px;max-width:min(560px,calc(100% - 24px));padding:9px 13px;border-radius:12px;background:rgba(8,14,28,.72);border:1px solid #1f2b44;color:#a9b6d3;font-size:12.5px;line-height:1.45;backdrop-filter:blur(6px)}
+.qwk-3d .k3-hin a{color:#4ad0a0}
+.qwk-3d .k3-lade{position:absolute;inset:0;display:grid;place-items:center;color:#8d9ab8;font-size:15px;pointer-events:none}
+@media (max-width:700px){.qwk-3d .k3-t{font-size:15px}.qwk-3d button,.qwk-3d label{padding:7px 9px;font-size:12px}.qwk-3d input[type=range]{width:80px}}`;
+function scheibe3dZu(){ if(!D3) return; const d=D3; D3=null; d.aus=true; cancelAnimationFrame(d.raf); removeEventListener('resize',d.rs); removeEventListener('keydown',d.kd);
+  try{ d.ctl&&d.ctl.dispose(); }catch(e){} if(d.sc) d.sc.traverse(o=>{ if(o.geometry) o.geometry.dispose(); const m=o.material; (Array.isArray(m)?m:m?[m]:[]).forEach(x=>{ for(const k in x){ const v=x[k]; if(v&&v.isTexture) v.dispose(); } x.dispose(); }); });
+  if(d.r){ d.r.dispose(); try{ d.r.forceContextLoss(); }catch(e){} } d.el.remove(); if(location.hash==='#welt-scheibe3d') history.replaceState(null,'','#welt-scheibe'); }
+async function scheibe3d(){
+  if(D3||!wrap) return; const el=document.createElement('div'); el.className='qwk-3d';
+  el.innerHTML=`<style>${CSS3D}</style><div class="k3-lade">3D-Scheibe wird geladen …</div><div class="k3-bar"><div class="k3-t">⛰ 3D-Scheibe<small>Relief der Erde im Scheibenmodell</small></div><button data-k3="wasser" aria-pressed="true">💧 Wasser</button><button data-k3="raffer" aria-pressed="false">▶ Tag im Zeitraffer</button><label title="Überhöhung der Höhen">Höhe <input type="range" min="10" max="120" value="40" data-k3="hoch"><span data-k3="hw">40×</span></label><span class="k3-uhr" data-k3="uhr"></span><button class="k3-zu" data-k3="zu" aria-label="Schließen">✕</button></div><div class="k3-hin">Darstellung nach dem Flache-Erde-Modell, Höhen stark überhöht. Vergleich im Kapitel <a href="#w-erdform">W-12</a>. Ziehen = drehen, Mausrad/Zwei Finger = zoomen.</div>`;
+  wrap.appendChild(el); const d=D3={el,aus:false,raf:0}; const q=s=>el.querySelector(`[data-k3="${s}"]`);
+  q('zu').onclick=scheibe3dZu; el.querySelector('.k3-hin a').onclick=()=>scheibe3dZu(); d.kd=e=>{ if(e.key==='Escape') scheibe3dZu(); }; addEventListener('keydown',d.kd);
+  let L,HB,RB; try{ [L,HB,RB]=await Promise.all([dreiLaden(),bildDaten('welthoehe'),TEX?Promise.resolve({d:TEX,w:TW,h:TH}):bildDaten('weltrelief')]); }
+  catch(e){ console.warn(e); el.querySelector('.k3-lade').textContent='3D-Ansicht nicht verfügbar (three.js konnte nicht geladen werden).'; return; }
+  if(d.aus) return; el.querySelector('.k3-lade').remove();
+  const T=L.T, klein=Math.min(innerWidth,innerHeight)<700, RD=10, NR=klein?140:200, NS=klein?280:400, R2D=Math.PI/180;
+  /* Renderer & Szene */
+  const r=d.r=new T.WebGLRenderer({antialias:true}); r.setPixelRatio(Math.min(2,devicePixelRatio||1));
+  if('outputColorSpace' in r) r.outputColorSpace=T.SRGBColorSpace; else r.outputEncoding=T.sRGBEncoding;
+  r.toneMapping=T.ACESFilmicToneMapping; r.toneMappingExposure=1.05; el.insertBefore(r.domElement,el.firstChild);
+  const sc=d.sc=new T.Scene(); sc.background=new T.Color(0x03060f); sc.fog=new T.FogExp2(0x03060f,0.006);
+  const cam=new T.PerspectiveCamera(38,1,0.1,800); cam.position.set(0,13.5,17.5);
+  const srgb=t=>{ if('colorSpace' in t) t.colorSpace=T.SRGBColorSpace; else t.encoding=T.sRGBEncoding; return t; };
+  /* Höhenkarte abtasten (bilinear) */
+  const hoehe=(lon,lat)=>{ const x=((lon+180)/360*HB.w-0.5+HB.w)%HB.w, y=Math.max(0,Math.min(HB.h-1.001,(90-lat)/180*HB.h-0.5)); const x0=Math.floor(x), y0=Math.floor(y), fx=x-x0, fy=y-y0, x1=(x0+1)%HB.w;
+    const g=(a,b)=>HB.d[(b*HB.w+a)*4]; const v=(g(x0,y0)*(1-fx)+g(x1,y0)*fx)*(1-fy)+(g(x0,y0+1)*(1-fx)+g(x1,y0+1)*fx)*fy;
+    return v>=128?Math.max(0,v-129)/126*8.8:-Math.max(0.05,(126-v)/13.5+0.1); };
+  /* Scheibe als radiales Gitter */
+  const nv=1+NR*NS, pos=new Float32Array(nv*3), uv=new Float32Array(nv*2), hk=new Float32Array(nv);
+  const setz=(i,rr,a,lat,lon)=>{ const x=rr*Math.sin(a), z=rr*Math.cos(a); pos[i*3]=x; pos[i*3+2]=z; uv[i*2]=x/RD*0.5+0.5; uv[i*2+1]=0.5-z/RD*0.5; hk[i]=hoehe(lon,lat); };
+  setz(0,0,0,90,0);
+  for(let i=1;i<=NR;i++) for(let j=0;j<NS;j++){ const a=j/NS*2*Math.PI; setz(1+(i-1)*NS+j,RD*i/NR,a,90-180*i/NR,((a/R2D+540)%360)-180); }
+  const idx=[]; for(let j=0;j<NS;j++) idx.push(0,1+j,1+(j+1)%NS);
+  for(let i=1;i<NR;i++){ const o=1+(i-1)*NS, n=o+NS; for(let j=0;j<NS;j++){ const j1=(j+1)%NS; idx.push(o+j,n+j,n+j1, o+j,n+j1,o+j1); } }
+  const geo=new T.BufferGeometry(); geo.setAttribute('position',new T.BufferAttribute(pos,3)); geo.setAttribute('uv',new T.BufferAttribute(uv,2)); geo.setIndex(idx);
+  const KM=1/2000; let ueber=40; const hochSetzen=()=>{ const k=KM*ueber; for(let i=0;i<nv;i++) pos[i*3+1]=hk[i]*k; geo.attributes.position.needsUpdate=true; geo.computeVertexNormals(); geo.computeBoundingSphere(); };
+  hochSetzen();
+  /* Farbtextur der Scheibe aus dem Relief (azimutal) */
+  const TS=klein?1024:2048, tc=document.createElement('canvas'); tc.width=tc.height=TS; const tx=tc.getContext('2d'), id=tx.createImageData(TS,TS), od=id.data;
+  for(let py=0;py<TS;py++){ const dz=(py+0.5)/TS*2-1; for(let px=0;px<TS;px++){ const dx=(px+0.5)/TS*2-1, rr=Math.min(1,Math.hypot(dx,dz)); const lat=90-rr*180, lon=Math.atan2(dx,dz)/R2D;
+      const sx=Math.min(RB.w-1,Math.floor((lon+180)/360*RB.w)), sy=Math.min(RB.h-1,Math.floor((90-lat)/180*RB.h)), s=(sy*RB.w+sx)*4, o=(py*TS+px)*4; od[o]=RB.d[s]; od[o+1]=RB.d[s+1]; od[o+2]=RB.d[s+2]; od[o+3]=255; } }
+  tx.putImageData(id,0,0); const tex=srgb(new T.CanvasTexture(tc)); tex.anisotropy=Math.min(8,r.capabilities.getMaxAnisotropy()); tex.needsUpdate=true;
+  const boden=new T.Mesh(geo,new T.MeshStandardMaterial({map:tex,roughness:0.92,metalness:0})); sc.add(boden);
+  /* Wasserfläche */
+  const wasser=new T.Mesh(new T.CircleGeometry(RD*0.999,256),new T.MeshStandardMaterial({color:0x2b6fb8,transparent:true,opacity:0.32,roughness:0.25,metalness:0.1,depthWrite:false}));
+  wasser.rotation.x=-Math.PI/2; wasser.position.y=0.002; sc.add(wasser);
+  /* Unterbau (Scheibendicke) */
+  const unten=new T.Mesh(new T.CylinderGeometry(RD*1.045,RD*0.98,0.9,192,1),new T.MeshStandardMaterial({color:0x101a2c,roughness:0.6,metalness:0.4})); unten.position.y=-0.75; sc.add(unten);
+  /* Eiswall mit zackiger Krone */
+  const wg=new T.CylinderGeometry(RD*1.02,RD*1.035,1,360,6,true), wp=wg.attributes.position;
+  for(let i=0;i<wp.count;i++){ const y=wp.getY(i)+0.5, a=Math.atan2(wp.getX(i),wp.getZ(i)); const n=0.55+0.25*Math.sin(a*23)+0.15*Math.sin(a*61+1.3)+0.1*Math.sin(a*137+0.7); wp.setY(i,-0.3+y*(0.55+0.55*n)); const f=1+0.004*Math.sin(a*91)*y; wp.setX(i,wp.getX(i)*f); wp.setZ(i,wp.getZ(i)*f); }
+  wg.computeVertexNormals();
+  const wall=new T.Mesh(wg,new T.MeshStandardMaterial({color:0xeef6ff,emissive:0x1b2c48,emissiveIntensity:0.6,roughness:0.45,metalness:0,side:T.DoubleSide})); sc.add(wall);
+  /* Kuppel (Firmament) mit Randleuchten */
+  const kuppel=new T.Mesh(new T.SphereGeometry(RD*1.06,96,48,0,Math.PI*2,0,Math.PI/2),new T.ShaderMaterial({transparent:true,depthWrite:false,side:T.DoubleSide,
+    vertexShader:'varying vec3 vN;varying vec3 vV;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}',
+    fragmentShader:'varying vec3 vN;varying vec3 vV;void main(){float f=pow(1.-abs(dot(vN,vV)),2.6);gl_FragColor=vec4(mix(vec3(.35,.55,1.),vec3(.7,.85,1.),f),.025+.32*f);}'}));
+  sc.add(kuppel);
+  const punkte=(n,f,size,col,op)=>{ const p=new Float32Array(n*3); for(let i=0;i<n;i++){ const v=f(); p[i*3]=v[0]; p[i*3+1]=v[1]; p[i*3+2]=v[2]; } const g=new T.BufferGeometry(); g.setAttribute('position',new T.BufferAttribute(p,3)); return new T.Points(g,new T.PointsMaterial({size,color:col,transparent:true,opacity:op,depthWrite:false,sizeAttenuation:true})); };
+  const kugel=(rad,halb)=>()=>{ const u=Math.random()*2*Math.PI, c=halb?Math.random()*0.92+0.04:Math.random()*2-1, s=Math.sqrt(1-c*c); return [rad*s*Math.cos(u),rad*c,rad*s*Math.sin(u)]; };
+  sc.add(punkte(600,kugel(RD*1.05,true),0.04,0xd8e6ff,0.45)); sc.add(punkte(3000,kugel(260,false),0.9,0xffffff,0.85));
+  /* Licht: schwaches Grundlicht, Sonne & Mond als Scheinwerfer */
+  sc.add(new T.AmbientLight(0x5a6c90,0.16)); sc.add(new T.HemisphereLight(0x8fb4ff,0x101522,0.14));
+  const dl=new T.DirectionalLight(0xbfd4ff,0.22); dl.position.set(-8,12,6); sc.add(dl);
+  const glanz=(farbe)=>{ const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d'), g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,farbe); g.addColorStop(0.25,farbe.replace(/[\d.]+\)$/,'0.45)')); g.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); return new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(c),blending:T.AdditiveBlending,depthWrite:false,transparent:true})); };
+  const koerper=(rad,farbe,glow,gs,int,ang,lc)=>{ const g=new T.Group(); g.add(new T.Mesh(new T.SphereGeometry(rad,32,16),new T.MeshBasicMaterial({color:farbe}))); const s=glanz(glow); s.scale.set(gs,gs,1); g.add(s);
+    const sp=new T.SpotLight(lc,int,0,ang,0.85,0); sp.position.set(0,0,0); sc.add(sp.target); g.add(sp); sc.add(g); return {g,sp}; };
+  const SO=koerper(0.26,0xfff3c4,'rgba(255,214,110,1)',2.6,5.5,0.85,0xfff0d0), MO=koerper(0.19,0xe6ecf5,'rgba(190,210,255,1)',1.5,1.1,0.7,0x9fb6ff);
+  const HS=3.2, lage=(lon,lat)=>{ const rr=(90-lat)/180*RD, a=lon*R2D; return [rr*Math.sin(a),rr*Math.cos(a)]; };
+  /* Steuerung */
+  let ctl=null; if(L.OC){ ctl=d.ctl=new L.OC(cam,r.domElement); ctl.enableDamping=true; ctl.dampingFactor=0.08; ctl.minDistance=4; ctl.maxDistance=45; ctl.maxPolarAngle=Math.PI*0.47; ctl.target.set(0,0,0); ctl.enablePan=true; ctl.update(); }
+  else cam.lookAt(0,0,0);
+  /* Bedienung */
+  q('wasser').onclick=e=>{ wasser.visible=!wasser.visible; e.currentTarget.setAttribute('aria-pressed',wasser.visible); };
+  let raffer=false, off=0, tl=performance.now(); q('raffer').onclick=e=>{ raffer=!raffer; e.currentTarget.setAttribute('aria-pressed',raffer); e.currentTarget.textContent=raffer?'❚❚ Zeitraffer anhalten':'▶ Tag im Zeitraffer'; if(!raffer) off=0; };
+  q('hoch').oninput=e=>{ ueber=+e.target.value; q('hw').textContent=ueber+'×'; hochSetzen(); };
+  const groe=()=>{ const w=el.clientWidth, h=el.clientHeight; r.setSize(w,h,false); cam.aspect=w/h; cam.fov=w<h?52:38; cam.updateProjectionMatrix(); }; d.rs=groe; addEventListener('resize',groe); groe(); if(el.clientWidth<el.clientHeight){ cam.position.multiplyScalar(1.75); if(ctl) ctl.update(); }
+  const uhr=q('uhr'); let letzteU='';
+  const schritt=t=>{ if(d.aus) return; if(!document.body.contains(el)){ D3=d; scheibe3dZu(); return; } d.raf=requestAnimationFrame(schritt);
+    const dt=t-tl; tl=t; if(raffer) off+=dt/1000*2*3600e3; /* 2 h pro Sekunde */
+    const zt=new Date(Date.now()+off), [sl,sp]=sonne(zt), [ax,az]=lage(sl,sp), [mx,mz]=lage(sl+180,-sp);
+    SO.g.position.set(ax,HS,az); SO.sp.target.position.set(ax,0,az); MO.g.position.set(mx,HS*0.92,mz); MO.sp.target.position.set(mx,0,mz);
+    const u=zt.toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' Uhr'; if(u!==letzteU){ uhr.textContent='☀ '+u; letzteU=u; }
+    if(ctl) ctl.update(); r.render(sc,cam); };
+  d.raf=requestAnimationFrame(schritt);
+}
 let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; if(S.spin&&S.modus==='globus'){ S.lam+=0.08; S.bewegt=true; zeichne(false); } else if(S.ov.wander&&t-letzt>80){ letzt=t; zeichne(); } requestAnimationFrame(dreh); }
 
-window.QWWELT={ oeffne(root,ebene){ daten(); if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!window.QW_STANDBILD&&!(GRUND[S.grund].de)&&S.modus==='globus'; requestAnimationFrame(dreh); },
+window.QWWELT={ oeffne(root,ebene){ daten(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!window.QW_STANDBILD&&!(GRUND[S.grund].de)&&S.modus==='globus'; requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
   zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); } };
 })();

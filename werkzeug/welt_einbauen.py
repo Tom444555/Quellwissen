@@ -8,8 +8,9 @@ modul=open(os.path.join(W,'welt.js')).read()
 subprocess.run(['node','--check',os.path.join(W,'welt.js')],check=True)
 import base64
 rel=base64.b64encode(open(os.path.join(W,'welt_daten','relief.jpg'),'rb').read()).decode()
-blk=f'<script type="application/json" id="weltdaten">{daten}</script>\n<script type="text/plain" id="weltrelief">{rel}</script>\n<script id="welt-modul">{modul}</script>\n'
-s=re.sub(r'<script type="application/json" id="weltdaten">.*?</script>\n(<script type="text/plain" id="weltrelief">.*?</script>\n)?<script id="welt-modul">.*?</script>\n','',s,flags=re.S)
+hoe=base64.b64encode(open(os.path.join(W,'welt_daten','hoehe.jpg'),'rb').read()).decode()
+blk=f'<script type="application/json" id="weltdaten">{daten}</script>\n<script type="text/plain" id="weltrelief">{rel}</script>\n<script type="text/plain" id="welthoehe">{hoe}</script>\n<script id="welt-modul">{modul}</script>\n'
+s=re.sub(r'<script type="application/json" id="weltdaten">.*?</script>\n(<script type="text/plain" id="weltrelief">.*?</script>\n)?(<script type="text/plain" id="welthoehe">.*?</script>\n)?<script id="welt-modul">.*?</script>\n','',s,flags=re.S)
 i=s.index('<script type="application/json" id="daten">'); s=s[:i]+blk+s[i:]
 if 'window.QW_DATEN=D;' not in s: s=s.replace("const D = JSON.parse(document.getElementById('daten').textContent);","const D = JSON.parse(document.getElementById('daten').textContent); window.QW_DATEN=D;",1)
 if 'data-ziel="welt"' not in s: s=s.replace('<button data-ziel="teil-A">A · Autoren</button>','<button data-ziel="teil-A">A · Autoren</button>\n      <button data-ziel="welt" class="welt-knopf">🌍 Weltkarte</button>',1)
