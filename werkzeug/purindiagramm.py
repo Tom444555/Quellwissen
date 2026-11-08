@@ -25,7 +25,7 @@ daten=[]; gruppe=None
 for b in B:
     if b['typ']=='abschnitt' and not b.get('liste'):
         t=b['titel']; gruppe=next((g for k,g in GRUPPE if k in t),gruppe)
-    if b['typ']!='tabelle' or len(b['kopf']) not in (3,4) or b['kopf'][0]=='Faustregel': continue
+    if b['typ']!='tabelle' or len(b['kopf']) not in (3,4) or b['kopf'][0] in ('Faustregel','Brot'): continue
     getraenk='ml' in b['kopf'][1]; bier=b['kopf'][0].startswith('Bier')
     g='Bier' if bier else ('Getränke' if getraenk else gruppe)
     for z1,z2,z3,*_ in b['zeilen']:
