@@ -27,7 +27,7 @@ In `uebersicht()` hat Teil S feste Gruppen (`SG`). Neues S-Kapitel dort eintrage
 - Anbau: aussaat, tabak, hanf
 - Sammeln & Küche: knospen, blueten, kueche, hefe, einfrieren, wildgruen
 - Hausapotheke: tinkturen, faktencheck
-- Haus & Hof: heizen
+- Haus & Hof: heizen, waschmittel
 - Pilze: pilze
 
 ## Weitere Fehlerquellen
