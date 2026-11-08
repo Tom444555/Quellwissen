@@ -25,10 +25,10 @@ daten=[]; gruppe=None
 for b in B:
     if b['typ']=='abschnitt' and not b.get('liste'):
         t=b['titel']; gruppe=next((g for k,g in GRUPPE if k in t),gruppe)
-    if b['typ']!='tabelle' or len(b['kopf'])!=3 or b['kopf'][0]=='Faustregel': continue
+    if b['typ']!='tabelle' or len(b['kopf']) not in (3,4) or b['kopf'][0]=='Faustregel': continue
     getraenk='ml' in b['kopf'][1]; bier=b['kopf'][0].startswith('Bier')
     g='Bier' if bier else ('Getränke' if getraenk else gruppe)
-    for z1,z2,z3 in b['zeilen']:
+    for z1,z2,z3,*_ in b['zeilen']:
         amp=AMP.get(z1[:1],'u'); name=re.search(r'\*\*(.+?)\*\*',z1).group(1)
         q=z1.split('**',2)[2].strip().lstrip('·').strip()
         unsicher='❓' in z1 or '❓' in z2 or 'abgeleitet' in z1
