@@ -20,6 +20,22 @@ Nachschlagewerk zum Skill `quellwissen`. **Nie ganz lesen** – nur den gerade n
   - `foto3d.js` – 3D-Standbild
 - Eigene Generator-Skripte (`gen_*.py`) und Zwischendateien gehören in den Scratchpad, nicht ins Repo.
 
+## Startseite: Gruppen in Teil S
+
+In `uebersicht()` hat Teil S feste Gruppen (`SG`). Neues S-Kapitel dort eintragen, sonst landet es unter „Weitere“. Autoren und Teil W erscheinen automatisch.
+- Garten & Boden: huegelbeet, boden, mischkultur, mulch
+- Anbau: aussaat, tabak, hanf
+- Sammeln & Küche: knospen, blueten, kueche, hefe, einfrieren, wildgruen
+- Hausapotheke: tinkturen, faktencheck
+- Haus & Hof: heizen
+- Pilze: pilze
+
+## Weitere Fehlerquellen
+
+- Auch `...]))` am Ende von `tab(...)` innerhalb einer Liste prüfen, bevor das Skript läuft.
+- Rezepte im Text als Klartext nennen (kein `{{r:…}}`).
+- Ids von W-Kapiteln z. B. `dgeschichte`, nicht `deutschland-politik`.
+
 ## Datenmodell
 
 Daten stehen in `<script type="application/json" id="daten">` mit den Arrays `pflanzen` (P), `selbstversorgung` (S), `getreide` (G), `biochemie` (B), `rezepte` (R), `autoren` (A) und `welt` (W). Zurückschreiben:
