@@ -3,15 +3,21 @@ Aufruf: python3 werkzeug/purindiagramm.py   (erneut ausführen, wenn Tabellen im
 Schreibt/ersetzt Block {"typ":"purindiagramm","daten":[…]} im Reiter selbstversorgung/gicht/purinliste
 (an Stelle des statischen Bildes gicht_purinliste bzw. nach dem Ampel-Hinweis).
 Datensatz: g Gruppe, n Name, q Quellen, a Ampel g/y/r/u, u unsicher(❓), v=[min,max] mg/100 g (oder None),
-p Portion, pv=[min,max] mg je Portion (oder None), x Zusatz/Notiz, ml True bei Getränken (mg/100 ml)."""
+p Portion, pg Portion in g/ml (Rechner), pv=[min,max] mg je Portion (oder None), x Zusatz/Notiz, ml True bei Getränken (mg/100 ml)."""
 import json,re,os
 Q=os.path.join(os.path.dirname(__file__),'..','quelle','gruenwissen.html')
-GRUPPE=[('Fleisch','Fleisch'),('Wurst','Wurst'),('Innereien','Innereien'),('Fisch','Fisch'),('Milch','Milch & Käse'),
+GRUPPE=[('Fertiggerichte','Fertiggerichte'),('Feinkost','Feinkost & Salate'),('Saucen','Saucen & Würzmittel'),('Fleisch','Fleisch'),('Wurst','Wurst'),('Innereien','Innereien'),('Fisch','Fisch'),('Milch','Milch & Käse'),
         ('Eier','Eier'),('Fette','Fette'),('Getreide','Getreide'),('Weizen','Getreide'),('Roggen','Getreide'),('Dinkel','Getreide'),
         ('Hafer','Getreide'),('Beilagen','Beilagen'),('Hülsen','Hülsenfrüchte'),('Gemüse','Gemüse'),('Obst','Obst'),('Nüsse','Nüsse'),
         ('Bier','Bier'),('Sonstiges','Sonstiges')]
 AMP={'🟢':'g','🟡':'y','🔴':'r','❓':'u'}
 num=lambda s:float(s.replace(',','.'))
+def gramm(p):
+    """Übliche Portion in g bzw. ml (für den Gericht-Rechner)."""
+    if not p: return None
+    m=re.search(r'≈\s*(\d+(?:,\d+)?)\s*(g|ml)\b',p) or re.search(r'(\d+(?:,\d+)?)\s*(g|ml|l)\b',p)
+    if m: x=num(m.group(1))*(1000 if m.group(2)=='l' else 1); return int(x)
+    return 15 if 'EL' in p else 10 if 'TL' in p else 200 if 'Glas' in p else None
 def spanne(s):
     m=re.search(r'(\d+(?:,\d+)?)\s*(?:–|-)\s*(\d+(?:,\d+)?)',s) or re.search(r'(\d+(?:,\d+)?)',s)
     if not m: return None
@@ -25,7 +31,7 @@ daten=[]; gruppe=None
 for b in B:
     if b['typ']=='abschnitt' and not b.get('liste'):
         t=b['titel']; gruppe=next((g for k,g in GRUPPE if k in t),gruppe)
-    if b['typ']!='tabelle' or len(b['kopf']) not in (3,4) or b['kopf'][0] in ('Faustregel','Brot'): continue
+    if b['typ']!='tabelle' or len(b['kopf']) not in (3,4) or b['kopf'][0] in ('Faustregel','Brot','Rezept (Kochbuch)'): continue
     getraenk='ml' in b['kopf'][1]; bier=b['kopf'][0].startswith('Bier')
     g='Bier' if bier else ('Getränke' if getraenk else gruppe)
     for z1,z2,z3,*_ in b['zeilen']:
@@ -43,6 +49,8 @@ for b in B:
             pv=spanne(z3); p='1 Glas'; x=re.sub(r'^[\d–\s]+','',z3).strip(' –')
         if pv is None and v is not None and v==[0,0]: pv=[0,0]
         e={'g':g,'n':name,'a':amp,'v':v,'p':p,'pv':pv}
+        pg=gramm(p)
+        if pg: e['pg']=pg
         if q: e['q']=q
         if unsicher: e['u']=1
         if x: e['x']=x
