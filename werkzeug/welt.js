@@ -343,6 +343,28 @@ function histAn(x,y){ let best=null,bd=18; if(S.ov.kriege) KRIEGE.forEach((k,i)=
 /* ---------- Info-Karte ---------- */
 function spark(i){ const p=reihe(i,'pop'); if(!p) return ''; const v=p.filter(x=>x!=null), mx=Math.max(...v), mn=Math.min(...v); const w=260,h=56; let d=''; p.forEach((x,k)=>{ if(x==null) return; const X=k/63*w, Y=h-4-(x-mn)/((mx-mn)||1)*(h-10); d+=(d?'L':'M')+X.toFixed(1)+','+Y.toFixed(1); }); const k=S.jahr-1960, cx=k/63*w, cy=p[k]!=null?h-4-(p[k]-mn)/((mx-mn)||1)*(h-10):h;
   return `<svg viewBox="0 0 ${w} ${h}" class="qwk-spark"><defs><linearGradient id="qwsg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4ad0a0" stop-opacity=".45"/><stop offset="1" stop-color="#4ad0a0" stop-opacity="0"/></linearGradient></defs><path d="${d}L${w},${h}L0,${h}Z" fill="url(#qwsg)"/><path d="${d}" fill="none" stroke="#4ad0a0" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="3.5" fill="#fff"/></svg>`; }
+/* Länderverläufe als Kurs-Diagramm (Komponente QWKurs aus der Hauptdatei) */
+const KZ={r:0}; let KLAND=null;
+function kursReihen(i){ const J=(k,f=v=>v)=>{ const a=reihe(i,k); return a?a.map((v,j)=>v==null?null:[1960+j,f(v)]).filter(Boolean):[]; };
+  const pop=J('pop'), pm=Math.max(0,...pop.map(p=>p[1])), gross=pm>=1000;
+  const sm=reihe(i,'sm'), sf=reihe(i,'sf'), su=sm&&sf?sm.map((v,j)=>v!=null&&sf[j]!=null?[1960+j,(v+sf[j])/2]:null).filter(Boolean):[];
+  return [
+   {name:'Bevölkerung',kurz:'👥 Einwohner',einheit:gross?'Mio.':'Tsd.',dez:!gross?0:pm>=1e5?0:pm>=1e4?1:2,hoeherGut:null,farbe:'#7fb4ff',punkte:gross?pop.map(p=>[p[0],p[1]/1000]):pop},
+   {name:'Lebenserwartung',kurz:'❤️ Lebenserw.',einheit:'Jahre',dez:1,hoeherGut:true,farbe:'#ff8fa3',punkte:J('le')},
+   {name:'Geburtenrate',kurz:'👶 Geburten',einheit:'Kinder je Frau',dez:2,hoeherGut:null,farbe:'#ffd27a',punkte:J('fr')},
+   {name:'Kindersterblichkeit',kurz:'🍼 Kindersterbl.',einheit:'je 1.000',dez:1,hoeherGut:false,farbe:'#ffa86b',punkte:J('km')},
+   {name:'Suizidrate',kurz:'🕯️ Suizid',einheit:'je 100.000',dez:1,hoeherGut:false,farbe:'#c9a6ff',punkte:su},
+   {name:'Lebenszufriedenheit',kurz:'😊 Zufriedenheit',einheit:'von 10',dez:2,hoeherGut:true,farbe:'#8ee6a8',punkte:J('gl')},
+   {name:'Unterernährung',kurz:'🥣 Unterernährung',einheit:'%',dez:1,hoeherGut:false,farbe:'#ff9a8a',punkte:J('un')},
+   {name:'Energie pro Kopf',kurz:'⚡ Energie',einheit:'kWh',dez:0,hoeherGut:null,farbe:'#5fd6d0',punkte:J('epc')},
+   {name:'Erneuerbarer Strom',kurz:'🌱 Erneuerbar',einheit:'%',dez:1,hoeherGut:true,farbe:'#4ad0a0',punkte:J('ren')},
+   {name:'Erdöl-Förderung',kurz:'🛢️ Öl',einheit:'TWh',dez:0,hoeherGut:null,farbe:'#ff8a3d',punkte:J('oil')},
+   {name:'Erdgas-Förderung',kurz:'🔥 Gas',einheit:'TWh',dez:0,hoeherGut:null,farbe:'#5fb8ff',punkte:J('gas')},
+   {name:'Kohle-Förderung',kurz:'⛏️ Kohle',einheit:'TWh',dez:0,hoeherGut:null,farbe:'#b0a8a0',punkte:J('coal')}
+  ].filter(r=>r.punkte.length>=3&&r.punkte.some(p=>p[1]>0)); }
+function kursLand(box,i){ const el=$('.qwk-kurs',box); if(!el) return; if(!window.QWKurs){ el.innerHTML=spark(i); return; }
+  const neu=KLAND!==i; KLAND=i;
+  QWKurs.mount(el,{reihen:kursReihen(i),kompakt:true,zeitraum:[10,25,50],marke:S.jahr,zustand:KZ,anim:neu,quelle:'Our World in Data (UN, Weltbank, Energy Institute, WHO, World Happiness Report)'}); }
 function chip(t,href,kl=''){ return href?`<a class="qwk-chip ${kl}" href="${href}">${t}</a>`:`<span class="qwk-chip ${kl}">${t}</span>`; }
 function infoHist(){ const box=$('.qwk-info',wrap); const [art,i]=S.hist;
   const kopf=(e,t,u)=>`<div class="qwk-kopf"><span class="qwk-flag">${e}</span><div><h2>${t}</h2><small>${u}</small></div><button class="qwk-x" aria-label="Schließen">✕</button></div>`;
@@ -372,7 +394,7 @@ function info(){
   const pop=wert(i,'pop',j), di=wert(i,'dichte',j), wa=wert(i,'wachstum',j);
   let h=`<div class="qwk-kopf"><span class="qwk-flag">${c.f||'🏳️'}</span><div><h2>${c.n}</h2><small>Stand ${j}${S.klick?` · ${fmt(Math.abs(S.klick[1]),1)}° ${S.klick[1]>=0?'N':'S'}, ${fmt(Math.abs(S.klick[0]),1)}° ${S.klick[0]>=0?'O':'W'}`:''}</small></div><button class="qwk-x" aria-label="Schließen">✕</button></div>
   <div class="qwk-kpi"><div><small>Einwohner</small><b>${pop?pop>=1e6?fmt(pop/1e6,2)+' Mrd.':pop>=1000?fmt(pop/1000,1)+' Mio.':fmt(pop)+' Tsd.':'–'}</b></div><div><small>Dichte</small><b>${fmt(di)} <i>/km²</i></b></div><div><small>Wachstum</small><b class="${wa>0?'plus':'minus'}">${wa==null?'–':(wa>0?'+':'')+fmt(wa,1)+' %'}</b></div><div><small>Fläche (ca.)</small><b>${fmt(c.a/1000)} <i>Tsd. km²</i></b></div></div>
-  <div class="qwk-box"><small>Bevölkerung 1960–2023</small>${spark(i)}</div>`;
+  <div class="qwk-box qwk-kursbox"><div class="qwk-kurs"></div></div>`;
   const ges=[['le','❤️ Lebenserwartung',v=>fmt(v,1)+' Jahre'],['fr','👶 Geburtenrate',v=>fmt(v,2)+' Kinder je Frau'],['km','🍼 Kindersterblichkeit',v=>fmt(v)+' je 1.000'],['su','🕯️ Suizidrate',v=>fmt(v,1)+' je 100.000'],['gl','😊 Lebenszufriedenheit',v=>fmt(v,1)+' von 10'],['un','🥣 Unterernährung',v=>fmt(v,1)+' %']].map(([k,n,f])=>{ const v=wert(i,k,j), st=stand(i,k,j); return v==null?'':chip(`${n}: ${f(v)}${st&&st!==j?` (${st})`:''}`); }).join('');
   h+=`<h4>Politik</h4><div>${chip('🏛️ '+STAAT[staatVon(i)][0],'#w-politik-systeme','k')}${i==='DEU'?chip('📜 Deutsche Geschichte','#w-dgeschichte','k'):''}</div>`;
   if(ges) h+=`<h4>Gesellschaft</h4><div>${ges}</div>`;
@@ -389,7 +411,7 @@ function info(){
   const au=AUT.filter(a=>{ const oc=landAn(a[2],a[3]); return oc&&oc.i===i; }).map(a=>chip('👤 '+a[1].split(' · ')[0],'#a-'+a[0],'k'));
   if(i==='DEU') h+=`<h4>Deutschland nach Bundesländern</h4><div>${Object.keys(GRUND).filter(k=>GRUND[k].de).map(k=>`<button class="qwk-chip k" data-dek="${k}">${GRUND[k].e} ${GRUND[k].n.replace('\u00ad','')}</button>`).join('')}</div>`;
   const kp=[...pf,...rz,...au]; if(kp.length) h+=`<h4>Im Kompendium</h4><div>${kp.join('')}</div>`;
-  box.innerHTML=h; box.querySelectorAll('[data-dek]').forEach(b=>b.onclick=()=>grundSetzen(b.dataset.dek)); $('.qwk-x',box).onclick=()=>{ S.sel=null; S.klick=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); };
+  box.innerHTML=h; kursLand(box,i); box.querySelectorAll('[data-dek]').forEach(b=>b.onclick=()=>grundSetzen(b.dataset.dek)); $('.qwk-x',box).onclick=()=>{ S.sel=null; S.klick=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); };
 }
 
 /* ---------- Legende ---------- */
@@ -441,6 +463,7 @@ const CSS=`
 .qwk-x{all:unset;cursor:pointer;margin-left:auto;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:var(--k-m);border:1px solid var(--k-l)}
 .qwk-kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px}.qwk-kpi div{background:var(--k-p2);border:1px solid var(--k-l);border-radius:12px;padding:9px 10px}.qwk-kpi small{display:block;color:var(--k-m);font-size:11px}.qwk-kpi b{font-size:17px;color:#fff}.qwk-kpi i{font-style:normal;font-size:11px;color:var(--k-m);font-weight:500}.qwk-kpi .plus{color:#ffb070}.qwk-kpi .minus{color:#7fb4ff}
 .qwk-box{background:var(--k-p2);border:1px solid var(--k-l);border-radius:12px;padding:9px 10px;margin-top:8px}.qwk-box small{color:var(--k-m);font-size:11px}.qwk-spark{width:100%;height:56px;display:block;margin-top:4px}
+.qwk-kursbox{padding:10px 10px 8px}.qwk .kurs{--ink:#e8eefb;--muted:#8d9ab8;--line:#24324f;--surface:#111a2d;--accent:#4ad0a0;--w:#7fb4ff;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--label:system-ui,sans-serif;--ku-gut:#4ad0a0;--ku-schlecht:#ff8a7a;--ku-fill:rgba(255,255,255,.07);--ku-on:#24324f}.qwk .ku-q{font-size:10.5px}
 .qwk-info h4{font:700 10.5px system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--k-m);margin:14px 0 7px}
 .qwk-txt{line-height:1.5;color:#dbe4f6;margin:0 0 8px}.qwk-hin2{color:var(--k-m);font-size:11.5px;margin-top:10px}
 .qwk-chip{display:inline-block;padding:5px 10px;margin:0 5px 6px 0;border-radius:20px;background:var(--k-p2);border:1px solid var(--k-l);color:#dbe4f6;font-size:12.5px;text-decoration:none}.qwk-chip.k{background:rgba(74,208,160,.1);border-color:rgba(74,208,160,.45);color:#a9f0d4}a.qwk-chip:hover{border-color:var(--k-a)}

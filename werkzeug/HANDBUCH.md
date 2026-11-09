@@ -87,6 +87,7 @@ open(Q,'w').write(h[:m.start(2)]+s+h[m.end(2):])   # m = re.search(r'(<script ty
 | schichten, nachbarcheck | Spezialblöcke |
 | naehrdiagramm | titel, start (k/e/f/s/c/b/ed/mix oder Mikro ca/mg/ka/fe/zn/jo/va/vd/ve/vk/vc/fo/b12), daten[] (nur in S-25 Reiter `naehrliste`) oder quelle:"naehrliste" |
 | karten art:"naehrstoff" | wie anwendung, zusätzlich ref (Referenzwert in der Kopfzeile); Labels „Auf einen Blick“/„Im Detail“ |
+| kurs | Verlauf im Börsenkurs-Stil (nur echte Zeitreihen über Jahre, keine Kategorienvergleiche): id (Speicherschlüssel), titel, reihen[{name, kurz?, einheit, dez?, farbe?, hoeherGut? (true/false/null), punkte[[jahr,wert],…]}], hoeherGut (Standard für alle Reihen; false = Anstieg rot), zeitraum[] (Jahre, sonst automatisch z. B. 10/25/50 + Max), schnitt (gleitender Ø in Jahren, Knopf „Ø n J.“), vergleich:false (schaltet „Vergleichen“ = Index Start = 100 ab), quelle, hinweis. Lücken in den Jahren werden gestrichelt. Beispiel: W-04 `verlauf` |
 | energierechner | titel (Eingaben in localStorage `qw-energie`, Tagesziel für naehrrechner) |
 | naehrrechner | titel, quelle:"naehrliste", vorlagen[{n,z:[[name,g]]}] (gespeichert in `qw-mahlzeiten`) |
 
@@ -205,3 +206,10 @@ Balken- und Säulendiagramme als Zeichnungsfunktionen (Vorlage `werkzeug/z_stat.
 - Teil W evtl. in „Geschichte & Politik“ und „Statistik“ teilen, wenn er zu voll wird.
 - Buch-Layout und Druckfassung.
 
+## Kurs-Diagramm (Komponente `QWKurs`)
+
+- Eine Komponente für alle Verläufe: `<script id="kurs-modul">` + CSS zwischen `/* KURS-ANFANG */` und `/* KURS-ENDE */` in `quelle/gruenwissen.html`.
+- `QWKurs.mount(el, cfg)` zeichnet direkt (cfg wie Blocktyp `kurs`, zusätzlich `kompakt`, `marke` (Jahr-Linie), `zustand` (geteiltes Objekt für Zeitraum/Reihenwahl), `anim:false`). `QWKurs.block(b)` liefert den Platzhalter, `QWKurs.init(main)` bindet alle (läuft nach jedem Seitenaufbau).
+- Anzeige: großer aktueller Wert, ▲/▼ seit Zeitraumbeginn und zum Vorwert (grün = gut, rot = schlecht, Reihenfarbe = neutral), Verlaufsfläche, ▲ Hoch/▼ Tief, Antippen/Ziehen/Pfeiltasten → Tooltip + Kopfwert, Kacheln Hoch/Tief/Schnitt/Start→Ende. Mehrere Reihen: gleiche Einheit → gemeinsam ein-/ausblenden; verschiedene Einheiten → Chips wählen eine Reihe, „Vergleichen“ zeigt mehrere als Index.
+- Weltkarte: `kursLand()` in `werkzeug/welt.js` baut für das angetippte Land die OWID-Reihen (Bevölkerung, Lebenserwartung, Geburten, Kindersterblichkeit, Suizid, Zufriedenheit, Unterernährung, Energie, Erneuerbar, Öl/Gas/Kohle) und nutzt `window.QWKurs` (kompakt, Jahr-Marke = Zeitregler); ohne Komponente fällt sie auf die alte Sparkline zurück.
+- Farben kommen aus den App-Variablen (`--ink`, `--muted`, `--line`, `--surface`, `--w` …) plus `--ku-gut`/`--ku-schlecht`; in der Weltkarte überschreibt `.qwk .kurs` sie für das dunkle Design. `prefers-reduced-motion` schaltet die Einblend-Animation ab.

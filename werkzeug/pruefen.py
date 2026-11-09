@@ -11,6 +11,14 @@ for t,ref in re.findall(r'\{\{(\w):([^|}]+)',json.dumps(d,ensure_ascii=False)):
     if not any('-'.join(teile[:i]) in ids[t] for i in range(1,len(teile)+1)): print('Link kaputt:',t,ref); fehler+=1
 for i in set(re.findall(r'"(?:illu|id)":"([a-z0-9_]+)"',json.dumps([b for v in B.values() for e in d[v] for r in e.get('reiter',[]) for b in r['bloecke'] if b.get('typ')=='illu']+[{'illu':e.get('illu')} for v in B.values() for e in d[v] if e.get('illu')]))):
     if not re.search(r'\n\s{4}'+i+r'\(\)\{',h): print('Zeichnung fehlt:',i); fehler+=1
+for v in B.values():
+    for e in d[v]:
+        for r in e.get('reiter',[]):
+            for b in r['bloecke']:
+                if b.get('typ')=='kurs':
+                    rh=b.get('reihen') or []
+                    if not rh or any(len([p for p in x.get('punkte',[]) if isinstance(p,list) and len(p)==2 and all(isinstance(z,(int,float)) for z in p)])<2 for x in rh): print('Kurs-Block ohne gültige Reihen:',e['id'],r['id']); fehler+=1
+if 'window.QWKurs' not in h: print('Kurs-Modul fehlt'); fehler+=1
 for k,s in enumerate(re.findall(r'<script>(.*?)</script>',h,re.S)):
     f=tempfile.NamedTemporaryFile('w',suffix='.js',delete=False); f.write(s); f.close()
     r=subprocess.run(['node','--check',f.name],capture_output=True,text=True)
