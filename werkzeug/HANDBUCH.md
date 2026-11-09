@@ -29,6 +29,7 @@ In `uebersicht()` hat Teil S feste Gruppen (`SG`). Neues S-Kapitel dort eintrage
 - Hausapotheke: tinkturen, faktencheck
 - Haus & Hof: heizen, waschmittel
 - Pilze: pilze
+- Ernährung & Körper: energie, fette, proteine, kohlenhydrate, abnehmen, naehrwerte
 
 ## Weitere Fehlerquellen
 
@@ -59,7 +60,7 @@ open(Q,'w').write(h[:m.start(2)]+s+h[m.end(2):])   # m = re.search(r'(<script ty
 **Rezepte** (`r`, `nr` `R-01`…): wie Kapitel, mit Zutaten, Schritten (Tabelle), Bildleiste (`rezept_leiste`) und Tipps. Kleinere Rezepte können auch als `karten("rezept",[rez(…)])` in einem Kapitel-Reiter stehen (z. B. S-17 Pilze).
 
 **Autoren** (`a`, `nr` `A-01`…): Felder `id`, `nr`, `name`, `botan` (Beruf), `volksnamen[]`, `kurz`, `steckbrief[[k,v]]`, `reiter[]`.
-- Bestand: A-01 nehls, A-02 storl, A-03 krall, A-04 ganser, A-05 goethe (mit Werkverzeichnis, Politik & Weltbild, Zitate, Reisen auf der Karte).
+- Bestand: A-01 nehls, A-02 storl, A-03 krall, A-04 ganser, A-05 goethe, A-06 kowallik, A-07 wolff (Christian Wolf, More Nutrition) (mit Werkverzeichnis, Politik & Weltbild, Zitate, Reisen auf der Karte).
 - **Einheitliche Reiter** (jeder Autor bekommt alle, die es hergibt):
   1. `person` – Werdegang, Kurz zusammengefasst
   2. `buecher` – `karten` mit `art:"buch"` (id, titel, kat "alle", jahr, verlag, kurz, zutaten = Eckdaten, schritte = Kernpunkte); Jahre der Erstausgabe als [Ergänzung]
@@ -84,6 +85,9 @@ open(Q,'w').write(h[:m.start(2)]+s+h[m.end(2):])   # m = re.search(r'(<script ty
 | standort | licht, wasser, naehrstoffe (1–5), ph, boden, ellenberg, hinweis |
 | baum | titel, wurzel, unter, knoten[{t, h?, i?, k:[…]}] – Ast-Titel dürfen mit Emoji beginnen (Abzeichen nimmt `Array.from(t)[0]`, Emoji wird im Label entfernt) |
 | schichten, nachbarcheck | Spezialblöcke |
+| naehrdiagramm | titel, start (k/e/f/s/c/b/ed/mix), daten[] (nur in S-25 Reiter `naehrliste`) oder quelle:"naehrliste" |
+| energierechner | titel (Eingaben in localStorage `qw-energie`, Tagesziel für naehrrechner) |
+| naehrrechner | titel, quelle:"naehrliste", vorlagen[{n,z:[[name,g]]}] (gespeichert in `qw-mahlzeiten`) |
 
 **bausteine.py:** `tab(kopf,*zeilen)`, `txt`, `hin`, `abs_(titel, liste=/nummern=)`, `illu`, `std(...)`, `karten`, `anw(id,titel,kat,beleg,teil,kurz,zut,schr,hinweis,tipp)`, `rez(id,titel,kat,menge,zeit,kurz,zut,schr,tipp,hinweis)`, `q(...)`, `R(id,titel,*bloecke)`. Für Themenbäume im Generator: `baum(t,w,u,kn)` und `n(t,*k)` selbst definieren (Vorlage `gen_goethe.py`).
 
@@ -192,6 +196,8 @@ Balken- und Säulendiagramme als Zeichnungsfunktionen (Vorlage `werkzeug/z_stat.
 - **Ziel Buch:** Struktur und Zeichnungen druckfähig halten (SVG, keine fremden Bildrechte). Bildvorlagen aus dem Netz nur nachzeichnen und als Anregung nennen.
 
 ## Offene Wünsche
+
+- Ernährung (S-20–S-25, Nov. 2026): Nährwerte sind gerundete USDA-/Etikettenwerte – bei Gelegenheit gegen BLS 4.0 prüfen (blsdb.de in der Sandbox gesperrt); Mikronährstoffe als eigenes Kapitel; Video-Transkripte von Kowallik/Wolf auswerten, wenn Tom sie schickt.
 
 - Storls Bücher einzeln zusammenfassen (je Buch eine Karte mit Themenbaum).
 - Landkreis-Karten (Suizid, Kriminalität), sobald eine amtliche Kreistabelle vorliegt (Nutzer schickt Datei).
