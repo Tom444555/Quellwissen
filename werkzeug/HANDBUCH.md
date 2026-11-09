@@ -29,7 +29,7 @@ In `uebersicht()` hat Teil S feste Gruppen (`SG`). Neues S-Kapitel dort eintrage
 - Hausapotheke: tinkturen, faktencheck
 - Haus & Hof: heizen, waschmittel
 - Pilze: pilze
-- Ernährung & Körper: energie, fette, proteine, kohlenhydrate, abnehmen, naehrwerte
+- Ernährung & Körper: energie, fette, proteine, kohlenhydrate, abnehmen, naehrwerte, mikronaehrstoffe
 
 ## Weitere Fehlerquellen
 
@@ -85,7 +85,8 @@ open(Q,'w').write(h[:m.start(2)]+s+h[m.end(2):])   # m = re.search(r'(<script ty
 | standort | licht, wasser, naehrstoffe (1–5), ph, boden, ellenberg, hinweis |
 | baum | titel, wurzel, unter, knoten[{t, h?, i?, k:[…]}] – Ast-Titel dürfen mit Emoji beginnen (Abzeichen nimmt `Array.from(t)[0]`, Emoji wird im Label entfernt) |
 | schichten, nachbarcheck | Spezialblöcke |
-| naehrdiagramm | titel, start (k/e/f/s/c/b/ed/mix), daten[] (nur in S-25 Reiter `naehrliste`) oder quelle:"naehrliste" |
+| naehrdiagramm | titel, start (k/e/f/s/c/b/ed/mix oder Mikro ca/mg/ka/fe/zn/jo/va/vd/ve/vk/vc/fo/b12), daten[] (nur in S-25 Reiter `naehrliste`) oder quelle:"naehrliste" |
+| karten art:"naehrstoff" | wie anwendung, zusätzlich ref (Referenzwert in der Kopfzeile); Labels „Auf einen Blick“/„Im Detail“ |
 | energierechner | titel (Eingaben in localStorage `qw-energie`, Tagesziel für naehrrechner) |
 | naehrrechner | titel, quelle:"naehrliste", vorlagen[{n,z:[[name,g]]}] (gespeichert in `qw-mahlzeiten`) |
 
@@ -197,7 +198,7 @@ Balken- und Säulendiagramme als Zeichnungsfunktionen (Vorlage `werkzeug/z_stat.
 
 ## Offene Wünsche
 
-- Ernährung (S-20–S-25, Nov. 2026): Nährwerte sind gerundete USDA-/Etikettenwerte – bei Gelegenheit gegen BLS 4.0 prüfen (blsdb.de in der Sandbox gesperrt); Mikronährstoffe als eigenes Kapitel; Video-Transkripte von Kowallik/Wolf auswerten, wenn Tom sie schickt.
+- Ernährung (S-20–S-25, Nov. 2026): Nährwerte sind gerundete USDA-/Etikettenwerte – bei Gelegenheit gegen BLS 4.0 prüfen (blsdb.de in der Sandbox gesperrt); Video-Transkripte von Kowallik/Wolf auswerten, wenn Tom sie schickt.
 
 - Storls Bücher einzeln zusammenfassen (je Buch eine Karte mit Themenbaum).
 - Landkreis-Karten (Suizid, Kriminalität), sobald eine amtliche Kreistabelle vorliegt (Nutzer schickt Datei).
