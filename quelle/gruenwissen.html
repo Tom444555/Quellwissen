@@ -498,11 +498,29 @@ a.bm-z:hover{background:var(--accent-soft)}
 @keyframes kuEin2{to{opacity:.18}}
 .ku-an circle.ku-ende{animation-name:kuEin2}
 .kompakt .ku-now{font-size:1.6rem}.kompakt .ku-chg{font-size:.84rem}.kompakt .ku-tg{min-height:28px;padding:0 9px;font-size:.78rem}
-.ku-ix{font-size:.9rem;font-weight:500}.kompakt .ku-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:24px;flex:1 1 100%;scroll-snap-type:x proximity}.kompakt .ku-chips::-webkit-scrollbar{display:none}.kompakt .ku-tg{flex:none;scroll-snap-align:start}
+.ku-ix{font-size:.9rem;font-weight:500}.kompakt .ku-chips{flex:1 1 100%}.ku-wahl{flex:1 1 100%;font:600 .9rem var(--body);color:var(--ink);background:var(--ku-fill);border:1px solid var(--line);border-radius:10px;padding:7px 10px;min-height:36px}.ku-wahl option{background:var(--surface);color:var(--ink)}
 .kompakt .ku-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kompakt .ku-stats b{font-size:.92rem}
 @media (max-width:520px){.ku-fig{padding:12px 12px 10px}.ku-now{font-size:1.75rem}.ku-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){.ku-an .ku-linie,.ku-an .ku-flaeche,.ku-an .ku-luecke,.ku-an .ku-hl,.ku-an .ku-ende{animation:none;stroke-dashoffset:0;opacity:1}.ku-an circle.ku-ende{opacity:.18}.ku-pill,.ku-tg,.ku-rb button{transition:none}}
 @media print{.ku-leiste,.ku-rb{display:none}}
+.ku-bal{--ku-gut:#2e7d43;--ku-schlecht:#b8432f;--ku-fill:color-mix(in srgb,var(--ink) 7%,transparent);--ku-on:var(--surface)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ku-bal{--ku-gut:#6fcf86;--ku-schlecht:#ff8a72;--ku-fill:color-mix(in srgb,var(--ink) 10%,transparent);--ku-on:color-mix(in srgb,var(--ink) 16%,var(--surface))}}
+:root[data-theme="dark"] .ku-bal{--ku-gut:#6fcf86;--ku-schlecht:#ff8a72;--ku-fill:color-mix(in srgb,var(--ink) 10%,transparent);--ku-on:color-mix(in srgb,var(--ink) 16%,var(--surface))}
+.ku-bkopf{margin:2px 0 4px}.ku-amp{font-weight:700;color:var(--c)}
+.ku-bal .ku-sg{max-width:100%}.ku-bal .ku-sg button{padding:0 10px;font-size:.84rem}
+.ku-bal .pd-leiste{gap:8px 10px}
+.ku-chipgrp{display:flex;flex-wrap:wrap;gap:6px}
+.ku-chipgrp button{border:0!important;background:var(--ku-fill)!important;color:var(--ink)!important;border-radius:16px!important;min-height:32px;padding:0 11px!important;font:500 .84rem var(--body)!important;transition:background .25s}
+.ku-chipgrp button[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 24%,transparent)!important;font-weight:700!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 60%,transparent)}
+.ku-chipgrp button small{opacity:.65;margin-left:4px}
+.ku-bal .pd-bal{background:linear-gradient(90deg,color-mix(in srgb,var(--c) 22%,transparent),var(--c) 85%)}
+.ku-bal .pd-z.ku-hoch .pd-n::before{content:"▲ ";color:var(--c,var(--ink));font-size:.8em}
+.ku-bal .pd-z.ku-tief .pd-n::before{content:"▼ ";color:var(--c,var(--ink));font-size:.8em}
+.ku-bal .pd-achse{height:46px}.ku-bal .pd-gitter i{top:46px}
+.ku-bal .pd-gitter i.ku-sch{top:18px;bottom:0;border-left:1.5px dashed var(--ink);opacity:.6}
+.pd-gitter b.ku-schb{top:0;color:var(--ink);font:700 .7rem var(--body);background:var(--surface);transform:translateX(-50%);padding:0 4px;border-radius:4px;border:1px solid var(--line)}
+.ku-bal>.ku-sg{justify-self:start;min-width:min(100%,340px)}
+.ku-bal .ku-stats{margin-top:6px}
 /* KURS-ENDE */
 </style>
 
@@ -567,6 +585,7 @@ function mount(el,cfg){
       <div class="ku-now" aria-live="polite"></div><div class="ku-chg"></div><div class="ku-sub"></div></div>
     ${R.length>1||cfg.schnitt?`<div class="ku-leiste">${vgl?`<div class="ku-sg" role="tablist" aria-label="Ansicht" style="--n:2"><span class="ku-pill"></span><button type="button" role="tab" data-ans="verlauf">Verlauf</button><button type="button" role="tab" data-ans="vergleich">Vergleichen</button></div>`:''}
       ${R.length>1?`<div class="ku-chips" role="group" aria-label="Reihen">${R.map(r=>`<button type="button" class="ku-tg" data-k="${r.k}" style="--c:${r.farbe}"><i></i>${esc(r.kurz||r.name)}</button>`).join('')}</div>`:''}
+      ${kp&&!gleich&&R.length>1?`<select class="ku-wahl" aria-label="Reihe wählen">${R.map(r=>`<option value="${r.k}">${esc(r.kurz||r.name)}</option>`).join('')}</select>`:''}
       ${cfg.schnitt?`<button type="button" class="ku-tg ku-ma" style="--c:var(--muted)"><i></i>Ø ${cfg.schnitt} J.</button>`:''}</div>`:''}
     <div class="ku-box"><svg class="ku-svg" role="img" tabindex="0"></svg><div class="ku-tip" hidden></div></div>
     <div class="ku-rb" role="group" aria-label="Zeitraum">${ZR.map(r=>`<button type="button" data-r="${r}">${r?r+' J.':'Max'}</button>`).join('')}</div>
@@ -581,6 +600,7 @@ function mount(el,cfg){
   function farbeTrend(r,d){ return r.hoeherGut==null?r.farbe:(d>=0)===!!r.hoeherGut?'var(--ku-gut)':'var(--ku-schlecht)'; }
   function wfmt(r,v){ return fz(v,r.dez)+(r.einheit?' '+r.einheit:''); }
   function knoepfe(){
+    const wl=$('.ku-wahl'); if(wl){ const vg=Z.ans==='vergleich'; $('.ku-chips').hidden=!vg; wl.hidden=vg; wl.value=prim; }
     W0.querySelectorAll('.ku-rb button').forEach(b=>b.classList.toggle('on',+b.dataset.r===Z.r));
     W0.querySelectorAll('.ku-chips .ku-tg').forEach(b=>{ const k=+b.dataset.k, a=sicht().includes(k); b.classList.toggle('on',a); b.setAttribute('aria-pressed',a); });
     const ma=$('.ku-ma'); if(ma){ ma.classList.toggle('on',!!Z.ma); ma.setAttribute('aria-pressed',!!Z.ma); ma.hidden=Z.ans==='vergleich'; }
@@ -671,16 +691,58 @@ function mount(el,cfg){
     if(Z.ans!=='vergleich'&&!gleich){ prim=k; if(!on.includes(k)) on.push(k); }
     else{ if(on.includes(k)){ if(on.length>1) on=on.filter(x=>x!==k); } else on.push(k); if(!on.includes(prim)) prim=on[0]; }
     if(cfg.onWahl) cfg.onWahl(R[prim]); neu(); });
+  const wl=$('.ku-wahl'); if(wl) wl.onchange=()=>{ prim=+wl.value; if(!on.includes(prim)) on.unshift(prim); if(cfg.onWahl) cfg.onWahl(R[prim]); neu(); };
   const ma=$('.ku-ma'); if(ma) ma.onclick=()=>{ Z.ma=!Z.ma; neu(); };
   knoepfe(); kopf(-1); stats();
-  if(kp){ const c=W0.querySelector('.ku-chips'), a=c&&c.querySelector('.on'); if(a) c.scrollLeft=Math.max(0,a.offsetLeft-c.offsetLeft-8); }
   if(window.ResizeObserver){ const ro=new ResizeObserver(()=>{ if(!W0.isConnected){ ro.disconnect(); return; } const w=box.clientWidth; if(w&&Math.abs(w-lastW)>1){ const erst=!lastW; zeichne(erst); } }); ro.observe(box); }
   requestAnimationFrame(()=>{ if(!lastW) zeichne(true); });
   return {neu};
 }
 function block(b){ const i=BL.push(b)-1; return `<figure class="ku-fig" data-kurs="${i}">${b.titel?`<figcaption class="pd-titel">${esc(b.titel)}</figcaption>`:''}<div class="ku-ort"></div>${b.hinweis?`<p class="pd-hinweis">${esc(b.hinweis)}</p>`:''}</figure>`; }
 function init(root){ (root||document).querySelectorAll('.ku-fig[data-kurs]').forEach(f=>{ if(f.dataset.fertig) return; f.dataset.fertig=1; const b=BL[+f.dataset.kurs]; if(b) mount(f.querySelector('.ku-ort'),Object.assign({speicher:b.id||null},b,{titel:b.name||b.titel})); }); }
-window.QWKurs={mount,block,init};
+/* Gemeinsame Bausteine für Vergleichsdiagramme (Balken) im Kurs-Stil */
+function seg(g,kurz){ if(!g||g.classList.contains('ku-sg')) return; const B=[...g.querySelectorAll(':scope>button')]; if(!B.length) return;
+  g.classList.remove('pd-seg','filter'); g.classList.add('ku-sg'); g.style.setProperty('--n',B.length);
+  if(kurz) B.forEach((b,i)=>{ if(kurz[i]!=null){ const t=[...b.childNodes].reverse().find(n=>n.nodeType===3&&n.textContent.trim()); if(t) t.textContent=kurz[i]; } });
+  const p=document.createElement('span'); p.className='ku-pill'; g.prepend(p);
+  const lage=()=>{ const i=B.findIndex(b=>b.getAttribute('aria-pressed')==='true'); g.style.setProperty('--i',Math.max(0,i)); B.forEach((b,j)=>b.classList.toggle('on',j===i)); };
+  lage(); new MutationObserver(lage).observe(g,{subtree:true,attributes:true,attributeFilter:['aria-pressed']}); }
+function sortSeg(f){ const sel=f.querySelector('.pd-sort select'); if(!sel) return; const lab=sel.closest('.pd-sort'), KZ={ab:'Wert ↓',auf:'Wert ↑',az:'A–Z',gr:'Gruppe'};
+  const g=document.createElement('div'); g.setAttribute('role','group'); g.setAttribute('aria-label','Sortierung');
+  g.innerHTML=[...sel.options].map(o=>`<button type="button" data-sortseg="${o.value}" aria-pressed="${o.value===sel.value}" title="${esc(o.textContent)}">${KZ[o.value]||esc(o.textContent)}</button>`).join('');
+  lab.hidden=true; lab.after(g); seg(g);
+  g.addEventListener('click',e=>{ const b=e.target.closest('[data-sortseg]'); if(!b) return; sel.value=b.dataset.sortseg; g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); sel.dispatchEvent(new Event('change')); }); }
+function balken(f,opt){
+  opt=opt||{}; f.classList.add('ku-bal');
+  const kopf=document.createElement('div'); kopf.className='ku-kopf ku-bkopf'; kopf.innerHTML='<div class="ku-lbl"><span class="ku-name"></span> <span class="ku-datum"></span></div><div class="ku-now" aria-live="polite"></div><div class="ku-chg"></div>';
+  const vor=(opt.vor&&f.querySelector(opt.vor))||f.querySelector('.pd-leiste')||f.querySelector('.filter'); vor.before(kopf);
+  const stats=document.createElement('div'); stats.className='ku-stats'; (f.querySelector('.pd-mehr')||f.querySelector('.pd-plot')).after(stats);
+  f.querySelectorAll('.pd-seg').forEach(g=>seg(g)); (opt.seg||[]).forEach(([s,k])=>seg(f.querySelector(s),k));
+  f.querySelectorAll(opt.chips||'').forEach(g=>g.classList.add('ku-chipgrp')); sortSeg(f);
+  const Z=f.querySelector('.pd-zeilen'), G=f.querySelector('.pd-gitter'); let ST=null, hov=-1;
+  const d=v=>Math.abs(v)<10&&v%1?1:0, fw=v=>fz(v,d(v));
+  function zeige(k){ if(!ST||!ST.L.length){ kopf.hidden=true; return; } kopf.hidden=false;
+    const offen=Z.querySelector('.pd-z[aria-expanded="true"]'), kk=k>=0?k:offen?+offen.dataset.k:-1;
+    let o=ST.L.find(x=>x.k===kk), def=!o; if(def) o=ST.hi;
+    const q=kopf.querySelector.bind(kopf), avg=ST.avg, dv=o.w-avg, gr=ST.gruppe;
+    q('.ku-name').textContent=o.n; q('.ku-datum').textContent='· '+(def?'Hoch '+(gr?'der Gruppe '+gr:'der Auswahl'):(o.g||''));
+    q('.ku-now').innerHTML=`${fw(o.w)}<small class="ku-m ku-ix"> ${esc(ST.einheit)}</small>`;
+    const col=opt.gut==null?'var(--ink)':(dv>0)!==!!opt.gut?'var(--ku-schlecht)':'var(--ku-gut)';
+    q('.ku-chg').innerHTML=`<span style="color:${col}">${pf(dv)} ${vz(dv,d(dv))} ${esc(ST.kurz||'')}</span> <span class="ku-m">${dv>=0?'über':'unter'} Schnitt ${gr?esc(gr):'der Auswahl'} (${fw(avg)})</span>${ST.extra?' '+ST.extra(o):''}`; }
+  Z.addEventListener('pointerover',e=>{ const r=e.target.closest('.pd-z'); if(r&&e.pointerType==='mouse'){ hov=+r.dataset.k; zeige(hov); } });
+  Z.addEventListener('pointerleave',()=>{ hov=-1; zeige(-1); });
+  f.addEventListener('click',e=>{ if(e.target.closest('.pd-z')) setTimeout(()=>zeige(hov),0); });
+  return { update(st){ ST=st&&st.L.length?st:null;
+    Z.querySelectorAll('.ku-hoch,.ku-tief').forEach(x=>x.classList.remove('ku-hoch','ku-tief'));
+    if(!ST){ kopf.hidden=true; stats.hidden=true; return; } stats.hidden=false;
+    const L=ST.L; let hi=L[0],lo=L[0],s=0; L.forEach(o=>{ if(o.w>hi.w) hi=o; if(o.w<lo.w) lo=o; s+=o.w; }); ST.hi=hi; ST.lo=lo; ST.avg=s/L.length;
+    const r=k=>Z.querySelector(`.pd-z[data-k="${k}"]`); if(hi!==lo){ r(hi.k)?.classList.add('ku-hoch'); r(lo.k)?.classList.add('ku-tief'); }
+    if(ST.X&&G){ const x=Math.min(100,ST.X(ST.avg)).toFixed(2); G.insertAdjacentHTML('beforeend',`<i class="ku-sch" style="left:${x}%"></i><b class="ku-schb" style="left:${x}%">Ø ${fw(ST.avg)}</b>`); }
+    const t=(a,b,c)=>`<div><span>${a}</span><b>${b}</b><em>${c}</em></div>`;
+    stats.innerHTML=t('▲ Hoch',fw(hi.w)+' '+esc(ST.kurz||''),esc(hi.n))+t('▼ Tief',fw(lo.w)+' '+esc(ST.kurz||''),esc(lo.n))+t('Ø Schnitt',fw(ST.avg)+' '+esc(ST.kurz||''),esc(ST.einheit))+t('Anzahl',L.length,ST.gruppe?'in '+esc(ST.gruppe):'mit Wert');
+    zeige(hov); } };
+}
+window.QWKurs={mount,block,init,balken,seg};
 })();
 </script>
 <script type="text/plain" id="qw3d-plus">/* Quellwissen 3D „realistisch“: HDR-Himmel, prozedurale Erd-Texturen, Graswiese, Blatt-Material, Umgebungsverdeckung (GTAO). */
@@ -5356,6 +5418,7 @@ function initPurin(){
     const D=PD_DATEN[+f.dataset.pd]; if(!D) return;
     const S={bezug:'100',skala:'log',amp:'alle',gr:'alle',sort:'ab',q:'',ohne:false,alle:false,offen:-1};
     const Z=f.querySelector('.pd-zeilen'), A=f.querySelector('.pd-achse'), G=f.querySelector('.pd-gitter'), st=f.querySelector('.pd-status'), mehr=f.querySelector('.pd-mehr');
+    const KB=QWKurs.balken(f,{gut:false,seg:[['[aria-label="Ampel"]',['Alle','grün','gelb','rot']]],chips:'[aria-label="Gruppe"]'});
     const GR=[...new Set(D.map(e=>e.g))], fz=n=>String(n).replace('.',','), fmt=w=>w[0]===w[1]?fz(w[0]):fz(w[0])+'–'+fz(w[1]);
     const mi=w=>(w[0]+w[1])/2, wert=e=>S.bezug==='100'?e.v:e.pv;
     const amp=(e,w)=>{ if(!w) return 'u'; if(S.bezug==='100'&&e.a!=='u') return e.a; const m=mi(w); return m<50?'g':m<=150?'y':'r'; };
@@ -5391,6 +5454,8 @@ function initPurin(){
       const alleMit=D.filter(e=>wert(e)).length;
       st.textContent=`${mit.length} von ${alleMit} Einträgen mit Wert · ${S.bezug==='100'?'mg Harnsäure je 100 g (Getränke je 100 ml)':'mg Harnsäure je übliche Portion'} · Skala ${log?'logarithmisch':'linear'}`;
       mehr.hidden=L.length<=60; mehr.textContent=S.alle?'Weniger zeigen':`Alle ${L.length} zeigen`;
+      KB.update({L:mit.map(o=>({k:o.k,n:o.e.n,g:o.e.g,w:mi(o.w)})),einheit:S.bezug==='100'?'mg je 100 g':'mg je Portion',kurz:'mg',gruppe:S.gr==='alle'?'':S.gr,X,
+        extra:o=>{ const e=D[o.k], c=amp(e,wert(e)); return `<span class="ku-m">·</span> <span class="ku-amp" style="--c:${PD_F[c]}">Ampel ${{g:'grün',y:'gelb',r:'rot',u:'offen'}[c]}</span>`; }});
     };
     f.addEventListener('click',ev=>{ const t=ev.target.closest('button'); if(!t||!f.contains(t)) return;
       for(const k of ['bezug','skala','amp','gr']) if(t.dataset[k]!==undefined){ S[k]=t.dataset[k]; t.parentNode.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===t)); return draw(); }
@@ -5519,6 +5584,7 @@ function initNaehr(){
     const R=ND_BLOECKE[+f.dataset.nd]; if(!R) return; const L=R.L;
     const S={g:ND_G[R.b.start]?R.b.start:'k',bezug:'100',gr:'alle',sort:'ab',q:'',alle:false,offen:-1};
     const Z=f.querySelector('.pd-zeilen'), A=f.querySelector('.pd-achse'), G=f.querySelector('.pd-gitter'), st=f.querySelector('.pd-status'), mehr=f.querySelector('.pd-mehr'), leg=f.querySelector('.nd-leg'), bez=f.querySelector('.nd-bez');
+    const KB=QWKurs.balken(f,{gut:null,vor:'.nd-gr',chips:'.nd-gr,[aria-label="Gruppe"]'});
     const GR=[...new Set(L.map(e=>e.g))];
     const fak=e=>S.bezug==='port'?e.pg/100:1, ein=e=>e.ml?'ml':'g';
     const wert=e=>{ if(S.g==='mix') return ndMix(e)[0]; if(S.g==='ed') return e.k?e.e*100/e.k:0; const v=e[S.g]; return v==null?null:v*fak(e); };
@@ -5552,6 +5618,7 @@ function initNaehr(){
       leg.innerHTML=mix?ND_MIX.map(x=>`<span><i style="background:${x[2]}"></i>${x[1]}</span>`).join(''):`<span><i style="background:${M.c}"></i>${M.n} (${M.u}${S.g==='ed'?'':S.bezug==='port'?' je Portion':' je 100 g/ml'})</span>`;
       st.textContent=`${Lx.length} Lebensmittel · ${M.n}${M.mi?` – Referenz pro Tag (DGE): Männer ${String(M.r[0]).replace('.',',')} ${M.u}, Frauen ${String(M.r[1]).replace('.',',')} ${M.u} · nur Lebensmittel mit Wert`:''}${mix?': Anteil an den Kalorien':S.g==='ed'?' – Eiweißdichte':S.bezug==='port'?' je übliche Portion':' je 100 g (Getränke je 100 ml)'}`;
       mehr.hidden=Lx.length<=60; mehr.textContent=S.alle?'Weniger zeigen':`Alle ${Lx.length} zeigen`;
+      KB.update(mix?null:{L:Lx.filter(o=>o.w!=null).map(o=>({k:o.k,n:o.e.n,g:o.e.g,w:o.w})),einheit:S.g==='ed'?'g Eiweiß je 100 kcal':M.u+(S.bezug==='port'?' je Portion':' je 100 g'),kurz:S.g==='ed'?'g':M.u,gruppe:S.gr==='alle'?'':S.gr,X});
     };
     f.addEventListener('click',ev=>{ const t=ev.target.closest('button'); if(!t||!f.contains(t)) return;
       for(const k of ['g','bezug','gr']) if(t.dataset[k]!==undefined){ S[k]=t.dataset[k]; (k==='g'?f.querySelectorAll('.nd-gr button'):t.parentNode.querySelectorAll('button')).forEach(x=>x.setAttribute('aria-pressed',x===t)); S.offen=-1; return draw(); }
