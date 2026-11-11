@@ -132,6 +132,8 @@ const DE={MV:[16.6,27.2,6.3,261,38,6661,64.4],SN:[15.9,24.1,8.0,645,104,7287,60.
 const DEX={"BW":[79.64,83.93,44.0,31966,59335,14.0],"BY":[78.94,83.51,44.3,33204,62200,null],"BE":[78.08,83.17,42.8,27595,59097,null],"BB":[77.17,83.09,47.5,27560,40759,17.6],"HB":[76.74,82.08,43.1,26542,60974,null],"HH":[78.14,82.98,42.2,32004,90208,null],"HE":[78.63,83.11,44.3,31683,60894,15.4],"MV":[76.24,82.58,48.1,26913,40495,null],"NI":[77.77,82.59,45.1,29080,49907,5.7],"NW":[77.91,82.43,44.5,29197,50470,6.1],"RP":[78.34,82.92,45.1,30519,44915,null],"SL":[77.09,81.92,46.4,26617,42765,19.4],"SN":[77.41,83.61,47.1,26818,41693,null],"ST":[75.49,82.07,48.3,26297,38452,null],"SH":[78.25,82.72,45.8,30247,44344,null],"TH":[76.76,82.59,47.9,26497,38591,8.2]};
 const DEBUND={de_su:12.4,de_dem:null,de_hz:6894,de_aq:58.0,de_le:80.58,de_alt:44.8,de_ek:30069,de_bip:53516,de_oeko:11.1};
 function deWert(c,k){ const d=DE[c]; if(!d) return null; if(k==='de_su') return d[0]; if(k==='de_hz') return d[5]; if(k==='de_aq') return d[6]; if(k==='de_dem') return d[4]*1000/(d[3]/d[0]*1e5)*100; const x=DEX[c]; if(k==='de_le') return (x[0]+x[1])/2; if(k==='de_alt') return x[2]; if(k==='de_ek') return x[3]; if(k==='de_bip') return x[4]; if(k==='de_oeko') return x[5]; return null; }
+const MEERE=[['Atlantischer Ozean',-38,30,0],['Atlantischer Ozean',-18,-25,0],['Pazifischer Ozean',-150,22,0],['Pazifischer Ozean',-125,-25,0],['Pazifischer Ozean',168,12,0],['Indischer Ozean',78,-22,0],['Arktischer Ozean',-10,84,1],['Südlicher Ozean',20,-62,1],['Südlicher Ozean',-140,-64,1],
+ ['Mittelmeer',18,35,2.6],['Karibisches Meer',-75,15,2.8],['Golf von Mexiko',-90,25,3],['Arabisches Meer',64,15,2.8],['Golf von Bengalen',89,14,3],['Südchinesisches Meer',114,13,3],['Beringmeer',-178,58,3],['Hudson Bay',-85,60,3.2],['Nordsee',3.5,56,3.6],['Ostsee',19,58,4.2],['Schwarzes Meer',34,43.2,3.6],['Kaspisches Meer',50.5,41,4],['Rotes Meer',38,20,3.8],['Japanisches Meer',135,40,3.6],['Ochotskisches Meer',150,54,3.4],['Korallenmeer',156,-17,3.2],['Tasmansee',160,-38,3.2],['Golf von Guinea',2,1,3.4],['Europäisches Nordmeer',2,69,3.4],['Philippinensee',132,19,3.4],['Golf von Alaska',-145,56,3.6],['Biskaya',-5,45.5,4.4],['Persischer Golf',51.5,27,4.4],['Labradorsee',-54,58,3.8]];
 const TIEFEN=[['Marianengraben',142.2,11.35,10935],['Tongagraben',-174.7,-23.25,10800],['Philippinengraben',126.6,10.4,10540],['Kermadecgraben',-177.4,-31.9,10047],['Kurilengraben',152.5,44.2,9600],['Puerto-Rico-Graben',-66.5,19.8,8400],['Südsandwichgraben',-25.0,-56.2,8265],['Atacamagraben',-71.5,-23.4,8065],['Sundagraben',110.0,-10.6,7290],['Molloytief (Arktis)',2.8,79.1,5550],['Calypsotief (Mittelmeer)',21.1,36.6,5267],['Landsorttief (Ostsee)',18.3,58.6,459]];
 /* Staats- und Regierungsform (vereinfacht, Stand 2026); nicht gelistete Staaten = Präsidial-/semipräsidentielle Republik */
 const STAAT={
@@ -174,7 +176,7 @@ function ramp(stops,t){ t=Math.max(0,Math.min(1,t)); const n=stops.length-1, k=M
 
 /* ---------- Zustand ---------- */
 const S={modus:'globus',lam:-15,phi:25,zoom:1,px:0,py:0,grund:'relief',jahr:2023,unterlage:true,
- ov:{namen:true,staedte:true,grenzen:true,fluesse:true,landschaft:false,gipfel:false,weizen:false,mais:false,reis:false,gerste:false,hopfen:false,oel:false,gas:false,kohle:false,gold:false,silber:false,uran:false,lithium:false,pfl:false,rez:false,aut:false,nacht:false,kriege:false,wander:false,erf:false,geld:false,goethe:false,tiefen:false},
+ ov:{wolken:true,namen:true,staedte:true,grenzen:true,fluesse:true,landschaft:false,gipfel:false,weizen:false,mais:false,reis:false,gerste:false,hopfen:false,oel:false,gas:false,kohle:false,gold:false,silber:false,uran:false,lithium:false,pfl:false,rez:false,aut:false,nacht:false,kriege:false,wander:false,erf:false,geld:false,goethe:false,tiefen:false},
  bl:null,
  epoche:'',pflanze:'',sel:null,klick:null,hist:null,spin:true,bewegt:false};
 let cv,ctx,W=0,H=0,DPR=1,wrap;
@@ -222,7 +224,7 @@ function zstufe(){ return 2.2+2.4*Math.log2(Math.max(S.zoom,.5))-(W<520?.2:0); }
 
 /* ---------- Relief (Textur) ---------- */
 let TEX=null, TW=0, TH=0, RC=null, RKEY='', RTIMER=null;
-function textur(){ if(TEX!==null) return; TEX=false; const el=document.getElementById('weltrelief'); if(!el) return; const im=new Image(); im.onload=()=>{ const c=document.createElement('canvas'); TW=c.width=im.width; TH=c.height=im.height; const x=c.getContext('2d'); x.drawImage(im,0,0); TEX=x.getImageData(0,0,TW,TH).data; RKEY=''; zeichne(); }; im.src='data:image/jpeg;base64,'+el.textContent.trim(); }
+function textur(){ if(TEX!==null||glAn()) return; TEX=false; const el=document.getElementById('weltrelief'); if(!el) return; const im=new Image(); im.onload=()=>{ const c=document.createElement('canvas'); TW=c.width=im.width; TH=c.height=im.height; const x=c.getContext('2d'); x.drawImage(im,0,0); TEX=x.getImageData(0,0,TW,TH).data; RKEY=''; zeichne(); }; im.src='data:image/jpeg;base64,'+el.textContent.trim(); }
 function relief(fein){
   if(!TEX) return null; const s=fein?Math.min(DPR,1.5):0.5, w=Math.max(1,Math.round(W*s)), h=Math.max(1,Math.round(H*s)); const key=[S.modus,S.lam.toFixed(2),S.phi.toFixed(2),S.zoom.toFixed(3),S.px|0,S.py|0,w,h].join('|');
   if(key===RKEY&&RC) return RC; if(!RC) RC=document.createElement('canvas'); RC.width=w; RC.height=h; const x=RC.getContext('2d'); const img=x.createImageData(w,h), d=img.data;
@@ -246,25 +248,176 @@ function relief(fein){
       for(let px=0;px<w;px++){ const lon=(px-W/2*s-S.px*s)/k+S.lam; const u=(((lon+180)/360)%1+1)%1, ti=(ty*TW+((u*TW)|0))*4, o=(py*w+px)*4; d[o]=TEX[ti]; d[o+1]=TEX[ti+1]; d[o+2]=TEX[ti+2]; d[o+3]=255; } } }
   x.putImageData(img,0,0); RKEY=key; return RC; }
 
+/* ---------- Naturbild der Erde (WebGL): Wasser nach Tiefe, Land nach Klimazone und Höhe, Schummerung, Wolken, Lufthülle,
+   Tag-Nacht-Grenze, Stadtlichter, Sterne. Ein Programm für Globus, Karte und Scheibe. Alles aus den eingebetteten Daten
+   (Relief, Höhen/Tiefen, 2°-Raster, Städte) – keine Datei wird nachgeladen. Ohne WebGL zeichnet weiter die Canvas-Fassung. ---------- */
+const BIOF={regen:[26,74,32],savanne:[122,116,62],wueste:[198,170,120],steppe:[150,142,92],hartlaub:[98,106,62],subtrop:[58,98,44],laub:[54,94,42],misch:[46,86,42],taiga:[34,68,44],tundra:[118,114,94],gebirge:[122,114,102],eis:[238,242,247]};
+const GLV='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+const GLF=`precision highp float;
+uniform vec2 uGr,uPan,uSonneP;uniform float uDpr,uMode,uR,uLam,uPhi,uK,uZeit,uWolken,uThema,uPlain,uNacht,uRoh,uBereit,uFein,uUnscharf,uLichtart,uBump;
+uniform vec3 uSonne,uBlick,uOst,uNord;uniform sampler2D tRel,tRelK,tHoe,tBio,tNac,tWol;
+const float PI=3.14159265;
+float h1(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h1(i),h1(i+vec2(1.,0.)),f.x),mix(h1(i+vec2(0.,1.)),h1(i+vec2(1.,1.)),f.x),f.y);}
+float fbm(vec2 p){return .5*vn(p)+.25*vn(p*2.03+7.)+.125*vn(p*4.1+13.)+.0625*vn(p*8.3+29.);}
+vec3 himmel(vec2 p){vec2 q=p/max(uGr.x,uGr.y);vec3 c=mix(vec3(.022,.036,.075),vec3(.006,.009,.02),clamp(length(q-.5*uGr/max(uGr.x,uGr.y))*1.5,0.,1.));
+ float mw=fbm(q*3.2+vec2(uLam,-uPhi)*.03+3.);float band=exp(-pow((q.y-.42+(q.x-.5)*.6)*3.4,2.));c+=vec3(.05,.06,.1)*band*mw*mw*1.5;
+ for(int i=0;i<3;i++){float fi=float(i);float cell=fi<.5?96.:(fi<1.5?44.:19.);vec2 pp=p+vec2(uLam,-uPhi)*(fi<.5?34.:(fi<1.5?16.:7.))+fi*37.;vec2 g=floor(pp/cell);float r=h1(g+fi*17.3);
+  if(r>(fi<.5?.72:(fi<1.5?.6:.45))){vec2 st=(vec2(h1(g+1.3),h1(g+2.7))*.7+.15)*cell;float d=length(pp-g*cell-st);float gr=fi<.5?1.5:(fi<1.5?1.05:.75);float hell=(fi<.5?1.:(fi<1.5?.62:.36))*(.5+.5*h1(g+5.1));
+   vec3 fa=mix(vec3(.75,.85,1.),vec3(1.,.9,.75),h1(g+9.7));c+=fa*hell*(smoothstep(gr,0.,d)+(fi<.5?.22*smoothstep(gr*4.,0.,d):0.));}}
+ return c;}
+void main(){
+ vec2 p=vec2(gl_FragCoord.x,uGr.y*uDpr-gl_FragCoord.y)/uDpr;vec3 raum=uRoh>.5?vec3(0.):himmel(p);vec3 col=raum;float lon=0.,lat=0.,tr=0.,z=1.;vec2 q=vec2(0.);float rr=0.;vec2 dS=vec2(0.);float rS=0.;
+ if(uMode<.5){q=(p-uGr*.5)/uR;q.y=-q.y;rr=dot(q,q);if(rr<1.){z=sqrt(1.-rr);float sp=sin(uPhi),cp=cos(uPhi);lat=asin(clamp(z*sp+q.y*cp,-1.,1.));lon=uLam+atan(q.x,z*cp-q.y*sp);tr=1.;}}
+ else if(uMode<1.5){lon=((p.x-uGr.x*.5-uPan.x)/uK)*PI/180.+uLam;lat=-((p.y-uGr.y*.5-uPan.y)/uK)*PI/180.;if(abs(lat)<=PI*.5)tr=1.;}
+ else{dS=p-uGr*.5-uPan;rS=length(dS)/uR;if(rS<=1.){lat=PI*.5-rS*PI;lon=atan(dS.x,dS.y)+uLam;tr=1.;}}
+ if(tr>.5){
+  vec2 uv=vec2(fract(lon/(2.*PI)+.5),clamp(.5-lat/PI,0.001,.999));float cl=cos(lat),sl=sin(lat),co=cos(lon),so=sin(lon);
+  vec3 U=vec3(cl*co,cl*so,sl),E=vec3(-so,co,0.),N=vec3(-sl*co,-sl*so,cl);
+  vec3 S=uLichtart<.5?uSonne:normalize(-.45*E+.45*N+.77*U);float nS=dot(U,S);
+  float tag=uLichtart<.5?smoothstep(-.10,.20,nS):1.;if(uMode>1.5&&uNacht>.5)tag=mix(.2,1.,1.-smoothstep(.42,1.15,length(p-uSonneP)/uR));
+  float still=max(uThema,uPlain);tag=mix(tag,1.,still);
+  vec3 alb;float wasser=0.,eis=0.;float hE=0.,hN=0.;
+  if(uBereit<.5||uPlain>.5){vec3 rel=uBereit>.5?texture2D(tRelK,uv).rgb:vec3(.1,.2,.4);wasser=uBereit>.5?smoothstep(.03,.11,rel.b-rel.r)*step(rel.g,rel.b+.03):1.;alb=mix(vec3(.118,.172,.227),vec3(.035,.13,.26),wasser);}
+  else{
+   vec3 rel=mix(texture2D(tRel,uv).rgb,texture2D(tRelK,uv).rgb,uUnscharf);float h=texture2D(tHoe,uv).r;vec2 e=vec2(1./2048.,1./1024.)*1.3;
+   hE=(texture2D(tHoe,uv+vec2(e.x,0.)).r-texture2D(tHoe,uv-vec2(e.x,0.)).r)/max(cl,.2);hN=texture2D(tHoe,uv-vec2(0.,e.y)).r-texture2D(tHoe,uv+vec2(0.,e.y)).r;
+   wasser=smoothstep(.03,.11,rel.b-rel.r)*step(rel.g,rel.b+.03);
+   vec4 bio=texture2D(tBio,uv);float hoehe=clamp((h-.5)*2.,0.,1.),lum=dot(rel,vec3(.3,.59,.11));float kalt=smoothstep(.45,.97,abs(sl));
+   vec3 land=mix(rel,bio.rgb*(.6+.8*lum),.6*bio.a);
+   land=mix(land,vec3(.52,.47,.42)*(.7+.6*lum),smoothstep(.28,.6,hoehe)*.5);
+   land=mix(land,vec3(.95,.96,.98),smoothstep(.56,.82,hoehe+kalt*.22));
+   land*=.95+.1*vn(uv*vec2(4096.,2048.)*1.7)*uFein+.04*(fbm(uv*vec2(700.,350.))-.5);
+   float tiefe=clamp((.5-h)/.4,0.,1.);
+   vec3 w=mix(vec3(.17,.52,.58),vec3(.055,.29,.52),smoothstep(0.,.2,tiefe));w=mix(w,vec3(.028,.135,.33),smoothstep(.14,.58,tiefe));w=mix(w,vec3(.014,.065,.2),smoothstep(.55,1.,tiefe));
+   w=mix(w,rel,.2);w+=vec3(.07,.13,.11)*(1.-smoothstep(0.,.09,tiefe))*.7;
+   float lg=degrees(abs(lat));eis=smoothstep(0.,.3,(lg-(lat>0.?75.:63.))/10.+(fbm(uv*vec2(60.,30.))-.5)*.7);w=mix(w,vec3(.86,.9,.95)*(.9+.2*vn(uv*vec2(900.,450.))),eis*.92);
+   alb=mix(land,w,wasser);
+   alb=mix(alb,mix(vec3(dot(alb,vec3(.3,.59,.11))),alb,.5)*.92,uThema);
+  }
+  if(uRoh>.5){col=alb;}
+  else{
+   float bump=uBump*mix(1.,.22,wasser);vec3 nb=normalize(U-bump*(hE*E+hN*N));float dif=max(dot(nb,S),0.);
+   float licht=uLichtart<.5?.05+1.08*pow(dif,.78):clamp(.2+.98*dif/.77,0.,1.5);licht=mix(licht,.6+.5*dif,still*step(uLichtart,.5));
+   float wk=0.;
+   if(uWolken>.01&&still<.5){vec2 cu=vec2(uv.x+uZeit,uv.y);float c=texture2D(tWol,cu).r*.72+texture2D(tWol,vec2(cu.x*3.+.37-uZeit*.6,abs(fract(uv.y*1.5+.25)*2.-1.))).r*.28;wk=smoothstep(.5,.82,c)*uWolken;
+    vec2 sv=vec2(dot(S,E),-dot(S,N))*.0045;float cs=texture2D(tWol,cu+sv).r*.72+.14;alb*=1.-.36*smoothstep(.5,.8,cs)*uWolken*(1.-wk);}
+   vec3 V=uMode<.5?uBlick:U;vec2 wu=uv*vec2(2.,1.);vec3 nw=normalize(U+(E*(fbm(wu*700.)-.47)+N*(fbm(wu*700.+31.)-.47))*.03+(E*(vn(wu*4200.)-.5)+N*(vn(wu*4200.+57.)-.5))*.06*uFein);
+   float nh=max(dot(nw,normalize(S+V)),0.);float sp=(pow(nh,240.)*.95+pow(nh,34.)*.15)*wasser*(1.-eis)*(1.-wk)*tag*(1.-still);
+   vec3 c=alb*licht*tag+alb*vec3(.05,.07,.12)*(1.-tag);c+=vec3(1.,.96,.86)*sp;
+   float daem=exp(-pow((nS-.03)/.11,2.))*step(uLichtart,.5)*(1.-still);
+   if(still<.5){float nl=texture2D(tNac,uv).r;c+=vec3(1.,.76,.42)*nl*(1.-tag)*(1.-wasser*.85)*(1.-wk*.8)*1.7;}
+   c=mix(c,c*vec3(1.22,.86,.62)+vec3(.04,.015,0.),daem*.5);
+   vec3 wc=vec3(1.)*(.08+.96*pow(max(nS+.12,0.),.55))*tag+vec3(.06,.075,.11)*(1.-tag);if(uLichtart>.5)wc=vec3(.97)*tag+vec3(.06,.075,.11)*(1.-tag);wc=mix(wc,wc*vec3(1.2,.8,.62),daem*.6);
+   c=mix(c,wc,wk*.84);
+   if(uMode<.5){float tw=smoothstep(-.3,.3,nS);vec3 at=mix(vec3(.28,.52,1.),vec3(1.,.55,.3),daem*.7)*(.1+.9*mix(tw,1.,still));c*=1.-.3*pow(1.-z,1.6);c=mix(c,at,pow(1.-z,2.8)*.78);}
+   col=c;
+  }
+ }
+ else if(uRoh<.5){
+  if(uMode<.5){float rl=sqrt(rr);vec2 nd=q/rl;float nS=dot(nd.x*uOst+nd.y*uNord,uSonne);float still=max(uThema,uPlain);float tg=mix(smoothstep(-.5,.35,nS),1.,still*.7);float t=rl-1.;
+   float halo=exp(-t*46.)*.9+exp(-t*12.)*.3+exp(-t*3.4)*.08;vec3 hc=mix(vec3(.2,.45,1.),vec3(.6,.8,1.),exp(-t*70.));hc=mix(hc,vec3(1.,.5,.25),exp(-pow(nS/.22,2.))*.45*(1.-still));
+   col=raum*(1.-min(1.,halo*tg))+hc*halo*(.06+.94*tg);}
+  else if(uMode>1.5){
+   if(rS<1.075){float a=atan(dS.x,dS.y),t=(rS-1.)/.075;float n=fbm(vec2(a*46.,t*3.5+a*2.));vec3 ice=mix(vec3(.95,.97,1.),vec3(.5,.64,.8),clamp(smoothstep(.25,1.,t)*.85+(n-.5)*.5,0.,1.));
+    ice*=mix(.62,1.,smoothstep(0.,.1,t))*(.86+.3*smoothstep(.05,.3,t)*(1.-smoothstep(.45,1.,t)));vec2 ld=normalize(vec2(-.6,-.8));ice*=.82+.26*dot(normalize(dS),ld);
+    float tg=uNacht>.5?mix(.42,1.,1.-smoothstep(.42,1.15,length(p-uSonneP)/uR)):1.;col=ice*tg;}
+   else{float t=rS-1.075;vec2 sd=(dS+vec2(-.03,-.045)*uR)/uR;float sch=smoothstep(1.2,1.02,length(sd));col=raum*(1.-.75*sch)+vec3(.2,.4,.75)*exp(-t*16.)*.3;}
+  }
+ }
+ col+=(h1(p+.5)-.5)/170.;gl_FragColor=vec4(col,1.);}`;
+let GL=null, GLZ=0, GLW=0, GLH=0, GLD=1;
+function glAn(){ return !!(GL&&GL.ok); }
+function glStart(){
+  GL=null; if(/[?&]canvas/.test(location.search)) return; const m=$('.qwk-map',wrap); if(!m) return;
+  const c=document.createElement('canvas'); c.className='qwk-erde'; c.setAttribute('aria-hidden','true');
+  let g=null; try{ g=c.getContext('webgl',{alpha:false,antialias:false,depth:false,stencil:false,powerPreference:'high-performance',preserveDrawingBuffer:!!window.QW_STANDBILD}); }catch(e){}
+  if(!g) return; const hp=g.getShaderPrecisionFormat(g.FRAGMENT_SHADER,g.HIGH_FLOAT); if(!hp||!hp.precision) return;
+  const sh=(t,s)=>{ const o=g.createShader(t); g.shaderSource(o,s); g.compileShader(o); if(!g.getShaderParameter(o,g.COMPILE_STATUS)){ console.warn('Weltkarte: Shader',g.getShaderInfoLog(o)); return null; } return o; };
+  const vs=sh(g.VERTEX_SHADER,GLV), fs=sh(g.FRAGMENT_SHADER,GLF); if(!vs||!fs) return;
+  const pr=g.createProgram(); g.attachShader(pr,vs); g.attachShader(pr,fs); g.linkProgram(pr); if(!g.getProgramParameter(pr,g.LINK_STATUS)){ console.warn('Weltkarte: Programm',g.getProgramInfoLog(pr)); return; }
+  g.useProgram(pr); const b=g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER,b); g.bufferData(g.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),g.STATIC_DRAW); const al=g.getAttribLocation(pr,'a'); g.enableVertexAttribArray(al); g.vertexAttribPointer(al,2,g.FLOAT,false,0,0);
+  const U={}; const n=g.getProgramParameter(pr,g.ACTIVE_UNIFORMS); for(let i=0;i<n;i++){ const u=g.getActiveUniform(pr,i); U[u.name]=g.getUniformLocation(pr,u.name); }
+  const T={}; const tex=(name,unit,src,o={})=>{ const t=T[name]||(T[name]=g.createTexture()); g.activeTexture(g.TEXTURE0+unit); g.bindTexture(g.TEXTURE_2D,t); g.pixelStorei(g.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false); g.pixelStorei(g.UNPACK_FLIP_Y_WEBGL,false);
+    if(src&&src.d) g.texImage2D(g.TEXTURE_2D,0,g.RGBA,src.w,src.h,0,g.RGBA,g.UNSIGNED_BYTE,src.d); else g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,src);
+    g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,o.rs?g.REPEAT:g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,o.rt?g.REPEAT:g.CLAMP_TO_EDGE); g.uniform1i(U[name],unit); };
+  const leer={d:new Uint8Array([0,0,0,255]),w:1,h:1}; ['tRel','tRelK','tHoe','tBio','tNac','tWol'].forEach((k,i)=>tex(k,i,leer));
+  GL={g,c,U,tex,ok:true,bereit:false,relB:4096}; m.insertBefore(c,m.firstChild);
+  c.addEventListener('webglcontextlost',e=>{ e.preventDefault(); if(GL&&GL.c===c){ GL.ok=false; c.remove(); RKEY=''; zeichne(); } });
+  const bild=id=>new Promise((res,rej)=>{ const el=document.getElementById(id); if(!el) return rej(new Error(id)); const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src='data:image/jpeg;base64,'+el.textContent.trim(); });
+  const me=GL, mx=g.getParameter(g.MAX_TEXTURE_SIZE), sparsam=Math.min(screen.width||9999,screen.height||9999)<600||(navigator.deviceMemory||8)<4;
+  const klein=(im,w)=>{ const k=document.createElement('canvas'); k.width=w; k.height=w/2; k.getContext('2d').drawImage(im,0,0,w,w/2); return k; };
+  Promise.all([bild('weltrelief'),bild('welthoehe')]).then(([rel,hoe])=>{ if(GL!==me||!me.ok) return; const zielB=Math.min(rel.width,mx,sparsam?2048:4096); me.relB=zielB;
+    tex('tRel',0,zielB<rel.width?klein(rel,zielB):rel,{rs:1}); tex('tRelK',1,klein(rel,1024),{rs:1}); tex('tHoe',2,hoe,{rs:1}); tex('tBio',3,glBiome()); me.bereit=true; zeichne();
+    setTimeout(()=>{ if(GL!==me||!me.ok) return; tex('tNac',4,glNacht(),{rs:1}); zeichne(); setTimeout(()=>{ if(GL!==me||!me.ok) return; tex('tWol',5,glWolken(),{rs:1,rt:1}); me.wolken=true; zeichne(); },30); },30);
+  }).catch(e=>{ console.warn('Weltkarte: Texturen',e); });
+}
+/* 2°-Raster der Vegetationszonen als kleine Farbtextur (Ränder aufgefüllt, damit Küsten nicht ausfransen) */
+function glBiome(){ const w=180,h=90,d=new Uint8Array(w*h*4), ok=new Uint8Array(w*h);
+  DAT.raster.forEach(r=>{ const f=BIOF[r[4]]; if(!f) return; const x=Math.round((r[0]+179)/2), y=Math.round((89-r[1])/2); if(x<0||x>=w||y<0||y>=h) return; const i=y*w+x; d[i*4]=f[0]; d[i*4+1]=f[1]; d[i*4+2]=f[2]; d[i*4+3]=255; ok[i]=1; });
+  for(let lauf=0;lauf<4;lauf++){ const neu=[]; for(let y=0;y<h;y++) for(let x=0;x<w;x++){ const i=y*w+x; if(ok[i]) continue; let r=0,g=0,b=0,n=0; for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const xx=(x+dx+w)%w, yy=y+dy; if(yy<0||yy>=h) continue; const j=yy*w+xx; if(ok[j]){ r+=d[j*4]; g+=d[j*4+1]; b+=d[j*4+2]; n++; } } if(n) neu.push([i,r/n,g/n,b/n]); }
+    neu.forEach(([i,r,g,b])=>{ d[i*4]=r; d[i*4+1]=g; d[i*4+2]=b; d[i*4+3]=lauf<1?255:0; ok[i]=1; }); }
+  return {d,w,h}; }
+/* Stadtlichter aus den Städten (Größe nach Einwohnern) mit verstreuten Siedlungspunkten im Umland */
+function glNacht(){ const w=1024,h=512,c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d'); x.fillStyle='#000'; x.fillRect(0,0,w,h); x.globalCompositeOperation='lighter';
+  let s=11; const rnd=()=>(s=(s*16807)%2147483647)/2147483647;
+  DAT.staedte.forEach(([n,lo,la,p])=>{ const px=(lo+180)/360*w, py=(90-la)/180*h, k=1/Math.max(.35,Math.cos(la*R2)), gr=Math.sqrt(Math.max(p,.05));
+    const punkt=(ax,ay,rad,hell)=>{ const g=x.createRadialGradient(ax,ay,0,ax,ay,rad); g.addColorStop(0,`rgba(255,255,255,${hell})`); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.save(); x.translate(ax,ay); x.scale(k,1); x.translate(-ax,-ay); x.beginPath(); x.arc(ax,ay,rad,0,7); x.fill(); x.restore(); };
+    punkt(px,py,1.1+gr*.55,Math.min(1,.5+gr*.14)); const m=Math.round(3+gr*5); for(let i=0;i<m;i++){ const a=rnd()*6.283, di=(1.5+rnd()*rnd()*(5+gr*3.2)); punkt(px+Math.cos(a)*di*k,py+Math.sin(a)*di,.7+rnd()*.6,.16+rnd()*.3); } });
+  return c; }
+/* Wolken: gebackenes Rauschen mit Wirbeln, in Ost-West-Richtung nahtlos; Bänder an Äquator und in den Westwindzonen */
+function glWolken(){ const w=1024,h=512,d=new Uint8Array(w*h*4);
+  const hs=(i,j,k)=>{ let n=(i*374761393+j*668265263+k*1274126177)|0; n=(n^(n>>>13))*1274126177; return ((n^(n>>>16))>>>0)/4294967295; };
+  const n3=(x,y,z)=>{ const xi=Math.floor(x),yi=Math.floor(y),zi=Math.floor(z); let u=x-xi,v=y-yi,t=z-zi; u=u*u*(3-2*u); v=v*v*(3-2*v); t=t*t*(3-2*t);
+    const a=hs(xi,yi,zi)+(hs(xi+1,yi,zi)-hs(xi,yi,zi))*u, b=hs(xi,yi+1,zi)+(hs(xi+1,yi+1,zi)-hs(xi,yi+1,zi))*u, c=hs(xi,yi,zi+1)+(hs(xi+1,yi,zi+1)-hs(xi,yi,zi+1))*u, e=hs(xi,yi+1,zi+1)+(hs(xi+1,yi+1,zi+1)-hs(xi,yi+1,zi+1))*u;
+    return (a+(b-a)*v)+((c+(e-c)*v)-(a+(b-a)*v))*t; };
+  const f3=(x,y,z,o)=>{ let s=0,m=.5,f=1,n=0; for(let i=0;i<o;i++){ s+=m*n3(x*f+i*7.1,y*f-i*3.3,z*f+i*5.7); n+=m; f*=2.07; m*=.5; } return s/n; };
+  for(let py=0;py<h;py++){ const lat=(.5-(py+.5)/h)*Math.PI, cl=Math.cos(lat), sl=Math.sin(lat), ld=Math.abs(lat)/R2;
+    const zone=.52+.2*Math.exp(-Math.pow(ld/9,2))+.2*Math.exp(-Math.pow((ld-52)/15,2))-.17*Math.exp(-Math.pow((ld-25)/9,2))+.08*Math.exp(-Math.pow((ld-80)/12,2));
+    for(let px=0;px<w;px++){ const lon=(px+.5)/w*2*Math.PI, x0=cl*Math.cos(lon), y0=cl*Math.sin(lon), z0=sl;
+      const wx=f3(x0*2.2+5,y0*2.2,z0*2.2,2)-.5, wy=f3(x0*2.2,y0*2.2+9,z0*2.2,2)-.5; const v=f3(x0*3.4+wx*1.5,y0*3.4+wy*1.5,z0*4.6+wx,5)*.8+f3(x0*13+wy*2,y0*13,z0*15,3)*.2;
+      const o=(py*w+px)*4, g=Math.max(0,Math.min(255,(v+(zone-.5)*.75)*255)); d[o]=d[o+1]=d[o+2]=g; d[o+3]=255; } }
+  return {d,w,h}; }
+function glZeichne(mitRelief,thema){
+  if(!glAn()) return false; const g=GL.g, U=GL.U, c=GL.c;
+  const fl=W*H, dpr=Math.min(DPR,fl*DPR*DPR>2.6e6?Math.max(1,Math.sqrt(2.6e6/fl)):DPR), bw=Math.max(1,Math.round(W*dpr)), bh=Math.max(1,Math.round(H*dpr));
+  if(c.width!==bw||c.height!==bh){ c.width=bw; c.height=bh; } g.viewport(0,0,bw,bh);
+  const mode=S.modus==='globus'?0:S.modus==='scheibe'?2:1, l=S.lam*R2, p=S.phi*R2, cp=Math.cos(p), sp=Math.sin(p), cl=Math.cos(l), sl=Math.sin(l);
+  const C=[cp*cl,cp*sl,sp], Ex=[-sl,cl,0], Ny=[-sp*cl,-sp*sl,cp]; let So;
+  if(S.ov.nacht){ const [a,b]=sonne(); So=[Math.cos(b*R2)*Math.cos(a*R2),Math.cos(b*R2)*Math.sin(a*R2),Math.sin(b*R2)]; }
+  else { const L=[-.47,.33,.82]; So=[0,1,2].map(i=>L[0]*Ex[i]+L[1]*Ny[i]+L[2]*C[i]); }
+  const R=mode===0?radius():rd(), k=kf(), pxTex=mode===0?(GL.relB/(2*Math.PI))/(R*dpr):mode===1?(GL.relB/360)/(k*dpr):(GL.relB/2)/(R*dpr*2);
+  g.uniform2f(U.uGr,W,H); g.uniform1f(U.uDpr,bw/W); g.uniform1f(U.uMode,mode); g.uniform1f(U.uR,R); g.uniform1f(U.uLam,l); g.uniform1f(U.uPhi,p); g.uniform1f(U.uK,k); g.uniform2f(U.uPan,S.px,S.py);
+  g.uniform3fv(U.uSonne,So); g.uniform3fv(U.uBlick,C); g.uniform3fv(U.uOst,Ex); g.uniform3fv(U.uNord,Ny);
+  let sx=0, sy=0; if(mode===2&&S.ov.nacht){ const [a,b]=sonne(), q=proj(a,b); sx=q[0]; sy=q[1]; } g.uniform2f(U.uSonneP,sx,sy);
+  g.uniform1f(U.uZeit,GLZ); g.uniform1f(U.uWolken,S.ov.wolken&&GL.wolken?Math.max(.25,Math.min(1,1.25-S.zoom/9)):0); g.uniform1f(U.uThema,thema?1:0); g.uniform1f(U.uPlain,mitRelief?0:1); g.uniform1f(U.uNacht,S.ov.nacht?1:0); g.uniform1f(U.uRoh,0);
+  g.uniform1f(U.uBereit,GL.bereit?1:0); g.uniform1f(U.uFein,Math.max(0,Math.min(1,(S.zoom-1.5)/4))); g.uniform1f(U.uUnscharf,Math.max(0,Math.min(1,Math.log2(Math.max(1,pxTex))/2))); g.uniform1f(U.uLichtart,mode===0||(mode===1&&S.ov.nacht)?0:1); g.uniform1f(U.uBump,mode===0?11:9);
+  g.drawArrays(g.TRIANGLES,0,3); GLW=bw; GLH=bh; GLD=dpr; return true; }
+/* Unbeleuchtetes Naturbild der Scheibe als Bild (für die 3D-Scheibe) */
+function glScheibenbild(ts){ if(!glAn()||!GL.bereit) return null; const g=GL.g, U=GL.U, c=GL.c, mx=g.getParameter(g.MAX_RENDERBUFFER_SIZE)||ts; ts=Math.min(ts,mx); c.width=c.height=ts; g.viewport(0,0,ts,ts);
+  g.uniform2f(U.uGr,ts,ts); g.uniform1f(U.uDpr,1); g.uniform1f(U.uMode,2); g.uniform1f(U.uR,ts/2); g.uniform1f(U.uLam,0); g.uniform1f(U.uPhi,0); g.uniform2f(U.uPan,0,0); g.uniform1f(U.uRoh,1); g.uniform1f(U.uPlain,0); g.uniform1f(U.uThema,0); g.uniform1f(U.uBereit,1); g.uniform1f(U.uFein,0); g.uniform1f(U.uUnscharf,0); g.uniform1f(U.uWolken,0);
+  g.drawArrays(g.TRIANGLES,0,3); const k=document.createElement('canvas'); k.width=k.height=ts; k.getContext('2d').drawImage(c,0,0); zeichne(); return k; }
+
 /* ---------- Zeichnen ---------- */
 let sterne=null, BOX=[]; const SPERR=typeof CanvasRenderingContext2D!=='undefined'&&'letterSpacing' in CanvasRenderingContext2D.prototype;
 function zeichne(fein){
   if(!ctx) return; BOX=[]; ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
-  const g0=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.8); g0.addColorStop(0,'#0e1a30'); g0.addColorStop(1,'#04070e'); ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
+  const G3=glZeichne(S.grund==='relief'||(S.unterlage&&!GRUND[S.grund].r),S.grund!=='relief');
+  if(!G3){ const g0=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.8); g0.addColorStop(0,'#0e1a30'); g0.addColorStop(1,'#04070e'); ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
   if(!sterne){ sterne=[]; let s=7; const r=()=>(s=(s*16807)%2147483647)/2147483647; for(let i=0;i<260;i++) sterne.push([r(),r(),r()*1.2+.2,r()]); }
-  sterne.forEach(([x,y,z,a])=>{ ctx.fillStyle=`rgba(200,220,255,${a*.6})`; ctx.fillRect(x*W,y*H,z,z); });
+  sterne.forEach(([x,y,z,a])=>{ ctx.fillStyle=`rgba(200,220,255,${a*.6})`; ctx.fillRect(x*W,y*H,z,z); }); }
   const r=radius(), glob=S.modus==='globus', G=GRUND[S.grund], rast=G.r, mitRelief=S.grund==='relief'||(S.unterlage&&!rast);
-  if(glob){ const at=ctx.createRadialGradient(W/2,H/2,r*0.92,W/2,H/2,r*1.18); at.addColorStop(0,'rgba(110,190,255,.62)'); at.addColorStop(.18,'rgba(80,160,255,.3)'); at.addColorStop(.5,'rgba(60,130,255,.1)'); at.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=at; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.18,0,7); ctx.fill();
+  if(glob){ if(!G3){ const at=ctx.createRadialGradient(W/2,H/2,r*0.92,W/2,H/2,r*1.18); at.addColorStop(0,'rgba(110,190,255,.62)'); at.addColorStop(.18,'rgba(80,160,255,.3)'); at.addColorStop(.5,'rgba(60,130,255,.1)'); at.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=at; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.18,0,7); ctx.fill();
     const hof=ctx.createRadialGradient(W/2-r*.25,H/2-r*.28,r*.9,W/2,H/2,r*1.6); hof.addColorStop(0,'rgba(90,160,255,.13)'); hof.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=hof; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.6,0,7); ctx.fill();
-    const oz=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.1,W/2,H/2,r); oz.addColorStop(0,'#1d4f86'); oz.addColorStop(.6,'#0c2c52'); oz.addColorStop(1,'#071a33'); ctx.fillStyle=oz; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
+    const oz=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.1,W/2,H/2,r); oz.addColorStop(0,'#1d4f86'); oz.addColorStop(.6,'#0c2c52'); oz.addColorStop(1,'#071a33'); ctx.fillStyle=oz; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill(); }
     ctx.save(); ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.clip(); }
-  else if(S.modus==='scheibe'){ const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const kg=ctx.createRadialGradient(cx,cy,R0*0.98,cx,cy,R0*1.35); kg.addColorStop(0,'rgba(120,180,255,.35)'); kg.addColorStop(1,'rgba(60,120,255,0)'); ctx.fillStyle=kg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.35,0,7); ctx.fill();
+  else if(S.modus==='scheibe'){ const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; if(!G3){ const kg=ctx.createRadialGradient(cx,cy,R0*0.98,cx,cy,R0*1.35); kg.addColorStop(0,'rgba(120,180,255,.35)'); kg.addColorStop(1,'rgba(60,120,255,0)'); ctx.fillStyle=kg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.35,0,7); ctx.fill();
     const eg=ctx.createRadialGradient(cx,cy,R0,cx,cy,R0*1.07); eg.addColorStop(0,'#f4f8ff'); eg.addColorStop(.6,'#c8d6e8'); eg.addColorStop(1,'#8aa0bc'); ctx.fillStyle=eg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.fill();
-    ctx.fillStyle='#0a2240'; ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.fill(); ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.clip(); }
-  else { ctx.fillStyle='#0a2240'; const a=proj(-180,90),b=proj(180,-90); ctx.fillRect(0,a[1],W,b[1]-a[1]); }
-  if(mitRelief){ textur(); const rc=relief(fein!==false&&!S.bewegt); if(rc){ ctx.imageSmoothingEnabled=true; ctx.drawImage(rc,0,0,W,H); if(!fein&&!S.bewegt){} } }
+    ctx.fillStyle='#0a2240'; ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.fill(); } ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.clip(); }
+  else if(!G3){ ctx.fillStyle='#0a2240'; const a=proj(-180,90),b=proj(180,-90); ctx.fillRect(0,a[1],W,b[1]-a[1]); }
+  if(mitRelief&&!G3){ textur(); const rc=relief(fein!==false&&!S.bewegt); if(rc){ ctx.imageSmoothingEnabled=true; ctx.drawImage(rc,0,0,W,H); if(!fein&&!S.bewegt){} } }
   // Gradnetz
-  ctx.strokeStyle=mitRelief?'rgba(255,255,255,.08)':'rgba(140,190,255,.10)'; ctx.lineWidth=.7;
+  ctx.strokeStyle=G3?'rgba(210,230,255,.07)':mitRelief?'rgba(255,255,255,.08)':'rgba(140,190,255,.10)'; ctx.lineWidth=.7;
   for(let la=-60;la<=60;la+=30){ ctx.beginPath(); let st=true; for(let lo=-180;lo<=180;lo+=4){ const q=proj(lo,la); if(q[2]<0){st=true;continue;} st?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]); st=false; } ctx.stroke(); }
   for(let lo=-180;lo<180;lo+=30){ ctx.beginPath(); let st=true; for(let la=-88;la<=88;la+=4){ const q=proj(lo,la); if(q[2]<0){st=true;continue;} st?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1]); st=false; } ctx.stroke(); }
   // Länderflächen
@@ -275,16 +428,16 @@ function zeichne(fein){
       if(!glob && Math.abs(a[0]-b[0])>W/2) return; ctx.fillStyle=tab[k][1]; ctx.globalAlpha=.86; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c2[0],c2[1]); ctx.lineTo(d[0],d[1]); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; }); ctx.restore(); }
   if(G.de&&DAT.bl){ DAT.bl.forEach(b=>{ const v=deWert(b.i,S.grund); ctx.beginPath(); let ok=false; b.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=.88; ctx.fillStyle=v==null?'#333':ramp(G.p,G.s(v)); ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle=S.bl===b.i?'#fff':'rgba(255,255,255,.7)'; ctx.lineWidth=S.bl===b.i?2.6:.9; ctx.stroke(); }); }
   // Gewässer
-  if(S.ov.fluesse){ ctx.fillStyle=mitRelief?'rgba(30,80,140,.9)':'#0c2c52'; DAT.seen.forEach(([n,rg])=>{ ctx.beginPath(); if(pfad(rg)) ctx.fill(); });
-    const zs=zstufe(); ctx.strokeStyle=mitRelief?'rgba(120,185,250,.62)':'rgba(90,170,255,.5)'; DAT.fluesse.forEach(([sr,n,l])=>{ if(sr>zs+3) return; ctx.lineWidth=Math.max(.5,2-sr*0.18)*Math.min(1.6,Math.sqrt(S.zoom)); ctx.beginPath(); if(pfad(l,true)) ctx.stroke(); }); }
+  if(S.ov.fluesse){ ctx.fillStyle=G3&&mitRelief?(S.grund==='relief'?'rgba(24,82,132,.94)':'rgba(40,74,104,.9)'):mitRelief?'rgba(30,80,140,.9)':'#0c2c52'; DAT.seen.forEach(([n,rg])=>{ ctx.beginPath(); if(pfad(rg)) ctx.fill(); });
+    const zs=zstufe(); ctx.strokeStyle=G3&&mitRelief?'rgba(96,160,214,.6)':mitRelief?'rgba(120,185,250,.62)':'rgba(90,170,255,.5)'; ctx.lineCap='round'; DAT.fluesse.forEach(([sr,n,l])=>{ if(sr>zs+3) return; ctx.lineWidth=Math.max(.5,2-sr*0.18)*Math.min(1.6,Math.sqrt(S.zoom)); ctx.beginPath(); if(pfad(l,true)) ctx.stroke(); }); }
   if(S.pflanze){ const P=PFL[S.pflanze]; ctx.fillStyle='rgba(120,255,170,.55)'; DAT.raster.forEach(g=>{ if(g[5]||!inBereich(P,g)) return; const q=proj(g[0],g[1]); if(q[2]<0.05) return; ctx.beginPath(); ctx.arc(q[0],q[1],Math.max(1.4,radius()/260*S.zoom),0,7); ctx.fill(); }); }
   // Grenzen
   if(S.ov.grenzen){ const gw=Math.min(1.7,.6+S.zoom/9); ctx.lineJoin='round';
     DAT.laender.forEach(c=>{ ctx.beginPath(); let ok=false; c.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return;
-      if(mitRelief){ ctx.strokeStyle='rgba(8,16,28,.42)'; ctx.lineWidth=gw*2.3; ctx.stroke(); ctx.strokeStyle='rgba(255,255,255,.58)'; ctx.lineWidth=gw*.8; ctx.stroke(); }
+      if(mitRelief){ ctx.strokeStyle=G3?'rgba(8,16,28,.3)':'rgba(8,16,28,.42)'; ctx.lineWidth=gw*2.3; ctx.stroke(); ctx.strokeStyle=G3?'rgba(255,250,235,.5)':'rgba(255,255,255,.58)'; ctx.lineWidth=gw*.8; ctx.stroke(); }
       else { ctx.strokeStyle='rgba(225,238,255,.34)'; ctx.lineWidth=gw*.75; ctx.stroke(); } }); }
   if(S.sel){ const c=DAT.idx[S.sel]; ctx.beginPath(); c.p.forEach(rg=>pfad(rg)); ctx.strokeStyle='#fff'; ctx.lineWidth=2.2; ctx.shadowColor='rgba(120,200,255,.9)'; ctx.shadowBlur=12; ctx.stroke(); ctx.shadowBlur=0; }
-  if(S.ov.nacht) nacht();
+  if(S.ov.nacht) nacht(G3);
   // Geschichte
   if(S.ov.wander) WANDER.forEach((w,wi)=>{ if(S.epoche&&w[2]!==S.epoche) return; const sel=S.hist&&S.hist[0]==='w'&&S.hist[1]===wi; w[6].forEach(p=>pfeil(p,w[3],sel)); });
   if(S.ov.kriege) KRIEGE.forEach((k,ki)=>{ if(S.epoche&&epocheVon(k[1])!==S.epoche) return; const q=proj(k[3],k[4]); if(q[2]<0.1) return; const sel=S.hist&&S.hist[0]==='k'&&S.hist[1]===ki; schwert(q[0],q[1],sel); if(S.zoom>1.5||sel) text(k[0],q[0]+9,q[1]+4,sel?13:11,'#ffd0c8'); });
@@ -304,21 +457,26 @@ function zeichne(fein){
   if(G.de&&DAT.bl&&S.zoom>3.5){ const big=S.zoom>6; DAT.bl.slice().reverse().forEach(b=>{ const q=proj(b.lp[0],b.lp[1]); if(q[2]<0.2) return; const v=deWert(b.i,S.grund); const kurz=['BE','HB','HH'].includes(b.i); text(big&&!kurz?b.n:b.i,q[0],q[1]-2,big?11.5:10.5,'#ffffff',true,'700'); if(v!=null) text(fmt(v,['de_hz','de_ek','de_bip'].includes(S.grund)?0:1),q[0],q[1]+11,10.5,'#ffe8c0',true,'600'); }); }
   // Beschriftung: Landschaften, Gipfel, Länder, Städte
   const zs=zstufe();
-  if(S.ov.landschaft) DAT.regionen.forEach(([n,k,lo,la,sr])=>{ if(sr>zs+0.5) return; const q=proj(lo,la); if(q[2]<0.2) return; text(n.toUpperCase(),q[0],q[1],10,k==='Range/mtn'?'#f0d8b8':k==='Desert'?'#ffe0a0':'#d8e8c8',true,'italic 600'); });
+  const rand=q=>glob?Math.max(0,Math.min(1,(q[2]-.2)/.3)):1; // zum Kugelrand hin ausblenden statt stauchen
+  if(S.ov.namen&&mitRelief){ TLS='2.4px'; MEERE.forEach(([n,lo,la,rg])=>{ if(rg>zs-.6) return; const q=proj(lo,la); if(q[2]<0.3) return; TXA=rand(q)*.88; text(n,q[0],q[1],(rg<1?14.5:rg<2?12.5:11.5)-(W<520?1.8:0),'#c4dcf0',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
+  if(S.ov.landschaft){ TLS='1px'; DAT.regionen.forEach(([n,k,lo,la,sr])=>{ if(sr>zs+0.5) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q); text(n,q[0],q[1],11,k==='Range/mtn'?'#ecd9bd':k==='Desert'?'#f3dfae':'#d6e6c6',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
   if(S.ov.gipfel) DAT.gipfel.forEach(([n,lo,la,hm,sr])=>{ if(sr>zs+1) return; const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(q[0],q[1]-5); ctx.lineTo(q[0]+4,q[1]+2); ctx.lineTo(q[0]-4,q[1]+2); ctx.closePath(); ctx.fill(); text(`${n} ${fmt(hm)} m`,q[0]+6,q[1]+3,10,'#ffffff'); });
-  if(S.ov.namen) DAT.laender.slice().sort((a,b)=>a.lr-b.lr).forEach(c=>{ if(c.lr>zs||(G.de&&c.i==='DEU')) return; const q=proj(c.lp[0],c.lp[1]); if(q[2]<0.42) return; const gross=c.lr<3; if(SPERR) ctx.letterSpacing=gross?'1.6px':'0.3px'; text(gross?c.n.toUpperCase():c.n,q[0],q[1],gross?11.5:c.lr<4.5?11.5:10.5,gross?'#ffffff':'#f1f5fb',true,gross?'700':'600'); }); if(SPERR) ctx.letterSpacing='0px';
-  if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs) return; const q=proj(lo,la); if(q[2]<0.15) return; const R=1.6+Math.sqrt(Math.max(p,.1))*0.8; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; if(!text(n,q[0]+R+3,q[1]+4,10.5,'#fff3d8')) return; BOX.push([q[0]-R,q[1]+R,R*2,R*2]); ctx.fillStyle=hs?'#ffd860':'#ffe9b8'; ctx.strokeStyle='rgba(0,0,0,.7)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); });
+  if(S.ov.namen) DAT.laender.slice().sort((a,b)=>a.lr-b.lr).forEach(c=>{ if(c.lr>zs||(G.de&&c.i==='DEU')) return; const q=proj(c.lp[0],c.lp[1]); if(q[2]<0.24) return; const gross=c.lr<3, mittel=c.lr<4.5; TLS=gross?'1.5px':mittel?'1px':'.6px'; TXA=rand(q); text(c.n,q[0],q[1],(gross?13.5:mittel?12:11)-(W<520?(gross?2:.6):0),gross?'#fbf7ea':'#efece0',true,gross?'700':'500','sc'); }); TLS='0px'; TXA=1;
+  if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs) return; const q=proj(lo,la); if(q[2]<0.22) return; const R=1.4+Math.sqrt(Math.max(p,.1))*0.7; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; TXA=rand(q); const ok=text(n,q[0]+R+3,q[1]+3.5,p>5?11:10.2,'#f6ecd6',false,p>5?'700':'500'); if(!ok){ TXA=1; return; } BOX.push([q[0]-R,q[1]+R,R*2,R*2]); ctx.globalAlpha=TXA; ctx.fillStyle=hs?'#f3cf62':'#f6e7c2'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; TXA=1; });
   if(S.ov.tiefen) TIEFEN.forEach(([n,lo,la,t])=>{ const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#7fe0ff'; ctx.strokeStyle='#02101e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(q[0]-5,q[1]-4); ctx.lineTo(q[0]+5,q[1]-4); ctx.lineTo(q[0],q[1]+4); ctx.closePath(); ctx.fill(); ctx.stroke(); text(`${n} −${fmt(t)} m`,q[0]+7,q[1]+4,10.5,'#bff0ff'); });
   if(S.klick){ const q=proj(S.klick[0],S.klick[1]); if(q[2]>0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(q[0],q[1],6,0,7); ctx.stroke(); } }
-  if(S.modus==='scheibe'){ ctx.restore(); const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; if(S.zoom<2.5){ text('Eiswall (Antarktis)',cx,cy+R0*1.035+4,10.5,'#e8f0ff',true,'italic 700'); text('Nordpol',cx,cy-6,10,'#ffffff',true,'700'); } ctx.strokeStyle='rgba(180,210,255,.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.stroke(); }
-  if(glob){ ctx.restore(); const sh=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.2,W/2,H/2,r*1.02); sh.addColorStop(0,mitRelief?'rgba(255,255,255,.03)':'rgba(255,255,255,.09)'); sh.addColorStop(.7,'rgba(0,0,0,0)'); sh.addColorStop(1,mitRelief?'rgba(0,5,20,.2)':'rgba(0,5,20,.55)'); ctx.fillStyle=sh; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
+  if(S.modus==='scheibe'){ ctx.restore(); const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; if(S.zoom<2.5){ TLS='1.5px'; text('Eiswall (Antarktis)',cx,cy+R0*1.036+4,11.5,G3&&!S.ov.nacht?'#1c2c44':'#f2f6ff',true,'italic 400','meer'); TLS='0px'; text('Nordpol',cx,cy-6,10.5,'#ffffff',true,'700'); } if(!G3){ ctx.strokeStyle='rgba(180,210,255,.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.stroke(); } }
+  if(glob){ ctx.restore(); if(!G3){ const sh=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.2,W/2,H/2,r*1.02); sh.addColorStop(0,mitRelief?'rgba(255,255,255,.03)':'rgba(255,255,255,.09)'); sh.addColorStop(.7,'rgba(0,0,0,0)'); sh.addColorStop(1,mitRelief?'rgba(0,5,20,.2)':'rgba(0,5,20,.55)'); ctx.fillStyle=sh; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     const saum=ctx.createRadialGradient(W/2,H/2,r*.9,W/2,H/2,r); saum.addColorStop(0,'rgba(120,190,255,0)'); saum.addColorStop(.8,'rgba(120,190,255,.1)'); saum.addColorStop(1,'rgba(150,210,255,.42)'); ctx.fillStyle=saum; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
-    ctx.strokeStyle='rgba(170,220,255,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.stroke(); }
-  if(mitRelief&&(S.bewegt||fein===false)){ clearTimeout(RTIMER); RTIMER=setTimeout(()=>{ S.bewegt=false; zeichne(true); },160); }
+    ctx.strokeStyle='rgba(170,220,255,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.stroke(); } }
+  if(G3) S.bewegt=false; else if(mitRelief&&(S.bewegt||fein===false)){ clearTimeout(RTIMER); RTIMER=setTimeout(()=>{ S.bewegt=false; zeichne(true); },160); }
 }
-function text(t,x,y,s=11.5,col='#eaf2ff',mitte,gew='600'){ ctx.font=`${gew} ${s}px system-ui,-apple-system,Segoe UI,Roboto,sans-serif`; const w=ctx.measureText(t).width; if(mitte) x-=w/2;
+const SCHRIFT={std:'"Alegreya Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif',sc:'"Alegreya Sans SC","Alegreya Sans","Segoe UI",system-ui,sans-serif',meer:'"Alegreya",Georgia,"Times New Roman",serif'};
+let TXA=1, TLS='0px', SCHRIFT_DA=false;
+function schriftLaden(){ if(SCHRIFT_DA||!document.fonts||!document.fonts.load) return; SCHRIFT_DA=true; Promise.all(['500 12px "Alegreya Sans"','700 12px "Alegreya Sans"','500 12px "Alegreya Sans SC"','700 12px "Alegreya Sans SC"','italic 400 12px "Alegreya"'].map(f=>document.fonts.load(f).catch(()=>0))).then(()=>{ if(wrap&&document.body.contains(wrap)) zeichne(); }); }
+function text(t,x,y,s=11.5,col='#eef3fa',mitte,gew='500',fam){ s+=1.4; if(gew==='600') gew='500'; else if(gew==='italic 600'||gew==='italic 700') gew='italic 400'; ctx.font=`${gew} ${s}px ${SCHRIFT[fam||(gew.indexOf('italic')===0?'meer':'std')]}`; if(SPERR) ctx.letterSpacing=TLS; const w=ctx.measureText(t).width; if(mitte) x-=w/2;
   if(x<-w||x>W||y<0||y>H+10) return false; if(frei(x,y,w,s)===false) return false; BOX.push([x,y,w,s]);
-  ctx.lineWidth=3.4; ctx.strokeStyle='rgba(4,10,20,.78)'; ctx.lineJoin='round'; ctx.strokeText(t,x,y); ctx.fillStyle=col; ctx.fillText(t,x,y); return true; }
+  if(TXA<=0.02) return true; ctx.globalAlpha=TXA; ctx.lineJoin='round'; ctx.lineWidth=Math.max(3.6,s*.34); ctx.strokeStyle='rgba(6,14,26,.16)'; ctx.strokeText(t,x,y); ctx.lineWidth=Math.max(1.8,s*.17); ctx.strokeStyle='rgba(6,14,26,.58)'; ctx.strokeText(t,x,y); ctx.fillStyle=col; ctx.fillText(t,x,y); ctx.globalAlpha=1; if(SPERR&&TLS!=='0px'&&!mitte){} return true; }
 function frei(x,y,w,s){ return !BOX.some(b=>x<b[0]+b[2]+3&&x+w+3>b[0]&&y-s<b[1]+2&&y+2>b[1]-b[3]); }
 function pin(x,y,c){ ctx.fillStyle=c; ctx.strokeStyle='#0a0f1a'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(x,y,4.6,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle='rgba(255,255,255,.8)'; ctx.beginPath(); ctx.arc(x-1.2,y-1.2,1.4,0,7); ctx.fill(); }
 function raute(lon,lat,R,c){ const q=proj(lon,lat); if(q[2]<0.12) return; R*=Math.sqrt(S.zoom)*.9; ctx.fillStyle=c+'cc'; ctx.strokeStyle='rgba(0,0,0,.55)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(q[0],q[1]-R); ctx.lineTo(q[0]+R,q[1]); ctx.lineTo(q[0],q[1]+R); ctx.lineTo(q[0]-R,q[1]); ctx.closePath(); ctx.fill(); ctx.stroke(); }
@@ -333,9 +491,10 @@ function epocheVon(j){ return j<1500?'mittel':j<1900?'neu':j<2000?'20':'heute'; 
 function pname(id){ const p=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).find(x=>x.id===id); return p?p.name.replace(' & Kiefernknospen',''):id; }
 function inBereich(P,g){ return P[2].some(b=>g[1]>=b[0]&&g[1]<=b[1]&&g[0]>=b[2]&&g[0]<=b[3]) && P[3].some(z=>g[2].startsWith(z)); }
 function sonne(d){ d=d||new Date(); const t=(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())-Date.UTC(d.getUTCFullYear(),0,0))/864e5; const dekl=-23.44*Math.cos(2*Math.PI/365*(t+10)); const h=d.getUTCHours()+d.getUTCMinutes()/60; return [(12-h)*15,dekl]; }
-function nacht(){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]; for(let i=0;i<=180;i++){ const b=i*2*R2, d=90*R2, p1=ap*R2, l1=al*R2; const la=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(b)); const lo=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(la)); pts.push([((lo/R2+540)%360)-180,la/R2]); }
-  if(S.modus==='scheibe'){ const q=proj(sl,sp), m=proj(sl+180,-sp), R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const gg=ctx.createRadialGradient(q[0],q[1],R0*0.12,q[0],q[1],R0*1.1); gg.addColorStop(0,'rgba(2,6,20,0)'); gg.addColorStop(.45,'rgba(2,6,20,.15)'); gg.addColorStop(.7,'rgba(2,6,20,.6)'); gg.addColorStop(1,'rgba(2,6,20,.7)'); ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.clip(); ctx.fillStyle=gg; ctx.fillRect(0,0,W,H); ctx.restore();
+function nacht(G3){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]; for(let i=0;i<=180;i++){ const b=i*2*R2, d=90*R2, p1=ap*R2, l1=al*R2; const la=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(b)); const lo=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(la)); pts.push([((lo/R2+540)%360)-180,la/R2]); }
+  if(S.modus==='scheibe'){ const q=proj(sl,sp), m=proj(sl+180,-sp), R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const gg=ctx.createRadialGradient(q[0],q[1],R0*0.12,q[0],q[1],R0*1.1); gg.addColorStop(0,'rgba(2,6,20,0)'); gg.addColorStop(.45,'rgba(2,6,20,.15)'); gg.addColorStop(.7,'rgba(2,6,20,.6)'); gg.addColorStop(1,'rgba(2,6,20,.7)'); if(!G3){ ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.clip(); ctx.fillStyle=gg; ctx.fillRect(0,0,W,H); ctx.restore(); }
     ctx.fillStyle='#e8ecf4'; ctx.shadowColor='#c8d8ff'; ctx.shadowBlur=12; ctx.beginPath(); ctx.arc(m[0],m[1],5,0,7); ctx.fill(); ctx.shadowBlur=0; text('Mond',m[0]+8,m[1]+4,10,'#e8ecf4'); text('Sonne',q[0]+9,q[1]+4,10,'#ffe8a0'); }
+  else if(G3){}
   else if(S.modus==='globus'){ ctx.beginPath(); pfad(pts); ctx.fillStyle='rgba(2,6,20,.55)'; ctx.fill(); }
   else { ctx.fillStyle='rgba(2,6,20,.5)'; for(let lo=-180;lo<180;lo+=2) for(let la=-89;la<90;la+=2){ const x=Math.cos(la*R2)*Math.cos((lo-sl)*R2)*Math.cos(sp*R2)+Math.sin(la*R2)*Math.sin(sp*R2); if(x<0){ const a=proj(lo,la+1),b=proj(lo+2,la-1); if(Math.abs(a[0]-b[0])<W/4) ctx.fillRect(a[0],a[1],b[0]-a[0]+.6,b[1]-a[1]+.6); } } }
   const q=proj(sl,sp); if(q[2]>0){ ctx.fillStyle='#ffd860'; ctx.shadowColor='#ffd860'; ctx.shadowBlur=14; ctx.beginPath(); ctx.arc(q[0],q[1],5,0,7); ctx.fill(); ctx.shadowBlur=0; } }
@@ -352,7 +511,7 @@ function histAn(x,y){ let best=null,bd=18; if(S.ov.kriege) KRIEGE.forEach((k,i)=
 
 /* ---------- Info-Karte ---------- */
 function spark(i){ const p=reihe(i,'pop'); if(!p) return ''; const v=p.filter(x=>x!=null), mx=Math.max(...v), mn=Math.min(...v); const w=260,h=56; let d=''; p.forEach((x,k)=>{ if(x==null) return; const X=k/63*w, Y=h-4-(x-mn)/((mx-mn)||1)*(h-10); d+=(d?'L':'M')+X.toFixed(1)+','+Y.toFixed(1); }); const k=S.jahr-1960, cx=k/63*w, cy=p[k]!=null?h-4-(p[k]-mn)/((mx-mn)||1)*(h-10):h;
-  return `<svg viewBox="0 0 ${w} ${h}" class="qwk-spark"><defs><linearGradient id="qwsg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4ad0a0" stop-opacity=".45"/><stop offset="1" stop-color="#4ad0a0" stop-opacity="0"/></linearGradient></defs><path d="${d}L${w},${h}L0,${h}Z" fill="url(#qwsg)"/><path d="${d}" fill="none" stroke="#4ad0a0" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="3.5" fill="#fff"/></svg>`; }
+  return `<svg viewBox="0 0 ${w} ${h}" class="qwk-spark"><defs><linearGradient id="qwsg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#9fcf8a" stop-opacity=".45"/><stop offset="1" stop-color="#9fcf8a" stop-opacity="0"/></linearGradient></defs><path d="${d}L${w},${h}L0,${h}Z" fill="url(#qwsg)"/><path d="${d}" fill="none" stroke="#9fcf8a" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="3.5" fill="#fff"/></svg>`; }
 /* Länderverläufe als Kurs-Diagramm (Komponente QWKurs aus der Hauptdatei) */
 const KZ={r:0}; let KLAND=null;
 function kursReihen(i){ const J=(k,f=v=>v)=>{ const a=reihe(i,k); return a?a.map((v,j)=>v==null?null:[1960+j,f(v)]).filter(Boolean):[]; };
@@ -367,7 +526,7 @@ function kursReihen(i){ const J=(k,f=v=>v)=>{ const a=reihe(i,k); return a?a.map
    {name:'Lebenszufriedenheit',kurz:'😊 Zufriedenheit',einheit:'von 10',dez:2,hoeherGut:true,farbe:'#8ee6a8',punkte:J('gl')},
    {name:'Unterernährung',kurz:'🥣 Unterernährung',einheit:'%',dez:1,hoeherGut:false,farbe:'#ff9a8a',punkte:J('un')},
    {name:'Energie pro Kopf',kurz:'⚡ Energie',einheit:'kWh',dez:0,hoeherGut:null,farbe:'#5fd6d0',punkte:J('epc')},
-   {name:'Erneuerbarer Strom',kurz:'🌱 Erneuerbar',einheit:'%',dez:1,hoeherGut:true,farbe:'#4ad0a0',punkte:J('ren')},
+   {name:'Erneuerbarer Strom',kurz:'🌱 Erneuerbar',einheit:'%',dez:1,hoeherGut:true,farbe:'#9fcf8a',punkte:J('ren')},
    {name:'Erdöl-Förderung',kurz:'🛢️ Öl',einheit:'TWh',dez:0,hoeherGut:null,farbe:'#ff8a3d',punkte:J('oil')},
    {name:'Erdgas-Förderung',kurz:'🔥 Gas',einheit:'TWh',dez:0,hoeherGut:null,farbe:'#5fb8ff',punkte:J('gas')},
    {name:'Kohle-Förderung',kurz:'⛏️ Kohle',einheit:'TWh',dez:0,hoeherGut:null,farbe:'#b0a8a0',punkte:J('coal')}
@@ -443,44 +602,44 @@ function legende(){
 
 /* ---------- Oberfläche ---------- */
 const CSS=`
-.qwk{--k-bg:#060a13;--k-p:#0c1322;--k-p2:#111a2d;--k-l:#1f2b44;--k-t:#e8eefb;--k-m:#8d9ab8;--k-a:#4ad0a0;position:relative;display:grid;grid-template-columns:300px 1fr 340px;grid-template-rows:auto 1fr auto;height:calc(100vh - 150px);height:calc(100dvh - var(--qw-oben,120px) - var(--qw-unten,0px) - env(safe-area-inset-bottom,0px) - 18px);min-height:480px;background:var(--k-bg);color:var(--k-t);border-radius:18px;overflow:hidden;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.35);width:auto;max-width:1800px;margin:0 auto;margin-inline:max(16px,calc(50% - 900px))}
+.qwk{--k-bg:#070b10;--k-p:#0d151c;--k-p2:#131e27;--k-l:#243542;--k-t:#ecebdf;--k-m:#97a5a2;--k-a:#9fcf8a;position:relative;display:grid;grid-template-columns:300px 1fr 340px;grid-template-rows:auto 1fr auto;height:calc(100vh - 150px);height:calc(100dvh - var(--qw-oben,120px) - var(--qw-unten,0px) - env(safe-area-inset-bottom,0px) - 18px);min-height:480px;background:var(--k-bg);color:var(--k-t);border-radius:18px;overflow:hidden;font:15px var(--body,system-ui),system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.35);width:auto;max-width:1800px;margin:0 auto;margin-inline:max(16px,calc(50% - 900px))}
 .qwk *{box-sizing:border-box}
-.qwk-top{grid-column:1/4;display:flex;align-items:center;gap:12px;padding:12px 16px;background:linear-gradient(180deg,#0c1426,#0a101d);border-bottom:1px solid var(--k-l);flex-wrap:wrap}
+.qwk-top{grid-column:1/4;display:flex;align-items:center;gap:12px;padding:12px 16px;background:linear-gradient(180deg,#0e171e,#0b1218);border-bottom:1px solid var(--k-l);flex-wrap:wrap}
 .qwk-titel{display:flex;align-items:center;gap:10px;font:700 18px Georgia,serif}.qwk-gl2{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7ad8ff,#1b4f8a 60%,#08203e);box-shadow:0 0 14px rgba(80,170,255,.6)}
 .qwk-titel small{display:block;font:500 11.5px system-ui;color:var(--k-m)}
-.qwk-seg{display:inline-flex;background:#0a1120;border:1px solid var(--k-l);border-radius:12px;padding:3px;gap:2px}
+.qwk-seg{display:inline-flex;background:#0a1117;border:1px solid var(--k-l);border-radius:12px;padding:3px;gap:2px}
 .qwk-seg button{all:unset;cursor:pointer;padding:8px 12px;border-radius:9px;color:#aab6d0;font-weight:600;font-size:13px;transition:background .2s,color .2s}
-.qwk-seg button[aria-pressed=true]{background:linear-gradient(180deg,#1d3a5c,#15304e);color:#fff;box-shadow:inset 0 0 0 1px #2e5b8a,0 4px 14px rgba(40,120,220,.25)}
-.qwk-such{margin-left:auto;position:relative}.qwk-such input{all:unset;box-sizing:border-box;width:250px;padding:9px 12px 9px 34px;background:#0a1120;border:1px solid var(--k-l);border-radius:12px;color:var(--k-t);font-size:13.5px}.qwk-such:before{content:"⌕";position:absolute;left:12px;top:6px;color:var(--k-m);font-size:18px}
+.qwk-seg button[aria-pressed=true]{background:linear-gradient(180deg,#24363f,#1a2a32);color:#fff;box-shadow:inset 0 0 0 1px #45606c,0 4px 14px rgba(10,30,40,.35)}
+.qwk-such{margin-left:auto;position:relative}.qwk-such input{all:unset;box-sizing:border-box;width:250px;padding:9px 12px 9px 34px;background:#0a1117;border:1px solid var(--k-l);border-radius:12px;color:var(--k-t);font-size:13.5px}.qwk-such:before{content:"⌕";position:absolute;left:12px;top:6px;color:var(--k-m);font-size:18px}
 .qwk-side{background:var(--k-p);border-right:1px solid var(--k-l);overflow:auto;padding:10px 14px 20px}
 .qwk-side h3{font:700 10.5px system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--k-m);margin:16px 2px 8px;display:flex;align-items:center;gap:8px}.qwk-side h3:after{content:"";flex:1;height:1px;background:var(--k-l)}
 .qwk-grund{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.qwk-grund button span:last-child{hyphens:auto;-webkit-hyphens:auto}
 .qwk-grund button{all:unset;display:flex;gap:6px;align-items:center;cursor:pointer;padding:8px 9px;line-height:1.25;border-radius:11px;background:var(--k-p2);border:1px solid var(--k-l);font-size:12.3px;font-weight:600;color:#cdd6ea;transition:.18s}
-.qwk-grund button:hover{border-color:#36507a}.qwk-grund button[aria-pressed=true]{background:linear-gradient(180deg,#123a34,#0f2e2a);border-color:var(--k-a);color:#fff;box-shadow:0 0 0 1px rgba(74,208,160,.25),0 6px 18px rgba(74,208,160,.15)}
+.qwk-grund button:hover{border-color:#36507a}.qwk-grund button[aria-pressed=true]{background:linear-gradient(180deg,#22331c,#1a2916);border-color:var(--k-a);color:#fff;box-shadow:0 0 0 1px rgba(159,207,138,.25),0 6px 18px rgba(159,207,138,.15)}
 .qwk-sw{display:flex;align-items:center;gap:10px;padding:6px 4px;border-radius:9px;cursor:pointer;font-size:13.3px;user-select:none}.qwk-sw:hover{background:rgba(255,255,255,.03)}
 .qwk-sw input{display:none}.qwk-sw .k{width:36px;height:21px;border-radius:12px;background:#1a2438;border:1px solid #2a3858;position:relative;flex:none;transition:.2s}.qwk-sw .k:after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#6a7898;transition:.2s}
-.qwk-sw input:checked+.k{background:linear-gradient(90deg,#1f8a6a,#4ad0a0);border-color:#4ad0a0;box-shadow:0 0 12px rgba(74,208,160,.35)}.qwk-sw input:checked+.k:after{left:17px;background:#fff}
+.qwk-sw input:checked+.k{background:linear-gradient(90deg,#5d8f48,#9fcf8a);border-color:#9fcf8a;box-shadow:0 0 12px rgba(159,207,138,.35)}.qwk-sw input:checked+.k:after{left:17px;background:#fff}
 .qwk-sw .dt{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:0 0 8px currentColor}.qwk-sw .dt.d{border-radius:2px;transform:rotate(45deg)}
 .qwk-sel{all:unset;box-sizing:border-box;width:100%;padding:9px 10px;background:var(--k-p2);border:1px solid var(--k-l);border-radius:11px;font-size:13px;color:var(--k-t);margin:6px 0}
-.qwk-map{position:relative;overflow:hidden;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.qwk-map:active{cursor:grabbing}.qwk-map canvas{display:block;width:100%;height:100%}
+.qwk-map{position:relative;overflow:hidden;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.qwk-map:active{cursor:grabbing}.qwk-map canvas{display:block;width:100%;height:100%;position:relative}.qwk-map canvas.qwk-erde{position:absolute;inset:0}
 .qwk-zoom{position:absolute;right:14px;top:14px;display:flex;flex-direction:column;gap:6px}.qwk-zoom{background:rgba(12,19,34,.78);border:1px solid var(--k-l);border-radius:14px;padding:3px;gap:2px!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(0,0,0,.35)}.qwk-zoom button{all:unset;cursor:pointer;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:18px;color:#dfe8fa;transition:background .15s}.qwk-zoom button:hover,.qwk-zoom button:active{background:rgba(255,255,255,.1)}.qwk-zoom button[aria-pressed=true]{color:var(--k-a)}.qwk-zoom hr{all:unset;display:block;height:1px;background:var(--k-l);margin:1px 6px}
 .qwk-leg{position:absolute;left:14px;bottom:14px;max-width:340px;background:rgba(10,16,30,.8);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--k-l);border-radius:14px;padding:10px 12px;font-size:12px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35)}.qwk-leg>b{display:flex;align-items:center;gap:6px;font-size:12.5px}.qwk-leg>b:after{content:"Ebenen ›";margin-left:auto;padding-left:12px;font:600 11px system-ui;color:var(--k-a);white-space:nowrap}.qwk-u{color:var(--k-m);font-size:11px}
 .qwk-ramp{height:9px;border-radius:5px;margin:7px 0 4px;width:250px;max-width:100%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}.qwk-rl{display:flex;justify-content:space-between;gap:8px;color:var(--k-m);width:250px;max-width:100%;font-size:11px}
 .qwk-kl{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:7px}.qwk-kl span{display:flex;align-items:center;gap:5px;color:#cdd6ea}.qwk-kl i{width:10px;height:10px;border-radius:3px;display:inline-block}.qwk-kl i.r{border-radius:50%}.qwk-kl i.d{transform:rotate(45deg);border-radius:1px}.qwk-kl i.l{height:0;width:16px;border-top:2px dashed #ffd28a;border-radius:0}
 .qwk-ov{border-top:1px solid var(--k-l);padding-top:7px}.qwk-hin{color:var(--k-m);font-size:11px;margin-top:5px;max-width:300px}
 .qwk-info{background:var(--k-p);border-left:1px solid var(--k-l);overflow:auto;padding:16px}
-.qwk-kopf{display:flex;align-items:center;gap:12px;margin-bottom:12px}.qwk-flag{font-size:30px}.qwk-kopf h2{margin:0;font:700 20px Georgia,serif;color:#fff}.qwk-kopf small{color:var(--k-m)}
+.qwk-kopf{display:flex;align-items:center;gap:12px;margin-bottom:12px}.qwk-flag{font-size:30px}.qwk-kopf h2{margin:0;font:800 22px var(--display,Georgia),Georgia,serif;color:#fff}.qwk-kopf small{color:var(--k-m)}
 .qwk-x{all:unset;cursor:pointer;margin-left:auto;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:var(--k-m);border:1px solid var(--k-l)}
 .qwk-kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px}.qwk-kpi div{background:var(--k-p2);border:1px solid var(--k-l);border-radius:12px;padding:9px 10px}.qwk-kpi small{display:block;color:var(--k-m);font-size:11px}.qwk-kpi b{font-size:17px;color:#fff;font-variant-numeric:tabular-nums}.qwk-kpi i{font-style:normal;font-size:11px;color:var(--k-m);font-weight:500}.qwk-kpi .plus{color:#ffb070}.qwk-kpi .minus{color:#7fb4ff}
 .qwk-box{background:var(--k-p2);border:1px solid var(--k-l);border-radius:12px;padding:9px 10px;margin-top:8px}.qwk-box small{color:var(--k-m);font-size:11px}.qwk-spark{width:100%;height:56px;display:block;margin-top:4px}
-.qwk-kursbox{padding:10px 10px 8px}.qwk .kurs{--ink:#e8eefb;--muted:#8d9ab8;--line:#24324f;--surface:#111a2d;--accent:#4ad0a0;--w:#7fb4ff;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--label:system-ui,sans-serif;--ku-gut:#4ad0a0;--ku-schlecht:#ff8a7a;--ku-fill:rgba(255,255,255,.07);--ku-on:#24324f}.qwk .ku-q{font-size:10.5px}
+.qwk-kursbox{padding:10px 10px 8px}.qwk .kurs{--ink:#e8eefb;--muted:#8d9ab8;--line:#24324f;--surface:#111a2d;--accent:#9fcf8a;--w:#7fb4ff;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--label:system-ui,sans-serif;--ku-gut:#9fcf8a;--ku-schlecht:#ff8a7a;--ku-fill:rgba(255,255,255,.07);--ku-on:#24324f}.qwk .ku-q{font-size:10.5px}
 .qwk-info h4{font:700 10.5px system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--k-m);margin:14px 0 7px}
 .qwk-txt{line-height:1.5;color:#dbe4f6;margin:0 0 8px}.qwk-hin2{color:var(--k-m);font-size:11.5px;margin-top:10px}
-.qwk-chip{display:inline-block;padding:5px 10px;margin:0 5px 6px 0;border-radius:20px;background:var(--k-p2);border:1px solid var(--k-l);color:#dbe4f6;font-size:12.5px;text-decoration:none}.qwk-chip.k{background:rgba(74,208,160,.1);border-color:rgba(74,208,160,.45);color:#a9f0d4}a.qwk-chip:hover{border-color:var(--k-a)}
+.qwk-chip{display:inline-block;padding:5px 10px;margin:0 5px 6px 0;border-radius:20px;background:var(--k-p2);border:1px solid var(--k-l);color:#dbe4f6;font-size:12.5px;text-decoration:none}.qwk-chip.k{background:rgba(159,207,138,.1);border-color:rgba(159,207,138,.45);color:#d2ecc4}a.qwk-chip:hover{border-color:var(--k-a)}
 .qwk-leer{text-align:center;color:var(--k-m);padding:30px 10px}.qwk-leer b{color:#fff;font-size:16px}.qwk-gl{font-size:40px;margin-bottom:8px}.qwk-mini{font-size:12px}
-.qwk-zeit{grid-column:1/4;display:flex;align-items:center;gap:14px;padding:10px 18px;background:#0a101d;border-top:1px solid var(--k-l)}
-.qwk-play{all:unset;cursor:pointer;width:38px;height:38px;border-radius:50%;background:linear-gradient(180deg,#1f8a6a,#14664e);display:grid;place-items:center;box-shadow:0 0 14px rgba(74,208,160,.35);font-size:14px}
-.qwk-zeit input{flex:1;min-width:0;accent-color:#4ad0a0;height:28px}.qwk-jahr{font-variant-numeric:tabular-nums}.qwk-jahr{font:700 22px Georgia,serif;min-width:64px;text-align:right}.qwk-q{color:var(--k-m);font-size:10.5px;max-width:540px;line-height:1.35}
+.qwk-zeit{grid-column:1/4;display:flex;align-items:center;gap:14px;padding:10px 18px;background:#0b1218;border-top:1px solid var(--k-l)}
+.qwk-play{all:unset;cursor:pointer;width:38px;height:38px;border-radius:50%;background:linear-gradient(180deg,#5d8f48,#3f6a2e);display:grid;place-items:center;box-shadow:0 0 14px rgba(159,207,138,.35);font-size:14px}
+.qwk-zeit input{flex:1;min-width:0;accent-color:#9fcf8a;height:28px}.qwk-jahr{font-variant-numeric:tabular-nums}.qwk-jahr{font:800 24px var(--display,Georgia),Georgia,serif;min-width:64px;text-align:right}.qwk-q{color:var(--k-m);font-size:10.5px;max-width:540px;line-height:1.35}
 .qwk-bars{display:flex;flex-direction:column;gap:3px;margin:4px 0 10px}.qwk-bars div{display:grid;grid-template-columns:118px 1fr 52px;align-items:center;gap:7px;font-size:11.8px;color:#cdd6ea;cursor:pointer;padding:1px 3px;border-radius:6px}.qwk-bars div:hover,.qwk-bars .hl{background:rgba(255,255,255,.07);color:#fff;font-weight:700}.qwk-bars span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qwk-bars i{height:11px;background:#141d30;border-radius:6px;overflow:hidden}.qwk-bars i b{display:block;height:100%;border-radius:6px;animation:qwkbar .8s ease-out}.qwk-bars em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}.qwk-bars .bund{border-top:1px dashed #2a3858;margin-top:3px;padding-top:4px;color:#fff}.qwk-bars .bund b{background:repeating-linear-gradient(45deg,#8d9ab8 0 4px,#5a6888 4px 8px)}@keyframes qwkbar{from{width:0}}
 .qwk-mob,.qwk-bk{display:none}.qwk-bk{align-items:center;justify-content:space-between;position:sticky;top:-8px;z-index:2;margin:-2px -4px 0;padding:4px;background:inherit}.qwk-bk b{font:700 17px Georgia,serif}.qwk-bk button{all:unset;cursor:pointer;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#18233a;color:#cdd6ea}
 .qwk button:focus-visible,.qwk-map:focus-visible,.qwk-sw:focus-within,.qwk-such input:focus-visible,.qwk-sel:focus-visible{outline:2px solid var(--k-a);outline-offset:2px}
@@ -506,7 +665,7 @@ function ui(root){
    <h3>Grundkarte · Politik</h3><div class="qwk-grund">${gruppe('Politik')}</div>
    <h3>Deutschland · Bundesländer</h3><div class="qwk-grund">${gruppe('Deutschland')}</div>
    <label class="qwk-sw" style="margin-top:6px"><input type="checkbox" data-unterlage ${S.unterlage?'checked':''}><span class="k"></span>Relief unter Statistik legen</label>
-   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('staedte','Städte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
+   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('staedte','Städte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('wolken','Wolken','#f2f5fa')}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
    <h3>Geschichte</h3>${sw('kriege','⚔️ Kriege','#d8302a')}${sw('wander','🧭 Völkerwanderungen','#ffd28a')}${sw('erf','💡 Erfindungen','#ffe14a')}${sw('geld','🪙 Geldgeschichte','#e8b030')}${sw('goethe','✒️ Goethes Reisen','#ff8c6e')}<select class="qwk-sel" data-epoche><option value="">Alle Epochen</option>${Object.entries(EPOCHE).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
    <h3>Getreide · Teil G</h3>${Object.entries(GETREIDE).map(([k,G2])=>sw(k,G2.e+' '+G2.n,G2.c)).join('')}
    <h3>Rohstoffe & Energie</h3>${Object.entries(ROH).map(([k,G2])=>sw(k,G2.e+' '+G2.n,G2.c,1)).join('')}
@@ -549,15 +708,15 @@ function ereignisse(){
     const id=Object.keys(PFL).find(id=>pname(id).toLowerCase()===v); if(id){ S.pflanze=id; $('[data-pflanze]',wrap).value=id; S.ov.pfl=true; flieg(PFL[id][0][0],PFL[id][0][1]); zeichne(); } };
   const m=$('.qwk-map',wrap), P=new Map(); let start=null, d0=0, z0=1, bewegt=false;
   let vx=0, vy=0, lt=0, lx=0, ly=0;
-  m.addEventListener('pointerdown',e=>{ if(e.target.closest('.qwk-zoom,.qwk-leg')) return; m.setPointerCapture(e.pointerId); P.set(e.pointerId,[e.clientX,e.clientY]); S.spin=false; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',false); } bewegt=false; schwungAus(); ZT=null; vx=vy=0; lt=performance.now(); lx=e.clientX; ly=e.clientY; wrap.classList.remove('qwk-ebenen-auf'); start={x:e.clientX,y:e.clientY,lam:S.lam,phi:S.phi,px:S.px,py:S.py}; if(P.size===2){ const [a,b]=[...P.values()]; d0=Math.hypot(a[0]-b[0],a[1]-b[1]); z0=S.zoom; } });
+  m.addEventListener('pointerdown',e=>{ if(e.target.closest('.qwk-zoom,.qwk-leg')) return; m.setPointerCapture(e.pointerId); P.set(e.pointerId,[e.clientX,e.clientY]); S.spin=false; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',false); } bewegt=false; schwungAus(); ZT=null; vx=vy=0; lt=e.timeStamp; lx=e.clientX; ly=e.clientY; wrap.classList.remove('qwk-ebenen-auf'); start={x:e.clientX,y:e.clientY,lam:S.lam,phi:S.phi,px:S.px,py:S.py}; if(P.size===2){ const [a,b]=[...P.values()]; d0=Math.hypot(a[0]-b[0],a[1]-b[1]); z0=S.zoom; } });
   m.addEventListener('pointermove',e=>{ if(!P.has(e.pointerId)) return; P.set(e.pointerId,[e.clientX,e.clientY]);
     if(P.size===2){ const [a,b]=[...P.values()]; S.zoom=zgrenz(z0*Math.hypot(a[0]-b[0],a[1]-b[1])/(d0||1)); bewegt=true; vx=vy=0; neu(); return; }
     const dx=e.clientX-start.x, dy=e.clientY-start.y; if(Math.hypot(dx,dy)>4) bewegt=true; if(!bewegt) return;
-    const jt=performance.now(), dt=jt-lt; if(dt>4){ const g=Math.min(1,dt/60); vx=vx*(1-g)+(e.clientX-lx)/dt*g; vy=vy*(1-g)+(e.clientY-ly)/dt*g; lt=jt; lx=e.clientX; ly=e.clientY; }
+    const jt=e.timeStamp, dt=jt-lt; if(dt>4){ const g=Math.min(1,dt/60); vx=vx*(1-g)+(e.clientX-lx)/dt*g; vy=vy*(1-g)+(e.clientY-ly)/dt*g; lt=jt; lx=e.clientX; ly=e.clientY; }
     if(S.modus==='globus'){ const f=57/radius(); S.lam=start.lam-dx*f; S.phi=Math.max(-85,Math.min(85,start.phi+dy*f)); } else { S.px=start.px+dx; S.py=start.py+dy; }
     neu(); });
-  const ende=e=>{ if(!P.has(e.pointerId)) return; const mehr=P.size>1; P.delete(e.pointerId); if(P.size===1){ const [q]=[...P.values()]; start={x:q[0],y:q[1],lam:S.lam,phi:S.phi,px:S.px,py:S.py}; vx=vy=0; lt=performance.now(); lx=q[0]; ly=q[1]; }
-    if(bewegt&&P.size===0&&!mehr&&e.type==='pointerup'&&performance.now()-lt<90) schwung(vx,vy);
+  const ende=e=>{ if(!P.has(e.pointerId)) return; const mehr=P.size>1; P.delete(e.pointerId); if(P.size===1){ const [q]=[...P.values()]; start={x:q[0],y:q[1],lam:S.lam,phi:S.phi,px:S.px,py:S.py}; vx=vy=0; lt=e.timeStamp; lx=q[0]; ly=q[1]; }
+    if(bewegt&&P.size===0&&!mehr&&e.type==='pointerup'&&e.timeStamp-lt<120) schwung(vx,vy);
     if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const ll=inv(x,y); if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=null; info(); zeichne(); } } } };
   m.addEventListener('pointerup',ende); m.addEventListener('pointercancel',ende);
   m.addEventListener('wheel',e=>{ e.preventDefault(); S.spin=false; schwungAus(); zoomZu((ZT||S.zoom)*Math.exp(-Math.max(-120,Math.min(120,e.deltaY))*0.0022)); },{passive:false});
@@ -597,9 +756,9 @@ const CSS3D=`.qwk-3d{position:fixed;inset:0;z-index:9000;background:#03060f;colo
 .qwk-3d .k3-t{font:700 17px Georgia,serif;padding:7px 14px;border-radius:12px;background:rgba(8,14,28,.72);border:1px solid #1f2b44;backdrop-filter:blur(6px)}
 .qwk-3d .k3-t small{display:block;font:500 11px system-ui;color:#8d9ab8}
 .qwk-3d button,.qwk-3d label{all:unset;cursor:pointer;padding:8px 12px;border-radius:11px;background:rgba(8,14,28,.72);border:1px solid #1f2b44;color:#cfe0ff;font-weight:600;font-size:13px;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:6px}
-.qwk-3d button[aria-pressed=true]{background:linear-gradient(180deg,#1d3a5c,#15304e);color:#fff;border-color:#2e5b8a}
+.qwk-3d button[aria-pressed=true]{background:linear-gradient(180deg,#24363f,#1a2a32);color:#fff;border-color:#2e5b8a}
 .qwk-3d .k3-zu{margin-left:auto;width:20px;justify-content:center;font-size:16px}
-.qwk-3d input[type=range]{width:110px;accent-color:#4ad0a0}
+.qwk-3d input[type=range]{width:110px;accent-color:#9fcf8a}
 .qwk-3d .k3-uhr{font-variant-numeric:tabular-nums;color:#ffd860}
 .qwk-3d .k3-info{position:absolute;left:12px;bottom:12px;width:min(470px,calc(100% - 24px));box-sizing:border-box;padding:11px 13px;border-radius:14px;background:rgba(8,14,28,.8);border:1px solid #1f2b44;color:#b4c0da;font-size:12.5px;line-height:1.45;backdrop-filter:blur(8px)}
 .qwk-3d .k3-info h4{display:flex;align-items:center;margin:0 0 7px;font:600 11px system-ui;letter-spacing:.08em;text-transform:uppercase;color:#8d9ab8}
@@ -607,7 +766,7 @@ const CSS3D=`.qwk-3d{position:fixed;inset:0;z-index:9000;background:#03060f;colo
 .qwk-3d .k3-seg button{padding:6px 10px;font-size:12.5px}
 .qwk-3d .k3-info p{margin:0 0 6px}.qwk-3d .k3-info b{color:#e8eefb;font-weight:600}
 .qwk-3d .k3-info small{display:block;color:#7d8aa8;font-size:11.5px}
-.qwk-3d .k3-info a{color:#4ad0a0}
+.qwk-3d .k3-info a{color:#9fcf8a}
 .qwk-3d .k3-klapp{margin-left:auto;padding:1px 9px!important;font-size:13px!important}.qwk-3d .k3-info.zu p,.qwk-3d .k3-info.zu small{display:none}.qwk-3d .k3-info.zu .k3-seg{margin-bottom:0}
 .qwk-3d .k3-lade{position:absolute;inset:0;display:grid;place-items:center;color:#8d9ab8;font-size:15px;pointer-events:none}
 @media (max-width:700px){.qwk-3d .k3-t{font-size:15px}.qwk-3d button,.qwk-3d label{padding:7px 9px;font-size:12px}.qwk-3d input[type=range]{width:80px}.qwk-3d .k3-info{font-size:11.5px;padding:9px 11px}.qwk-3d .k3-info p{margin-bottom:4px}}`;
@@ -661,7 +820,7 @@ async function scheibe3d(){
       let sx=(lon+180)/360*RW-0.5, sy=Math.max(0,Math.min(RH-1.001,(90-lat)/180*RH-0.5)); sx=(sx+RW)%RW; const x0=Math.floor(sx), y0=Math.floor(sy), fx=sx-x0, fy=sy-y0, x1=(x0+1)%RW, o=(py*TS+px)*4;
       const a=(y0*RW+x0)*4, b=(y0*RW+x1)*4, c=((y0+1)*RW+x0)*4, e=((y0+1)*RW+x1)*4;
       for(let k=0;k<3;k++) od[o+k]=(rd_[a+k]*(1-fx)+rd_[b+k]*fx)*(1-fy)+(rd_[c+k]*(1-fx)+rd_[e+k]*fx)*fy; od[o+3]=255; HT[py*TS+px]=hoehe(lon,lat); } }
-  tx.putImageData(id,0,0); const tex=srgb(new T.CanvasTexture(tc)); tex.anisotropy=Math.min(8,r.capabilities.getMaxAnisotropy()); tex.needsUpdate=true;
+  tx.putImageData(id,0,0); { const nb=glScheibenbild(TS); if(nb) tx.drawImage(nb,0,0,TS,TS); } const tex=srgb(new T.CanvasTexture(tc)); tex.anisotropy=Math.min(8,r.capabilities.getMaxAnisotropy()); tex.needsUpdate=true;
   const BL=new Float32Array(TS*TS), TMP=new Float32Array(TS*TS), BR=Q<2?2:3;
   for(let y=0;y<TS;y++){ let s=0; for(let x=-BR;x<=BR;x++) s+=HT[y*TS+Math.max(0,Math.min(TS-1,x))]; for(let x=0;x<TS;x++){ TMP[y*TS+x]=s/(2*BR+1); s+=HT[y*TS+Math.min(TS-1,x+BR+1)]-HT[y*TS+Math.max(0,x-BR)]; } }
   for(let x=0;x<TS;x++){ let s=0; for(let y=-BR;y<=BR;y++) s+=TMP[Math.max(0,Math.min(TS-1,y))*TS+x]; for(let y=0;y<TS;y++){ BL[y*TS+x]=s/(2*BR+1); s+=TMP[Math.min(TS-1,y+BR+1)*TS+x]-TMP[Math.max(0,y-BR)*TS+x]; } }
@@ -673,7 +832,7 @@ async function scheibe3d(){
   const hochSetzen=()=>{ const k=KM*ueber; for(let i=0;i<nv;i++) pos[i*3+1]=hk[i]*k; geo.attributes.position.needsUpdate=true; geo.computeVertexNormals(); geo.computeBoundingSphere(); bodenM.normalScale.set(ueber/40,ueber/40); };
   hochSetzen();
   /* Wasserfläche */
-  const wM=new T.MeshPhongMaterial({color:0x1f5f9e,specular:0x9cc2ea,shininess:90,transparent:true,opacity:0.34,depthWrite:false});
+  const wM=new T.MeshPhongMaterial({color:0x1a5a8e,specular:0xcfe2f6,shininess:140,transparent:true,opacity:glAn()?0.2:0.34,depthWrite:false});
   wM.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n float qwFr=pow(1.0-abs(dot(normalize(vViewPosition),normal)),3.0); gl_FragColor.rgb+=vec3(.10,.18,.30)*qwFr; gl_FragColor.a=min(1.0,gl_FragColor.a+qwFr*0.4);'); }; wM.customProgramCacheKey=()=>'qwwasser';
   const wasser=new T.Mesh(new T.CircleGeometry(RD*1.004,256),wM); wasser.rotation.x=-Math.PI/2; wasser.position.y=0; sc.add(wasser);
   /* Eiswand: zerklüftete Klippen mit Schichtung, Spalten, Schneekrone */
@@ -733,8 +892,8 @@ async function scheibe3d(){
   AU.laender.add(horiz()); AU.eis.add(horiz());
   const rand=new T.Mesh(new T.CylinderGeometry(RA*1.005,RA*1.005,2.2,192,1,true),dunstM(0x9cc4ff,0.16,1.6)); rand.position.y=1.15+0.3; rand.renderOrder=1; sc.add(rand);
   /* Beschriftungen als Sprites */
-  const schild=(txt,o={})=>{ const fs=o.fs||44, c=document.createElement('canvas'), x=c.getContext('2d'); const font=(o.it?'italic ':'')+(o.w||600)+' '+fs+'px '+(o.serif?'Georgia,serif':'system-ui,sans-serif'); x.font=font; const zl=String(txt).split('\n'); const w=Math.ceil(Math.max(...zl.map(z=>x.measureText(z).width)))+24, h=Math.ceil(fs*1.3*zl.length)+12; c.width=w; c.height=h; x.font=font; x.textAlign='center'; x.textBaseline='middle';
-    zl.forEach((z,i)=>{ const y=6+fs*0.65+i*fs*1.3; x.lineWidth=6; x.strokeStyle='rgba(3,6,15,.75)'; x.strokeText(z,w/2,y); x.fillStyle=o.c||'#f2ead8'; x.fillText(z,w/2,y); });
+  const schild=(txt,o={})=>{ const fs=o.fs||44, c=document.createElement('canvas'), x=c.getContext('2d'); const font=(o.it?'italic ':'')+(o.w||600)+' '+fs+'px '+(o.serif?'"Alegreya",Georgia,serif':'"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif'); x.font=font; const zl=String(txt).split('\n'); const w=Math.ceil(Math.max(...zl.map(z=>x.measureText(z).width)))+24, h=Math.ceil(fs*1.3*zl.length)+12; c.width=w; c.height=h; x.font=font; x.textAlign='center'; x.textBaseline='middle';
+    zl.forEach((z,i)=>{ const y=6+fs*0.65+i*fs*1.3; x.lineWidth=7; x.strokeStyle='rgba(3,8,18,.22)'; x.strokeText(z,w/2,y); x.lineWidth=3.5; x.strokeStyle='rgba(3,8,18,.6)'; x.strokeText(z,w/2,y); x.fillStyle=o.c||'#f2ead8'; x.fillText(z,w/2,y); });
     const t=srgb(new T.CanvasTexture(c)); const s=new T.Sprite(new T.SpriteMaterial({map:t,transparent:true,depthWrite:false,fog:!!o.fog})); const k=(o.k||0.0105)*(el.clientWidth<700?1.1:1); s.scale.set(w*k,h*k,1); s.renderOrder=5; return s; };
   const lagePol=(lon,lat)=>{ const rr=(90-lat)/180*RD, a=lon*R2D; return [rr*Math.sin(a),rr*Math.cos(a)]; };
   const NAMEN=new T.Group(); sc.add(NAMEN);
@@ -748,7 +907,7 @@ async function scheibe3d(){
   const pr=new T.Mesh(new T.RingGeometry(0.16,0.19,64),new T.MeshBasicMaterial({color:0xcfe0ff,transparent:true,opacity:0.6,side:T.DoubleSide,depthWrite:false})); pr.rotation.x=-Math.PI/2; pr.position.y=0.03; pol.add(pr); sc.add(pol);
   const polS=schild('Nordpol',{fs:34,w:700,c:'#ffffff',k:0.0095}); polS.position.set(0,1.25,0); NAMEN.add(polS);
   /* Licht */
-  sc.add(new T.AmbientLight(0x5a6c90,0.14)); sc.add(new T.HemisphereLight(0x8fb4ff,0x101522,0.14));
+  sc.add(new T.AmbientLight(0x5a6c90,0.21)); sc.add(new T.HemisphereLight(0x8fb4ff,0x101522,0.14));
   const dl=new T.DirectionalLight(0xbfd4ff,0.22); dl.position.set(-8,12,6); sc.add(dl); const dl2=new T.DirectionalLight(0x9cb8e8,0.22); dl2.position.set(10,5,-30); sc.add(dl2);
   const glanz=(farbe)=>{ const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d'), g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,farbe); g.addColorStop(0.25,farbe.replace(/[\d.]+\)$/,'0.45)')); g.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); return new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(c),blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false})); };
   const koerper=(rad,farbe,glow,gs,int,ang,lc,schatten)=>{ const g=new T.Group(); g.add(new T.Mesh(new T.SphereGeometry(rad,32,16),new T.MeshBasicMaterial({color:farbe}))); const s=glanz(glow); s.scale.set(gs,gs,1); g.add(s);
@@ -801,8 +960,11 @@ async function scheibe3d(){
     if(ctl) ctl.update(); r.render(sc,cam); };
   d.raf=requestAnimationFrame(schritt);
 }
-let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; if(S.spin&&S.modus==='globus'){ if(t-letzt>31){ S.lam+=Math.min(.4,(t-letzt)*0.0045); letzt=t; S.bewegt=true; zeichne(false); } } else if(S.ov.wander&&t-letzt>80){ letzt=t; zeichne(); } requestAnimationFrame(dreh); }
+let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; if(S.spin&&S.modus==='globus'){ if(t-letzt>31){ S.lam+=Math.min(.4,(t-letzt)*0.0045); letzt=t; S.bewegt=true; zeichne(false); } } else if(S.ov.wander&&t-letzt>80){ letzt=t; zeichne(); }
+  if(glAn()&&GL.wolken&&S.ov.wolken&&!RUHE()&&!D3&&t-wzug>110){ GLZ=(GLZ+Math.min(400,t-wzug)*1.1e-6)%1; const still=t-wzug>0&&!(S.spin&&S.modus==='globus'); wzug=t; if(still&&S.grund==='relief') glZeichne(true,false); }
+  requestAnimationFrame(dreh); }
+let wzug=0;
 
-window.QWWELT={ oeffne(root,ebene){ daten(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
+window.QWWELT={ oeffne(root,ebene){ daten(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); glStart(); schriftLaden(); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
   zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); } };
 })();
