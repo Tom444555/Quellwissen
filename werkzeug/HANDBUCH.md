@@ -232,9 +232,27 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - Video-Folgen: Notizen je Transkript-Drittel, dann Generator nach Vorbild `gen_ungeskriptet.py` (Reiter <gast>, <gast>ab, <gast>zeit, <gast>abgleich); Abgleich immer mit geprüften Quellenlinks, zwei Zeichnungen und Kurs-Blöcken; Video oben und unter Quellen verlinken.
 - Weltkarte seit 11.11.2026 (Runde 2): Globus, Scheibe und flache Karte werden mit WebGL gezeichnet (eigenes kleines Programm in `werkzeug/welt.js`, ohne three.js), mit automatischem Rückfall auf Canvas (Test: `?canvas`); Schalter „Wolken“ (`#welt-wolken`); Themen-Ebenen nutzen ein entsättigtes Grundbild. Beschriftung in Alegreya (Länder gesperrte Kapitälchen, Meere kursiv). Farb-Tokens der Seite: `--tc` (Bereichsfarbe), `--surface-2`, `--nacht`; Bereichsfarben P/S/G/R/B/W/A als abgestimmte Familie.
 
+## Folgen-Modul (`QWFolge`, seit 11.11.2026 abends)
+- Skript `<script id="folge-modul">` + CSS zwischen `/* FOLGE-ANFANG */` und `/* FOLGE-ENDE */`. Haken: `block()` (neue Typen), `pflanzenSeite` (`QWFolge.start`, `.reiter`, `.panel`, `.init`).
+- Neue Blocktypen:
+  - `folge` – Kopfkarte einer Folge: k (Reiter-Kürzel), titel, gast, rolle, kanal, datum, dauer, url, thema, kacheln[[wert,label]], optional wege[[reiterId,icon,titel,unter]] (Standard: k+ab, k+zeit, k+abgleich). Die `url` macht alle `[h:mm]` in diesen Reitern zu Sprungmarken ins Video (`&t=`).
+  - `folgenkarten` – Karten aller `folge`-Bausteine des Eintrags (Reiter „Folgen“).
+  - `gespraech` – Band über die Gesprächszeit + Themenanteile: dauer "h:mm", themen[{k,n}], teile[{von,bis,t,th}]; Antippen springt zum Abschnitt, Thema filtert.
+  - `abschnitt` mit Titel-Ende `[h:mm–h:mm]` und `liste` wird automatisch aufklappbar (Feld `th` = Themen-Kürzel für Farbe/Filter).
+  - `zeitachse` – eintraege[{z, j (Jahr als Zahl), t, f (Fundstelle), e (ergänzt)}]; oder bestehende `tabelle` mit `"zeitachse":true` (Spalte 1 Zeit, 2 Ereignis, weitere als Zusatz). Epochen-Gruppen, Filter „Im Text genannt / Ergänzt“.
+  - `balken` – Kategorienvergleich: titel, einheit, dez, zeilen[[label,wert]], quelle, hinweis.
+  - `vergleich` – Zahlen im Gespräch neben Daten: la, lb, zeilen[{n,a,b,einheit,f,q}].
+- Aufbau je Folge (vier Reiter): „G: Überblick“ (folge, hinweis, ⚡ In Kürze, Kernaussagen, baum, 2 illu, Steckbrief), „G: Gespräch im Detail“ (gespraech + Abschnitte), „G: Zeitachse & Verzeichnisse“, „G: Abgleich & Daten“ (Tabelle, kurs/balken/vergleich, Spannungen …).
+- Auftrag für Helfer je Transkript: Vorlage im Abschnitt „Übergabe“ beschrieben (ein Helfer je Folge liefert `folge.json` + `z_<k>.js`; Einbau nacheinander an einer Stelle).
+
 ## Übergabe 11.11.2026 (Abend)
 - Stand: Commit „Erde in neuer Qualität …“ auf main; Artefakt Version 70. A-08 `ungeskriptet` enthält Gudwis, Merscher, Regenauer. Zeichnungen und Verläufe überall nachgeholt, neue Optik, QW_KONFIG, Seiten `#neu` und `#skills`, Weltkarte mit WebGL.
 - Wartet auf Transkripte von Tom (a-Shell, `python3 transkript.py <ID>`): KPeTQYdof7Q, T4GHSolVGyE, KlDkL8W2kPk. Ob sie zu {ungeskriptet} gehören, erst am Transkript-Kopf prüfen; sonst eigener Autor oder neuer Sammeleintrag.
 - Ablauf je Video (bewährt): Transkript in drei Teile, je Teil Notizen (Abschnitte, Personen, Orte, Begriffe, Zahlen, Zeitleiste, Spannungen, Abgleich-Kandidaten); daraus Generator nach Vorbild Gudwis (vier Reiter mit Gast-Kürzel, „<Gast>: …“ im Titel), Abgleich mit geprüften Quellenlinks, zwei Zeichnungen, Kurs-Blöcke; Zeile in „Folgen“, Eintrag in `QW_KONFIG.neu`.
 - Offen: Veröffentlichungsdatum bei Merscher und Regenauer (steht „2026“); mit ❓ markierte Angaben in deren Abgleich; Demenz-Verlauf in W-05 (Destatis-GENESIS braucht Anmeldung); Weltkarte auf echtem iPad/Android testen (Leistung, Akku), bei Bedarf Wolken/Auflösung drosseln; Projekt-Dokument „Selbstversorgung/Pflanzenkunde“ nicht aktualisiert; Strukturformeln der Stoff-Tafeln nicht gegen Nachschlagewerk geprüft.
 - Die Generator-Skripte und Notizen dieser Sitzung lagen nur im Scratchpad und sind weg; Vorbild ist der fertige Eintrag A-08 im Daten-JSON.
+
+## Übergabe 11.11.2026 (Nacht)
+- A-08 `ungeskriptet` enthält jetzt acht Folgen: Gudwis, Hüther, Merscher, Regenauer, Jebsen (Kayvan Soufi-Siavash), Drewermann, Ganteför, Kowallik – alle im neuen Aufbau (Folgen-Modul, siehe oben). Krall und Ganser (Autoren) haben Kopfkarte, Band, Zeitachse; weitere Zeit-Tabellen (Nehls, Storl, Goethe, Teil W, S) laufen als Zeitachse.
+- Offen: Video-Adresse der Ganser-Folge fehlt (keine Sprungmarken); Veröffentlichungsdatum bei Merscher, Regenauer, Ganteför; mit ❓ markierte Angaben in den Abgleichen; Themen-Kürzel (`th`) für Krall/Ganser-Abschnitte; Projekt-Dokument nicht aktualisiert.
+- Generatoren und Notizen der fünf neuen Folgen lagen nur im Scratchpad; Vorbild ist der fertige Eintrag im Daten-JSON.
