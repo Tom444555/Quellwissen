@@ -60,7 +60,7 @@ open(Q,'w').write(h[:m.start(2)]+s+h[m.end(2):])   # m = re.search(r'(<script ty
 **Rezepte** (`r`, `nr` `R-01`…): wie Kapitel, mit Zutaten, Schritten (Tabelle), Bildleiste (`rezept_leiste`) und Tipps. Kleinere Rezepte können auch als `karten("rezept",[rez(…)])` in einem Kapitel-Reiter stehen (z. B. S-17 Pilze).
 
 **Autoren** (`a`, `nr` `A-01`…): Felder `id`, `nr`, `name`, `botan` (Beruf), `volksnamen[]`, `kurz`, `steckbrief[[k,v]]`, `reiter[]`.
-- Bestand: A-01 nehls, A-02 storl, A-03 krall, A-04 ganser, A-05 goethe, A-06 kowallik, A-07 wolff (Christian Wolf, More Nutrition) (mit Werkverzeichnis, Politik & Weltbild, Zitate, Reisen auf der Karte).
+- Bestand: A-01 nehls, A-02 storl, A-03 krall, A-04 ganser, A-05 goethe, A-06 kowallik, A-07 wolff (Christian Wolf, More Nutrition), A-08 ungeskriptet (Podcast-Sammeleintrag: Reiter kanal, folgen, dann je Folge vier Reiter mit Gast-Kürzel, z. B. gudwis, gudwisab, gudwiszeit, gudwisabgleich; Generator-Vorlage gen_ungeskriptet.py; Transkripte holt Tom mit transkript.py in a-Shell) (mit Werkverzeichnis, Politik & Weltbild, Zitate, Reisen auf der Karte).
 - **Einheitliche Reiter** (jeder Autor bekommt alle, die es hergibt):
   1. `person` – Werdegang, Kurz zusammengefasst
   2. `buecher` – `karten` mit `art:"buch"` (id, titel, kat "alle", jahr, verlag, kurz, zutaten = Eckdaten, schritte = Kernpunkte); Jahre der Erstausgabe als [Ergänzung]
