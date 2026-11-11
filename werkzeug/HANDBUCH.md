@@ -215,3 +215,18 @@ Balken- und Säulendiagramme als Zeichnungsfunktionen (Vorlage `werkzeug/z_stat.
 - Farben kommen aus den App-Variablen (`--ink`, `--muted`, `--line`, `--surface`, `--w` …) plus `--ku-gut`/`--ku-schlecht`; in der Weltkarte überschreibt `.qwk .kurs` sie für das dunkle Design. `prefers-reduced-motion` schaltet die Einblend-Animation ab.
 - Vergleichsdiagramme (Purin, Nährwerte) nutzen `QWKurs.balken(figure,{gut, vor, seg, chips})`: Kopf (Wert + ▲/▼ zum Schnitt der Gruppe, Purin mit Ampel), Ø-Linie, ▲ Hoch/▼ Tief an den Zeilen, Stats-Kacheln; `draw()` ruft danach `KB.update({L:[{k,n,g,w}],einheit,kurz,gruppe,X,extra})`. `QWKurs.seg(gruppe)` macht aus Knopfgruppen mit `aria-pressed` ein Segmented Control mit gleitender Pille; die Sortier-Auswahl wird automatisch zu Segmenten (das `<select>` bleibt versteckt und steuert weiter). Daten und Filterlogik bleiben unverändert.
 - Weltkarte kompakt: im „Verlauf“ wählt ein Auswahlmenü die Reihe, in „Vergleichen“ umbrechende Chips (kein seitliches Wischen).
+
+## Übersicht, Gruppen, Neuigkeiten erweitern (QW_KONFIG, seit 11.11.2026)
+Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="qw-konfig">` (Objekt `window.QW_KONFIG`, mit Kommentaren). Das Daten-JSON bleibt unberührt.
+- **Neues Kapitel in eine Gruppe:** in `teile` beim passenden Teil die `id` in `gruppen[].ids` eintragen. Ohne Eintrag erscheint es automatisch unter „Weitere“ (oder in der Gruppe mit `rest:true`).
+- **Neue Gruppe:** `{t:'Name', ids:[…]}` in `gruppen` einfügen. Reihenfolge der Liste = Reihenfolge der Anzeige.
+- **Neuer Teil:** einen Block in `teile` anhängen (`k`, `titel`, `kurz`, `lang`, `quelle`, `farbe`, `symbol`, `text`, `gruppen`). Startseite, Themen-Blatt, Kopfzeile, Teil-Seite und Routen (`#teil-K`, `#k-id`) entstehen daraus.
+- **Was ist neu:** in `neu` oben einen Eintrag einfügen: `{d:'2026-11-12', t:'Titel', k:'Ein Satz', h:'#sprungziel', art:'Kapitel'}`. `h` darf fehlen. Die Startseite zeigt die drei neuesten.
+- **Neuer Skill:** in `skills` anhängen: `{n:'name', i:'🧩', t:'Titel', s:'Ein Satz', w:['Stichwort'], tipp:'optional'}`.
+- **Neue Podcast-Folge (A-08):** Reiter-Titel mit „<Gast>: …“ beginnen – die Folgen-Auswahl entsteht von selbst (ab zwei Reitern mit gleichem Anfang und mindestens acht Reitern).
+- **Tabellen:** `stapel:true` erzwingt Karten auf dem Handy, `schmal:true` verhindert sie; sonst entscheidet die App (ab 3 Spalten und im Schnitt über 70 Zeichen je Zeile).
+- **Neuer Blocktyp:** wie bisher eine Zeile in `block()`; Karten-Optik kommt über die gemeinsamen Klassen.
+- `werkzeug/pruefen.py` prüft jetzt auch die Syntax von `qw-konfig`.
+- Optik seit 11.11.2026: Leiste unten (Start · Themen · Karte · Neu · Mehr), Schalter Automatisch/Hell/Dunkel, Seiten `#neu` und `#skills`, Folgen-Auswahl bei Sammel-Einträgen. Die Gruppenliste `SG` im Code ist durch `QW_KONFIG.teile` ersetzt.
+- Zeichnungen und Verläufe nachgeholt am 11.11.2026 (Autoren, Kriege, Verfahren, 54 Biochemie-Tafeln über `bio_tafel`, Teil W). Biochemie-Einträge und Verfahren ohne Reiter zeigen das Feld `illu`.
+- Video-Folgen: Notizen je Transkript-Drittel, dann Generator nach Vorbild `gen_ungeskriptet.py` (Reiter <gast>, <gast>ab, <gast>zeit, <gast>abgleich); Abgleich immer mit geprüften Quellenlinks, zwei Zeichnungen und Kurs-Blöcken; Video oben und unter Quellen verlinken.

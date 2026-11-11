@@ -19,7 +19,8 @@ for v in B.values():
                     rh=b.get('reihen') or []
                     if not rh or any(len([p for p in x.get('punkte',[]) if isinstance(p,list) and len(p)==2 and all(isinstance(z,(int,float)) for z in p)])<2 for x in rh): print('Kurs-Block ohne gültige Reihen:',e['id'],r['id']); fehler+=1
 if 'window.QWKurs' not in h: print('Kurs-Modul fehlt'); fehler+=1
-for k,s in enumerate(re.findall(r'<script>(.*?)</script>',h,re.S)):
+if 'window.QW_KONFIG' not in h: print('Konfiguration (qw-konfig) fehlt'); fehler+=1
+for k,s in enumerate(re.findall(r'<script(?: id="qw-konfig")?>(.*?)</script>',h,re.S)):
     f=tempfile.NamedTemporaryFile('w',suffix='.js',delete=False); f.write(s); f.close()
     r=subprocess.run(['node','--check',f.name],capture_output=True,text=True)
     if r.returncode: print('JS-Fehler in Skript',k,r.stderr[:400]); fehler+=1
