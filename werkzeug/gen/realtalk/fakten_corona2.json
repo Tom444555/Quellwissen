@@ -1,0 +1,929 @@
+{
+ "video": {
+  "datum": "2026 ❓",
+  "gastgeber": "❓",
+  "beleg": ""
+ },
+ "zeilen": [
+  {
+   "k": "ausbruch_uk",
+   "thema": "Meningokokken-Ausbruch in Kent 2026",
+   "fakt": "Ab 13.–16.03.2026 stellte die UKHSA eine Häufung invasiver Meningokokken-Erkrankungen in Canterbury fest (University of Kent, Club „Chemistry“, Besuche 5.–7.03.). Gesundheitsminister Wes Streeting nannte im Unterhaus am 17.03. vier bestätigte MenB-Fälle, elf in Prüfung, zwei Todesfälle; bis dahin 700 Antibiotika-Dosen, 11.000 Dosen vor Ort bereit. In seiner schriftlichen Erklärung vom 23.03. (Stand 22.03.): 29 Fälle (20 bestätigt, 9 wahrscheinlich; 19 MenB), weiterhin zwei Todesfälle, 12.837 Antibiotika-Dosen gegeben (50.000 bereitgestellt), 9.611 Impfungen. Angeboten wurden Antibiotika engen Kontakten, Studierenden der Wohnheime, Club-Besuchern sowie Schülern der Jahrgänge 12/13 betroffener Schulen; geimpft wurde mit Bexsero (zwei Dosen). Begründung laut Streeting: Schwere des Ausbruchs und geringe Impfquote, da MenB erst seit 2015 im Säuglingsprogramm ist.",
+   "quelle": "[Unterhaus, 17.03.2026: Statement „Meningitis Outbreak“ (Wes Streeting), via Parallel Parliament](https://www.parallelparliament.co.uk/debate/2026-03-17/commons/commons-chamber/meningitis-outbreak) · [Unterhaus, schriftliche Erklärung 23.03.2026: Meningococcal Disease Outbreak (Wes Streeting), via Parallel Parliament](https://parallelparliament.co.uk/debate/2026-03-23/commons/written-statements/meningococcal-disease-outbreak) · [NHS England: Outbreak of meningococcal disease linked to University of Kent and the area of Canterbury (03/2026)](https://www.england.nhs.uk/long-read/outbreak-of-meningococcal-disease-linked-to-university-of-kent-and-the-area-of-canterbury/) · [NHS England: Urgent vaccination response to outbreak of meningococcal disease (19.03.2026)](https://www.england.nhs.uk/long-read/urgent-vaccination-response-to-outbreak-of-meningococcal-disease/)"
+  },
+  {
+   "k": "ausbruch_andere",
+   "thema": "Meldungen Frankreich, Neuseeland, Presse",
+   "fakt": "Frankreich: Am 12.03.2026 wurde ein Fall bei einer aus England zurückgekehrten Person gemeldet; Kontaktpersonen erhielten Antibiotika, weitere Fälle mit Bezug zu Kent waren bis 19.03. nicht gemeldet. Neuseeland: Health NZ behandelte im März 2026 zwei MenB-Fälle unter Studierenden in Dunedin als Ausbruch und rief zur Impfung auf; Todesfälle wurden nicht gemeldet. Das ECDC stufte das Risiko für die EU-Bevölkerung als sehr gering ein; das RKI meldete bis 19.03. keinen Fall mit Kent-Bezug. ❓ Ein Tagesspiegel-Artikel mit der Formulierung „wie Covid 2.0“ und ein NYT-Bericht wurden per Suche nicht gefunden.",
+   "quelle": "[Sante.fr (19.03.2026): Point de situation en France dans le cadre de l’épidémie de méningite au Royaume-Uni](https://www.sante.fr/node/19970477) · [1News (15.03.2026): Meningococcal cases being treated as outbreak among Dunedin students](https://www.1news.co.nz/2026/03/15/meningococcal-cases-being-treated-as-outbreak-among-dunedin-students) · [Deutsches Ärzteblatt (19.03.2026): Meningitisfälle in England – Gesundheitsbehörde geht von geringem Risiko für EU-Länder aus](https://www.aerzteblatt.de/themen/meningitis/meningitisfalle-in-england-gesundheitsbehorde-geht-von-geringem-risiko-fur-eu-lander-aus-85300cab-d4d1-4ad1-a204-93fa6b4f8328)"
+  },
+  {
+   "k": "prophylaxe",
+   "thema": "Antibiotika-Prophylaxe: für wen und wann",
+   "fakt": "Nach RKI/STIKO erhalten enge Kontaktpersonen (Haushalt, Kontakt mit Rachensekret, Kitagruppe unter 6 Jahren, Wohnheime/Internate) eine Chemoprophylaxe, möglichst rasch, spätestens bis Tag 10 nach letztem Kontakt; dazu kann eine Impfung passend zur Serogruppe kommen. Die UKHSA-Leitlinie (2024) nennt als Ziel, die Besiedlung im Kontaktkreis zu beseitigen; bei zwei oder mehr Fällen binnen 28 Tagen in einer Bildungseinrichtung spricht sie von einer Häufung, dann kann ein Krisenstab eine klar abgegrenzte Gruppe breiter behandeln und impfen. Dieselbe Leitlinie warnt: ohne geschlossenes Netzwerk sei breite Prophylaxe kaum nützlich, Schäden durch Nebenwirkungen und Resistenzbildung seien möglich, und MenB-Impfstoffe verhindern die Besiedlung nicht. Die WHO beschreibt Prophylaxe für enge Kontakte als Standard.",
+   "quelle": "[Gesundheitsamt Rosenheim: Merkblatt Meningokokken-PEP für Ärzte nach RKI/STIKO (Stand 06/2019, PDF)](https://landkreis-rosenheim.de/download/1899/merkblaetter-zu-infektionserkrankungen/3558/info-zu-men-pep-fuer-aerzte.pdf) · [UKHSA: Guidance for public health management of meningococcal disease in the UK (Oktober 2024, PDF)](https://assets.publishing.service.gov.uk/media/67057abf080bdf716392f023/UKHSA-meningo-disease-guidelines-october2024.pdf) · [WHO Fact Sheet: Meningitis (Stand 29.09.2026)](https://www.who.int/news-room/fact-sheets/detail/meningitis)"
+  },
+  {
+   "k": "mening_de",
+   "thema": "Meningokokken in Deutschland: Fälle, Träger",
+   "fakt": "An das RKI gemeldete invasive Erkrankungen: 2019: 257, 2020: 138, 2021: 71, 2022: 141, 2023: 253, 2024: 342, 2025: 318 (Inzidenz 2025: 0,38 je 100.000, also 3,8 je Million). Seit 2023 überwiegen Serogruppen B und Y; in der EU/im EWR waren 2024 von Fällen mit bekannter Serogruppe 56 % B, 21 % Y, 15 % W, 4 % C; 202 Todesfälle (10 %). Zur Trägerschaft: Laut CDC trägt etwa 1 von 10 Menschen die Bakterien ohne zu erkranken; eine Metaanalyse (Europa) fand 4,5 % bei Säuglingen, 23,7 % mit 19 Jahren, 7,8 % mit 50 Jahren. Die Sterblichkeit liegt laut ECDC bei 8–15 %, bei Blutvergiftung bis 40 %.",
+   "quelle": "[NRZ Meningokokken (Würzburg): Bericht 2025 (Daten SurvStat@RKI, Stand 02.02.2026, PDF)](https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2026/Web-Bericht_Nm_2025_DE_20260514.pdf) · [NRZ Meningokokken: Bericht 2024 (PDF)](https://hygiene.uni-wuerzburg.de/fileadmin/0321-wuekitacov2/2025/Nm-2024_DE.pdf) · [NRZ Meningokokken: Bericht 2019 (PDF)](https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2020/Web-Bericht_Nm_2019_DE.pdf) · [ECDC: Invasive meningococcal disease – Annual Epidemiological Report for 2024 (PDF)](https://www.ecdc.europa.eu/sites/default/files/documents/invasive-meningococcal-disease-annual-epidemiological-report-2024.pdf) · [ECDC: Factsheet about meningococcal disease](https://www.ecdc.europa.eu/en/meningococcal-disease/facts) · [CDC: Meningococcal Disease – Causes and How It Spreads](https://www.cdc.gov/meningococcal/about/causes-transmission.html) · [Christensen et al., Lancet Infect Dis 2010: Meningococcal carriage by age (Metaanalyse)](https://doi.org/10.1016/S1473-3099(10)70251-6)"
+  },
+  {
+   "k": "menb_impfung",
+   "thema": "STIKO-Empfehlungen MenB, MenC, MenACWY",
+   "fakt": "Seit 2024 empfiehlt die STIKO die MenB-Impfung (4CMenB) für alle Säuglinge ab 2 Monaten. Im Oktober 2025 ersetzte sie die MenC-Impfung mit 12 Monaten durch eine MenACWY-Impfung für 12- bis 14-Jährige (Nachholen bis 25 Jahre); MenC-Erkrankungen gab es 2020–2023 keine, 2024 eine. Zum Meningitisgürtel: Laut WHO verursachte Serogruppe A dort vor den Impfkampagnen 80–85 % der Epidemien; seit dem MenA-Impfstoff (ab 2010) gab es dort seit 2017 keinen bestätigten A-Fall mehr. In Europa dominieren laut ECDC B und C bzw. aktuell B, Y und W – die MenB-Impfung zielt also auf den in Europa häufigsten Erreger, nicht auf Serogruppe A.",
+   "quelle": "[Deutsches Ärzteblatt (13.03.2024): STIKO empfiehlt MenB-Impfung als Standardimpfung für alle Säuglinge und Kleinkinder](https://www.aerzteblatt.de/themen/impfen/stiko-empfiehlt-menb-impfung-als-standardimpfung-fuer-alle-saeuglinge-und-kleinkinder-d05383d6-eb4a-4754-a687-43f5b4918778) · [Deutsches Ärzteblatt (30.10.2025): Neue STIKO-Empfehlung – im Jugendalter gegen Meningokokken A, C, W und Y impfen](https://www.aerzteblatt.de/themen/impfen/neue-stiko-empfehlung-im-jugendalter-gegen-meningokokken-a-c-w-und-y-impfen-98ec5ddf-110e-4bdd-b653-015b2c360297) · [WHO Fact Sheet: Meningitis (Stand 29.09.2026)](https://www.who.int/news-room/fact-sheets/detail/meningitis) · [ECDC: Factsheet about meningococcal disease](https://www.ecdc.europa.eu/en/meningococcal-disease/facts) · [ECDC: Invasive meningococcal disease – Annual Epidemiological Report for 2024 (PDF)](https://www.ecdc.europa.eu/sites/default/files/documents/invasive-meningococcal-disease-annual-epidemiological-report-2024.pdf)"
+  },
+  {
+   "k": "mrna_bakterien",
+   "thema": "mRNA-Impfstoffe gegen Bakterien",
+   "fakt": "Ein zugelassener mRNA-Impfstoff gegen Bakterien wurde nicht gefunden. Übersichtsarbeiten von 2025 beschreiben mRNA-Kandidaten gegen Bakterien in frühen klinischen Phasen (z. B. Tuberkulose) und viele vorklinische Projekte; ein mRNA-Impfstoff gegen Borreliose wurde 2023 im Tiermodell erprobt. Die in der EU zugelassenen MenB-Impfstoffe sind Proteinimpfstoffe: Bexsero (seit 2013) enthält drei rekombinante Proteine und Membranbläschen des Erregers, mit Aluminium-Adjuvans; laut ECDC sind alle zugelassenen Meningokokken-Impfstoffe inaktiviert.",
+   "quelle": "[Aernout et al., Nature Microbiology 2025: Challenges and opportunities in mRNA vaccine development against bacteria](https://doi.org/10.1038/s41564-025-02070-z) · [Chen et al., Frontiers in Immunology 2025: Next-generation vaccines against bacterial pathogens: mRNA and beyond](https://doi.org/10.3389/fimmu.2025.1709794) · [Penn Medicine (19.09.2023): mRNA-Impfstoff gegen Lyme-Borreliose im Tiermodell](https://www.pennmedicine.org/news/penn-medicine-develops-mrna-vaccine-against-lyme-disease) · [EMA: Bexsero – EPAR (Zulassung 01/2013)](https://www.ema.europa.eu/en/medicines/human/EPAR/bexsero) · [ECDC: Factsheet about meningococcal disease](https://www.ecdc.europa.eu/en/meningococcal-disease/facts)"
+  },
+  {
+   "k": "mrna_einordnung",
+   "thema": "mRNA: Wirkweise, Recht, Verteilung im Körper",
+   "fakt": "Laut PEI-Präsident Cichutek (2020) verändern mRNA-Impfstoffe das Erbgut nicht; die mRNA wird im Zellplasma abgelesen und rasch abgebaut, für einen Einbau ins Erbgut fehlen menschlichen Zellen die nötigen Enzyme. Rechtlich schließt die EU-Richtlinie 2009/120/EG Impfstoffe gegen Infektionskrankheiten ausdrücklich von der Definition „Gentherapeutikum“ aus. Der EMA-Bewertungsbericht zu Comirnaty (2021) beschreibt bei Ratten nach Injektion die höchsten Mengen an der Einstichstelle, daneben vor allem Leber (bis 21,5 % bzw. an anderer Stelle 18 %), Milz (≤1,1 %), Nebennieren und Eierstöcke (je ≤0,1 %). ❓ Angaben zum Gehirn/zur Blut-Hirn-Schranke wurden in den gelesenen Teilen nicht gefunden. Größe: Zugelassene mRNA-Lipidnanopartikel liegen laut Fachliteratur bei etwa 50–100 nm (0,05–0,1 µm), also deutlich unter der genannten „1 µ“; ❓ die Größe roter Blutkörperchen wurde nicht eigens belegt.",
+   "quelle": "[Pharmazeutische Zeitung (20.11.2020): Warum mRNA-Impfstoffe nicht das Erbgut verändern (mit PEI-Präsident Cichutek)](https://www.pharmazeutische-zeitung.de/warum-mrna-impfstoffe-nicht-das-erbgut-veraendern-121972/) · [EU-Richtlinie 2009/120/EG (Anhang I Teil IV, Definition Gentherapeutikum)](https://eur-lex.europa.eu/eli/dir/2009/120/oj) · [EMA: Comirnaty – Public Assessment Report (19.02.2021, Korr. 20.10.2023, PDF)](https://www.ema.europa.eu:443/en/documents/assessment-report/comirnaty-epar-public-assessment-report_en.pdf) · [Zhang et al., Pharmaceutical Research 2022: Lipid Microparticles Show Similar Efficacy With Lipid Nanoparticles (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC9713120)"
+  },
+  {
+   "k": "resistenz",
+   "thema": "Antibiotika-Resistenz und Verbrauch",
+   "fakt": "Die WHO nennt Fehl- und Übergebrauch von Antibiotika als Haupttreiber von Resistenzen; bakterielle Resistenzen waren 2021 mit mehr als 4,7 Mio. Todesfällen weltweit verbunden. In Deutschland sanken die ambulanten Antibiotika-Verordnungen von 559 (2010) auf 414 je 1.000 Versicherte (2019), fielen 2021 auf 277 und lagen 2024 mit 426 wieder 3 % über 2019 (Zi). Bei Meningokokken stieg laut NRZ der Anteil penicillinresistenter Isolate von 7,2 % (2022) auf 12 % (2025).",
+   "quelle": "[WHO Fact Sheet: Antimicrobial resistance (Stand 16.07.2026)](https://who.int/news-room/fact-sheets/detail/antimicrobial-resistance) · [Zi – Zentralinstitut für die kassenärztliche Versorgung: Medieninformation Antibiotikaverordnungen (23.01.2026, PDF)](https://www.zi.de/fileadmin/Downloads/Service/Medien/MI/MI_Antibiotikaverordnung_2026-01-23.pdf) · [NRZ Meningokokken (Würzburg): Bericht 2025 (Daten SurvStat@RKI, Stand 02.02.2026, PDF)](https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2026/Web-Bericht_Nm_2025_DE_20260514.pdf)"
+  },
+  {
+   "k": "mikrobiom_zahlen",
+   "thema": "Mikrobiom: Masse, Gene, Zellen, Vielfalt",
+   "fakt": "Sender/Fuchs/Milo (2016) schätzen für einen 70-kg-Menschen 3,8·10¹³ Bakterien und 3,0·10¹³ menschliche Zellen – also ähnlich viele, nicht 99,999 % – mit einer Bakterienmasse von etwa 0,2 kg (nicht 2 kg). Der Genkatalog von Qin et al. (2010) umfasst 3,3 Mio. Mikrobengene, etwa 150-mal so viele wie menschliche Gene. ❓ Die genannte Zahl von 19.000 menschlichen Genen und „6–9 Millionen“ Mikrobengenen wurde nicht eigens geprüft. Hadza: Stanford-Forscher fanden im Mittel 730 Mikrobenarten je Person gegenüber 277 bei Kaliforniern (2023).",
+   "quelle": "[Sender, Fuchs, Milo, PLoS Biology 2016: Revised Estimates for the Number of Human and Bacteria Cells in the Body](https://doi.org/10.1371/journal.pbio.1002533) · [Qin et al., Nature 2010: A human gut microbial gene catalogue established by metagenomic sequencing](https://doi.org/10.1038/nature08821) · [Scientific American (22.06.2023): Modern hunter-gatherers have thriving gut microbiome compared with Californians](https://www.scientificamerican.com/article/modern-hunter-gatherers-have-thriving-gut-microbiome-compared-with-californians/)"
+  },
+  {
+   "k": "mikrobiom_psyche",
+   "thema": "Darm-Hirn-Achse und Toxoplasma",
+   "fakt": "Eine flämische Kohorte (n = 1.054, bestätigt an 1.070) fand Coprococcus und Dialister bei Depression vermindert, auch nach Abgleich mit Antidepressiva; die Autoren betonen, dass Wechselwirkungen vor allem im Tiermodell untersucht sind und Störgrößen wichtig bleiben – Ursache und Wirkung sind beim Menschen offen. Toxoplasma gondii ist kein Bakterium, sondern ein einzelliger Parasit (Protozoon); infizierte Mäuse und Ratten verlieren ihre Scheu vor Katzengeruch. Beim Menschen gibt es laut Fachartikel nur Hinweise auf Persönlichkeitsveränderungen, keine belegte Ursache.",
+   "quelle": "[Valles-Colomer et al., Nature Microbiology 2019: The neuroactive potential of the human gut microbiota in quality of life and depression](https://doi.org/10.1038/s41564-018-0337-x) · [Spektrum.de (07.09.2015): Toxoplasma – wie ein Parasit Gehirne manipuliert](https://www.spektrum.de/magazin/toxoplasma-wie-ein-parasit-gehirne-manipuliert/1360141)"
+  },
+  {
+   "k": "antibiotika_erholung",
+   "thema": "Mikrobiom nach Antibiotika: Schweden-Studie",
+   "fakt": "Die gemeinte Studie ist vermutlich eine Arbeit aus Uppsala in Nature Medicine (2026) mit 14.979 Erwachsenen in Schweden: Spuren von Antibiotika im Darmmikrobiom waren noch Jahre später nachweisbar; Stärke und Dauer hingen von der Wirkstoffklasse ab. Es handelt sich um eine Beobachtungsstudie mit Registerdaten. ❓ Der in Medien genannte Zeitraum „bis zu acht Jahre“ wurde im gelesenen Text nicht bestätigt.",
+   "quelle": "[Deutsches Ärzteblatt (23.03.2026): Antibiotika hinterlassen jahrelang nachweisbare Spuren im Darmmikrobiom (Nature Medicine 2026)](https://www.aerzteblatt.de/themen/mikrobiom/antibiotika-hinterlassen-jahrelang-nachweisbare-spuren-im-darmmikrobiom-f47936fb-96a0-4317-ad16-96b24f68f712)"
+  },
+  {
+   "k": "geburt_stillen",
+   "thema": "Kaiserschnitt, Stillen und Mikrobiom",
+   "fakt": "Die Kaiserschnittrate in deutschen Kliniken stieg von 15,3 % (1991) auf 33,4 % (2025), der höchste Wert seit Beginn der Statistik – also rund jede dritte Geburt, nicht fast alle. Eine britische Studie mit 596 Neugeborenen (Nature 2019) fand nach Kaiserschnitt eine gestörte Übertragung mütterlicher Bacteroides und mehr Krankenhauskeime im Darm; schwächer zeigte sich das auch bei Antibiotikagabe unter der Geburt und bei nicht gestillten Babys.",
+   "quelle": "[Destatis: Krankenhausentbindungen und Kaiserschnittrate (Tabelle, Stand 10.09.2026)](https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Gesundheit/Krankenhauser/Tabellen/krankenhausentbindungen-kaiserschnitt.html) · [Shao et al., Nature 2019: Stunted microbiota and opportunistic pathogen colonization in caesarean-section birth](https://doi.org/10.1038/s41586-019-1560-1)"
+  },
+  {
+   "k": "fmt_vowst",
+   "thema": "Stuhltransplantation und Vowst",
+   "fakt": "Nach der DGVS-Leitlinie wird Stuhltransplantation nach zwei oder mehr Rückfällen einer Clostridioides-difficile-Infektion erwogen; die Wirksamkeit liegt bei bis über 90 %, Spenderstuhl muss eingehend auf Erreger untersucht werden, Langzeitsicherheit ist offen. In Deutschland gilt sie als individueller Heilversuch. Vowst (Seres Therapeutics) wurde am 26.04.2023 von der FDA zur Vorbeugung von C.-difficile-Rückfällen zugelassen; Nestlé Health Science war Vertriebspartner und übernahm das Vowst-Geschäft am 30.09.2024. Häufigste Nebenwirkungen laut Zulassungsangaben: Blähbauch 31,1 %, Müdigkeit 22,2 %, Verstopfung 14,4 %, Schüttelfrost 11,1 %, Durchfall 10,0 %; Warnhinweis auf mögliche Übertragung von Erregern.",
+   "quelle": "[AkdÄ, Arzneiverordnung in der Praxis 52/2 (09/2025): Fäkaler Mikrobiomtransfer (PDF)](https://www.akdae.de/fileadmin/user_upload/akdae/Arzneimitteltherapie/AVP/Artikel/2025-02/95.pdf) · [Seres Therapeutics (26.04.2023): FDA-Zulassung von VOWST](https://ir.serestherapeutics.com/news-releases/news-release-details/seres-therapeutics-and-nestle-health-science-announce-fda) · [Seres Therapeutics, SEC 8-K (30.09.2024): Verkauf des VOWST-Geschäfts an Nestlé abgeschlossen](https://www.sec.gov/Archives/edgar/data/1609809/000119312524230144/d873729dex991.htm)"
+  },
+  {
+   "k": "ernaehrung",
+   "thema": "Fermentiertes, Ballaststoffe und Vielfalt",
+   "fakt": "In einer randomisierten Stanford-Studie (Cell 2021, je 18 Personen, 17 Wochen) steigerte eine Kost reich an fermentierten Lebensmitteln (z. B. Joghurt, Kefir, Kimchi) die Vielfalt des Mikrobioms und senkte Entzündungsmarker; ballaststoffreiche Kost veränderte die Vielfalt nicht, wohl aber Enzyme der Mikroben. Die DGE empfiehlt Erwachsenen mindestens 30 g Ballaststoffe am Tag. Die Studie ist klein; Langzeitfolgen sind offen.",
+   "quelle": "[Wastyk et al., Cell 2021: Gut-microbiota-targeted diets modulate human immune status (randomisierte Studie)](https://doi.org/10.1016/j.cell.2021.06.019) · [Apotheken Umschau: Warum Ballaststoffe so wichtig für die Gesundheit sind (DGE-Empfehlung)](https://www.apotheken-umschau.de/gesund-bleiben/ernaehrung/warum-ballaststoffe-gesund-sind-716265.html)"
+  },
+  {
+   "k": "cdl",
+   "thema": "Chlordioxid (MMS/CDL) laut Behörden",
+   "fakt": "Das BfR rät seit 2012 „dringend“ von Einnahme und Verwendung von MMS ab. Das BfArM warnte 2014 vor der Anwendung als Arzneimittel und stufte 2015 zwei Produkte als zulassungspflichtig und bedenklich ein. Chlordioxid wirkt reizend bis ätzend; Natriumchlorit ist in Deutschland nicht als Arzneimittel zugelassen. Der BGH bestätigte 2019 eine Haftstrafe gegen einen Verkäufer, der MMS mit Heilversprechen vertrieb.",
+   "quelle": "[Verbraucherzentrale (Stand 26.06.2026): Miracle Mineral Supplement (MMS) – erhebliche Gesundheitsgefahr (mit BfArM-/BfR-Belegen)](https://www.verbraucherzentrale.de/wissen/lebensmittel/nahrungsergaenzungsmittel/miracle-mineral-supplement-mms-erhebliche-gesundheitsgefahr-11044)"
+  },
+  {
+   "k": "hygiene_kinder",
+   "thema": "Bauernhof, Dreck und Asthma",
+   "fakt": "Zwei europäische Studien (NEJM 2011) zeigten: Bauernhofkinder hatten seltener Asthma und Allergien und waren mehr verschiedenen Mikroben ausgesetzt; größere Mikrobenvielfalt ging mit geringerem Asthmarisiko einher. Amische Kinder (traditionelle Landwirtschaft) hatten 4- bzw. 6-mal seltener Asthma und Sensibilisierung als Hutterer-Kinder (industrielle Landwirtschaft); Hausstaub-Extrakte der Amischen schützten Mäuse (NEJM 2016). Es sind Beobachtungs- und Tierdaten; welche Mikroben wie schützen, ist nur teilweise geklärt.",
+   "quelle": "[Ege et al., NEJM 2011: Exposure to environmental microorganisms and childhood asthma](https://doi.org/10.1056/NEJMoa1007302) · [Stein et al., NEJM 2016: Innate Immunity and Asthma Risk in Amish and Hutterite Farm Children](https://doi.org/10.1056/NEJMoa1508749)"
+  },
+  {
+   "k": "vorhersage2019",
+   "thema": "Schönings Interview von 2018/2019",
+   "fakt": "Steht bereits im Eintrag (Reiter „schoening“). ❓ Datum und Ort der Erstveröffentlichung des KenFM-Interviews ließen sich mit einer gezielten Suche nicht amtlich oder durch große Medien belegen.",
+   "quelle": ""
+  },
+  {
+   "k": "bundestag",
+   "thema": "Veranstaltung im Bundestag, Fall Witzschel",
+   "fakt": "❓ Eine Veranstaltung „Verfolgung von Regierungskritikern“ im Bundestagsgebäude (laut Gast von einem Menschenrechtsbeauftragten einer Fraktion ausgerichtet, März 2026) ist in Bundestagsunterlagen nicht gefunden worden; es handelte sich nach Schilderung nicht um eine Plenarrede. ❓ Die geschilderte Polizeimaßnahme am Eingang ist nicht belegt. Belegt ist der Fall Bianca Witzschel: Das Landgericht Dresden verurteilte die Hausärztin aus Moritzburg im Juni 2024 wegen 1.003 unrichtiger Atteste, Betrugs und eines Waffengesetz-Verstoßes zu 2 Jahren 8 Monaten Haft und 3 Jahren Berufsverbot; der BGH (5 StR 130/25) bestätigte 2025. Am 24.07.2026 wurde sie aus der JVA Chemnitz entlassen.",
+   "quelle": "[Deutsches Ärzteblatt (24.09.2025): Illegale Corona-Atteste – Urteil gegen Ärztin rechtskräftig](https://www.aerzteblatt.de/news/illegale-corona-atteste-urteil-gegen-arztin-rechtskraftig-a1910686-d97b-4c59-89f0-7255bf22d5dc) · [Berliner Zeitung (24.07.2026): Bianca Witzschel wieder in Freiheit](https://www.berliner-zeitung.de/article/witzschel-freiheit-10224340)"
+  },
+  {
+   "k": "bremen2020",
+   "thema": "Bremen, 5. Dezember 2020",
+   "fakt": "Die Stadt Bremen untersagte am 30.11.2020 die Versammlung „Querdenken421“ (rund 20.000 erwartete Teilnehmende). Verwaltungsgericht und OVG Bremen bestätigten das am 04.12.; das BVerfG lehnte den Eilantrag am 05.12. nach Folgenabwägung ab (Abstände nicht einhaltbar), ohne in der Sache abschließend zu entscheiden. Laut epd gab es am Tag über 700 Ordnungswidrigkeits- und 70 Strafanzeigen sowie über 900 Platzverweise. ❓ Eine Ingewahrsamnahme Schönings wird in diesen Quellen nicht erwähnt. Staatsschutz ist die Abteilung der Kriminalpolizei für politisch motivierte Straftaten (allgemein; hier nicht eigens belegt ❓).",
+   "quelle": "[BVerfG, Beschluss vom 05.12.2020 – 1 BvQ 145/20 (Versammlung Bremen)](https://www.bundesverfassungsgericht.de/SharedDocs/Entscheidungen/DE/2020/12/qk20201205_1bvq014520) · [epd/evangelisch.de (06.12.2020): Trotz Verbot – „Querdenker“ demonstrieren in Bremen](https://www.evangelisch.de/inhalte/179406/06-12-2020/trotz-verbot-querdenker-demonstrieren-bremen)"
+  },
+  {
+   "k": "wexner",
+   "thema": "Wexner Medical Center, Wexner und Epstein",
+   "fakt": "Das Medical Center gehört der Ohio State University und wurde 2012 nach Leslie Wexner benannt; er und Verbundene spendeten über 200 Mio. $, darunter 2011 eine 100-Mio.-$-Spende, und er begleitete als Vorsitzender eine Erweiterung für 1 Mrd. $. Epstein war in den 1990er/2000er Jahren Wexners Finanzverwalter mit Vollmacht; Wexner sagte am 18.02.2026 in seinem Anwesen in New Albany vor dem Aufsichtsausschuss des US-Repräsentantenhauses aus, er sei getäuscht worden und habe 2007 gebrochen; Demokraten zweifelten seine Darstellung an. Im November 2026 lehnte Ohio State ab, Wexners Namen zu entfernen (keine Anklage, 512 Anträge). „Mega Group“: 1991 von Wexner und Charles Bronfman gegründeter informeller Kreis jüdischer Unternehmer für Philanthropie, laut WSJ 1998; Behauptungen über eine Geheimdienstrolle sind nicht belegt ❓.",
+   "quelle": "[Ohio State News (09.02.2012): Medical Center named in honor of Leslie H. Wexner](https://news.osu.edu/ohio-state-announces-the-naming-of-the-ohio-state-university-medical-center-in-honor-of-leslie-h-wexner/) · [AP via Rep. Dave Min (18.02.2026): Les Wexner denies knowledge of Epstein crimes in deposition](https://min.house.gov/media/in-the-news/les-wexner-denies-knowledge-epstein-crimes-deposition-skeptical-democrats) · [ABC News 4 (06.11.2026): After months-long review, Ohio State declines to remove Leslie Wexner’s name](https://abcnews4.com/news/nation-world/after-months-long-review-ohio-state-declines-to-remove-leslie-wexners-name) · [Wikipedia: Study Group (Jewish group) – „Mega Group“ (verweist auf Wall Street Journal, Mai 1998)](https://en.wikipedia.org/wiki/Study_Group_(Jewish_group))"
+  },
+  {
+   "k": "whitney_webb",
+   "thema": "„One Nation Under Blackmail“, Rafi Eitan",
+   "fakt": "Whitney Webbs zweibändiges Buch erschien 2022 bei Trine Day (Bd. 2: 05.10.2022). ❓ Verlag und Jahr der deutschen Ausgabe wurden nicht belegt gefunden. Rafi Eitan gehörte am 11.05.1960 zum Mossad-Team, das Eichmann in Buenos Aires festnahm (Leitung: Isser Harel). Im Februar 2018 lobte Eitan, damals 91, in einem Video die AfD; Israels Botschafter nannte das „traurig und beschämend“.",
+   "quelle": "[Lehmanns: Whitney Webb, One Nation Under Blackmail Vol. 2 (Trine Day, 05.10.2022)](https://www.lehmanns.ch/shop/sozialwissenschaften/60499518-9781634243025-one-nation-under-blackmail-vol-2) · [Yad Vashem: Operation Eichmann (Festnahme 11.05.1960)](https://wwv.yadvashem.org/yv/en/exhibitions/eichmann/operation-eichmann.asp) · [Israel Hayom (04.02.2018): Rafi Eitan does not regret controversial support for German far right](https://www.israelhayom.com/2018/02/04/rafi-eitan-does-not-regret-controversial-support-for-german-far-right/)"
+  },
+  {
+   "k": "epstein_akten",
+   "thema": "Umfang der Epstein-Akten 2026",
+   "fakt": "Das US-Justizministerium gab am 30.01.2026 nach dem Epstein Files Transparency Act mehr als 3 Mio. Seiten, über 2.000 Videos und rund 180.000 Bilder frei; die gesetzliche Frist vom 19.12.2025 war verpasst worden.",
+   "quelle": "[CP24/AP (30.01.2026): US Justice Department says it’s releasing 3 million pages from its Jeffrey Epstein files](https://www.cp24.com/news/world/2026/01/30/us-justice-department-says-its-releasing-3-million-pages-from-its-jeffrey-epstein-files/)"
+  },
+  {
+   "k": "mpox",
+   "thema": "WHO-Notlagen Mpox",
+   "fakt": "Die WHO erklärte Mpox am 23.07.2022 zur gesundheitlichen Notlage internationaler Tragweite und beendete sie am 11.05.2023. Eine zweite Notlage wegen der Ausbreitung in Afrika galt vom 14.08.2024 bis 05.09.2025.",
+   "quelle": "[WHO: Mpox IHR Emergency Committee (2022–2023)](https://www.who.int/groups/monkeypox-ihr-emergency-committee) · [WHO: Mpox IHR Emergency Committee 2024](https://www.who.int/groups/mpox-ihr-emergency-committee-2024)"
+  },
+  {
+   "k": "ebola",
+   "thema": "Ebola: Übertragung und größter Ausbruch",
+   "fakt": "Ebola wird durch Kontakt mit Blut und Körperflüssigkeiten Erkrankter oder Verstorbener übertragen, besonders in der Pflege. Der größte Ausbruch 2014–2016 in Westafrika zählte laut CDC mehr als 28.600 Fälle und 11.325 Todesfälle. ❓ Die durchschnittliche Sterblichkeit laut WHO-Faktenblatt wurde nicht abgerufen.",
+   "quelle": "[CDC: 2014–2016 Ebola Outbreak in West Africa](https://www.cdc.gov/vhf/ebola/history/2014-2016-outbreak/index.html)"
+  },
+  {
+   "k": "iran_corona",
+   "thema": "Iran in der Corona-Zeit",
+   "fakt": "Chamenei verbot im Januar 2021 staatliche Importe von Impfstoffen aus den USA und Großbritannien und ließ sich im Juni 2021 mit dem heimischen Impfstoff COVIran Barekat (Shifa Pharmed) impfen. Bis Juni 2021 meldete das Gesundheitsministerium über 83.000 Covid-Tote und 3,1 Mio. bestätigte Fälle. ❓ Der frühe Ausbruch Anfang 2020 wurde nicht eigens belegt.",
+   "quelle": "[NPR/KPBS (23.06.2021): Iran’s supreme leader got a locally made COVID shot](https://www.kpbs.org/news/international/2021/06/23/irans-supreme-leader-got-a-locally-made-covid-shot-but-vaccine-struggles-persist)"
+  },
+  {
+   "k": "biowaffen",
+   "thema": "Altmann, Biowaffenübereinkommen, „Human Augmentation“",
+   "fakt": "Jürgen Altmann (Physiker, Friedensforscher, TU Dortmund) schrieb 2006 „Military Nanotechnology“ (Routledge): Nanotechnik könne neue chemische und biologische Waffen gegen bestimmte Organe oder Gen-/Proteinmuster ermöglichen; er fordert, die Chemie- und Biowaffenübereinkommen zu stärken. Das Biowaffenübereinkommen gilt seit 1975; es hat laut NTI keine formelle Überprüfung, die USA lehnten 2001 einen Protokollentwurf ab; 2025 zählte die UN 188 Vertragsstaaten (NTI: 189). Das gemeinsame Papier von britischem MOD und Bundeswehr-Planungsamt (Mai 2021) nennt das Darmmikrobiom unter „personalisierter Ernährung“ als Ansatz zur Leistungssteigerung, nicht als Waffe.",
+   "quelle": "[TU Dortmund (AG Altmann): Military Nanotechnology – Potential Applications and Preventive Arms Control (Routledge 2006)](https://e3.physik.tu-dortmund.de/cms/de/AG-Altmann/BVP-Heritage-Pages/Book/index.html) · [NTI: Biological Weapons Convention (BWC) – Überblick (Stand 04/2026)](https://www.nti.org/treaties-and-regimes/convention-prohibition-development-production-and-stockpiling-bacteriological-biological-and-toxin-weapons-btwc/) · [UN News (26.03.2025): 50 Jahre Biowaffenübereinkommen](https://news.un.org/en/story/2025/03/1161596) · [UK MOD (DCDC) & Bundeswehr (Planungsamt): Human Augmentation – The Dawn of a New Paradigm (05/2021, PDF)](https://assets.publishing.service.gov.uk/media/609d23c6e90e07357baa8388/Human_Augmentation_SIP_access2.pdf)"
+  },
+  {
+   "k": "mikrobiom_bank",
+   "thema": "Microbiota Vault",
+   "fakt": "Die Microbiota Vault ist eine gemeinnützige internationale Initiative, die Stuhl- und Mikrobenproben sicher lagern will, um die natürliche Vielfalt des menschlichen Mikrobioms für Forschung und Medizin zu erhalten. Eine Pilotphase läuft in der Schweiz (Uni Lausanne, Unispital Basel, ETH Zürich) mit Rutgers University (USA).",
+   "quelle": "[Universität Lausanne (Vonaesch Lab): Microbiota Vault](https://wp.unil.ch/vonaeschlab/microbiota-vault/)"
+  },
+  {
+   "k": "genesis2",
+   "thema": "Film „Genesis 2.0“",
+   "fakt": "Der Dokumentarfilm von Christian Frei und Maxim Arbugaev (Schweiz, 2018) wurde in Sundance für die Kamera ausgezeichnet. Er zeigt Mammutjäger auf den Neusibirischen Inseln sowie die südkoreanische Klonfirma Sooam (Hwang Woo-suk) und die Gendatenbank von BGI in Shenzhen. ❓ Beteiligte Fernsehsender wurden nicht belegt.",
+   "quelle": "[ch-cultura.ch (28.01.2018): Kameraführung bei Schweizer Film „Genesis 2.0“ in den USA ausgezeichnet](https://www.ch-cultura.ch/de/archiv/feste-festivals-messen-boersen/kamerafuehrung-bei-schweizer-film-genesis-2.0-in-den-usa-ausgezeichnet) · [Wikipedia: Genesis 2.0 (Film 2018)](https://en.wikipedia.org/wiki/Genesis_2.0)"
+  },
+  {
+   "k": "nachrichtenblock",
+   "thema": "Nachrichten Ende März/Anfang April 2026",
+   "fakt": "Die Knesset beschloss am 30.03.2026 mit 62:48 Stimmen die Todesstrafe durch Hängen für Palästinenser, die in Militärgerichten wegen nationalistisch motivierter Tötungen verurteilt werden; Bürgerrechtler klagten sofort. Israel hat seit Eichmann 1962 niemanden hingerichtet. Reuters (01.04.2026): Trump kündigte an, die USA würden den Iran-Krieg „sehr bald“ verlassen, und drohte mit NATO-Austritt. Libanon: laut OCHA (30.03.2026) über 1,049 Mio. Vertriebene. Giftgas: Laut einer Bundestagsdrucksache (2010, nach Presseberichten) stammten etwa 70 % der irakischen Giftgasanlagen aus Deutschland; in Halabja starben 1988 etwa 5.000 Menschen; die CIA schätzte 1991 über 50.000 iranische Chemiewaffen-Opfer, Iran registrierte 70.000 – ❓ „100.000 Tote“ ist so nicht belegt. Diesel kostete laut ADAC am 01.04.2026 im Bundesschnitt 2,327 €/l (Rekord).",
+   "quelle": "[AP/Anchorage Daily News (30.03.2026): Israel’s parliament approves death penalty by hanging for Palestinians convicted of deadly attacks](https://www.adn.com/nation-world/2026/03/30/israels-parliament-approves-death-penalty-by-hanging-for-palestinians-convicted-of-deadly-attacks/) · [Reuters via gCaptain (01.04.2026): Trump says U.S. may exit Iran war soon and threatens to quit NATO](https://gcaptain.com/trump-says-u-s-may-exit-iran-war-soon-and-threatens-to-quit-nato-as-oil-crisis-escalates) · [UN OCHA: Lebanon Flash Update No. 13 (30.03.2026, PDF)](https://unsco.unmissions.org/sites/default/files/2026-04/2026.03.30_OCHA_Lebanon_Flash_Update%20No%2013.pdf) · [Bundestag, Drucksache 17/837 (25.02.2010): Kleine Anfrage zu deutschen Firmen und Giftgas im Irak (PDF)](https://dserver.bundestag.de/btd/17/008/1700837.pdf) · [USIP Iran Primer: Thousands Suffer from Chemical Weapons Quarter Century Later](https://iranprimer.usip.org/node/982) · [ZDFheute (01.04.2026): Diesel so teuer wie nie – trotz neuer Spritpreisregel (ADAC-Daten)](https://www.zdfheute.de/wirtschaft/diesel-preis-allzeithoch-rekord-tanken-sprit-100.html)"
+  },
+  {
+   "k": "krankenhaus",
+   "thema": "Baukosten eines Kreiskrankenhauses",
+   "fakt": "❓ Nicht belegt gefunden: Gesucht wurde nach Baukosten für Kreiskrankenhaus-Neubauten (DKG, Länder-Investitionsdaten); eine allgemeine Größenordnung ließ sich nicht prüfen.",
+   "quelle": ""
+  }
+ ],
+ "diagramme": [
+  {
+   "typ": "kurs",
+   "id": "corona2-meningokokken",
+   "titel": "📈 Gemeldete invasive Meningokokken-Erkrankungen in Deutschland",
+   "reihen": [
+    {
+     "name": "Gemeldete Fälle (SurvStat@RKI)",
+     "kurz": "Fälle",
+     "einheit": "Fälle",
+     "dez": 0,
+     "hoeherGut": false,
+     "punkte": [
+      [
+       2019,
+       257
+      ],
+      [
+       2020,
+       138
+      ],
+      [
+       2021,
+       71
+      ],
+      [
+       2022,
+       141
+      ],
+      [
+       2023,
+       253
+      ],
+      [
+       2024,
+       342
+      ],
+      [
+       2025,
+       318
+      ]
+     ]
+    }
+   ],
+   "hoeherGut": false,
+   "vergleich": false,
+   "quelle": "[NRZ Meningokokken (Würzburg): Bericht 2025 (Daten SurvStat@RKI, Stand 02.02.2026, PDF)](https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2026/Web-Bericht_Nm_2025_DE_20260514.pdf) – Jahreswerte aus den NRZ-Jahresberichten 2019–2025 (je Daten SurvStat@RKI), Stand 02.02.2026 (abgerufen 12.11.2026)",
+   "hinweis": "Bezug zum Gespräch [0:30]: „rund 300 Fälle pro Jahr“ – das trifft 2024/2025 zu; 2020–2022 lagen die Zahlen in der Pandemie deutlich niedriger."
+  },
+  {
+   "typ": "kurs",
+   "id": "corona2-kaiserschnitt",
+   "titel": "📈 Kaiserschnittrate in deutschen Krankenhäusern",
+   "reihen": [
+    {
+     "name": "Anteil Kaiserschnitt an Klinikentbindungen",
+     "kurz": "%",
+     "einheit": "%",
+     "dez": 1,
+     "hoeherGut": null,
+     "punkte": [
+      [
+       1991,
+       15.3
+      ],
+      [
+       1995,
+       17.6
+      ],
+      [
+       2000,
+       21.5
+      ],
+      [
+       2005,
+       27.6
+      ],
+      [
+       2010,
+       31.9
+      ],
+      [
+       2011,
+       32.2
+      ],
+      [
+       2015,
+       31.1
+      ],
+      [
+       2018,
+       29.2
+      ],
+      [
+       2020,
+       29.9
+      ],
+      [
+       2022,
+       31.9
+      ],
+      [
+       2023,
+       32.6
+      ],
+      [
+       2024,
+       33.0
+      ],
+      [
+       2025,
+       33.4
+      ]
+     ]
+    }
+   ],
+   "hoeherGut": null,
+   "vergleich": false,
+   "quelle": "[Destatis: Krankenhausentbindungen und Kaiserschnittrate (Tabelle, Stand 10.09.2026)](https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Gesundheit/Krankenhauser/Tabellen/krankenhausentbindungen-kaiserschnitt.html) – Stand 10.09.2026 (abgerufen 12.11.2026; Auswahl der Jahre)",
+   "hinweis": "Bezug zum Gespräch [0:57], [1:18]: genannt „fast alle Geburten“ – laut Destatis rund jede dritte Klinikgeburt (2025: 33,4 %)."
+  },
+  {
+   "typ": "kurs",
+   "id": "corona2-antibiotika",
+   "titel": "📈 Ambulante Antibiotika-Verordnungen je 1.000 gesetzlich Versicherte",
+   "reihen": [
+    {
+     "name": "Verordnungen je 1.000 Versicherte",
+     "kurz": "je 1.000",
+     "einheit": "Verordnungen je 1.000",
+     "dez": 0,
+     "hoeherGut": null,
+     "punkte": [
+      [
+       2010,
+       559
+      ],
+      [
+       2019,
+       414
+      ],
+      [
+       2020,
+       305
+      ],
+      [
+       2021,
+       277
+      ],
+      [
+       2023,
+       418
+      ],
+      [
+       2024,
+       426
+      ]
+     ]
+    }
+   ],
+   "hoeherGut": null,
+   "vergleich": false,
+   "quelle": "[Zi – Zentralinstitut für die kassenärztliche Versorgung: Medieninformation Antibiotikaverordnungen (23.01.2026, PDF)](https://www.zi.de/fileadmin/Downloads/Service/Medien/MI/MI_Antibiotikaverordnung_2026-01-23.pdf) – Stand 23.01.2026 (abgerufen 12.11.2026; Jahre 2011–2018 und 2022 dort nicht genannt)",
+   "hinweis": "Bezug zum Gespräch [0:37–0:38]: Resistenzen durch Antibiotika-Gebrauch. Nach Rückgang bis 2021 lagen die Verordnungen 2024 wieder 3 % über 2019."
+  },
+  {
+   "typ": "balken",
+   "titel": "📊 Serogruppen invasiver Meningokokken-Erkrankungen in EU/EWR 2024 (%)",
+   "einheit": "%",
+   "dez": 0,
+   "zeilen": [
+    [
+     "Serogruppe B",
+     56
+    ],
+    [
+     "Serogruppe Y",
+     21
+    ],
+    [
+     "Serogruppe W",
+     15
+    ],
+    [
+     "Serogruppe C",
+     4
+    ]
+   ],
+   "quelle": "[ECDC: Invasive meningococcal disease – Annual Epidemiological Report for 2024 (PDF)](https://www.ecdc.europa.eu/sites/default/files/documents/invasive-meningococcal-disease-annual-epidemiological-report-2024.pdf), Stand 2026 (Fälle mit bekannter Serogruppe, n = 1.987)",
+   "hinweis": "Bezug zum Gespräch [0:34–0:35]: Serogruppe A (Meningitisgürtel) spielt in Europa keine Rolle; in Deutschland überwiegen seit 2023 B und Y (NRZ)."
+  },
+  {
+   "typ": "vergleich",
+   "titel": "⚖️ Zahlen im Gespräch und Daten nebeneinander",
+   "la": "Im Gespräch genannt",
+   "lb": "Daten laut Quelle",
+   "zeilen": [
+    {
+     "n": "Antibiotika-Dosen im Kent-Ausbruch (Stand 22.03.2026)",
+     "a": 10000,
+     "b": 12837,
+     "einheit": "Dosen (Gespräch: „über“)",
+     "f": "[0:24]",
+     "q": "[Unterhaus, schriftliche Erklärung 23.03.2026: Meningococcal Disease Outbreak (Wes Streeting), via Parallel Parliament](https://parallelparliament.co.uk/debate/2026-03-23/commons/written-statements/meningococcal-disease-outbreak)"
+    },
+    {
+     "n": "Todesfälle im Kent-Ausbruch",
+     "a": 2,
+     "b": 2,
+     "einheit": "Tote",
+     "f": "[0:23]",
+     "q": "[Unterhaus, schriftliche Erklärung 23.03.2026: Meningococcal Disease Outbreak (Wes Streeting), via Parallel Parliament](https://parallelparliament.co.uk/debate/2026-03-23/commons/written-statements/meningococcal-disease-outbreak)"
+    },
+    {
+     "n": "Meningokokken-Fälle in Deutschland 2025",
+     "a": 300,
+     "b": 318,
+     "einheit": "Fälle",
+     "f": "[0:30]",
+     "q": "[NRZ Meningokokken (Würzburg): Bericht 2025 (Daten SurvStat@RKI, Stand 02.02.2026, PDF)](https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2026/Web-Bericht_Nm_2025_DE_20260514.pdf)"
+    },
+    {
+     "n": "Meningokokken-Inzidenz Deutschland 2025",
+     "a": 3,
+     "b": 3.8,
+     "einheit": "je Mio. (Quelle: 0,38 je 100.000)",
+     "f": "[0:45]",
+     "q": "[NRZ Meningokokken (Würzburg): Bericht 2025 (Daten SurvStat@RKI, Stand 02.02.2026, PDF)](https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2026/Web-Bericht_Nm_2025_DE_20260514.pdf)"
+    },
+    {
+     "n": "Träger ohne Erkrankung (CDC: „1 von 10“)",
+     "a": 10,
+     "b": 10,
+     "einheit": "%",
+     "f": "[0:30]",
+     "q": "[CDC: Meningococcal Disease – Causes and How It Spreads](https://www.cdc.gov/meningococcal/about/causes-transmission.html)"
+    },
+    {
+     "n": "Masse der Bakterien im Körper",
+     "a": 2,
+     "b": 0.2,
+     "einheit": "kg",
+     "f": "[0:26]",
+     "q": "[Sender, Fuchs, Milo, PLoS Biology 2016: Revised Estimates for the Number of Human and Bacteria Cells in the Body](https://doi.org/10.1371/journal.pbio.1002533)"
+    },
+    {
+     "n": "Mikrobengene im Verhältnis zu menschlichen Genen",
+     "a": 150,
+     "b": 150,
+     "einheit": "-fach",
+     "f": "[0:27]",
+     "q": "[Qin et al., Nature 2010: A human gut microbial gene catalogue established by metagenomic sequencing](https://doi.org/10.1038/nature08821)"
+    },
+    {
+     "n": "Mikrobenarten je Stadtbewohner (Kalifornien)",
+     "a": 300,
+     "b": 277,
+     "einheit": "Arten",
+     "f": "[1:18]",
+     "q": "[Scientific American (22.06.2023): Modern hunter-gatherers have thriving gut microbiome compared with Californians](https://www.scientificamerican.com/article/modern-hunter-gatherers-have-thriving-gut-microbiome-compared-with-californians/)"
+    },
+    {
+     "n": "Dieselpreis Anfang April 2026 (ADAC, 01.04.)",
+     "a": 2.4,
+     "b": 2.327,
+     "einheit": "€/l",
+     "f": "[1:11]",
+     "q": "[ZDFheute (01.04.2026): Diesel so teuer wie nie – trotz neuer Spritpreisregel (ADAC-Daten)](https://www.zdfheute.de/wirtschaft/diesel-preis-allzeithoch-rekord-tanken-sprit-100.html)"
+    },
+    {
+     "n": "Veröffentlichte Seiten der Epstein-Akten",
+     "a": 3,
+     "b": 3,
+     "einheit": "Mio. Seiten (Quelle: „mehr als“)",
+     "f": "[1:11]",
+     "q": "[CP24/AP (30.01.2026): US Justice Department says it’s releasing 3 million pages from its Jeffrey Epstein files](https://www.cp24.com/news/world/2026/01/30/us-justice-department-says-its-releasing-3-million-pages-from-its-jeffrey-epstein-files/)"
+    }
+   ]
+  }
+ ],
+ "zeitachse": [
+  {
+   "z": "1960",
+   "j": 1960,
+   "t": "Mossad-Team mit Rafi Eitan nimmt Eichmann in Buenos Aires fest.",
+   "e": false
+  },
+  {
+   "z": "1962",
+   "j": 1962,
+   "t": "Hinrichtung Eichmanns – bis 2026 die einzige in Israel.",
+   "e": true
+  },
+  {
+   "z": "1975",
+   "j": 1975,
+   "t": "Biowaffenübereinkommen tritt in Kraft (ohne formelle Überprüfung).",
+   "e": false
+  },
+  {
+   "z": "1988",
+   "j": 1988,
+   "t": "Giftgasangriff auf Halabja, etwa 5.000 Tote.",
+   "e": false
+  },
+  {
+   "z": "2010",
+   "j": 2010,
+   "t": "Genkatalog des Darm-Mikrobioms: 3,3 Mio. Gene.",
+   "e": false
+  },
+  {
+   "z": "2012",
+   "j": 2012,
+   "t": "Ohio State benennt sein Medical Center nach Leslie Wexner.",
+   "e": false
+  },
+  {
+   "z": "2013",
+   "j": 2013,
+   "t": "EU-Zulassung des MenB-Impfstoffs Bexsero.",
+   "e": false
+  },
+  {
+   "z": "2016",
+   "j": 2016,
+   "t": "Neue Schätzung: Bakterien und Körperzellen etwa gleich viele, Bakterienmasse ~0,2 kg.",
+   "e": false
+  },
+  {
+   "z": "12/2020",
+   "j": 2020.93,
+   "t": "BVerfG lehnt Eilantrag gegen Verbot der Bremer „Querdenken“-Versammlung ab.",
+   "e": false
+  },
+  {
+   "z": "01/2021",
+   "j": 2021.0,
+   "t": "Chamenei verbietet Impfstoffimporte aus USA und Großbritannien.",
+   "e": false
+  },
+  {
+   "z": "05/2021",
+   "j": 2021.36,
+   "t": "MOD und Bundeswehr veröffentlichen „Human Augmentation“.",
+   "e": false
+  },
+  {
+   "z": "07/2022",
+   "j": 2022.56,
+   "t": "WHO erklärt Mpox zur internationalen Notlage (bis 05/2023).",
+   "e": false
+  },
+  {
+   "z": "04/2023",
+   "j": 2023.32,
+   "t": "FDA lässt Vowst zu.",
+   "e": false
+  },
+  {
+   "z": "03/2024",
+   "j": 2024.2,
+   "t": "STIKO empfiehlt MenB-Impfung für alle Säuglinge.",
+   "e": false
+  },
+  {
+   "z": "06/2024",
+   "j": 2024.45,
+   "t": "LG Dresden verurteilt Bianca Witzschel zu 2 Jahren 8 Monaten.",
+   "e": false
+  },
+  {
+   "z": "10/2025",
+   "j": 2025.83,
+   "t": "STIKO: MenACWY für 12- bis 14-Jährige statt MenC im Kleinkindalter.",
+   "e": false
+  },
+  {
+   "z": "01/2026",
+   "j": 2026.08,
+   "t": "US-Justizministerium gibt über 3 Mio. Seiten Epstein-Akten frei.",
+   "e": false
+  },
+  {
+   "z": "02/2026",
+   "j": 2026.13,
+   "t": "Wexner sagt vor dem Aufsichtsausschuss des Repräsentantenhauses aus.",
+   "e": false
+  },
+  {
+   "z": "03/2026",
+   "j": 2026.2,
+   "t": "MenB-Ausbruch in Kent: 29 Fälle, 2 Tote, 12.837 Antibiotika-Dosen (Stand 22.03.).",
+   "e": true
+  },
+  {
+   "z": "30.03.2026",
+   "j": 2026.24,
+   "t": "Knesset beschließt Todesstrafe für Palästinenser nach Militärgerichtsurteil.",
+   "e": false
+  },
+  {
+   "z": "01.04.2026",
+   "j": 2026.25,
+   "t": "Diesel im Bundesschnitt 2,327 €/l; Trump droht mit NATO-Austritt.",
+   "e": false
+  }
+ ],
+ "quellen": [
+  [
+   "Unterhaus, 17.03.2026: Statement „Meningitis Outbreak“ (Wes Streeting), via Parallel Parliament",
+   "https://www.parallelparliament.co.uk/debate/2026-03-17/commons/commons-chamber/meningitis-outbreak"
+  ],
+  [
+   "Unterhaus, schriftliche Erklärung 23.03.2026: Meningococcal Disease Outbreak (Wes Streeting), via Parallel Parliament",
+   "https://parallelparliament.co.uk/debate/2026-03-23/commons/written-statements/meningococcal-disease-outbreak"
+  ],
+  [
+   "NHS England: Outbreak of meningococcal disease linked to University of Kent and the area of Canterbury (03/2026)",
+   "https://www.england.nhs.uk/long-read/outbreak-of-meningococcal-disease-linked-to-university-of-kent-and-the-area-of-canterbury/"
+  ],
+  [
+   "NHS England: Urgent vaccination response to outbreak of meningococcal disease (19.03.2026)",
+   "https://www.england.nhs.uk/long-read/urgent-vaccination-response-to-outbreak-of-meningococcal-disease/"
+  ],
+  [
+   "AFP/The Standard (19.03.2026): UK meningitis outbreak cases rise to 27",
+   "https://www.standardmedia.co.ke/world/article/2001543400/uk-meningitis-outbreak-cases-rise-to-27"
+  ],
+  [
+   "1News (15.03.2026): Meningococcal cases being treated as outbreak among Dunedin students",
+   "https://www.1news.co.nz/2026/03/15/meningococcal-cases-being-treated-as-outbreak-among-dunedin-students"
+  ],
+  [
+   "Sante.fr (19.03.2026): Point de situation en France dans le cadre de l’épidémie de méningite au Royaume-Uni",
+   "https://www.sante.fr/node/19970477"
+  ],
+  [
+   "Deutsches Ärzteblatt (19.03.2026): Meningitisfälle in England – Gesundheitsbehörde geht von geringem Risiko für EU-Länder aus",
+   "https://www.aerzteblatt.de/themen/meningitis/meningitisfalle-in-england-gesundheitsbehorde-geht-von-geringem-risiko-fur-eu-lander-aus-85300cab-d4d1-4ad1-a204-93fa6b4f8328"
+  ],
+  [
+   "UKHSA: Guidance for public health management of meningococcal disease in the UK (Oktober 2024, PDF)",
+   "https://assets.publishing.service.gov.uk/media/67057abf080bdf716392f023/UKHSA-meningo-disease-guidelines-october2024.pdf"
+  ],
+  [
+   "Gesundheitsamt Rosenheim: Merkblatt Meningokokken-PEP für Ärzte nach RKI/STIKO (Stand 06/2019, PDF)",
+   "https://landkreis-rosenheim.de/download/1899/merkblaetter-zu-infektionserkrankungen/3558/info-zu-men-pep-fuer-aerzte.pdf"
+  ],
+  [
+   "WHO Fact Sheet: Meningitis (Stand 29.09.2026)",
+   "https://www.who.int/news-room/fact-sheets/detail/meningitis"
+  ],
+  [
+   "CDC: Meningococcal Disease – Causes and How It Spreads",
+   "https://www.cdc.gov/meningococcal/about/causes-transmission.html"
+  ],
+  [
+   "Christensen et al., Lancet Infect Dis 2010: Meningococcal carriage by age (Metaanalyse)",
+   "https://doi.org/10.1016/S1473-3099(10)70251-6"
+  ],
+  [
+   "NRZ Meningokokken (Würzburg): Bericht 2025 (Daten SurvStat@RKI, Stand 02.02.2026, PDF)",
+   "https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2026/Web-Bericht_Nm_2025_DE_20260514.pdf"
+  ],
+  [
+   "NRZ Meningokokken: Bericht 2024 (PDF)",
+   "https://hygiene.uni-wuerzburg.de/fileadmin/0321-wuekitacov2/2025/Nm-2024_DE.pdf"
+  ],
+  [
+   "NRZ Meningokokken: Bericht 2023 (PDF)",
+   "https://hygiene.uni-wuerzburg.de/fileadmin/0321-wuekitacov2/2025/Nm-2023_DE.pdf"
+  ],
+  [
+   "NRZ Meningokokken: Bericht 2022 (PDF)",
+   "https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2023/Web-Bericht_Nm_2022_DE_20230424.pdf"
+  ],
+  [
+   "NRZ Meningokokken: Bericht 2021 (PDF)",
+   "https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2022/Web-Bericht_Nm_2021_DE_20220413.pdf"
+  ],
+  [
+   "NRZ Meningokokken: Bericht 2020 (PDF)",
+   "https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-wuekitacov2/2021/Web-Bericht_Nm_2020_DE2.pdf"
+  ],
+  [
+   "NRZ Meningokokken: Bericht 2019 (PDF)",
+   "https://www.hygiene.uni-wuerzburg.de/fileadmin/0321-meningococcus/2020/Web-Bericht_Nm_2019_DE.pdf"
+  ],
+  [
+   "ECDC: Invasive meningococcal disease – Annual Epidemiological Report for 2024 (PDF)",
+   "https://www.ecdc.europa.eu/sites/default/files/documents/invasive-meningococcal-disease-annual-epidemiological-report-2024.pdf"
+  ],
+  [
+   "ECDC: Factsheet about meningococcal disease",
+   "https://www.ecdc.europa.eu/en/meningococcal-disease/facts"
+  ],
+  [
+   "LGL Bayern: Meningokokken",
+   "https://www.lgl.bayern.de/gesundheit/infektionsschutz/infektionskrankheiten_a_z/meningokokken/index.htm"
+  ],
+  [
+   "Deutsches Ärzteblatt (30.10.2025): Neue STIKO-Empfehlung – im Jugendalter gegen Meningokokken A, C, W und Y impfen",
+   "https://www.aerzteblatt.de/themen/impfen/neue-stiko-empfehlung-im-jugendalter-gegen-meningokokken-a-c-w-und-y-impfen-98ec5ddf-110e-4bdd-b653-015b2c360297"
+  ],
+  [
+   "Deutsches Ärzteblatt (13.03.2024): STIKO empfiehlt MenB-Impfung als Standardimpfung für alle Säuglinge und Kleinkinder",
+   "https://www.aerzteblatt.de/themen/impfen/stiko-empfiehlt-menb-impfung-als-standardimpfung-fuer-alle-saeuglinge-und-kleinkinder-d05383d6-eb4a-4754-a687-43f5b4918778"
+  ],
+  [
+   "EMA: Bexsero – EPAR (Zulassung 01/2013)",
+   "https://www.ema.europa.eu/en/medicines/human/EPAR/bexsero"
+  ],
+  [
+   "Aernout et al., Nature Microbiology 2025: Challenges and opportunities in mRNA vaccine development against bacteria",
+   "https://doi.org/10.1038/s41564-025-02070-z"
+  ],
+  [
+   "Chen et al., Frontiers in Immunology 2025: Next-generation vaccines against bacterial pathogens: mRNA and beyond",
+   "https://doi.org/10.3389/fimmu.2025.1709794"
+  ],
+  [
+   "Penn Medicine (19.09.2023): mRNA-Impfstoff gegen Lyme-Borreliose im Tiermodell",
+   "https://www.pennmedicine.org/news/penn-medicine-develops-mrna-vaccine-against-lyme-disease"
+  ],
+  [
+   "EU-Richtlinie 2009/120/EG (Anhang I Teil IV, Definition Gentherapeutikum)",
+   "https://eur-lex.europa.eu/eli/dir/2009/120/oj"
+  ],
+  [
+   "EMA: Comirnaty – Public Assessment Report (19.02.2021, Korr. 20.10.2023, PDF)",
+   "https://www.ema.europa.eu:443/en/documents/assessment-report/comirnaty-epar-public-assessment-report_en.pdf"
+  ],
+  [
+   "Pharmazeutische Zeitung (20.11.2020): Warum mRNA-Impfstoffe nicht das Erbgut verändern (mit PEI-Präsident Cichutek)",
+   "https://www.pharmazeutische-zeitung.de/warum-mrna-impfstoffe-nicht-das-erbgut-veraendern-121972/"
+  ],
+  [
+   "WHO Fact Sheet: Antimicrobial resistance (Stand 16.07.2026)",
+   "https://who.int/news-room/fact-sheets/detail/antimicrobial-resistance"
+  ],
+  [
+   "Zi – Zentralinstitut für die kassenärztliche Versorgung: Medieninformation Antibiotikaverordnungen (23.01.2026, PDF)",
+   "https://www.zi.de/fileadmin/Downloads/Service/Medien/MI/MI_Antibiotikaverordnung_2026-01-23.pdf"
+  ],
+  [
+   "Sender, Fuchs, Milo, PLoS Biology 2016: Revised Estimates for the Number of Human and Bacteria Cells in the Body",
+   "https://doi.org/10.1371/journal.pbio.1002533"
+  ],
+  [
+   "Qin et al., Nature 2010: A human gut microbial gene catalogue established by metagenomic sequencing",
+   "https://doi.org/10.1038/nature08821"
+  ],
+  [
+   "Scientific American (22.06.2023): Modern hunter-gatherers have thriving gut microbiome compared with Californians",
+   "https://www.scientificamerican.com/article/modern-hunter-gatherers-have-thriving-gut-microbiome-compared-with-californians/"
+  ],
+  [
+   "Valles-Colomer et al., Nature Microbiology 2019: The neuroactive potential of the human gut microbiota in quality of life and depression",
+   "https://doi.org/10.1038/s41564-018-0337-x"
+  ],
+  [
+   "Spektrum.de (07.09.2015): Toxoplasma – wie ein Parasit Gehirne manipuliert",
+   "https://www.spektrum.de/magazin/toxoplasma-wie-ein-parasit-gehirne-manipuliert/1360141"
+  ],
+  [
+   "Deutsches Ärzteblatt (23.03.2026): Antibiotika hinterlassen jahrelang nachweisbare Spuren im Darmmikrobiom (Nature Medicine 2026)",
+   "https://www.aerzteblatt.de/themen/mikrobiom/antibiotika-hinterlassen-jahrelang-nachweisbare-spuren-im-darmmikrobiom-f47936fb-96a0-4317-ad16-96b24f68f712"
+  ],
+  [
+   "Destatis: Krankenhausentbindungen und Kaiserschnittrate (Tabelle, Stand 10.09.2026)",
+   "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Gesundheit/Krankenhauser/Tabellen/krankenhausentbindungen-kaiserschnitt.html"
+  ],
+  [
+   "Shao et al., Nature 2019: Stunted microbiota and opportunistic pathogen colonization in caesarean-section birth",
+   "https://doi.org/10.1038/s41586-019-1560-1"
+  ],
+  [
+   "AkdÄ, Arzneiverordnung in der Praxis 52/2 (09/2025): Fäkaler Mikrobiomtransfer (PDF)",
+   "https://www.akdae.de/fileadmin/user_upload/akdae/Arzneimitteltherapie/AVP/Artikel/2025-02/95.pdf"
+  ],
+  [
+   "Seres Therapeutics (26.04.2023): FDA-Zulassung von VOWST",
+   "https://ir.serestherapeutics.com/news-releases/news-release-details/seres-therapeutics-and-nestle-health-science-announce-fda"
+  ],
+  [
+   "Seres Therapeutics, SEC 8-K (30.09.2024): Verkauf des VOWST-Geschäfts an Nestlé abgeschlossen",
+   "https://www.sec.gov/Archives/edgar/data/1609809/000119312524230144/d873729dex991.htm"
+  ],
+  [
+   "Wastyk et al., Cell 2021: Gut-microbiota-targeted diets modulate human immune status (randomisierte Studie)",
+   "https://doi.org/10.1016/j.cell.2021.06.019"
+  ],
+  [
+   "Verbraucherzentrale (Stand 26.06.2026): Miracle Mineral Supplement (MMS) – erhebliche Gesundheitsgefahr (mit BfArM-/BfR-Belegen)",
+   "https://www.verbraucherzentrale.de/wissen/lebensmittel/nahrungsergaenzungsmittel/miracle-mineral-supplement-mms-erhebliche-gesundheitsgefahr-11044"
+  ],
+  [
+   "Ege et al., NEJM 2011: Exposure to environmental microorganisms and childhood asthma",
+   "https://doi.org/10.1056/NEJMoa1007302"
+  ],
+  [
+   "Stein et al., NEJM 2016: Innate Immunity and Asthma Risk in Amish and Hutterite Farm Children",
+   "https://doi.org/10.1056/NEJMoa1508749"
+  ],
+  [
+   "Deutsches Ärzteblatt (24.09.2025): Illegale Corona-Atteste – Urteil gegen Ärztin rechtskräftig",
+   "https://www.aerzteblatt.de/news/illegale-corona-atteste-urteil-gegen-arztin-rechtskraftig-a1910686-d97b-4c59-89f0-7255bf22d5dc"
+  ],
+  [
+   "Berliner Zeitung (24.07.2026): Bianca Witzschel wieder in Freiheit",
+   "https://www.berliner-zeitung.de/article/witzschel-freiheit-10224340"
+  ],
+  [
+   "BVerfG, Beschluss vom 05.12.2020 – 1 BvQ 145/20 (Versammlung Bremen)",
+   "https://www.bundesverfassungsgericht.de/SharedDocs/Entscheidungen/DE/2020/12/qk20201205_1bvq014520"
+  ],
+  [
+   "epd/evangelisch.de (06.12.2020): Trotz Verbot – „Querdenker“ demonstrieren in Bremen",
+   "https://www.evangelisch.de/inhalte/179406/06-12-2020/trotz-verbot-querdenker-demonstrieren-bremen"
+  ],
+  [
+   "Ohio State News (09.02.2012): Medical Center named in honor of Leslie H. Wexner",
+   "https://news.osu.edu/ohio-state-announces-the-naming-of-the-ohio-state-university-medical-center-in-honor-of-leslie-h-wexner/"
+  ],
+  [
+   "ABC News 4 (06.11.2026): After months-long review, Ohio State declines to remove Leslie Wexner’s name",
+   "https://abcnews4.com/news/nation-world/after-months-long-review-ohio-state-declines-to-remove-leslie-wexners-name"
+  ],
+  [
+   "AP via Rep. Dave Min (18.02.2026): Les Wexner denies knowledge of Epstein crimes in deposition",
+   "https://min.house.gov/media/in-the-news/les-wexner-denies-knowledge-epstein-crimes-deposition-skeptical-democrats"
+  ],
+  [
+   "Wikipedia: Study Group (Jewish group) – „Mega Group“ (verweist auf Wall Street Journal, Mai 1998)",
+   "https://en.wikipedia.org/wiki/Study_Group_(Jewish_group)"
+  ],
+  [
+   "Lehmanns: Whitney Webb, One Nation Under Blackmail Vol. 2 (Trine Day, 05.10.2022)",
+   "https://www.lehmanns.ch/shop/sozialwissenschaften/60499518-9781634243025-one-nation-under-blackmail-vol-2"
+  ],
+  [
+   "Israel Hayom (04.02.2018): Rafi Eitan does not regret controversial support for German far right",
+   "https://www.israelhayom.com/2018/02/04/rafi-eitan-does-not-regret-controversial-support-for-german-far-right/"
+  ],
+  [
+   "Yad Vashem: Operation Eichmann (Festnahme 11.05.1960)",
+   "https://wwv.yadvashem.org/yv/en/exhibitions/eichmann/operation-eichmann.asp"
+  ],
+  [
+   "CP24/AP (30.01.2026): US Justice Department says it’s releasing 3 million pages from its Jeffrey Epstein files",
+   "https://www.cp24.com/news/world/2026/01/30/us-justice-department-says-its-releasing-3-million-pages-from-its-jeffrey-epstein-files/"
+  ],
+  [
+   "WHO: Mpox IHR Emergency Committee (2022–2023)",
+   "https://www.who.int/groups/monkeypox-ihr-emergency-committee"
+  ],
+  [
+   "WHO: Mpox IHR Emergency Committee 2024",
+   "https://www.who.int/groups/mpox-ihr-emergency-committee-2024"
+  ],
+  [
+   "CDC: 2014–2016 Ebola Outbreak in West Africa",
+   "https://www.cdc.gov/vhf/ebola/history/2014-2016-outbreak/index.html"
+  ],
+  [
+   "NPR/KPBS (23.06.2021): Iran’s supreme leader got a locally made COVID shot",
+   "https://www.kpbs.org/news/international/2021/06/23/irans-supreme-leader-got-a-locally-made-covid-shot-but-vaccine-struggles-persist"
+  ],
+  [
+   "TU Dortmund (AG Altmann): Military Nanotechnology – Potential Applications and Preventive Arms Control (Routledge 2006)",
+   "https://e3.physik.tu-dortmund.de/cms/de/AG-Altmann/BVP-Heritage-Pages/Book/index.html"
+  ],
+  [
+   "NTI: Biological Weapons Convention (BWC) – Überblick (Stand 04/2026)",
+   "https://www.nti.org/treaties-and-regimes/convention-prohibition-development-production-and-stockpiling-bacteriological-biological-and-toxin-weapons-btwc/"
+  ],
+  [
+   "UN News (26.03.2025): 50 Jahre Biowaffenübereinkommen",
+   "https://news.un.org/en/story/2025/03/1161596"
+  ],
+  [
+   "UK MOD (DCDC) & Bundeswehr (Planungsamt): Human Augmentation – The Dawn of a New Paradigm (05/2021, PDF)",
+   "https://assets.publishing.service.gov.uk/media/609d23c6e90e07357baa8388/Human_Augmentation_SIP_access2.pdf"
+  ],
+  [
+   "Universität Lausanne (Vonaesch Lab): Microbiota Vault",
+   "https://wp.unil.ch/vonaeschlab/microbiota-vault/"
+  ],
+  [
+   "Wikipedia: Genesis 2.0 (Film 2018)",
+   "https://en.wikipedia.org/wiki/Genesis_2.0"
+  ],
+  [
+   "ch-cultura.ch (28.01.2018): Kameraführung bei Schweizer Film „Genesis 2.0“ in den USA ausgezeichnet",
+   "https://www.ch-cultura.ch/de/archiv/feste-festivals-messen-boersen/kamerafuehrung-bei-schweizer-film-genesis-2.0-in-den-usa-ausgezeichnet"
+  ],
+  [
+   "AP/Anchorage Daily News (30.03.2026): Israel’s parliament approves death penalty by hanging for Palestinians convicted of deadly attacks",
+   "https://www.adn.com/nation-world/2026/03/30/israels-parliament-approves-death-penalty-by-hanging-for-palestinians-convicted-of-deadly-attacks/"
+  ],
+  [
+   "Reuters via gCaptain (01.04.2026): Trump says U.S. may exit Iran war soon and threatens to quit NATO",
+   "https://gcaptain.com/trump-says-u-s-may-exit-iran-war-soon-and-threatens-to-quit-nato-as-oil-crisis-escalates"
+  ],
+  [
+   "UN OCHA: Lebanon Flash Update No. 13 (30.03.2026, PDF)",
+   "https://unsco.unmissions.org/sites/default/files/2026-04/2026.03.30_OCHA_Lebanon_Flash_Update%20No%2013.pdf"
+  ],
+  [
+   "Bundestag, Drucksache 17/837 (25.02.2010): Kleine Anfrage zu deutschen Firmen und Giftgas im Irak (PDF)",
+   "https://dserver.bundestag.de/btd/17/008/1700837.pdf"
+  ],
+  [
+   "USIP Iran Primer: Thousands Suffer from Chemical Weapons Quarter Century Later",
+   "https://iranprimer.usip.org/node/982"
+  ],
+  [
+   "ZDFheute (01.04.2026): Diesel so teuer wie nie – trotz neuer Spritpreisregel (ADAC-Daten)",
+   "https://www.zdfheute.de/wirtschaft/diesel-preis-allzeithoch-rekord-tanken-sprit-100.html"
+  ],
+  [
+   "Zhang et al., Pharmaceutical Research 2022: Lipid Microparticles Show Similar Efficacy With Lipid Nanoparticles (PMC)",
+   "https://pmc.ncbi.nlm.nih.gov/articles/PMC9713120"
+  ],
+  [
+   "Apotheken Umschau: Warum Ballaststoffe so wichtig für die Gesundheit sind (DGE-Empfehlung)",
+   "https://www.apotheken-umschau.de/gesund-bleiben/ernaehrung/warum-ballaststoffe-gesund-sind-716265.html"
+  ]
+ ],
+ "web": [
+  [
+   "REALTALK MEDIA – YouTube-Kanal",
+   "https://www.youtube.com/@REALTALK-GERMANY"
+  ],
+  [
+   "Video: Corona 2.0: Dr. Nina & Heiko Schöning decken den Plan auf",
+   "https://www.youtube.com/watch?v=Pq-KGNIdZ4E"
+  ]
+ ]
+}
