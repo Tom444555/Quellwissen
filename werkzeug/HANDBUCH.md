@@ -257,3 +257,10 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - Offen: Video-Adresse der Ganser-Folge fehlt (keine Sprungmarken); Veröffentlichungsdatum bei Merscher, Regenauer, Ganteför; mit ❓ markierte Angaben in den Abgleichen; Themen-Kürzel (`th`) für Krall/Ganser-Abschnitte; Projekt-Dokument nicht aktualisiert.
 - Generatoren und Notizen der fünf neuen Folgen lagen nur im Scratchpad; Vorbild ist der fertige Eintrag im Daten-JSON.
 - Rechner & Umrechner (Seite `#rechner`, seit 11.11.2026): eigenständiges Modul `<script id="rechner-modul">` (`window.QWRechner.seite(el)`, Rechenkern `QWRechner._kern`) + CSS zwischen `/* RECHNER-ANFANG */` und `/* RECHNER-ENDE */` (Klassen `.rz-`). Fragefeld (regelbasiert), Bereiche Rechner, Prozent, Dreisatz, Einheiten, Währungen (Richtwerte, online EZB über frankfurter.app – im Artefakt gesperrt, auf GitHub Pages möglich), Physik, Geometrie, Chemie, Kalender, Geld, Gesundheit. Speicher `qw-rechner`. Einhängepunkte: `rechnerSeite()`, Route `rechner`, Mehr-Liste, Seite „Was ist neu“.
+
+## Übergabe 12.11.2026
+- Neuer Autor A-09 `lausen` (Tom Lausen), Gruppe „Daten & Aufarbeitung“. Aufbau: person, buecher, kernideen, folgen (Reiter „Videos“ mit `folgenkarten`), je Video vier Reiter (Kürzel + ab/zeit/abgleich, Titel-Präfix = Kurzname des Videos), web, quellen. Erstes Video: Kürzel `fragen` („Fragen bleiben: …“).
+- Generator liegt in `werkzeug/gen/gen_lausen.py` (Linkliste oben wiederverwendbar). Neues Video: Abschnitte/Zeitachse/Abgleich als weitere vier Reiter vor `web` einfügen, Steckbrief „Ausgewertete Videos“ und Kernideen ergänzen, Eintrag in „Was ist neu“.
+- `folge`-Baustein kennt jetzt `art` (Zeile über dem Titel, Standard „Podcast-Folge“) und `karte` (Kopfzeile der Karte in `folgenkarten`).
+- Im Reiter „Abgleich & Daten“ stehen Diagramme oben (vergleich, kurs, balken), danach die Tabelle.
+- Offen bei Lausen: Veröffentlichungsdatum des Videos, Wortlaut der RKI-Protokolle und E-Mails im Original, Zahlen zu Schweden; nächstes Transkript angekündigt (KYoXA1_1TBs).
