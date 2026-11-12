@@ -264,3 +264,4 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - `folge`-Baustein kennt jetzt `art` (Zeile über dem Titel, Standard „Podcast-Folge“) und `karte` (Kopfzeile der Karte in `folgenkarten`).
 - Im Reiter „Abgleich & Daten“ stehen Diagramme oben (vergleich, kurs, balken), danach die Tabelle.
 - Offen bei Lausen: Veröffentlichungsdatum des Videos, Wortlaut der RKI-Protokolle und E-Mails im Original, Zahlen zu Schweden; nächstes Transkript angekündigt (KYoXA1_1TBs).
+- Lausen: zweites Video `manova` („Manova-Gespräch: …“, Gespräch mit Walter van Rossum) eingebaut; neuer Reiter `sicht` („Seine Sicht“) gibt seinen Standpunkt in seiner eigenen Logik wieder (auf Toms Wunsch), klar als seine Sicht gekennzeichnet, mit Verweis auf die Abgleich-Reiter. Bei jedem weiteren Video: Abschnitt „🔦 Aus Lausens Sicht“ im Überblick und den Reiter `sicht` ergänzen; der Abgleich mit Quellen bleibt daneben stehen.

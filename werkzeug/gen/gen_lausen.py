@@ -365,15 +365,321 @@ quellen = R("quellen", "Quellen",
       *[[x[1:x.index("](")], x[x.index("](") + 2:-1]] for x in [L_BT, L_KONST, L_TEXT, L_ANH, L_PROT, L_AEBS, L_DEST20, L_DEST21, L_DEST25, L_AEZ, L_AEB, L_AEB24, L_BIFG, L_THIEME, L_MYDRG, L_ONKO, L_STAT, L_MOB, L_DESTMOB, L_SCHAADE, L_AEB16, L_ORF, L_MULTI, L_NPP, L_NPPC, L_BMI, L_DRS, L_HIB21, L_ADHOC, L_NOS, L_WHO, L_LIND, L_UDE, L_EBM, L_BLZ, L_BLZI, L_TE, L_FREI, L_NK, L_UNT]]),
     txt("Grundlage: Transkript des Videos (automatische Untertitel, abgerufen am 12.11.2026) sowie die verlinkten Seiten. Was nicht geprüft werden konnte, ist mit ❓ markiert."))
 
-alle = [person, buecher, kern, folgen, v_ueber, v_ab, v_zeit, v_abg, web, quellen]
-dia = sum(1 for r in alle[4:8] for b in r["bloecke"] if b["typ"] in ("kurs", "balken", "vergleich", "illu"))
+
+# ================= Video 2: MANOVA-Gespräch =================
+URL2 = "https://www.youtube.com/watch?v=KYoXA1_1TBs"
+VT2 = "Aufarbeitung der Aufarbeitung"
+G2 = "Manova-Gespräch"; K2 = "manova"
+L_HIB = "[Bundestag, hib 394/2025 – Besetzung der Enquete-Kommission](https://www.bundestag.de/presse/hib/kurzmeldungen-1107614)"
+L_ANHS = "[Bundestag – Bericht zur Anhörung „Eindämmungsstrategien“ (7.5.2026)](https://www.bundestag.de/ausschuesse/weitere_gremien/ee01/anhoerungen/1170314-1170314)"
+L_AEBV = "[Deutsches Ärzteblatt – Enquetekommission: Sachverständige verteidigen Coronamaßnahmen](https://www.aerzteblatt.de/news/enquetekommission-sachverstandige-verteidigen-coronamassnahmen)"
+L_BLZS = "[Berliner Zeitung – RKI-Chef erinnert sich nicht an den 15.3.2020](https://www.berliner-zeitung.de/article/corona-enquete-rki-chef-erinnert-sich-nicht-an-lockdown-beratungen-10035055)"
+L_BLZR = "[Berliner Zeitung – Bericht zur Risikohochstufung in der Enquete](https://www.berliner-zeitung.de/article/10307158)"
+L_BMG = "[Bundesgesundheitsministerium, Schreiben vom 12.7.2024 zur Hochstufung (PDF)](https://multipolar-magazin.de/media/240712-hochstufung-dittmar.pdf)"
+L_SCHST = "[Bundestag – ergänzende Stellungnahme Prof. Schaade, 26.5.2026 (PDF)](https://www.bundestag.de/resource/blob/1182320/21-27-38_ergaenzende-Stellungnahme-des-SV-Prof-Dr-Lars-Schaade.pdf)"
+L_MP = "[Multipolar – „Die Menschen sollen Angst haben“ (PDF)](https://multipolar-magazin.de/media/pdf/die-menschen-sollen-angst-haben.pdf)"
+L_SPV = "[Bundestag-Mediathek – Anhörung vom 15.12.2025](https://www.bundestag.de/mediathek/video?videoid=7646762)"
+L_SPTE = "[Tichys Einblick – Bericht zu Spahns Aussage in der Enquete](https://www.tichyseinblick.de/video/interview/corona-debakel-in-deutschland-lug-und-trug/)"
+L_SPZDF = "[ZDFheute – Spahn in der Enquete-Kommission (15.12.2025)](https://www.zdfheute.de/politik/deutschland/spahn-corona-masken-enquete-kommission-100.html)"
+L_GFV = "[Gesellschaft für Virologie – Stellungnahme vom 18.12.2025 (PDF)](https://g-f-v.org/wp-content/uploads/2025/12/GfV-SN_Enquete-Kommission_Brandenburg_1218_final.pdf)"
+L_RECHT = "[Bundestag – Wortprotokoll der 6. Sitzung, 3.11.2025: Rechtsstaat unter Pandemiebedingungen (PDF)](https://www.bundestag.de/resource/blob/1132350/2025-11-03_6-Sitzung-1-.pdf)"
+L_HITZE = "[zm online – RKI-Bericht zur Hitzemortalität 2026](https://www.zm-online.de/news/detail/5100-menschen-starben-im-juni-in-deutschland-durch-die-hitze)"
+L_HITZE2 = "[RKI – Wochenbericht Hitzemortalität, KW 36/2023 (PDF)](https://edoc.rki.de/bitstream/handle/176904/11304/RKI-Wochenbericht_Hitzemortalit%C3%A4t_KW36_2023-09-21.pdf)"
+L_HITZE3 = "[Schwäbische Zeitung – RKI-Schätzungen 2018–2022](https://www.schwaebische.de/panorama/rki-schlagt-alarm-bereits-640-hitzetote-in-deutschland-in-diesem-jahr-1750762)"
+
+TH2 = [{"k": "a", "n": "Kommission & Buch"}, {"k": "b", "n": "Regeln & Fragezeit"}, {"k": "c", "n": "Nicht öffentlich & Protokoll"}, {"k": "d", "n": "Daten & RKI"}, {"k": "e", "n": "Deutung & Stimmung"}, {"k": "f", "n": "Impfung, Papier & Medien"}]
+AB2 = [
+ ("🎬 Vorspann: die 15-jährige Schülerin", "0:00", "0:01", "e", [
+   "Ausschnitt vom Ende des Gesprächs: Lausen schildert die Aussage einer 15-jährigen Schülerin in der Kommission. Sie sei als Ungeimpfte hinter Plastik und im Winter ans offene Fenster gesetzt worden. Von den anderen sei keine Reaktion gekommen.",
+   "💬 „Wie die Steine. Nichts.“ (Lausen) [0:00]"]),
+ ("👋 Vorstellung und die komischen Momente", "0:01", "0:04", "a", [
+   "Walter van Rossum stellt Lausen als „Robin Hood der Daten“ vor; das Buch sei spannend und auf eine Weise komisch. Lausen nennt als komischen Moment eine Antwort von „Frau Büchs“ zum Fußballer Kimmich und den Streit um einen Aufkleber auf seinem Laptop: Er sollte ihn abnehmen, obwohl sein Name darauf stand; die Vorsitzende habe die Sitzung unterbrochen.",
+   "❓ „Büchs“ im Transkript: gemeint ist vermutlich Alena Buyx, frühere Vorsitzende des Deutschen Ethikrats.",
+   "📚 Vorsitzende der Kommission ist Franziska Hoppermann (CDU). " + L_HIB]),
+ ("🏛️ Spielregeln: Enquete statt Untersuchungsausschuss", "0:04", "0:07", "a", [
+   "Der Bundestag habe sich nicht auf einen Untersuchungsausschuss geeinigt, sondern auf eine Enquete-Kommission – das Wort bedeute Ermittlung. Der Einsetzungsantrag enthalte 43 Fragen zur Vergangenheit und 29 zur Zukunft. Die Fraktionen entsenden Abgeordnete nach Stärke und benennen ebenso viele sachverständige Mitglieder; er fragt im Zeitkontingent der AfD-Fraktion. Laufzeit: September 2025 bis Juli 2027.",
+   "📌 Er unterscheidet: sachverständige Mitglieder (dauerhaft) und eingeladene Sachverständige (einmalig, themenbezogen). [0:06]",
+   "📚 Besetzung laut Bundestag: CDU/CSU 5 Abgeordnete und 5 Sachverständige, AfD 3 und 3, SPD 3 und 3, Grüne 2 und 2, Linke 1 und 1. " + L_HIB]),
+ ("⏱️ 24 Sitzungen und fünf Minuten", "0:07", "0:12", "b", [
+   "Van Rossum hält 24 Sitzungen für wenig und vergleicht mit einem Gerichtsverfahren über Viehhaltung mit 40 Verhandlungstagen. Lausen: Ein Erkenntnisgewinn, der die staatlichen Maßnahmen als Ursache der Schäden zeige, sei nicht gewollt [seine Sicht]. Regel: fünf Minuten für Frage und Antwort zusammen, dann ein Gong. In Thüringen gebe es stattdessen eine Rednerliste; dort fragten fast nur die AfD-Seite und selten die Linke. Das Fünf-Minuten-Format sorge dafür, dass kritische Fragen nicht am Stück kommen [seine Sicht].",
+   "💬 „Und dann darf man auch nicht weiter fragen, selbst wenn man mitten im Satz ist.“ (Lausen) [0:10]",
+   "📌 Beispiel für seine Kritik an der Besetzung: Berlins früherer Regierender Bürgermeister Müller prüfe nun als Sachverständiger eigene Entscheidungen. [0:09]",
+   "🔗 Bei [0:09] steht ein Spendenaufruf des Kanals."]),
+ ("❓ Warum seine Fragen lang sind", "0:12", "0:15", "b", [
+   "Van Rossum fragt, ob die langen Fragen Absicht sind. Lausen: Man wisse nicht, was kommt; die Befragten redeten sich teils um Kopf und Kragen. Er bringe Vorhalte in die Frage ein, weil ohne sie keine sinnvolle Antwort möglich sei; Stefan Homburg rate ihm zur Kürze. Drosten habe auf Vorhalt eingeräumt, dass Besuchsverbote Schäden verursachten.",
+   "💬 „Ich bin aber nicht auf Empörung … oder auf Klickzahlen aus.“ (Lausen) [0:13]"]),
+ ("🔒 Die nicht öffentlichen Gruppen", "0:15", "0:17", "c", [
+   "Die 28 Mitglieder seien in fünf Gruppen aufgeteilt; seine heißt Datenwissenschaft und Kommunikation. Auch dort würden Fachleute befragt, meist per Videoschaltung, ohne Öffentlichkeit. Weil die Gruppen klein sind, könne man genauer nachfragen. Genau das hätten seine Frau und er im Buch aufgeschrieben.",
+   "📌 Seine Wertung: Dort zeige sich, dass manche Befragte „keine Ahnung“ hätten [seine Sicht]. [0:16]"]),
+ ("📈 Die Risikobewertung des RKI", "0:17", "0:18", "d", [
+   "Ohne eine Risikobewertung „hoch“ wären Lockdown und Schulschließungen nicht möglich gewesen. Wie sie zustande kam, habe er zweimal nicht öffentlich mit RKI-Präsident Schaade besprochen. In der öffentlichen Sitzung habe dieser sich nicht erinnern können, wo er an dem Sonntag war, an dem entschieden wurde.",
+   "💬 „Und dann platzte die Bombe.“ (Lausen) [0:17]",
+   "📚 Laut Bundesgesundheitsministerium trafen RKI-Präsident und Vizepräsident die Entscheidung am Sonntag, 15. März 2020; verkündet wurde sie am 17. März. " + L_BMG]),
+ ("🏥 Was Behördenleiter wissen", "0:18", "0:20", "d", [
+   "Neu sei für ihn gewesen, dass hohe Beamte einfache, öffentlich zugängliche Statistiken nicht kennen. Die frühere ECDC-Direktorin habe auf seine Frage geantwortet, eine historische Unterbelegung der Kliniken sei nicht typisch für eine Pandemie – ohne den Schluss zu ziehen, dass dann etwas anders gelaufen sein könnte [seine Sicht].",
+   "📌 Er hält das für gefährlich, wenn Behörden dann nur noch eingeübte Abläufe befolgen. [0:19]",
+   "🔗 Zahlen zur Klinikbelegung: siehe Video „Fragen bleiben“, Reiter Abgleich & Daten."]),
+ ("🗂️ Das Protokoll und die gelöschte Tonaufnahme", "0:20", "0:24", "c", [
+   "Im Protokoll der nicht öffentlichen Sitzung sei die Antwort der ECDC-Direktorin falsch wiedergegeben worden. Er habe verlangt, die Tonaufnahme vorzuspielen; das sei abgelehnt worden. Später sei ein „nicht“ eingefügt worden, aber mit dem Zusatz „am Anfang einer Pandemie“, den sie nicht gesagt habe. Auf seinen erneuten Einspruch habe man ihm mitgeteilt, die Aufnahme sei bereits gelöscht. Er kündigt Dienst- und Fachaufsichtsbeschwerden an.",
+   "📌 In seiner Gruppe sei er nicht zum Vorsitzenden gewählt worden; der Stellvertreter leite sie – er nennt ihn „Scheinvorsitzenden“. [0:21]",
+   "❓ Vorgänge aus nicht öffentlichen Sitzungen; hier nicht prüfbar."]),
+ ("⚖️ Warum die Kommission trotzdem zählt", "0:24", "0:26", "a", [
+   "Van Rossum: Anders als ein Untersuchungsausschuss habe die Kommission keine strafrechtlichen Folgen. Lausen: Was dort öffentlich im Bundestag gesagt wird, habe Gewicht; für Beamte gelte die Wahrheitspflicht auch dort. Dass die Regierung nicht nachgehe, wenn die Entscheidung vom März 2020 nicht protokolliert und nicht erinnert wird, zeige ein Problem [seine Sicht].",
+   "💬 „Die wichtigste Entscheidung seit 1945“ – ohne Protokolleintrag (Lausen) [0:25]"]),
+ ("🎭 Zwei Arten von Aufklärung", "0:26", "0:31", "e", [
+   "Van Rossum: Die einen wollten es beim nächsten Mal besser absichern, die anderen Bremsen einbauen und zuerst Daten sehen – „Pfütze oder Tsunami“. Lausen erklärt die Haltung der Mehrheit mit fehlender Empathie oder mit Schuld, die nicht ausgesprochen werden könne; „wir sind gut durchgekommen“ sei eine Fiktion [seine Sicht]. Er schildert noch einmal die Schülerin und die Vertreterin der Bundesschülerkonferenz, die Schulschließungen für wichtig hielt.",
+   "💬 „Wir haben eine massive Theaterstück-Gestaltung gesehen.“ (Lausen) [0:28]"]),
+ ("🌫️ Zeit schinden – und die Juristen", "0:31", "0:34", "b", [
+   "Eingeladene Sachverständige redeten bei Unterbrechungen einfach weiter; er sieht darin ein Muster, um Fragezeit zu verbrauchen [seine Sicht]. Van Rossum fand die Juristen am selbstkritischsten: Die Runde aus Kanzlerin und Ministerpräsidenten habe keinen Verfassungsrang. Lausen stimmt zu, erwartet aber, dass im Abschlussbericht „nötig unter Unsicherheit“ stehen wird – deshalb das Buch vorher.",
+   "🔗 Sitzung zum Rechtsstaat: " + L_RECHT]),
+ ("😠 Die Stimmung im Saal", "0:34", "0:36", "e", [
+   "Die Stimmung sei rau. Sachverständige Mitglieder sollten nicht an eine Parteilinie gebunden sein, hielten aber zusammen „wie ein Gummiring“; er vergleicht das mit der Lage vor dem Mauerfall 1989. Er nennt aggressive Äußerungen der Professoren Rosenbrock und Salzberger [seine Sicht].",
+   "📌 Seine Forderung: sachlich und „von der Gesinnung frei“. [0:35]"]),
+ ("💉 Spahn und der Fremdschutz", "0:36", "0:41", "f", [
+   "Van Rossum nennt als verblüffendsten Moment Spahns Aussage, bei den Impfstoffen sei es nie um Fremd- oder Selbstschutz gegangen, höchstens um die Verhinderung schwerer Verläufe. Lausen: Das sei „wie ein gefundener Bernstein“. Er erzählt von einem Journalisten, der sich wegen des Fremdschutzes habe impfen lassen und trotzdem negativ über seinen Vortrag schrieb. Öffentlichkeit könnten nur die großen Sender herstellen; die müssten dann ihre eigene Berichterstattung aufarbeiten [seine Sicht]. Die Regeln für Geimpfte und Genesene hätten sich auf eine kleine Studie gestützt; das Paul-Ehrlich-Institut habe dem Ministerium intern geschrieben, die Sicherheit mit deutschen Daten nicht effizient beurteilen zu können.",
+   "💬 „Aber deswegen habe ich mich doch impfen lassen.“ (der Journalist, laut Lausen) [0:37]",
+   "❓ „Puhak-Studie“ im Transkript und das Schreiben des Paul-Ehrlich-Instituts: hier nicht geprüft.",
+   "📚 Die Anhörung mit Jens Spahn war am 15. Dezember 2025. " + L_SPV]),
+ ("📰 Das Papier des Innenministeriums und die Medien", "0:41", "0:45", "f", [
+   "Van Rossum: Das Papier vom März 2020 zeige, dass die Pandemie auch organisiert worden sei; in der Kommission komme es nicht vor. Lausen: Papier und Impfung seien dort keine richtigen Themen. Im Buch werde mit einer „SMS um 22:15 Uhr“ gezeigt, wie lange vorher geplant worden sei [seine Sicht]. Van Rossum nennt die Medien die „maßlosesten Pandemietreiber“. Lausen kündigt Sitzungen zur Rolle der Medien (2. November) und zu Desinformation (17. Dezember) an.",
+   "❓ „Herrn Holtmann 19. Januar 2019“ im Transkript: unklar, wer und welches Datum gemeint ist."]),
+ ("📚 Aufarbeitung der Aufarbeitung", "0:45", "0:48", "a", [
+   "Das Buch solle zeigen, wie die Aufarbeitung selbst abläuft, weil niemand drei Stunden Anhörung am Stück ansehe. Nicht behandelt würden Fragen aus dem Alltag: geänderte Arbeitsverträge, Zutritt nur für Geimpfte, Impfempfehlung und Masken für Kinder. Sein Ziel sei kein Durchbruch, sondern ein Protokoll für spätere Generationen – ein Gegengewicht zum offiziellen Bericht.",
+   "💬 „Wahrheitsgetreu, detailgenau muss berichtet werden, was hier gelaufen ist.“ (Lausen) [0:47]"]),
+ ("🏞️ Thüringen – und sein Fazit", "0:48", "0:51", "e", [
+   "In Thüringen sei der Wille zur Aufarbeitung noch geringer, das Format mit Rednerliste aber besser. Sein Fazit: Die staatlichen Maßnahmen seien das größte Problem für Gesundheit und Überleben gewesen, nicht die Erkrankung [seine Sicht]. Als Vergleich nennt er die Hitzetoten: In Krankenhausdaten sehe er im Sommer viele Einweisungen aus Pflegeheimen wegen Flüssigkeitsmangel; das spreche für Lücken in der Versorgung [seine Sicht].",
+   "📚 Das RKI schätzt hitzebedingte Sterbefälle statistisch aus Sterbe- und Temperaturdaten; meist wirken Hitze und Vorerkrankungen zusammen. " + L_HITZE]),
+]
+teile2 = [{"von": v, "bis": b, "t": t.split(" ", 1)[1], "th": th} for t, v, b, th, _ in AB2]
+abschn2 = []
+for t, v, b, th, l in AB2:
+    a = abs_(f"{t} [{v}–{b}]", l); a["th"] = th; abschn2.append(a)
+
+ZA2 = [
+ ("15.3.2020", 2020, "RKI-Präsident und Vizepräsident entscheiden, die Risikobewertung auf „hoch“ zu setzen", "[0:17]", False),
+ ("17.3.2020", 2020, "Die Hochstufung wird öffentlich verkündet", "", True),
+ ("März 2020", 2020, "Papier des Innenministeriums, im Gespräch „geleakte Papiere“", "[0:41]", False),
+ ("2021", 2021, "Regeln mit Zutritt nur für Geimpfte und Genesene (2G)", "[0:39]", False),
+ ("10.7.2025", 2025, "Bundestag setzt die Enquete-Kommission ein", "", True),
+ ("8.9.2025", 2025, "Konstituierung; Vorsitz Franziska Hoppermann", "[0:05]", False),
+ ("3.11.2025", 2025, "Anhörung „Der Rechtsstaat unter Pandemiebedingungen“", "[0:32]", False),
+ ("1.12.2025", 2025, "Anhörung u. a. mit Christian Drosten", "[0:13]", False),
+ ("15.12.2025", 2025, "Anhörung mit Jens Spahn zu Beschaffung und Versorgung", "[0:36]", False),
+ ("7.5.2026", 2026, "Anhörung zu Eindämmungsstrategien; Fragen an Schaade und Braun zum 15. März 2020", "[0:17]", False),
+ ("Herbst 2026", 2026, "Anhörung zu Bildung und Jugend mit der 15-jährigen Schülerin („gestern“)", "[0:29]", False),
+ ("Herbst 2026", 2026, "Mitteilung an Lausen, die Tonaufnahme sei gelöscht („letzte Woche“)", "[0:23]", False),
+ ("2.11.2026", 2026, "Angekündigte Sitzung zur Rolle der Medien", "[0:44]", False),
+ ("17.12.2026", 2026, "Angekündigte Sitzung zu Destabilisierung, Radikalisierung und Desinformation", "[0:44]", False),
+ ("Juli 2027", 2027, "Geplantes Ende der Kommission", "[0:05]", False),
+]
+abg2 = tab(["Aussage im Gespräch", "Gängige Darstellung (Mainstream) / Daten 📚", "Quelle"],
+ ["Besetzung: CDU etwa zehn, AfD sechs Personen; insgesamt 28 (14 Abgeordnete, 14 Sachverständige). [0:05]",
+  "Der Bundestag nennt dieselben Größen: CDU/CSU 5+5, AfD 3+3, SPD 3+3, Grüne 2+2, Linke 1+1.", L_HIB],
+ ["Ein Erkenntnisgewinn, der die Maßnahmen als Ursache der Schäden zeigt, ist nicht gewollt. [0:08]",
+  "Der Bundestag beschreibt als Ziel, zu überlegen, wie man sich auf eine Pandemie besser vorbereiten und sie besser bewältigen kann. In der Anhörung vom Mai 2026 verteidigten mehrere Sachverständige die Maßnahmen; eine RKI-Analyse von 2023 sieht einen wesentlichen Beitrag zur Eindämmung.", L_ANHS + " · " + L_AEBV],
+ ["Fünf Minuten für Frage und Antwort zusammen; 24 Sitzungen in zwei Jahren. [0:08]",
+  "Die Fünf-Minuten-Regel wird auch in der Buchbesprechung der Berliner Zeitung beschrieben. Die öffentlichen Anhörungen dauern jeweils rund drei Stunden und stehen mit Wortprotokoll online.", L_BLZ + " · " + L_PROT],
+ ["Michael Müller prüft als Sachverständiger eigene Entscheidungen. [0:09]",
+  "Müller, früherer Regierender Bürgermeister von Berlin, wurde von der SPD-Fraktion als Sachverständiger benannt.", L_HIB],
+ ["Ohne die Risikobewertung „hoch“ wären Lockdown und Schulschließungen nicht möglich gewesen; Schaade konnte sich nicht erinnern, wo er entschied. [0:17]",
+  "Ärzteblatt und Berliner Zeitung berichten, dass sich Schaade und der frühere Kanzleramtschef Braun an ihren Aufenthaltsort am 15. März 2020 nicht erinnerten. Beide wiesen laut Bundestag einen Zusammenhang mit einer Absprache zum Herunterfahren des Landes zurück. Schaade begründet die Hochstufung mit der Dynamik der Fallzahlen (Verdopplung etwa alle drei Tage) und einer vorliegenden Modellierung.", L_AEBV + " · " + L_BLZS + " · " + L_ANHS + " · " + L_SCHST + " · " + L_BMG],
+ ["Die frühere ECDC-Direktorin hielt eine historische Unterbelegung der Kliniken für nicht typisch für eine Pandemie. [0:19]",
+  "❓ Nicht öffentliche Sitzung, hier nicht prüfbar. Zu den Klinikzahlen siehe Video „Fragen bleiben“: Destatis nennt als Gründe freigehaltene Betten und verschobene Behandlungen.", L_DEST20],
+ ["Das Protokoll gab die Antwort falsch wieder; die Tonaufnahme wurde gelöscht. [0:20]",
+  "❓ Hier nicht prüfbar; eine Stellungnahme der Bundestagsverwaltung liegt hier nicht vor.", "–"],
+ ["Spahn sagte, bei der Impfung sei es nie um Fremdschutz gegangen, nur um schwere Verläufe. [0:36]",
+  "Berichte über die Anhörung vom 15.12.2025 geben Spahn so wieder: Ziel sei immer der Schutz vor schweren Verläufen gewesen; Kritiker verweisen auf frühere Aussagen zu Ansteckung und Herdenimmunität. Die Anhörung steht in der Mediathek. Die Gesellschaft für Virologie weist die Aussage zurück, Impfungen böten grundsätzlich keinen Übertragungs- oder Fremdschutz.", L_SPV + " · " + L_SPTE + " · " + L_SPZDF + " · " + L_GFV],
+ ["Die 2G-Regeln stützten sich auf eine kleine Studie; das Paul-Ehrlich-Institut konnte die Sicherheit mit deutschen Daten nicht effizient beurteilen. [0:39]",
+  "❓ Hier nicht geprüft; keine Quelle gefunden.", "–"],
+ ["Das Papier des Innenministeriums zeigt, dass die Pandemie „organisiert“ wurde. [0:41]",
+  "Die Bundesregierung beschreibt das Szenarienpapier als Arbeit einer Wissenschaftlergruppe ohne Zielvorgaben des Ministeriums; es habe Szenarien und Vorschläge zur Kommunikation enthalten.", L_DRS + " · " + L_BMI],
+ ["Die Medien waren die größten „Pandemietreiber“ und fehlen als Thema. [0:43]",
+  "Lausen selbst nennt eine Sitzung zur Rolle der Medien am 2. November 2026. ❓ Tagesordnung hier nicht geprüft.", "–"],
+ ["Die Runde aus Kanzlerin und Ministerpräsidenten hatte keinen Verfassungsrang; Juristen in der Kommission sahen Rechtsbrüche. [0:32]",
+  "Die Kommission hat dazu am 3.11.2025 eine eigene Anhörung gehalten; das Wortprotokoll ist öffentlich. ❓ Die einzelnen Aussagen der Juristen sind hier nicht nachgelesen.", L_RECHT],
+ ["Die staatlichen Maßnahmen waren das größte Problem, nicht die Erkrankung. [0:49]",
+  "Die RKI-eigene Analyse von 2023 kommt zum Schluss, dass Maskenpflicht und Kontaktbeschränkungen wesentlich zur Bekämpfung beitrugen; die Folgen der Maßnahmen (Besuchsverbote, Schulen) sind selbst Thema der Kommission.", L_AEBV],
+ ["Hitzetote gehen eher auf Versorgungslücken in Heimen zurück als auf das Klima. [0:49]",
+  "Das RKI schätzt die hitzebedingten Sterbefälle aus Sterbe- und Temperaturdaten: 2018 rund 8.400, 2019 rund 6.900, 2022 bis 2025 je etwa 2.600 bis 4.900. Meist wirke Hitze zusammen mit Vorerkrankungen. ❓ Seine Auswertung der Einweisungen wegen Flüssigkeitsmangel ist hier nicht geprüft.", L_HITZE + " · " + L_HITZE2],
+)
+abg2["stapel"] = True
+vgl2 = {"typ": "vergleich", "titel": "⚖️ Zahlen im Gespräch und Daten nebeneinander", "la": "Im Gespräch genannt", "lb": "Daten laut Quelle",
+  "zeilen": [
+    {"n": "Mitglieder der Kommission", "a": 28, "b": 28, "dez": 0, "f": "[0:09]", "q": L_HIB},
+    {"n": "CDU/CSU: Abgeordnete und Sachverständige", "a": 10, "b": 10, "dez": 0, "f": "[0:05]", "q": L_HIB},
+    {"n": "AfD: Abgeordnete und Sachverständige", "a": 6, "b": 6, "dez": 0, "f": "[0:05]", "q": L_HIB},
+    {"n": "Fragezeit je Fragesteller (Minuten, Frage und Antwort)", "a": 5, "b": 5, "dez": 0, "f": "[0:08]", "q": L_BLZ}]}
+sitze = {"typ": "balken", "titel": "📊 Wer in der Enquete-Kommission sitzt (Abgeordnete + Sachverständige)", "einheit": "", "dez": 0,
+  "zeilen": [["CDU/CSU", 10], ["AfD", 6], ["SPD", 6], ["Grüne", 4], ["Linke", 2]],
+  "quelle": L_HIB + ". Stand: September 2025.", "hinweis": "Bezug zum Gespräch [0:05]: Jede Fraktion benennt so viele Sachverständige, wie sie Abgeordnete entsendet."}
+zeitb = {"typ": "balken", "titel": "📊 Rechenbeispiel: Zeit in der Kommission (nach den Angaben im Gespräch)", "einheit": "Std.", "dez": 0,
+  "zeilen": [["24 Sitzungen zu je 3 Stunden", 72], ["Vergleich im Gespräch: 40 Verhandlungstage, hier mit je 6 Stunden gerechnet", 240]],
+  "quelle": "Eigene Rechnung aus den Angaben im Gespräch (24 Sitzungen, 14–17 Uhr; 40 Verhandlungstage). Die 6 Stunden je Verhandlungstag sind eine Annahme zur Veranschaulichung.",
+  "hinweis": "Bezug zum Gespräch [0:07]: van Rossums Vergleich mit einem Gerichtsverfahren."}
+hitze = {"typ": "balken", "titel": "📊 Hitzebedingte Sterbefälle in Deutschland (RKI-Schätzung)", "einheit": "", "dez": 0,
+  "zeilen": [["2018", 8400], ["2019", 6900], ["2020", 3700], ["2022", 4500], ["2023", 3200]],
+  "quelle": L_HITZE + ", " + L_HITZE3 + ", " + L_HITZE2 + ". Stand: Juli 2026.",
+  "hinweis": "Bezug zum Gespräch [0:49]. Für 2018 nannte das RKI früher rund 8.700; 2021 lag die Schätzung unter 2.000, 2024 und 2025 bei etwa 3.000."}
+
+v2_ueber = R(K2, G2 + ": Überblick",
+    {"typ": "folge", "k": K2, "titel": VT2 + " | Tom Lausen und Walter van Rossum im MANOVA-Gespräch", "gast": "Tom Lausen", "rolle": "im Gespräch mit Walter van Rossum", "kanal": "Manova",
+     "art": "Gespräch", "karte": "Manova · Gespräch mit Walter van Rossum", "datum": "Herbst 2026 ❓", "dauer": "51 Min.", "url": URL2,
+     "thema": "Wie die Enquete-Kommission des Bundestages arbeitet, was in den nicht öffentlichen Gruppen geschieht und warum Lausen das in einem Buch festhält.",
+     "wege": [[K2 + "ab", "📖", "Gespräch im Detail", "Abschnitt für Abschnitt, mit Zitaten"], [K2 + "zeit", "📅", "Zeitachse & Verzeichnisse", "Ereignisse, Personen, Begriffe, Zahlen"], [K2 + "abgleich", "⚖️", "Abgleich & Daten", "Diagramme, Aussagen neben Daten, Quellen"]]},
+    hin("Auswertung nach dem Transkript (automatische Untertitel): Gesagtes ohne Zeichen, Ergänzungen 📚, Unklares ❓. Fundstellen [Stunde:Minute] springen ins Video. Die Bewertung bleibt dem Leser."),
+    abs_("⚡ In Kürze", [
+        "Lausen erklärt die Spielregeln der Kommission: 28 Mitglieder, monatliche Sitzungen bis Juli 2027, fünf Minuten für Frage und Antwort.",
+        "Er sieht darin ein Format, das zusammenhängende Kritik verhindert; in Thüringen gebe es eine Rednerliste.",
+        "In nicht öffentlichen Kleingruppen könne er genauer nachfragen – daraus stammt der Kern des Buchs.",
+        "Beispiel Risikobewertung: Der RKI-Präsident habe sich nicht erinnern können, wo die Hochstufung im März 2020 entschieden wurde.",
+        "Beispiel Protokoll: Eine Antwort sei falsch wiedergegeben und die Tonaufnahme gelöscht worden.",
+        "Als stärksten Fund nennt er Spahns Aussage, bei der Impfung sei es nie um Fremdschutz gegangen.",
+        "Sein Ziel: ein genaues Gegenprotokoll für spätere Generationen, bevor der Abschlussbericht erscheint."]),
+    abs_("🔦 Aus Lausens Sicht – der rote Faden", [
+        "Er versteht sich als jemand, der die Ermittlung nachholt, die der Name „Enquete“ verspricht: nachfragen, festhalten, veröffentlichen.",
+        "Sein Maßstab sind Daten, die jeder nachprüfen kann. Wer eine Behörde leitet und sie nicht kennt, hat nach seiner Überzeugung die Lage nicht verstanden.",
+        "Er rechnet nicht mit einem Schuldeingeständnis. Ihm reicht, dass spätere Generationen nicht nur den offiziellen Bericht vorfinden.",
+        "Die Gegenstimmen und die Daten dazu stehen im Reiter Abgleich & Daten."]),
+    txt("🎯 **Kernaussagen** – die wichtigsten Thesen des Gesprächs:"),
+    tab(["#", "Aussage", "Begründung im Gespräch", "Fundstelle", "Gewicht"],
+        ["1", "Die Kommission ist so gebaut, dass wenig herauskommt.", "24 Sitzungen, fünf Minuten je Frage und Antwort", "[0:07]", "★★★"],
+        ["2", "Die Mehrheit will kein Ergebnis, das die Maßnahmen als Ursache der Schäden zeigt.", "Fragen ohne Bezug, Zusammenhalt der Mehrheit", "[0:08]", "★★★"],
+        ["3", "Die nicht öffentlichen Gruppen sind der eigentliche Erkenntnisort.", "kleine Runden, genaueres Nachfragen", "[0:15]", "★★"],
+        ["4", "Die Hochstufung des Risikos im März 2020 ist nicht dokumentiert.", "Schaade erinnert sich nicht; kein Protokolleintrag", "[0:17]", "★★★"],
+        ["5", "Behördenleiter kennen einfache Statistiken nicht.", "Antwort der früheren ECDC-Direktorin", "[0:18]", "★★"],
+        ["6", "Protokolle werden verändert, Tonaufnahmen gelöscht.", "Vorgang um die Antwort der ECDC-Direktorin", "[0:20]", "★★★"],
+        ["7", "Auch ohne Strafbarkeit zählt, was dort gesagt wird.", "Wahrheitspflicht der Beamten, Öffentlichkeit des Bundestages", "[0:24]", "★★"],
+        ["8", "Spahns Aussage zum Fremdschutz ist der wichtigste Fund.", "widerspreche der Begründung für 2G", "[0:36]", "★★★"],
+        ["9", "Die großen Medien berichten nicht darüber.", "müssten eigene Berichterstattung aufarbeiten", "[0:38]", "★★"],
+        ["10", "Die staatlichen Maßnahmen waren das größte Problem, nicht die Erkrankung.", "Erfahrungen aus beiden Kommissionen", "[0:49]", "★★"]),
+    {"typ": "baum", "titel": "🌳 Themenbaum des Gesprächs", "wurzel": VT2, "unter": "Tom Lausen · Walter van Rossum · Manova · 2026 · 51 Min.",
+     "knoten": [
+        {"t": "🏛️ Kommission & Buch", "k": [{"t": "Enquete statt Untersuchungsausschuss [0:04]"}, {"t": "43 und 29 Fragen [0:04]"}, {"t": "Warum sie trotzdem zählt [0:24]"}, {"t": "Gegenprotokoll [0:47]"}]},
+        {"t": "⏱️ Regeln & Fragezeit", "k": [{"t": "24 Sitzungen [0:07]"}, {"t": "Fünf Minuten und Gong [0:10]"}, {"t": "Rednerliste in Thüringen [0:11]"}, {"t": "Zeit schinden [0:31]"}]},
+        {"t": "🔒 Nicht öffentlich & Protokoll", "k": [{"t": "Fünf Gruppen [0:15]"}, {"t": "Protokoll geändert [0:20]"}, {"t": "Tonaufnahme gelöscht [0:23]"}]},
+        {"t": "📈 Daten & RKI", "k": [{"t": "Risikobewertung „hoch“ [0:17]"}, {"t": "Schaade erinnert sich nicht [0:17]"}, {"t": "Klinikbelegung [0:19]"}]},
+        {"t": "🎭 Deutung & Stimmung", "k": [{"t": "Die Schülerin [0:29]"}, {"t": "„Theaterstück“ [0:28]"}, {"t": "Raue Stimmung [0:34]"}, {"t": "Hitzetote als Vergleich [0:49]"}]},
+        {"t": "💉 Impfung, Papier & Medien", "k": [{"t": "Spahn zum Fremdschutz [0:36]"}, {"t": "2G und Paul-Ehrlich-Institut [0:39]"}, {"t": "Papier des Innenministeriums [0:41]"}, {"t": "Rolle der Medien [0:43]"}]}]},
+    tab(["🧭 Steckbrief", ""],
+        ["Thema in einem Satz", "Innenansicht der Corona-Enquete-Kommission aus Sicht eines ihrer Sachverständigen."],
+        ["Titel", VT2 + " | Tom Lausen und Walter van Rossum im MANOVA-Gespräch"],
+        ["Format", "Zwiegespräch; Vorspann mit Ausschnitt, ein Spendenaufruf des Kanals bei [0:09]"],
+        ["Sprecher", "Tom Lausen; Walter van Rossum (Fragen) – Mitautor von Lausens erstem Buch"],
+        ["Dauer", "ca. 51 Minuten"],
+        ["Datum", "Herbst 2026 ❓ (genaues Datum nicht ermittelt; im Gespräch steht die Sitzung vom 2. November noch bevor)"],
+        ["Grundton", "einvernehmlich; der Fragende teilt Lausens Sicht, Gegenfragen sind selten"]),
+)
+v2_ueber["bloecke"][-1]["schmal"] = True
+v2_ab = R(K2 + "ab", G2 + ": Gespräch im Detail",
+    txt("17 Abschnitte in der Reihenfolge des Gesprächs. Lesehilfe: 💬 Zitat · 📌 Aussage · 🔗 Bezug · 📚 Ergänzung · ❓ unklar."),
+    {"typ": "gespraech", "titel": "🧭 Gesprächsverlauf – wann worüber gesprochen wird", "dauer": "0:51", "themen": TH2, "teile": teile2},
+    *abschn2)
+v2_zeit = R(K2 + "zeit", G2 + ": Zeitachse & Verzeichnisse",
+    {"typ": "zeitachse", "titel": "📅 Zeitachse – Ereignisse, die im Gespräch vorkommen",
+     "eintraege": [dict({"z": z, "j": j, "t": t, "e": e}, **({"f": f} if f else {})) for z, j, t, f, e in ZA2]},
+    tab(["👤 Person", "Wer / was", "Rolle im Gespräch", "Fundstelle"],
+        ["Tom Lausen", "Sachverständiges Mitglied der Kommission", "Gesprächspartner", "[0:01]"],
+        ["Walter van Rossum", "Journalist, Mitautor von „Die Intensiv-Mafia“", "stellt die Fragen", "[0:01]"],
+        ["Ulrike Lausen", "Mitautorin", "hält sich laut van Rossum im Hintergrund", "[0:01]"],
+        ["Franziska Hoppermann", "Vorsitzende der Kommission (CDU)", "Streit um den Aufkleber", "[0:03]"],
+        ["Julia Klöckner", "Bundestagspräsidentin", "berief die Sachverständigen", "[0:06]"],
+        ["Alena Buyx ❓", "frühere Vorsitzende des Ethikrats („Büchs“)", "Antwort zu Kimmich", "[0:02]"],
+        ["Michael Müller", "früherer Regierender Bürgermeister, Sachverständiger", "Beispiel für die Besetzung", "[0:09]"],
+        ["Stefan Homburg", "Sachverständiger", "rät zu kurzen Fragen", "[0:13]"],
+        ["Christian Drosten", "Virologe", "räumte auf Vorhalt Schäden durch Besuchsverbote ein", "[0:14]"],
+        ["Lars Schaade", "RKI-Präsident („Schade“)", "Risikobewertung, erinnert sich nicht", "[0:17]"],
+        ["Dr. Andrea Ammon", "frühere ECDC-Direktorin („Amon“)", "Antwort zur Klinikbelegung, Protokoll", "[0:19]"],
+        ["Rolf Rosenbrock, Bernd Salzberger", "Sachverständige", "laut Lausen aggressive Äußerungen", "[0:35]"],
+        ["Jens Spahn", "früherer Gesundheitsminister", "Aussage zum Fremdschutz", "[0:36]"],
+        ["Roger Bittel", "betreibt einen Videokanal", "verfolgt die Sitzungen live", "[0:44]"]),
+    tab(["📖 Begriff", "Erklärung", "Fundstelle"],
+        ["Enquete-Kommission", "Gremium aus Abgeordneten und Sachverständigen; Lausen übersetzt „Ermittlung“", "[0:04]"],
+        ["Untersuchungsausschuss", "Gremium mit Zeugenpflicht und Vereidigung", "[0:24]"],
+        ["Sachverständiges Mitglied", "dauerhaft berufen, im Unterschied zu einmalig eingeladenen Sachverständigen", "[0:06]"],
+        ["Fragezeitkontingent", "Redezeit je Fraktion", "[0:06]"],
+        ["Risikobewertung", "Einstufung des RKI: gering, mäßig, hoch, sehr hoch", "[0:17]"],
+        ["Fremdschutz", "Schutz anderer durch die eigene Impfung", "[0:36]"],
+        ["2G", "Zutritt nur für Geimpfte und Genesene", "[0:39]"],
+        ["Volumenmangel", "Flüssigkeitsmangel, Diagnose in Krankenhausdaten", "[0:50]"]),
+    tab(["📊 Zahl im Gespräch", "Angabe", "Fundstelle"],
+        ["Fragen im Einsetzungsantrag", "43 zur Vergangenheit, 29 zur Zukunft", "[0:04]"],
+        ["Mitglieder", "28 (14 Abgeordnete, 14 Sachverständige)", "[0:09]"],
+        ["Laufzeit", "September 2025 bis Juli 2027, 24 Sitzungen", "[0:05]"],
+        ["Sitzungsdauer", "3 Stunden (14–17 Uhr), sechs eingeladene Sachverständige", "[0:10]"],
+        ["Fragezeit", "5 Minuten für Frage und Antwort", "[0:08]"],
+        ["Arbeitsgruppen", "5, mit je 6 bis 7 Personen", "[0:15]"],
+        ["Rundfunkbeitrag", "„1836 im Monat“ = 18,36 € 📚", "[0:38]"],
+        ["Schüler in der Bundesschülerkonferenz", "8 Millionen", "[0:30]"]),
+)
+v2_abg = R(K2 + "abgleich", G2 + ": Abgleich & Daten",
+    txt("Neutraler Abgleich: oben die Daten als Diagramme, darunter links die Aussage im Gespräch und rechts die gängige Darstellung bzw. Daten mit Quelle. Die Bewertung bleibt dem Leser."),
+    vgl2, sitze, zeitb, hitze, abg2,
+    abs_("🧩 Spannungen im Gespräch", [
+        "Van Rossum nennt die Kommission „unverbindliches Palaver“; Lausen widerspricht und hält sie für wichtig. [0:24]",
+        "Van Rossum fragt, ob die langen Fragen ungeschickt sind; Lausen verteidigt sie. [0:12]",
+        "Lausen sagt, das Thema Medien komme nicht vor – und nennt gleich darauf die Sitzung dazu. [0:43]",
+        "Sonst sind sich beide einig; eine Gegenposition aus der Kommission kommt nicht zu Wort."]),
+    abs_("❓ Offen", [
+        "Veröffentlichungsdatum des Gesprächs.",
+        "Alle Vorgänge aus nicht öffentlichen Sitzungen (Protokoll, Tonaufnahme, Wahl des Gruppenvorsitzes).",
+        "Schreiben des Paul-Ehrlich-Instituts und die genannte Studie zu 2G.",
+        "Wer mit „Holtmann“ gemeint ist und welches Datum.",
+        "Zeitungsbericht über den Aufkleber.",
+        "Die Auswertung zu Einweisungen wegen Flüssigkeitsmangel."]),
+    abs_("🔎 Weiter recherchieren", [
+        "Mediathek des Bundestages: Anhörungen vom 15.12.2025 (Spahn) und 7.5.2026 (Schaade, Braun).",
+        "Wortprotokoll vom 3.11.2025 zu den Aussagen der Juristen.",
+        "Das Buch für die nicht öffentlichen Befragungen."]),
+)
+
+# ================= Reiter „Seine Sicht“ =================
+sicht = R("sicht", "Seine Sicht",
+    txt("Dieser Reiter gibt **Lausens Standpunkt in seiner eigenen Logik** wieder – so, wie er ihn in den ausgewerteten Videos begründet. Es ist seine Sicht, keine Feststellung des Kompendiums; was andere dazu sagen und was die Daten zeigen, steht bei jedem Video unter „Abgleich & Daten“."),
+    abs_("🔦 Warum er das macht", [
+        "Der Bundestag hat sich eine „Enquete“ gegeben – das heißt Ermittlung. Lausen nimmt das Wort ernst: ermitteln, was geschah, wer entschied und auf welcher Grundlage. [Manova 0:04]",
+        "Nach seiner Überzeugung leistet die Kommission das nicht. Also macht er es selbst: Er fragt nach, hält die Antworten fest und veröffentlicht sie. [Fragen bleiben 0:14]",
+        "Er versteht das als Arbeit, die dem Staat zugestanden hätte – eine Prüfung der eigenen Entscheidungen anhand der eigenen Akten und Zahlen."]),
+    abs_("📊 Wie er vorgeht", [
+        "Er beginnt bei Zahlen, die jeder nachschlagen kann: Krankenhausfälle, Belegung, Mobilität.",
+        "Dann legt er die Akten daneben: Protokolle des RKI-Krisenstabs, E-Mails zum Szenarienpapier, Antworten in den Anhörungen.",
+        "Wo Zahlen und Begründung nicht zusammenpassen, stellt er die Frage – in fünf Minuten, deshalb mit Vorhalt.",
+        "Was nicht öffentlich gesagt wird, schreibt er auf, bevor es nur noch in einer Zusammenfassung steht."]),
+    abs_("🧱 Seine stärksten Punkte", [
+        "2020 gab es rund 2,5 Millionen Krankenhausfälle weniger als im Jahr davor. Die Zahl stimmt mit Destatis überein; für ihn passt sie nicht zu einer Pandemie, die das Gesundheitssystem überlastet.",
+        "Die Mobilität war Mitte März 2020 schon um etwa 40 % gesunken, bevor die Kontaktbeschränkungen kamen. Auch diese Größe findet sich im Mobilitätsprojekt des RKI. Für ihn folgt daraus: Der Lockdown war nicht mehr nötig.",
+        "Die Hochstufung des Risikos am 15. März 2020 trafen zwei Personen; wo, daran konnte sich der RKI-Präsident in der Anhörung nicht erinnern. Für ihn ist das der Kern: die folgenreichste Entscheidung ohne Aktenvermerk.",
+        "Das Szenarienpapier des Innenministeriums rechnet mit über einer Million Toten im schlimmsten Fall. Für ihn zeigt der E-Mail-Verkehr, dass die Annahmen auf dieses Ergebnis hin eingestellt wurden.",
+        "Spahn sagte in der Kommission, Ziel der Impfung sei immer der Schutz vor schweren Verläufen gewesen. Für ihn entfällt damit die Begründung für Regeln, die Ungeimpfte ausschlossen."]),
+    abs_("🎯 Was er erreichen will", [
+        "Kein Schuldeingeständnis – damit rechnet er nicht.",
+        "Ein Gegenprotokoll: Wer in zwanzig Jahren nachliest, soll nicht nur den Abschlussbericht finden. [Manova 0:47]",
+        "Eine „Abbruchlogik“ für künftige Lagen: vorher festlegen, bei welchen Daten eine Maßnahme endet. [Fragen bleiben 0:08]",
+        "Dass zuerst gemessen wird, bevor gewarnt wird – „Pfütze oder Tsunami“, wie es im Manova-Gespräch heißt. [Manova 0:27]"]),
+    abs_("↔️ Wo andere widersprechen", [
+        "Destatis erklärt den Rückgang der Klinikfälle mit freigehaltenen Betten und verschobenen Behandlungen.",
+        "Der RKI-Präsident begründet die Hochstufung mit der Verdopplung der Fallzahlen etwa alle drei Tage.",
+        "Die Bundesregierung bestreitet Zielvorgaben an die Autoren des Szenarienpapiers.",
+        "Eine RKI-Analyse von 2023 sieht einen wesentlichen Beitrag der Maßnahmen zur Eindämmung.",
+        "Im Einzelnen mit Quellen: {{a:lausen-fragenabgleich|Abgleich zu „Fragen bleiben“}} und {{a:lausen-manovaabgleich|Abgleich zum Manova-Gespräch}}."]),
+)
+
+alle = [person, buecher, kern, sicht, folgen, v2_ueber, v2_ab, v2_zeit, v2_abg, v_ueber, v_ab, v_zeit, v_abg, web, quellen]
+dia = sum(1 for r in [v_ueber, v_ab, v_zeit, v_abg] for b in r["bloecke"] if b["typ"] in ("kurs", "balken", "vergleich", "illu"))
 v_ueber["bloecke"][0]["kacheln"] = [[str(len(AB)), "Abschnitte"], ["10", "Kernaussagen"], [str(len(abg["zeilen"])), "Abgleich-Punkte"], [str(len(ZA)), "Zeitachse"], [str(dia), "Skizzen & Diagramme"]]
 
+dia2 = sum(1 for r in [v2_ueber, v2_ab, v2_zeit, v2_abg] for b in r["bloecke"] if b["typ"] in ("kurs", "balken", "vergleich", "illu"))
+v2_ueber["bloecke"][0]["kacheln"] = [[str(len(AB2)), "Abschnitte"], ["10", "Kernaussagen"], [str(len(abg2["zeilen"])), "Abgleich-Punkte"], [str(len(ZA2)), "Zeitachse"], [str(dia2), "Diagramme"]]
+web["bloecke"][-1]["zeilen"].append([VT2 + " | Tom Lausen und Walter van Rossum im MANOVA-Gespräch", "Manova", f"[ansehen]({URL2})"])
+quellen["bloecke"][0]["eintraege"][1:1] = [[f"Video: {VT2} | Tom Lausen und Walter van Rossum im MANOVA-Gespräch – Manova (YouTube)", URL2]]
+quellen["bloecke"][0]["eintraege"] += [[x[1:x.index("](")], x[x.index("](") + 2:-1]] for x in [L_HIB, L_ANHS, L_AEBV, L_BLZS, L_BLZR, L_BMG, L_SCHST, L_MP, L_SPV, L_SPTE, L_SPZDF, L_GFV, L_RECHT, L_HITZE, L_HITZE2, L_HITZE3]]
+kern["bloecke"] += [abs_("6. Die Aufarbeitung selbst aufarbeiten", ["Wie eine Kommission fragt, protokolliert und zusammenfasst, entscheidet darüber, was später als Ergebnis gilt – deshalb beobachtet er auch das Verfahren [seine Sicht]. [0:45]"]),
+                    abs_("7. Maßnahmen als eigene Schadensquelle", ["Die Folgen von Isolation, Besuchsverboten und Schulschließungen müssten ebenso gezählt werden wie die Erkrankung selbst [seine Sicht]. [0:49]"])]
+kern["bloecke"][0]["text"] = "Seine Leitgedanken – als Wiedergabe seiner Sicht, aus den bisher ausgewerteten Videos. Wird mit jedem weiteren Transkript ergänzt."
 autor = {"id": "lausen", "nr": "A-09", "name": "Tom Lausen", "botan": "Datenanalyst, Publizist, Sachverständiger im Bundestag", "volksnamen": [],
   "kurz": "Tom Lausen wertet amtliche Gesundheitsdaten aus und sitzt als Sachverständiger in der Enquete-Kommission des Bundestages zur Corona-Aufarbeitung. Hier gesammelt: seine Vorträge und Gespräche – je Video Überblick, Vortrag im Detail, Zeitachse und Abgleich mit Daten.",
   "steckbrief": [["Geboren", "1967 in Hamburg"], ["Beruf", "Programmierer, Datenanalyst, Publizist"], ["Amt", "Sachverständiges Mitglied der Enquete-Kommission „Corona“ des Bundestages (seit 2025) und des Thüringer Landtags"],
                  ["Bücher", "Die Intensiv-Mafia (2021), Die Untersuchung (2024), 5 Minuten gegen die Macht (2026)"], ["Kernthemen", "Krankenhaus- und Intensivdaten, Modellrechnungen, RKI-Protokolle, Aufarbeitung"],
-                 ["Ausgewertete Videos", "1 (Stand 12.11.2026)"]],
+                 ["Ausgewertete Videos", "2 (Stand 12.11.2026)"]],
   "reiter": alle}
 json.dump(autor, open("/home/claude/scratch/lausen/lausen.json", "w"), ensure_ascii=False)
 print("ok", len(AB), len(abg["zeilen"]), len(ZA), dia)
