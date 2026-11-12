@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Quellwissen">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="qw-stand" content="202611120926">
+<meta name="qw-stand" content="202611120932">
 <script>
 if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
 addEventListener("load",function(){try{var s=document.querySelector("meta[name=qw-stand]").content,a=localStorage.getItem("qw-stand");if(a&&a!==s){var d=document.createElement("div");d.id="qw-neu";d.textContent="Neue Version geladen";document.body.appendChild(d);setTimeout(function(){d.remove();},4000);}localStorage.setItem("qw-stand",s);}catch(e){}});
@@ -603,6 +603,11 @@ main:focus{outline:none}
 .marke>span{color:var(--ink)}.marke>.marke-q{color:var(--accent-ink)}
 .suche{flex:1 1 200px;max-width:560px;margin-left:auto}
 .suche input{height:42px;padding:0 38px 0 38px;border-radius:12px;border:1px solid transparent;background:color-mix(in srgb,var(--ink) 7%,transparent);font-size:1rem;-webkit-appearance:none;appearance:none;transition:background .2s,border-color .2s,box-shadow .2s}
+.rechner-knopf{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;height:42px;padding:0 13px;border-radius:12px;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);font:600 .92rem var(--label);text-decoration:none;transition:background .2s}
+.rechner-knopf svg{width:20px;height:20px;stroke:currentColor}
+.rechner-knopf:hover,.rechner-knopf:focus-visible{background:color-mix(in srgb,var(--ink) 13%,transparent)}
+.rechner-knopf[aria-current="page"]{background:var(--ink);color:var(--bg)}
+@media (max-width:560px){.rechner-knopf{width:42px;padding:0;justify-content:center}.rechner-knopf span{display:none}.kopf .suche{flex-basis:120px}}
 .suche input::placeholder{color:var(--muted);opacity:1}
 .suche input::-webkit-search-cancel-button{display:none}
 .suche input:focus{outline:none;background:var(--surface);border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
@@ -1385,6 +1390,7 @@ i.fv-b{background:var(--tc,var(--accent))!important}
       <button type="button" class="suche-x" id="sucheleeren" aria-label="Suche leeren" hidden>×</button>
       <div class="treffer" id="trefferliste" role="listbox" hidden></div>
     </div>
+    <a class="rechner-knopf" href="#rechner" aria-label="Rechner &amp; Umrechner öffnen" title="Rechner &amp; Umrechner"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg><span>Rechner</span></a>
     <nav class="teile" aria-label="Teile">
       <span id="teile-liste" class="teile-liste"></span>
       <button data-ziel="welt" class="welt-knopf">🌍 Weltkarte</button>
@@ -1477,6 +1483,7 @@ window.QW_KONFIG={
     {d:'JJJJ-MM-TT', t:'Titel', k:'Kurztext (ein Satz)', h:'#sprungziel' (darf fehlen), art:'Autor'|'Kapitel'|'Optik'|… (kleines Etikett)} */
  neu:[
   {d:"2026-11-12",t:"{ungeskriptet} – Ulrike Guérot",k:"Ulrike Guérot über Kündigung, Meinungsklima, Corona und eine Europäische Republik – 47 Abschnitte, Abgleich mit Quellen, 6 Diagramme.",h:"#a-ungeskriptet-guerot",art:'Podcast'},
+  {d:'2026-11-12',t:'Rechner-Knopf oben neben der Suche',k:'Ein Tipp auf den Knopf neben dem Suchfeld öffnet „Rechner & Umrechner“ von jeder Seite aus.',h:'#rechner',art:'App'},
   {d:'2026-11-12',t:'Wikihausen – Dr. Hans-Joachim Kremer',k:'Streit unter Fachleuten über die Fetthüllen der mRNA-Impfstoffe – 20 Abschnitte, Abgleich mit Fachstellen und Quellen, 5 Diagramme, Prüfstand.',h:'#a-wikihausen-kremer',art:'Video'},
   {d:'2026-11-12',t:'Neuer Sammel-Eintrag: Geschichten aus Wikihausen',k:'Wikipedia-kritische Videoreihe von Markus Fiedler – Kanal und Macher, Stimmen zur Reihe, erste ausgewertete Folge.',h:'#a-wikihausen',art:'Autor'},
   {d:'2026-11-12',t:'Daniele Ganser – Kampf der Giganten',k:'Buchinterview: Wie die USA nach Gansers Sicht China und Russland zu Verbündeten machten – 22 Abschnitte, Abgleich mit Quellen, 6 Diagramme.',h:'#a-ganser-giganten',art:'Video'},
@@ -10578,6 +10585,7 @@ function route(){
   document.body.dataset.seite = seite; main.style.setProperty('--tc', TEIL[teil]?TEIL[teil].farbe:teil==='WK'?'var(--c-w)':'var(--accent)');
   document.querySelectorAll('.teile button[data-ziel]').forEach(b=>b.setAttribute('aria-current', b.dataset.ziel==='teil-'+teil || (teil==='WK'&&b.dataset.ziel==='welt') || (seite==='neu'&&b.dataset.ziel==='neu')));
   const tab = seite==='start'?'start':seite==='welt'?'welt':seite==='neu'?'neu':(seite==='skills'||seite==='rechner')?'mehr':'themen';
+  { const rk=document.querySelector('.rechner-knopf'); if(rk){ if(seite==='rechner') rk.setAttribute('aria-current','page'); else rk.removeAttribute('aria-current'); } }
   document.querySelectorAll('.leiste [data-tab]').forEach(b=>{ if(b.dataset.tab===tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if(nachOben) nachOben.hidden=true;
   main.classList.remove('ein'); void main.offsetWidth; main.classList.add('ein'); masse();
