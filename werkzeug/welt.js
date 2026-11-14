@@ -1013,7 +1013,7 @@ async function scheibe3d(){
     for(let i=0;i<[600,1000,1600][Q];i++){ const t=zuf(); ad(zuf()*24,Math.asin(zuf()*2-1)/R2D,3.0+3.2*Math.sqrt(zuf()),t<0.15?[1,0.86,0.72]:t<0.35?[0.78,0.86,1]:[1,1,1]); }
     const sg=new T.BufferGeometry(); sg.setAttribute('position',new T.Float32BufferAttribute(SP,3)); sg.setAttribute('g',new T.Float32BufferAttribute(SG,1)); sg.setAttribute('col',new T.Float32BufferAttribute(SC,3));
     const sm=new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,fog:false,uniforms:{t:kU.t,ph:{value:900}},
-      vertexShader:'attribute float g;attribute vec3 col;uniform float t;uniform float ph;varying vec3 vC;varying float vT;void main(){vC=col;vec4 mv=modelViewMatrix*vec4(position,1.);vT=.78+.22*sin(t*2.3+position.x*41.+position.z*17.);gl_PointSize=clamp(g*ph/(-mv.z)*.011,1.,g*2.4);gl_Position=projectionMatrix*mv;}',
+      vertexShader:'attribute float g;attribute vec3 col;uniform float t;uniform float ph;varying vec3 vC;varying float vT;void main(){vC=col;vec4 mv=modelViewMatrix*vec4(position,1.);vT=.78+.22*sin(t*2.3+position.x*41.+position.z*17.);gl_PointSize=clamp(g*ph/(-mv.z)*.014,1.2,g*2.6);gl_Position=projectionMatrix*mv;}',
       fragmentShader:'varying vec3 vC;varying float vT;void main(){float d=length(gl_PointCoord-.5);float a=smoothstep(.5,0.,d);a*=a;gl_FragColor=vec4(vC*a*vT,1.);}'});
     const pts=new T.Points(sg,sm); pts.frustumCulled=false; pts.renderOrder=4; sterneG.add(pts); g.userData.sm=sm;
     const LIN=[['Alkaid','Mizar'],['Mizar','Alioth'],['Alioth','Megrez'],['Megrez','Phecda'],['Phecda','Merak'],['Merak','Dubhe'],['Dubhe','Megrez'],['Caph','Schedar'],['Schedar','GamCas'],['GamCas','Ruchbah'],['Ruchbah','Segin'],
@@ -1094,7 +1094,7 @@ async function scheibe3d(){
   const rundSetzen=an=>{ rund=an; const b=el.querySelector('[data-kam="rund"]'); if(b) b.setAttribute('aria-pressed',an); };
   d.flugAus=()=>{ flug=null; rundSetzen(false); };
   if(ctl) ctl.addEventListener('start',()=>{ flug=null; rundSetzen(false); });
-  const polGrenze=()=>{ if(ctl) ctl.maxPolarAngle=VAR[akt].unten?Math.PI*0.96:Math.PI*0.48; };
+  const polGrenze=()=>{ if(ctl) ctl.maxPolarAngle=VAR[akt].unten?Math.PI*0.96:Math.PI*0.8; };
   const kuppelSicht=()=>{ const an=!!VAR[akt].kuppel; if(an&&!kuppelG){ kuppelG=baueKuppel(); sc.add(kuppelG); } if(kuppelG) kuppelG.visible=an&&kuppelZeig; const b=q('kuppelz'); b.style.display=an?'':'none'; b.setAttribute('aria-pressed',kuppelZeig); };
   const aussen=(k,erst)=>{ akt=k; const V=VAR[k]; if(V.bau&&!AU[k]){ AU[k]=V.bau(); sc.add(AU[k]); } for(const g in AU) AU[g].visible=g===k; kuppelSicht();
     if(V.unten) polGrenze(); if(!erst) fliege(...V.kam,1500,polGrenze); else polGrenze();
@@ -1103,7 +1103,7 @@ async function scheibe3d(){
   el.querySelectorAll('[data-aus]').forEach(b=>b.onclick=()=>aussen(b.dataset.aus));
   q('kuppelz').onclick=()=>{ kuppelZeig=!kuppelZeig; kuppelSicht(); };
   el.querySelectorAll('[data-kam]').forEach(b=>b.onclick=()=>{ const k=b.dataset.kam; if(k==='rund'){ flug=null; rundSetzen(!rund); return; } rundSetzen(false); const V=VAR[akt];
-    if(k==='oben') fliege([0,27,0.02],[0,0,0],1600,polGrenze); else if(k==='aussen') fliege(...V.fern,1700,polGrenze); else fliege(V.unten?[0,-0.4,14.2]:[0,1.7,7.2],V.unten?[0,-1.2,9]:[0,0.75,14],1700,polGrenze); });
+    if(k==='oben') fliege([0,27,0.02],[0,0,0],1600,polGrenze); else if(k==='aussen') fliege(...V.fern,1700,polGrenze); else if(V.kuppel) fliege([0,1.3,10.0],[0,2.2,2.8],1700,polGrenze); else fliege(V.unten?[0,-0.4,14.2]:[0,1.7,7.2],V.unten?[0,-1.2,9]:[0,0.75,14],1700,polGrenze); });
   q('wasser').onclick=e=>{ wasser.visible=!wasser.visible; e.currentTarget.setAttribute('aria-pressed',wasser.visible); };
   const info=el.querySelector('.k3-info'), klapp=e=>{ const zu=info.classList.toggle('zu',e); q('klapp').textContent=zu?'▴':'▾'; q('klapp').setAttribute('aria-expanded',!zu); }; q('klapp').onclick=()=>klapp(!info.classList.contains('zu')); if(el.clientWidth<700) klapp(true);
   let wolken=null; q('wolken').onclick=e=>{ if(!wolken){ const W2=[384,512,768][Q], c=document.createElement('canvas'); c.width=c.height=W2; const x=c.getContext('2d'), im=x.createImageData(W2,W2);
@@ -1128,7 +1128,7 @@ async function scheibe3d(){
     kU.t.value=t/1000; if(flug){ const f=Math.max(0,Math.min(1,(t-flug.t0)/(flug.dauer||1400))), e=f<.5?2*f*f:1-Math.pow(-2*f+2,2)/2; cam.position.lerpVectors(flug.p0,flug.p1,e); ctl.target.lerpVectors(flug.z0,flug.z1,e); if(f>=1){ const n=flug.nach; flug=null; if(n) n(); } }
     if(rund&&ctl){ const w=dt*0.00009, tg=ctl.target, dx=cam.position.x-tg.x, dz=cam.position.z-tg.z, c=Math.cos(w), s=Math.sin(w); cam.position.x=tg.x+dx*c-dz*s; cam.position.z=tg.z+dx*s+dz*c; }
     const u=zt.toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' Uhr'; if(u!==letzteU){ uhr.textContent='☀ '+u; letzteU=u; }
-    if(ctl) ctl.update(); { const ab=ctl?cam.position.distanceTo(ctl.target):20, n=Math.max(0.04,Math.min(0.5,ab*0.02)); if(Math.abs(n-nahW)>nahW*0.1){ nahW=n; cam.near=n; cam.updateProjectionMatrix(); } }
+    if(ctl){ ctl.update(); if(!VAR[akt].unten&&!flug&&cam.position.y<0.3) cam.position.y=0.3; } { const ab=ctl?cam.position.distanceTo(ctl.target):20, n=Math.max(0.04,Math.min(0.5,ab*0.02)); if(Math.abs(n-nahW)>nahW*0.1){ nahW=n; cam.near=n; cam.updateProjectionMatrix(); } }
     if(bild++%4===0) ordnen(); blenden(); r.render(sc,cam); };
   d.raf=requestAnimationFrame(schritt);
 }
