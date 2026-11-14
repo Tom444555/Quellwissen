@@ -208,8 +208,8 @@ let SCHR=0, SCHY=0;
 function rd(){ return (S.modus==='scheibe'&&SCHR?SCHR:Math.min(W,H)*0.44)*S.zoom; }
 /* Scheibe so einpassen, dass sie samt Eiswall und Außenring über der Legende vollständig sichtbar ist */
 function scheibeMass(){ if(!wrap||!W) return; const L=$('.qwk-leg',wrap), lh=L?L.offsetHeight:0, lw=L?L.offsetWidth:0, ring=W<520?20:24;
-  const oben=W<520?8:14, unten=lw>W*.42&&lh?H-14-lh-8:H-10, verf=Math.max(120,unten-oben), rt=Math.min(verf/2,(W-16)/2);
-  let r=(rt-ring-3)/1.075; r=Math.max(Math.min(W,H)*.27,Math.min(Math.min(W,H)*.44,r)); const alt=SCHY; SCHR=r; SCHY=Math.min(0,oben+verf/2-H/2);
+  const oben=W<520?6:10, unten=lw>W*.42&&lh?H-14-lh-8+(W<520?26:36):H-8, verf=Math.max(120,unten-oben), rt=Math.min(verf/2,(W-(W<520?4:12))/2);
+  let r=(rt-ring-2)/1.045; r=Math.max(Math.min(W,H)*.3,Math.min(Math.min(W,H)*.48,r)); const alt=SCHY; SCHR=r; SCHY=Math.min(0,oben+verf/2-H/2);
   if(S.modus==='scheibe'&&S.zoom===1&&S.px===0&&Math.abs(S.py-alt)<.5) S.py=SCHY; }
 function proj(lon,lat){
   if(S.modus==='globus'){ const l=(lon-S.lam)*R2,p=lat*R2,p0=S.phi*R2, r=radius();
@@ -318,7 +318,7 @@ fw=uKw;
   if(uBereit<.5||uPlain>.5){vec3 rel=uBereit>.5?texture2D(tRelK,uv).rgb:vec3(.1,.2,.4);wasser=uBereit>.5?(mW>=0.?mW:smoothstep(.03,.11,rel.b-rel.r)*step(rel.g,rel.b+.03)):1.;alb=mix(vec3(.118,.172,.227),vec3(.035,.13,.26),wasser);}
   else{
    vec3 rel=mix(texture2D(tRel,uv).rgb,texture2D(tRelK,uv).rgb,uUnscharf);float h=texture2D(tHoe,uv).r;vec2 e=vec2(1./4096.,1./2048.)*mix(2.6,1.4,uFein);
-   hE=(texture2D(tHoe,uv+vec2(e.x,0.)).r-texture2D(tHoe,uv-vec2(e.x,0.)).r)/max(cl,.2);hN=texture2D(tHoe,uv-vec2(0.,e.y)).r-texture2D(tHoe,uv+vec2(0.,e.y)).r;
+   float ex=e.x/max(cl,.2);hE=(texture2D(tHoe,uv+vec2(ex,0.)).r-texture2D(tHoe,uv-vec2(ex,0.)).r);hN=texture2D(tHoe,uv-vec2(0.,e.y)).r-texture2D(tHoe,uv+vec2(0.,e.y)).r;
    float relW=smoothstep(.03,.11,rel.b-rel.r)*step(rel.g,rel.b+.03);wasser=mW>=0.?mW:relW;
    vec4 bio=texture2D(tBio,uv);float hoehe=clamp((h-.5)*2.,0.,1.),lum=dot(rel,vec3(.3,.59,.11));float kalt=smoothstep(.45,.97,abs(sl));
    vec3 land=mix(rel,bio.rgb*(.6+.8*lum),.6*bio.a);if(mW>=0.)land=mix(land,bio.rgb*.82+vec3(.03,.035,.02),relW*.9);
@@ -330,22 +330,22 @@ fw=uKw;
     hoehe+=(dt-.5)*.1*rau;}
    land*=.95+.1*(dt-.5)*uFein*1.6+.04*(fbm(uv*vec2(700.,350.))-.5);
    land=mix(land,vec3(.95,.96,.98),smoothstep(.56,.82,hoehe+kalt*.22));
-   land=mix(land,vec3(.92,.94,.97)*(.92+.1*dt),(1.-smoothstep(-1.1,-1.03,lat))*.92);
+   land=mix(land,vec3(.92,.94,.97)*(.92+.1*dt),(1.-smoothstep(-1.1,-1.03,lat))*(uMode>1.5?.97:.92));
    float tiefe=clamp((.5-h)/.4,0.,1.);
    vec3 w=mix(vec3(.17,.52,.58),vec3(.055,.29,.52),smoothstep(0.,.2,tiefe));w=mix(w,vec3(.028,.135,.33),smoothstep(.14,.58,tiefe));w=mix(w,vec3(.014,.065,.2),smoothstep(.55,1.,tiefe));
    w=mix(w,rel,.2*(mW>=0.?relW:1.));w+=vec3(.07,.13,.11)*(1.-smoothstep(0.,.09,tiefe))*.7;
    w=mix(w,vec3(.15,.47,.53),nah*.22*(1.-smoothstep(0.,.3,tiefe)));w=mix(w,vec3(.05,.22,.36)+rel*.12,see*.85);w=mix(w,vec3(.55,.78,.8),saum*.3);
-   float lg=degrees(abs(lat));eis=smoothstep(0.,.3,(lg-(lat>0.?75.:63.))/10.+(fbm(uv*vec2(60.,30.))-.5)*.7)*(1.-see);w=mix(w,vec3(.86,.9,.95)*(.9+.2*vn(uv*vec2(900.,450.))),eis*.92);
+   float lg=degrees(abs(lat));eis=smoothstep(0.,.3,(lg-(lat>0.?75.:(uMode>1.5?67.:63.)))/10.+(fbm(uv*vec2(60.,30.))-.5)*.7)*(1.-see);w=mix(w,vec3(.86,.9,.95)*(.9+.2*mix(.5,vn(uv*vec2(900.,450.)),uMode>1.5?smoothstep(-1.3,-1.1,lat):1.)),eis*.92);
    alb=mix(land,w,wasser);
    alb=mix(alb,mix(vec3(dot(alb,vec3(.3,.59,.11))),alb,.5)*.92,uThema);
   }
   if(uRoh>.5){col=alb;}
   else{
-   vec2 hg=vec2(hE,hN);hg*=min(1.,.09/max(length(hg),1e-5));hE=hg.x;hN=hg.y;float bump=uBump*mix(1.,.22,wasser);vec3 nb=normalize(U-bump*(hE*E+hN*N));float dif=max(dot(nb,S),0.);
-   float licht=uLichtart<.5?.05+.1*uFein+(1.08-.1*uFein)*pow(dif,.78):clamp(.2+.98*dif/.77,0.,1.5);licht=mix(licht,.6+.5*dif,still*step(uLichtart,.5));
+   vec2 hg=vec2(hE,hN);hg*=min(1.,.75/max(uBump*length(hg),1e-5));hE=hg.x;hN=hg.y;float bump=uBump*mix(1.,.22,wasser)*(1.-.7*smoothstep(1.2,1.45,abs(lat)))*(uMode>1.5?.35+.65*smoothstep(-1.2,-1.02,lat):1.);vec3 nb=normalize(U-bump*(hE*E+hN*N));float dif=max(dot(nb,S),0.);
+   float licht=uLichtart<.5?.07+.1*uFein+(1.06-.1*uFein)*pow(dif,.78):clamp(.2+.98*dif/.77,0.,1.5);licht=mix(licht,.6+.5*dif,still*step(uLichtart,.5));
    float wk=0.;
-   if(uWolken>.01&&still<.5){vec2 cu=vec2(uv.x+uZeit,uv.y);float c=texture2D(tWol,cu).r*.72+texture2D(tWol,vec2(cu.x*3.+.37-uZeit*.6,abs(fract(uv.y*1.5+.25)*2.-1.))).r*.28;wk=smoothstep(.5,.82,c)*uWolken;
-    vec2 sv=vec2(dot(S,E),-dot(S,N))*.0045;float cs=texture2D(tWol,cu+sv).r*.72+.14;alb*=1.-.36*smoothstep(.5,.8,cs)*uWolken*(1.-wk);}
+   float wf=uWolken*(uMode>1.5?smoothstep(-1.03,-.94,lat):1.);if(wf>.01&&still<.5){vec2 cu=vec2(uv.x+uZeit,uv.y);float c=texture2D(tWol,cu).r*.72+texture2D(tWol,vec2(cu.x*3.+.37-uZeit*.6,abs(fract(uv.y*1.5+.25)*2.-1.))).r*.28;wk=smoothstep(.5,.82,c)*wf;
+    vec2 sv=vec2(dot(S,E),-dot(S,N))*.0045;float cs=texture2D(tWol,cu+sv).r*.72+.14;alb*=1.-.36*smoothstep(.5,.8,cs)*wf*(1.-wk);}
    vec3 V=uMode<.5?uBlick:U;vec2 wu=uv*vec2(2.,1.);vec3 nw=normalize(U+(E*(fbm(wu*700.)-.47)+N*(fbm(wu*700.+31.)-.47))*.03+(E*(vn(wu*4200.)-.5)+N*(vn(wu*4200.+57.)-.5))*.06*uFein);
    float nh=max(dot(nw,normalize(S+V)),0.);float sp=(pow(nh,240.)*.95+pow(nh,34.)*.15)*wasser*(1.-eis)*(1.-wk)*tag*(1.-still);
    vec3 c=alb*licht*tag+alb*vec3(.05,.07,.12)*(1.-tag);c+=vec3(1.,.96,.86)*sp;
@@ -366,15 +366,15 @@ fw=uKw;
    float halo=exp(-t*46.)*.9+exp(-t*12.)*.3+exp(-t*3.4)*.08;vec3 hc=mix(vec3(.2,.45,1.),vec3(.6,.8,1.),exp(-t*70.));hc=mix(hc,vec3(1.,.5,.25),exp(-pow(nS/.22,2.))*.45*(1.-still));
    col=raum*(1.-min(1.,halo*tg))+hc*halo*(.06+.94*tg);}
   else if(uMode>1.5){
-   if(rS<1.075){float a=atan(dS.x,dS.y),t=(rS-1.)/.075;float n=fbm(vec2(a*46.,t*3.5+a*2.));vec2 ld=normalize(vec2(-.6,-.8));float lk=dot(normalize(dS),ld);
+   if(rS<1.045){float a=atan(dS.x,dS.y),t=(rS-1.)/.045;float n=fbm(vec2(a*46.,t*3.5+a*2.));vec2 ld=normalize(vec2(-.6,-.8));float lk=dot(normalize(dS),ld);
     float ka=.3+.08*(fbm(vec2(a*24.,3.))-.5)+.04*(vn(vec2(a*180.,1.))-.5),wd=1.-smoothstep(ka-.035,ka+.01,t);
     float sr=fbm(vec2(a*320.,t*1.4)),sch=.5+.5*sin(t*38.+fbm(vec2(a*60.,t))*6.);
     vec3 wand=mix(vec3(.5,.62,.78),vec3(.84,.9,.97),sr*.75+sch*.25)*(.55+.45*smoothstep(0.,ka,t))*(.78+.34*max(-lk,0.)+.1*lk);
     vec3 ice=mix(vec3(.96,.98,1.),vec3(.62,.72,.86),clamp(smoothstep(.35,1.,t)*.75+(n-.5)*.55,0.,1.));
     float sp=smoothstep(.045,0.,abs(fbm(vec2(a*140.,t*5.+a))-.5))*(1.-wd)*smoothstep(ka,ka+.15,t);ice*=1.-.4*sp;ice*=.84+.24*lk;
-    ice=mix(ice,wand,wd);ice*=mix(1.,.86,smoothstep(.82,1.,t))*mix(.55,1.,smoothstep(0.,.05,t));
+    ice=mix(ice,wand,wd);ice+=vec3(.1,.1,.1)*exp(-pow((t-ka)/.035,2.))*(.6+.4*lk);ice*=mix(1.,.8,smoothstep(.8,1.,t))*mix(.3,1.,smoothstep(0.,.07,t));
     float tg=uNacht>.5?mix(.42,1.,1.-smoothstep(.42,1.15,length(p-uSonneP)/uR)):1.;col=ice*tg;}
-   else{float t=rS-1.075;vec2 sd=(dS+vec2(-.03,-.045)*uR)/uR;float sch=smoothstep(1.2,1.02,length(sd));col=raum*(1.-.75*sch)+vec3(.2,.4,.75)*exp(-t*16.)*.3;}
+   else{float t=rS-1.045;vec2 sd=(dS+vec2(-.03,-.045)*uR)/uR;float sch=smoothstep(1.2,1.02,length(sd));col=raum*(1.-.75*sch)+vec3(.2,.4,.75)*exp(-t*16.)*.3;}
   }
  }
  col+=(h1(p+.5)-.5)/170.;gl_FragColor=vec4(col,1.);}`;
@@ -458,7 +458,7 @@ function glZeichne(mitRelief,thema){
   g.uniform2f(U.uGr,W,H); g.uniform1f(U.uDpr,bw/W); g.uniform1f(U.uMode,mode); g.uniform1f(U.uR,R); g.uniform1f(U.uLam,l); g.uniform1f(U.uPhi,p); g.uniform1f(U.uK,k); g.uniform2f(U.uPan,S.px,S.py);
   g.uniform3fv(U.uSonne,So); g.uniform3fv(U.uBlick,C); g.uniform3fv(U.uOst,Ex); g.uniform3fv(U.uNord,Ny);
   let sx=0, sy=0; if(mode===2&&S.ov.nacht){ const [a,b]=sonne(), q=proj(a,b); sx=q[0]; sy=q[1]; } g.uniform2f(U.uSonneP,sx,sy);
-  g.uniform1f(U.uZeit,GLZ); g.uniform1f(U.uWolken,S.ov.wolken&&GL.wolken?Math.max(.25,Math.min(1,1.25-S.zoom/9)):0); g.uniform1f(U.uThema,thema?1:0); g.uniform1f(U.uPlain,mitRelief?0:1); g.uniform1f(U.uNacht,S.ov.nacht?1:0); g.uniform1f(U.uRoh,0);
+  g.uniform1f(U.uZeit,GLZ); g.uniform1f(U.uWolken,S.ov.wolken&&GL.wolken?Math.max(.25,Math.min(1,1.25-S.zoom/9))*(mode===1?Math.min(1,.62+S.zoom*.08):1):0); g.uniform1f(U.uThema,thema?1:0); g.uniform1f(U.uPlain,mitRelief?0:1); g.uniform1f(U.uNacht,S.ov.nacht?1:0); g.uniform1f(U.uRoh,0);
   g.uniform1f(U.uBereit,GL.bereit?1:0); g.uniform1f(U.uFein,Math.max(0,Math.min(1,(S.zoom-1.5)/4))); g.uniform1f(U.uUnscharf,Math.max(0,Math.min(1,Math.log2(Math.max(1,pxTex))/2))); g.uniform1f(U.uLichtart,mode===0||(mode===1&&S.ov.nacht)?0:1); g.uniform1f(U.uBump,(mode===0?11:9)*Math.min(1.7,1+.17*Math.log2(Math.max(1,S.zoom)))); g.uniform1f(U.uTpp,pxTex*4096/GL.relB);
   const tpp=pxTex*(GL.kue||4096)/GL.relB; g.uniform1f(U.uKueB,GL.kue?1:0); g.uniform1f(U.uKw,Math.max(.006,Math.min(.5,tpp*.45))); g.uniform1f(U.uKueU,Math.max(0,Math.min(1,Math.log2(Math.max(1,tpp/1.5))/1.5)));
   g.drawArrays(g.TRIANGLES,0,3); GLW=bw; GLH=bh; GLD=dpr; return true; }
@@ -468,7 +468,7 @@ function glScheibenbild(ts){ if(!glAn()||!GL.bereit) return null; const g=GL.g, 
   g.drawArrays(g.TRIANGLES,0,3); const k=document.createElement('canvas'); k.width=k.height=ts; k.getContext('2d').drawImage(c,0,0); zeichne(); return k; }
 
 /* ---------- Zeichnen ---------- */
-let sterne=null, BOX=[]; const SPERR=typeof CanvasRenderingContext2D!=='undefined'&&'letterSpacing' in CanvasRenderingContext2D.prototype;
+let sterne=null, BOX=[], LAY=null; const SPERR=typeof CanvasRenderingContext2D!=='undefined'&&'letterSpacing' in CanvasRenderingContext2D.prototype;
 function zeichne(fein){
   if(!ctx) return; BOX=[STB.slice()]; ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
   const G3=glZeichne(S.grund==='relief'||(S.unterlage&&!GRUND[S.grund].r),S.grund!=='relief');
@@ -481,8 +481,8 @@ function zeichne(fein){
     const oz=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.1,W/2,H/2,r); oz.addColorStop(0,'#1d4f86'); oz.addColorStop(.6,'#0c2c52'); oz.addColorStop(1,'#071a33'); ctx.fillStyle=oz; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill(); }
     ctx.save(); ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.clip(); }
   else if(S.modus==='scheibe'){ const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; if(!G3){ const kg=ctx.createRadialGradient(cx,cy,R0*0.98,cx,cy,R0*1.35); kg.addColorStop(0,'rgba(120,180,255,.35)'); kg.addColorStop(1,'rgba(60,120,255,0)'); ctx.fillStyle=kg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.35,0,7); ctx.fill();
-    const eg=ctx.createRadialGradient(cx,cy,R0,cx,cy,R0*1.07); eg.addColorStop(0,'#f4f8ff'); eg.addColorStop(.6,'#c8d6e8'); eg.addColorStop(1,'#8aa0bc'); ctx.fillStyle=eg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.fill();
-    ctx.fillStyle='#0a2240'; ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.fill(); } ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.clip(); }
+    const eg=ctx.createRadialGradient(cx,cy,R0,cx,cy,R0*1.045); eg.addColorStop(0,'#f4f8ff'); eg.addColorStop(.6,'#c8d6e8'); eg.addColorStop(1,'#8aa0bc'); ctx.fillStyle=eg; ctx.beginPath(); ctx.arc(cx,cy,R0*1.045,0,7); ctx.fill();
+    ctx.fillStyle='#0a2240'; ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.fill(); } ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0*1.045,0,7); ctx.clip(); }
   else if(!G3){ ctx.fillStyle='#0a2240'; const a=proj(-180,90),b=proj(180,-90); ctx.fillRect(0,a[1],W,b[1]-a[1]); }
   if(mitRelief&&!G3){ textur(); const rc=relief(fein!==false&&!S.bewegt); if(rc){ ctx.imageSmoothingEnabled=true; ctx.drawImage(rc,0,0,W,H); if(!fein&&!S.bewegt){} } }
   // Gradnetz (zuschaltbar mit Gradzahlen) und besondere Breitenkreise
@@ -499,8 +499,12 @@ function zeichne(fein){
     [[0,'Nullmeridian'],[180,'180. Längengrad']].forEach(([lo,n])=>{ const pts=[], l1=S.modus==='scheibe'?90:Math.min(89.5,V.la1); for(let la=Math.max(-89.5,V.la0); la<=l1; la+=Math.max(.05,(l1-V.la0)/240)) pts.push([lo,la]); ctx.strokeStyle='#d6dbe8'; ctx.globalAlpha=.5; const vp=linie(pts); ctx.stroke(); NT.push(['km',n,vp,'#dfe4ef']); });
     ctx.globalAlpha=1; ctx.setLineDash([]); }
   // Länderflächen
-  if(S.grund!=='relief'){ const alpha=mitRelief?0.62:1;
-    DAT.laender.forEach(c=>{ const f=rast?null:farbe(c.i); if(mitRelief&&!f) return; ctx.beginPath(); let ok=false; c.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=alpha; ctx.fillStyle=f||(rast?'#22303a':'#1e2c3a'); ctx.fill(); ctx.globalAlpha=1; }); }
+  if(S.grund!=='relief'){ const alpha=mitRelief?0.62:1, KL=G3&&!rast&&feinRinge('land'), haupt=ctx;
+    /* Länderflächen auf eigener Ebene: leicht aufgeweitet und dann auf die feine Küste zugeschnitten (keine Säume an groben Umrissen) */
+    if(KL){ if(!LAY) LAY=document.createElement('canvas'); if(LAY.width!==cv.width||LAY.height!==cv.height){ LAY.width=cv.width; LAY.height=cv.height; } ctx=LAY.getContext('2d'); ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H); ctx.lineJoin='round'; }
+    DAT.laender.forEach(c=>{ const f=rast?null:farbe(c.i); if(mitRelief&&!f) return; ctx.beginPath(); let ok=false; c.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=KL?1:alpha; ctx.fillStyle=f||(rast?'#22303a':'#1e2c3a'); ctx.fill(); if(KL){ ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=Math.min(8,2+S.zoom*.6); ctx.stroke(); } ctx.globalAlpha=1; });
+    if(KL){ ctx.globalCompositeOperation='destination-in'; ctx.beginPath(); KL.forEach(rg=>{ if(bbSicht(rg.bb)) pfad(rg); }); ctx.fillStyle='#000'; ctx.fill('evenodd'); const FS2=feinRinge('seen'); if(FS2){ ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); FS2.forEach(rg=>{ if(bbSicht(rg.bb)) pfad(rg); }); ctx.fill('evenodd'); }
+      ctx.globalCompositeOperation='source-over'; ctx=haupt; ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha=alpha; ctx.drawImage(LAY,0,0); ctx.restore(); } }
   if(rast){ const half=1.02, tab=rast===2?KLIMA:rast===3?BODEN:VEGN; ctx.save(); ctx.beginPath(); DAT.laender.forEach(c=>c.p.forEach(rg=>pfad(rg))); ctx.clip();
     DAT.raster.forEach(g=>{ const k=g[rast]; const q=proj(g[0],g[1]); if(q[2]<0.05) return; const a=proj(g[0]-half,g[1]+half),b=proj(g[0]+half,g[1]+half),c2=proj(g[0]+half,g[1]-half),d=proj(g[0]-half,g[1]-half);
       if(!glob && Math.abs(a[0]-b[0])>W/2) return; ctx.fillStyle=tab[k][1]; ctx.globalAlpha=.86; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c2[0],c2[1]); ctx.lineTo(d[0],d[1]); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; }); ctx.restore(); }
@@ -547,11 +551,11 @@ function zeichne(fein){
   // Beschriftung: Landschaften, Gipfel, Länder, Städte
   const zs=zstufe();
   const rand=q=>glob?Math.max(0,Math.min(1,(q[2]-.2)/.3)):1; // zum Kugelrand hin ausblenden statt stauchen
-  if(NT.length) netzText(NT.filter(n=>n[0]==='k'||n[0]==='km'),rand);
   if(S.ov.namen&&mitRelief){ TLS='2.4px'; MEERE.forEach(([n,lo,la,rg])=>{ if(rg>zs-.6) return; const q=proj(lo,la); if(q[2]<0.3) return; TXA=rand(q)*.88; text(n,q[0],q[1],(rg<1?14.5:rg<2?12.5:11.5)-(W<520?1.8:0),'#c4dcf0',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
   if(S.ov.landschaft){ TLS='1px'; DAT.regionen.forEach(([n,k,lo,la,sr])=>{ if(sr>zs+0.5) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q); text(n,q[0],q[1],11,k==='Range/mtn'?'#ecd9bd':k==='Desert'?'#f3dfae':'#d6e6c6',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
   if(S.ov.gipfel) DAT.gipfel.forEach(([n,lo,la,hm,sr])=>{ if(sr>zs+1) return; const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(q[0],q[1]-5); ctx.lineTo(q[0]+4,q[1]+2); ctx.lineTo(q[0]-4,q[1]+2); ctx.closePath(); ctx.fill(); text(`${n} ${fmt(hm)} m`,q[0]+6,q[1]+3,10,'#ffffff'); });
   if(S.ov.namen) DAT.laender.slice().sort((a,b)=>a.lr-b.lr).forEach(c=>{ if(c.lr>zs||(G.de&&c.i==='DEU')) return; const q=proj(c.lp[0],c.lp[1]); if(q[2]<0.24) return; const gross=c.lr<3, mittel=c.lr<4.5; TLS=gross?'1.5px':mittel?'1px':'.6px'; TXA=rand(q); text(c.n,q[0],q[1],(gross?13.5:mittel?12:11)-(W<520?(gross?2:.6):0),gross?'#fbf7ea':'#efece0',true,gross?'700':'500','sc'); }); TLS='0px'; TXA=1;
+  NT.push(...BAHN); BAHN=[]; if(NT.length) netzText(NT.filter(n=>n[0]==='k'||n[0]==='km'||n[0]==='b'),rand);
   if(S.ov.namen&&DAT.fein){ TLS='.8px'; (DAT.fein.seeN||[]).forEach(([n,lo,la,st])=>{ if(st>zs) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q)*.95; text(n,q[0],q[1]+4,st<5.5?11:10,'#b4dcf2',true,'italic 400','meer'); });
     (DAT.fein.marken||[]).forEach(([n,lo,la,st,art])=>{ if(st>zs) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q)*.92;
       if(art==='k'){ if(text(n,q[0]+5,q[1]+3.5,9.8,'#f1e8d2',false,'italic 400','meer')){ ctx.globalAlpha=TXA; ctx.fillStyle='#f1e8d2'; ctx.beginPath(); ctx.arc(q[0],q[1],1.8,0,7); ctx.fill(); ctx.globalAlpha=1; } }
@@ -560,7 +564,7 @@ function zeichne(fein){
   if(NT.length) netzText(NT.filter(n=>n[0]==='p'||n[0]==='m'),rand);
   if(S.ov.tiefen) TIEFEN.forEach(([n,lo,la,t])=>{ const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#7fe0ff'; ctx.strokeStyle='#02101e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(q[0]-5,q[1]-4); ctx.lineTo(q[0]+5,q[1]-4); ctx.lineTo(q[0],q[1]+4); ctx.closePath(); ctx.fill(); ctx.stroke(); text(`${n} −${fmt(t)} m`,q[0]+7,q[1]+4,10.5,'#bff0ff'); });
   if(S.klick){ const q=proj(S.klick[0],S.klick[1]); if(q[2]>0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(q[0],q[1],6,0,7); ctx.stroke(); } }
-  if(S.modus==='scheibe'){ ctx.restore(); const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; scheibenRing(cx,cy,R0); if(S.zoom<2.5){ TLS='1.5px'; text('Eiswall (Antarktis)',cx,cy+R0*1.036+4,11.5,G3&&!S.ov.nacht?'#1c2c44':'#f2f6ff',true,'italic 400','meer'); TLS='0px'; text('Nordpol',cx,cy-6,10.5,'#ffffff',true,'700'); } if(!G3){ ctx.strokeStyle='rgba(180,210,255,.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(cx,cy,R0*1.07,0,7); ctx.stroke(); } }
+  if(S.modus==='scheibe'){ ctx.restore(); const R0=rd(), cx=W/2+S.px, cy=H/2+S.py; scheibenRing(cx,cy,R0); if(S.zoom<2.5){ TLS='1.5px'; text('Eiswall (Antarktis)',cx,cy+R0*1.022+4,11.5,G3&&!S.ov.nacht?'#1c2c44':'#f2f6ff',true,'italic 400','meer'); TLS='0px'; text('Nordpol',cx,cy-6,10.5,'#ffffff',true,'700'); } if(!G3){ ctx.strokeStyle='rgba(180,210,255,.5)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(cx,cy,R0*1.045,0,7); ctx.stroke(); } }
   if(glob){ ctx.restore(); if(!G3){ const sh=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.2,W/2,H/2,r*1.02); sh.addColorStop(0,mitRelief?'rgba(255,255,255,.03)':'rgba(255,255,255,.09)'); sh.addColorStop(.7,'rgba(0,0,0,0)'); sh.addColorStop(1,mitRelief?'rgba(0,5,20,.2)':'rgba(0,5,20,.55)'); ctx.fillStyle=sh; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     const saum=ctx.createRadialGradient(W/2,H/2,r*.9,W/2,H/2,r); saum.addColorStop(0,'rgba(120,190,255,0)'); saum.addColorStop(.8,'rgba(120,190,255,.1)'); saum.addColorStop(1,'rgba(150,210,255,.42)'); ctx.fillStyle=saum; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     ctx.strokeStyle='rgba(170,220,255,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.stroke(); } }
@@ -572,7 +576,7 @@ const SCHRIFT={std:'"Alegreya Sans","Segoe UI",system-ui,-apple-system,Roboto,sa
 let TXA=1, TLS='0px', SCHRIFT_DA=false;
 function schriftLaden(){ if(SCHRIFT_DA||!document.fonts||!document.fonts.load) return; SCHRIFT_DA=true; Promise.all(['500 12px "Alegreya Sans"','700 12px "Alegreya Sans"','500 12px "Alegreya Sans SC"','700 12px "Alegreya Sans SC"','italic 400 12px "Alegreya"'].map(f=>document.fonts.load(f).catch(()=>0))).then(()=>{ if(wrap&&document.body.contains(wrap)) zeichne(); }); }
 function text(t,x,y,s=11.5,col='#eef3fa',mitte,gew='500',fam){ s+=1.4; if(gew==='600') gew='500'; else if(gew==='italic 600'||gew==='italic 700') gew='italic 400'; ctx.font=`${gew} ${s}px ${SCHRIFT[fam||(gew.indexOf('italic')===0?'meer':'std')]}`; if(SPERR) ctx.letterSpacing=TLS; const w=ctx.measureText(t).width; if(mitte) x-=w/2;
-  if(x<-w||x>W||y<0||y>H+10) return false; if(frei(x,y,w,s)===false) return false; BOX.push([x,y,w,s]);
+  if(x<3||x+w>W-3||y<s+1||y>H-3) return false; if(frei(x,y,w,s)===false) return false; BOX.push([x,y,w,s]);
   if(TXA<=0.02) return true; ctx.globalAlpha=TXA; ctx.lineJoin='round'; ctx.lineWidth=Math.max(3.6,s*.34); ctx.strokeStyle='rgba(6,14,26,.16)'; ctx.strokeText(t,x,y); ctx.lineWidth=Math.max(1.8,s*.17); ctx.strokeStyle='rgba(6,14,26,.58)'; ctx.strokeText(t,x,y); ctx.fillStyle=col; ctx.fillText(t,x,y); ctx.globalAlpha=1; if(SPERR&&TLS!=='0px'&&!mitte){} return true; }
 function frei(x,y,w,s){ return !BOX.some(b=>x<b[0]+b[2]+3&&x+w+3>b[0]&&y-s<b[1]+2&&y+2>b[1]-b[3]); }
 function pin(x,y,c){ ctx.fillStyle=c; ctx.strokeStyle='#0a0f1a'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(x,y,4.6,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle='rgba(255,255,255,.8)'; ctx.beginPath(); ctx.arc(x-1.2,y-1.2,1.4,0,7); ctx.fill(); }
@@ -599,7 +603,7 @@ function nacht(G3){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]
     const el=((ml-sl)%360+360)%360, ph=Math.cos(el*R2); ctx.fillStyle='#e9edf5'; ctx.beginPath(); ctx.arc(m[0],m[1],5.5,0,7); ctx.fill(); ctx.fillStyle='rgba(28,36,54,.88)'; ctx.beginPath(); ctx.arc(m[0],m[1],5.5,el<180?Math.PI/2:-Math.PI/2,el<180?-Math.PI/2:Math.PI/2); ctx.ellipse(m[0],m[1],5.5*Math.abs(ph),5.5,0,el<180?-Math.PI/2:Math.PI/2,el<180?Math.PI/2:-Math.PI/2,ph<0); ctx.fill();
     ctx.strokeStyle='rgba(200,215,240,.7)'; ctx.lineWidth=.8; ctx.beginPath(); ctx.arc(m[0],m[1],5.5,0,7); ctx.stroke(); ctx.restore();
     text('Sonne',q[0]+12,q[1]+4,10,'#ffe8a0'); text('Mond',m[0]+9,m[1]+4,10,'#e8ecf4');
-    if(S.zoom<2.5){ TXA=.85; text('Sonnenbahn heute',cx,cy-rS-4,9,'#ffd86a',true,'italic 400','meer'); text('Mondbahn heute',cx,cy+rM+12,9,'#d6e0f6',true,'italic 400','meer'); TXA=1; }
+    if(S.zoom<2.5){ BAHN.push(['b','Sonnenbahn heute',[[cx,cy-rS,1]],'#ffd86a'],['b','Mondbahn heute',[[cx,cy-rM,1]],'#d6e0f6']); }
     return; }
   else if(G3){}
   else if(S.modus==='globus'){ ctx.beginPath(); pfad(pts); ctx.fillStyle='rgba(2,6,20,.55)'; ctx.fill(); }
@@ -608,7 +612,7 @@ function nacht(G3){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]
 
 /* ---------- Präzision: Gradnetz, besondere Kreise, Maßstab, Koordinaten ---------- */
 const KREISE=[[66.5634,'Nördlicher Polarkreis','#a8dcff'],[23.4366,'Wendekreis des Krebses','#ffb27a'],[0,'Äquator','#ffd86a'],[-23.4366,'Wendekreis des Steinbocks','#ffb27a'],[-66.5634,'Südlicher Polarkreis','#a8dcff']];
-let STB=[10,46,150,36];
+let STB=[10,46,150,36], BAHN=[];
 function kreiseAn(){ return S.ov.kreise==null?S.modus==='scheibe':!!S.ov.kreise; }
 function gms(v,p,n){ const a=Math.abs(v); let d=Math.floor(a), m=Math.round((a-d)*60); if(m===60){ d++; m=0; } return `${d}° ${String(m).padStart(2,'0')}′ ${v>0?p:v<0?n:''}`.trim(); }
 function koord(ll){ return gms(ll[1],'N','S')+' · '+gms(((ll[0]+540)%360)-180,'O','W'); }
@@ -628,8 +632,9 @@ function netzText(NT,rand){ const glob=S.modus==='globus', weit=S.zoom<2.2&&S.mo
   NT.forEach(([art,v,vp,x4])=>{ if(!vp.length) return; let q;
     if(art==='p'){ q=weit?vp.reduce((a,b)=>Math.abs(b[0]-W/2)<Math.abs(a[0]-W/2)?b:a):vp.reduce((a,b)=>b[0]<a[0]?b:a); if(!q) return; TXA=glob?rand(q)*.9:.9; text(gradText(v,x4,'N','S'),q[0]+(weit?3:4),q[1]-3,9,'#dfeaf7',!!weit&&false,'500'); }
     else if(art==='m'){ if(S.modus==='scheibe'&&S.zoom<2.2) return; q=weit?vp.reduce((a,b)=>Math.abs(b[1]-H/2)<Math.abs(a[1]-H/2)?b:a):vp.reduce((a,b)=>b[1]<a[1]?b:a); TXA=glob?rand(q)*.9:.9; text(gradText(v,x4,'O','W'),q[0]+3,weit?q[1]+12:q[1]+13,9,'#dfeaf7',false,'500'); }
-    else if(art==='k'){ q=S.modus==='scheibe'?vp.reduce((a,b)=>b[0]*.6+b[1]*.8<a[0]*.6+a[1]*.8?b:a):vp.reduce((a,b)=>Math.abs(b[0]-W*.3)<Math.abs(a[0]-W*.3)?b:a); TXA=glob?rand(q)*.95:.95; text(v,q[0],q[1]-3,9.5,x4,true,'italic 400','meer'); }
-    else { q=vp[Math.floor(vp.length*(S.modus==='scheibe'?.55:.3))]; TXA=glob?rand(q)*.9:.9; text(v,q[0]+4,q[1],9,x4,false,'italic 400','meer'); } });
+    else { const kr=art==='k'||art==='b', ziele=S.modus==='scheibe'&&kr?[0,.3,-.3,.6,-.6,.9,-.9,1.2,-1.2].map(d=>{ const cx=W/2+S.px, cy=H/2+S.py, r=Math.hypot(vp[0][0]-cx,vp[0][1]-cy), w=Math.PI+d; return [cx+Math.sin(w)*r,cy+Math.cos(w)*r,1]; })
+        :(kr?[.3,.5,.7,.15,.85,.4,.6]:[.3,.55,.75,.15]).map(f=>vp[Math.min(vp.length-1,Math.floor(vp.length*f))]);
+      for(const z of ziele){ if(!z) continue; TXA=glob?rand(z)*.95:.95; if(TXA<.3) continue; if(kr?text(v,z[0],z[1]-3,9.5,x4,true,'italic 400','meer'):text(v,z[0]+4,z[1],9,x4,false,'italic 400','meer')) break; } } });
   TXA=1; TLS='0px'; }
 /* Maßstab (km je Bildpunkt in der Bildmitte) */
 function kmProPx(){ if(S.modus==='globus') return 6371.0/radius(); if(S.modus==='scheibe') return 20015/rd(); const ll=inv(W/2,H/2), la=ll?ll[1]:0; return 111.32*Math.cos(la*R2)/kf(); }
@@ -644,7 +649,7 @@ function status(){ const kp=kmProPx(), sch=S.modus==='scheibe', klein=W<520; let
   ctx.fillStyle='#e8eef6'; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.font=`600 10.5px ${SCHRIFT.std}`; ctx.fillText(`${fz(L)} km`,x0+14+bw,by+.5);
   ctx.font=`500 9.5px ${SCHRIFT.std}`; ctx.fillStyle='#b8c6da'; ctx.fillText(z2,x0+8,y0+27); if(z3){ ctx.fillStyle='#e8eef6'; ctx.fillText(z3,x0+8,y0+41); } ctx.restore(); }
 /* Außenring der Scheibe: Längengrade und 24-Stunden-Ring (Ortszeit, wenn es in Greenwich 12 Uhr ist) */
-function scheibenRing(cx,cy,R0){ const r1=R0*1.075+1.5, w=W<520?19:23, r2=r1+w, rm=r1+w*.5, schritt=R0<120?30:15;
+function scheibenRing(cx,cy,R0){ const r1=R0*1.045+1.5, w=W<520?19:23, r2=r1+w, rm=r1+w*.5, schritt=R0<120?30:15;
   if(Math.hypot(Math.max(Math.abs(cx-W/2)-W/2,0),Math.max(Math.abs(cy-H/2)-H/2,0))>r2||(Math.hypot(W,H)/2+Math.hypot(cx-W/2,cy-H/2)<r1)) return;
   ctx.save(); ctx.fillStyle='rgba(7,12,24,.86)'; ctx.beginPath(); ctx.arc(cx,cy,r2,0,7); ctx.arc(cx,cy,r1,0,7,true); ctx.fill();
   const rg=ctx.createRadialGradient(cx,cy,r1,cx,cy,r2); rg.addColorStop(0,'rgba(120,150,190,.18)'); rg.addColorStop(1,'rgba(120,150,190,0)'); ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(cx,cy,r2,0,7); ctx.arc(cx,cy,r1,0,7,true); ctx.fill();
