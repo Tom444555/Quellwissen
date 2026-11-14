@@ -921,9 +921,12 @@ async function dreiLaden(){
   throw new Error('three.js nicht verfügbar');
 }
 const AUSSEN={
-  kuppel:{n:'Kuppelrand',t:'<b>Nach Darstellung mancher Vertreter</b> endet die Welt am Eisring: Dort setzt die Himmelskuppel (das Firmament) auf, die Scheibe ist rundum abgeschlossen. <b>Gängige Darstellung:</b> Eine feste Kuppel wurde nie beobachtet; Satelliten und Raumsonden durchqueren den Raum über der Erde ungehindert.'},
-  laender:{n:'Weitere Länder',t:'<b>Nach Darstellung mancher Vertreter</b> (z. B. Mark Sargent) liegen hinter einem breiten Eisgürtel weitere, unerforschte Länder; sie berufen sich auf Admiral Byrd (Operation Highjump 1946/47). <b>Gängige Darstellung:</b> Byrd meinte Gebiete auf dem antarktischen Kontinent selbst. Die Landmassen hier sind frei angedeutet – hypothetisch.'},
-  eis:{n:'Endloses Eis',t:'<b>Nach Darstellung mancher Vertreter</b> folgt hinter der Wand endloses Eis, das niemand durchquert habe; der Antarktisvertrag (1959) sperre den Zugang. <b>Gängige Darstellung:</b> Die Antarktis ist ein Kontinent, wurde mehrfach durchquert und wird von vielen Forschungsstationen aus erforscht; 2023/24 kamen ca. 120 000 Besucher (IAATO).'}};
+  kuppel:{n:'Kuppelrand',t:'<b>Nach Darstellung mancher Vertreter</b> endet die Welt am Eisring: Dort setzt die Himmelskuppel (das Firmament) auf. Sonne und Mond kreisen als Leuchten darunter, die Sterne sitzen an der Kuppel, der Polarstern genau über dem Nordpol. <b>Gängige Darstellung:</b> Eine feste Kuppel wurde nie beobachtet; Raumstationen (ISS, rund 400 km Höhe) und Sonden wie Voyager 1 (über 24 Mrd. km entfernt) bewegen sich ungehindert. Sterne zeigen messbare jährliche Parallaxen (Gaia: über 1 Mrd. Sterne) und stehen damit unterschiedlich weit entfernt.'},
+  wasser:{n:'Wasser über der Feste',t:'<b>Nach Darstellung mancher Vertreter</b>, die sich auf 1. Mose 1,6–8 berufen, liegen über der festen Himmelskuppel („Feste“) weitere Wasser; manche verbinden damit die „Fenster des Himmels“ der Sintflut-Erzählung (1. Mose 7,11). <b>Gängige Darstellung:</b> Die Stelle spiegelt das altorientalische Weltbild wider. Wetterballone (bis etwa 40 km), Raketen und Satelliten durchqueren die Lufthülle; Wasserdampf findet sich fast nur in den unteren rund 10–15 km, darüber folgt nahezu leerer Raum.'},
+  laender:{n:'Weitere Länder',t:'<b>Nach Darstellung mancher Vertreter</b> (z. B. Mark Sargent) liegen hinter einem breiten Eisgürtel weitere, unerforschte Länder, teils von einem zweiten Eisring umschlossen; sie berufen sich u. a. auf Admiral Byrd (Operation Highjump 1946/47). <b>Gängige Darstellung:</b> Byrd meinte Gebiete auf dem antarktischen Kontinent selbst; Weltumsegelungen und polar umlaufende Satelliten, die beide Pole täglich rund 14-mal überqueren, zeigen keine weiteren Kontinente. Land und Meer hier sind frei erzeugt – ohne Namen, nicht belegt.'},
+  eis:{n:'Endloses Eis',t:'<b>Nach Darstellung mancher Vertreter</b> folgt hinter der Wand endloses Eis, das niemand durchquert habe; der Antarktisvertrag (1959) sperre den Zugang. <b>Gängige Darstellung:</b> Die Antarktis ist ein Kontinent von rund 14 Mio. km². Sie wurde mehrfach durchquert, erstmals 1957/58 von der Commonwealth-Transantarktis-Expedition (Fuchs, Hillary); am Südpol steht seit 1956/57 die Amundsen-Scott-Station, 2023/24 kamen ca. 120 000 Besucher (IAATO).'},
+  saeulen:{n:'Säulen',t:'<b>Nach Darstellung mancher Vertreter</b> ruht die Scheibe auf Säulen oder Grundfesten; sie berufen sich auf Bibelstellen wie 1. Samuel 2,8, Hiob 9,6 oder Psalm 75,4, die von „Säulen“ bzw. „Pfeilern“ der Erde sprechen. Was darunter liegt, bleibt offen. <b>Gängige Darstellung:</b> Erdbebenwellen durchlaufen den ganzen Erdkörper und zeigen Kruste, Mantel sowie einen flüssigen äußeren und festen inneren Kern; die tiefste Bohrung (Kola, 12,26 km) blieb in der Kruste.'}};
+const WAND3D='<b>Zur Eiswand – gängige Darstellung:</b> James Clark Ross beschrieb 1841 die nach ihm benannte Eisbarriere (heute Ross-Schelfeis) als senkrechte Eisklippe von etwa 150–200 Fuß (rund 45–60 m) Höhe; ihre Abbruchkante ist über 600 km lang. Solche Schelfeiskanten säumen Teile der antarktischen Küste.';
 const CSS3D=`.qwk-3d{position:fixed;inset:0;z-index:9000;background:#03060f;color:#e8eefb;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:none}
 .qwk-3d canvas{display:block;width:100%;height:100%;outline:none}
 .qwk-3d .k3-bar{position:absolute;top:12px;left:12px;right:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;pointer-events:none}
@@ -943,8 +946,10 @@ const CSS3D=`.qwk-3d{position:fixed;inset:0;z-index:9000;background:#03060f;colo
 .qwk-3d .k3-info small{display:block;color:#7d8aa8;font-size:11.5px}
 .qwk-3d .k3-info a{color:#9fcf8a}
 .qwk-3d .k3-klapp{margin-left:auto;padding:1px 9px!important;font-size:13px!important}.qwk-3d .k3-info.zu p,.qwk-3d .k3-info.zu small{display:none}.qwk-3d .k3-info.zu .k3-seg{margin-bottom:0}
+.qwk-3d .k3-kam{position:fixed;right:12px;bottom:12px;display:flex;flex-direction:column;gap:6px}.qwk-3d .k3-kam button{justify-content:flex-start}
+.qwk-3d .k3-bar label b{font-weight:600}.qwk-3d .k3-info .k3-wand{color:#9aa7c2;font-size:12px;margin:0 0 6px}.qwk-3d .k3-info summary{cursor:pointer;color:#cfe0ff;font-weight:600}.qwk-3d .k3-info .k3-opt{padding:5px 10px;font-size:12px;margin:0 0 7px}.qwk-3d .k3-info.zu .k3-wand,.qwk-3d .k3-info.zu .k3-opt{display:none!important}
 .qwk-3d .k3-lade{position:absolute;inset:0;display:grid;place-items:center;color:#8d9ab8;font-size:15px;pointer-events:none}
-@media (max-width:700px){.qwk-3d .k3-t{font-size:15px}.qwk-3d button,.qwk-3d label{padding:7px 9px;font-size:12px}.qwk-3d input[type=range]{width:80px}.qwk-3d .k3-info{font-size:11.5px;padding:9px 11px}.qwk-3d .k3-info p{margin-bottom:4px}}`;
+@media (max-width:700px){.qwk-3d .k3-t{font-size:15px}.qwk-3d button,.qwk-3d label{padding:7px 9px;font-size:12px}.qwk-3d input[type=range]{width:80px}.qwk-3d .k3-info{font-size:11.5px;padding:9px 11px;max-height:46vh;overflow:auto}.qwk-3d .k3-info p{margin-bottom:4px}.qwk-3d .k3-t small,.qwk-3d .k3-bar>button span,.qwk-3d .k3-bar>label>span{display:none}.qwk-3d .k3-t{padding:6px 11px}.qwk-3d .k3-kam{position:static;flex-direction:row;flex-wrap:wrap;flex-basis:100%;gap:5px}.qwk-3d .k3-kam button{padding:6px 8px;font-size:11.5px}.qwk-3d .k3-seg button{padding:5px 8px;font-size:11.5px}}`;
 function scheibe3dZu(){ if(!D3) return; const d=D3; D3=null; d.aus=true; cancelAnimationFrame(d.raf); removeEventListener('resize',d.rs); removeEventListener('keydown',d.kd);
   try{ d.ctl&&d.ctl.dispose(); }catch(e){} if(d.sc) d.sc.traverse(o=>{ if(o.geometry) o.geometry.dispose(); const m=o.material; (Array.isArray(m)?m:m?[m]:[]).forEach(x=>{ for(const k in x){ const v=x[k]; if(v&&v.isTexture) v.dispose(); } x.dispose(); }); });
   if(d.r){ d.r.dispose(); try{ d.r.forceContextLoss(); }catch(e){} } d.el.remove(); if(location.hash==='#welt-scheibe3d') history.replaceState(null,'','#welt-scheibe'); }
@@ -955,8 +960,8 @@ function fk3(a,f,y,o){ const k=f/6.2832; return fb3(Math.cos(a)*k+y*1.7+11,Math.
 function fb3(x,y,o){ let s=0,f=1,m=0.5,n=0; for(let i=0;i<o;i++){ s+=m*rs3(x*f+i*17.3,y*f-i*9.1); n+=m; f*=2.03; m*=0.5; } return s/n; }
 async function scheibe3d(){
   if(D3||!wrap) return; const el=document.createElement('div'); el.className='qwk-3d';
-  el.innerHTML=`<style>${CSS3D}</style><div class="k3-lade">3D-Scheibe wird geladen …</div><div class="k3-bar"><div class="k3-t">⛰ 3D-Scheibe<small>Relief der Erde im Scheibenmodell</small></div><button data-k3="wasser" aria-pressed="true">💧 Wasser</button><button data-k3="namen" aria-pressed="true">Aa Namen</button><button data-k3="wolken" aria-pressed="false">☁ Wolken</button><button data-k3="raffer" aria-pressed="false">▶ Tag im Zeitraffer</button><label title="Überhöhung der Höhen">Höhe <input type="range" min="10" max="120" value="40" data-k3="hoch"><span data-k3="hw">40×</span></label><span class="k3-uhr" data-k3="uhr"></span><button class="k3-zu" data-k3="zu" aria-label="Schließen">✕</button></div>
-  <div class="k3-info"><h4>Hinter der Eiswand<button class="k3-klapp" data-k3="klapp" aria-expanded="true" aria-label="Infotafel ein- oder ausklappen">▾</button></h4><div class="k3-seg">${Object.entries(AUSSEN).map(([k,v])=>`<button data-aus="${k}" aria-pressed="${k==='kuppel'}">${v.n}</button>`).join('')}</div><p data-k3="txt">${AUSSEN.kuppel.t}</p><small>Darstellung nach dem Flache-Erde-Modell, Höhen stark überhöht. Vergleich im Kapitel <a href="#w-erdform">W-12</a>. Ziehen = drehen, Mausrad/zwei Finger = zoomen.</small></div>`;
+  el.innerHTML=`<style>${CSS3D}</style><div class="k3-lade">3D-Scheibe wird geladen …</div><div class="k3-bar"><div class="k3-t">⛰ 3D-Scheibe<small>Relief der Erde im Scheibenmodell</small></div><button data-k3="wasser" aria-pressed="true" title="Wasser">💧<span>Wasser</span></button><button data-k3="namen" aria-pressed="true" title="Namen und Kreise">Aa<span>Namen</span></button><button data-k3="wolken" aria-pressed="false" title="Wolken">☁<span>Wolken</span></button><button data-k3="raffer" aria-pressed="false" title="Tag im Zeitraffer">▶<span>Tag im Zeitraffer</span></button><label title="Überhöhung der Höhen"><span>Höhe</span><input type="range" min="10" max="120" value="40" data-k3="hoch"><b data-k3="hw">40×</b></label><span class="k3-uhr" data-k3="uhr"></span><button class="k3-zu" data-k3="zu" aria-label="Schließen">✕</button><div class="k3-kam" role="group" aria-label="Kamera">${[['oben','⊙','Von oben'],['eisrand','◠','Am Eisrand'],['aussen','◎','Von außen'],['rund','⟳','Rundflug']].map(([k,i,t])=>`<button data-kam="${k}" title="${t}"${k==='rund'?' aria-pressed="false"':''}>${i} ${t}</button>`).join('')}</div></div>
+  <div class="k3-info"><h4>Hinter der Eiswand<button class="k3-klapp" data-k3="klapp" aria-expanded="true" aria-label="Infotafel ein- oder ausklappen">▾</button></h4><div class="k3-seg">${Object.entries(AUSSEN).map(([k,v])=>`<button data-aus="${k}" aria-pressed="${k==='kuppel'}">${v.n}</button>`).join('')}</div><p data-k3="txt">${AUSSEN.kuppel.t}</p><button class="k3-opt" data-k3="kuppelz" aria-pressed="true">◠ Kuppel zeigen</button><details class="k3-wand"><summary>Zur Eiswand: Ross 1841</summary>${WAND3D}</details><small>Darstellung nach dem Flache-Erde-Modell, Höhen stark überhöht. Vergleich im Kapitel <a href="#w-erdform">W-12</a>. Ziehen = drehen, Mausrad/zwei Finger = zoomen, rechte Taste/zwei Finger = verschieben.</small></div>`;
   wrap.appendChild(el); const d=D3={el,aus:false,raf:0}; const q=s=>el.querySelector(`[data-k3="${s}"]`);
   q('zu').onclick=scheibe3dZu; el.querySelector('.k3-info a').onclick=()=>scheibe3dZu(); d.kd=e=>{ if(e.key==='Escape') scheibe3dZu(); }; addEventListener('keydown',d.kd);
   let L,HB,RB; try{ [L,HB,RB]=await Promise.all([dreiLaden(),bildDaten('welthoehe'),TEX?Promise.resolve({d:TEX,w:TW,h:TH}):bildDaten('weltrelief')]); }
@@ -970,7 +975,7 @@ async function scheibe3d(){
   if('outputColorSpace' in r) r.outputColorSpace=T.SRGBColorSpace; else r.outputEncoding=T.sRGBEncoding;
   r.toneMapping=T.ACESFilmicToneMapping; r.toneMappingExposure=1.08; if(Q===2){ r.shadowMap.enabled=true; r.shadowMap.type=T.PCFShadowMap; } el.insertBefore(r.domElement,el.firstChild);
   const sc=d.sc=new T.Scene(); sc.background=new T.Color(0x03060f); sc.fog=new T.FogExp2(0x03060f,0.006);
-  const cam=new T.PerspectiveCamera(38,1,0.3,900); cam.position.set(0,13.5,17.5);
+  const cam=new T.PerspectiveCamera(38,1,0.1,1500); cam.position.set(0,13.5,17.5); d.cam=cam;
   const srgb=t=>{ if('colorSpace' in t) t.colorSpace=T.SRGBColorSpace; else t.encoding=T.sRGBEncoding; return t; };
   const mat=(o)=>{ const m=new T.MeshStandardMaterial(o); return m; };
   /* Eigenleuchten aus der Grundfarbe, damit Eis und Länder auch abseits der Sonne Farbe zeigen */
@@ -1010,107 +1015,270 @@ async function scheibe3d(){
   const wM=new T.MeshPhongMaterial({color:0x1a5a8e,specular:0xcfe2f6,shininess:140,transparent:true,opacity:glAn()?0.2:0.34,depthWrite:false});
   wM.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n float qwFr=pow(1.0-abs(dot(normalize(vViewPosition),normal)),3.0); gl_FragColor.rgb+=vec3(.10,.18,.30)*qwFr; gl_FragColor.a=min(1.0,gl_FragColor.a+qwFr*0.4);'); }; wM.customProgramCacheKey=()=>'qwwasser';
   const wasser=new T.Mesh(new T.CircleGeometry(RD*1.004,256),wM); wasser.rotation.x=-Math.PI/2; wasser.position.y=0; sc.add(wasser);
-  /* Eiswand: zerklüftete Klippen mit Schichtung, Spalten, Schneekrone */
-  const NA=[720,1200,2160][Q], FR=[16,22,30][Q], TR=10, R0=RD*1.002, RA=RD*1.15, YB=-0.32, YO=0.17;
-  const spalt=a=>{ let s=0; for(const [f,o,w] of [[37,0.3,0.06],[71,1.7,0.045],[113,4.1,0.035]]){ const t=(a*f/(2*Math.PI)+o+0.25*fk3(a,5,o,1)+10)%1; s=Math.max(s,Math.max(0,1-Math.abs(t-0.5)/w)); } return s*s; };
-  const hoeheW=a=>0.72+0.3*fk3(a,4,1.3,3)+0.18*fk3(a,22,7.7,2)-0.3*spalt(a);
-  const wP=[], wC=[], rows=FR+TR+4;
-  for(let j=0;j<=NA;j++){ const a=j/NA*2*Math.PI, sa=Math.sin(a), ca=Math.cos(a), ht=hoeheW(a), sv=spalt(a);
-    const prof=[];
-    for(let k=0;k<=FR;k++){ const t=k/FR, y=YB+(ht-YB)*t; const lage=Math.floor(y*14+fk3(a,9,y*3,2)*1.5)/14; const jag=0.06*fk3(a,14,y*2,3)+0.035*fk3(a,30,lage*9,2)+0.02*Math.sin(lage*90)+0.12*sv*(0.4+0.6*fk3(a,30,y*8,2)); prof.push([R0+jag-0.03*Math.max(0,t-0.85)/0.15*(1-sv),y,'w',y,sv,t]); }
-    const rIn=prof[prof.length-1][0]+0.03; for(let k=1;k<=TR;k++){ const t=k/TR, r0=Math.max(R0+0.05,rIn), rr=r0+(RA-r0)*t, y=ht+0.07*Math.sin(Math.PI*Math.min(1,t*1.6))*(0.7+0.3*fk3(a,40,t*3,1))-(ht-YO)*Math.pow(t,1.6)+0.02*fk3(a,80,t*6,2); prof.push([rr,y,'s',0,0]); }
-    prof.push([RA+0.02,YO-0.05,'s',0,0],[RA+0.04,-1.05,'w',-1,0],[RA-0.3,-1.25,'w',-1,0]);
-    const tq=fk3(a,6,0.5,2), tief=[0.30+0.12*(1-tq),0.62+0.12*tq,0.80+0.08*(1-tq)];
-    for(const [rr,y,typ,yy,s,tt] of prof){ wP.push(rr*sa,y,rr*ca); let c;
-      if(typ==='s'){ const n=0.94+0.06*fk3(a,90,rr*20,1); c=[n,n+0.01,1]; }
-      else { const band=0.5+0.5*Math.sin(yy*46+3*fk3(a,12,yy*2,2)), n=fk3(a,40,yy*8,2); const hell=[0.9,0.96,1]; const m=0.25+0.55*band+0.2*n; c=tief.map((v,i)=>v*(1-m)+hell[i]*m); if(s>0.2){ const z=Math.min(1,s*1.2); c=c.map((v,i)=>v*(1-z)+[0.08,0.32,0.5][i]*z); } if(tt>0.9){ const z=(tt-0.9)/0.1; c=c.map(v=>v*(1-z)+z); } }
-      wC.push(...c); } }
-  const wi=[]; for(let j=0;j<NA;j++) for(let k=0;k<rows-1;k++){ const a=j*rows+k, b=(j+1)*rows+k; wi.push(a,a+1,b, b,a+1,b+1); }
-  const wg=new T.BufferGeometry(); wg.setAttribute('position',new T.Float32BufferAttribute(wP,3)); wg.setAttribute('color',new T.Float32BufferAttribute(wC,3)); wg.setIndex(wi); wg.computeVertexNormals();
-  const wallM=new (T.MeshPhysicalMaterial||T.MeshStandardMaterial)({vertexColors:true,roughness:0.38,metalness:0,emissive:0x1a2840,emissiveIntensity:0.35,side:T.DoubleSide}); selbst(wallM,0.24); if('clearcoat' in wallM){ wallM.clearcoat=0.5; wallM.clearcoatRoughness=0.3; }
+  /* ---------- Eiswand: Eisklippe mit Abbruchkanten, Schichtung, Hohlkehle, Spalten und Schneekrone ---------- */
+  const NA=[720,1200,2160][Q], FR=[18,24,32][Q], TR=[12,16,22][Q], OR=6, R0=RD*1.002, RA=RD*1.15, YB=-0.32, YO=0.17, TAU=2*Math.PI;
+  const gl3=(a,b,x)=>{ const t=Math.max(0,Math.min(1,(x-a)/(b-a))); return t*t*(3-2*t); }, saw=x=>x-Math.floor(x), misch=(a,b,m)=>a.map((v,i)=>v*(1-m)+b[i]*m);
+  let sd=20250; const zuf=()=>{ sd=(sd*16807)%2147483647; return (sd-1)/2147483646; };
+  const spalt=a=>{ let s=0; for(const [f,o,w] of [[37,0.3,0.06],[71,1.7,0.045],[113,4.1,0.035]]){ const t=(a*f/TAU+o+0.25*fk3(a,5,o,1)+10)%1; s=Math.max(s,Math.max(0,1-Math.abs(t-0.5)/w)); } return s*s; };
+  const kante=a=>{ const f1=saw(a*47/TAU+1.4*fk3(a,3,2.2,2)), f2=saw(a*173/TAU+0.9*fk3(a,5,6.1,1)); return 0.09*fk3(a,7,4.1,3)+0.04*fk3(a,26,8.3,2)+0.035*f1*f1*gl3(0.35,0.7,fk3(a,11,3.3,2))+0.012*f2*gl3(0.4,0.6,fk3(a,17,5.5,1)); };
+  const RISSE=[[29,0.13],[47,0.61],[97,0.37],[151,0.82]].filter(([f])=>f*12<=NA);
+  const riss=a=>{ let s=0, l=0; for(const [f,o] of RISSE){ const w=Math.max(0.05,1.5*f/NA), t=saw(a*f/TAU+o+0.25*fk3(a,4,o*3,1)), v=Math.max(0,1-Math.abs(t-0.5)/w); if(v>s&&fk3(a,9,o*7,1)>0.42){ s=v; l=0.3+0.55*fk3(a,13,o*5,1); } } return [s,l]; };
+  const hoeheW=a=>0.74+0.3*fk3(a,4,1.3,3)+0.12*fk3(a,22,7.7,2)-0.1*Math.sqrt(spalt(a));
+  /* bläuliches Durchscheinen: dunkle, blaue Stellen und streifender Blick leuchten leicht nach */
+  const eisLicht=(m,k)=>{ m.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ float qL=dot(diffuseColor.rgb,vec3(.299,.587,.114)); float qF=pow(1.0-abs(dot(normal,normalize(vViewPosition))),2.0); totalEmissiveRadiance+=diffuseColor.rgb*'+k.toFixed(3)+'+vec3(.03,.15,.30)*(1.0-qL)*.8+vec3(.05,.14,.28)*qF*.4; }'); }; m.customProgramCacheKey=()=>'qweis'+k; return m; };
+  const tiefF=[0.08,0.30,0.55], mittel=[0.42,0.70,0.86], hell=[0.90,0.96,1.0];
+  const rows=1+(FR+1)+TR+OR, nW=(NA+1)*rows, wP=new Float32Array(nW*3), wC=new Float32Array(nW*3), wU=new Float32Array(nW*2); let wo=0, wu=0, uA=0;
+  const wPush=(rr,y,sa,ca,c,v)=>{ wP[wo]=rr*sa; wP[wo+1]=y; wP[wo+2]=rr*ca; wC[wo]=c[0]; wC[wo+1]=c[1]; wC[wo+2]=c[2]; wo+=3; wU[wu++]=uA; wU[wu++]=v; };
+  for(let j=0;j<=NA;j++){ uA=j/NA*40; const a=(j%NA)/NA*TAU, sa=Math.sin(a), ca=Math.cos(a), ht=hoeheW(a), sv=spalt(a), rE=R0+kante(a), [rs,rl]=riss(a), tq=fk3(a,6,0.5,2), seg=Math.floor(saw(a/TAU)*183)%183;
+    wPush(RD*0.97,YB-0.06,sa,ca,[0.05,0.16,0.3],0);
+    let rTop=rE;
+    for(let k=0;k<=FR;k++){ const t=k/FR, y=YB+(ht-YB)*t, li=Math.floor(y*16+fk3(a,9,y*3,2)*1.4), lage=li/16;
+      const stufe=0.016*(fk3(a,48,li*0.73,1)-0.5), jag=0.05*fk3(a,14,y*2,3)+0.03*fk3(a,30,lage*9,2)+0.12*sv*(0.4+0.6*fk3(a,30,y*8,2));
+      const kehle=0.045*Math.exp(-Math.pow((y-0.03)/0.06,2)), krone=-0.035*gl3(0.86,1,t)*(1-sv), rr=rE+jag+stufe+kehle+krone; rTop=rr;
+      const band=0.5+0.5*Math.sin(y*52+3*fk3(a,12,y*2,2)), n=fk3(a,40,y*8,2);
+      let c=misch(misch(tiefF,mittel,0.35+0.4*tq),hell,0.15+0.55*band*(0.6+0.4*n)); c=misch(c,tiefF,0.6*gl3(0.22,-0.12,y));
+      if(sv>0.2) c=misch(c,[0.04,0.22,0.42],Math.min(1,sv*1.2)); if(t>0.88) c=misch(c,[0.97,0.98,1],(t-0.88)/0.12);
+      wPush(rr,y,sa,ca,c,Math.min(0.86,(y-YB)/1.3*0.86)); }
+    const r0=Math.max(R0+0.06,rTop+0.02);
+    for(let k=1;k<=TR;k++){ const t=k/TR, rr=r0+(RA-r0)*t, cr=rs*(1-gl3(rl-0.15,rl,t)), sas=0.012*Math.sin(rr*55+a*31+4*fk3(a,60,t*3,1));
+      const y=ht+0.07*Math.sin(Math.PI*Math.min(1,t*1.6))*(0.7+0.3*fk3(a,40,t*3,1))-(ht-YO)*Math.pow(t,1.6)+0.02*fk3(a,80,t*6,2)+sas*(1-t)-0.08*cr;
+      const n=0.93+0.05*fk3(a,90,rr*20,1)+sas*2; let c=[n,n+0.012,1]; if(cr>0) c=misch(c,cr>0.7?[0.04,0.18,0.38]:[0.3,0.6,0.85],Math.min(1,cr*1.3));
+      wPush(rr,y,sa,ca,c,0.95); }
+    for(let k=0;k<OR;k++){ const t=k/(OR-1), y=YO-0.03-(YO-0.03+1.05)*t, rr=t<1?RA+0.035+0.04*fk3(a,18,t*4,2)*(1-t)+0.015*hs3(k,seg):RA+0.04;
+      const band=0.5+0.5*Math.sin(y*30+2*fk3(a,9,y,2)); wPush(rr,y,sa,ca,misch(misch(tiefF,mittel,0.5),hell,0.25+0.45*band*(1-t)),Math.max(0,(y+1.05)/1.3*0.86)); } }
+  const wi=new Uint32Array(NA*(rows-1)*6); let wq=0; for(let j=0;j<NA;j++) for(let k=0;k<rows-1;k++){ const a=j*rows+k, b=(j+1)*rows+k; wi[wq++]=a; wi[wq++]=a+1; wi[wq++]=b; wi[wq++]=b; wi[wq++]=a+1; wi[wq++]=b+1; }
+  const wg=new T.BufferGeometry(); wg.setAttribute('position',new T.BufferAttribute(wP,3)); wg.setAttribute('color',new T.BufferAttribute(wC,3)); wg.setAttribute('uv',new T.BufferAttribute(wU,2)); wg.setIndex(new T.BufferAttribute(wi,1)); wg.computeVertexNormals();
+  const eisT=(()=>{ const w=[256,512,512][Q], c=document.createElement('canvas'); c.width=c.height=w; const x=c.getContext('2d'), im=x.createImageData(w,w), D=im.data, P=TAU/w;
+    for(let py=0;py<w;py++){ const v=1-py/w; for(let px=0;px<w;px++){ const wa=0.007*Math.sin(px*P*2+1.3)+0.004*Math.sin(px*P*5+v*9)+0.002*Math.sin(px*P*13);
+      let g=0.9+0.05*Math.sin((v+wa)*170)+0.035*Math.sin((v+wa*1.7)*61+2)+0.03*(rs3((px%w)*0.11,py*0.05)-0.5); if(v>0.88) g=0.96+0.04*rs3(px*0.2,py*0.2); const o=(py*w+px)*4; D[o]=D[o+1]=D[o+2]=Math.max(0,Math.min(255,g*255)); D[o+3]=255; } }
+    x.putImageData(im,0,0); x.lineCap='round';
+    for(let i=0;i<16;i++){ const v=0.06+0.78*zuf(), y0=(1-v)*w, a1=zuf()*TAU, amp=2+zuf()*5; x.beginPath(); for(let px=0;px<=w;px+=4){ const y=y0+amp*Math.sin(px*P*2+a1)+1.5*Math.sin(px*P*7+a1*3); px?x.lineTo(px,y):x.moveTo(px,y); } x.lineWidth=0.8+zuf()*1.6; x.strokeStyle='rgba(70,120,170,'+(0.25+0.35*zuf()).toFixed(2)+')'; x.stroke(); }
+    for(let i=0;i<9;i++){ const px0=zuf()*w, ya=(0.12+0.5*zuf())*w, yb=Math.min(0.88*w,ya+(0.15+0.5*zuf())*w); for(const dx of [0,w,-w]){ x.beginPath(); for(let y=ya;y<=yb;y+=6){ const px=px0+dx+3*Math.sin(y*0.08+i)+2*(hs3(i,y|0)-0.5); y===ya?x.moveTo(px,y):x.lineTo(px,y); } x.lineWidth=1.2+0.3*i%1.5; x.strokeStyle='rgba(40,85,140,.55)'; x.stroke(); } }
+    const t=new T.CanvasTexture(c); t.wrapS=T.RepeatWrapping; t.wrapT=T.ClampToEdgeWrapping; t.anisotropy=Math.min(8,r.capabilities.getMaxAnisotropy()); return t; })();
+  const wallM=eisLicht(new (T.MeshPhysicalMaterial||T.MeshStandardMaterial)({vertexColors:true,map:eisT,bumpMap:eisT,bumpScale:0.5,roughness:0.42,metalness:0,side:T.DoubleSide}),0.24); if('clearcoat' in wallM){ wallM.clearcoat=0.5; wallM.clearcoatRoughness=0.3; }
   const wall=new T.Mesh(wg,wallM); wall.castShadow=true; wall.receiveShadow=true; sc.add(wall);
-  /* Unterbau */
-  const unten=new T.Mesh(new T.CylinderGeometry(RA+0.04,RD*0.97,1.0,192,1,true),mat({color:0x0e1828,roughness:0.6,metalness:0.4})); unten.position.y=-1.15; sc.add(unten);
-  /* Außenbereiche je Variante */
-  const AU={kuppel:new T.Group(),laender:new T.Group(),eis:new T.Group()}; Object.values(AU).forEach(g=>sc.add(g));
-  const textur=(w,f)=>{ const c=document.createElement('canvas'); c.width=c.height=w; f(c.getContext('2d'),w); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; return srgb(t); };
-  const schneeT=textur(256,(x,w)=>{ const im=x.createImageData(w,w); for(let i=0;i<w*w;i++){ const px=i%w, py=i/w|0; const n=fb3(px/32,py/32,4)*0.6+rs3(px/4,py/4)*0.4; const v=212+n*40; im.data[i*4]=v-8; im.data[i*4+1]=v-2; im.data[i*4+2]=255; im.data[i*4+3]=255; } x.putImageData(im,0,0); });
-  const eben=(r1,r2,farbe,map,rep,welle)=>{ const g=new T.RingGeometry(r1,r2,256,48); const p=g.attributes.position; for(let i=0;i<p.count;i++){ const x=p.getX(i), y=p.getY(i), rr=Math.hypot(x,y); p.setZ(i,welle?welle*fb3(x*0.35,y*0.35,3)*Math.min(1,(rr-r1)/4):0); }
-    const u=g.attributes.uv; for(let i=0;i<u.count;i++){ u.setXY(i,p.getX(i)/rep,p.getY(i)/rep); } g.computeVertexNormals(); const m=new T.Mesh(g,selbst(mat({color:farbe,map:map||null,roughness:0.75,metalness:0}),map?0.22:0.12)); m.rotation.x=-Math.PI/2; m.position.y=YO-0.02; m.receiveShadow=true; return m; };
-  /* Kuppelrand: Kuppel setzt auf dem Eisring auf */
-  const kU={t:{value:0}}; const kuppel=new T.Mesh(new T.SphereGeometry(RA+0.03,128,64,0,Math.PI*2,0,Math.PI/2),new T.ShaderMaterial({transparent:true,depthWrite:false,side:T.DoubleSide,uniforms:kU,
-    vertexShader:'varying vec3 vN;varying vec3 vV;varying vec3 vP;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);vP=position;vN=normalize(normalMatrix*normal);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}',
-    fragmentShader:'uniform float t;varying vec3 vN;varying vec3 vV;varying vec3 vP;void main(){float f=pow(1.-abs(dot(vN,vV)),2.4);float s=.5+.5*sin(vP.y*2.2+atan(vP.x,vP.z)*3.+t*.35);float b=smoothstep(.0,.9,vP.y);vec3 c=mix(vec3(.32,.52,1.),vec3(.75,.88,1.),f);c+=vec3(.25,.18,.45)*s*f*.5;gl_FragColor=vec4(c,(.02+.3*f)*(.75+.25*s)+.06*(1.-b));}'}));
-  kuppel.position.y=YO-0.05; AU.kuppel.add(kuppel);
-  const punkte=(n,f,size,col,op)=>{ const p=new Float32Array(n*3); for(let i=0;i<n;i++){ const v=f(); p[i*3]=v[0]; p[i*3+1]=v[1]; p[i*3+2]=v[2]; } const g=new T.BufferGeometry(); g.setAttribute('position',new T.BufferAttribute(p,3)); return new T.Points(g,new T.PointsMaterial({size,color:col,transparent:true,opacity:op,depthWrite:false,sizeAttenuation:true,fog:false})); };
-  const kugel=(rad,halb)=>()=>{ const u=Math.random()*2*Math.PI, c=halb?Math.random()*0.9+0.06:Math.random()*2-1, s=Math.sqrt(1-c*c); return [rad*s*Math.cos(u),rad*c,rad*s*Math.sin(u)]; };
-  AU.kuppel.add(punkte(700,kugel(RA,true),0.035,0xd8e6ff,0.5));
-  sc.add(punkte(3500,kugel(320,false),1.0,0xffffff,0.85));
-  /* Endloses Eis: Eisebene bis zum Horizont */
-  AU.eis.add(eben(RA-0.2,420,0xdfe9f7,schneeT,6,0.35));
-  /* Weitere Länder: breiter Eisgürtel, dunkles Meer, schemenhafte Landmassen (hypothetisch) */
-  AU.laender.add(eben(RA-0.2,RD*2.3,0xe3ecf8,schneeT,6,0.25));
-  const meer=eben(RD*2.25,420,0x245a86,null,1,0); meer.material.roughness=0.6; meer.material.metalness=0.05; meer.position.y=YO-0.12; AU.laender.add(meer);
-  const blob=(lon,dist,gr,seed)=>{ const NRb=[22,30,44][Q], NSb=[90,120,180][Q], P=[], C=[], I=[]; const cx=dist*Math.sin(lon*R2D), cz=dist*Math.cos(lon*R2D), HM=gr*0.34;
-    const farbe=e=>{ const st=[[-1,[0.20,0.30,0.36]],[0.02,[0.62,0.58,0.47]],[0.08,[0.34,0.42,0.29]],[0.3,[0.30,0.36,0.24]],[0.5,[0.44,0.37,0.29]],[0.68,[0.52,0.51,0.5]],[0.8,[0.95,0.96,1]],[9,[0.95,0.96,1]]]; for(let k=1;k<st.length;k++) if(e<st[k][0]){ const [a0,c0]=st[k-1], [a1,c1]=st[k], f=Math.max(0,Math.min(1,(e-a0)/(a1-a0))); return c0.map((v,i)=>v*(1-f)+c1[i]*f); } return st[st.length-1][1]; };
-    for(let i=0;i<=NRb;i++) for(let j=0;j<NSb;j++){ const a=j/NSb*2*Math.PI, rand=gr*(0.65+0.7*fb3(Math.cos(a)*1.6+seed,Math.sin(a)*1.6-seed,5)), t=i/NRb, rr=rand*t;
-      const x=cx+rr*Math.cos(a), z=cz+rr*Math.sin(a), rid=1-Math.abs(2*fb3(x*0.16+seed,z*0.16-seed,5)-1), hg=fb3(x*0.07-seed,z*0.07,3);
-      let hh=HM*(0.06+1.25*rid*rid*hg)*(1-Math.pow(t,2.4)); hh-=0.35*Math.max(0,t-0.86)/0.14; P.push(x,YO-0.12+hh,z); const fl=fb3(x*1.3,z*1.3,2)*0.08; C.push(...farbe(hh/HM+fl-0.04).map(v=>v*(0.92+fl))); }
-    for(let i=0;i<NRb;i++) for(let j=0;j<NSb;j++){ const a=i*NSb+j, b=i*NSb+(j+1)%NSb; I.push(a,a+NSb,b, b,a+NSb,b+NSb); }
-    const g=new T.BufferGeometry(); g.setAttribute('position',new T.Float32BufferAttribute(P,3)); g.setAttribute('color',new T.Float32BufferAttribute(C,3)); g.setIndex(I); g.computeVertexNormals();
-    return new T.Mesh(g,selbst(mat({vertexColors:true,roughness:0.95}),0.3)); };
-  [[20,36,10,1],[85,42,13,2],[150,34,8,3],[215,40,12,4],[280,35,9,5],[330,46,14,6],[-125,55,11,7],[120,60,10,8],[250,62,12,9]].forEach(([l,di,gr,s])=>AU.laender.add(blob(l,di,gr,s)));
+  /* Sockel: Gesteinskörper unter Scheibe und Eisring (nur von unten/außen sichtbar) */
+  const sockelY=rr=>-1.05-1.75*Math.pow(Math.max(0,1-Math.pow(rr/(RA+0.04),2)),0.7);
+  { const nr=[14,22,30][Q], ns=[128,192,256][Q], Rb=RA+0.04, P=new Float32Array((nr+1)*(ns+1)*3), C=new Float32Array(P.length), I=[]; let o=0;
+    for(let i=0;i<=nr;i++){ const rr=Rb*(1-i/nr); for(let j=0;j<=ns;j++){ const a=(j%ns)/ns*TAU, x=rr*Math.sin(a), z=rr*Math.cos(a), m=Math.min(1,(Rb-rr)*1.5), y=sockelY(rr)-0.32*m*fb3(x*0.45+3,z*0.45,4);
+      const b=0.5+0.5*Math.sin(y*9+2*fb3(x*0.3,z*0.3,2)), g=0.15+0.1*b+0.06*fb3(x*2,z*2,2); P[o]=x; P[o+1]=y; P[o+2]=z; C[o]=g*1.05; C[o+1]=g*0.98; C[o+2]=g*0.92; o+=3; } }
+    for(let i=0;i<nr;i++) for(let j=0;j<ns;j++){ const a=i*(ns+1)+j, b=a+ns+1; I.push(a,b,a+1, a+1,b,b+1); }
+    const g=new T.BufferGeometry(); g.setAttribute('position',new T.BufferAttribute(P,3)); g.setAttribute('color',new T.BufferAttribute(C,3)); g.setIndex(I); g.computeVertexNormals();
+    sc.add(new T.Mesh(g,selbst(mat({vertexColors:true,roughness:0.95,metalness:0,side:T.DoubleSide}),0.2))); }
+  /* Eisberge (Tafeleisberge) und Treibeis im Südlichen Ozean vor dem Eisgürtel – instanziert */
+  const EB=new T.Group(); sc.add(EB);
+  { const bergG=(seed,flach)=>{ const g=new T.IcosahedronGeometry(1,Q>0?2:1), p=g.attributes.position; for(let i=0;i<p.count;i++){ let x=p.getX(i), y=p.getY(i), z=p.getZ(i); const n=0.72+0.55*fb3(x*1.4+seed+z*0.7,y*1.4-z*1.1+seed*0.5,3); x*=n; y*=n; z*=n; y=flach?(y>0?Math.min(y*0.6,0.3+0.02*Math.sin(x*9+seed)):y*0.9):(y>0?y*0.85:y*0.8); p.setXYZ(i,x,y,z); }
+      g.computeVertexNormals(); const nn=g.attributes.normal, c=[]; for(let i=0;i<p.count;i++){ const y=p.getY(i); c.push(...(y<-0.02?[0.16,0.42,0.64]:nn.getY(i)>0.55?[0.96,0.98,1]:[0.6,0.8,0.94])); } g.setAttribute('color',new T.Float32BufferAttribute(c,3)); return g; };
+    const bergM=eisLicht(mat({vertexColors:true,roughness:0.4,metalness:0}),0.2), schollenM=selbst(mat({color:0xe6f0fa,roughness:0.75,metalness:0}),0.25);
+    const meerAn=(x,z)=>{ const rr=Math.hypot(x,z); return hoehe(Math.atan2(x,z)/R2D,90-rr/RD*180); };
+    const ort=(rmin,rmax,tief,nah)=>{ for(let v=0;v<80;v++){ const rr=rmin+(rmax-rmin)*zuf(), a=zuf()*TAU, x=rr*Math.sin(a), z=rr*Math.cos(a); if(meerAn(x,z)>-tief) continue; if(nah&&meerAn(x*(1+0.4/rr),z*(1+0.4/rr))<0&&meerAn(x*(1+0.8/rr),z*(1+0.8/rr))<0) continue; return [x,z]; } return null; };
+    const M4=new T.Matrix4(), qq=new T.Quaternion(), yA=new T.Vector3(0,1,0), v1=new T.Vector3(), v2=new T.Vector3();
+    const setze=(geo,m,n,f)=>{ const im=new T.InstancedMesh(geo,m,n); let k=0; for(let v=0;v<n;v++){ const r=f(); if(!r) continue; qq.setFromAxisAngle(yA,zuf()*TAU); v1.set(r[0],r[1],r[2]); v2.set(r[3],r[4],r[5]); M4.compose(v1,qq,v2); im.setMatrixAt(k++,M4); } im.count=k; im.frustumCulled=false; im.receiveShadow=true; EB.add(im); return im; };
+    const NB=[15,30,48][Q], NF=[70,160,300][Q];
+    [bergG(1.3,true),bergG(4.7,true),bergG(8.1,false)].forEach((g,fi)=>{ const im=setze(g,bergM,Math.round(NB/3),()=>{ const o=ort(8.0,9.9,0.25,zuf()<0.8); if(!o) return null; const s=0.022+0.05*Math.pow(zuf(),2); return [o[0],0.004,o[1],s*(0.8+0.6*zuf()),s*(fi<2?0.75:1.1),s]; }); im.castShadow=Q===2; });
+    const fg=new T.CylinderGeometry(1,0.92,0.14,7,1), fp=fg.attributes.position; for(let i=0;i<fp.count;i++){ const x=fp.getX(i), z=fp.getZ(i), k=0.7+0.55*hs3(Math.round(x*100)+500,Math.round(z*100)+500); fp.setX(i,x*k); fp.setZ(i,z*k); } fg.computeVertexNormals();
+    setze(fg,schollenM,NF,()=>{ const o=ort(8.0,9.95,0.05,zuf()<0.9); if(!o) return null; const s=0.006+0.016*zuf(); return [o[0],0.002,o[1],s,s,s*(0.6+0.6*zuf())]; }); }
+  /* ---------- Gemeinsame Bausteine ---------- */
+  const textur=(w,f)=>{ const c=document.createElement('canvas'); c.width=c.height=w; f(c.getContext('2d'),w); const t=new T.CanvasTexture(c); t.wrapS=t.wrapT=T.RepeatWrapping; t.anisotropy=Math.min(8,r.capabilities.getMaxAnisotropy()); return srgb(t); };
+  /* kachelbares Rauschen (vier versetzte Proben überblendet) */
+  const kachel=(f,px,py,w)=>{ const u=px/w, v=py/w; return f(px,py)*(1-u)*(1-v)+f(px-w,py)*u*(1-v)+f(px,py-w)*(1-u)*v+f(px-w,py-w)*u*v; };
+  const schneeT=textur(512,(x,w)=>{ const im=x.createImageData(w,w), D=im.data; for(let i=0;i<w*w;i++){ const px=i%w, py=i/w|0;
+      const n=kachel((a,b)=>fb3(a/40+20,b/40+20,4)*0.5+fb3(a/90+40,b/9+40,3)*0.35+rs3(a/3+60,b/3+60)*0.15,px,py,w), v=200+n*55; D[i*4]=v-12; D[i*4+1]=v-4; D[i*4+2]=Math.min(255,v+8); D[i*4+3]=255; }
+    x.putImageData(im,0,0);
+    for(let s=0;s<5;s++){ const px=zuf()*w, py=zuf()*w, ang=zuf()*Math.PI, L=60+zuf()*170, pts=[]; for(let u=0;u<=24;u++) pts.push([px+Math.cos(ang)*L*u/24+7*Math.sin(u*0.9+s), py+Math.sin(ang)*L*u/24+5*Math.cos(u*1.3+s)]);
+      for(const [dx,dy] of [[0,0],[w,0],[-w,0],[0,w],[0,-w]]) for(const [lw,col] of [[7,'rgba(165,205,238,.5)'],[3.4,'rgba(40,95,150,.9)'],[1.3,'rgba(8,26,55,.95)']]){ x.beginPath(); pts.forEach(([a,b],u)=>u?x.lineTo(a+dx,b+dy):x.moveTo(a+dx,b+dy)); x.lineWidth=lw*(0.6+0.4*Math.sin(s)); x.strokeStyle=col; x.lineCap='round'; x.stroke(); } } });
+  schneeT.repeat.set(1/8,1/8);
+  const feldT=textur(256,(x,w)=>{ const im=x.createImageData(w,w), D=im.data; for(let i=0;i<w*w;i++){ const px=i%w, py=i/w|0, n=kachel((a,b)=>fb3(a/24+7,b/24+7,4)*0.6+rs3(a/3+9,b/3+9)*0.4,px,py,w), v=215+n*40; D[i*4]=D[i*4+1]=D[i*4+2]=Math.min(255,v); D[i*4+3]=255; } x.putImageData(im,0,0); }); feldT.repeat.set(1/3,1/3);
+  /* Polargitter-Ring: Radienliste rad, Höhenfunktion hf(x,z,r), Farbfunktion cf(x,z,r,h,steigung) */
+  const ringFeld=(rad,ns,hf,cf)=>{ const nr=rad.length, n=nr*(ns+1), P=new Float32Array(n*3), C=new Float32Array(n*3), U=new Float32Array(n*2), Hh=new Float32Array(n);
+    for(let i=0;i<nr;i++){ const rr=rad[i]; for(let j=0;j<=ns;j++){ const a=(j%ns)/ns*TAU, x=rr*Math.sin(a), z=rr*Math.cos(a), o=i*(ns+1)+j, h=hf(x,z,rr); P[o*3]=x; P[o*3+1]=h; P[o*3+2]=z; U[o*2]=x; U[o*2+1]=z; Hh[o]=h; } }
+    for(let i=0;i<nr;i++){ const rr=rad[i], i0=Math.max(0,i-1), i1=Math.min(nr-1,i+1), dr=rad[i1]-rad[i0]||1, da=TAU/ns*rr; for(let j=0;j<=ns;j++){ const o=i*(ns+1)+j, jl=(j+ns-1)%ns, jr=(j+1)%ns;
+      const s1=(Hh[i1*(ns+1)+j]-Hh[i0*(ns+1)+j])/dr, s2=(Hh[i*(ns+1)+jr]-Hh[i*(ns+1)+jl])/(2*da), c=cf(P[o*3],P[o*3+2],rr,Hh[o],Math.hypot(s1,s2)); C[o*3]=c[0]; C[o*3+1]=c[1]; C[o*3+2]=c[2]; } }
+    const I=new Uint32Array((nr-1)*ns*6); let k=0; for(let i=0;i<nr-1;i++) for(let j=0;j<ns;j++){ const a=i*(ns+1)+j, b=a+ns+1; I[k++]=a; I[k++]=b; I[k++]=a+1; I[k++]=a+1; I[k++]=b; I[k++]=b+1; }
+    const g=new T.BufferGeometry(); g.setAttribute('position',new T.BufferAttribute(P,3)); g.setAttribute('color',new T.BufferAttribute(C,3)); g.setAttribute('uv',new T.BufferAttribute(U,2)); g.setIndex(new T.BufferAttribute(I,1)); g.computeVertexNormals(); return g; };
+  const reihe=(a,b,n,k)=>{ const o=[]; for(let i=0;i<n;i++){ const t=i/n; o.push(a+(b-a)*(k?(Math.exp(k*t)-1)/(Math.exp(k)-1):t)); } return o; };
   const dunstM=(farbe,staerke,pot)=>new T.ShaderMaterial({transparent:true,depthWrite:false,side:T.DoubleSide,fog:false,uniforms:{c:{value:new T.Color(farbe)}},
     vertexShader:'varying vec2 vU;void main(){vU=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
     fragmentShader:'uniform vec3 c;varying vec2 vU;void main(){gl_FragColor=vec4(c,pow(1.-vU.y,'+pot.toFixed(2)+')*'+staerke.toFixed(3)+');}'});
-  const horiz=()=>{ const m=new T.Mesh(new T.CylinderGeometry(170,170,34,96,1,true),dunstM(0x2a4466,0.75,2.4)); m.position.y=YO-0.3+17; return m; };
-  AU.laender.add(horiz()); AU.eis.add(horiz());
-  const rand=new T.Mesh(new T.CylinderGeometry(RA*1.005,RA*1.005,2.2,192,1,true),dunstM(0x9cc4ff,0.16,1.6)); rand.position.y=1.15+0.3; rand.renderOrder=1; sc.add(rand);
-  /* Beschriftungen als Sprites */
+  /* Himmelsglocke mit Dunst zum Horizont (Horizontfarbe = Nebelfarbe) */
+  const himmel=(horiz,oben)=>{ const m=new T.Mesh(new T.SphereGeometry(700,48,24),new T.ShaderMaterial({side:T.BackSide,depthWrite:false,fog:false,uniforms:{a:{value:new T.Color(horiz)},b:{value:new T.Color(oben)}},
+    vertexShader:'varying float vH;void main(){vH=normalize(position).y;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+    fragmentShader:'uniform vec3 a;uniform vec3 b;varying float vH;void main(){float t=smoothstep(-.02,.5,vH);gl_FragColor=vec4(mix(a,b,pow(t,.55)),1.);}'})); m.renderOrder=-2; return m; };
+  const punkte=(n,f,size,col,op)=>{ const p=new Float32Array(n*3); for(let i=0;i<n;i++){ const v=f(); p[i*3]=v[0]; p[i*3+1]=v[1]; p[i*3+2]=v[2]; } const g=new T.BufferGeometry(); g.setAttribute('position',new T.BufferAttribute(p,3)); return new T.Points(g,new T.PointsMaterial({size,color:col,transparent:true,opacity:op,depthWrite:false,sizeAttenuation:true,fog:false})); };
+  sc.add(punkte(3500,()=>{ const u=zuf()*TAU, c=zuf()*2-1, s=Math.sqrt(1-c*c); return [320*s*Math.cos(u),320*c,320*s*Math.sin(u)]; },1.0,0xffffff,0.85));
+  const kU={t:{value:0}}, lagePol=(lon,lat)=>{ const rr=(90-lat)/180*RD, a=lon*R2D; return [rr*Math.sin(a),rr*Math.cos(a)]; };
+  /* ---------- Beschriftungen: Sprites mit Bildschirmgrößen-Grenzen und Ausblenden bei Überlappung ---------- */
+  const LBL=[];
   const schild=(txt,o={})=>{ const fs=o.fs||44, c=document.createElement('canvas'), x=c.getContext('2d'); const font=(o.it?'italic ':'')+(o.w||600)+' '+fs+'px '+(o.serif?'"Alegreya",Georgia,serif':'"Alegreya Sans SC","Alegreya Sans",system-ui,sans-serif'); x.font=font; const zl=String(txt).split('\n'); const w=Math.ceil(Math.max(...zl.map(z=>x.measureText(z).width)))+24, h=Math.ceil(fs*1.3*zl.length)+12; c.width=w; c.height=h; x.font=font; x.textAlign='center'; x.textBaseline='middle';
-    zl.forEach((z,i)=>{ const y=6+fs*0.65+i*fs*1.3; x.lineWidth=7; x.strokeStyle='rgba(3,8,18,.22)'; x.strokeText(z,w/2,y); x.lineWidth=3.5; x.strokeStyle='rgba(3,8,18,.6)'; x.strokeText(z,w/2,y); x.fillStyle=o.c||'#f2ead8'; x.fillText(z,w/2,y); });
-    const t=srgb(new T.CanvasTexture(c)); const s=new T.Sprite(new T.SpriteMaterial({map:t,transparent:true,depthWrite:false,fog:!!o.fog})); const k=(o.k||0.0105)*(el.clientWidth<700?1.1:1); s.scale.set(w*k,h*k,1); s.renderOrder=5; return s; };
-  const lagePol=(lon,lat)=>{ const rr=(90-lat)/180*RD, a=lon*R2D; return [rr*Math.sin(a),rr*Math.cos(a)]; };
+    zl.forEach((z,i)=>{ const y=6+fs*0.65+i*fs*1.3, f2=i&&o.c2?o.c2:o.c||'#f2ead8'; x.lineWidth=7; x.strokeStyle='rgba(3,8,18,.22)'; x.strokeText(z,w/2,y); x.lineWidth=3.5; x.strokeStyle='rgba(3,8,18,.6)'; x.strokeText(z,w/2,y); x.fillStyle=f2; x.fillText(z,w/2,y); });
+    const t=srgb(new T.CanvasTexture(c)); t.minFilter=T.LinearFilter; t.generateMipmaps=false; const s=new T.Sprite(new T.SpriteMaterial({map:t,transparent:true,depthWrite:false,depthTest:o.dt!==false,fog:false,opacity:0})); const k=o.k||0.0105; s.scale.set(w*k,h*k,1); s.renderOrder=6;
+    const kl=1; s.userData.l={w:w*k,h:h*k,prio:o.p||5,pmin:(o.pmin||17)*kl*(h/(fs*1.3+12)),pmax:(o.pmax||38)*kl*(h/(fs*1.3+12)),z:0}; LBL.push(s); LBL.sort((a,b)=>b.userData.l.prio-a.userData.l.prio); return s; };
+  const aktiv=o=>{ for(o=o.parent;o;o=o.parent) if(!o.visible) return false; return true; };
+  const vv=new T.Vector3(), boxen=[]; let barH=60;
+  const sperr=[...el.querySelectorAll('.k3-info,.k3-kam')], eR=el.getBoundingClientRect();
+  const ordnen=()=>{ const H=el.clientHeight, W=el.clientWidth, f=H/(2*Math.tan(cam.fov*R2D/2)); boxen.length=0; for(const x of sperr){ const b=x.getBoundingClientRect(); if(b.width) boxen.push([b.left-eR.left-4,b.top-eR.top-4,b.right-eR.left+4,b.bottom-eR.top+4]); }
+    for(const s of LBL){ const L=s.userData.l; L.z=0; if(!aktiv(s)) continue; s.getWorldPosition(vv); const di=vv.distanceTo(cam.position); vv.project(cam); if(vv.z>1||Math.abs(vv.x)>1.05||Math.abs(vv.y)>1.05) continue;
+      let ph=L.h*f/di; const fac=Math.max(L.pmin,Math.min(L.pmax,ph))/ph; s.scale.set(L.w*fac,L.h*fac,1); ph*=fac; const pw=ph*L.w/L.h, cx=(vv.x+1)/2*W, cy=(1-vv.y)/2*H;
+      const b=[cx-pw*0.44,cy-ph*0.36,cx+pw*0.44,cy+ph*0.36]; if(b[1]<barH||boxen.some(o=>b[0]<o[2]&&b[2]>o[0]&&b[1]<o[3]&&b[3]>o[1])) continue; boxen.push(b); L.z=1; } };
+  const blenden=()=>{ for(const s of LBL){ const o=s.material.opacity, z=s.userData.l.z; if(o!==z) s.material.opacity=Math.abs(z-o)<0.05?z:o+(z-o)*0.22; s.visible=s.material.opacity>0.01; } };
   const NAMEN=new T.Group(); sc.add(NAMEN);
-  [['NORDAMERIKA',-100,40],['SÜDAMERIKA',-60,-14],['EUROPA',18,52],['AFRIKA',20,6],['ASIEN',95,50],['AUSTRALIEN',134,-25]].forEach(([n,lo,la])=>{ const s=schild(n.split('').join(' '),{fs:34,w:700,c:'#f4ead6'}); const [x,z]=lagePol(lo,la); s.position.set(x,0.55,z); NAMEN.add(s); });
-  [['Atlantischer\nOzean',-28,30],['Pazifischer Ozean',-150,8],['Pazifischer Ozean',165,-15],['Indischer\nOzean',78,-22],['Südlicher Ozean',60,-58]].forEach(([n,lo,la])=>{ const s=schild(n,{fs:38,it:true,serif:true,w:400,c:'#a9d4ff',k:0.0095}); const [x,z]=lagePol(lo,la); s.position.set(x,0.3,z); NAMEN.add(s); });
-  const ewS=schild('Eiswall (Antarktis)',{fs:36,it:true,serif:true,w:600,c:'#eaf4ff',k:0.011}); ewS.position.set(0,1.9,RD*1.06); NAMEN.add(ewS);
-  const hypS=schild('Unbekannte Länder?\nhypothetisch – nach Darstellung der Vertreter',{fs:34,c:'#d6dbe6',k:0.03}); hypS.position.set(0,4.5,-38); AU.laender.add(hypS);
+  [['NORDAMERIKA',-100,42],['SÜDAMERIKA',-60,-14],['EUROPA',18,52],['AFRIKA',20,6],['ASIEN',95,50],['AUSTRALIEN',134,-25]].forEach(([n,lo,la])=>{ const s=schild(n.split('').join(' '),{fs:34,w:700,c:'#f4ead6',p:8}); const [x,z]=lagePol(lo,la); s.position.set(x,0.55,z); NAMEN.add(s); });
+  [['Atlantischer\nOzean',-38,28],['Pazifischer Ozean',-150,8],['Pazifischer Ozean',165,-15],['Indischer\nOzean',78,-22],['Südlicher Ozean',60,-58],['Südlicher Ozean',-120,-60]].forEach(([n,lo,la])=>{ const s=schild(n,{fs:38,it:true,serif:true,w:400,c:'#a9d4ff',k:0.0095,p:5,pmax:32}); const [x,z]=lagePol(lo,la); s.position.set(x,0.3,z); NAMEN.add(s); });
+  const ewS=schild('Eiswall (Antarktis)',{fs:36,it:true,serif:true,w:600,c:'#eaf4ff',k:0.011,p:7}); ewS.position.set(0,1.9,RD*1.06); NAMEN.add(ewS);
+  /* Breitenkreise fein auf der Scheibe, beschriftet am Atlantik */
+  const kreis=(rr,y,farbe,op,gestr,ziel)=>{ const p=[]; for(let i=0;i<=360;i++){ const a=i/360*TAU; p.push(new T.Vector3(rr*Math.sin(a),y,rr*Math.cos(a))); } const g=new T.BufferGeometry().setFromPoints(p); const m=gestr?new T.LineDashedMaterial({color:farbe,transparent:true,opacity:op,dashSize:gestr,gapSize:gestr*0.7,depthWrite:false}):new T.LineBasicMaterial({color:farbe,transparent:true,opacity:op,depthWrite:false}); const l=new T.Line(g,m); if(gestr) l.computeLineDistances(); (ziel||sc).add(l); return l; };
+  const KREISE=new T.Group(); sc.add(KREISE);
+  [[66.56,'Nördl. Polarkreis',0x9fd0ff,0.07],[23.44,'Wendekreis des Krebses',0xffc070,0.09],[0,'Äquator',0xffd860,0],[-23.44,'Wendekreis des Steinbocks',0xffc070,0.09],[-66.56,'Südl. Polarkreis',0x9fd0ff,0.07]].forEach(([la,n,f,ds])=>{ const rr=(90-la)/180*RD; kreis(rr,0.014,f,0.55,ds,KREISE); const s=schild(n,{fs:26,w:500,c:'#'+f.toString(16).padStart(6,'0'),k:0.0075,p:3,pmin:19,pmax:28}); const [x,z]=lagePol(-22,la); s.position.set(x,0.12,z); NAMEN.add(s); });
   /* Nordpol-Markierung */
   const pol=new T.Group(); pol.add(new T.Mesh(new T.CylinderGeometry(0.012,0.012,0.7,8),new T.MeshBasicMaterial({color:0xdfe8ff}))); pol.children[0].position.y=0.35;
   const pk=new T.Mesh(new T.SphereGeometry(0.045,16,8),new T.MeshBasicMaterial({color:0xffffff})); pk.position.y=0.72; pol.add(pk);
   const pr=new T.Mesh(new T.RingGeometry(0.16,0.19,64),new T.MeshBasicMaterial({color:0xcfe0ff,transparent:true,opacity:0.6,side:T.DoubleSide,depthWrite:false})); pr.rotation.x=-Math.PI/2; pr.position.y=0.03; pol.add(pr); sc.add(pol);
-  const polS=schild('Nordpol',{fs:34,w:700,c:'#ffffff',k:0.0095}); polS.position.set(0,1.25,0); NAMEN.add(polS);
+  const polS=schild('Nordpol',{fs:34,w:700,c:'#ffffff',k:0.0095,p:10}); polS.position.set(0,1.25,0); NAMEN.add(polS);
   /* Licht */
   sc.add(new T.AmbientLight(0x5a6c90,0.21)); sc.add(new T.HemisphereLight(0x8fb4ff,0x101522,0.14));
-  const dl=new T.DirectionalLight(0xbfd4ff,0.22); dl.position.set(-8,12,6); sc.add(dl); const dl2=new T.DirectionalLight(0x9cb8e8,0.22); dl2.position.set(10,5,-30); sc.add(dl2);
+  const dl=new T.DirectionalLight(0xbfd4ff,0.22); dl.position.set(-8,12,6); sc.add(dl); const dl2=new T.DirectionalLight(0x9cb8e8,0.24); dl2.position.set(10,5,-30); sc.add(dl2);
+  const dlU=new T.DirectionalLight(0x8ea6d8,0.3); dlU.position.set(8,-14,10); sc.add(dlU); /* nur für Unterseite/Säulen wirksam */
   const glanz=(farbe)=>{ const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d'), g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,farbe); g.addColorStop(0.25,farbe.replace(/[\d.]+\)$/,'0.45)')); g.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); return new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(c),blending:T.AdditiveBlending,depthWrite:false,transparent:true,fog:false})); };
-  const koerper=(rad,farbe,glow,gs,int,ang,lc,schatten)=>{ const g=new T.Group(); g.add(new T.Mesh(new T.SphereGeometry(rad,32,16),new T.MeshBasicMaterial({color:farbe}))); const s=glanz(glow); s.scale.set(gs,gs,1); g.add(s);
-    const sp=new T.SpotLight(lc,int,0,ang,0.8,0); sp.position.set(0,0,0); if(schatten&&Q===2){ sp.castShadow=true; sp.shadow.mapSize.set(2048,2048); sp.shadow.bias=-0.0004; sp.shadow.normalBias=0.02; sp.shadow.camera.near=0.5; sp.shadow.camera.far=12; } sc.add(sp.target); g.add(sp); sc.add(g); return {g,sp}; };
+  const koerper=(rad,farbe,glow,gs,int,ang,lc,schatten)=>{ const g=new T.Group(); g.add(new T.Mesh(new T.SphereGeometry(rad,32,16),new T.MeshBasicMaterial({color:farbe,toneMapped:false}))); const s=glanz(glow); s.scale.set(gs,gs,1); g.add(s);
+    const sp=new T.SpotLight(lc,int,0,ang,0.8,0); sp.position.set(0,0,0); if(schatten&&Q===2){ sp.castShadow=true; sp.shadow.mapSize.set(2048,2048); sp.shadow.bias=-0.0004; sp.shadow.normalBias=0.02; sp.shadow.camera.near=0.5; sp.shadow.camera.far=22; } sc.add(sp.target); g.add(sp); sc.add(g); return {g,sp}; };
   const SO=koerper(0.26,0xfff3c4,'rgba(255,214,110,1)',2.2,6,0.85,0xfff0d8,true), MO=koerper(0.19,0xe6ecf5,'rgba(190,210,255,1)',1.5,1.1,0.7,0x8fb0ff,false);
   const halo=glanz('rgba(255,170,80,.55)'); halo.scale.set(6,6,1); halo.material.opacity=0.55; SO.g.add(halo);
-  /* dezenter Lichtkegel unter der Sonne */
-  const kegel=new T.Mesh(new T.CylinderGeometry(0.22,3.5,3.2,72,1,true),new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,side:T.DoubleSide,fog:false,uniforms:{t:kU.t},
+  /* Lichtkegel unter Sonne und Mond */
+  const kegelM=(farbe,st)=>new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,side:T.DoubleSide,fog:false,uniforms:{t:kU.t},
     vertexShader:'varying float vY;varying float vA;varying vec3 vN;varying vec3 vV;void main(){vY=uv.y;vA=uv.x;vec4 mv=modelViewMatrix*vec4(position,1.);vN=normalize(normalMatrix*normal);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}',
-    fragmentShader:'uniform float t;varying float vY;varying float vA;varying vec3 vN;varying vec3 vV;void main(){float e=abs(dot(vN,vV));float s=.55+.45*sin(vA*157.+t*.5)*sin(vA*63.-t*.37);gl_FragColor=vec4(vec3(1.,.84,.55)*vY*vY*e*s*.085,1.);}'}));
-  kegel.position.y=-1.6; SO.g.add(kegel);
+    fragmentShader:'uniform float t;varying float vY;varying float vA;varying vec3 vN;varying vec3 vV;void main(){float e=abs(dot(vN,vV));float s=.55+.45*sin(vA*157.+t*.5)*sin(vA*63.-t*.37);gl_FragColor=vec4(vec3('+farbe+')*vY*vY*e*s*'+st+',1.);}'});
+  const HS=3.2;
+  const kegel=new T.Mesh(new T.CylinderGeometry(0.22,3.5,HS,72,1,true),kegelM('1.,.84,.55','.085')); kegel.position.y=-HS/2; SO.g.add(kegel);
+  const mKegel=new T.Mesh(new T.CylinderGeometry(0.16,2.6,HS*0.92,64,1,true),kegelM('.62,.74,1.','.05')); mKegel.position.y=-HS*0.46; MO.g.add(mKegel);
   /* Mond mit Phase */
   const mU={L:{value:new T.Vector3(0,0,1)}}; MO.g.children[0].material=new T.ShaderMaterial({uniforms:mU,
     vertexShader:'varying vec3 vN;varying vec3 vP;void main(){vN=normalize(normalMatrix*normal);vP=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
     fragmentShader:'uniform vec3 L;varying vec3 vN;varying vec3 vP;void main(){float l=smoothstep(-.06,.14,dot(normalize(vN),L));float m=.86+.14*sin(vP.x*61.)*sin(vP.y*53.+1.)*sin(vP.z*47.+2.);vec3 c=mix(vec3(.03,.04,.065),vec3(.9,.93,1.)*m,l);gl_FragColor=vec4(c,1.);}'});
   const mondAlter=z=>{ const jd=z.getTime()/864e5+2440587.5; return (((jd-2451550.1)/29.530588853)%1+1)%1; };
-  const HS=3.2;
-  /* Sonnen- und Mondbahn: Wendekreise und Äquator auf Sonnenhöhe, aktuelle Bahnen hervorgehoben */
-  const kreis=(rr,y,farbe,op,gestr)=>{ const p=[]; for(let i=0;i<=256;i++){ const a=i/256*2*Math.PI; p.push(new T.Vector3(rr*Math.sin(a),y,rr*Math.cos(a))); } const g=new T.BufferGeometry().setFromPoints(p); const m=gestr?new T.LineDashedMaterial({color:farbe,transparent:true,opacity:op,dashSize:0.18,gapSize:0.12,depthWrite:false}):new T.LineBasicMaterial({color:farbe,transparent:true,opacity:op,depthWrite:false}); const l=new T.Line(g,m); if(gestr) l.computeLineDistances(); sc.add(l); return l; };
-  [[23.44,'Wendekreis des Krebses',-0.55],[0,'Äquator',0],[-23.44,'Wendekreis des Steinbocks',0.55]].forEach(([la,n,w])=>{ const rr=(90-la)/180*RD; kreis(rr,HS,0xffd28a,0.22,true); const s=schild(n,{fs:28,w:500,c:'#ffd9a0',k:0.0085}); s.position.set(rr*Math.sin(w),HS+0.18,-rr*Math.cos(w)); NAMEN.add(s); });
-  const sBahn=kreis(1,HS,0xffd860,0.6,false), mBahn=kreis(1,HS*0.92,0x9fb6ff,0.35,false);
+  /* Bahnen auf Sonnenhöhe: Grenzen (Wendekreise, Äquator) gestrichelt, heutige Sonnen- und Mondbahn als feine Leuchtringe */
+  [23.44,0,-23.44].forEach(la=>kreis((90-la)/180*RD,HS,0xffd28a,0.16,0.16));
+  const bahn=(farbe,op)=>kreis(1,0,farbe,op,0);
+  const sBahn=bahn(0xffd860,0.8), mBahn=bahn(0x9fb6ff,0.5);
+  /* ---------- Varianten „Hinter der Eiswand“ (werden beim ersten Aufruf gebaut) ---------- */
+  /* Kuppel (Firmament) mit Gitter, Lichtreflex, Fußring und Sternen; Polarstern über dem Nordpol */
+  const KY=0.82, RK=RA-0.12, KB=0.25, kS={value:new T.Vector3()}; let kuppelG=null, sterneG=null, kuppelZeig=true;
+  const sternPos=(raG,dec)=>{ const rr=(90-dec)/180*RD, a=raG*R2D; return [rr*Math.sin(a)*0.993,KB+KY*Math.sqrt(Math.max(0,RK*RK-rr*rr))*0.993,rr*Math.cos(a)*0.993]; };
+  const baueKuppel=()=>{ const g=new T.Group();
+    const dm=new T.ShaderMaterial({transparent:true,depthWrite:false,side:T.DoubleSide,fog:false,extensions:{derivatives:true},uniforms:{t:kU.t,S:kS},
+      vertexShader:'varying vec3 vN;varying vec3 vW;varying vec3 vP;void main(){vP=position;vN=normalize(vec3(position.x,position.y/'+KY.toFixed(3)+',position.z));vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',
+      fragmentShader:'uniform float t;uniform vec3 S;varying vec3 vN;varying vec3 vW;varying vec3 vP;void main(){vec3 V=normalize(cameraPosition-vW);vec3 N=normalize(vN);float f=pow(1.-abs(dot(N,V)),2.6);'+
+        'vec2 q=vec2(atan(vP.x,vP.z)/6.2832*48.,asin(clamp(vP.y/'+RK.toFixed(3)+',0.,1.))/1.5708*12.);vec2 gq=abs(fract(q)-.5)/max(fwidth(q),vec2(1e-4));float gn=1.-min(min(gq.x,gq.y),1.);gn*=smoothstep(11.6,10.,q.y);'+
+        'float s=.5+.5*sin(vP.y*2.2+atan(vP.x,vP.z)*3.+t*.35);vec3 L=normalize(S-vW);float sp=pow(max(dot(reflect(-V,N),L),0.),70.)+pow(max(dot(reflect(-V,-N),L),0.),70.);'+
+        'vec3 c=mix(vec3(.30,.50,1.),vec3(.78,.9,1.),f)+vec3(.25,.18,.45)*s*f*.4;c=mix(c,vec3(.78,.9,1.),gn*.55);c+=vec3(1.,.9,.72)*sp;'+
+        'float a=(.016+.27*f)*(.8+.2*s)+gn*(.11+.12*f)+.05*(1.-smoothstep(0.,.3,vP.y))+sp*.55;gl_FragColor=vec4(c,min(a,.92));}'});
+    const dome=new T.Mesh(new T.SphereGeometry(RK,[96,128,160][Q],[40,56,72][Q],0,TAU,0,Math.PI/2),dm); dome.scale.y=KY; dome.position.y=KB; dome.renderOrder=3; g.add(dome);
+    const fuss=new T.Mesh(new T.LatheGeometry([[0.2,-0.18],[0.17,-0.02],[0.12,0.02],[0.05,0.045],[-0.03,0.05],[-0.08,0.02],[-0.1,-0.18]].map(([dr,y])=>new T.Vector2(RK+dr,y)),[128,192,256][Q]),
+      selbst(mat({color:0xb4cdea,roughness:0.28,metalness:0.55,emissive:0x16283f,emissiveIntensity:0.6}),0.12)); fuss.position.y=KB; fuss.receiveShadow=true; g.add(fuss);
+    /* Sterne an der Kuppel: dort, wo sie im Zenit stehen (Deklination → Abstand vom Pol), drehen mit der Sternzeit */
+    sterneG=new T.Group(); g.add(sterneG);
+    const ST={Polaris:[2.530,89.26,1.98],Dubhe:[11.062,61.75,1.79],Merak:[11.031,56.38,2.37],Phecda:[11.897,53.69,2.44],Megrez:[12.257,57.03,3.31],Alioth:[12.900,55.96,1.77],Mizar:[13.399,54.93,2.23],Alkaid:[13.792,49.31,1.86],
+      Caph:[0.153,59.15,2.28],Schedar:[0.675,56.54,2.24],GamCas:[0.945,60.72,2.47],Ruchbah:[1.430,60.24,2.68],Segin:[1.907,63.67,3.37],Kochab:[14.845,74.16,2.08],Pherkad:[15.345,71.83,3.05],
+      Betelgeuse:[5.919,7.41,0.5],Bellatrix:[5.419,6.35,1.64],Mintaka:[5.533,-0.30,2.23],Alnilam:[5.604,-1.20,1.69],Alnitak:[5.679,-1.94,1.74],Saiph:[5.796,-9.67,2.07],Rigel:[5.242,-8.20,0.13],
+      Sirius:[6.752,-16.72,-1.46],Canopus:[6.399,-52.70,-0.74],Arcturus:[14.261,19.18,-0.05],AlphaCen:[14.660,-60.83,-0.27],Vega:[18.616,38.78,0.03],Capella:[5.278,46.0,0.08],Procyon:[7.655,5.22,0.34],
+      Achernar:[1.629,-57.24,0.46],Hadar:[14.064,-60.37,0.61],Altair:[19.846,8.87,0.76],Acrux:[12.443,-63.10,0.76],Aldebaran:[4.599,16.51,0.86],Antares:[16.490,-26.43,0.96],Spica:[13.420,-11.16,0.97],
+      Pollux:[7.755,28.03,1.14],Fomalhaut:[22.961,-29.62,1.16],Deneb:[20.690,45.28,1.25],Mimosa:[12.795,-59.69,1.25],Regulus:[10.139,11.97,1.35],Castor:[7.577,31.89,1.58],Gacrux:[12.519,-57.11,1.63],
+      Mirfak:[3.405,49.86,1.79],Alpheratz:[0.140,29.09,2.06],Algol:[3.136,40.96,2.1]};
+    const SP=[], SG=[], SC=[], ad=(ra,dec,mag,c)=>{ SP.push(...sternPos(ra*15,dec)); SG.push(Math.max(1.1,5.4-mag*1.2)); SC.push(...c); };
+    for(const k in ST){ const [ra,dec,m]=ST[k]; ad(ra,dec,m,k==='Polaris'?[1,0.97,0.86]:/Betelgeuse|Antares|Aldebaran|Arcturus/.test(k)?[1,0.8,0.62]:/Rigel|Spica|Vega|Sirius|Achernar|Acrux/.test(k)?[0.8,0.88,1]:[1,1,0.96]); }
+    for(let i=0;i<[600,1000,1600][Q];i++){ const t=zuf(); ad(zuf()*24,Math.asin(zuf()*2-1)/R2D,3.0+3.2*Math.sqrt(zuf()),t<0.15?[1,0.86,0.72]:t<0.35?[0.78,0.86,1]:[1,1,1]); }
+    const sg=new T.BufferGeometry(); sg.setAttribute('position',new T.Float32BufferAttribute(SP,3)); sg.setAttribute('g',new T.Float32BufferAttribute(SG,1)); sg.setAttribute('col',new T.Float32BufferAttribute(SC,3));
+    const sm=new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,fog:false,uniforms:{t:kU.t,ph:{value:900}},
+      vertexShader:'attribute float g;attribute vec3 col;uniform float t;uniform float ph;varying vec3 vC;varying float vT;void main(){vC=col;vec4 mv=modelViewMatrix*vec4(position,1.);vT=.78+.22*sin(t*2.3+position.x*41.+position.z*17.);gl_PointSize=clamp(g*ph/(-mv.z)*.014,1.2,g*2.6);gl_Position=projectionMatrix*mv;}',
+      fragmentShader:'varying vec3 vC;varying float vT;void main(){float d=length(gl_PointCoord-.5);float a=smoothstep(.5,0.,d);a*=a;gl_FragColor=vec4(vC*a*vT,1.);}'});
+    const pts=new T.Points(sg,sm); pts.frustumCulled=false; pts.renderOrder=4; sterneG.add(pts); g.userData.sm=sm;
+    const LIN=[['Alkaid','Mizar'],['Mizar','Alioth'],['Alioth','Megrez'],['Megrez','Phecda'],['Phecda','Merak'],['Merak','Dubhe'],['Dubhe','Megrez'],['Caph','Schedar'],['Schedar','GamCas'],['GamCas','Ruchbah'],['Ruchbah','Segin'],
+      ['Betelgeuse','Bellatrix'],['Bellatrix','Mintaka'],['Mintaka','Alnilam'],['Alnilam','Alnitak'],['Alnitak','Saiph'],['Saiph','Rigel'],['Rigel','Mintaka'],['Betelgeuse','Alnitak'],['Acrux','Gacrux'],['Polaris','Kochab'],['Kochab','Pherkad']];
+    const lp=[]; LIN.forEach(([a,b])=>{ lp.push(...sternPos(ST[a][0]*15,ST[a][1]),...sternPos(ST[b][0]*15,ST[b][1])); }); const lg=new T.BufferGeometry(); lg.setAttribute('position',new T.Float32BufferAttribute(lp,3));
+    sterneG.add(new T.LineSegments(lg,new T.LineBasicMaterial({color:0x9db8ff,transparent:true,opacity:0.32,depthWrite:false,fog:false})));
+    const nS=(txt,ra,dec,dy,p)=>{ const s=schild(txt,{fs:30,w:600,c:'#e6eeff',k:0.009,p,pmin:19,pmax:30}); const v=sternPos(ra*15,dec); s.position.set(v[0],v[1]+dy,v[2]); sterneG.add(s); };
+    nS('Polarstern',2.53,89.26,-0.45,9); nS('Großer Wagen',12.3,56,-0.5,4); nS('Orion',5.6,-1,-0.6,3); nS('Kassiopeia',1.0,60.5,-0.5,3); nS('Kreuz des Südens',12.5,-60,-0.5,3);
+    return g; };
+  /* Wasser über der Feste: bewegte Wasserschicht über der Kuppel */
+  const baueWasserOben=()=>{ const g=new T.Group(), R=RK+0.95;
+    const m=new T.ShaderMaterial({transparent:true,depthWrite:false,side:T.DoubleSide,fog:false,uniforms:{t:kU.t},
+      vertexShader:'uniform float t;varying vec3 vW;varying vec3 vN;varying float vE;void main(){vec3 p=position;vec3 n=normalize(p);vE=acos(clamp(n.y,-1.,1.));float w=sin(p.x*1.3+t*.8)*.5+sin(p.z*1.7-t*.6)*.35+sin((p.x+p.z)*2.9+t*1.3)*.15;p+=n*w*.16;vN=n;vec4 wp=modelMatrix*vec4(p,1.);vW=wp.xyz;gl_Position=projectionMatrix*viewMatrix*wp;}',
+      fragmentShader:'uniform float t;varying vec3 vW;varying vec3 vN;varying float vE;void main(){vec3 V=normalize(cameraPosition-vW);float f=pow(1.-abs(dot(normalize(vN),V)),2.);float c1=sin(vW.x*2.1+t*.9+sin(vW.z*1.7+t*.4)*2.)*sin(vW.z*2.3-t*.7+sin(vW.x*1.3)*2.);float k=pow(abs(c1),6.)*.8;'+
+        'vec3 c=mix(vec3(.04,.2,.4),vec3(.35,.68,.95),f)+vec3(.55,.85,1.)*k*.45;float a=(.38+.42*f+k*.2)*(1.-smoothstep(.95,1.3,vE));gl_FragColor=vec4(c,a);}'});
+    const sch=new T.Mesh(new T.SphereGeometry(R,[96,128,192][Q],[24,32,48][Q],0,TAU,0,1.3),m); sch.scale.y=KY; sch.position.y=KB; sch.renderOrder=4; g.add(sch);
+    const s=schild('Wasser über der Feste?\nnach Darstellung mancher Vertreter',{fs:34,c:'#cfe6ff',c2:'#9fb4d0',k:0.022,p:6,dt:false}); s.position.set(0,KB+R*KY+1.3,0); g.add(s); return g; };
+  /* Weitere Länder: Eisgürtel, Meer mit frei erzeugten, namenlosen Landmassen, äußerer Eisring */
+  const baueLaender=()=>{ const g=new T.Group(), R1=23, R2=84, SL=YO-0.12;
+    const rad=[...reihe(RA-0.25,R1,[16,22,30][Q],0),R1,R1+0.07,...reihe(R1+0.14,R2,[80,120,170][Q],0.9),R2,R2+0.1,...reihe(R2+0.2,140,[16,22,30][Q],1.5),140];
+    const hf=(x,z,rr)=>{ if(rr<=R1) return SL+0.13+0.05*fb3(x*0.3,z*0.3,3)*gl3(RA,RA+2,rr);
+      if(rr>=R2+0.05) return SL+1.4+0.9*gl3(R2,R2+18,rr)+0.25*fb3(x*0.12,z*0.12,3)+0.8*Math.pow(1-Math.abs(2*fb3(x*0.05+4,z*0.05,4)-1),3)*gl3(R2+3,R2+12,rr);
+      const m=gl3(R1+2,R1+7,rr)*gl3(R2-2,R2-8,rr), c=fb3(x*0.028+3,z*0.028-7,5)+0.12*fb3(x*0.09,z*0.09,3)-0.06; const L=(c-0.53)*m-(1-m)*0.08; let h=SL+L*3.0;
+      if(L>0){ const rg=1-Math.abs(2*fb3(x*0.06+1,z*0.06+2,4)-1); h+=Math.pow(rg,2.2)*gl3(0,0.12,L)*2.4; } return h; };
+    const cf=(x,z,rr,h,sl)=>{ if(rr<=R1+0.001||rr>=R2+0.07){ const n=0.92+0.08*fb3(x*0.5,z*0.5,2); return sl>1.2?[0.5,0.72,0.9]:[0.9*n,0.94*n,n]; }
+      const e=h-SL; if(e<0){ const d=gl3(-0.3,0,e); return misch([0.04,0.12,0.22],[0.18,0.52,0.56],d*d); }
+      const kalt=Math.max(gl3(R1+14,R1+3,rr),gl3(R2-16,R2-3,rr)), tr=fb3(x*0.05+7,z*0.05,3);
+      let c=e<0.03?[0.74,0.69,0.52]:misch([0.30,0.44,0.20],[0.56,0.52,0.33],gl3(0.4,0.7,tr));
+      if(e>=0.03) c=misch(c,[0.14,0.28,0.14],gl3(0.08,0.25,e)*(1-gl3(0.5,0.8,tr))*0.8);
+      c=misch(c,[0.43,0.37,0.28],gl3(0.45,0.9,e)); c=misch(c,[0.47,0.46,0.45],Math.max(gl3(0.9,1.3,e),0.7*gl3(0.8,1.6,sl)));
+      c=misch(c,[0.5,0.53,0.46],kalt*0.6); return misch(c,[0.95,0.96,1],gl3(1.45-kalt*0.9,1.75-kalt*0.9,e)); };
+    const land=new T.Mesh(ringFeld(rad,[384,640,960][Q],hf,cf),selbst(mat({vertexColors:true,map:feldT,roughness:0.92,metalness:0}),0.28)); land.receiveShadow=true; g.add(land);
+    const meer=new T.Mesh(new T.RingGeometry(R1-0.4,R2+0.06,[192,256,384][Q],1),new T.MeshPhongMaterial({color:0x1c4f7a,specular:0x8fb0d0,shininess:90,transparent:true,opacity:0.8,depthWrite:false}));
+    meer.rotation.x=-Math.PI/2; meer.position.y=SL; meer.renderOrder=1; g.add(meer);
+    g.add(himmel(0x0e1a2c,0x03060f)); const hz=new T.Mesh(new T.CylinderGeometry(150,150,30,96,1,true),dunstM(0x2a4466,0.55,2.4)); hz.position.y=15; g.add(hz);
+    const s1=schild('Weitere Länder?\nhypothetisch – nicht belegt',{fs:34,c:'#e2e6ee',c2:'#a9b3c6',k:0.03,p:6,dt:false}); s1.position.set(0,6,-48); g.add(s1);
+    const s2=schild('Äußerer Eisring?\nnach Darstellung mancher Vertreter',{fs:30,c:'#e6f2ff',c2:'#a9b3c6',k:0.03,p:5,dt:false}); s2.position.set(-30,5,R2*0.72); g.add(s2); return g; };
+  /* Endloses Eis: Eisebene mit Verwehungen, Gletscherspalten, Gebirgszügen, Dunst und Polarlicht */
+  const baueEis=()=>{ const g=new T.Group(); const rad=reihe(RA-0.25,440,[90,130,180][Q],5); rad.push(440);
+    const hf=(x,z,rr)=>{ const d=rr-RA; let h=YO-0.02+0.05*fb3(x*0.35,z*0.35,3)*gl3(0,2,d)+0.9*fb3(x*0.025+5,z*0.025,3)*gl3(2,30,d);
+      const m=gl3(22,55,rr)*gl3(0.38,0.6,fb3(x*0.006+2,z*0.006-4,2)); if(m>0){ const rg=1-Math.abs(2*fb3(x*0.03+9,z*0.03-3,5)-1); h+=m*Math.pow(rg,2.6)*(5+9*fb3(x*0.01,z*0.01,2)); } return h; };
+    const cf=(x,z,rr,h,sl)=>{ const n=0.9+0.1*fb3(x*0.2,z*0.2,2); let c=[0.86*n,0.91*n,0.99*n]; c=misch(c,[0.62,0.75,0.92],0.35*gl3(0.4,0.0,fb3(x*0.08,z*0.08,2))); return misch(c,[0.2,0.21,0.24],gl3(0.75,1.4,sl)); };
+    const eb=new T.Mesh(ringFeld(rad,[256,384,512][Q],hf,cf),selbst(mat({vertexColors:true,map:schneeT,roughness:0.82,metalness:0}),0.3)); eb.receiveShadow=true; g.add(eb);
+    g.add(himmel(0x0e1a2c,0x02050c)); const hz=new T.Mesh(new T.CylinderGeometry(300,300,40,96,1,true),dunstM(0x2a4466,0.6,2.2)); hz.position.y=20; g.add(hz);
+    /* Polarlicht: drei bewegte Lichtvorhänge über dem Horizont */
+    const pm=new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,side:T.DoubleSide,fog:false,uniforms:{t:kU.t},
+      vertexShader:'uniform float t;varying vec2 vU;void main(){vU=uv;vec3 p=position;p.y+=sin(uv.x*11.+t*.21)*1.5*uv.y;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}',
+      fragmentShader:'uniform float t;varying vec2 vU;void main(){float r=.6+.25*sin(vU.x*190.+t*.7+sin(vU.x*37.+t*.3)*3.)+.15*sin(vU.x*520.-t*1.1);r*=.55+.45*sin(vU.x*23.-t*.23);float v=pow(1.-vU.y,1.5)*smoothstep(0.,.1,vU.y);float e=smoothstep(0.,.1,vU.x)*smoothstep(1.,.9,vU.x);vec3 c=mix(vec3(.15,1.,.55),vec3(.62,.3,1.),smoothstep(.3,1.,vU.y));gl_FragColor=vec4(c*r*v*e*.38,1.);}'});
+    [[150,-0.9,1.3,26,30],[190,-0.2,1.1,30,40],[130,0.6,0.9,22,26]].forEach(([R,a0,sp,y0,H])=>{ const pg=new T.PlaneGeometry(1,1,[80,120,160][Q],1), p=pg.attributes.position, u=pg.attributes.uv;
+      for(let i=0;i<p.count;i++){ const s=u.getX(i), v=u.getY(i), a=Math.PI+a0+sp*(s-0.5), rr=R+9*Math.sin(s*7+R); p.setXYZ(i,rr*Math.sin(a),y0+v*H,rr*Math.cos(a)); } const m=new T.Mesh(pg,pm); m.frustumCulled=false; m.renderOrder=2; g.add(m); });
+    const s=schild('Endloses Eis?\nnach Darstellung mancher Vertreter',{fs:34,c:'#eef5ff',c2:'#a9b3c6',k:0.03,p:6,dt:false}); s.position.set(0,5,-42); g.add(s); return g; };
+  /* Säulen bzw. Grundfesten unter der Scheibe */
+  const baueSaeulen=()=>{ const g=new T.Group(), UNT=-17;
+    const verbinde=(teile)=>{ let n=0; teile.forEach(t=>n+=t.attributes.position.count); const P=new Float32Array(n*3), N=new Float32Array(n*3), I=[]; let o=0;
+      teile.forEach(t=>{ P.set(t.attributes.position.array,o*3); N.set(t.attributes.normal.array,o*3); const ix=t.index.array; for(let i=0;i<ix.length;i++) I.push(ix[i]+o); o+=t.attributes.position.count; });
+      const b=new T.BufferGeometry(); b.setAttribute('position',new T.BufferAttribute(P,3)); b.setAttribute('normal',new T.BufferAttribute(N,3)); b.setIndex(I); return b; };
+    const saeule=H=>{ const sh=new T.CylinderGeometry(0.27,0.31,H-0.62,32,Q?10:5,true), p=sh.attributes.position; for(let i=0;i<p.count;i++){ const x=p.getX(i), z=p.getZ(i), a=Math.atan2(z,x), k=1-0.06*Math.pow(0.5+0.5*Math.cos(a*20),2); p.setX(i,x*k); p.setZ(i,z*k); } sh.computeVertexNormals(); sh.translate(0,-0.3-(H-0.62)/2,0);
+      const b=verbinde([new T.BoxGeometry(0.92,0.12,0.92).translate(0,-0.06,0),new T.CylinderGeometry(0.42,0.29,0.18,32).translate(0,-0.21,0),sh,new T.CylinderGeometry(0.37,0.42,0.16,32).translate(0,-H+0.24,0),new T.BoxGeometry(0.92,0.16,0.92).translate(0,-H+0.08,0)]);
+      const p2=b.attributes.position, C=new Float32Array(p2.count*3); for(let i=0;i<p2.count;i++){ const y=p2.getY(i), k=0.2+0.8*gl3(-H,0,y), n=0.92+0.08*Math.sin(y*7+p2.getX(i)*5); C[i*3]=0.5*k*n; C[i*3+1]=0.46*k*n; C[i*3+2]=0.41*k*n; } b.setAttribute('color',new T.BufferAttribute(C,3)); return b; };
+    const stein=selbst(mat({vertexColors:true,roughness:0.85,metalness:0.02}),0.07), M4=new T.Matrix4(), qq=new T.Quaternion(), yA=new T.Vector3(0,1,0), v1=new T.Vector3(), v2=new T.Vector3(1,1,1);
+    [[0,1],[4.6,8],[8.6,16]].forEach(([rr,n])=>{ const top=sockelY(rr)+0.25, im=new T.InstancedMesh(saeule(top-UNT),stein,n); for(let i=0;i<n;i++){ const a=(i+0.5)/n*TAU; qq.setFromAxisAngle(yA,a); v1.set(rr*Math.sin(a),top,rr*Math.cos(a)); M4.compose(v1,qq,v2); im.setMatrixAt(i,M4); } im.frustumCulled=false; g.add(im); });
+    const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d'), gr=x.createRadialGradient(64,64,0,64,64,64); gr.addColorStop(0,'rgba(70,95,150,.55)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=gr; x.fillRect(0,0,128,128);
+    const ne=new T.Mesh(new T.PlaneGeometry(70,70),new T.MeshBasicMaterial({map:new T.CanvasTexture(c),transparent:true,depthWrite:false,blending:T.AdditiveBlending,fog:false})); ne.rotation.x=-Math.PI/2; ne.position.y=UNT+0.6; g.add(ne);
+    const s=schild('Säulen der Erde?\nnach Darstellung mancher Vertreter',{fs:34,c:'#efe6d6',c2:'#b8ad9a',k:0.022,p:6,dt:false}); s.position.set(0,-11,4); g.add(s); return g; };
+  const VAR={
+    kuppel:{bau:null,nebel:[0x03060f,0.006],kam:[[0,13.5,17.5],[0,0,0]],fern:[[0,15,33],[0,2.5,0]],kuppel:true},
+    wasser:{bau:baueWasserOben,nebel:[0x03060f,0.005],kam:[[0,15,26],[0,3,0]],fern:[[0,19,40],[0,3.5,0]],kuppel:true},
+    laender:{bau:baueLaender,nebel:[0x0e1a2c,0.0055],kam:[[0,21,29],[0,0,-13]],fern:[[0,46,80],[0,0,-14]]},
+    eis:{bau:baueEis,nebel:[0x0e1a2c,0.0105],kam:[[0,7.5,27],[0,0,-6]],fern:[[0,3.2,25],[0,1.4,-8]]},
+    saeulen:{bau:baueSaeulen,nebel:[0x050811,0.03],kam:[[0,-6.5,25],[0,-5.5,0]],fern:[[17,-13,23],[0,-6,0]],unten:true}};
+  const AU={}; let akt='kuppel';
   /* Steuerung */
-  let ctl=null; if(L.OC){ ctl=d.ctl=new L.OC(cam,r.domElement); ctl.enableDamping=true; ctl.dampingFactor=0.08; ctl.minDistance=2.5; ctl.maxDistance=60; ctl.maxPolarAngle=Math.PI*0.48; ctl.target.set(0,0,0); ctl.enablePan=true; ctl.update(); }
+  let ctl=null; if(L.OC){ ctl=d.ctl=new L.OC(cam,r.domElement); ctl.enableDamping=true; ctl.dampingFactor=0.08; ctl.minDistance=0.7; ctl.maxDistance=130; ctl.maxPolarAngle=Math.PI*0.48; ctl.target.set(0,0,0); ctl.enablePan=true; ctl.update(); }
   else cam.lookAt(0,0,0);
   /* Bedienung */
-  const KAM={kuppel:[[0,13.5,17.5],[0,0,0]],laender:[[0,21,29],[0,0,-13]],eis:[[0,7.5,27],[0,0,-6]]}; let flug=null;
-  const aussen=(k,erst)=>{ for(const g in AU) AU[g].visible=g===k; if(!erst&&ctl){ const [p,z]=KAM[k], f=el.clientWidth<el.clientHeight?1.6:1; flug={t0:performance.now(),p0:cam.position.clone(),z0:ctl.target.clone(),p1:new T.Vector3(p[0],p[1]*f,p[2]*f),z1:new T.Vector3(...z)}; } sc.fog.density=k==='kuppel'?0.006:k==='eis'?0.0105:0.0075; sc.fog.color.setHex(k==='kuppel'?0x03060f:0x0e1a2c); el.querySelectorAll('[data-aus]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.aus===k)); q('txt').innerHTML=AUSSEN[k].t; };
-  el.querySelectorAll('[data-aus]').forEach(b=>b.onclick=()=>aussen(b.dataset.aus)); aussen('kuppel',true);
+  let flug=null, rund=false; const hoch=()=>el.clientWidth<el.clientHeight?1.6:1;
+  const fliege=(p,z,dauer,nach)=>{ if(!ctl){ cam.position.set(...p); cam.lookAt(...z); return; } const f=hoch(), zv=new T.Vector3(...z); flug={t0:performance.now(),p0:cam.position.clone(),z0:ctl.target.clone(),p1:new T.Vector3(...p).sub(zv).multiplyScalar(f).add(zv),z1:zv,dauer:dauer||1600,nach}; };
+  const rundSetzen=an=>{ rund=an; const b=el.querySelector('[data-kam="rund"]'); if(b) b.setAttribute('aria-pressed',an); };
+  d.flugAus=()=>{ flug=null; rundSetzen(false); };
+  if(ctl) ctl.addEventListener('start',()=>{ flug=null; rundSetzen(false); });
+  const polGrenze=()=>{ if(ctl) ctl.maxPolarAngle=VAR[akt].unten?Math.PI*0.96:Math.PI*0.8; };
+  const kuppelSicht=()=>{ const an=!!VAR[akt].kuppel; if(an&&!kuppelG){ kuppelG=baueKuppel(); sc.add(kuppelG); } if(kuppelG) kuppelG.visible=an&&kuppelZeig; const b=q('kuppelz'); b.style.display=an?'':'none'; b.setAttribute('aria-pressed',kuppelZeig); };
+  const aussen=(k,erst)=>{ akt=k; const V=VAR[k]; if(V.bau&&!AU[k]){ AU[k]=V.bau(); sc.add(AU[k]); } for(const g in AU) AU[g].visible=g===k; kuppelSicht();
+    if(V.unten) polGrenze(); if(!erst) fliege(...V.kam,1500,polGrenze); else polGrenze();
+    sc.fog.color.setHex(V.nebel[0]); sc.fog.density=V.nebel[1]; el.querySelectorAll('[data-aus]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.aus===k)); q('txt').innerHTML=AUSSEN[k].t; };
+  d.aussen=aussen;
+  el.querySelectorAll('[data-aus]').forEach(b=>b.onclick=()=>aussen(b.dataset.aus));
+  q('kuppelz').onclick=()=>{ kuppelZeig=!kuppelZeig; kuppelSicht(); };
+  el.querySelectorAll('[data-kam]').forEach(b=>b.onclick=()=>{ const k=b.dataset.kam; if(k==='rund'){ flug=null; rundSetzen(!rund); return; } rundSetzen(false); const V=VAR[akt];
+    if(k==='oben') fliege([0,27,0.02],[0,0,0],1600,polGrenze); else if(k==='aussen') fliege(...V.fern,1700,polGrenze); else if(V.kuppel) fliege([0,1.3,10.0],[0,2.2,2.8],1700,polGrenze); else fliege(V.unten?[0,-0.4,14.2]:[0,1.7,7.2],V.unten?[0,-1.2,9]:[0,0.75,14],1700,polGrenze); });
   q('wasser').onclick=e=>{ wasser.visible=!wasser.visible; e.currentTarget.setAttribute('aria-pressed',wasser.visible); };
   const info=el.querySelector('.k3-info'), klapp=e=>{ const zu=info.classList.toggle('zu',e); q('klapp').textContent=zu?'▴':'▾'; q('klapp').setAttribute('aria-expanded',!zu); }; q('klapp').onclick=()=>klapp(!info.classList.contains('zu')); if(el.clientWidth<700) klapp(true);
   let wolken=null; q('wolken').onclick=e=>{ if(!wolken){ const W2=[384,512,768][Q], c=document.createElement('canvas'); c.width=c.height=W2; const x=c.getContext('2d'), im=x.createImageData(W2,W2);
@@ -1118,21 +1286,25 @@ async function scheibe3d(){
       x.putImageData(im,0,0); wolken=new T.Mesh(new T.CircleGeometry(RD,128),selbst(mat({map:srgb(new T.CanvasTexture(c)),transparent:true,depthWrite:false,roughness:1}),0.1)); wolken.rotation.x=-Math.PI/2; wolken.position.y=0.62; wolken.renderOrder=2; sc.add(wolken); wolken.visible=false; }
     wolken.visible=!wolken.visible; e.currentTarget.setAttribute('aria-pressed',wolken.visible); };
   q('namen').onclick=e=>{ NAMEN.visible=!NAMEN.visible; e.currentTarget.setAttribute('aria-pressed',NAMEN.visible); };
-  let raffer=false, off=0, tl=performance.now(); q('raffer').onclick=e=>{ raffer=!raffer; e.currentTarget.setAttribute('aria-pressed',raffer); e.currentTarget.textContent=raffer?'❚❚ Zeitraffer anhalten':'▶ Tag im Zeitraffer'; if(!raffer) off=0; };
+  let raffer=false, off=0, tl=performance.now(); q('raffer').onclick=e=>{ raffer=!raffer; const b=e.currentTarget; b.setAttribute('aria-pressed',raffer); b.innerHTML=raffer?'❚❚<span>Zeitraffer anhalten</span>':'▶<span>Tag im Zeitraffer</span>'; if(!raffer) off=0; };
   q('hoch').oninput=e=>{ ueber=+e.target.value; q('hw').textContent=ueber+'×'; hochSetzen(); };
-  const groe=()=>{ const w=el.clientWidth, h=el.clientHeight; r.setSize(w,h,false); cam.aspect=w/h; cam.fov=w<h?52:38; cam.updateProjectionMatrix(); }; d.rs=groe; addEventListener('resize',groe); groe(); if(el.clientWidth<el.clientHeight){ cam.position.multiplyScalar(1.75); if(ctl) ctl.update(); }
+  const groe=()=>{ const w=el.clientWidth, h=el.clientHeight; r.setSize(w,h,false); cam.aspect=w/h; cam.fov=w<h?52:38; cam.updateProjectionMatrix(); barH=el.querySelector('.k3-bar').offsetHeight+14; if(kuppelG) kuppelG.userData.sm.uniforms.ph.value=h*r.getPixelRatio(); }; d.rs=groe; addEventListener('resize',groe);
+  aussen('kuppel',true); groe(); if(el.clientWidth<el.clientHeight){ cam.position.multiplyScalar(1.75); if(ctl) ctl.update(); }
   /* sanfte Kamerafahrt beim Öffnen */
   if(ctl){ const p1=cam.position.clone(); cam.position.set(-p1.z*1.3,p1.y*2.6,p1.z*1.5); ctl.update(); flug={t0:performance.now()+200,p0:cam.position.clone(),z0:ctl.target.clone(),p1,z1:ctl.target.clone(),dauer:2800}; }
-  const uhr=q('uhr'); let letzteU='', letzteD=99;
+  const uhr=q('uhr'); let letzteU='', letzteD=99, bild=0, nahW=0;
   const schritt=t=>{ if(d.aus) return; if(!document.body.contains(el)){ D3=d; scheibe3dZu(); return; } d.raf=requestAnimationFrame(schritt);
-    const dt=t-tl; tl=t; if(raffer) off+=dt/1000*2*3600e3; /* 2 h pro Sekunde */
+    const dt=Math.min(100,t-tl); tl=t; if(raffer) off+=dt/1000*2*3600e3; /* 2 h pro Sekunde */
     const zt=new Date(Date.now()+off), [sl,sp]=sonne(zt), [ax,az]=lagePol(sl,sp), ma=mondAlter(zt), ml=sp*Math.cos(2*Math.PI*ma), [mx,mz]=lagePol(sl-ma*360,ml), ph=2*Math.PI*ma, hell=(1-Math.cos(ph))/2;
-    mU.L.value.set(Math.sin(ph),0.15,-Math.cos(ph)).normalize(); MO.sp.intensity=0.15+1.3*hell; MO.g.children[1].material.opacity=0.25+0.75*hell; if(wolken&&wolken.visible) wolken.rotation.z+=dt*0.000012;
-    SO.g.position.set(ax,HS,az); SO.sp.target.position.set(ax,0,az); MO.g.position.set(mx,HS*0.92,mz); MO.sp.target.position.set(mx,0,mz);
-    if(Math.abs(sp+ml-letzteD)>0.01){ letzteD=sp+ml; const s1=(90-sp)/180*RD, s2=(90-ml)/180*RD; sBahn.scale.set(s1,1,s1); mBahn.scale.set(s2,1,s2); }
-    kU.t.value=t/1000; if(flug){ const f=Math.max(0,Math.min(1,(t-flug.t0)/(flug.dauer||1400))), e=f<.5?2*f*f:1-Math.pow(-2*f+2,2)/2; cam.position.lerpVectors(flug.p0,flug.p1,e); ctl.target.lerpVectors(flug.z0,flug.z1,e); if(f>=1) flug=null; }
+    mU.L.value.set(Math.sin(ph),0.15,-Math.cos(ph)).normalize(); MO.sp.intensity=0.15+1.3*hell; MO.g.children[1].material.opacity=0.25+0.75*hell; mKegel.visible=hell>0.08; if(wolken&&wolken.visible) wolken.rotation.z+=dt*0.000012;
+    SO.g.position.set(ax,HS,az); SO.sp.target.position.set(ax,0,az); MO.g.position.set(mx,HS*0.92,mz); MO.sp.target.position.set(mx,0,mz); kS.value.set(ax,HS,az);
+    if(Math.abs(sp+ml-letzteD)>0.01){ letzteD=sp+ml; const s1=(90-sp)/180*RD, s2=(90-ml)/180*RD; sBahn.scale.set(s1,1,s1); sBahn.position.y=HS; mBahn.scale.set(s2,1,s2); mBahn.position.y=HS*0.92; }
+    if(sterneG&&kuppelG.visible){ const jd=zt.getTime()/864e5+2440587.5, gmst=(280.46061837+360.98564736629*(jd-2451545))%360; sterneG.rotation.y=-gmst*R2D; }
+    kU.t.value=t/1000; if(flug){ const f=Math.max(0,Math.min(1,(t-flug.t0)/(flug.dauer||1400))), e=f<.5?2*f*f:1-Math.pow(-2*f+2,2)/2; cam.position.lerpVectors(flug.p0,flug.p1,e); ctl.target.lerpVectors(flug.z0,flug.z1,e); if(f>=1){ const n=flug.nach; flug=null; if(n) n(); } }
+    if(rund&&ctl){ const w=dt*0.00009, tg=ctl.target, dx=cam.position.x-tg.x, dz=cam.position.z-tg.z, c=Math.cos(w), s=Math.sin(w); cam.position.x=tg.x+dx*c-dz*s; cam.position.z=tg.z+dx*s+dz*c; }
     const u=zt.toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' Uhr'; if(u!==letzteU){ uhr.textContent='☀ '+u; letzteU=u; }
-    if(ctl) ctl.update(); r.render(sc,cam); };
+    if(ctl){ ctl.update(); if(!VAR[akt].unten&&!flug&&cam.position.y<0.3) cam.position.y=0.3; } { const ab=ctl?cam.position.distanceTo(ctl.target):20, n=Math.max(0.04,Math.min(0.5,ab*0.02)); if(Math.abs(n-nahW)>nahW*0.1){ nahW=n; cam.near=n; cam.updateProjectionMatrix(); } }
+    if(bild++%4===0) ordnen(); blenden(); r.render(sc,cam); };
   d.raf=requestAnimationFrame(schritt);
 }
 let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; if(S.spin&&S.modus==='globus'){ if(t-letzt>31){ S.lam+=Math.min(.4,(t-letzt)*0.0045); letzt=t; S.bewegt=true; zeichne(false); } } else if(S.ov.wander&&t-letzt>80){ letzt=t; zeichne(); }
@@ -1141,5 +1313,5 @@ let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; 
 let wzug=0;
 
 window.QWWELT={ oeffne(root,ebene){ daten(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); glStart(); schriftLaden(); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
-  zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); } };
+  d3:()=>D3, zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); } };
 })();
