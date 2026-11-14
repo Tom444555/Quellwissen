@@ -330,7 +330,7 @@ fw=uKw;
     hoehe+=(dt-.5)*.1*rau;}
    land*=.95+.1*(dt-.5)*uFein*1.6+.04*(fbm(uv*vec2(700.,350.))-.5);
    land=mix(land,vec3(.95,.96,.98),smoothstep(.56,.82,hoehe+kalt*.22));
-   land=mix(land,vec3(.92,.94,.97)*(.92+.1*dt),(1.-smoothstep(-1.15,-1.06,lat))*.88);
+   land=mix(land,vec3(.92,.94,.97)*(.92+.1*dt),(1.-smoothstep(-1.1,-1.03,lat))*.92);
    float tiefe=clamp((.5-h)/.4,0.,1.);
    vec3 w=mix(vec3(.17,.52,.58),vec3(.055,.29,.52),smoothstep(0.,.2,tiefe));w=mix(w,vec3(.028,.135,.33),smoothstep(.14,.58,tiefe));w=mix(w,vec3(.014,.065,.2),smoothstep(.55,1.,tiefe));
    w=mix(w,rel,.2*(mW>=0.?relW:1.));w+=vec3(.07,.13,.11)*(1.-smoothstep(0.,.09,tiefe))*.7;
@@ -341,7 +341,7 @@ fw=uKw;
   }
   if(uRoh>.5){col=alb;}
   else{
-   float bump=uBump*mix(1.,.22,wasser);vec3 nb=normalize(U-bump*(hE*E+hN*N));float dif=max(dot(nb,S),0.);
+   vec2 hg=vec2(hE,hN);hg*=min(1.,.09/max(length(hg),1e-5));hE=hg.x;hN=hg.y;float bump=uBump*mix(1.,.22,wasser);vec3 nb=normalize(U-bump*(hE*E+hN*N));float dif=max(dot(nb,S),0.);
    float licht=uLichtart<.5?.05+.1*uFein+(1.08-.1*uFein)*pow(dif,.78):clamp(.2+.98*dif/.77,0.,1.5);licht=mix(licht,.6+.5*dif,still*step(uLichtart,.5));
    float wk=0.;
    if(uWolken>.01&&still<.5){vec2 cu=vec2(uv.x+uZeit,uv.y);float c=texture2D(tWol,cu).r*.72+texture2D(tWol,vec2(cu.x*3.+.37-uZeit*.6,abs(fract(uv.y*1.5+.25)*2.-1.))).r*.28;wk=smoothstep(.5,.82,c)*uWolken;
@@ -429,7 +429,7 @@ function glBiome(){ const w=180,h=90,d=new Uint8Array(w*h*4), ok=new Uint8Array(
 /* Stadtlichter aus den Städten (Größe nach Einwohnern) mit verstreuten Siedlungspunkten im Umland */
 function glNacht(){ const w=1024,h=512,c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d'); x.fillStyle='#000'; x.fillRect(0,0,w,h); x.globalCompositeOperation='lighter';
   let s=11; const rnd=()=>(s=(s*16807)%2147483647)/2147483647;
-  DAT.staedte.forEach(([n,lo,la,p])=>{ const px=(lo+180)/360*w, py=(90-la)/180*h, k=1/Math.max(.35,Math.cos(la*R2)), gr=Math.sqrt(Math.max(p,.05));
+  DAT.staedte.forEach(([n,lo,la,p])=>{ if(p<.04) return; const px=(lo+180)/360*w, py=(90-la)/180*h, k=1/Math.max(.35,Math.cos(la*R2)), gr=Math.sqrt(Math.max(p,.05));
     const punkt=(ax,ay,rad,hell)=>{ const g=x.createRadialGradient(ax,ay,0,ax,ay,rad); g.addColorStop(0,`rgba(255,255,255,${hell})`); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.save(); x.translate(ax,ay); x.scale(k,1); x.translate(-ax,-ay); x.beginPath(); x.arc(ax,ay,rad,0,7); x.fill(); x.restore(); };
     punkt(px,py,1.1+gr*.55,Math.min(1,.5+gr*.14)); const m=Math.round(3+gr*5); for(let i=0;i<m;i++){ const a=rnd()*6.283, di=(1.5+rnd()*rnd()*(5+gr*3.2)); punkt(px+Math.cos(a)*di*k,py+Math.sin(a)*di,.7+rnd()*.6,.16+rnd()*.3); } });
   return c; }
@@ -556,7 +556,7 @@ function zeichne(fein){
     (DAT.fein.marken||[]).forEach(([n,lo,la,st,art])=>{ if(st>zs) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q)*.92;
       if(art==='k'){ if(text(n,q[0]+5,q[1]+3.5,9.8,'#f1e8d2',false,'italic 400','meer')){ ctx.globalAlpha=TXA; ctx.fillStyle='#f1e8d2'; ctx.beginPath(); ctx.arc(q[0],q[1],1.8,0,7); ctx.fill(); ctx.globalAlpha=1; } }
       else text(n,q[0],q[1]+4,art==='m'?10:10.5,art==='m'?'#bfe0f4':'#efe6cf',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
-  if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs) return; const q=proj(lo,la); if(q[2]<0.22) return; const R=1.4+Math.sqrt(Math.max(p,.1))*0.7; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; TXA=rand(q); const ok=text(n,q[0]+R+3,q[1]+3.5,p>5?11:10.2,'#f6ecd6',false,p>5?'700':'500'); if(!ok){ TXA=1; return; } BOX.push([q[0]-R,q[1]+R,R*2,R*2]); ctx.globalAlpha=TXA; ctx.fillStyle=hs?'#f3cf62':'#f6e7c2'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; TXA=1; });
+  if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs) return; const q=proj(lo,la); if(q[2]<0.22) return; if(q[0]<-8||q[0]>W+8||q[1]<-8||q[1]>H+12) return; const R=1.4+Math.sqrt(Math.max(p,.1))*0.7; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; TXA=rand(q); const ok=text(n,q[0]+R+3,q[1]+3.5,p>5?11:10.2,'#f6ecd6',false,p>5?'700':'500'); if(!ok){ TXA=1; return; } BOX.push([q[0]-R,q[1]+R,R*2,R*2]); ctx.globalAlpha=TXA; ctx.fillStyle=hs?'#f3cf62':'#f6e7c2'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; TXA=1; });
   if(NT.length) netzText(NT.filter(n=>n[0]==='p'||n[0]==='m'),rand);
   if(S.ov.tiefen) TIEFEN.forEach(([n,lo,la,t])=>{ const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#7fe0ff'; ctx.strokeStyle='#02101e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(q[0]-5,q[1]-4); ctx.lineTo(q[0]+5,q[1]-4); ctx.lineTo(q[0],q[1]+4); ctx.closePath(); ctx.fill(); ctx.stroke(); text(`${n} −${fmt(t)} m`,q[0]+7,q[1]+4,10.5,'#bff0ff'); });
   if(S.klick){ const q=proj(S.klick[0],S.klick[1]); if(q[2]>0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(q[0],q[1],6,0,7); ctx.stroke(); } }
@@ -628,7 +628,7 @@ function netzText(NT,rand){ const glob=S.modus==='globus', weit=S.zoom<2.2&&S.mo
   NT.forEach(([art,v,vp,x4])=>{ if(!vp.length) return; let q;
     if(art==='p'){ q=weit?vp.reduce((a,b)=>Math.abs(b[0]-W/2)<Math.abs(a[0]-W/2)?b:a):vp.reduce((a,b)=>b[0]<a[0]?b:a); if(!q) return; TXA=glob?rand(q)*.9:.9; text(gradText(v,x4,'N','S'),q[0]+(weit?3:4),q[1]-3,9,'#dfeaf7',!!weit&&false,'500'); }
     else if(art==='m'){ if(S.modus==='scheibe'&&S.zoom<2.2) return; q=weit?vp.reduce((a,b)=>Math.abs(b[1]-H/2)<Math.abs(a[1]-H/2)?b:a):vp.reduce((a,b)=>b[1]<a[1]?b:a); TXA=glob?rand(q)*.9:.9; text(gradText(v,x4,'O','W'),q[0]+3,weit?q[1]+12:q[1]+13,9,'#dfeaf7',false,'500'); }
-    else if(art==='k'){ q=S.modus==='scheibe'?vp.reduce((a,b)=>b[1]<a[1]?b:a):vp.reduce((a,b)=>Math.abs(b[0]-W*.3)<Math.abs(a[0]-W*.3)?b:a); TXA=glob?rand(q)*.95:.95; text(v,q[0],q[1]-3,9.5,x4,true,'italic 400','meer'); }
+    else if(art==='k'){ q=S.modus==='scheibe'?vp.reduce((a,b)=>b[0]*.6+b[1]*.8<a[0]*.6+a[1]*.8?b:a):vp.reduce((a,b)=>Math.abs(b[0]-W*.3)<Math.abs(a[0]-W*.3)?b:a); TXA=glob?rand(q)*.95:.95; text(v,q[0],q[1]-3,9.5,x4,true,'italic 400','meer'); }
     else { q=vp[Math.floor(vp.length*(S.modus==='scheibe'?.55:.3))]; TXA=glob?rand(q)*.9:.9; text(v,q[0]+4,q[1],9,x4,false,'italic 400','meer'); } });
   TXA=1; TLS='0px'; }
 /* Maßstab (km je Bildpunkt in der Bildmitte) */
