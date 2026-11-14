@@ -155,6 +155,9 @@ Balken- und Säulendiagramme als Zeichnungsfunktionen (Vorlage `werkzeug/z_stat.
 - **Daten:** Natural Earth (Länder, Städte, Flüsse, Seen, Regionen, Gipfel, admin_1 für Bundesländer, Bathymetrie), OWID (Bevölkerung, Energie, Gesellschaft), eigene kuratierte Listen in `welt.js` (KRIEGE, GANSER, WANDER, ERF, GELD, GOETHE, TIEFEN …). Aufbereitung im Scratchpad mit `dash/prep2.py` → `welt_daten/` (Natural-Earth-Repo per sparse checkout von GitHub, npm ist gesperrt).
 - **API:** `QWWELT.oeffne(root,ebene)`, `waehle(iso)`, `flieg(lon,lat,z)`, `hist(art,i)`, `grund(k)`, `bl(code)`, `zustand`, `zeichne()`, `legende()`.
 - Neue Ebene: Daten + `GRUND`-Eintrag + ggf. Info/Legende ergänzen, `welt_einbauen.py` (läuft in `alles.sh`), Screenshot prüfen.
+- **3D-Scheibe** (`scheibe3d()` in `welt.js`, Route `#welt-scheibe3d`, three.js erst beim Klick): Eisklippe (Schichtung, Hohlkehle, Spalten, Schneekrone, Textur `eisT`), Tafeleisberge/Treibeis (instanziert), Sockel; Kamera-Sprünge Von oben / Am Eisrand / Von außen / Rundflug; Beschriftung über `schild()` mit Mindest-/Höchstgröße und Überlappungsprüfung `ordnen()`.
+- **Varianten „Hinter der Eiswand“:** Kuppelrand (Firmament mit Sternen nach Deklination, Polarstern über dem Nordpol), Wasser über der Feste, Weitere Länder (frei erzeugt, namenlos, äußerer Eisring), Endloses Eis (Gebirge, Spalten, Polarlicht), Säulen. Neue Variante: Text in `AUSSEN` (Paar „Nach Darstellung mancher Vertreter …“ / „Gängige Darstellung: …“), Bau-Funktion + Kamera/Nebel in `VAR` – wird beim ersten Aufruf gebaut.
+- Qualitätsstufe `Q` (0 sparsam … 2 Desktop, `?hoch` erzwingt 2) steuert Segmente, Texturgrößen, Schatten. Testen: `QWWELT.d3()` liefert `cam`, `ctl`, `aussen(k)`, `flugAus()`.
 
 ## 3D-Ansichten (Modul `window.QW3D`)
 

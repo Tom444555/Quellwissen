@@ -848,7 +848,7 @@ async function scheibe3d(){
   const kante=a=>{ const f1=saw(a*47/TAU+1.4*fk3(a,3,2.2,2)), f2=saw(a*173/TAU+0.9*fk3(a,5,6.1,1)); return 0.09*fk3(a,7,4.1,3)+0.04*fk3(a,26,8.3,2)+0.035*f1*f1*gl3(0.35,0.7,fk3(a,11,3.3,2))+0.012*f2*gl3(0.4,0.6,fk3(a,17,5.5,1)); };
   const RISSE=[[29,0.13],[47,0.61],[97,0.37],[151,0.82]].filter(([f])=>f*12<=NA);
   const riss=a=>{ let s=0, l=0; for(const [f,o] of RISSE){ const w=Math.max(0.05,1.5*f/NA), t=saw(a*f/TAU+o+0.25*fk3(a,4,o*3,1)), v=Math.max(0,1-Math.abs(t-0.5)/w); if(v>s&&fk3(a,9,o*7,1)>0.42){ s=v; l=0.3+0.55*fk3(a,13,o*5,1); } } return [s,l]; };
-  const hoeheW=a=>0.74+0.3*fk3(a,4,1.3,3)+0.12*fk3(a,22,7.7,2)-0.16*spalt(a);
+  const hoeheW=a=>0.74+0.3*fk3(a,4,1.3,3)+0.12*fk3(a,22,7.7,2)-0.1*Math.sqrt(spalt(a));
   /* bläuliches Durchscheinen: dunkle, blaue Stellen und streifender Blick leuchten leicht nach */
   const eisLicht=(m,k)=>{ m.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ float qL=dot(diffuseColor.rgb,vec3(.299,.587,.114)); float qF=pow(1.0-abs(dot(normal,normalize(vViewPosition))),2.0); totalEmissiveRadiance+=diffuseColor.rgb*'+k.toFixed(3)+'+vec3(.03,.15,.30)*(1.0-qL)*.8+vec3(.05,.14,.28)*qF*.4; }'); }; m.customProgramCacheKey=()=>'qweis'+k; return m; };
   const tiefF=[0.08,0.30,0.55], mittel=[0.42,0.70,0.86], hell=[0.90,0.96,1.0];
@@ -874,7 +874,7 @@ async function scheibe3d(){
   const wi=new Uint32Array(NA*(rows-1)*6); let wq=0; for(let j=0;j<NA;j++) for(let k=0;k<rows-1;k++){ const a=j*rows+k, b=(j+1)*rows+k; wi[wq++]=a; wi[wq++]=a+1; wi[wq++]=b; wi[wq++]=b; wi[wq++]=a+1; wi[wq++]=b+1; }
   const wg=new T.BufferGeometry(); wg.setAttribute('position',new T.BufferAttribute(wP,3)); wg.setAttribute('color',new T.BufferAttribute(wC,3)); wg.setAttribute('uv',new T.BufferAttribute(wU,2)); wg.setIndex(new T.BufferAttribute(wi,1)); wg.computeVertexNormals();
   const eisT=(()=>{ const w=[256,512,512][Q], c=document.createElement('canvas'); c.width=c.height=w; const x=c.getContext('2d'), im=x.createImageData(w,w), D=im.data, P=TAU/w;
-    for(let py=0;py<w;py++){ const v=1-py/w; for(let px=0;px<w;px++){ const wa=0.018*Math.sin(px*P*2+1.3)+0.01*Math.sin(px*P*5+v*9)+0.004*Math.sin(px*P*13);
+    for(let py=0;py<w;py++){ const v=1-py/w; for(let px=0;px<w;px++){ const wa=0.007*Math.sin(px*P*2+1.3)+0.004*Math.sin(px*P*5+v*9)+0.002*Math.sin(px*P*13);
       let g=0.9+0.05*Math.sin((v+wa)*170)+0.035*Math.sin((v+wa*1.7)*61+2)+0.03*(rs3((px%w)*0.11,py*0.05)-0.5); if(v>0.88) g=0.96+0.04*rs3(px*0.2,py*0.2); const o=(py*w+px)*4; D[o]=D[o+1]=D[o+2]=Math.max(0,Math.min(255,g*255)); D[o+3]=255; } }
     x.putImageData(im,0,0); x.lineCap='round';
     for(let i=0;i<16;i++){ const v=0.06+0.78*zuf(), y0=(1-v)*w, a1=zuf()*TAU, amp=2+zuf()*5; x.beginPath(); for(let px=0;px<=w;px+=4){ const y=y0+amp*Math.sin(px*P*2+a1)+1.5*Math.sin(px*P*7+a1*3); px?x.lineTo(px,y):x.moveTo(px,y); } x.lineWidth=0.8+zuf()*1.6; x.strokeStyle='rgba(70,120,170,'+(0.25+0.35*zuf()).toFixed(2)+')'; x.stroke(); }
@@ -940,7 +940,8 @@ async function scheibe3d(){
     const kl=1; s.userData.l={w:w*k,h:h*k,prio:o.p||5,pmin:(o.pmin||17)*kl*(h/(fs*1.3+12)),pmax:(o.pmax||38)*kl*(h/(fs*1.3+12)),z:0}; LBL.push(s); LBL.sort((a,b)=>b.userData.l.prio-a.userData.l.prio); return s; };
   const aktiv=o=>{ for(o=o.parent;o;o=o.parent) if(!o.visible) return false; return true; };
   const vv=new T.Vector3(), boxen=[]; let barH=60;
-  const ordnen=()=>{ const H=el.clientHeight, W=el.clientWidth, f=H/(2*Math.tan(cam.fov*R2D/2)); boxen.length=0;
+  const sperr=[...el.querySelectorAll('.k3-info,.k3-kam')], eR=el.getBoundingClientRect();
+  const ordnen=()=>{ const H=el.clientHeight, W=el.clientWidth, f=H/(2*Math.tan(cam.fov*R2D/2)); boxen.length=0; for(const x of sperr){ const b=x.getBoundingClientRect(); if(b.width) boxen.push([b.left-eR.left-4,b.top-eR.top-4,b.right-eR.left+4,b.bottom-eR.top+4]); }
     for(const s of LBL){ const L=s.userData.l; L.z=0; if(!aktiv(s)) continue; s.getWorldPosition(vv); const di=vv.distanceTo(cam.position); vv.project(cam); if(vv.z>1||Math.abs(vv.x)>1.05||Math.abs(vv.y)>1.05) continue;
       let ph=L.h*f/di; const fac=Math.max(L.pmin,Math.min(L.pmax,ph))/ph; s.scale.set(L.w*fac,L.h*fac,1); ph*=fac; const pw=ph*L.w/L.h, cx=(vv.x+1)/2*W, cy=(1-vv.y)/2*H;
       const b=[cx-pw*0.44,cy-ph*0.36,cx+pw*0.44,cy+ph*0.36]; if(b[1]<barH||boxen.some(o=>b[0]<o[2]&&b[2]>o[0]&&b[1]<o[3]&&b[3]>o[1])) continue; boxen.push(b); L.z=1; } };
@@ -1029,7 +1030,7 @@ async function scheibe3d(){
       fragmentShader:'uniform float t;varying vec3 vW;varying vec3 vN;varying float vE;void main(){vec3 V=normalize(cameraPosition-vW);float f=pow(1.-abs(dot(normalize(vN),V)),2.);float c1=sin(vW.x*2.1+t*.9+sin(vW.z*1.7+t*.4)*2.)*sin(vW.z*2.3-t*.7+sin(vW.x*1.3)*2.);float k=pow(abs(c1),6.)*.8;'+
         'vec3 c=mix(vec3(.04,.2,.4),vec3(.35,.68,.95),f)+vec3(.55,.85,1.)*k*.45;float a=(.38+.42*f+k*.2)*(1.-smoothstep(.95,1.3,vE));gl_FragColor=vec4(c,a);}'});
     const sch=new T.Mesh(new T.SphereGeometry(R,[96,128,192][Q],[24,32,48][Q],0,TAU,0,1.3),m); sch.scale.y=KY; sch.position.y=KB; sch.renderOrder=4; g.add(sch);
-    const s=schild('Wasser über der Feste?\nnach Darstellung mancher Vertreter',{fs:34,c:'#cfe6ff',c2:'#9fb4d0',k:0.022,p:6}); s.position.set(0,KB+R*KY+1.3,0); g.add(s); return g; };
+    const s=schild('Wasser über der Feste?\nnach Darstellung mancher Vertreter',{fs:34,c:'#cfe6ff',c2:'#9fb4d0',k:0.022,p:6,dt:false}); s.position.set(0,KB+R*KY+1.3,0); g.add(s); return g; };
   /* Weitere Länder: Eisgürtel, Meer mit frei erzeugten, namenlosen Landmassen, äußerer Eisring */
   const baueLaender=()=>{ const g=new T.Group(), R1=23, R2=84, SL=YO-0.12;
     const rad=[...reihe(RA-0.25,R1,[16,22,30][Q],0),R1,R1+0.07,...reihe(R1+0.14,R2,[80,120,170][Q],0.9),R2,R2+0.1,...reihe(R2+0.2,140,[16,22,30][Q],1.5),140];
@@ -1048,8 +1049,8 @@ async function scheibe3d(){
     const meer=new T.Mesh(new T.RingGeometry(R1-0.4,R2+0.06,[192,256,384][Q],1),new T.MeshPhongMaterial({color:0x1c4f7a,specular:0x8fb0d0,shininess:90,transparent:true,opacity:0.8,depthWrite:false}));
     meer.rotation.x=-Math.PI/2; meer.position.y=SL; meer.renderOrder=1; g.add(meer);
     g.add(himmel(0x0e1a2c,0x03060f)); const hz=new T.Mesh(new T.CylinderGeometry(150,150,30,96,1,true),dunstM(0x2a4466,0.55,2.4)); hz.position.y=15; g.add(hz);
-    const s1=schild('Weitere Länder?\nhypothetisch – nicht belegt',{fs:34,c:'#e2e6ee',c2:'#a9b3c6',k:0.03,p:6}); s1.position.set(0,6,-48); g.add(s1);
-    const s2=schild('Äußerer Eisring?\nnach Darstellung mancher Vertreter',{fs:30,c:'#e6f2ff',c2:'#a9b3c6',k:0.03,p:5}); s2.position.set(-30,5,R2*0.72); g.add(s2); return g; };
+    const s1=schild('Weitere Länder?\nhypothetisch – nicht belegt',{fs:34,c:'#e2e6ee',c2:'#a9b3c6',k:0.03,p:6,dt:false}); s1.position.set(0,6,-48); g.add(s1);
+    const s2=schild('Äußerer Eisring?\nnach Darstellung mancher Vertreter',{fs:30,c:'#e6f2ff',c2:'#a9b3c6',k:0.03,p:5,dt:false}); s2.position.set(-30,5,R2*0.72); g.add(s2); return g; };
   /* Endloses Eis: Eisebene mit Verwehungen, Gletscherspalten, Gebirgszügen, Dunst und Polarlicht */
   const baueEis=()=>{ const g=new T.Group(); const rad=reihe(RA-0.25,440,[90,130,180][Q],5); rad.push(440);
     const hf=(x,z,rr)=>{ const d=rr-RA; let h=YO-0.02+0.05*fb3(x*0.35,z*0.35,3)*gl3(0,2,d)+0.9*fb3(x*0.025+5,z*0.025,3)*gl3(2,30,d);
@@ -1063,7 +1064,7 @@ async function scheibe3d(){
       fragmentShader:'uniform float t;varying vec2 vU;void main(){float r=.6+.25*sin(vU.x*190.+t*.7+sin(vU.x*37.+t*.3)*3.)+.15*sin(vU.x*520.-t*1.1);r*=.55+.45*sin(vU.x*23.-t*.23);float v=pow(1.-vU.y,1.5)*smoothstep(0.,.1,vU.y);float e=smoothstep(0.,.1,vU.x)*smoothstep(1.,.9,vU.x);vec3 c=mix(vec3(.15,1.,.55),vec3(.62,.3,1.),smoothstep(.3,1.,vU.y));gl_FragColor=vec4(c*r*v*e*.38,1.);}'});
     [[150,-0.9,1.3,26,30],[190,-0.2,1.1,30,40],[130,0.6,0.9,22,26]].forEach(([R,a0,sp,y0,H])=>{ const pg=new T.PlaneGeometry(1,1,[80,120,160][Q],1), p=pg.attributes.position, u=pg.attributes.uv;
       for(let i=0;i<p.count;i++){ const s=u.getX(i), v=u.getY(i), a=Math.PI+a0+sp*(s-0.5), rr=R+9*Math.sin(s*7+R); p.setXYZ(i,rr*Math.sin(a),y0+v*H,rr*Math.cos(a)); } const m=new T.Mesh(pg,pm); m.frustumCulled=false; m.renderOrder=2; g.add(m); });
-    const s=schild('Endloses Eis?\nnach Darstellung mancher Vertreter',{fs:34,c:'#eef5ff',c2:'#a9b3c6',k:0.03,p:6}); s.position.set(0,5,-42); g.add(s); return g; };
+    const s=schild('Endloses Eis?\nnach Darstellung mancher Vertreter',{fs:34,c:'#eef5ff',c2:'#a9b3c6',k:0.03,p:6,dt:false}); s.position.set(0,5,-42); g.add(s); return g; };
   /* Säulen bzw. Grundfesten unter der Scheibe */
   const baueSaeulen=()=>{ const g=new T.Group(), UNT=-17;
     const verbinde=(teile)=>{ let n=0; teile.forEach(t=>n+=t.attributes.position.count); const P=new Float32Array(n*3), N=new Float32Array(n*3), I=[]; let o=0;
@@ -1076,7 +1077,7 @@ async function scheibe3d(){
     [[0,1],[4.6,8],[8.6,16]].forEach(([rr,n])=>{ const top=sockelY(rr)+0.25, im=new T.InstancedMesh(saeule(top-UNT),stein,n); for(let i=0;i<n;i++){ const a=(i+0.5)/n*TAU; qq.setFromAxisAngle(yA,a); v1.set(rr*Math.sin(a),top,rr*Math.cos(a)); M4.compose(v1,qq,v2); im.setMatrixAt(i,M4); } im.frustumCulled=false; g.add(im); });
     const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d'), gr=x.createRadialGradient(64,64,0,64,64,64); gr.addColorStop(0,'rgba(70,95,150,.55)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=gr; x.fillRect(0,0,128,128);
     const ne=new T.Mesh(new T.PlaneGeometry(70,70),new T.MeshBasicMaterial({map:new T.CanvasTexture(c),transparent:true,depthWrite:false,blending:T.AdditiveBlending,fog:false})); ne.rotation.x=-Math.PI/2; ne.position.y=UNT+0.6; g.add(ne);
-    const s=schild('Säulen der Erde?\nnach Darstellung mancher Vertreter',{fs:34,c:'#efe6d6',c2:'#b8ad9a',k:0.022,p:6}); s.position.set(0,-11,4); g.add(s); return g; };
+    const s=schild('Säulen der Erde?\nnach Darstellung mancher Vertreter',{fs:34,c:'#efe6d6',c2:'#b8ad9a',k:0.022,p:6,dt:false}); s.position.set(0,-11,4); g.add(s); return g; };
   const VAR={
     kuppel:{bau:null,nebel:[0x03060f,0.006],kam:[[0,13.5,17.5],[0,0,0]],fern:[[0,15,33],[0,2.5,0]],kuppel:true},
     wasser:{bau:baueWasserOben,nebel:[0x03060f,0.005],kam:[[0,15,26],[0,3,0]],fern:[[0,19,40],[0,3.5,0]],kuppel:true},
