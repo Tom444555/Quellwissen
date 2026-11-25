@@ -29,6 +29,49 @@ function bbSicht(bb){ const sx=bb[1]-bb[0], sy=bb[3]-bb[2]; if(sx>60||sy>30) ret
     return d<al+Math.hypot(sx*Math.cos(cy*R2),sy)/2*R2+.03; }
   let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9; for(const [a,b] of [[bb[0],bb[2]],[bb[1],bb[2]],[bb[0],bb[3]],[bb[1],bb[3]],[cx,cy]]){ const q=proj(a,b); if(q[0]<x0)x0=q[0]; if(q[0]>x1)x1=q[0]; if(q[1]<y0)y0=q[1]; if(q[1]>y1)y1=q[1]; }
   if(x1-x0>W*.6) return true; return x1>-30&&x0<W+30&&y1>-30&&y0<H+30; }
+/* ---------- Detaildaten (welt_detail.json, eingebettet als #weltdetail): erst beim Hineinzoomen bzw. Einschalten einer Ebene gelesen und dekodiert ----------
+   Ringe/Linien: Startpunkt als Abstand zum Ende der vorigen Linie, Schritte bis ±7 Einheiten in einem Byte (Quantisierung D.q[k] oder 1/100 Grad) */
+let DET=null;
+function detail(){ if(DET!==null) return DET; DET=false; const el=document.getElementById('weltdetail'); if(el){ try{ DET=JSON.parse(el.textContent); }catch(e){ console.warn('Weltkarte: Detaildaten',e); } } return DET; }
+function detDek(k,rang){ const D=detail(); if(!D||!D[k]) return null; if(D['_'+k]) return D['_'+k];
+  const s=atob(D[k]), n=s.length, q=(D.q&&D.q[k])||100, out=[]; let i=0, lx=0, ly=0;
+  const rz=()=>{ let v=0,f=1,b; do{ b=s.charCodeAt(i++); v+=(b&127)*f; f*=128; }while(b&128); return v%2?-(v+1)/2:v/2; };
+  while(i<n){ const sr=rang?rz():0, m=rz(); let x=lx+rz(), y=ly+rz(), x0=x,x1=x,y0=y,y1=y; const r=new Array(m); r[0]=[x/q,y/q];
+    for(let j=1;j<m;j++){ const b=s.charCodeAt(i++); if(b<225){ x+=((b/15)|0)-7; y+=b%15-7; } else { x+=rz(); y+=rz(); } r[j]=[x/q,y/q]; if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
+    lx=x; ly=y; r.bb=[x0/q,x1/q,y0/q,y1/q]; if(!rang) r.push(r[0]); out.push(rang?[sr,r]:r); }
+  if(rang) out.sort((a,b)=>b[0]-a[0]); return D['_'+k]=out; }
+const detRinge=k=>detDek(k,false), detLinien=k=>detDek(k,true);
+/* Orte aus GeoNames: [Name, Länge, Breite, Einwohner, Landindex, Stufe, Hauptstadt] in 2°-Zellen (innerhalb nach Größe) */
+function orte(){ const D=detail(); if(!D||!D.orte) return null; if(D._orte) return D._orte; const O=D.orte, nam=O.n.split('|'), s=atob(O.k), hs=new Set(O.h||[]), Z=new Map(), A=new Array(nam.length);
+  let i=0, x=0, y=0; const ru=()=>{ let v=0,f=1,b; do{ b=s.charCodeAt(i++); v+=(b&127)*f; f*=128; }while(b&128); return v; }, rz=()=>{ const v=ru(); return v%2?-(v+1)/2:v/2; };
+  for(let k=0;k<nam.length;k++){ x+=rz(); y+=rz(); const p=ru(), l=ru(), lo=x/100, la=y/100, mz=Math.max(6.5,Math.min(11,7+1.5*(6-Math.log10(Math.max(p,1000)))));
+    const o=A[k]=[nam[k],lo,la,p,l,mz,hs.has(k)?1:0]; const z=Math.floor((lo+180)/2)*1000+Math.floor((la+90)/2); let c=Z.get(z); if(!c) Z.set(z,c=[]); c.push(o); }
+  return D._orte={A,Z,L:O.l}; }
+function landName(o){ const L=detail().orte.l[o[4]]; return L?((DAT.idx[L[0]]&&DAT.idx[L[0]].n)||L[1]):''; }
+/* Sichtbereich in Länge/Breite (einmal je Bild) und schnelle Prüfung eines Rechtecks [lon0,lon1,lat0,lat1] */
+let VBX=null;
+function vb(){ if(!VBX){ const v=sicht(); VBX={la0:v.la0,la1:v.la1,c:S.lam+(v.d0+v.d1)/2,h:(v.d1-v.d0)/2,voll:v.d1-v.d0>=359}; } return VBX; }
+function imBlick(bb){ const V=vb(); if(bb[2]>V.la1||bb[3]<V.la0) return false; if(V.voll) return true; const bc=(bb[0]+bb[1])/2, bh=(bb[1]-bb[0])/2; return Math.abs(((bc-V.c+540)%360)-180)<=V.h+bh+.5; }
+/* Rechteck sichtbar: erst grob nach Länge/Breite, auf Karte und Scheibe zusätzlich nach Bildlage (spart große Flächen außerhalb des Bildes) */
+function sichtbar(bb){ return imBlick(bb)&&(S.modus==='globus'||bbSicht(bb)); }
+function vis(bb){ return imBlick(bb)&&!winzig(bb)&&(S.modus==='globus'||bbSicht(bb)); }
+function imBlickP(lo,la){ const V=vb(); if(la>V.la1||la<V.la0) return false; return V.voll||Math.abs(((lo-V.c+540)%360)-180)<=V.h+.2; }
+/* Linien einer Ebene zeichnen: nur sichtbare, nach Rang gestaffelt (st(rang) liefert Strichstärke oder 0 = weglassen) */
+/* winzig (unter ~1 Bildpunkt) – solche Linien und Flächen werden übersprungen */
+let PPD=1; function winzig(bb,px=1.1){ return (bb[1]-bb[0])*PPD*Math.max(.2,Math.cos((bb[2]+bb[3])/2*R2))<px&&(bb[3]-bb[2])*PPD<px; }
+function detStriche(L,st,stil){ let lr=null, w=0; for(const [sr,l] of L){ if(sr!==lr){ if(lr!==null&&w) ctx.stroke(); lr=sr; w=st(sr); if(w){ ctx.beginPath(); ctx.lineWidth=w; if(stil) stil(sr); } } if(w&&vis(l.bb)) pfad(l,true); } if(lr!==null&&w) ctx.stroke(); }
+function detFlaechen(R,px){ ctx.beginPath(); let n=0; for(const r of R){ if(imBlick(r.bb)&&!winzig(r.bb,px)&&(S.modus==='globus'||bbSicht(r.bb))&&pfad(r)) n++; } return n; }
+/* gedrehte Beschriftung (Flüsse, Gebirge, Meeresstraßen); Winkel in Grad gegen den Uhrzeigersinn ab Osten (geografisch) */
+function bildWinkel(lo,la,ang){ const a=ang*R2, e=.05, c=Math.max(.2,Math.cos(la*R2)), p=proj(lo-Math.cos(a)*e/c,la-Math.sin(a)*e), q=proj(lo+Math.cos(a)*e/c,la+Math.sin(a)*e); let w=Math.atan2(q[1]-p[1],q[0]-p[0]); if(w>Math.PI/2) w-=Math.PI; if(w<-Math.PI/2) w+=Math.PI; return w; }
+function textR(t,x,y,w,s,col,gew,fam){ if(Math.abs(w)<.06) return text(t,x,y,s,col,true,gew,fam); s+=1.4; ctx.font=`${gew} ${s}px ${SCHRIFT[fam||'meer']}`; if(SPERR) ctx.letterSpacing=TLS; const L=ctx.measureText(t).width, cw=Math.abs(Math.cos(w)), sw=Math.abs(Math.sin(w)), bw=L*cw+s*sw, bh=L*sw+s*cw;
+  const bx=x-bw/2, by=y+bh/2; if(bx<3||bx+bw>W-3||by-bh<2||by>H-3) return false; if(!frei(bx,by,bw,bh)) return false; boxAdd([bx,by,bw,bh]); if(TXA<=.02) return true;
+  ctx.save(); ctx.translate(x,y); ctx.rotate(w); ctx.globalAlpha=TXA; ctx.lineJoin='round'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineWidth=Math.max(3.4,s*.32); ctx.strokeStyle='rgba(6,14,26,.5)'; ctx.strokeText(t,0,0); ctx.fillStyle=col; ctx.fillText(t,0,0); ctx.restore(); return true; }
+/* Beschriftungsfelder: Raster (48 px) statt Liste, damit auch viele Orte schnell geprüft werden */
+let BG=new Map(); const BGS=48;
+function boxNeu(){ BOX=[]; BG=new Map(); }
+function boxAdd(b){ BOX.push(b); const x0=Math.floor(b[0]/BGS), x1=Math.floor((b[0]+b[2])/BGS), y0=Math.floor((b[1]-b[3])/BGS), y1=Math.floor(b[1]/BGS); for(let i=x0;i<=x1;i++) for(let j=y0;j<=y1;j++){ const k=(i+64)*4096+j+64; let c=BG.get(k); if(!c) BG.set(k,c=[]); c.push(b); } }
+/* Gewählte/angetippte Orte: [x, y, Radius, Datensatz] des letzten Bildes */
+let TREFF=[], STRL=[];
 
 /* ---------- kuratierte Daten (gerundet) ---------- */
 const GETREIDE={
@@ -196,7 +239,7 @@ function ramp(stops,t){ t=Math.max(0,Math.min(1,t)); const n=stops.length-1, k=M
 
 /* ---------- Zustand ---------- */
 const S={modus:'globus',lam:-15,phi:25,zoom:1,px:0,py:0,grund:'relief',jahr:2023,unterlage:true,
- ov:{wolken:true,namen:true,staedte:true,grenzen:true,fluesse:true,landschaft:false,gipfel:false,weizen:false,mais:false,reis:false,gerste:false,hopfen:false,oel:false,gas:false,kohle:false,gold:false,silber:false,uran:false,lithium:false,pfl:false,rez:false,aut:false,nacht:false,kriege:false,wander:false,erf:false,geld:false,goethe:false,tiefen:false,netz:false,kreise:null},
+ ov:{wolken:true,namen:true,staedte:true,grenzen:true,fluesse:true,landschaft:false,gipfel:false,weizen:false,mais:false,reis:false,gerste:false,hopfen:false,oel:false,gas:false,kohle:false,gold:false,silber:false,uran:false,lithium:false,pfl:false,rez:false,aut:false,nacht:false,kriege:false,wander:false,erf:false,geld:false,goethe:false,tiefen:false,netz:false,kreise:null,innen:true,natur:true,strassen:false,bahn:false,haefen:false,flug:false,stadtfl:false,zonen:false},
  bl:null,
  epoche:'',pflanze:'',sel:null,klick:null,hist:null,spin:true,bewegt:false};
 let cv,ctx,W=0,H=0,DPR=1,wrap;
@@ -280,7 +323,7 @@ function relief(fein){
 const BIOF={regen:[26,74,32],savanne:[122,116,62],wueste:[198,170,120],steppe:[150,142,92],hartlaub:[98,106,62],subtrop:[58,98,44],laub:[54,94,42],misch:[46,86,42],taiga:[34,68,44],tundra:[118,114,94],gebirge:[122,114,102],eis:[238,242,247]};
 const GLV='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
 const GLF=`precision highp float;
-uniform vec2 uGr,uPan,uSonneP;uniform float uDpr,uMode,uR,uLam,uPhi,uK,uZeit,uWolken,uThema,uPlain,uNacht,uRoh,uBereit,uFein,uUnscharf,uLichtart,uBump,uKueB,uKw,uKueU,uTpp;
+uniform vec2 uGr,uPan,uSonneP;uniform float uDpr,uMode,uR,uLam,uPhi,uK,uZeit,uWolken,uThema,uPlain,uNacht,uRoh,uBereit,uFein,uUnscharf,uLichtart,uBump,uKueB,uKw,uKueU,uTpp;uniform vec4 uDet;
 uniform vec3 uSonne,uBlick,uOst,uNord;uniform sampler2D tRel,tRelK,tHoe,tBio,tNac,tWol,tKue,tKueW;
 const float PI=3.14159265;
 float h1(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
@@ -307,7 +350,7 @@ void main(){
   float still=max(uThema,uPlain);tag=mix(tag,1.,still);
   vec3 alb;float wasser=0.,eis=0.;float hE=0.,hN=0.;
   float mW=-1.,see=0.,saum=0.,nah=0.;
-  if(uKueB>.5&&uBereit>.5){vec4 kq=texture2D(tKue,uv),kw=texture2D(tKueW,uv);float mm=mix(kq.r,kw.r,uKueU),fw;
+  if(uKueB>.5&&uBereit>.5){vec4 kw=texture2D(tKueW,uv);vec2 du=uDet.z>0.?vec2(fract(uv.x-uDet.x)/uDet.z,(uv.y-uDet.y)/uDet.w):uv;vec4 kq=texture2D(tKue,du);kq=mix(vec4(kw.r,kw.b,0.,1.),kq,uDet.z>0.?step(du.x,1.)*step(0.,du.y)*step(du.y,1.):1.);float mm=mix(kq.r,kw.r,uKueU),fw;
 #ifdef FW
 fw=fwidth(mm);
 #else
@@ -394,12 +437,12 @@ function glStart(){
     if(src&&src.d) g.texImage2D(g.TEXTURE_2D,0,g.RGBA,src.w,src.h,0,g.RGBA,g.UNSIGNED_BYTE,src.d); else g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,src);
     g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,o.rs?g.REPEAT:g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,o.rt?g.REPEAT:g.CLAMP_TO_EDGE); g.uniform1i(U[name],unit); };
   const leer={d:new Uint8Array([0,0,0,255]),w:1,h:1}; ['tRel','tRelK','tHoe','tBio','tNac','tWol','tKue','tKueW'].forEach((k,i)=>tex(k,i,leer));
-  GL={g,c,U,tex,ok:true,bereit:false,relB:4096}; m.insertBefore(c,m.firstChild);
+  GL={g,c,U,T,tex,ok:true,bereit:false,relB:4096,det:null}; m.insertBefore(c,m.firstChild);
   c.addEventListener('webglcontextlost',e=>{ e.preventDefault(); if(GL&&GL.c===c){ GL.ok=false; c.remove(); RKEY=''; zeichne(); } });
   const bild=id=>new Promise((res,rej)=>{ const el=document.getElementById(id); if(!el) return rej(new Error(id)); const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src='data:image/jpeg;base64,'+el.textContent.trim(); });
   const me=GL, mx=g.getParameter(g.MAX_TEXTURE_SIZE), sparsam=Math.min(screen.width||9999,screen.height||9999)<600||(navigator.deviceMemory||8)<4;
   const klein=(im,w)=>{ const k=document.createElement('canvas'); k.width=w; k.height=w/2; k.getContext('2d').drawImage(im,0,0,w,w/2); return k; };
-  Promise.all([bild('weltrelief'),bild('welthoehe')]).then(([rel,hoe])=>{ if(GL!==me||!me.ok) return; const zielB=Math.min(rel.width,mx,sparsam?2048:4096); me.relB=zielB;
+  Promise.all([bild('weltrelief'),bild('welthoehe')]).then(([rel,hoe])=>{ if(GL!==me||!me.ok) return; const zielB=Math.min(rel.width,mx,sparsam?2048:4096); me.relB=zielB; me.sparsam=sparsam;
     tex('tRel',0,zielB<rel.width?klein(rel,zielB):rel,{rs:1}); tex('tRelK',1,klein(rel,1024),{rs:1}); tex('tHoe',2,hoe,{rs:1}); tex('tBio',3,glBiome()); me.bereit=true; zeichne();
     setTimeout(()=>{ if(GL!==me||!me.ok) return; const kb=Math.min(zielB,mx), ku=glKueste(kb); if(ku){ tex('tKue',6,ku.gross,{rs:1}); tex('tKueW',7,ku.klein,{rs:1}); me.kue=kb; zeichne(); } tex('tNac',4,glNacht(),{rs:1}); zeichne(); setTimeout(()=>{ if(GL!==me||!me.ok) return; tex('tWol',5,glWolken(),{rs:1,rt:1}); me.wolken=true; zeichne(); },30); },30);
   }).catch(e=>{ console.warn('Weltkarte: Texturen',e); });
@@ -460,17 +503,39 @@ function glZeichne(mitRelief,thema){
   let sx=0, sy=0; if(mode===2&&S.ov.nacht){ const [a,b]=sonne(), q=proj(a,b); sx=q[0]; sy=q[1]; } g.uniform2f(U.uSonneP,sx,sy);
   g.uniform1f(U.uZeit,GLZ); g.uniform1f(U.uWolken,S.ov.wolken&&GL.wolken?Math.max(.25,Math.min(1,1.25-S.zoom/9))*(mode===1?Math.min(1,.62+S.zoom*.08):1):0); g.uniform1f(U.uThema,thema?1:0); g.uniform1f(U.uPlain,mitRelief?0:1); g.uniform1f(U.uNacht,S.ov.nacht?1:0); g.uniform1f(U.uRoh,0);
   g.uniform1f(U.uBereit,GL.bereit?1:0); g.uniform1f(U.uFein,Math.max(0,Math.min(1,(S.zoom-1.5)/4))); g.uniform1f(U.uUnscharf,Math.max(0,Math.min(1,Math.log2(Math.max(1,pxTex))/2))); g.uniform1f(U.uLichtart,mode===0||(mode===1&&S.ov.nacht)?0:1); g.uniform1f(U.uBump,(mode===0?11:9)*Math.min(1.7,1+.17*Math.log2(Math.max(1,S.zoom)))); g.uniform1f(U.uTpp,pxTex*4096/GL.relB);
-  const tpp=pxTex*(GL.kue||4096)/GL.relB; g.uniform1f(U.uKueB,GL.kue?1:0); g.uniform1f(U.uKw,Math.max(.006,Math.min(.5,tpp*.45))); g.uniform1f(U.uKueU,Math.max(0,Math.min(1,Math.log2(Math.max(1,tpp/1.5))/1.5)));
+  const DD=GL.det&&S.zoom>=2.6?GL.det:null; if(GL.kue) glKueBind(DD); g.uniform4f(U.uDet,DD?DD.u[0]:0,DD?DD.u[1]:0,DD?DD.u[2]:0,DD?DD.u[3]:0); const tpp=DD?pxTex*(DD.bw/DD.u[2])/GL.relB:pxTex*(GL.kue||4096)/GL.relB; g.uniform1f(U.uKueB,GL.kue?1:0); g.uniform1f(U.uKw,Math.max(.006,Math.min(.5,tpp*.45))); g.uniform1f(U.uKueU,Math.max(0,Math.min(1,Math.log2(Math.max(1,tpp/1.5))/1.5)));
   g.drawArrays(g.TRIANGLES,0,3); GLW=bw; GLH=bh; GLD=dpr; return true; }
+/* Feine Küstenmaske für den Ausschnitt (WebGL): beim Hineinzoomen werden Natural-Earth-10m-Land, kleine Inseln und Seen für den
+   sichtbaren Bereich (mit Rand) in eine eigene Textur gezeichnet; der Shader nimmt innerhalb dieses Fensters sie statt der Weltmaske. */
+let DETT=0;
+function glDetail(){ if(!glAn()||!GL.kue||!GL.bereit) return; const g=GL.g, V=vb(), weg=()=>{ if(GL.det){ GL.det=null; } };
+  if(S.zoom<2.6||!detail()||!detRinge('land')||V.voll||V.h>80||V.la1-V.la0>80){ clearTimeout(DETT); return weg(); }
+  const D=GL.det, la0=V.la0, la1=V.la1, latC=(la0+la1)/2, need=PPD*GLD;
+  if(D){ const dl=Math.abs(((V.c-D.lonC+540)%360)-180); const deckt=dl+V.h<=D.span/2&&la0>=D.lat0&&la1<=D.lat1; const tpd=D.bh/(D.lat1-D.lat0); if(deckt&&tpd>=need*.55&&tpd<=need*2.6) return; }
+  clearTimeout(DETT); DETT=setTimeout(()=>{ if(!glAn()||!wrap||!document.body.contains(wrap)) return; glDetailBau(); zeichne(); },S.bewegt?220:60); }
+function glDetailBau(){ const V=vb(), mx=Math.min(GL.g.getParameter(GL.g.MAX_TEXTURE_SIZE),GL.sparsam?2048:4096,4096), need=PPD*GLD;
+  const span=Math.min(300,Math.max(1,V.h*2*1.5+.6)), lonC=V.c; let lat0=Math.max(-90,V.la0-(V.la1-V.la0)*.25-.3), lat1=Math.min(90,V.la1+(V.la1-V.la0)*.25+.3);
+  const latC=(lat0+lat1)/2, bw=Math.max(256,Math.min(mx,Math.round(span*need*Math.max(.15,Math.cos(latC*R2))*.95))), bh=Math.max(256,Math.min(mx,Math.round((lat1-lat0)*need*.95)));
+  const c=GL.detC||(GL.detC=document.createElement('canvas')); c.width=bw; c.height=bh; const x=c.getContext('2d'); x.fillStyle='#000'; x.fillRect(0,0,bw,bh); if('filter' in x) x.filter='blur(.6px)';
+  const X=r=>(r/span+.5)*bw, Y=la=>(lat1-la)/(lat1-lat0)*bh, bbIn=bb=>!(bb[2]>lat1||bb[3]<lat0)&&Math.abs((((bb[0]+bb[1])/2-lonC+540)%360)-180)<=span/2+(bb[1]-bb[0])/2+.5;
+  const ring=r=>{ let rel=((r[0][0]-lonC+540)%360)-180, mn=rel, mxr=rel; const P=new Array(r.length); P[0]=rel; for(let i=1;i<r.length;i++){ let d=r[i][0]-r[i-1][0]; if(d>180) d-=360; if(d<-180) d+=360; rel+=d; P[i]=rel; if(rel<mn) mn=rel; if(rel>mxr) mxr=rel; }
+    const pol=Math.abs(P[P.length-1]-P[0])>180, py=r.reduce((a,p)=>a+p[1],0)/r.length<0?-90:90;
+    for(const k of [-360,0,360]){ if(mxr+k<-span/2-1||mn+k>span/2+1) continue; for(let i=0;i<r.length;i++){ const px=X(P[i]+k), yy=Y(r[i][1]); i?x.lineTo(px,yy):x.moveTo(px,yy); } if(pol){ x.lineTo(X(P[P.length-1]+k),Y(py)); x.lineTo(X(P[0]+k),Y(py)); } x.closePath(); } };
+  const flaeche=(R,col)=>{ if(!R) return; x.beginPath(); for(const r of R) if(bbIn(r.bb)) ring(r); x.fillStyle=col; x.fill('evenodd'); };
+  flaeche(detRinge('land'),'#f00'); flaeche(detRinge('inseln'),'#f00'); flaeche(detRinge('seen'),'#0f0'); x.filter='none';
+  const g=GL.g, t=GL.T.tKueD||(GL.T.tKueD=g.createTexture()); g.activeTexture(g.TEXTURE0+6); g.bindTexture(g.TEXTURE_2D,t); g.pixelStorei(g.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false); g.pixelStorei(g.UNPACK_FLIP_Y_WEBGL,false);
+  g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,c); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);
+  GL.det={lonC,span,lat0,lat1,bw,bh,u:[((((lonC-span/2+180)/360)%1)+1)%1,(90-lat1)/180,span/360,(lat1-lat0)/180]}; }
+function glKueBind(det){ const g=GL.g; g.activeTexture(g.TEXTURE0+6); g.bindTexture(g.TEXTURE_2D,det?GL.T.tKueD:GL.T.tKue); }
 /* Unbeleuchtetes Naturbild der Scheibe als Bild (für die 3D-Scheibe) */
 function glScheibenbild(ts){ if(!glAn()||!GL.bereit) return null; const g=GL.g, U=GL.U, c=GL.c, mx=g.getParameter(g.MAX_RENDERBUFFER_SIZE)||ts; ts=Math.min(ts,mx); c.width=c.height=ts; g.viewport(0,0,ts,ts);
-  g.uniform2f(U.uGr,ts,ts); g.uniform1f(U.uDpr,1); g.uniform1f(U.uMode,2); g.uniform1f(U.uR,ts/2); g.uniform1f(U.uLam,0); g.uniform1f(U.uPhi,0); g.uniform2f(U.uPan,0,0); g.uniform1f(U.uRoh,1); g.uniform1f(U.uPlain,0); g.uniform1f(U.uThema,0); g.uniform1f(U.uBereit,1); g.uniform1f(U.uFein,0); g.uniform1f(U.uUnscharf,0); g.uniform1f(U.uWolken,0); g.uniform1f(U.uKueU,0); g.uniform1f(U.uKw,.25);
+  g.uniform2f(U.uGr,ts,ts); g.uniform1f(U.uDpr,1); g.uniform1f(U.uMode,2); g.uniform1f(U.uR,ts/2); g.uniform1f(U.uLam,0); g.uniform1f(U.uPhi,0); g.uniform2f(U.uPan,0,0); g.uniform1f(U.uRoh,1); g.uniform1f(U.uPlain,0); g.uniform1f(U.uThema,0); g.uniform1f(U.uBereit,1); g.uniform1f(U.uFein,0); g.uniform1f(U.uUnscharf,0); g.uniform1f(U.uWolken,0); g.uniform1f(U.uKueU,0); g.uniform1f(U.uKw,.25); g.uniform4f(U.uDet,0,0,0,0); if(GL.kue) glKueBind(null);
   g.drawArrays(g.TRIANGLES,0,3); const k=document.createElement('canvas'); k.width=k.height=ts; k.getContext('2d').drawImage(c,0,0); zeichne(); return k; }
 
 /* ---------- Zeichnen ---------- */
 let sterne=null, BOX=[], LAY=null; const SPERR=typeof CanvasRenderingContext2D!=='undefined'&&'letterSpacing' in CanvasRenderingContext2D.prototype;
 function zeichne(fein){
-  if(!ctx) return; BOX=[STB.slice()]; ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
+  if(!ctx) return; boxNeu(); boxAdd(STB.slice()); VBX=null; TREFF=[]; STRL=[]; PPD=111.32/kmProPx(); ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
   const G3=glZeichne(S.grund==='relief'||(S.unterlage&&!GRUND[S.grund].r),S.grund!=='relief');
   if(!G3){ const g0=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.8); g0.addColorStop(0,'#0e1a30'); g0.addColorStop(1,'#04070e'); ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
   if(!sterne){ sterne=[]; let s=7; const r=()=>(s=(s*16807)%2147483647)/2147483647; for(let i=0;i<260;i++) sterne.push([r(),r(),r()*1.2+.2,r()]); }
@@ -499,36 +564,50 @@ function zeichne(fein){
     [[0,'Nullmeridian'],[180,'180. Längengrad']].forEach(([lo,n])=>{ const pts=[], l1=S.modus==='scheibe'?90:Math.min(89.5,V.la1); for(let la=Math.max(-89.5,V.la0); la<=l1; la+=Math.max(.05,(l1-V.la0)/240)) pts.push([lo,la]); ctx.strokeStyle='#d6dbe8'; ctx.globalAlpha=.5; const vp=linie(pts); ctx.stroke(); NT.push(['km',n,vp,'#dfe4ef']); });
     ctx.globalAlpha=1; ctx.setLineDash([]); }
   // Länderflächen
-  if(S.grund!=='relief'){ const alpha=mitRelief?0.62:1, KL=G3&&!rast&&feinRinge('land'), haupt=ctx;
+  if(S.grund!=='relief'){ const alpha=mitRelief?0.62:1, KL=G3&&!rast&&kuesteRinge(), haupt=ctx;
     /* Länderflächen auf eigener Ebene: leicht aufgeweitet und dann auf die feine Küste zugeschnitten (keine Säume an groben Umrissen) */
     if(KL){ if(!LAY) LAY=document.createElement('canvas'); if(LAY.width!==cv.width||LAY.height!==cv.height){ LAY.width=cv.width; LAY.height=cv.height; } ctx=LAY.getContext('2d'); ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H); ctx.lineJoin='round'; }
     DAT.laender.forEach(c=>{ const f=rast?null:farbe(c.i); if(mitRelief&&!f) return; ctx.beginPath(); let ok=false; c.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=KL?1:alpha; ctx.fillStyle=f||(rast?'#22303a':'#1e2c3a'); ctx.fill(); if(KL){ ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=Math.min(8,2+S.zoom*.6); ctx.stroke(); } ctx.globalAlpha=1; });
-    if(KL){ ctx.globalCompositeOperation='destination-in'; ctx.beginPath(); KL.forEach(rg=>{ if(bbSicht(rg.bb)) pfad(rg); }); ctx.fillStyle='#000'; ctx.fill('evenodd'); const FS2=feinRinge('seen'); if(FS2){ ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); FS2.forEach(rg=>{ if(bbSicht(rg.bb)) pfad(rg); }); ctx.fill('evenodd'); }
+    if(KL){ ctx.globalCompositeOperation='destination-in'; ctx.beginPath(); KL.forEach(R=>R.forEach(rg=>{ if(vis(rg.bb)) pfad(rg); })); ctx.fillStyle='#000'; ctx.fill('evenodd'); const FS2=seeRinge(); if(FS2){ ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); FS2.forEach(rg=>{ if(sichtbar(rg.bb)) pfad(rg); }); ctx.fill('evenodd'); }
       ctx.globalCompositeOperation='source-over'; ctx=haupt; ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha=alpha; ctx.drawImage(LAY,0,0); ctx.restore(); } }
   if(rast){ const half=1.02, tab=rast===2?KLIMA:rast===3?BODEN:VEGN; ctx.save(); ctx.beginPath(); DAT.laender.forEach(c=>c.p.forEach(rg=>pfad(rg))); ctx.clip();
     DAT.raster.forEach(g=>{ const k=g[rast]; const q=proj(g[0],g[1]); if(q[2]<0.05) return; const a=proj(g[0]-half,g[1]+half),b=proj(g[0]+half,g[1]+half),c2=proj(g[0]+half,g[1]-half),d=proj(g[0]-half,g[1]-half);
       if(!glob && Math.abs(a[0]-b[0])>W/2) return; ctx.fillStyle=tab[k][1]; ctx.globalAlpha=.86; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c2[0],c2[1]); ctx.lineTo(d[0],d[1]); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; }); ctx.restore(); }
   if(G.de&&DAT.bl){ DAT.bl.forEach(b=>{ const v=deWert(b.i,S.grund); ctx.beginPath(); let ok=false; b.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=.88; ctx.fillStyle=v==null?'#333':ramp(G.p,G.s(v)); ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle=S.bl===b.i?'#fff':'rgba(255,255,255,.7)'; ctx.lineWidth=S.bl===b.i?2.6:.9; ctx.stroke(); }); }
+  // Detailflächen beim Hineinzoomen: Schelfeis, Gletscher, Salzpfannen, bebaute Flächen
+  if(S.ov.natur&&S.zoom>=2.2&&detail()){ const sch=detRinge('schelf'), eis=S.zoom>=2.8&&detRinge('eis'), sal=detRinge('salz');
+    if(sch&&detFlaechen(sch)){ ctx.fillStyle='rgba(214,230,246,.4)'; ctx.fill('evenodd'); }
+    if(eis&&detFlaechen(eis,2.6)){ ctx.fillStyle=G3&&mitRelief?'rgba(242,247,252,.58)':'rgba(236,244,252,.66)'; ctx.fill('evenodd'); }
+    if(sal&&detFlaechen(sal)){ ctx.fillStyle='rgba(236,224,194,.5)'; ctx.fill('evenodd'); } }
+  if(S.ov.stadtfl&&S.zoom>=2.6&&detail()){ const u=detRinge('stadtfl'); if(u&&detFlaechen(u,1.8)){ ctx.fillStyle='rgba(255,190,140,.36)'; ctx.fill('evenodd'); ctx.strokeStyle='rgba(255,206,166,.55)'; ctx.lineWidth=.6; ctx.stroke(); } }
   // Gewässer
-  const FS=feinRinge('seen'), FL=feinLinien('fluesse'), KU=feinRinge('land');
+  const FS=seeRinge(), FL=feinLinien('fluesse'), KU=feinRinge('land');
   if(S.ov.fluesse){ ctx.fillStyle=G3&&mitRelief?(S.grund==='relief'?'rgba(24,82,132,.94)':'rgba(40,74,104,.9)'):mitRelief?'rgba(30,80,140,.9)':'#0c2c52';
     if(!FS) DAT.seen.forEach(([n,rg])=>{ ctx.beginPath(); if(pfad(rg)) ctx.fill(); });
-    else if(!(G3&&S.grund==='relief')){ ctx.beginPath(); FS.forEach(rg=>{ if(bbSicht(rg.bb)) pfad(rg); }); ctx.fill('evenodd'); }
+    else if(!(G3&&S.grund==='relief')){ ctx.beginPath(); FS.forEach(rg=>{ if(vis(rg.bb)) pfad(rg); }); ctx.fill('evenodd'); }
     const zs=zstufe(); ctx.strokeStyle=G3&&mitRelief?'rgba(96,160,214,.6)':mitRelief?'rgba(120,185,250,.62)':'rgba(90,170,255,.5)'; ctx.lineCap='round'; ctx.lineJoin='round';
     if(!FL) DAT.fluesse.forEach(([sr,n,l])=>{ if(sr>zs+3) return; ctx.lineWidth=Math.max(.5,2-sr*0.18)*Math.min(1.6,Math.sqrt(S.zoom)); ctx.beginPath(); if(pfad(l,true)) ctx.stroke(); });
     else { const zf=Math.min(1.5,.75+.25*Math.sqrt(S.zoom)); let lr=-1; FL.forEach(([sr,l])=>{ if(sr>zs+.6) return; if(sr!==lr){ if(lr>=0) ctx.stroke(); lr=sr; ctx.beginPath(); ctx.lineWidth=Math.max(.45,1.85-sr*.15)*zf; ctx.globalAlpha=Math.max(.25,Math.min(1,(zs+.6-sr)/1.2)); }
-      if(bbSicht(l.bb)) pfad(l,true); }); if(lr>=0) ctx.stroke(); ctx.globalAlpha=1; } }
-  if(KU&&mitRelief&&(G3?S.zoom>=2.4:S.zoom>=1.4)){ ctx.strokeStyle=G3?`rgba(226,240,248,${Math.min(.3,.08+(S.zoom-2.4)*.04)})`:'rgba(200,226,246,.5)'; ctx.lineWidth=G3?.7:.8; ctx.lineJoin='round'; ctx.beginPath(); KU.forEach(rg=>{ if(rg.length>3&&bbSicht(rg.bb)) pfad(rg,true); }); ctx.stroke(); }
+      if(sichtbar(l.bb)) pfad(l,true); }); if(lr>=0) ctx.stroke(); ctx.globalAlpha=1;
+      const FZ=zs>=8.6&&detail()&&detLinien('fluesse'); if(FZ) detStriche(FZ,sr=>sr>zs+.6?0:Math.max(.45,1.85-sr*.15)*zf,sr=>{ ctx.globalAlpha=Math.max(.25,Math.min(1,(zs+.6-sr)/1.2)); }); ctx.globalAlpha=1; }
+    if(S.ov.natur&&S.zoom>=3.5&&detail()){ const rf=detLinien('riffe'); if(rf){ ctx.strokeStyle='rgba(120,232,214,.6)'; ctx.setLineDash([2,2.5]); detStriche(rf,()=>1); ctx.setLineDash([]); } } }
+  if(KU&&mitRelief&&(G3?S.zoom>=2.4:S.zoom>=1.4)){ ctx.strokeStyle=G3?`rgba(226,240,248,${Math.min(.3,.08+(S.zoom-2.4)*.04)})`:'rgba(200,226,246,.5)'; ctx.lineWidth=G3?.7:.8; ctx.lineJoin='round'; ctx.beginPath(); (kuesteRinge()||[KU]).forEach(R=>R.forEach(rg=>{ if(rg.length>3&&vis(rg.bb)) pfad(rg,true); })); ctx.stroke(); }
   if(S.pflanze){ const P=PFL[S.pflanze]; ctx.fillStyle='rgba(120,255,170,.55)'; DAT.raster.forEach(g=>{ if(g[5]||!inBereich(P,g)) return; const q=proj(g[0],g[1]); if(q[2]<0.05) return; ctx.beginPath(); ctx.arc(q[0],q[1],Math.max(1.4,radius()/260*S.zoom),0,7); ctx.fill(); }); }
+  // Innere Grenzen (Bundesstaaten, Provinzen, Bundesländer) – fein, ab mittlerem Zoom
+  if(S.ov.innen&&S.zoom>=2&&detail()){ const A1=detLinien('a1'), zi=zstufe(); if(A1){ ctx.lineJoin='round'; ctx.lineCap='round'; ctx.strokeStyle=mitRelief?'rgba(236,224,255,.46)':'rgba(214,204,250,.42)';
+    detStriche(A1,sr=>sr<=zi-1.4?(sr<=3?.85:.65)*Math.min(1.5,.85+S.zoom/40):0); } }
   // Grenzen
   const GL2=mitRelief&&feinLinien('grenzen');
   if(S.ov.grenzen&&GL2){ const gw=Math.min(1.7,.6+S.zoom/9); ctx.lineJoin='round'; ctx.lineCap='round';
-    for(const art of [0,1]){ ctx.beginPath(); GL2.forEach(([a,l])=>{ if(a===art&&bbSicht(l.bb)) pfad(l,true); }); if(art) ctx.setLineDash([gw*3,gw*2.6]);
+    for(const art of [0,1]){ ctx.beginPath(); GL2.forEach(([a,l])=>{ if(a===art&&sichtbar(l.bb)) pfad(l,true); }); if(art) ctx.setLineDash([gw*3,gw*2.6]);
       ctx.strokeStyle=G3?'rgba(8,16,28,.3)':'rgba(8,16,28,.42)'; ctx.lineWidth=gw*2.3; ctx.stroke(); ctx.strokeStyle=G3?'rgba(255,250,235,.5)':'rgba(255,255,255,.58)'; ctx.lineWidth=gw*.8; ctx.stroke(); ctx.setLineDash([]); } }
   else if(S.ov.grenzen){ const gw=Math.min(1.7,.6+S.zoom/9); ctx.lineJoin='round';
     DAT.laender.forEach(c=>{ ctx.beginPath(); let ok=false; c.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return;
       if(mitRelief){ ctx.strokeStyle=G3?'rgba(8,16,28,.3)':'rgba(8,16,28,.42)'; ctx.lineWidth=gw*2.3; ctx.stroke(); ctx.strokeStyle=G3?'rgba(255,250,235,.5)':'rgba(255,255,255,.58)'; ctx.lineWidth=gw*.8; ctx.stroke(); }
       else { ctx.strokeStyle='rgba(225,238,255,.34)'; ctx.lineWidth=gw*.75; ctx.stroke(); } }); }
+  if(S.ov.grenzen&&S.zoom>=1.8&&detail()){ const St=detLinien('strittig'); if(St){ if(S.zoom>=5) for(const [,l] of St){ if(l.length<3||!vis(l.bb)) continue; { const c0=proj(l.bb[0],l.bb[2]), c1=proj(l.bb[1],l.bb[3]); if(Math.hypot(c1[0]-c0[0],c1[1]-c0[1])<110) continue; } const m=l[l.length>>1], a=l[Math.max(0,(l.length>>1)-1)], b=l[Math.min(l.length-1,(l.length>>1)+1)], pa=proj(a[0],a[1]), pb=proj(b[0],b[1]); if(Math.hypot(pb[0]-pa[0],pb[1]-pa[1])<1) continue; const ga=Math.atan2(b[1]-a[1],(b[0]-a[0])*Math.cos(m[1]*R2))/R2; STRL.push([m[0],m[1],ga]); }
+    ctx.setLineDash([4,3]); ctx.strokeStyle=mitRelief?'rgba(255,240,214,.6)':'rgba(225,238,255,.45)'; detStriche(St,()=>Math.min(1.4,.7+S.zoom/14)); ctx.setLineDash([]); } }
+  verkehr(mitRelief);
   if(S.sel){ const c=DAT.idx[S.sel]; ctx.beginPath(); c.p.forEach(rg=>pfad(rg)); ctx.strokeStyle='#fff'; ctx.lineWidth=2.2; ctx.shadowColor='rgba(120,200,255,.9)'; ctx.shadowBlur=12; ctx.stroke(); ctx.shadowBlur=0; }
   if(S.ov.nacht) nacht(G3);
   // Geschichte
@@ -551,16 +630,22 @@ function zeichne(fein){
   // Beschriftung: Landschaften, Gipfel, Länder, Städte
   const zs=zstufe();
   const rand=q=>glob?Math.max(0,Math.min(1,(q[2]-.2)/.3)):1; // zum Kugelrand hin ausblenden statt stauchen
+  if(S.ort){ const o=S.ort, q=proj(o[2],o[3]); if(q[2]>.1){ const R=3.2; if(text(o[1],q[0]+R+4,q[1]+4,11.5,'#ffffff',false,'700')){ boxAdd([q[0]-R,q[1]+R,R*2,R*2]); ctx.fillStyle='#ffd86a'; ctx.strokeStyle='rgba(20,16,8,.85)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); } } }
   if(S.ov.namen&&mitRelief){ TLS='2.4px'; MEERE.forEach(([n,lo,la,rg])=>{ if(rg>zs-.6) return; const q=proj(lo,la); if(q[2]<0.3) return; TXA=rand(q)*.88; text(n,q[0],q[1],(rg<1?14.5:rg<2?12.5:11.5)-(W<520?1.8:0),'#c4dcf0',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
   if(S.ov.landschaft){ TLS='1px'; DAT.regionen.forEach(([n,k,lo,la,sr])=>{ if(sr>zs+0.5) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q); text(n,q[0],q[1],11,k==='Range/mtn'?'#ecd9bd':k==='Desert'?'#f3dfae':'#d6e6c6',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
+  if(S.ov.landschaft&&S.zoom>=1.8&&detail()){ TLS='1px'; for(const g of DET.geo){ if(g[3]>zs+.3) break; if('mbs'.indexOf(g[4])<0) geoText(g,rand); } TLS='0px'; TXA=1; }
   if(S.ov.gipfel) DAT.gipfel.forEach(([n,lo,la,hm,sr])=>{ if(sr>zs+1) return; const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(q[0],q[1]-5); ctx.lineTo(q[0]+4,q[1]+2); ctx.lineTo(q[0]-4,q[1]+2); ctx.closePath(); ctx.fill(); text(`${n} ${fmt(hm)} m`,q[0]+6,q[1]+3,10,'#ffffff'); });
   if(S.ov.namen) DAT.laender.slice().sort((a,b)=>a.lr-b.lr).forEach(c=>{ if(c.lr>zs||(G.de&&c.i==='DEU')) return; const q=proj(c.lp[0],c.lp[1]); if(q[2]<0.24) return; const gross=c.lr<3, mittel=c.lr<4.5; TLS=gross?'1.5px':mittel?'1px':'.6px'; TXA=rand(q); text(c.n,q[0],q[1],(gross?13.5:mittel?12:11)-(W<520?(gross?2:.6):0),gross?'#fbf7ea':'#efece0',true,gross?'700':'500','sc'); }); TLS='0px'; TXA=1;
   NT.push(...BAHN); BAHN=[]; if(NT.length) netzText(NT.filter(n=>n[0]==='k'||n[0]==='km'||n[0]==='b'),rand);
-  if(S.ov.namen&&DAT.fein){ TLS='.8px'; (DAT.fein.seeN||[]).forEach(([n,lo,la,st])=>{ if(st>zs) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q)*.95; text(n,q[0],q[1]+4,st<5.5?11:10,'#b4dcf2',true,'italic 400','meer'); });
+  if(S.ov.gipfel&&S.zoom>=1.8&&detail()) for(const [n,lo,la,hm,st] of DET.gipfel){ if(st>zs+.5) break; if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.2) continue; TXA=rand(q);
+    if(text(`${n} ${fmt(hm)} m`,q[0]+6,q[1]+3,9.4,'#f4f4f4')){ ctx.globalAlpha=TXA; ctx.fillStyle=hm<0?'#9fd8ff':'#fff'; ctx.beginPath(); if(hm<0){ ctx.moveTo(q[0],q[1]+4); ctx.lineTo(q[0]+3.5,q[1]-2); ctx.lineTo(q[0]-3.5,q[1]-2); } else { ctx.moveTo(q[0],q[1]-4.5); ctx.lineTo(q[0]+3.5,q[1]+2); ctx.lineTo(q[0]-3.5,q[1]+2); } ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; } } TXA=1;
+  if(S.ov.namen&&mitRelief&&S.zoom>=1.8&&detail()){ TLS='1.4px'; for(const g of DET.geo){ if(g[3]>zs) break; if('mbs'.indexOf(g[4])>=0) geoText(g,rand); } TLS='0px'; TXA=1; }
+  if(S.ov.namen&&DAT.fein){ TLS='.8px'; (DAT.fein.seeN||[]).forEach(([n,lo,la,st])=>{ if(st>zs||st>7.5) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q)*.95; text(n,q[0],q[1]+4,st<5.5?11:st<8?10:9.4,'#b4dcf2',true,'italic 400','meer'); });
     (DAT.fein.marken||[]).forEach(([n,lo,la,st,art])=>{ if(st>zs) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q)*.92;
       if(art==='k'){ if(text(n,q[0]+5,q[1]+3.5,9.8,'#f1e8d2',false,'italic 400','meer')){ ctx.globalAlpha=TXA; ctx.fillStyle='#f1e8d2'; ctx.beginPath(); ctx.arc(q[0],q[1],1.8,0,7); ctx.fill(); ctx.globalAlpha=1; } }
       else text(n,q[0],q[1]+4,art==='m'?10:10.5,art==='m'?'#bfe0f4':'#efe6cf',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
-  if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs) return; const q=proj(lo,la); if(q[2]<0.22) return; if(q[0]<-8||q[0]>W+8||q[1]<-8||q[1]>H+12) return; const R=1.4+Math.sqrt(Math.max(p,.1))*0.7; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; TXA=rand(q); const ok=text(n,q[0]+R+3,q[1]+3.5,p>5?11:10.2,'#f6ecd6',false,p>5?'700':'500'); if(!ok){ TXA=1; return; } BOX.push([q[0]-R,q[1]+R,R*2,R*2]); ctx.globalAlpha=TXA; ctx.fillStyle=hs?'#f3cf62':'#f6e7c2'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; TXA=1; });
+  if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs||!imBlickP(lo,la)) return; const q=proj(lo,la); if(q[2]<0.22) return; if(q[0]<-8||q[0]>W+8||q[1]<-8||q[1]>H+12) return; const R=1.4+Math.sqrt(Math.max(p,.1))*0.7; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; TXA=rand(q); const ok=text(n,q[0]+R+3,q[1]+3.5,p>5?11:10.2,'#f6ecd6',false,p>5?'700':'500'); if(!ok){ TXA=1; return; } boxAdd([q[0]-R,q[1]+R,R*2,R*2]); TREFF.push([q[0],q[1],R,['ne',n,lo,la,p,hs]]); ctx.globalAlpha=TXA; ctx.fillStyle=hs?'#f3cf62':'#f6e7c2'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; TXA=1; });
+  detailNamen(zs,rand,G);
   if(NT.length) netzText(NT.filter(n=>n[0]==='p'||n[0]==='m'),rand);
   if(S.ov.tiefen) TIEFEN.forEach(([n,lo,la,t])=>{ const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#7fe0ff'; ctx.strokeStyle='#02101e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(q[0]-5,q[1]-4); ctx.lineTo(q[0]+5,q[1]-4); ctx.lineTo(q[0],q[1]+4); ctx.closePath(); ctx.fill(); ctx.stroke(); text(`${n} −${fmt(t)} m`,q[0]+7,q[1]+4,10.5,'#bff0ff'); });
   if(S.klick){ const q=proj(S.klick[0],S.klick[1]); if(q[2]>0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(q[0],q[1],6,0,7); ctx.stroke(); } }
@@ -569,16 +654,65 @@ function zeichne(fein){
     const saum=ctx.createRadialGradient(W/2,H/2,r*.9,W/2,H/2,r); saum.addColorStop(0,'rgba(120,190,255,0)'); saum.addColorStop(.8,'rgba(120,190,255,.1)'); saum.addColorStop(1,'rgba(150,210,255,.42)'); ctx.fillStyle=saum; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     ctx.strokeStyle='rgba(170,220,255,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.stroke(); } }
   if(S.modus==='scheibe'){ kompass(W/2+S.px,H/2+S.py); }
+  if(G3) glDetail();
   status();
   if(G3) S.bewegt=false; else if(mitRelief&&(S.bewegt||fein===false)){ clearTimeout(RTIMER); RTIMER=setTimeout(()=>{ S.bewegt=false; zeichne(true); },160); }
 }
+/* ---------- Detail-Ebenen: Hilfen für zeichne() ---------- */
+function kuesteRinge(){ if(S.zoom>=3&&detail()){ const L=detRinge('land'); if(L) return [L,detRinge('inseln')||[]]; } const F=feinRinge('land'); return F?[F]:null; }
+function seeRinge(){ if(S.zoom>=3&&detail()){ const L=detRinge('seen'); if(L) return L; } return feinRinge('seen'); }
+const GEOF={g:'#ecd9bd',w:'#f3dfae',e:'#d6e6c6',h:'#efe6cf',i:'#efe6cf',k:'#f1e8d2',f:'#bfe0f4',m:'#c4dcf0',b:'#bfe0f4',s:'#bfe0f4'};
+function geoText(g,rand){ const [n,lo,la,st,art,ang]=g; if(!imBlickP(lo,la)) return; const q=proj(lo,la); if(q[2]<.25) return; TXA=rand(q)*.92; const s=art==='m'?11:art==='g'||art==='w'?10.4:9.8;
+  if(art==='k'){ if(text(n,q[0]+5,q[1]+3.5,9.6,GEOF.k,false,'italic 400','meer')){ ctx.globalAlpha=TXA; ctx.fillStyle=GEOF.k; ctx.beginPath(); ctx.arc(q[0],q[1],1.7,0,7); ctx.fill(); ctx.globalAlpha=1; } return; }
+  if(ang!=null) textR(n,q[0],q[1],bildWinkel(lo,la,ang),s,GEOF[art],'italic 400','meer'); else text(n,q[0],q[1]+4,s,GEOF[art],true,'italic 400','meer'); }
+/* Verkehr und Zeitzonen (zuschaltbar) */
+function verkehr(mitRelief){ if(!(S.ov.strassen||S.ov.bahn||S.ov.zonen)||!detail()) return; const zi=zstufe(), zf=Math.min(1.6,.8+S.zoom/30); ctx.lineJoin='round'; ctx.lineCap='round';
+  if(S.ov.zonen){ const Z=detRinge('zonen'); if(Z){ ctx.strokeStyle='rgba(255,214,120,.55)'; ctx.lineWidth=1; ctx.setLineDash([6,4]); ctx.beginPath(); Z.forEach(r=>{ if(sichtbar(r.bb)) pfad(r,true); }); ctx.stroke(); ctx.setLineDash([]); } }
+  if(S.ov.strassen&&S.zoom>=1.6){ const R=detLinien('strassen'); if(R){ const an=sr=>sr<=3?zi>=4:zi>=5.2; detStriche(R,sr=>an(sr)?(sr<=3?2.9:2.2)*zf:0,()=>{ ctx.strokeStyle='rgba(14,10,4,.5)'; }); detStriche(R,sr=>an(sr)?(sr<=3?1.55:1.1)*zf:0,sr=>{ ctx.strokeStyle=sr<=3?'rgba(255,204,112,.96)':'rgba(252,222,160,.9)'; }); } }
+  if(S.ov.bahn&&S.zoom>=1.8){ const B=detLinien('bahn'); if(B){ const an=sr=>sr<=zi-1; detStriche(B,sr=>an(sr)?2.3*zf:0,()=>{ ctx.strokeStyle='rgba(18,20,30,.75)'; }); ctx.setLineDash([4*zf,4*zf]); detStriche(B,sr=>an(sr)?1.05*zf:0,()=>{ ctx.strokeStyle='rgba(236,238,248,.92)'; }); ctx.setLineDash([]); } } }
+function hafenZeichen(x,y){ ctx.strokeStyle='#8fe3ff'; ctx.fillStyle='rgba(8,30,44,.85)'; ctx.lineWidth=1.3; ctx.beginPath(); ctx.arc(x,y,4.2,0,7); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y-2.6); ctx.lineTo(x,y+2.4); ctx.moveTo(x-2.2,y+.6); ctx.quadraticCurveTo(x,y+3.6,x+2.2,y+.6); ctx.moveTo(x-1.4,y-1.3); ctx.lineTo(x+1.4,y-1.3); ctx.stroke(); }
+function flugZeichen(x,y){ ctx.fillStyle='rgba(16,20,34,.85)'; ctx.strokeStyle='#f2f4ff'; ctx.lineWidth=1.1; ctx.beginPath(); ctx.arc(x,y,4.4,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle='#f2f4ff'; ctx.beginPath(); ctx.moveTo(x,y-3.2); ctx.lineTo(x+.7,y-.6); ctx.lineTo(x+3,y+.6); ctx.lineTo(x+.7,y+.2); ctx.lineTo(x+.5,y+2.2); ctx.lineTo(x+1.4,y+3); ctx.lineTo(x-1.4,y+3); ctx.lineTo(x-.5,y+2.2); ctx.lineTo(x-.7,y+.2); ctx.lineTo(x-3,y+.6); ctx.lineTo(x-.7,y-.6); ctx.closePath(); ctx.fill(); }
+/* Namen der Detailebenen nach den Städten: Gliedstaaten, Flüsse, weitere Orte (GeoNames), Häfen, Flughäfen, Zeitzonen */
+function detailNamen(zs,rand,G){ if(!(S.zoom>=1.8||S.ov.zonen)||!detail()) return; const D=DET;
+  if(S.ov.zonen) for(const [t,lo,la] of D.zonenN){ if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.25) continue; TXA=rand(q); text(t.replace('UTC','UTC '),q[0],q[1],10,'#ffe2a0',true,'700'); } TXA=1;
+  if(S.zoom<1.8) return;
+  for(const [lo,la,ga] of STRL){ const q=proj(lo,la); if(q[2]<.3) continue; TXA=rand(q)*.9; TLS='.5px'; textR('umstrittene Grenze',q[0],q[1],bildWinkel(lo,la,ga),8.6,'#ffe9c8','italic 400','meer'); TLS='0px'; } TXA=1;
+  if(S.ov.innen&&S.zoom>=2.4){ TLS='1.3px'; for(const [n,lo,la,st] of D.a1N){ if(st>zs-1.2) break; if(!imBlickP(lo,la)) continue; if(G.de&&lo>5.5&&lo<15.5&&la>47&&la<55.2&&landAn(lo,la)===DAT.idx.DEU) continue; const q=proj(lo,la); if(q[2]<.3) continue; TXA=rand(q)*.85; text(n,q[0],q[1]+4,9.6,'#dcd2f6',true,'500','sc'); } TLS='0px'; TXA=1; }
+  if(S.ov.namen){ TLS='.8px'; const se=(n,lo,la,st)=>{ if(st>zs||!imBlickP(lo,la)) return; const q=proj(lo,la); if(q[2]<.25) return; TXA=rand(q)*.95; text(n,q[0],q[1]+4,st<8?10:9.4,'#b4dcf2',true,'italic 400','meer'); };
+    for(const [n,lo,la,st] of (DAT.fein&&DAT.fein.seeN)||[]) if(st>7.5) se(/^(Weißer|Pleskauer)$/.test(n)?n+' See':n,lo,la,st); for(const [n,lo,la,st] of D.seeN) se(n,lo,la,st); TLS='0px'; TXA=1; }
+  if(S.ov.fluesse&&S.zoom>=2.2){ TLS='.7px'; for(const [n,lo,la,ang,st] of D.flussN){ if(st>zs-.4) break; if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.3) continue; TXA=rand(q)*.95; textR(n,q[0],q[1],bildWinkel(lo,la,ang),9.6,'#a6d6ff','italic 400','meer'); } TLS='0px'; TXA=1; }
+  const punkt=(L,an,fn,zeichen,col)=>{ for(const e of L){ if(e[3]>zs-an) continue; const [n,lo,la]=e; if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.25||!frei(q[0]-5,q[1]+5,10,10)) continue; TXA=rand(q);
+      if(!text(fn(e),q[0]+7,q[1]+3.5,9.2,col,false,'500')){ TXA=1; continue; } boxAdd([q[0]-5,q[1]+5,10,10]); ctx.globalAlpha=TXA; zeichen(q[0],q[1]); ctx.globalAlpha=1; TXA=1; } };
+  if(S.ov.flug) punkt(D.flug,1.2,e=>e[4]&&S.zoom>=6?`${e[0]} (${e[4]})`:e[0],flugZeichen,'#e6e9ff');
+  if(S.ov.haefen) punkt(D.haefen,1.6,e=>e[0],hafenZeichen,'#b6ecff');
+  if(S.ov.staedte&&zs>=6.5){ const O=orte(); if(O){ const V=vb(), cand=[]; const sam=c=>{ for(const o of c){ if(o[5]>zs) break; cand.push(o); } };
+      if(V.voll||V.h>90) O.Z.forEach(c=>sam(c)); else { const x0=Math.floor((V.c-V.h+180)/2)-1, x1=Math.floor((V.c+V.h+180)/2)+1, y0=Math.max(0,Math.floor((V.la0+90)/2)), y1=Math.min(89,Math.floor((V.la1+90)/2));
+        for(let cx=x0;cx<=x1;cx++){ const k=((cx%180)+180)%180; for(let cy=y0;cy<=y1;cy++){ const c=O.Z.get(k*1000+cy); if(c) sam(c); } } }
+      cand.sort((a,b)=>b[3]-a[3]);
+      for(const o of cand){ const q=proj(o[1],o[2]); if(q[2]<.22||q[0]<-8||q[0]>W+8||q[1]<-8||q[1]>H+12) continue; const p=o[3], R=1.15+Math.min(2,Math.sqrt(p/1e6)*.8);
+        if(!frei(q[0]-R,q[1]+R,R*2,R*2)) continue; TXA=rand(q); if(!text(o[0],q[0]+R+3,q[1]+3.5,p>=5e5?10.4:p>=5e4?9.8:9.2,p>=5e4?'#f2e7cf':'#e2d8c2',false,p>=5e5?'700':'500')){ TXA=1; continue; }
+        boxAdd([q[0]-R,q[1]+R,R*2,R*2]); TREFF.push([q[0],q[1],R,['gn',...o]]); ctx.globalAlpha=TXA; ctx.fillStyle=o[6]?'#f3cf62':p>=5e4?'#f2e3bf':'#d9ccb0'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=.9; ctx.beginPath(); if(o[6]) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; } TXA=1; } }
+}
+/* Ort unter dem Finger (zuletzt gezeichnete Orte) */
+function ortAn(x,y){ let best=null, bd=1e9; for(const [ox,oy,R,o] of TREFF){ const d=Math.hypot(ox-x,oy-y); if(d<R+8&&d<bd){ bd=d; best=o; } } return best; }
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function infoOrt(){ const box=$('.qwk-info',wrap), o=S.ort, gn=o[0]==='gn', n=o[1], lo=o[2], la=o[3], hs=gn?o[7]:o[5];
+  const L=gn&&detail()?DET.orte.l[o[5]]:null, c=gn?(L&&DAT.idx[L[0]]):landAn(lo,la), land=gn?(c?c.n:(L?L[1]:'')):(c?c.n:'');
+  const ew=gn?fmt(o[4]):o[4]>=1?'ca. '+fmt(o[4],1)+' Mio.':'ca. '+fmt(Math.round(o[4]*1000))+' Tsd.';
+  box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">${hs?'⭐':'📍'}</span><div><h2>${esc(n)}</h2><small>${hs?'Hauptstadt · ':''}${esc(land)}</small></div><button class="qwk-x" aria-label="Schließen">✕</button></div>
+  <div class="qwk-kpi"><div><small>Einwohner</small><b>${ew}</b> <i>${gn?'laut GeoNames':'Ballungsraum'}</i></div><div><small>Lage</small><b style="font-size:13px">${koord([lo,la])}</b></div></div>
+  <div style="margin-top:10px">${c?`<button class="qwk-chip k" data-land>${c.f||''} ${esc(c.n)} anzeigen</button>`:''}</div>
+  <p class="qwk-hin2">${gn?'Quelle: GeoNames (CC BY 4.0), Abzug 2020. Einwohnerzahl wie dort angegeben – je nach Ort Gemeinde, Stadt oder Ortsteil.':'Quelle: Natural Earth 1:10 Mio. (gemeinfrei). Einwohnerzahl des Ballungsraums (pop_max), gerundet.'}</p>`;
+  const b=$('[data-land]',box); if(b) b.onclick=()=>{ S.ort=null; waehle(c,[lo,la]); };
+  $('.qwk-x',box).onclick=()=>{ S.ort=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 const SCHRIFT={std:'"Alegreya Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif',sc:'"Alegreya Sans SC","Alegreya Sans","Segoe UI",system-ui,sans-serif',meer:'"Alegreya",Georgia,"Times New Roman",serif'};
 let TXA=1, TLS='0px', SCHRIFT_DA=false;
 function schriftLaden(){ if(SCHRIFT_DA||!document.fonts||!document.fonts.load) return; SCHRIFT_DA=true; Promise.all(['500 12px "Alegreya Sans"','700 12px "Alegreya Sans"','500 12px "Alegreya Sans SC"','700 12px "Alegreya Sans SC"','italic 400 12px "Alegreya"'].map(f=>document.fonts.load(f).catch(()=>0))).then(()=>{ if(wrap&&document.body.contains(wrap)) zeichne(); }); }
-function text(t,x,y,s=11.5,col='#eef3fa',mitte,gew='500',fam){ s+=1.4; if(gew==='600') gew='500'; else if(gew==='italic 600'||gew==='italic 700') gew='italic 400'; ctx.font=`${gew} ${s}px ${SCHRIFT[fam||(gew.indexOf('italic')===0?'meer':'std')]}`; if(SPERR) ctx.letterSpacing=TLS; const w=ctx.measureText(t).width; if(mitte) x-=w/2;
-  if(x<3||x+w>W-3||y<s+1||y>H-3) return false; if(frei(x,y,w,s)===false) return false; BOX.push([x,y,w,s]);
+function text(t,x,y,s=11.5,col='#eef3fa',mitte,gew='500',fam){ s+=1.4; { const ew=t.length*s*.34; if(!frei(mitte?x-ew/2:x,y,ew,s)) return false; } if(gew==='600') gew='500'; else if(gew==='italic 600'||gew==='italic 700') gew='italic 400'; ctx.font=`${gew} ${s}px ${SCHRIFT[fam||(gew.indexOf('italic')===0?'meer':'std')]}`; if(SPERR) ctx.letterSpacing=TLS; const w=ctx.measureText(t).width; if(mitte) x-=w/2;
+  if(x<3||x+w>W-3||y<s+1||y>H-3) return false; if(frei(x,y,w,s)===false) return false; boxAdd([x,y,w,s]);
   if(TXA<=0.02) return true; ctx.globalAlpha=TXA; ctx.lineJoin='round'; ctx.lineWidth=Math.max(3.6,s*.34); ctx.strokeStyle='rgba(6,14,26,.16)'; ctx.strokeText(t,x,y); ctx.lineWidth=Math.max(1.8,s*.17); ctx.strokeStyle='rgba(6,14,26,.58)'; ctx.strokeText(t,x,y); ctx.fillStyle=col; ctx.fillText(t,x,y); ctx.globalAlpha=1; if(SPERR&&TLS!=='0px'&&!mitte){} return true; }
-function frei(x,y,w,s){ return !BOX.some(b=>x<b[0]+b[2]+3&&x+w+3>b[0]&&y-s<b[1]+2&&y+2>b[1]-b[3]); }
+function frei(x,y,w,s){ const x0=Math.floor((x-3)/BGS), x1=Math.floor((x+w+3)/BGS), y0=Math.floor((y-s-2)/BGS), y1=Math.floor((y+2)/BGS);
+  for(let i=x0;i<=x1;i++) for(let j=y0;j<=y1;j++){ const c=BG.get((i+64)*4096+j+64); if(c) for(const b of c) if(x<b[0]+b[2]+3&&x+w+3>b[0]&&y-s<b[1]+2&&y+2>b[1]-b[3]) return false; } return true; }
 function pin(x,y,c){ ctx.fillStyle=c; ctx.strokeStyle='#0a0f1a'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(x,y,4.6,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle='rgba(255,255,255,.8)'; ctx.beginPath(); ctx.arc(x-1.2,y-1.2,1.4,0,7); ctx.fill(); }
 function raute(lon,lat,R,c){ const q=proj(lon,lat); if(q[2]<0.12) return; R*=Math.sqrt(S.zoom)*.9; ctx.fillStyle=c+'cc'; ctx.strokeStyle='rgba(0,0,0,.55)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(q[0],q[1]-R); ctx.lineTo(q[0]+R,q[1]); ctx.lineTo(q[0],q[1]+R); ctx.lineTo(q[0]-R,q[1]); ctx.closePath(); ctx.fill(); ctx.stroke(); }
 function schwert(x,y,sel){ const R=sel?11:8; const gg=ctx.createRadialGradient(x,y,0,x,y,R*2); gg.addColorStop(0,'rgba(255,60,40,.55)'); gg.addColorStop(1,'rgba(255,60,40,0)'); ctx.fillStyle=gg; ctx.beginPath(); ctx.arc(x,y,R*2,0,7); ctx.fill();
@@ -732,7 +866,7 @@ function infoBL(){ const box=$('.qwk-info',wrap), b=DAT.bl.find(x=>x.i===S.bl), 
   box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); });
   $('.qwk-x',box).onclick=()=>{ S.bl=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 function info(){
-  const box=$('.qwk-info',wrap); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
+  const box=$('.qwk-info',wrap); if(S.ort) return infoOrt(); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
   if(!S.sel){ box.innerHTML=`<div class="qwk-leer"><div class="qwk-gl">🌍</div><b>Land antippen</b><p>Tippe auf ein Land, um Einwohner, Dichte, Lebenserwartung, Ernten, Rohstoffe und passende Kapitel aus dem Kompendium zu sehen.</p><p class="qwk-mini">Ziehen = drehen · Zwei Finger oder Mausrad = zoomen · Beim Hineinzoomen erscheinen Städte, Flüsse und Landschaften</p>${S.klick?`<p class="qwk-mini">📍 Angetippt: ${koord(S.klick)}</p>`:''}</div>`; return; }
   const c=DAT.idx[S.sel], i=c.i, j=S.jahr, o=ow(i);
   const pop=wert(i,'pop',j), di=wert(i,'dichte',j), wa=wert(i,'wachstum',j);
@@ -771,6 +905,7 @@ function legende(){
   if(S.grund==='su') h+=`<div class="qwk-hin">Mittel aus Männer- und Frauenrate (IHME). Hilfe in Deutschland: Telefonseelsorge 0800 111 0 111</div>`;
   const ov=[]; Object.entries(GETREIDE).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="r" style="background:${G2.c}"></i>${G2.n}</span>`)); Object.entries(ROH).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="d" style="background:${G2.c}"></i>${G2.n}</span>`));
   if(S.ov.kriege) ov.push('<span><i class="r" style="background:#d8302a"></i>Kriege</span>'); if(S.ov.wander) ov.push('<span><i class="l"></i>Wanderungen</span>'); if(S.ov.erf) ov.push('<span><i class="r" style="background:#ffe14a"></i>Erfindungen</span>'); if(S.ov.geld) ov.push('<span><i class="r" style="background:#e8b030"></i>Geldgeschichte</span>'); if(S.ov.tiefen) ov.push('<span><i class="d" style="background:#7fe0ff"></i>Tiefseegräben (tiefste Stellen, ca.)</span>'); if(S.ov.goethe) ov.push('<span><i class="r" style="background:#ff8c6e"></i>Goethe (Größe = Dauer)</span>');
+  if(S.ov.strassen) ov.push('<span><i class="l" style="border-top:2px solid #ffc46e"></i>Hauptstraßen</span>'); if(S.ov.bahn) ov.push('<span><i class="l" style="border-top:2px dashed #eceef8"></i>Eisenbahn</span>'); if(S.ov.haefen) ov.push('<span><i class="r" style="background:#8fe3ff"></i>Häfen</span>'); if(S.ov.flug) ov.push('<span><i class="r" style="background:#f2f4ff"></i>Flughäfen</span>'); if(S.ov.stadtfl) ov.push('<span><i style="background:#ffbe8c"></i>Bebaute Flächen</span>'); if(S.ov.zonen) ov.push('<span><i class="l" style="border-top:2px dashed #ffd678"></i>Zeitzonen</span>');
   if(S.ov.pfl) ov.push('<span><i class="r" style="background:#ff6a8a"></i>Pflanzen-Herkunft</span>'); if(S.ov.rez) ov.push('<span><i class="r" style="background:#c79aff"></i>Rezepte</span>'); if(S.ov.aut) ov.push('<span><i class="r" style="background:#6ac8ff"></i>Autoren</span>');
   if(ov.length) h+=`<div class="qwk-kl qwk-ov">${ov.join('')}</div>`;
   L.innerHTML=h; if(S.modus==='scheibe'){ const a=SCHR; scheibeMass(); if(a!==SCHR) zeichne(); } }
@@ -840,7 +975,8 @@ function ui(root){
    <h3>Grundkarte · Politik</h3><div class="qwk-grund">${gruppe('Politik')}</div>
    <h3>Deutschland · Bundesländer</h3><div class="qwk-grund">${gruppe('Deutschland')}</div>
    <label class="qwk-sw" style="margin-top:6px"><input type="checkbox" data-unterlage ${S.unterlage?'checked':''}><span class="k"></span>Relief unter Statistik legen</label>
-   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('staedte','Städte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('netz','Gradnetz mit Gradzahlen','#cfe0f5')}${sw('kreise','Äquator, Wende- & Polarkreise','#ffcf7a')}${sw('wolken','Wolken','#f2f5fa')}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
+   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('innen','Bundesstaaten & Provinzen','#d8ccff')}${sw('staedte','Städte & Orte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('natur','Gletscher, Salzpfannen & Riffe','#e8f4ff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('netz','Gradnetz mit Gradzahlen','#cfe0f5')}${sw('kreise','Äquator, Wende- & Polarkreise','#ffcf7a')}${sw('wolken','Wolken','#f2f5fa')}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
+   <h3>Verkehr & Siedlung</h3>${sw('strassen','🛣️ Hauptstraßen','#ffc46e')}${sw('bahn','🚆 Eisenbahnen','#eceef8')}${sw('haefen','⚓ Häfen','#8fe3ff')}${sw('flug','✈️ Flughäfen','#f2f4ff')}${sw('stadtfl','🏙️ Bebaute Flächen','#ffbe8c',1)}${sw('zonen','🕐 Zeitzonen','#ffd678')}
    <h3>Geschichte</h3>${sw('kriege','⚔️ Kriege','#d8302a')}${sw('wander','🧭 Völkerwanderungen','#ffd28a')}${sw('erf','💡 Erfindungen','#ffe14a')}${sw('geld','🪙 Geldgeschichte','#e8b030')}${sw('goethe','✒️ Goethes Reisen','#ff8c6e')}<select class="qwk-sel" data-epoche><option value="">Alle Epochen</option>${Object.entries(EPOCHE).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
    <h3>Getreide · Teil G</h3>${Object.entries(GETREIDE).map(([k,G2])=>sw(k,G2.e+' '+G2.n,G2.c)).join('')}
    <h3>Rohstoffe & Energie</h3>${Object.entries(ROH).map(([k,G2])=>sw(k,G2.e+' '+G2.n,G2.c,1)).join('')}
@@ -848,7 +984,7 @@ function ui(root){
   </aside>
   <div class="qwk-map" tabindex="0" role="application" aria-label="Weltkarte: ziehen dreht, Pfeiltasten drehen, Plus und Minus zoomen"><canvas></canvas><div class="qwk-zoom"><button data-z="1.5" aria-label="Hineinzoomen">＋</button><button data-z="0.67" aria-label="Herauszoomen">－</button><hr><button data-z="0" aria-label="Ansicht zurücksetzen" title="Ansicht zurücksetzen">⟲</button><button data-spin aria-pressed="false" aria-label="Globus langsam drehen" title="Globus langsam drehen">↻</button></div><div class="qwk-leg" title="Ebenen öffnen"></div></div>
   <aside class="qwk-info"></aside>
-  <div class="qwk-zeit"><button class="qwk-play" aria-label="Abspielen">▶</button><span class="qwk-j0" style="color:var(--k-m)">1960</span><input type="range" min="1960" max="2023" value="${S.jahr}"><span class="qwk-jahr">${S.jahr}</span><span class="qwk-q">Quellen: Küsten, Seen, Flüsse, Grenzen, Städte – Natural Earth 1:10 Mio./1:50 Mio. (gemeinfrei); Höhenmodell – NASA (gemeinfrei); Relief – three.js-Beispieltextur (MIT); Bevölkerung, Energie, Gesellschaft – Our World in Data (UN, Energy Institute, IHME, Gapminder, WHR, FAO); Getreide – FAOSTAT 2022; Rohstoffe – Energy Institute, USGS, IAEA; Klima/Böden – vereinfachtes Schema</span></div>
+  <div class="qwk-zeit"><button class="qwk-play" aria-label="Abspielen">▶</button><span class="qwk-j0" style="color:var(--k-m)">1960</span><input type="range" min="1960" max="2023" value="${S.jahr}"><span class="qwk-jahr">${S.jahr}</span><span class="qwk-q" title="Gestrichelte Grenzlinien: umstrittene oder unbestimmte Grenzen bzw. Anspruchslinien laut Natural Earth (ohne Wertung).">Quellen: Karte (Küsten, Gewässer, Grenzen, Landschaften, Gipfel, Verkehr, Städte) – Natural Earth 1:10/1:50 Mio. (gemeinfrei); weitere Orte und Einwohner – GeoNames (CC BY 4.0, Stand 2020); Höhen – NASA; Relief – three.js-Textur (MIT); Statistik – Our World in Data (UN, Energy Institute, IHME, Gapminder, WHR, FAO); Getreide – FAOSTAT 2022; Rohstoffe – Energy Institute, USGS, IAEA; Klima/Böden – Schema</span></div>
   </div>`;
   wrap=$('.qwk',root); cv=$('canvas',wrap); ctx=cv.getContext('2d');
 }
@@ -880,7 +1016,8 @@ function ereignisse(){
   let spiel=null; $('.qwk-play',wrap).onclick=e=>{ const b=e.currentTarget; if(spiel){ clearInterval(spiel); spiel=null; b.textContent='▶'; return; } b.textContent='❚❚'; if(S.jahr>=2023) S.jahr=1960; spiel=setInterval(()=>{ S.jahr++; rg.value=S.jahr; jl.textContent=S.jahr; zeichne(); info(); if(S.jahr>=2023){ clearInterval(spiel); spiel=null; b.textContent='▶'; } },160); };
   $('.qwk-such input',wrap).onchange=e=>{ const v=e.target.value.trim().toLowerCase(); const c=DAT.laender.find(c=>c.n.toLowerCase()===v); if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); return; }
     const st=DAT.staedte.find(s=>s[0].toLowerCase()===v); if(st){ S.ov.staedte=true; const cc=landAn(st[1],st[2]); if(cc) waehle(cc,[st[1],st[2]]); flieg(st[1],st[2],Math.max(S.zoom,4)); return; }
-    const id=Object.keys(PFL).find(id=>pname(id).toLowerCase()===v); if(id){ S.pflanze=id; $('[data-pflanze]',wrap).value=id; S.ov.pfl=true; flieg(PFL[id][0][0],PFL[id][0][1]); zeichne(); } };
+    const id=Object.keys(PFL).find(id=>pname(id).toLowerCase()===v); if(id){ S.pflanze=id; $('[data-pflanze]',wrap).value=id; S.ov.pfl=true; flieg(PFL[id][0][0],PFL[id][0][1]); zeichne(); return; }
+    const O=orte(), oo=O&&O.A.find(o=>o[0].toLowerCase()===v); if(oo){ S.ov.staedte=true; S.sel=null; S.hist=null; S.ort=['gn',...oo]; S.klick=[oo[1],oo[2]]; info(); wrap.classList.add('qwk-info-auf'); flieg(oo[1],oo[2],Math.max(S.zoom,12)); } };
   const m=$('.qwk-map',wrap), P=new Map(); let start=null, d0=0, z0=1, bewegt=false;
   let vx=0, vy=0, lt=0, lx=0, ly=0;
   m.addEventListener('pointerdown',e=>{ if(e.target.closest('.qwk-zoom,.qwk-leg')) return; m.setPointerCapture(e.pointerId); P.set(e.pointerId,[e.clientX,e.clientY]); S.spin=false; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',false); } bewegt=false; schwungAus(); ZT=null; vx=vy=0; lt=e.timeStamp; lx=e.clientX; ly=e.clientY; wrap.classList.remove('qwk-ebenen-auf'); start={x:e.clientX,y:e.clientY,lam:S.lam,phi:S.phi,px:S.px,py:S.py}; if(P.size===2){ const [a,b]=[...P.values()]; d0=Math.hypot(a[0]-b[0],a[1]-b[1]); z0=S.zoom; } });
@@ -892,7 +1029,7 @@ function ereignisse(){
     neu(); });
   const ende=e=>{ if(!P.has(e.pointerId)) return; const mehr=P.size>1; P.delete(e.pointerId); if(P.size===1){ const [q]=[...P.values()]; start={x:q[0],y:q[1],lam:S.lam,phi:S.phi,px:S.px,py:S.py}; vx=vy=0; lt=e.timeStamp; lx=q[0]; ly=q[1]; }
     if(bewegt&&P.size===0&&!mehr&&e.type==='pointerup'&&e.timeStamp-lt<120) schwung(vx,vy);
-    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const ll=inv(x,y); if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
+    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; S.ort=null; const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const oa=ortAn(x,y); if(oa){ S.ort=oa; S.hist=null; S.bl=null; S.klick=[oa[2],oa[3]]; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); return; } const ll=inv(x,y); if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
   m.addEventListener('pointerup',ende); m.addEventListener('pointercancel',ende);
   m.addEventListener('wheel',e=>{ e.preventDefault(); S.spin=false; schwungAus(); zoomZu((ZT||S.zoom)*Math.exp(-Math.max(-120,Math.min(120,e.deltaY))*0.0022)); },{passive:false});
   m.addEventListener('dblclick',e=>{ if(e.target.closest('.qwk-zoom,.qwk-leg')) return; e.preventDefault(); zoomZu((ZT||S.zoom)*2); });
@@ -904,7 +1041,7 @@ function ereignisse(){
   if(!window.QWWELT_RS){ window.QWWELT_RS=true; let rt=0; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(wrap&&document.body.contains(wrap)) groesse(); },80); }); }
 }
 function grundSetzen(k){ S.grund=k; wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; legende(); zeichne(); info(); }
-function waehle(c,ll){ S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
+function waehle(c,ll){ S.ort=null; S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
 function flieg(lon,lat,zz){ S.spin=false; if(S.modus==='scheibe'){ if(zz) S.zoom=zz; const r=(90-lat)/180*rd(), a=(lon-S.lam)*R2; S.px=-r*Math.sin(a); S.py=-r*Math.cos(a); zeichne(); return; } if(S.modus!=='globus'){ if(zz) S.zoom=zz; S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
   schwungAus(); ZT=null; const weit=Math.hypot(dl*Math.cos((a.p+b.p)/2*R2),b.p-a.p), dauer=RUHE()?1:Math.min(1500,650+weit*7), tal=Math.min(a.z,b.z), hub=weit>25&&tal>1.3?Math.min(.7,weit/160):0;
   (function st(t){ const k=Math.min(1,(t-t0)/dauer), e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2; S.lam=a.l+dl*e; S.phi=a.p+(b.p-a.p)*e; S.zoom=Math.exp(Math.log(a.z)+(Math.log(b.z)-Math.log(a.z))*e)*(1-hub*Math.sin(Math.PI*k)*(1-1/tal)); S.bewegt=k<1; zeichne(k>=1); if(k<1&&document.body.contains(wrap)) requestAnimationFrame(st); })(t0); }
@@ -1313,5 +1450,5 @@ let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; 
 let wzug=0;
 
 window.QWWELT={ oeffne(root,ebene){ daten(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); glStart(); schriftLaden(); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
-  d3:()=>D3, zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); } };
+  d3:()=>D3, zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); }, orte:()=>TREFF.map(t=>[t[3][1],Math.round(t[0]),Math.round(t[1]),t[3][0]]), felder:()=>BOX.slice() };
 })();
