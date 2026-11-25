@@ -323,7 +323,7 @@ function relief(fein){
 const BIOF={regen:[26,74,32],savanne:[122,116,62],wueste:[198,170,120],steppe:[150,142,92],hartlaub:[98,106,62],subtrop:[58,98,44],laub:[54,94,42],misch:[46,86,42],taiga:[34,68,44],tundra:[118,114,94],gebirge:[122,114,102],eis:[238,242,247]};
 const GLV='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
 const GLF=`precision highp float;
-uniform vec2 uGr,uPan,uSonneP;uniform float uDpr,uMode,uR,uLam,uPhi,uK,uZeit,uWolken,uThema,uPlain,uNacht,uRoh,uBereit,uFein,uUnscharf,uLichtart,uBump,uKueB,uKw,uKueU,uTpp;
+uniform vec2 uGr,uPan,uSonneP;uniform float uDpr,uMode,uR,uLam,uPhi,uK,uZeit,uWolken,uThema,uPlain,uNacht,uRoh,uBereit,uFein,uUnscharf,uLichtart,uBump,uKueB,uKw,uKueU,uTpp;uniform vec4 uDet;
 uniform vec3 uSonne,uBlick,uOst,uNord;uniform sampler2D tRel,tRelK,tHoe,tBio,tNac,tWol,tKue,tKueW;
 const float PI=3.14159265;
 float h1(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
@@ -350,7 +350,7 @@ void main(){
   float still=max(uThema,uPlain);tag=mix(tag,1.,still);
   vec3 alb;float wasser=0.,eis=0.;float hE=0.,hN=0.;
   float mW=-1.,see=0.,saum=0.,nah=0.;
-  if(uKueB>.5&&uBereit>.5){vec4 kq=texture2D(tKue,uv),kw=texture2D(tKueW,uv);float mm=mix(kq.r,kw.r,uKueU),fw;
+  if(uKueB>.5&&uBereit>.5){vec4 kw=texture2D(tKueW,uv);vec2 du=uDet.z>0.?vec2(fract(uv.x-uDet.x)/uDet.z,(uv.y-uDet.y)/uDet.w):uv;vec4 kq=texture2D(tKue,du);kq=mix(vec4(kw.r,kw.b,0.,1.),kq,uDet.z>0.?step(du.x,1.)*step(0.,du.y)*step(du.y,1.):1.);float mm=mix(kq.r,kw.r,uKueU),fw;
 #ifdef FW
 fw=fwidth(mm);
 #else
@@ -437,12 +437,12 @@ function glStart(){
     if(src&&src.d) g.texImage2D(g.TEXTURE_2D,0,g.RGBA,src.w,src.h,0,g.RGBA,g.UNSIGNED_BYTE,src.d); else g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,src);
     g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,o.rs?g.REPEAT:g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,o.rt?g.REPEAT:g.CLAMP_TO_EDGE); g.uniform1i(U[name],unit); };
   const leer={d:new Uint8Array([0,0,0,255]),w:1,h:1}; ['tRel','tRelK','tHoe','tBio','tNac','tWol','tKue','tKueW'].forEach((k,i)=>tex(k,i,leer));
-  GL={g,c,U,tex,ok:true,bereit:false,relB:4096}; m.insertBefore(c,m.firstChild);
+  GL={g,c,U,T,tex,ok:true,bereit:false,relB:4096,det:null}; m.insertBefore(c,m.firstChild);
   c.addEventListener('webglcontextlost',e=>{ e.preventDefault(); if(GL&&GL.c===c){ GL.ok=false; c.remove(); RKEY=''; zeichne(); } });
   const bild=id=>new Promise((res,rej)=>{ const el=document.getElementById(id); if(!el) return rej(new Error(id)); const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src='data:image/jpeg;base64,'+el.textContent.trim(); });
   const me=GL, mx=g.getParameter(g.MAX_TEXTURE_SIZE), sparsam=Math.min(screen.width||9999,screen.height||9999)<600||(navigator.deviceMemory||8)<4;
   const klein=(im,w)=>{ const k=document.createElement('canvas'); k.width=w; k.height=w/2; k.getContext('2d').drawImage(im,0,0,w,w/2); return k; };
-  Promise.all([bild('weltrelief'),bild('welthoehe')]).then(([rel,hoe])=>{ if(GL!==me||!me.ok) return; const zielB=Math.min(rel.width,mx,sparsam?2048:4096); me.relB=zielB;
+  Promise.all([bild('weltrelief'),bild('welthoehe')]).then(([rel,hoe])=>{ if(GL!==me||!me.ok) return; const zielB=Math.min(rel.width,mx,sparsam?2048:4096); me.relB=zielB; me.sparsam=sparsam;
     tex('tRel',0,zielB<rel.width?klein(rel,zielB):rel,{rs:1}); tex('tRelK',1,klein(rel,1024),{rs:1}); tex('tHoe',2,hoe,{rs:1}); tex('tBio',3,glBiome()); me.bereit=true; zeichne();
     setTimeout(()=>{ if(GL!==me||!me.ok) return; const kb=Math.min(zielB,mx), ku=glKueste(kb); if(ku){ tex('tKue',6,ku.gross,{rs:1}); tex('tKueW',7,ku.klein,{rs:1}); me.kue=kb; zeichne(); } tex('tNac',4,glNacht(),{rs:1}); zeichne(); setTimeout(()=>{ if(GL!==me||!me.ok) return; tex('tWol',5,glWolken(),{rs:1,rt:1}); me.wolken=true; zeichne(); },30); },30);
   }).catch(e=>{ console.warn('Weltkarte: Texturen',e); });
@@ -503,11 +503,33 @@ function glZeichne(mitRelief,thema){
   let sx=0, sy=0; if(mode===2&&S.ov.nacht){ const [a,b]=sonne(), q=proj(a,b); sx=q[0]; sy=q[1]; } g.uniform2f(U.uSonneP,sx,sy);
   g.uniform1f(U.uZeit,GLZ); g.uniform1f(U.uWolken,S.ov.wolken&&GL.wolken?Math.max(.25,Math.min(1,1.25-S.zoom/9))*(mode===1?Math.min(1,.62+S.zoom*.08):1):0); g.uniform1f(U.uThema,thema?1:0); g.uniform1f(U.uPlain,mitRelief?0:1); g.uniform1f(U.uNacht,S.ov.nacht?1:0); g.uniform1f(U.uRoh,0);
   g.uniform1f(U.uBereit,GL.bereit?1:0); g.uniform1f(U.uFein,Math.max(0,Math.min(1,(S.zoom-1.5)/4))); g.uniform1f(U.uUnscharf,Math.max(0,Math.min(1,Math.log2(Math.max(1,pxTex))/2))); g.uniform1f(U.uLichtart,mode===0||(mode===1&&S.ov.nacht)?0:1); g.uniform1f(U.uBump,(mode===0?11:9)*Math.min(1.7,1+.17*Math.log2(Math.max(1,S.zoom)))); g.uniform1f(U.uTpp,pxTex*4096/GL.relB);
-  const tpp=pxTex*(GL.kue||4096)/GL.relB; g.uniform1f(U.uKueB,GL.kue?1:0); g.uniform1f(U.uKw,Math.max(.006,Math.min(.5,tpp*.45))); g.uniform1f(U.uKueU,Math.max(0,Math.min(1,Math.log2(Math.max(1,tpp/1.5))/1.5)));
+  const DD=GL.det&&S.zoom>=2.6?GL.det:null; if(GL.kue) glKueBind(DD); g.uniform4f(U.uDet,DD?DD.u[0]:0,DD?DD.u[1]:0,DD?DD.u[2]:0,DD?DD.u[3]:0); const tpp=DD?pxTex*(DD.bw/DD.u[2])/GL.relB:pxTex*(GL.kue||4096)/GL.relB; g.uniform1f(U.uKueB,GL.kue?1:0); g.uniform1f(U.uKw,Math.max(.006,Math.min(.5,tpp*.45))); g.uniform1f(U.uKueU,Math.max(0,Math.min(1,Math.log2(Math.max(1,tpp/1.5))/1.5)));
   g.drawArrays(g.TRIANGLES,0,3); GLW=bw; GLH=bh; GLD=dpr; return true; }
+/* Feine Küstenmaske für den Ausschnitt (WebGL): beim Hineinzoomen werden Natural-Earth-10m-Land, kleine Inseln und Seen für den
+   sichtbaren Bereich (mit Rand) in eine eigene Textur gezeichnet; der Shader nimmt innerhalb dieses Fensters sie statt der Weltmaske. */
+let DETT=0;
+function glDetail(){ if(!glAn()||!GL.kue||!GL.bereit) return; const g=GL.g, V=vb(), weg=()=>{ if(GL.det){ GL.det=null; } };
+  if(S.zoom<2.6||!detail()||!detRinge('land')||V.voll||V.h>80||V.la1-V.la0>80){ clearTimeout(DETT); return weg(); }
+  const D=GL.det, la0=V.la0, la1=V.la1, latC=(la0+la1)/2, need=PPD*GLD;
+  if(D){ const dl=Math.abs(((V.c-D.lonC+540)%360)-180); const deckt=dl+V.h<=D.span/2&&la0>=D.lat0&&la1<=D.lat1; const tpd=D.bh/(D.lat1-D.lat0); if(deckt&&tpd>=need*.55&&tpd<=need*2.6) return; }
+  clearTimeout(DETT); DETT=setTimeout(()=>{ if(!glAn()||!wrap||!document.body.contains(wrap)) return; glDetailBau(); zeichne(); },S.bewegt?220:60); }
+function glDetailBau(){ const V=vb(), mx=Math.min(GL.g.getParameter(GL.g.MAX_TEXTURE_SIZE),GL.sparsam?2048:4096,4096), need=PPD*GLD;
+  const span=Math.min(300,Math.max(1,V.h*2*1.5+.6)), lonC=V.c; let lat0=Math.max(-90,V.la0-(V.la1-V.la0)*.25-.3), lat1=Math.min(90,V.la1+(V.la1-V.la0)*.25+.3);
+  const latC=(lat0+lat1)/2, bw=Math.max(256,Math.min(mx,Math.round(span*need*Math.max(.15,Math.cos(latC*R2))*.95))), bh=Math.max(256,Math.min(mx,Math.round((lat1-lat0)*need*.95)));
+  const c=GL.detC||(GL.detC=document.createElement('canvas')); c.width=bw; c.height=bh; const x=c.getContext('2d'); x.fillStyle='#000'; x.fillRect(0,0,bw,bh); if('filter' in x) x.filter='blur(.6px)';
+  const X=r=>(r/span+.5)*bw, Y=la=>(lat1-la)/(lat1-lat0)*bh, bbIn=bb=>!(bb[2]>lat1||bb[3]<lat0)&&Math.abs((((bb[0]+bb[1])/2-lonC+540)%360)-180)<=span/2+(bb[1]-bb[0])/2+.5;
+  const ring=r=>{ let rel=((r[0][0]-lonC+540)%360)-180, mn=rel, mxr=rel; const P=new Array(r.length); P[0]=rel; for(let i=1;i<r.length;i++){ let d=r[i][0]-r[i-1][0]; if(d>180) d-=360; if(d<-180) d+=360; rel+=d; P[i]=rel; if(rel<mn) mn=rel; if(rel>mxr) mxr=rel; }
+    const pol=Math.abs(P[P.length-1]-P[0])>180, py=r.reduce((a,p)=>a+p[1],0)/r.length<0?-90:90;
+    for(const k of [-360,0,360]){ if(mxr+k<-span/2-1||mn+k>span/2+1) continue; for(let i=0;i<r.length;i++){ const px=X(P[i]+k), yy=Y(r[i][1]); i?x.lineTo(px,yy):x.moveTo(px,yy); } if(pol){ x.lineTo(X(P[P.length-1]+k),Y(py)); x.lineTo(X(P[0]+k),Y(py)); } x.closePath(); } };
+  const flaeche=(R,col)=>{ if(!R) return; x.beginPath(); for(const r of R) if(bbIn(r.bb)) ring(r); x.fillStyle=col; x.fill('evenodd'); };
+  flaeche(detRinge('land'),'#f00'); flaeche(detRinge('inseln'),'#f00'); flaeche(detRinge('seen'),'#0f0'); x.filter='none';
+  const g=GL.g, t=GL.T.tKueD||(GL.T.tKueD=g.createTexture()); g.activeTexture(g.TEXTURE0+6); g.bindTexture(g.TEXTURE_2D,t); g.pixelStorei(g.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false); g.pixelStorei(g.UNPACK_FLIP_Y_WEBGL,false);
+  g.texImage2D(g.TEXTURE_2D,0,g.RGBA,g.RGBA,g.UNSIGNED_BYTE,c); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MIN_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_MAG_FILTER,g.LINEAR); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_S,g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);
+  GL.det={lonC,span,lat0,lat1,bw,bh,u:[((((lonC-span/2+180)/360)%1)+1)%1,(90-lat1)/180,span/360,(lat1-lat0)/180]}; }
+function glKueBind(det){ const g=GL.g; g.activeTexture(g.TEXTURE0+6); g.bindTexture(g.TEXTURE_2D,det?GL.T.tKueD:GL.T.tKue); }
 /* Unbeleuchtetes Naturbild der Scheibe als Bild (für die 3D-Scheibe) */
 function glScheibenbild(ts){ if(!glAn()||!GL.bereit) return null; const g=GL.g, U=GL.U, c=GL.c, mx=g.getParameter(g.MAX_RENDERBUFFER_SIZE)||ts; ts=Math.min(ts,mx); c.width=c.height=ts; g.viewport(0,0,ts,ts);
-  g.uniform2f(U.uGr,ts,ts); g.uniform1f(U.uDpr,1); g.uniform1f(U.uMode,2); g.uniform1f(U.uR,ts/2); g.uniform1f(U.uLam,0); g.uniform1f(U.uPhi,0); g.uniform2f(U.uPan,0,0); g.uniform1f(U.uRoh,1); g.uniform1f(U.uPlain,0); g.uniform1f(U.uThema,0); g.uniform1f(U.uBereit,1); g.uniform1f(U.uFein,0); g.uniform1f(U.uUnscharf,0); g.uniform1f(U.uWolken,0); g.uniform1f(U.uKueU,0); g.uniform1f(U.uKw,.25);
+  g.uniform2f(U.uGr,ts,ts); g.uniform1f(U.uDpr,1); g.uniform1f(U.uMode,2); g.uniform1f(U.uR,ts/2); g.uniform1f(U.uLam,0); g.uniform1f(U.uPhi,0); g.uniform2f(U.uPan,0,0); g.uniform1f(U.uRoh,1); g.uniform1f(U.uPlain,0); g.uniform1f(U.uThema,0); g.uniform1f(U.uBereit,1); g.uniform1f(U.uFein,0); g.uniform1f(U.uUnscharf,0); g.uniform1f(U.uWolken,0); g.uniform1f(U.uKueU,0); g.uniform1f(U.uKw,.25); g.uniform4f(U.uDet,0,0,0,0); if(GL.kue) glKueBind(null);
   g.drawArrays(g.TRIANGLES,0,3); const k=document.createElement('canvas'); k.width=k.height=ts; k.getContext('2d').drawImage(c,0,0); zeichne(); return k; }
 
 /* ---------- Zeichnen ---------- */
@@ -630,6 +652,7 @@ function zeichne(fein){
     const saum=ctx.createRadialGradient(W/2,H/2,r*.9,W/2,H/2,r); saum.addColorStop(0,'rgba(120,190,255,0)'); saum.addColorStop(.8,'rgba(120,190,255,.1)'); saum.addColorStop(1,'rgba(150,210,255,.42)'); ctx.fillStyle=saum; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill();
     ctx.strokeStyle='rgba(170,220,255,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.stroke(); } }
   if(S.modus==='scheibe'){ kompass(W/2+S.px,H/2+S.py); }
+  if(G3) glDetail();
   status();
   if(G3) S.bewegt=false; else if(mitRelief&&(S.bewegt||fein===false)){ clearTimeout(RTIMER); RTIMER=setTimeout(()=>{ S.bewegt=false; zeichne(true); },160); }
 }
@@ -643,16 +666,22 @@ function geoText(g,rand){ const [n,lo,la,st,art,ang]=g; if(!imBlickP(lo,la)) ret
 /* Verkehr und Zeitzonen (zuschaltbar) */
 function verkehr(mitRelief){ if(!(S.ov.strassen||S.ov.bahn||S.ov.zonen)||!detail()) return; const zi=zstufe(), zf=Math.min(1.6,.8+S.zoom/30); ctx.lineJoin='round'; ctx.lineCap='round';
   if(S.ov.zonen){ const Z=detRinge('zonen'); if(Z){ ctx.strokeStyle='rgba(255,214,120,.55)'; ctx.lineWidth=1; ctx.setLineDash([6,4]); ctx.beginPath(); Z.forEach(r=>{ if(sichtbar(r.bb)) pfad(r,true); }); ctx.stroke(); ctx.setLineDash([]); } }
-  if(S.ov.strassen&&S.zoom>=1.6){ const R=detLinien('strassen'); if(R){ const an=sr=>sr<=3?zi>=4:zi>=5.2; detStriche(R,sr=>an(sr)?(sr<=3?2.4:1.9)*zf:0,()=>{ ctx.strokeStyle='rgba(12,10,6,.42)'; }); detStriche(R,sr=>an(sr)?(sr<=3?1.25:.9)*zf:0,sr=>{ ctx.strokeStyle=sr<=3?'rgba(255,196,110,.92)':'rgba(250,214,150,.85)'; }); } }
+  if(S.ov.strassen&&S.zoom>=1.6){ const R=detLinien('strassen'); if(R){ const an=sr=>sr<=3?zi>=4:zi>=5.2; detStriche(R,sr=>an(sr)?(sr<=3?2.9:2.2)*zf:0,()=>{ ctx.strokeStyle='rgba(14,10,4,.5)'; }); detStriche(R,sr=>an(sr)?(sr<=3?1.55:1.1)*zf:0,sr=>{ ctx.strokeStyle=sr<=3?'rgba(255,204,112,.96)':'rgba(252,222,160,.9)'; }); } }
   if(S.ov.bahn&&S.zoom>=1.8){ const B=detLinien('bahn'); if(B){ const an=sr=>sr<=zi-1; detStriche(B,sr=>an(sr)?2.3*zf:0,()=>{ ctx.strokeStyle='rgba(18,20,30,.75)'; }); ctx.setLineDash([4*zf,4*zf]); detStriche(B,sr=>an(sr)?1.05*zf:0,()=>{ ctx.strokeStyle='rgba(236,238,248,.92)'; }); ctx.setLineDash([]); } } }
 function hafenZeichen(x,y){ ctx.strokeStyle='#8fe3ff'; ctx.fillStyle='rgba(8,30,44,.85)'; ctx.lineWidth=1.3; ctx.beginPath(); ctx.arc(x,y,4.2,0,7); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x,y-2.6); ctx.lineTo(x,y+2.4); ctx.moveTo(x-2.2,y+.6); ctx.quadraticCurveTo(x,y+3.6,x+2.2,y+.6); ctx.moveTo(x-1.4,y-1.3); ctx.lineTo(x+1.4,y-1.3); ctx.stroke(); }
 function flugZeichen(x,y){ ctx.fillStyle='rgba(16,20,34,.85)'; ctx.strokeStyle='#f2f4ff'; ctx.lineWidth=1.1; ctx.beginPath(); ctx.arc(x,y,4.4,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle='#f2f4ff'; ctx.beginPath(); ctx.moveTo(x,y-3.2); ctx.lineTo(x+.7,y-.6); ctx.lineTo(x+3,y+.6); ctx.lineTo(x+.7,y+.2); ctx.lineTo(x+.5,y+2.2); ctx.lineTo(x+1.4,y+3); ctx.lineTo(x-1.4,y+3); ctx.lineTo(x-.5,y+2.2); ctx.lineTo(x-.7,y+.2); ctx.lineTo(x-3,y+.6); ctx.lineTo(x-.7,y-.6); ctx.closePath(); ctx.fill(); }
 /* Namen der Detailebenen nach den Städten: Gliedstaaten, Flüsse, weitere Orte (GeoNames), Häfen, Flughäfen, Zeitzonen */
-function detailNamen(zs,rand,G){ if(S.zoom<1.8||!detail()) return; const D=DET;
+function detailNamen(zs,rand,G){ if(!(S.zoom>=1.8||S.ov.zonen)||!detail()) return; const D=DET;
+  if(S.ov.zonen) for(const [t,lo,la] of D.zonenN){ if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.25) continue; TXA=rand(q); text(t.replace('UTC','UTC '),q[0],q[1],10,'#ffe2a0',true,'700'); } TXA=1;
+  if(S.zoom<1.8) return;
   if(S.ov.innen&&S.zoom>=2.4){ TLS='1.3px'; for(const [n,lo,la,st] of D.a1N){ if(st>zs-1.2) break; if(!imBlickP(lo,la)) continue; if(G.de&&lo>5.5&&lo<15.5&&la>47&&la<55.2&&landAn(lo,la)===DAT.idx.DEU) continue; const q=proj(lo,la); if(q[2]<.3) continue; TXA=rand(q)*.85; text(n,q[0],q[1]+4,9.6,'#dcd2f6',true,'500','sc'); } TLS='0px'; TXA=1; }
   if(S.ov.namen){ TLS='.8px'; const se=(n,lo,la,st)=>{ if(st>zs||!imBlickP(lo,la)) return; const q=proj(lo,la); if(q[2]<.25) return; TXA=rand(q)*.95; text(n,q[0],q[1]+4,st<8?10:9.4,'#b4dcf2',true,'italic 400','meer'); };
     for(const [n,lo,la,st] of (DAT.fein&&DAT.fein.seeN)||[]) if(st>7.5) se(/^(Weißer|Pleskauer)$/.test(n)?n+' See':n,lo,la,st); for(const [n,lo,la,st] of D.seeN) se(n,lo,la,st); TLS='0px'; TXA=1; }
   if(S.ov.fluesse&&S.zoom>=2.2){ TLS='.7px'; for(const [n,lo,la,ang,st] of D.flussN){ if(st>zs-.4) break; if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.3) continue; TXA=rand(q)*.95; textR(n,q[0],q[1],bildWinkel(lo,la,ang),9.6,'#a6d6ff','italic 400','meer'); } TLS='0px'; TXA=1; }
+  const punkt=(L,an,fn,zeichen,col)=>{ for(const e of L){ if(e[3]>zs-an) continue; const [n,lo,la]=e; if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.25||!frei(q[0]-5,q[1]+5,10,10)) continue; TXA=rand(q);
+      if(!text(fn(e),q[0]+7,q[1]+3.5,9.2,col,false,'500')){ TXA=1; continue; } boxAdd([q[0]-5,q[1]+5,10,10]); ctx.globalAlpha=TXA; zeichen(q[0],q[1]); ctx.globalAlpha=1; TXA=1; } };
+  if(S.ov.flug) punkt(D.flug,1.2,e=>e[4]&&S.zoom>=6?`${e[0]} (${e[4]})`:e[0],flugZeichen,'#e6e9ff');
+  if(S.ov.haefen) punkt(D.haefen,1.6,e=>e[0],hafenZeichen,'#b6ecff');
   if(S.ov.staedte&&zs>=6.5){ const O=orte(); if(O){ const V=vb(), cand=[]; const sam=c=>{ for(const o of c){ if(o[5]>zs) break; cand.push(o); } };
       if(V.voll||V.h>90) O.Z.forEach(c=>sam(c)); else { const x0=Math.floor((V.c-V.h+180)/2)-1, x1=Math.floor((V.c+V.h+180)/2)+1, y0=Math.max(0,Math.floor((V.la0+90)/2)), y1=Math.min(89,Math.floor((V.la1+90)/2));
         for(let cx=x0;cx<=x1;cx++){ const k=((cx%180)+180)%180; for(let cy=y0;cy<=y1;cy++){ const c=O.Z.get(k*1000+cy); if(c) sam(c); } } }
@@ -660,11 +689,7 @@ function detailNamen(zs,rand,G){ if(S.zoom<1.8||!detail()) return; const D=DET;
       for(const o of cand){ const q=proj(o[1],o[2]); if(q[2]<.22||q[0]<-8||q[0]>W+8||q[1]<-8||q[1]>H+12) continue; const p=o[3], R=1.15+Math.min(2,Math.sqrt(p/1e6)*.8);
         if(!frei(q[0]-R,q[1]+R,R*2,R*2)) continue; TXA=rand(q); if(!text(o[0],q[0]+R+3,q[1]+3.5,p>=5e5?10.4:p>=5e4?9.8:9.2,p>=5e4?'#f2e7cf':'#e2d8c2',false,p>=5e5?'700':'500')){ TXA=1; continue; }
         boxAdd([q[0]-R,q[1]+R,R*2,R*2]); TREFF.push([q[0],q[1],R,['gn',...o]]); ctx.globalAlpha=TXA; ctx.fillStyle=o[6]?'#f3cf62':p>=5e4?'#f2e3bf':'#d9ccb0'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=.9; ctx.beginPath(); if(o[6]) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; } TXA=1; } }
-  const punkt=(L,an,fn,zeichen,col)=>{ for(const e of L){ if(e[3]>zs-an) continue; const [n,lo,la]=e; if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.25||!frei(q[0]-5,q[1]+5,10,10)) continue; TXA=rand(q);
-      if(!text(fn(e),q[0]+7,q[1]+3.5,9.2,col,false,'500')){ TXA=1; continue; } boxAdd([q[0]-5,q[1]+5,10,10]); ctx.globalAlpha=TXA; zeichen(q[0],q[1]); ctx.globalAlpha=1; TXA=1; } };
-  if(S.ov.flug) punkt(D.flug,1.2,e=>e[4]&&S.zoom>=6?`${e[0]} (${e[4]})`:e[0],flugZeichen,'#e6e9ff');
-  if(S.ov.haefen) punkt(D.haefen,1.6,e=>e[0],hafenZeichen,'#b6ecff');
-  if(S.ov.zonen) for(const [t,lo,la] of D.zonenN){ if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.25) continue; TXA=rand(q); text(t.replace('UTC','UTC '),q[0],q[1],10,'#ffe2a0',true,'700'); } TXA=1; }
+}
 /* Ort unter dem Finger (zuletzt gezeichnete Orte) */
 function ortAn(x,y){ let best=null, bd=1e9; for(const [ox,oy,R,o] of TREFF){ const d=Math.hypot(ox-x,oy-y); if(d<R+8&&d<bd){ bd=d; best=o; } } return best; }
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
