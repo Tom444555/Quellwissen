@@ -151,6 +151,8 @@ def strittig_bauen(pfad, laender):
             if teil in VERMERK: satz.append(VERMERK[teil]); continue
             sys.exit(f'Unbekannter Natural-Earth-Vermerk „{teil}“ ({nm}) – bitte in VERMERK übersetzen')
         nd = NAME_KORR.get(nm) or NAME_KORR.get(p.get('NAME_DE') or '') or p.get('NAME_DE') or nm
+        # Eigenbezeichnungen nicht als Tatsache setzen: in Anführungszeichen mit Vermerk (Regel der App: Selbstbezeichnungen nur als Zitat)
+        if nd in ('Volksrepublik Lugansk', 'Volksrepublik Donezk'): nd = '„' + nd + '“ (Eigenbezeichnung)'
         geo = f['geometry']; polys = geo['coordinates'] if geo['type'] == 'MultiPolygon' else [geo['coordinates']]
         ringe = []
         for poly in polys:
