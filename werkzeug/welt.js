@@ -287,7 +287,7 @@ function wert(i,art,jahr){ const c=DAT.idx[i];
   if(art==='su'){ const m=ser(i,'sm',jahr), f=ser(i,'sf',jahr); return m&&f?(m.v+f.v)/2:null; }
   const g=GRUND[art]; if(g&&g.k){ const r=ser(i,g.k,jahr); return r&&r.v; } return null; }
 function stand(i,art,jahr){ const k=art==='su'?'sm':(GRUND[art]&&GRUND[art].k); if(!k) return null; const r=ser(i,k,jahr); return r&&r.j; }
-function farbe(i){ const g=GRUND[S.grund]; if(g.kat) return STAAT[staatVon(i)][1]; if(!g.p) return null; const v=wert(i,S.grund,S.jahr); return v==null?null:ramp(g.p,g.s(v)); }
+function farbe(i){ const g=GRUND[S.grund]; if(g.th) return thFarbe(g,i); if(g.kat) return STAAT[staatVon(i)][1]; if(!g.p) return null; const v=wert(i,S.grund,S.jahr); return v==null?null:ramp(g.p,g.s(v)); }
 function fmt(v,d=0){ return v==null?'–':v.toLocaleString('de-DE',{maximumFractionDigits:d,minimumFractionDigits:d}); }
 function zstufe(){ return 2.2+2.4*Math.log2(Math.max(S.zoom,.5))-(W<520?.2:0); } // kleine Bildschirme: weniger Namen, mehr beim Zoomen
 
@@ -536,11 +536,12 @@ function glScheibenbild(ts){ if(!glAn()||!GL.bereit) return null; const g=GL.g, 
 let sterne=null, BOX=[], LAY=null; const SPERR=typeof CanvasRenderingContext2D!=='undefined'&&'letterSpacing' in CanvasRenderingContext2D.prototype;
 function zeichne(fein){
   if(!ctx) return; boxNeu(); boxAdd(STB.slice()); VBX=null; TREFF=[]; STRL=[]; PPD=111.32/kmProPx(); ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
-  const G3=glZeichne(S.grund==='relief'||(S.unterlage&&!GRUND[S.grund].r),S.grund!=='relief');
+  const G3=glZeichne(S.grund==='relief'||(S.unterlage&&!GRUND[S.grund].r&&!GRUND[S.grund].thr),S.grund!=='relief');
   if(!G3){ const g0=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.8); g0.addColorStop(0,'#0e1a30'); g0.addColorStop(1,'#04070e'); ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
   if(!sterne){ sterne=[]; let s=7; const r=()=>(s=(s*16807)%2147483647)/2147483647; for(let i=0;i<260;i++) sterne.push([r(),r(),r()*1.2+.2,r()]); }
   sterne.forEach(([x,y,z,a])=>{ ctx.fillStyle=`rgba(200,220,255,${a*.6})`; ctx.fillRect(x*W,y*H,z,z); }); }
-  const r=radius(), glob=S.modus==='globus', G=GRUND[S.grund], rast=G.r, mitRelief=S.grund==='relief'||(S.unterlage&&!rast);
+  THH=[]; THL=[]; thHimmelHinten();
+  const r=radius(), glob=S.modus==='globus', G=GRUND[S.grund], rast=G.r, mitRelief=S.grund==='relief'||(S.unterlage&&!rast&&!G.thr);
   if(glob){ if(!G3){ const at=ctx.createRadialGradient(W/2,H/2,r*0.92,W/2,H/2,r*1.18); at.addColorStop(0,'rgba(110,190,255,.62)'); at.addColorStop(.18,'rgba(80,160,255,.3)'); at.addColorStop(.5,'rgba(60,130,255,.1)'); at.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=at; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.18,0,7); ctx.fill();
     const hof=ctx.createRadialGradient(W/2-r*.25,H/2-r*.28,r*.9,W/2,H/2,r*1.6); hof.addColorStop(0,'rgba(90,160,255,.13)'); hof.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=hof; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.6,0,7); ctx.fill();
     const oz=ctx.createRadialGradient(W/2-r*.35,H/2-r*.4,r*.1,W/2,H/2,r); oz.addColorStop(0,'#1d4f86'); oz.addColorStop(.6,'#0c2c52'); oz.addColorStop(1,'#071a33'); ctx.fillStyle=oz; ctx.beginPath(); ctx.arc(W/2,H/2,r,0,7); ctx.fill(); }
@@ -573,6 +574,8 @@ function zeichne(fein){
   if(rast){ const half=1.02, tab=rast===2?KLIMA:rast===3?BODEN:VEGN; ctx.save(); ctx.beginPath(); DAT.laender.forEach(c=>c.p.forEach(rg=>pfad(rg))); ctx.clip();
     DAT.raster.forEach(g=>{ const k=g[rast]; const q=proj(g[0],g[1]); if(q[2]<0.05) return; const a=proj(g[0]-half,g[1]+half),b=proj(g[0]+half,g[1]+half),c2=proj(g[0]+half,g[1]-half),d=proj(g[0]-half,g[1]-half);
       if(!glob && Math.abs(a[0]-b[0])>W/2) return; ctx.fillStyle=tab[k][1]; ctx.globalAlpha=.86; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c2[0],c2[1]); ctx.lineTo(d[0],d[1]); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; }); ctx.restore(); }
+  if(G.thr) thRasterZeichnen(G); else if(G.kre||S.ov.lkreise) krZeichnen(G.kre?G:null); else if(G.th) thLandExtra(G);
+  thFlaechenZeichnen();
   if(G.de&&DAT.bl){ DAT.bl.forEach(b=>{ const v=deWert(b.i,S.grund); ctx.beginPath(); let ok=false; b.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=.88; ctx.fillStyle=v==null?'#333':ramp(G.p,G.s(v)); ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle=S.bl===b.i?'#fff':'rgba(255,255,255,.7)'; ctx.lineWidth=S.bl===b.i?2.6:.9; ctx.stroke(); }); }
   // Detailflächen beim Hineinzoomen: Schelfeis, Gletscher, Salzpfannen, bebaute Flächen
   if(S.ov.natur&&S.zoom>=2.2&&detail()){ const sch=detRinge('schelf'), eis=S.zoom>=2.8&&detRinge('eis'), sal=detRinge('salz');
@@ -592,7 +595,7 @@ function zeichne(fein){
       const FZ=zs>=8.6&&detail()&&detLinien('fluesse'); if(FZ) detStriche(FZ,sr=>sr>zs+.6?0:Math.max(.45,1.85-sr*.15)*zf,sr=>{ ctx.globalAlpha=Math.max(.25,Math.min(1,(zs+.6-sr)/1.2)); }); ctx.globalAlpha=1; }
     if(S.ov.natur&&S.zoom>=3.5&&detail()){ const rf=detLinien('riffe'); if(rf){ ctx.strokeStyle='rgba(120,232,214,.6)'; ctx.setLineDash([2,2.5]); detStriche(rf,()=>1); ctx.setLineDash([]); } } }
   if(KU&&mitRelief&&(G3?S.zoom>=2.4:S.zoom>=1.4)){ ctx.strokeStyle=G3?`rgba(226,240,248,${Math.min(.3,.08+(S.zoom-2.4)*.04)})`:'rgba(200,226,246,.5)'; ctx.lineWidth=G3?.7:.8; ctx.lineJoin='round'; ctx.beginPath(); (kuesteRinge()||[KU]).forEach(R=>R.forEach(rg=>{ if(rg.length>3&&vis(rg.bb)) pfad(rg,true); })); ctx.stroke(); }
-  if(S.pflanze){ const P=PFL[S.pflanze]; ctx.fillStyle='rgba(120,255,170,.55)'; DAT.raster.forEach(g=>{ if(g[5]||!inBereich(P,g)) return; const q=proj(g[0],g[1]); if(q[2]<0.05) return; ctx.beginPath(); ctx.arc(q[0],q[1],Math.max(1.4,radius()/260*S.zoom),0,7); ctx.fill(); }); }
+  if(S.pflanze&&S.grund!=='pflanzen_heimat'){ const P=PFL[S.pflanze]; ctx.fillStyle='rgba(120,255,170,.55)'; DAT.raster.forEach(g=>{ if(g[5]||!inBereich(P,g)) return; const q=proj(g[0],g[1]); if(q[2]<0.05) return; ctx.beginPath(); ctx.arc(q[0],q[1],Math.max(1.4,radius()/260*S.zoom),0,7); ctx.fill(); }); }
   // Innere Grenzen (Bundesstaaten, Provinzen, Bundesländer) – fein, ab mittlerem Zoom
   if(S.ov.innen&&S.zoom>=2&&detail()){ const A1=detLinien('a1'), zi=zstufe(); if(A1){ ctx.lineJoin='round'; ctx.lineCap='round'; ctx.strokeStyle=mitRelief?'rgba(236,224,255,.46)':'rgba(214,204,250,.42)';
     detStriche(A1,sr=>sr<=zi-1.4?(sr<=3?.85:.65)*Math.min(1.5,.85+S.zoom/40):0); } }
@@ -607,6 +610,7 @@ function zeichne(fein){
       else { ctx.strokeStyle='rgba(225,238,255,.34)'; ctx.lineWidth=gw*.75; ctx.stroke(); } }); }
   if(S.ov.grenzen&&S.zoom>=1.8&&detail()){ const St=detLinien('strittig'); if(St){ if(S.zoom>=5) for(const [,l] of St){ if(l.length<3||!vis(l.bb)) continue; { const c0=proj(l.bb[0],l.bb[2]), c1=proj(l.bb[1],l.bb[3]); if(Math.hypot(c1[0]-c0[0],c1[1]-c0[1])<110) continue; } const m=l[l.length>>1], a=l[Math.max(0,(l.length>>1)-1)], b=l[Math.min(l.length-1,(l.length>>1)+1)], pa=proj(a[0],a[1]), pb=proj(b[0],b[1]); if(Math.hypot(pb[0]-pa[0],pb[1]-pa[1])<1) continue; const ga=Math.atan2(b[1]-a[1],(b[0]-a[0])*Math.cos(m[1]*R2))/R2; STRL.push([m[0],m[1],ga]); }
     ctx.setLineDash([4,3]); ctx.strokeStyle=mitRelief?'rgba(255,240,214,.6)':'rgba(225,238,255,.45)'; detStriche(St,()=>Math.min(1.4,.7+S.zoom/14)); ctx.setLineDash([]); } }
+  strZeichnen();
   verkehr(mitRelief);
   if(S.sel){ const c=DAT.idx[S.sel]; ctx.beginPath(); c.p.forEach(rg=>pfad(rg)); ctx.strokeStyle='#fff'; ctx.lineWidth=2.2; ctx.shadowColor='rgba(120,200,255,.9)'; ctx.shadowBlur=12; ctx.stroke(); ctx.shadowBlur=0; }
   if(S.ov.nacht) nacht(G3);
@@ -626,6 +630,7 @@ function zeichne(fein){
   if(S.ov.pfl) Object.entries(PFL).forEach(([id,P])=>{ const q=proj(P[0][0],P[0][1]); if(q[2]<0.1) return; pin(q[0],q[1],'#ff6a8a'); if(S.zoom>1.3||S.pflanze===id) text(pname(id),q[0]+7,q[1]-6,11,'#ffd0dc'); });
   if(S.ov.rez) REZ.forEach(([id,n,lo,la])=>{ const q=proj(lo,la); if(q[2]<0.1) return; pin(q[0],q[1],'#c79aff'); if(S.zoom>1.8) text(n,q[0]+7,q[1]-6,11,'#e8d8ff'); });
   if(S.ov.aut) AUT.forEach(([id,n,lo,la])=>{ const q=proj(lo,la); if(q[2]<0.1) return; pin(q[0],q[1],'#6ac8ff'); if(S.zoom>1.8) text(n,q[0]+7,q[1]-6,11,'#d0ecff'); });
+  thZeichnen();
   if(G.de&&DAT.bl&&S.zoom>3.5){ const big=S.zoom>6; DAT.bl.slice().reverse().forEach(b=>{ const q=proj(b.lp[0],b.lp[1]); if(q[2]<0.2) return; const v=deWert(b.i,S.grund); const kurz=['BE','HB','HH'].includes(b.i); text(big&&!kurz?b.n:b.i,q[0],q[1]-2,big?11.5:10.5,'#ffffff',true,'700'); if(v!=null) text(fmt(v,['de_hz','de_ek','de_bip'].includes(S.grund)?0:1),q[0],q[1]+11,10.5,'#ffe8c0',true,'600'); }); }
   // Beschriftung: Landschaften, Gipfel, Länder, Städte
   const zs=zstufe();
@@ -725,7 +730,10 @@ function pfeil(p,col,sel){ const pts=[]; for(let i=0;i<p.length-1;i++){ const [a
 function epocheVon(j){ return j<1500?'mittel':j<1900?'neu':j<2000?'20':'heute'; }
 function pname(id){ const p=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).find(x=>x.id===id); return p?p.name.replace(' & Kiefernknospen',''):id; }
 function inBereich(P,g){ return P[2].some(b=>g[1]>=b[0]&&g[1]<=b[1]&&g[0]>=b[2]&&g[0]<=b[3]) && P[3].some(z=>g[2].startsWith(z)); }
-function sonne(d){ d=d||new Date(); const t=(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())-Date.UTC(d.getUTCFullYear(),0,0))/864e5; const dekl=-23.44*Math.cos(2*Math.PI/365*(t+10)); const h=d.getUTCHours()+d.getUTCMinutes()/60; return [(12-h)*15,dekl]; }
+/* Zenitpunkt der Sonne [lon, lat] – NOAA „General Solar Position Calculations“ (Spencer 1971), mit Zeitgleichung; Abweichung ≤ 0,2° Länge */
+function sonne(d){ d=d||new Date(); const y=d.getUTCFullYear(), n=Math.floor((Date.UTC(y,d.getUTCMonth(),d.getUTCDate())-Date.UTC(y,0,1))/864e5)+1, tage=(y%4===0&&(y%100!==0||y%400===0))?366:365, h=d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600, g=2*Math.PI/tage*(n-1+(h-12)/24);
+  const eqt=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g)), dek=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g);
+  let lon=-15*(h-12+eqt/60); lon=((lon+180)%360+360)%360-180; return [lon,dek*180/Math.PI]; }
 function nacht(G3){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]; for(let i=0;i<=180;i++){ const b=i*2*R2, d=90*R2, p1=ap*R2, l1=al*R2; const la=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(b)); const lo=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(la)); pts.push([((lo/R2+540)%360)-180,la/R2]); }
   if(S.modus==='scheibe'){ const q=proj(sl,sp), [ml,mp]=mond(), m=proj(ml,mp), R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const gg=ctx.createRadialGradient(q[0],q[1],R0*0.12,q[0],q[1],R0*1.1); gg.addColorStop(0,'rgba(2,6,20,0)'); gg.addColorStop(.45,'rgba(2,6,20,.15)'); gg.addColorStop(.7,'rgba(2,6,20,.6)'); gg.addColorStop(1,'rgba(2,6,20,.7)'); if(!G3){ ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.clip(); ctx.fillStyle=gg; ctx.fillRect(0,0,W,H); ctx.restore(); }
     ctx.save(); const rS=(90-sp)/180*R0, rM=(90-mp)/180*R0; ctx.lineWidth=1.5; ctx.strokeStyle='rgba(255,212,90,.8)'; ctx.shadowColor='rgba(255,200,80,.6)'; ctx.shadowBlur=6; ctx.beginPath(); ctx.arc(cx,cy,rS,0,7); ctx.stroke(); ctx.shadowBlur=0;
@@ -818,6 +826,450 @@ function histAn(x,y){ let best=null,bd=18; if(S.ov.kriege) KRIEGE.forEach((k,i)=
   const chk=(on,arr,lo,la,k)=>{ if(!on) return; arr.forEach((e,i)=>{ const q=proj(e[lo],e[la]); if(q[2]<0.1) return; const d=Math.hypot(q[0]-x,q[1]-y); if(d<bd){bd=d;best=[k,i];} }); };
   chk(S.ov.erf,ERF,4,5,'e'); chk(S.ov.geld,GELD,3,4,'m'); chk(S.ov.goethe,GOETHE,3,4,'g'); return best; }
 
+/* ===================== Themen-Ebenen (welt_daten/welt_themen.json) =====================
+   Index (#weltthemen-index: Liste der Ebenen + umstrittene Gebiete) wird beim Start gelesen, die Ebenen selbst (#weltthemen)
+   erst beim ersten Einschalten; jede Ebene wird einmalig dekodiert (Linien Base64-Varint 1/100 Grad, Zeilen -> Objekte).
+   Inhalte (Namen, Zahlen, Listen, Texte, Quellen) kommen immer aus der Datei; hier stehen nur Darstellung und Zuordnung (THK). */
+let THI=null, THD=null; const THE={};
+function thIdx(){ if(THI) return THI; THI={index:[]}; const el=document.getElementById('weltthemen-index'); if(el){ try{ THI=JSON.parse(el.textContent); }catch(e){ console.warn('Weltkarte: Themen-Index',e); } } THI.index=THI.index||[]; THI.by={}; THI.index.forEach(x=>THI.by[x.id]=x); return THI; }
+function thDaten(){ if(THD) return THD; THD={}; const el=document.getElementById('weltthemen'); if(el){ try{ THD=JSON.parse(el.textContent); }catch(e){ console.warn('Weltkarte: Themen-Daten',e); } } return THD; }
+function thBB(l){ let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9; for(const p of l){ if(p[0]<x0)x0=p[0]; if(p[0]>x1)x1=p[0]; if(p[1]<y0)y0=p[1]; if(p[1]>y1)y1=p[1]; } l.bb=[x0,x1,y0,y1]; return l; }
+/* Linien verdichten (Schritte ≤ 2°), damit lange Strecken auf Globus und Scheibe als Bogen statt als Sehne erscheinen */
+function thDicht(l){ const o=[l[0]]; for(let i=1;i<l.length;i++){ const a=l[i-1], b=l[i]; let dl=b[0]-a[0]; if(dl>180) dl-=360; if(dl<-180) dl+=360; const n=Math.ceil(Math.max(Math.abs(dl),Math.abs(b[1]-a[1]))/2); for(let k=1;k<n;k++){ const t=k/n; o.push([((a[0]+dl*t+540)%360)-180,a[1]+(b[1]-a[1])*t]); } o.push(b); } return o; }
+function thLin(s,dicht){ const t=atob(s), n=t.length, out=[]; let i=0, x=0, y=0; const ru=()=>{ let v=0,f=1,b; do{ b=t.charCodeAt(i++); v+=(b&127)*f; f*=128; }while(b&128); return v; }, rz=()=>{ const v=ru(); return v%2?-(v+1)/2:v/2; };
+  while(i<n){ const m=ru(); let l=new Array(m); for(let j=0;j<m;j++){ x+=rz(); y+=rz(); l[j]=[x/100,y/100]; } if(dicht) l=thDicht(l); out.push(thBB(l)); } return out; }
+function thDek(v,dicht){ if(Array.isArray(v)) return v.map(x=>thDek(x,dicht)); if(v&&typeof v==='object'){ if(typeof v._l==='string') return thLin(v._l,dicht); if(v._r){ const F=v._r; return v.d.map(r=>{ const o={}; F.forEach((k,j)=>{ if(r[j]!=null) o[k]=thDek(r[j],dicht); }); return o; }); }
+  const o={}; for(const k in v) o[k]=thDek(v[k],dicht); return o; } return v; }
+/* Zeilen ohne Feldnamen (felder im Kopf) in Objekte umwandeln: daten<->felder, daten_x<->felder_x, sonst passendes felder_*-Feld gleicher Länge */
+function thObj(e){ for(const k in e){ if(k.indexOf('daten')!==0||!Array.isArray(e[k])||!Array.isArray(e[k][0])) continue; const suf=k.slice(5); let F=Array.isArray(e['felder'+suf])?e['felder'+suf]:null;
+    if(!F) for(const f in e) if(f.indexOf('felder')===0&&Array.isArray(e[f])&&e[f].length===e[k][0].length&&!Object.keys(e).some(k2=>k2!==k&&k2.indexOf('daten')===0&&('felder'+k2.slice(5))===f)){ F=e[f]; break; }
+    if(F) e[k]=e[k].map(r=>{ const o={}; F.forEach((f,j)=>o[f]=r[j]); return o; }); } return e; }
+function th(id){ if(THE[id]) return THE[id]; if(THK[id]&&THK[id].kopf) return THE[id]=THK[id].kopf; const D=thDaten(), r=D[id]; if(!r) return null; const K=THK[id]||{}; const e=thObj(thDek(r,r.typ==='linien'&&K.dicht!==false)); THE[id]=e; return e; }
+const thLeg=(e,i)=>{ const L=e&&e.legende; if(!Array.isArray(L)||!L[i]) return '#cccccc'; return Array.isArray(L[i])?L[i][1]:L[i].c; };
+const thLegK=(e,k)=>{ const L=(e&&e.legende)||[]; const x=Array.isArray(L)?L.find(l=>l&&l.k===k):null; return x?x.c:null; };
+const thQ=e=>(e&&e.quellen&&e.quellen[0])||{};
+const thHin=(K,e)=>!K||!K.hin?'':typeof K.hin==='function'?K.hin(e):K.hin;
+const thSatz1=t=>{ t=String(t||''); const m=t.match(/^.*?[.;](\s|$)/); return (m?m[0]:t).replace(/[;.]\s*$/,'').trim(); };
+const thBL=c=>{ const b=(DAT.bl||[]).find(x=>x.i===c); return b?b.n:c; };
+const thBLs=t=>String(t||'').split(/,\s*/).map(thBL).join(', ');
+const thQk=e=>{ const t=String(thQ(e).t||''); const k=t.split(/;| – |\(|, Kopie|, aufbereitet/)[0].trim(); return k.length>90?k.slice(0,88)+'…':k; };
+const thEp=j=>j==null?'':j<500?(j<-1000?'vor':'antike'):j<1500?'mittel':j<1900?'neu':j<2000?'20':'heute';
+const thJahr=j=>j==null?'':j<0?(-j)+' v. Chr.':String(j);
+const thDatum=d=>{ const m=/^(\d{4})-(\d\d)-(\d\d)/.exec(d||''); return m?`${m[3]}.${m[2]}.${m[1]}`:(d||''); };
+const thLand=i=>{ const c=DAT.idx[i]; return c?c.n:(i||''); };
+function thStops(st,v){ if(v<=st[0][0]) return st[0][1]; for(let i=1;i<st.length;i++) if(v<=st[i][0]){ const a=st[i-1], b=st[i], t=(v-a[0])/((b[0]-a[0])||1); return ramp([a[1],b[1]],t); } return st[st.length-1][1]; }
+function thRGB(c){ if(c[0]==='#') return [1,3,5].map(i=>parseInt(c.slice(i,i+2),16)); const m=c.match(/\d+/g); return m?m.slice(0,3).map(Number):[200,200,200]; }
+function thA(c,a){ const r=thRGB(c); return `rgba(${r[0]},${r[1]},${r[2]},${a})`; }
+
+/* ---------- Darstellung je Ebene (nur Zeichen, Farben-Zuordnung, Staffelung, Info-Aufbau) ---------- */
+const ZEIT_LEG=z=>z===1?0:z===2?1:z>=3&&z<=5?2:3;
+const KR_ALT=(a,b)=>a&&b?(a/b):null;
+const THK={
+ vulkane:{e:'🌋',k:'Lage, Typ und letzter Ausbruch der Vulkane',ov:1,sym:'dreieck',rz:[0,2,4],nz:[2.5,3.5,5],
+  c:(r,e)=>thLeg(e,ZEIT_LEG(r.zeit)),r:r=>r.rang===1?4.6:r.rang===2?3.8:3.2,name:r=>r.name,
+  info:(r,e)=>({t:r.name,u:[r.typ,thLand(r.iso3)].filter(Boolean).join(' · '),kpi:[['Höhe',r.hoehe_m!=null?fmt(r.hoehe_m)+' m':'–'],['Letzter Ausbruch',(e.zeit&&e.zeit[r.zeit])||'–']].concat(r.letzter_bedeutender_ausbruch?[['Bedeutender Ausbruch',thJahr(r.letzter_bedeutender_ausbruch)]]:[]),txt:r.text})},
+ erdbeben:{e:'〰️',k:'Starke Erdbeben seit 1900, Größe nach Magnitude',ov:1,sym:'kreis',rz:[0,1.5,3],nz:[4,99,99],alpha:.72,
+  c:(r,e)=>thLeg(e,(r.rang||3)-1),r:r=>2+3*Math.pow(Math.max(0,r.magnitude-7),1.5),name:r=>'M '+fmt(r.magnitude,1)+' · '+String(r.datum).slice(0,4),
+  info:(r,e)=>({t:'Erdbeben M '+fmt(r.magnitude,1),u:thDatum(r.datum)+' · '+(r.meer?'im Meer, nächstes Land: ':'')+thLand(r.iso3),kpi:[['Magnitude',fmt(r.magnitude,1)],['Herdtiefe',r.tiefe_km!=null?fmt(r.tiefe_km)+' km':'–']],txt:''})},
+ platten:{e:'🧩',k:'Grenzen der Erdplatten nach Bewegungsart',ov:1,dicht:false,lrz:[0,1.6,3],seg:1},
+ meeresstroemungen:{e:'🌊',k:'Große Oberflächenströmungen, warm und kalt (schematisch)',ov:1,lrz:[0,1.8,3],pfeil:1,dash:[7,5],w:2,nz:[2,2.6,3.4],
+  c:(r,e)=>thLeg(e,r.art==='warm'?0:r.art==='kalt'?1:2),name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[r.art==='warm'?'warme Strömung':r.art==='kalt'?'kalte Strömung':'ohne klare Zuordnung',r.meer].filter(Boolean).join(' · '),txt:r.text})},
+ windguertel:{e:'🌬️',k:'Passate, Westwinde, Kalmen und Monsungebiete (schematisch)',ov:1},
+ klima_raster:{e:'🌡️',k:'Temperatur und Niederschlag im 2°-Raster',teile:[
+   {k:'klima_raster',sub:'t_jahr',n:'Temperatur · Jahresmittel',e:'🌡️',f:b=>b-70,u:'°C'},
+   {k:'klima_kalt',sub:'t_kalt',n:'Temperatur · kältester Monat',e:'❄️',f:b=>b-70,u:'°C'},
+   {k:'klima_warm',sub:'t_warm',n:'Temperatur · wärmster Monat',e:'☀️',f:b=>b-70,u:'°C'},
+   {k:'niederschlag',sub:'niederschlag',n:'Niederschlag · Jahr',e:'🌧️',f:b=>b*20,u:'mm/Jahr'}]},
+ biome:{e:'🌿',k:'14 Großlebensräume (RESOLVE 2017) im 2°-Raster',land:1},
+ waldanteil:{e:'🌲',k:'Waldfläche in % der Landfläche je Land'},
+ pflanzen_heimat:{e:'🌱',k:'Ursprüngliche Heimat und Einbürgerung der Heilpflanzen (WCVP)'},
+ kreise:{e:'🏘️',k:'401 Landkreise und kreisfreie Städte',de:1,teile:[
+   {k:'kreise',n:'Landkreise · Einwohnerdichte',e:'🏘️',grund:1,wert:'dichte',u:'Einwohner je km² · 31.12.2024',kurz:'Einwohner je km² je Kreis (Destatis 31.12.2024)',p:MAGMA,s:v=>Math.log10(Math.max(v,35)/35)/Math.log10(4800/35),lg:['35','400','4.800']},
+   {k:'kreise_ew',n:'Landkreise · Einwohner',e:'👥',grund:1,wert:'ew',u:'Einwohner · 31.12.2024',kurz:'Einwohnerzahl je Kreis (Destatis 31.12.2024)',p:TEAL,s:v=>Math.log10(Math.max(v,30000)/30000)/Math.log10(3.9e6/30000),lg:['30.000','340.000','3,9 Mio.']},
+   {k:'lkreise',n:'Landkreisgrenzen',e:'🗺️',grund:0,kurz:'Grenzen und Namen der Kreise (VG250, vereinfacht)'}],leg:()=>'<span><i class="l" style="border-top:2px solid #ffecc8"></i>Kreisgrenze (vereinfacht)</span>',hin:e=>thSatz1(String(e.hinweis||'').replace(/^Gebietsstand[^:]*:\s*\d+ Kreise\.\s*/,''))},
+ schutzgebiete:{e:'🦌',k:'Nationalparks und Biosphärenreservate',ov:1,de:1,rz:[0,0,0],nz:[5,5,5],
+  f:r=>/national/i.test(r.art)?'quadrat':'kreis',c:(r,e)=>thLeg(e,/national/i.test(r.art)?0:r.unesco?1:2),r:r=>Math.min(8,2.4+Math.sqrt(r.ha||0)/120),name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[r.art,thBLs(r.land),r.jahr?'seit '+r.jahr:''].filter(Boolean).join(' · '),kpi:[['Fläche',r.ha!=null?fmt(r.ha)+' ha':'–']].concat(r.unesco!=null&&/bios/i.test(r.art)?[['UNESCO',r.unesco?'anerkannt':'nicht anerkannt']]:[]),txt:r.text||''}),
+  uebersichtOhneLage:1},
+ wanderwege:{e:'🥾',k:'Bekannte Fernwanderwege (schematisch)',ov:1,de:1,lrz:[0,0,6],nz:[5,5,6.5],w:2.8,dash:[8,5],orte:1,oz:6,onz:8,
+  linien:r=>r._l||(r._l=[thBB(thDicht(r.p.map(x=>[x[0],x[1]])))]),ortL:r=>r.p.map(x=>[x[2],x[0],x[1]]),c:(r,e)=>thLeg(e,0),name:r=>r.n,
+  info:(r,e)=>{ const q=(e.quellen_wege||{})[r.q]; return {t:r.n,u:[r.km!=null?fmt(r.km,1)+' km':'',thBLs(r.land)].filter(Boolean).join(' · '),kpi:[['Start',r.p[0][2]],['Ziel',r.p[r.p.length-1][2]]],txt:r.text,
+   html:(r.hinweis?`<p class="qwk-hin2">${esc(r.hinweis)}</p>`:'')+(q?`<p class="qwk-hin2">Beleg: ${q.u?`<a href="${esc(String(q.u).split(' ; ')[0])}" target="_blank" rel="noopener">${esc(q.t)}</a>`:esc(q.t)}${q.stand?' · '+esc(q.stand):''}</p>`:'')}; }},
+ wein_hopfen:{e:'🍇',k:'Weinanbaugebiete und Hopfengebiete (Größe = Fläche)',ov:1,de:1,rz:[0,0,0],nz:[5.5,5.5,5.5],listen:e=>[e.daten||[],e.daten_hopfen||[]],alpha:.82,
+  c:(r,e,t)=>thLeg(e,t),r:r=>Math.min(9,2.2+Math.sqrt(r.ha||0)/30),name:r=>r.n,
+  info:(r,e,t)=>({t:r.n,u:[t?'Hopfenanbaugebiet':'Weinanbaugebiet',thBLs(r.land),r.ort?'Lagepunkt '+r.ort:''].filter(Boolean).join(' · '),kpi:[[t?'Hopfenfläche':'Rebfläche',r.ha!=null?fmt(r.ha)+' ha':'–']].concat(r.tsd_hl_2025!=null?[['Weinerzeugung 2025',fmt(r.tsd_hl_2025/1000,2)+' Mio. hl']]:[]),txt:r.text||''})},
+ sprachen:{e:'🗣️',k:'Sprachfamilie der verbreitetsten Amtssprache je Land',zw:{germanisch:'#6aa8e8',romanisch:'#8ac0ff',slawisch:'#4a7ac8',indoiranisch:'#a0b8ff'},
+  farbe:(d,e)=>d.fam==='Indogermanisch'&&d.zw&&THK.sprachen.zw[d.zw]?THK.sprachen.zw[d.zw]:(thLegK(e,d.fam)||thLegK(e,null)),
+  legPlus:()=>`<div class="qwk-hin">Indogermanisch nach Zweig: ${Object.entries(THK.sprachen.zw).map(([k,c])=>`<i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${c}"></i> ${k}`).join(' · ')}, übrige Zweige wie Indogermanisch</div>`,
+  landInfo:d=>`<div>Amtssprachen: <b>${esc((d.amt||[]).join(', ')||'–')}</b></div><div>Verbreitetste Sprache: <b>${esc(d.top||'–')}</b>${d.p!=null?` (${fmt(d.p)} % sprechen sie)`:''}</div><div>Sprachfamilie: <b>${esc(d.fam||'ohne Angabe')}</b>${d.zw?' ('+esc(d.zw)+')':''}</div>${d.allg?`<div>insgesamt am verbreitetsten: <b>${esc(d.allg)}</b>${d.pa!=null?' ('+fmt(d.pa)+' %)':''}</div>`:''}`,
+  hin:'Anteile nach CLDR einschließlich Zweitsprachler'},
+ religionen:{e:'🕊️',k:'Größte Religionsgruppe je Land (Deckkraft nach Anteil)',
+  farbe:(d,e)=>{ const c=thLegK(e,d.g); if(!c) return null; const a=d.a&&d.a[d.g]; return thA(c,a!=null?.45+.55*Math.min(100,a)/100:.6); },
+  landInfo:(d,e)=>{ const G=e.gruppen||{}, A=Object.entries(d.a||{}).sort((x,y)=>y[1]-x[1]); return (A.length?`<div class="qwk-bars" style="margin-top:6px">${A.map(([k,v])=>`<div><span>${esc(G[k]||k)}</span><i><b style="width:${Math.max(2,Math.min(100,v)).toFixed(1)}%;background:${thLegK(e,k)||'#8a96a8'}"></b></i><em>${fmt(v,v<10?1:0)} %</em></div>`).join('')}</div>`:`<div>Größte Gruppe: <b>${esc(G[d.g]||d.g)}</b></div>`)+(d.ohne_zahl?'<div class="qwk-mini">Quelle nennt keine Prozentzahlen.</div>':'')+(d.sp?`<div class="qwk-mini">laut Quelle ${esc(d.sp)}</div>`:'')+`<div class="qwk-mini">Stand: ${d.j||'ohne Jahr'}</div>`; },
+  hin:'Jahr der Angabe je Land verschieden (CIA World Factbook)'},
+ reiche:{e:'👑',k:'Größte Ausdehnung alter Reiche, schematisch nach heutigen Staaten',hin:'schematisch nach heutigen Grenzen – Teilgebiete färben das ganze Land'},
+ handelswege:{e:'🐪',k:'Seidenstraße, Hanse, Weihrauchstraße und weitere Routen (schematisch)',ov:1,lrz:[0,1.6,3],nz:[2,3,4],w:2.2,dash:[7,5],orte:1,oz:2.6,onz:4.2,filter:r=>!S.epoche||thEp(r.von)===S.epoche,
+  ortL:r=>(r.orte||[]).filter(o=>(o[3]||1)<=(S.zoom>=4?3:S.zoom>=3?2:1)),name:r=>r.n,
+  info:r=>({t:r.n,u:r.zeit||'',kpi:r.waren?[['Waren',r.waren]]:[],txt:r.t,q:r.q})},
+ welterbe:{e:'🏛️',k:'Anzahl der UNESCO-Welterbestätten je Land',p:TEAL,s:v=>Math.sqrt(Math.min(v,61)/61),lg:['0','15','60'],
+  text:d=>`${fmt(d.n)} Welterbestätten${[d.k!=null?fmt(d.k)+' Kultur':'',d.nat!=null?fmt(d.nat)+' Natur':'',d.gem!=null?fmt(d.gem)+' gemischt':''].filter(Boolean).length?' ('+[d.k!=null?fmt(d.k)+' Kultur':'',d.nat!=null?fmt(d.nat)+' Natur':'',d.gem!=null?fmt(d.gem)+' gemischt':''].filter(Boolean).join(', ')+')':''}`,
+  hin:e=>thSatz1(e.hinweis)},
+ fruehe_staetten:{e:'🗿',k:'Megalithen, Pyramiden, Höhlenkunst und frühe Kultstätten',ov:1,rz:[0,2,3.5],nz:[2.2,3.2,4.5],filter:r=>!S.epoche||thEp(r.von)===S.epoche,
+  f:r=>({pyr:'dreieck',sied:'quadrat',kult:'raute',hoehle:'raute'})[r.art]||'kreis',hohl:r=>r.art==='mega',c:(r,e)=>thLegK(e,r.art)||thLeg(e,0),r:r=>r.rang===1?4.6:3.8,name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[thLand(r.land),(e.arten||{})[r.art]].filter(Boolean).join(' · '),kpi:[['Datierung',r.dat||'–']],txt:r.t})},
+ entdeckungsfahrten:{e:'⛵',k:'Bekannte Entdeckungs- und Forschungsreisen (schematisch)',ov:1,lrz:[0,0,2],nz:[1.6,2.4,3],w:2.2,pfeil:1,dash:[7,5],orte:1,oz:2.2,onz:3.6,filter:r=>!S.epoche||thEp(r.von)===S.epoche,name:r=>r.n,
+  info:r=>({t:r.n,u:[r.wer,thJahr(r.von)+(r.bis&&r.bis!==r.von?'–'+thJahr(r.bis):'')].filter(Boolean).join(' · '),txt:r.t,q:r.q})},
+ energie_leitungen:{e:'🛢️',k:'Wichtige Öl- und Gasleitungen mit Status (schematisch)',ov:1,lrz:[0,1.8,3],nz:[2.4,3.2,4.2],w:2.4,
+  c:(r,e)=>thLegK(e,r.stoff)||thLeg(e,0),stil:(r,e)=>/zerst|außer/.test(r.st||'')?{c:thLegK(e,'zerstört')||'#8a8a8a',dash:[2,4]}:/eingeschr/.test(r.st||'')?{a:.5,dash:[7,5]}:{dash:[9,4]},name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[(e.legende||[]).find(l=>l.k===r.stoff)?.n,r.jahr?'seit '+r.jahr:''].filter(Boolean).join(' · '),kpi:[['Kapazität',r.kap||'–'],['Status',r.st||'–']],txt:[r.status,r.t].filter(Boolean).join(' '),
+   html:r.laender&&r.laender.length?`<div>${r.laender.map(c=>chip(esc(thLand(c)))).join('')}</div>`:'',q:r.q})},
+ energie_engstellen:{e:'⚓',k:'Meerengen mit großem Öl- und Flüssiggas-Durchfluss',ov:1,rz:[0,0,0],nz:[1.5,2.5,3.5],sym:'kreis',alpha:.8,
+  leg:e=>`<span><i class="r" style="background:${(e.legende&&e.legende.c)||'#ffcf5a'}"></i>${esc((e.legende&&e.legende.groesse)||'')}</span>`,c:(r,e)=>(e.legende&&e.legende.c)||'#ffcf5a',r:r=>r.oel!=null?3+Math.sqrt(r.oel)*2.1:3.4,hohl:r=>r.oel==null,name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[thLand(r.land),r.jahr].filter(Boolean).join(' · '),kpi:[['Öl',r.oel!=null?fmt(r.oel,1)+' Mio. Barrel/Tag':'nicht angegeben'],['Flüssigerdgas (LNG)',r.lng!=null?fmt(r.lng,1)+' Mrd. Kubikfuß/Tag':'nicht angegeben']],txt:r.t})},
+ kraftwerke:{e:'⚡',k:'Große Kraftwerke und alle Kernkraftwerke (Leistung = Kreisgröße)',ov:1,rz:[0,2.2,3.6],nz:[4.5,6,8],sym:'kreis',alpha:.85,
+  rang:r=>r.art==='kern'?1:r.rang,c:(r,e)=>thLegK(e,r.art)||thLeg(e,0),r:r=>1.8+Math.sqrt(r.mw||0)/17,hohl:r=>!!r.aus,name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[thLand(r.land),(e.legende||[]).find(l=>l.k===r.art)?.n].filter(Boolean).join(' · '),kpi:[['Leistung',r.mw!=null?fmt(r.mw)+' MW':'–'],['Inbetriebnahme',r.j?String(r.j):'–']].concat(r.aus?[['Status','abgeschaltet']]:[]),txt:r.st||'',
+   html:(r.stq?`<p class="qwk-hin2">Beleg zum Status: ${esc(r.stq)}</p>`:'')+(r.neu?`<p class="qwk-hin2">nachgetragen, nicht aus der WRI-Datenbank</p>`:'')}),
+  hin:e=>thSatz1(String(e.hinweis||'').replace(/^ACHTUNG\s*/,''))},
+ staatsschulden:{e:'📉',k:'Bruttoschulden des Staates in % der Wirtschaftsleistung (IWF)',p:ROT,s:v=>Math.min(v,200)/200,lg:['0 %','100 %','200 %+'],text:(d,v)=>fmt(v,1)+' % des BIP'},
+ goldreserven:{e:'🥇',k:'Goldbestände der Zentralbanken (Kreisgröße = Tonnen)',ov:1,rz:[0,0,0],nz:[2.6,2.6,2.6],
+  liste:e=>e._liste||(e._liste=Object.entries(e.daten||{}).map(([iso,d])=>{ const c=DAT.idx[iso]; return c?Object.assign({iso,lon:c.lp[0],lat:c.lp[1]},d):null; }).filter(Boolean).sort((a,b)=>b.t-a.t)),
+  leg:e=>`<span><i class="r" style="background:#ffd23a"></i>${esc((e.legende&&e.legende.skala)||'Tonnen')}</span>`,f:()=>'kreis',c:()=>'#ffd23a',r:r=>3+Math.sqrt(r.t||0)/6.5,alpha:.85,name:r=>fmt(r.t)+' t',nc:'#ffe9a0',
+  info:r=>({t:thLand(r.iso),u:'Goldreserven der Zentralbank',kpi:[['Gold',fmt(r.t,1)+' t'],['Stand',r.stand||'–']],txt:''}),hin:e=>thSatz1(e.hinweis)},
+ waehrungen:{e:'💱',k:'Gesetzliche Zahlungsmittel und Währungsräume',
+  landInfo:d=>`<div>Währung: <b>${esc((d.w||[]).map((w,i)=>w+(d.code&&d.code[i]?' ('+d.code[i]+')':'')).join(', '))}</b></div>`},
+ buendnisse:{e:'🤝',k:'Mitglieder, Partner und Beobachter von 18 Bündnissen',
+  landPlus:(e,i)=>{ const A=(e.daten||[]).filter(L=>thRolle(L,i)); return A.length?`<div class="qwk-mini" style="margin-top:4px">Alle Zusammenschlüsse: ${A.map(L=>esc(L.n)+(thRolle(L,i)==='p'?' ('+esc(thRolleName(L,i,e))+')':thRolle(L,i)==='a'?' (ausgesetzt)':'')).join(', ')}</div>`:''; }},
+ stuetzpunkte:{e:'🎖️',k:'Militärstützpunkte im Ausland, nach Betreiberstaat',ov:1,rz:[0,2,3.5],nz:[3,4,5.5],sym:'raute',
+  c:(r,e)=>/^geräumt/.test(r.status||'')?'#9aa0a8':(thLegK(e,r.betreiber)||'#cccccc'),hohl:r=>/^geräumt/.test(r.status||''),r:r=>r.rang===1?4.4:3.6,name:r=>r.n,
+  art:{luft:'Luftwaffe',marine:'Marine',heer:'Heer',fuehrung:'Führung',aufkl:'Aufklärung',raketenabwehr:'Raketenabwehr',raumfahrt:'Raumfahrt',ausbildung:'Ausbildung',sanitaet:'Sanitätsdienst',gemischt:'gemischt'},
+  info:(r,e)=>({t:r.n,u:'Betreiber: '+thLand(r.betreiber)+' · Gastland: '+(r.gast?thLand(r.gast):(r.gebiet||'–')),kpi:[['Art',THK.stuetzpunkte.art[r.art]||r.art||'–'],['Status',r.status||'–']],txt:r.t,q:r.q})},
+ sternbilder:{e:'✨',k:'88 Sternbilder mit deutschen Namen und helle Sterne',ov:1,hin:'Globus: Himmel hinter der Erde · Karte: Sterne im Zenit · Scheibe: Kuppel von oben (Stand jetzt)'},
+ sonnenfinsternisse:{e:'🌘',k:'Totale und ringförmige Sonnenfinsternisse 2026–2040, Mittellinie',ov:1,lrz:[0,0,0],w:2,
+  c:(r,e)=>thLeg(e,r.art==='total'?0:/ring/.test(r.art)?1:2),stil:()=>({dash:[]}),
+  hin:e=>{ const t=String(e.hinweis||'').split(/(?<=\.)\s+/).find(x=>/Breite/.test(x))||''; return t.split(';').pop().trim().replace(/\.$/,''); },
+  info:(r,e)=>({t:({total:'Totale',hybrid:'Hybride'}[r.art]||(/ring/.test(r.art)?'Ringförmige':''))+' Sonnenfinsternis',u:new Date(r.datum+'T12:00:00Z').toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}),
+   kpi:[['Maximum',(r.max_utc||'').slice(0,5)+' UTC'],['Dauer am Maximum',r.dauer||'–'],['Ort des Maximums',koord([r.lon,r.lat])]],txt:''})},
+ sonnenstand:{e:'☀️',k:'Punkt, über dem die Sonne gerade senkrecht steht, mit Tagesbahn',ov:1,formel:1,g:'Himmel',n:'Sonnenstand (Zenitpunkt)',stand:'jetzt',
+  kopf:{name:'Sonnenstand',quellen:[{t:'NOAA Global Monitoring Laboratory: General Solar Position Calculations (nach Spencer 1971)',u:'https://gml.noaa.gov/grad/solcalc/solareqns.PDF',stand:'Formel, Uhrzeit dieses Geräts',lizenz:'gemeinfrei (US-Bundesbehörde)'}]}},
+ strittig:{e:'▨',k:'Neutrale Kennzeichnung: verwaltet von … · beansprucht von … (Natural Earth)',ov:1,formel:1,basis:1,g:'Politik',n:'Umstrittene Gebiete',
+  leg:()=>'<span><i style="background:repeating-linear-gradient(135deg,#ffecc8 0 1.5px,transparent 1.5px 5px);outline:1px dashed #ffecc8"></i>Status umstritten laut Quelle (ohne Wertung)</span>'},
+ heilbaeder:{e:'♨️',k:'Staatlich anerkannte Heilbäder und Orte mit Heilquellen',ov:1,de:1,rz:[0,0,0],nz:[6,6,6],sym:'kreis',
+  c:(r,e)=>{ const a=r.art||''; return thLeg(e,/^Sole/.test(a)?0:/Thermal/.test(a)?1:/^Mineral/.test(a)?2:/^Moor/.test(a)?3:4); },r:()=>3.6,name:r=>r.n,
+  hin:e=>'Teilliste: '+thSatz1(e.hinweis).replace(/\s*\(amtliche Landesverzeichnisse\)/,''),
+  info:(r,e)=>({t:r.n,u:[thBLs(r.land),r.praedikat].filter(Boolean).join(' · '),kpi:[['Art',r.art||'–'],['Stand Verzeichnis',r.stand||'–']],txt:''})}
+};
+const TH_STRITTIG=true;
+const TH_GRUPPEN=['Natur','Himmel','Deutschland','Menschen','Geschichte','Wirtschaft','Politik'];
+const TH_AUS=new Set([]);   // noch nicht freigegebene Gruppen
+/* Schalter: je Ebene einer (oder mehrere über THK.teile); art 'ov' = Überlagerung (S.ov), 'grund' = Grundkarte (GRUND) */
+let THS=[];
+function thInit(){ if(THS.length) return; const I=thIdx(); THS=[];
+  I.index.forEach(x=>{ if(TH_AUS.has(x.gruppe)) return; const K=THK[x.id]||{}; const grund0=/^land-|^raster$/.test(x.typ)&&!K.ov;
+    const teile=K.teile||[{k:x.id,n:x.name,e:K.e}];
+    teile.forEach((t,ti)=>{ const grund=t.grund!=null?!!t.grund:grund0; const s={k:t.k,id:x.id,n:t.n,e:t.e||K.e||'◆',g:x.gruppe,kurz:t.kurz||K.k||x.einheit||'',stand:x.stand,typ:x.typ,art:grund?'grund':'ov',sub:t.sub,f:t.f,u:t.u,wahl:x.wahl,teil:ti};
+      THS.push(s);
+      if(s.art==='ov'){ if(!(s.k in S.ov)) S.ov[s.k]=false; }
+      else GRUND[s.k]=Object.assign({n:s.n,g:x.gruppe,e:s.e,th:x.id,u:t.u||x.einheit},thGrundDef(x,K,t)); }); });
+  if(I.strittig&&I.strittig.g) THK.strittig.kopf={name:'Umstrittene Gebiete',quellen:[{t:I.strittig.q,u:I.strittig.u,stand:I.strittig.stand,lizenz:'gemeinfrei'}]}; else delete THK.strittig;
+  for(const id in THK){ const K=THK[id]; if(!K.formel||TH_AUS.has(K.g)) continue; THS.push({k:id,id,n:K.n,e:K.e,g:K.g,kurz:K.k,stand:K.stand||(K.kopf&&K.kopf.quellen[0].stand)||'',typ:'formel',art:'ov',teil:0,basis:K.basis}); if(!(id in S.ov)) S.ov[id]=!!K.basis; }
+  if(!(TH_STRITTIG&&I.strittig&&I.strittig.g)) S.ov.strittig=false;
+  const ord=Object.keys(THK); THS.sort((a,b)=>{ const x=ord.indexOf(a.id), y=ord.indexOf(b.id); return (x<0?999:x)-(y<0?999:y)||a.teil-b.teil; });
+  if(!S.thw) S.thw={}; }
+function thGrundDef(x,K,t){ if(x.typ==='kreise') return {kre:1,wert:t.wert,p:t.p,s:t.s,lg:t.lg,seite:1}; if(x.typ==='raster') return {thr:1,sub:t.sub,f:t.f}; if(x.typ==='land-wert') return {thw:1}; if(x.typ==='land-liste') return {thl:1}; return {thk:1}; }
+function thSchalter(k){ return THS.find(s=>s.k===k); }
+function thAn_(s){ return s.art==='grund'?S.grund===s.k:!!S.ov[s.k]; }
+
+/* ---------- Werte und Farben der Landes-Ebenen ---------- */
+function thLandWert(G,i){ const e=th(G.th); if(!e||!e.daten) return null; const d=e.daten[i]; if(d==null) return null; const K=THK[G.th]||{}; if(K.wert) return K.wert(d); return typeof d==='number'?d:(d.n!=null?d.n:d.t!=null?d.t:null); }
+function thWertFarbe(G,v){ const e=th(G.th), K=THK[G.th]||{}; if(K.p) return ramp(K.p,K.s(v)); if(Array.isArray(e.legende)&&Array.isArray(e.legende[0])) return thStops(e.legende,v); return ramp(TEAL,Math.min(1,v/100)); }
+function thWahl(id){ const I=thIdx().by[id]; if(!I||!I.wahl) return null; if(id==='pflanzen_heimat'){ if(S.pflanze&&I.wahl.some(w=>w[0]===S.pflanze)) return S.pflanze; return I.wahl[0][0]; } const w=S.thw[id]; return I.wahl.some(x=>x[0]===w)?w:I.wahl[0][0]; }
+function thListe(id){ const e=th(id); if(!e) return null; const w=thWahl(id); return (e.daten||[]).find((x,i)=>(x.id||String(i))===w)||null; }
+/* Rolle eines Landes in einer Liste (Bündnis/Reich): m Mitglied, a ausgesetzt, p Partner/Beobachter/Kandidat */
+function thRolle(L,i){ if(!L) return null; if(L.mitglieder&&L.mitglieder[i]!=null) return L.ausgesetzt&&L.ausgesetzt[i]?'a':'m'; if(Array.isArray(L.l)&&L.l.includes(i)) return 'm';
+  for(const k of ['partner','beobachter','kandidaten','moeglich']) if(Array.isArray(L[k])&&L[k].includes(i)) return 'p'; return null; }
+function thFarbe(G,i){ const id=G.th, e=th(id); if(!e||G.kre) return null; const K=THK[id]||{};
+  if(G.thw){ const v=thLandWert(G,i); return v==null?null:thWertFarbe(G,v); }
+  if(G.thl){ const L=thListe(id), r=thRolle(L,i); if(!r) return null; const c=L.c||thLeg(e,0); return r==='m'?thA(c,1):r==='a'?thA(c,.6):thA(c,.42); }
+  if(G.thk){ if(id==='pflanzen_heimat'){ const P=e.daten[thWahl(id)]; if(!P) return null; if((P.heimat||[]).includes(i)) return thA(thLeg(e,0),.95); if((P.eingeb||[]).includes(i)) return thA(thLeg(e,1),.8); return null; }
+    const d=e.daten&&e.daten[i]; if(!d) return null; if(K.farbe) return K.farbe(d,e); const c=thLegK(e,d[e.katfeld]); return c||thLegK(e,null); }
+  return null; }
+/* Schraffur (schematisch / Partner) */
+let SCHRAFF={};
+function schraffur(c,dicht){ const k=c+dicht; if(SCHRAFF[k]) return SCHRAFF[k]; const n=document.createElement('canvas'), s=dicht||7; n.width=n.height=s; const x=n.getContext('2d'); x.strokeStyle=c; x.lineWidth=1.1; x.beginPath(); x.moveTo(-1,s+1); x.lineTo(s+1,-1); x.moveTo(-1,1); x.lineTo(1,-1); x.moveTo(s-1,s+1); x.lineTo(s+1,s-1); x.stroke(); return SCHRAFF[k]=ctx.createPattern(n,'repeat'); }
+function thLandExtra(G){ const id=G.th, e=th(id); if(!e) return;
+  if(G.thl){ const L=thListe(id); if(!L) return; const c=L.c||thLeg(e,0);
+    DAT.laender.forEach(cc=>{ const r=thRolle(L,cc.i); if(!r) return; if(r==='m'&&!L.schema) return; ctx.beginPath(); let ok=false; cc.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return;
+      if(r==='p'||L.schema){ ctx.fillStyle=schraffur(thA('#ffffff',r==='p'?.5:.32),r==='p'?6:8); ctx.fill(); }
+      if(r==='a'){ ctx.setLineDash([5,4]); ctx.strokeStyle=thA(c,1); ctx.lineWidth=1.8; ctx.stroke(); ctx.setLineDash([]); } });
+    if(L.lon!=null&&L.lat!=null){ const q=proj(L.lon,L.lat); if(q[2]>.1){ ctx.fillStyle='#fff'; ctx.strokeStyle='#1a1206'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(q[0],q[1],5,0,7); ctx.fill(); ctx.stroke(); ctx.fillStyle=c; ctx.beginPath(); ctx.arc(q[0],q[1],2.4,0,7); ctx.fill(); boxAdd([q[0]-6,q[1]+6,12,12]); if(L.hs) text(L.hs,q[0]+8,q[1]+4,11,'#ffffff',false,'700'); } } } }
+
+/* ---------- Raster-Grundkarten (Klima, Biome): Bild pixelweise wie das Relief, weich (bilinear) bzw. Klassen (nächste Zelle) ---------- */
+const TRB={};
+function thRasterLUT(G){ const e=th(G.th), lut=new Uint8ClampedArray(256*4); if(!e) return lut;
+  if(e.klassen){ for(const k in e.klassen){ const c=thRGB(e.klassen[k][1]), o=(+k)*4; lut[o]=c[0]; lut[o+1]=c[1]; lut[o+2]=c[2]; lut[o+3]=255; } return lut; }
+  const st=(e.legende&&(e.legende[G.sub]||(G.sub.indexOf('t_')===0?e.legende.t_jahr:null)))||[[0,'#000000'],[1,'#ffffff']];
+  for(let b=0;b<255;b++){ const c=thRGB(thStops(st,G.f(b))), o=b*4; lut[o]=c[0]; lut[o+1]=c[1]; lut[o+2]=c[2]; lut[o+3]=255; } return lut; }
+function thRasterDaten(G){ const key=G.th+'|'+(G.sub||''); if(TRB[key]) return TRB[key]; const e=th(G.th); const s=G.sub?e.daten[G.sub]:e.daten, b=atob(s), a=new Uint8Array(b.length); for(let i=0;i<b.length;i++) a[i]=b.charCodeAt(i); return TRB[key]={a,lut:thRasterLUT(G),kl:!!e.klassen}; }
+function thRasterWert(G,lon,lat){ const R=thRasterDaten(G), ix=((Math.round((lon+179)/2)%180)+180)%180, iy=Math.max(0,Math.min(89,Math.round((89-lat)/2))); const b=R.a[iy*180+ix]; if(R.kl) return b||null; return b===255?null:G.f(b); }
+let TRC=null, TRK='';
+function thRasterBild(G){ const R=thRasterDaten(G), s=S.bewegt?.34:.5, w=Math.max(1,Math.round(W*s)), h=Math.max(1,Math.round(H*s)); const key=[S.grund,S.modus,S.lam.toFixed(2),S.phi.toFixed(2),S.zoom.toFixed(3),S.px|0,S.py|0,w,h].join('|'); if(key===TRK&&TRC) return TRC;
+  if(!TRC) TRC=document.createElement('canvas'); TRC.width=w; TRC.height=h; const x=TRC.getContext('2d'), img=x.createImageData(w,h), d=img.data, A=R.a, L=R.lut, kl=R.kl;
+  const farb=(lon,lat,o)=>{ let fx=(lon+179)/2, fy=(89-lat)/2; fx=((fx%180)+180)%180; fy=Math.max(0,Math.min(89,fy));
+    if(kl){ const i=(Math.round(fy)*180+(Math.round(fx)%180))*4, v=A[i/4]*4; d[o]=L[v]; d[o+1]=L[v+1]; d[o+2]=L[v+2]; d[o+3]=L[v+3]; return; }
+    const x0=Math.floor(fx), y0=Math.min(88,Math.floor(fy)), ax=fx-x0, ay=fy-y0, x1=(x0+1)%180; let r=0,g=0,b=0,a=0;
+    for(const [xx,yy,ww] of [[x0,y0,(1-ax)*(1-ay)],[x1,y0,ax*(1-ay)],[x0,y0+1,(1-ax)*ay],[x1,y0+1,ax*ay]]){ const v=A[yy*180+xx]*4, al=L[v+3]*ww; r+=L[v]*al; g+=L[v+1]*al; b+=L[v+2]*al; a+=al; }
+    if(a>0){ d[o]=r/a; d[o+1]=g/a; d[o+2]=b/a; d[o+3]=Math.min(255,a); } };
+  if(S.modus==='globus'){ const r=radius()*s, cx=W/2*s, cy=H/2*s, p0=S.phi*R2, sp=Math.sin(p0), cp=Math.cos(p0), l0=S.lam*R2, y0=Math.max(0,Math.floor(cy-r)), y1=Math.min(h-1,Math.ceil(cy+r));
+    for(let py=y0;py<=y1;py++){ const Y=-(py-cy)/r, xx=Math.sqrt(Math.max(0,1-Y*Y))*r, x0=Math.max(0,Math.floor(cx-xx)), x1=Math.min(w-1,Math.ceil(cx+xx));
+      for(let px=x0;px<=x1;px++){ const X=(px-cx)/r, rr=X*X+Y*Y; if(rr>1) continue; const z=Math.sqrt(1-rr); farb((l0+Math.atan2(X,z*cp-Y*sp))/R2,Math.asin(z*sp+Y*cp)/R2,(py*w+px)*4); } } }
+  else if(S.modus==='scheibe'){ const R0=rd()*s, cx=(W/2+S.px)*s, cy=(H/2+S.py)*s, y0=Math.max(0,Math.floor(cy-R0)), y1=Math.min(h-1,Math.ceil(cy+R0));
+    for(let py=y0;py<=y1;py++){ const dy=py-cy; for(let px=0;px<w;px++){ const dx=px-cx, r=Math.sqrt(dx*dx+dy*dy); if(r>R0) continue; farb(Math.atan2(dx,dy)/R2+S.lam,90-r/R0*180,(py*w+px)*4); } } }
+  else { const k=kf()*s; for(let py=0;py<h;py++){ const lat=-((py-H/2*s-S.py*s)/k); if(lat>90||lat<-90) continue; for(let px=0;px<w;px++) farb((px-W/2*s-S.px*s)/k+S.lam,lat,(py*w+px)*4); } }
+  x.putImageData(img,0,0); TRK=key; return TRC; }
+function thRasterZeichnen(G){ const K=THK[G.th]||{}, bild=thRasterBild(G); ctx.save(); if(K.land){ ctx.beginPath(); DAT.laender.forEach(c=>c.p.forEach(rg=>pfad(rg))); ctx.clip(); }
+  ctx.globalAlpha=K.land?.9:.82; ctx.imageSmoothingEnabled=true; ctx.drawImage(bild,0,0,W,H); ctx.restore();
+  const KU=feinRinge('land'); if(KU){ ctx.strokeStyle='rgba(8,16,28,.55)'; ctx.lineWidth=.9; ctx.lineJoin='round'; ctx.beginPath(); KU.forEach(rg=>{ if(rg.length>3&&vis(rg.bb)) pfad(rg,true); }); ctx.stroke(); } }
+
+/* ---------- Himmel: Sternbilder, Sonnenstand ---------- */
+function sternzeit(d){ const D=d.getTime()/864e5+2440587.5-2451545; return (((18.697374558+24.06570982441908*D)%24)+24)%24; }
+const stLon=(ra,gm)=>((ra-15*gm+540)%360+360)%360-180;
+/* Globus: Himmel hinter der Erde (Blick vom fernen Betrachter durch die Erde hindurch, Zentralprojektion), nur außerhalb der Erdscheibe */
+function thHimmelHinten(){ if(!S.ov.sternbilder||S.modus!=='globus') return; const e=th('sternbilder'); if(!e) return; const gm=sternzeit(new Date()), l=S.lam*R2, p=S.phi*R2, cp=Math.cos(p), sp=Math.sin(p), cl=Math.cos(l), sl=Math.sin(l), f=Math.min(W,H)*.36, R=radius();
+  const P=(ra,dec)=>{ const lo=stLon(ra,gm)*R2, la=dec*R2, x=Math.cos(la)*Math.cos(lo), y=Math.cos(la)*Math.sin(lo), z=Math.sin(la), dc=-(x*cp*cl+y*cp*sl+z*sp); if(dc<.08) return null; const ex=-x*sl+y*cl, ny=-x*sp*cl-y*sp*sl+z*cp; return [W/2+f*ex/dc,H/2-f*ny/dc]; };
+  ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.moveTo(W/2+R*1.02,H/2); ctx.arc(W/2,H/2,R*1.02,0,Math.PI*2,true); ctx.clip();
+  ctx.strokeStyle='rgba(106,138,200,.6)'; ctx.lineWidth=1; ctx.beginPath();
+  (e.daten||[]).forEach(b=>(b.l||[]).forEach(L=>{ let a=null; for(const q of L){ const z=P(q[0],q[1]); if(z&&a&&Math.hypot(z[0]-a[0],z[1]-a[1])<W*.6){ ctx.moveTo(a[0],a[1]); ctx.lineTo(z[0],z[1]); } a=z; } })); ctx.stroke();
+  thSterne(e,P,true); ctx.restore(); }
+function thSterne(e,P,hinten){ const zoomN=hinten?1.5:S.zoom;
+  (e.daten_sterne||[]).forEach((st,i)=>{ const q=P(st.ra,st.dec); if(!q||q[0]<-5||q[0]>W+5||q[1]<-5||q[1]>H+5) return; const r=Math.max(.6,3.2-.55*st.mag); ctx.fillStyle=st.mag<1?'#ffffff':'#c8d8ff'; ctx.globalAlpha=Math.min(1,.45+.6*(4.5-st.mag)/4.5); ctx.beginPath(); ctx.arc(q[0],q[1],r,0,7); ctx.fill(); ctx.globalAlpha=1;
+    if(st.polarstern){ ctx.strokeStyle='#ffe14a'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(q[0],q[1],r+3.5,0,7); ctx.stroke(); text(st.name||'Polarstern',q[0]+r+6,q[1]+4,10.5,'#ffe9a0',false,'700'); }
+    else if(st.name&&(zoomN>=2||st.mag<.5)) text(st.name,q[0]+r+3,q[1]+3.5,9.4,'#dfe8ff');
+    if(st.name) THH.push([q[0],q[1],Math.max(4,r),'sternbilder',i,'s']); });
+  TLS='1px'; (e.daten||[]).forEach((b,i)=>{ if((b.rang||1)>(zoomN>=2.5?3:zoomN>=1.4?2:1)) return; const q=P(b.ra,b.dec); if(!q) return; if(text(b.n,q[0],q[1],10,'#9fb8e8',true,'italic 400','meer')) THH.push([q[0],q[1]-4,9,'sternbilder',i,'b']); }); TLS='0px'; }
+/* Karte und Scheibe: Sterne an ihrem Zenitpunkt (auf der Scheibe = Kuppel von oben, wie die 3D-Kuppel) */
+function thHimmelOben(e){ if(S.modus==='globus') return; const gm=sternzeit(new Date()); const P=(ra,dec)=>{ const lo=stLon(ra,gm); if(!imBlickP(lo,dec)) return null; const q=proj(lo,dec); return q; };
+  ctx.strokeStyle='rgba(106,138,200,.55)'; ctx.lineWidth=1; ctx.beginPath();
+  (e.daten||[]).forEach(b=>(b.l||[]).forEach(L=>{ let a=null; for(const q0 of L){ const z=P(q0[0],q0[1]); if(z&&a&&Math.hypot(z[0]-a[0],z[1]-a[1])<W*.4){ ctx.moveTo(a[0],a[1]); ctx.lineTo(z[0],z[1]); } a=z; } })); ctx.stroke();
+  thSterne(e,P,false); }
+function thSonne(){ const now=new Date(), [lo,la]=sonne(now); ctx.strokeStyle='rgba(255,214,96,.7)'; ctx.lineWidth=1.3; ctx.setLineDash([5,5]); const pts=[]; for(let x=-180;x<=180;x+=3) pts.push([x,la]); ctx.beginPath(); thStrich(pts); ctx.stroke(); ctx.setLineDash([]);
+  const q=proj(lo,la); if(q[2]<.05) return; ctx.strokeStyle='rgba(255,226,140,.95)'; ctx.lineWidth=1.4; ctx.beginPath(); for(let k=0;k<12;k++){ const w=k*Math.PI/6, a=k%2?10:13; ctx.moveTo(q[0]+Math.cos(w)*8,q[1]+Math.sin(w)*8); ctx.lineTo(q[0]+Math.cos(w)*a,q[1]+Math.sin(w)*a); } ctx.stroke();
+  const g=ctx.createRadialGradient(q[0]-1.5,q[1]-1.5,0,q[0],q[1],7); g.addColorStop(0,'#fffbe8'); g.addColorStop(.6,'#ffe07a'); g.addColorStop(1,'#f0a830'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(q[0],q[1],7,0,7); ctx.fill();
+  boxAdd([q[0]-13,q[1]+13,26,26]); text('Sonne im Zenit · '+String(now.getUTCHours()).padStart(2,'0')+':'+String(now.getUTCMinutes()).padStart(2,'0')+' UTC',q[0]+15,q[1]+4,10.5,'#ffe9a0',false,'700'); THH.push([q[0],q[1],9,'sonnenstand',0,0]); }
+/* ---------- Umstrittene Gebiete (Natural Earth): feine Schraffur, gleiche Regel für alle ---------- */
+let STG=null;
+function strGebiete(){ if(STG) return STG; const I=thIdx(); STG=(I.strittig&&I.strittig.g||[]).map(g=>Object.assign({},g,{ringe:thLin(g.l._l,false)})); return STG; }
+function strZeichnen(){ if(!S.ov.strittig||!S.ov.grenzen) return; const G=strGebiete(); if(!G.length) return; const pat=schraffur('rgba(255,236,200,.62)',6);
+  ctx.save(); ctx.lineWidth=.9; ctx.setLineDash([3,2.5]); ctx.strokeStyle='rgba(255,236,200,.8)';
+  G.forEach(g=>{ let ok=false; ctx.beginPath(); for(const r of g.ringe){ if(r.bb&&vis(r.bb)){ pfad(r); ok=true; } } if(!ok) return; ctx.fillStyle=pat; ctx.fill('evenodd'); ctx.stroke(); });
+  ctx.setLineDash([]); ctx.restore(); }
+function strAn(lon,lat){ if(!S.ov.strittig||!S.ov.grenzen) return null; const G=strGebiete(); let best=null, fl=1e9; G.forEach((g,i)=>{ for(const r of g.ringe){ const b=r.bb; if(lon<b[0]||lon>b[1]||lat<b[2]||lat>b[3]) continue; if(inring(lon,lat,r)){ const a=(b[1]-b[0])*(b[3]-b[2]); if(a<fl){ fl=a; best=i; } } } }); return best; }
+function infoStrittig(){ const box=$('.qwk-info',wrap), g=strGebiete()[S.str], I=thIdx().strittig, c=S.klick&&landAn(S.klick[0],S.klick[1]);
+  const zeilen=[g.v?['verwaltet',g.v==='selbst verwaltet'?'selbst verwaltet':'verwaltet von '+g.v]:null,g.a?['beansprucht','beansprucht von '+g.a]:null].filter(Boolean);
+  box.innerHTML=thKopf('▨',g.n,'Gebiet mit umstrittenem Status')+(zeilen.length?`<div class="qwk-box">${zeilen.map(z=>`<div style="margin:2px 0"><b>${esc(z[1])}</b></div>`).join('')}${g.s?`<div class="qwk-mini">${esc(g.s)}</div>`:''}</div>`:`<div class="qwk-box"><b>Status laut Quelle umstritten</b>${g.s?`<div class="qwk-mini">${esc(g.s)}</div>`:'<div class="qwk-mini">keine nähere Angabe zu Verwaltung und Anspruch in der Quelle</div>'}</div>`)+
+   `<p class="qwk-hin2">Kennzeichnung nach ${esc(I.q)} · Stand ${esc(I.stand)}${g.ne&&g.ne!==g.n?' · dort „'+esc(g.ne)+'“':''}${g.art?' · Kategorie „'+esc(g.art)+'“':''}. Gleiche Darstellung für alle Fälle, ohne Wertung; die Ländergrenzen der Grundkarte folgen ebenfalls Natural Earth.</p>`+
+   (c?`<div>${chip('','','')}<button class="qwk-chip k" data-land>${c.f||''} ${esc(c.n)} – Länderdaten</button></div>`:'');
+  const b=$('[data-land]',box); if(b) b.onclick=()=>{ S.str=null; waehle(c,S.klick); }; box.querySelectorAll('.qwk-chip:not([data-land])').forEach(x=>x.remove());
+  $('.qwk-x',box).onclick=()=>{ S.str=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
+/* ---------- Landkreise ---------- */
+function krWert(r,w){ if(r.einwohner_2024==null) return null; return w==='ew'?r.einwohner_2024:(r.flaeche_km2?r.einwohner_2024/r.flaeche_km2:null); }
+function krZeichnen(G){ const e=th('kreise'); if(!e) return; const L=e.daten||[], mitWert=G&&G.kre, zf=Math.min(1.3,.6+S.zoom/20);
+  ctx.lineJoin='round';
+  L.forEach((r,i)=>{ const R=r.ringe||[]; if(!R.length) return; let ok=false; ctx.beginPath(); for(const rg of R){ if(rg.bb&&sichtbar(rg.bb)){ pfad(rg); ok=true; } } if(!ok) return;
+    if(mitWert){ const v=krWert(r,G.wert); ctx.fillStyle=v==null?'rgba(70,74,84,.85)':ramp(G.p,G.s(v)); ctx.globalAlpha=.9; ctx.fill(); ctx.globalAlpha=1; if(v==null){ ctx.fillStyle=schraffur('rgba(255,255,255,.35)',6); ctx.fill(); } }
+    ctx.strokeStyle=S.kr===i?'#ffffff':mitWert?'rgba(255,255,255,.32)':'rgba(255,236,200,.55)'; ctx.lineWidth=(S.kr===i?2.4:.75)*zf; ctx.stroke(); });
+  if(S.zoom>=6){ const z=S.zoom; L.slice().sort((a,b)=>(b.einwohner_2024||0)-(a.einwohner_2024||0)).forEach(r=>{ const ew=r.einwohner_2024||0; if(z<(ew>600000?6:ew>250000?8:10)) return; if(!imBlickP(r.lon,r.lat)) return; const q=proj(r.lon,r.lat); if(q[2]<.2) return;
+    text(r.name,q[0],q[1]+4,z>=12?10.8:9.8,'#fff4dc',true,'600'); }); } }
+function kreisAn(lon,lat){ const e=th('kreise'); if(!e) return null; const L=e.daten||[]; for(let i=0;i<L.length;i++) for(const rg of (L[i].ringe||[])){ const b=rg.bb; if(lon<b[0]||lon>b[1]||lat<b[2]||lat>b[3]) continue; if(inring(lon,lat,rg)) return i; } return null; }
+function infoKreis(){ const box=$('.qwk-info',wrap), e=th('kreise'), L=e.daten, r=L[S.kr], G=GRUND[S.grund]&&GRUND[S.grund].kre?GRUND[S.grund]:GRUND.kreise, w=G.wert;
+  const d=krWert(r,'dichte'), rang=k=>{ const a=L.map(x=>krWert(x,k)).filter(v=>v!=null).sort((x,y)=>y-x); const v=krWert(r,k); return v==null?'–':(a.indexOf(v)+1)+' von '+a.length; };
+  const imLand=L.map((x,i)=>[x,i]).filter(([x])=>x.land===r.land&&krWert(x,w)!=null).sort((a,b)=>krWert(b[0],w)-krWert(a[0],w)), mx=imLand.length?krWert(imLand[0][0],w):1;
+  let h=thKopf('🏘️',r.name,[r.art,thBL(r.land),r.ags?'AGS '+r.ags:''].filter(Boolean).join(' · '))+thKpi([['Einwohner',r.einwohner_2024!=null?fmt(r.einwohner_2024):'–'],['Fläche',r.flaeche_km2!=null?fmt(r.flaeche_km2,0)+' km²':'–'],['Einwohner je km²',d!=null?fmt(d):'–'],['Rang Dichte',rang('dichte')]]);
+  if(r.einwohner_2024==null) h+=`<p class="qwk-hin2">${esc(thSatz1(String(e.hinweis||'').replace(/^Gebietsstand[^:]*:\s*\d+ Kreise\.\s*/,'')))}</p>`;
+  if(imLand.length) h+=`<h4>${esc(G.n.split(' · ')[1]||G.n)} – ${esc(thBL(r.land))}</h4><div class="qwk-bars">${imLand.slice(0,24).map(([x,i])=>{ const v=krWert(x,w); return `<div class="${i===S.kr?'hl':''}" data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${fmt(v)}</em></div>`; }).join('')}</div>${imLand.length>24?`<p class="qwk-mini">… und ${imLand.length-24} weitere</p>`:''}`;
+  h+=`<h4>Quelle</h4>${thQuellenHtml(e)}`; box.innerHTML=h;
+  box.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{ S.kr=+b.dataset.kr; const x=L[S.kr]; info(); flieg(x.lon,x.lat,Math.max(S.zoom,8)); });
+  $('.qwk-x',box).onclick=()=>{ S.kr=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
+function krUebersicht(G){ const box=$('.qwk-info',wrap), e=th('kreise'), L=e.daten, w=G.wert, A=L.map((x,i)=>[x,i]).filter(([x])=>krWert(x,w)!=null).sort((a,b)=>krWert(b[0],w)-krWert(a[0],w));
+  const zeile=([x,i])=>{ const v=krWert(x,w); return `<div data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${fmt(v)}</em></div>`; };
+  box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">${G.e}</span><div><h2>${esc(G.n)}</h2><small>${esc(G.u)}</small></div></div><h4>Höchste Werte</h4><div class="qwk-bars">${A.slice(0,12).map(zeile).join('')}</div><h4>Niedrigste Werte</h4><div class="qwk-bars">${A.slice(-6).map(zeile).join('')}</div><p class="qwk-hin2">Kreis antippen für alle Werte und die Rangliste im Bundesland. ${esc(thHin(THK.kreise,e))}</p><h4>Quelle</h4>${thQuellenHtml(e)}`;
+  box.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{ S.kr=+b.dataset.kr; const x=L[S.kr]; info(); flieg(x.lon,x.lat,Math.max(S.zoom,8)); }); }
+/* ---------- Zeichen ---------- */
+function thSym(f,x,y,r,c,hohl,alpha){ ctx.beginPath();
+  if(f==='dreieck'){ ctx.moveTo(x,y-r*1.1); ctx.lineTo(x+r,y+r*.75); ctx.lineTo(x-r,y+r*.75); ctx.closePath(); }
+  else if(f==='raute'){ ctx.moveTo(x,y-r*1.15); ctx.lineTo(x+r,y); ctx.lineTo(x,y+r*1.15); ctx.lineTo(x-r,y); ctx.closePath(); }
+  else if(f==='quadrat'){ ctx.rect(x-r*.85,y-r*.85,r*1.7,r*1.7); }
+  else ctx.arc(x,y,r,0,7);
+  if(alpha!=null) ctx.globalAlpha=alpha;
+  if(hohl){ ctx.strokeStyle=c; ctx.lineWidth=1.6; ctx.stroke(); } else { ctx.fillStyle=c; ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle='rgba(4,10,18,.8)'; ctx.lineWidth=.9; ctx.stroke(); }
+  ctx.globalAlpha=1; }
+let THH=[], THL=[];                         // Treffer des letzten Bildes: Punkte [x,y,R,id,i], Linien [id,i,[[x,y],…]]
+const thRang=(z,rz)=>z>=(rz||[0,2,3.5])[0]; // Hilfe: ab welchem Zoom ein Rang erscheint
+function thRangAn(r,rz){ rz=rz||[0,2,3.5]; const k=Math.max(1,Math.min(rz.length,r||1))-1; return S.zoom>=rz[k]; }
+function thPunkte(id,liste,K,e,teil){ const rand=S.modus==='globus'; const nam=[];
+  liste.forEach((r,i)=>{ if(r.lon==null||r.lat==null) return; if(K.filter&&!K.filter(r)) return; const rg=K.rang?K.rang(r):r.rang; if(!thRangAn(rg,K.rz)) return; if(!imBlickP(r.lon,r.lat)) return; const q=proj(r.lon,r.lat); if(rand&&q[2]<.08) return; if(q[0]<-20||q[0]>W+20||q[1]<-20||q[1]>H+20) return;
+    const R=(K.r?K.r(r,e,teil):4)*Math.min(1.7,Math.max(.85,Math.sqrt(S.zoom)*.8)), c=K.c?K.c(r,e,teil):thLeg(e,0), f=K.f?K.f(r,e,teil):K.sym;
+    thSym(f,q[0],q[1],R,c,K.hohl&&K.hohl(r),K.alpha); THH.push([q[0],q[1],R,id,i,teil]);
+    const nz=K.nz; if(nz&&K.name){ const z=nz[Math.max(1,Math.min(nz.length,rg||1))-1]; if(S.zoom>=z) nam.push([r,q,R]); } });
+  nam.forEach(([r,q,R])=>{ TXA=rand?Math.max(0,Math.min(1,(q[2]-.2)/.3)):1; text(K.name(r,teil),q[0]+R+3,q[1]+4,10.2,K.nc||'#f2ecdf',false,'600'); }); TXA=1; }
+function thStrich(l){ let st=true, lx=null; const pts=[]; for(const p of l){ const q=proj(p[0],p[1]); if(q[2]<0||(S.modus==='flach'&&lx!==null&&Math.abs(q[0]-lx)>W/2)){ st=true; lx=q[0]; pts.push(null); continue; } if(st){ ctx.moveTo(q[0],q[1]); st=false; } else ctx.lineTo(q[0],q[1]); lx=q[0]; pts.push(q); } return pts; }
+function thPfeilSpitze(pts,c,L){ let e=null,f=null; for(let k=pts.length-1;k>=0;k--){ if(pts[k]){ if(!e) e=pts[k]; else if(Math.hypot(pts[k][0]-e[0],pts[k][1]-e[1])>4){ f=pts[k]; break; } } else if(e) break; } if(!e||!f) return;
+  const a=Math.atan2(e[1]-f[1],e[0]-f[0]); ctx.fillStyle=c; ctx.beginPath(); ctx.moveTo(e[0]+Math.cos(a)*2,e[1]+Math.sin(a)*2); ctx.lineTo(e[0]-L*Math.cos(a-.42),e[1]-L*Math.sin(a-.42)); ctx.lineTo(e[0]-L*Math.cos(a+.42),e[1]-L*Math.sin(a+.42)); ctx.closePath(); ctx.fill(); }
+function thLinien(id,liste,K,e,teil){ const zf=Math.min(1.6,Math.max(.9,Math.sqrt(S.zoom)*.85)), nam=[];
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  liste.forEach((r,i)=>{ if(K.filter&&!K.filter(r)) return; if(!thRangAn(r.rang,K.lrz)) return; const Ls=K.linien?K.linien(r):(r.linien||r.p||[]); if(!Ls.length) return;
+    const c=K.c?K.c(r,e):(r.c||thLeg(e,0)), st=K.stil?K.stil(r,e):{}; ctx.strokeStyle=st.c||c; ctx.lineWidth=(st.w||K.w||2)*zf; ctx.globalAlpha=st.a||1; ctx.setLineDash(st.dash||(r.schema||K.dash?(K.dash||[7,5]):[]));
+    let alle=[]; for(const l of Ls){ if(!Array.isArray(l[0])||!l.bb||!sichtbar(l.bb)) continue; ctx.beginPath(); const pts=thStrich(l); ctx.stroke(); alle.push(pts); if(K.pfeil) { ctx.setLineDash([]); thPfeilSpitze(pts,st.c||c,8*zf); ctx.setLineDash(st.dash||(r.schema||K.dash?(K.dash||[7,5]):[])); } }
+    ctx.setLineDash([]); ctx.globalAlpha=1; if(alle.length){ THL.push([id,i,alle,teil]); if(K.nz&&K.name&&S.zoom>=K.nz[Math.max(1,Math.min(K.nz.length,r.rang||1))-1]) nam.push([r,alle]); }
+    const OR=K.ortL?K.ortL(r):r.orte; if(K.orte&&OR&&S.zoom>=(K.oz||2.5)) OR.forEach(o=>{ const q=proj(o[1],o[2]); if(q[2]<.1) return; const ko=/kontor/i.test(o[4]||''); ctx.fillStyle=ko?'#ffffff':c; ctx.strokeStyle='rgba(4,10,18,.85)'; ctx.lineWidth=1; ctx.beginPath(); if(ko) ctx.rect(q[0]-3,q[1]-3,6,6); else ctx.arc(q[0],q[1],2.6,0,7); ctx.fill(); ctx.stroke(); if(S.zoom>=(K.onz||4)) text(o[0],q[0]+5,q[1]+4,9.6,'#f0eadc'); }); });
+  nam.forEach(([r,alle])=>{ let best=null, bl=0; alle.forEach(pts=>{ const v=pts.filter(Boolean); if(v.length>bl){ bl=v.length; best=v; } }); if(!best||best.length<3) return; const m=best[best.length>>1]; text(K.name(r),m[0]+6,m[1]-6,10.2,K.nc||'#f4efe2',false,'italic 400','meer'); }); }
+/* Plattengrenzen: Teilstrecken nach Art einfärben */
+function thPlatten(e){ const K=THK.platten, codes=e.codes||{}, art=ch=>{ const a=codes[ch]; return a?a[0]:''; }, farbe={}; (e.legende||[]).forEach((l,i)=>{ farbe[i]=l[1]; });
+  const kl=ch=>{ const a=art(ch); return a==='auseinander'?0:a==='zusammen'?1:2; }, zf=Math.min(1.8,Math.max(1,Math.sqrt(S.zoom)*.8));
+  const pfade=[new Path2D(),new Path2D(),new Path2D()]; ctx.lineCap='round';
+  e.daten.forEach((r,i)=>{ if(!thRangAn(r.rang,K.lrz)) return; const l=r.koord_flach&&r.koord_flach[0]; if(!l||!sichtbar(l.bb)) return; const cs=r.codes||''; const pts=[]; let lx=null;
+    for(let k=0;k<l.length;k++){ const q=proj(l[k][0],l[k][1]); pts.push(q[2]<0?null:q); }
+    for(let k=0;k<l.length-1;k++){ const a=pts[k], b=pts[k+1]; if(!a||!b) continue; if(S.modus==='flach'&&Math.abs(a[0]-b[0])>W/2) continue; const P=pfade[kl(cs[k]||cs[cs.length-1])]; P.moveTo(a[0],a[1]); P.lineTo(b[0],b[1]); }
+    THL.push(['platten',i,[pts],0]); });
+  pfade.forEach((P,k)=>{ ctx.strokeStyle='rgba(6,12,20,.55)'; ctx.lineWidth=3.4*zf; ctx.stroke(P); ctx.strokeStyle=farbe[k]||'#fff'; ctx.lineWidth=1.6*zf; ctx.stroke(P); });
+  (e.daten_platten||[]).forEach(p=>{ if(!thRangAn(p.rang,[1,2.5,4])) return; const q=proj(p.lon,p.lat); if(q[2]<.25) return; TXA=.9; text(p.n,q[0],q[1],10.6,'#ffe2c8',true,'italic 400','meer'); }); TXA=1; }
+/* Windgürtel: Bänder mit Pfeilreihen, Monsungebiete gestrichelt */
+function thWind(e){ const B=e.daten||[], M=e.daten_monsun||[], zf=Math.min(1.5,Math.max(1,Math.sqrt(S.zoom)*.8));
+  const farbeB=b=>b.pfeil_wohin_grad==null?thLeg(e,3):/passat/i.test(b.name)?thLeg(e,0):/west/i.test(b.name)?thLeg(e,1):thLeg(e,2);
+  B.forEach(b=>{ const lo=Math.min(b.lat_von,b.lat_bis), hi=Math.max(b.lat_von,b.lat_bis), ring=[]; for(let x=-180;x<=180;x+=4) ring.push([x,hi]); for(let x=180;x>=-180;x-=4) ring.push([x,lo]);
+    ctx.beginPath(); if(pfad(ring)){ ctx.fillStyle=thA(farbeB(b),.2); ctx.fill(); } });
+  const V=vb(), schritt=S.zoom<1.5?30:S.zoom<3?15:S.zoom<6?7.5:3.75;
+  B.forEach(b=>{ if(b.pfeil_wohin_grad==null) return; const la=(b.lat_von+b.lat_bis)/2, w=b.pfeil_wohin_grad*R2, c=farbeB(b); ctx.strokeStyle=thA(c,.85); ctx.fillStyle=thA(c,.85); ctx.lineWidth=1.4*zf;
+    for(let lo=-180+schritt/2;lo<180;lo+=schritt){ if(!imBlickP(lo,la)) continue; const d=3*Math.min(1,schritt/10), a=[lo-Math.sin(w)*d/Math.max(.3,Math.cos(la*R2)),la-Math.cos(w)*d], z=[lo+Math.sin(w)*d/Math.max(.3,Math.cos(la*R2)),la+Math.cos(w)*d], p=proj(a[0],a[1]), q=proj(z[0],z[1]); if(p[2]<.1||q[2]<.1) continue; if(Math.abs(p[0]-q[0])>W/3) continue;
+      const L=Math.hypot(q[0]-p[0],q[1]-p[1]); if(L<4) continue; ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(q[0],q[1]); ctx.stroke(); const an=Math.atan2(q[1]-p[1],q[0]-p[0]), s=5*zf; ctx.beginPath(); ctx.moveTo(q[0],q[1]); ctx.lineTo(q[0]-s*Math.cos(an-.5),q[1]-s*Math.sin(an-.5)); ctx.lineTo(q[0]-s*Math.cos(an+.5),q[1]-s*Math.sin(an+.5)); ctx.closePath(); ctx.fill(); } });
+  ctx.setLineDash([6,4]); ctx.strokeStyle=thLeg(e,4); ctx.lineWidth=1.6*zf;
+  M.forEach(m=>{ const r=m.rechteck_lonmin_latmin_lonmax_latmax; if(!r) return; const ring=[]; for(let x=r[0];x<=r[2];x+=2) ring.push([x,r[1]]); for(let y=r[1];y<=r[3];y+=2) ring.push([r[2],y]); for(let x=r[2];x>=r[0];x-=2) ring.push([x,r[3]]); for(let y=r[3];y>=r[1];y-=2) ring.push([r[0],y]);
+    ctx.beginPath(); if(pfad(ring)){ ctx.fillStyle=thA(thLeg(e,4),.08); ctx.fill(); ctx.stroke(); } }); ctx.setLineDash([]);
+  if(S.zoom>=1.3) M.forEach(m=>{ const r=m.rechteck_lonmin_latmin_lonmax_latmax; if(!r) return; const q=proj((r[0]+r[2])/2,r[3]-1.5); if(q[2]<.2) return; text(m.name,q[0],q[1]+12,10,'#bfeccd',true,'italic 400','meer'); });
+  if(S.zoom>=1.6) B.forEach(b=>{ if(b.rang>1&&S.zoom<2.6) return; const la=(b.lat_von+b.lat_bis)/2, q=proj(S.lam+(S.modus==='globus'?0:20),la); if(q[2]<.2) return; text(b.name,q[0],q[1]-8,10,'#e8eef8',true,'italic 400','meer'); }); }
+function thWindAn(lon,lat){ const e=th('windguertel'); if(!e) return null; const M=e.daten_monsun||[]; for(let i=0;i<M.length;i++){ const r=M[i].rechteck_lonmin_latmin_lonmax_latmax; if(r&&lon>=r[0]&&lon<=r[2]&&lat>=r[1]&&lat<=r[3]) return ['windguertel',i,'m']; }
+  const B=e.daten||[]; for(let i=0;i<B.length;i++){ const b=B[i]; if(lat>=Math.min(b.lat_von,b.lat_bis)&&lat<Math.max(b.lat_von,b.lat_bis)) return ['windguertel',i,'b']; } return null; }
+
+/* ---------- Zeichnen aller eingeschalteten Überlagerungen (aus zeichne()) ---------- */
+function thFlaechenZeichnen(){ if(S.ov.windguertel){ const e=th('windguertel'); if(e) thWind(e); } }
+function thZeichnen(){
+  for(const s of THS){ if(s.art!=='ov'||!S.ov[s.k]) continue; const e=th(s.id); if(!e) continue; const K=THK[s.id]||{};
+    if(s.id==='windguertel'||s.typ==='kreise') continue;
+    if(s.id==='platten'){ thPlatten(e); continue; }
+    if(K.zeichne){ K.zeichne(e,s); continue; }
+    if(s.id==='sonnenstand'){ thSonne(); continue; }
+    if(s.id==='strittig') continue;
+    if(s.id==='sternbilder'){ thHimmelOben(e); continue; }
+    if(s.id==='sonnenfinsternisse'){ thLinien(s.id,e.daten||[],K,e,0); const KP={rz:[0,0,0],nz:[1.5,1.5,1.5],sym:'kreis',c:()=>thLeg(e,3),r:()=>3,name:r=>thDatum(r.datum)+' '+r.art+' · '+r.dauer}; thPunkte(s.id,e.daten||[],KP,e,0); continue; }
+    if(s.typ==='linien') thLinien(s.id,K.liste?K.liste(e):e.daten||[],K,e,0);
+    else if(s.typ==='punkte'||K.liste){ if(K.liste) thPunkte(s.id,K.liste(e),K,e,0); else if(K.listen) K.listen(e).forEach((L,t)=>thPunkte(s.id,L,K,e,t)); else thPunkte(s.id,e.daten||[],K,e,0); } } }
+function thSegDist(px,py,a,b){ const dx=b[0]-a[0], dy=b[1]-a[1], L=dx*dx+dy*dy; let t=L?((px-a[0])*dx+(py-a[1])*dy)/L:0; t=Math.max(0,Math.min(1,t)); return Math.hypot(px-a[0]-t*dx,py-a[1]-t*dy); }
+function thAn(x,y){ let best=null, bd=1e9;
+  for(const [hx,hy,R,id,i,t] of THH){ const d=Math.hypot(hx-x,hy-y); if(d<Math.max(10,R+6)&&d<bd){ bd=d; best=[id,i,t]; } }
+  if(best) return best; bd=9;
+  for(const [id,i,alle,t] of THL) for(const pts of alle){ for(let k=0;k<pts.length-1;k++){ const a=pts[k], b=pts[k+1]; if(!a||!b) continue; const d=thSegDist(x,y,a,b); if(d<bd){ bd=d; best=[id,i,t,k]; } } }
+  if(best) return best;
+  if(S.ov.windguertel){ const ll=inv(x,y); if(ll) return thWindAn(ll[0],ll[1]); }
+  return null; }
+
+/* ---------- Info-Karte, Legende, Quellen ---------- */
+function thQuellenHtml(e,nur){ const Q=(e&&e.quellen)||[]; return Q.slice(0,nur||4).map(q=>`<div class="qwk-thq">${q.u?`<a href="${esc(q.u)}" target="_blank" rel="noopener">${esc(q.t)}</a>`:esc(q.t)}${q.stand?` · Stand ${esc(q.stand)}`:''}${q.lizenz?` · <i>${esc(q.lizenz)}</i>`:''}</div>`).join(''); }
+function thKopf(e,t,u){ return `<div class="qwk-kopf"><span class="qwk-flag">${e}</span><div><h2>${esc(t)}</h2>${u?`<small>${esc(u)}</small>`:''}</div><button class="qwk-x" aria-label="Schließen">✕</button></div>`; }
+function thKpi(L){ return L&&L.length?`<div class="qwk-kpi">${L.map(([a,b])=>`<div><small>${esc(a)}</small><b style="font-size:15px">${esc(b)}</b></div>`).join('')}</div>`:''; }
+function infoThema(){ const box=$('.qwk-info',wrap), [id,i,t,seg]=S.thi, e=th(id), K=THK[id]||{}, sch=thSchalter(id)||THS.find(s=>s.id===id)||{e:'◆'}; let h='';
+  if(id==='platten'){ const r=e.daten[i], cs=r.codes||'', ch=cs[Math.min(cs.length-1,seg||0)], cd=(e.codes||{})[ch]||[], P={}; (e.daten_platten||[]).forEach(p=>P[p.c]=p.n); const pb=String(r.pb||'').split(/[-\/\\]/).map(c=>P[c]||c);
+    const arten=[...new Set(cs.split(''))].map(c=>(e.codes[c]||[])[1]).filter(Boolean);
+    h=thKopf(sch.e,cd[1]||'Plattengrenze',pb.join(' – '))+thKpi([['Bewegung',cd[0]||'–'],['Relativbewegung',r.v_mm_jahr!=null?'ca. '+fmt(r.v_mm_jahr)+' mm/Jahr':'–']])+`<p class="qwk-txt">Grenze zwischen ${pb.map(esc).join(' und ')}. Abschnitte: ${arten.map(esc).join(', ')}.</p>`; }
+  else if(id==='sternbilder'){ if(t==='s'){ const st=e.daten_sterne[i]; h=thKopf(sch.e,st.name,st.bezeichnung||'')+thKpi([['Helligkeit',fmt(st.mag,2)+' mag'],['Rektaszension',fmt(st.ra/15,2)+' h'],['Deklination',fmt(st.dec,2)+'°'],['Im Zenit jetzt über',koord([stLon(st.ra,sternzeit(new Date())),st.dec])]]); }
+    else { const b=e.daten[i]; h=thKopf(sch.e,b.n,b.lat||'')+thKpi([['Kürzel',b.k||'–'],['Deklination (Mitte)',fmt(b.dec)+'°']]); } }
+  else if(id==='sonnenstand'){ const now=new Date(), [lo,la]=sonne(now); h=thKopf(sch.e,'Sonne im Zenit',now.toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})+' Uhr (Gerätezeit)')+thKpi([['Zenitpunkt',koord([lo,la])],['Deklination der Sonne',fmt(la,2)+'°'],['Uhrzeit UTC',String(now.getUTCHours()).padStart(2,'0')+':'+String(now.getUTCMinutes()).padStart(2,'0')]])+`<p class="qwk-txt">Über diesem Punkt steht die Sonne gerade senkrecht. Die gestrichelte Linie zeigt den Breitenkreis, über den der Zenitpunkt heute wandert. Zusammen mit „Tag & Nacht“ ergibt sich die Beleuchtung der Erde.</p>`; }
+  else if(id==='windguertel'){ const r=seg==='m'||t==='m'?e.daten_monsun[i]:e.daten[i]; h=thKopf(sch.e,r.name,t==='m'?'Monsungebiet':(r.richtung||''))+`<p class="qwk-txt">${esc(r.text||'')}</p>`; }
+  else { const L=K.listen?K.listen(e)[t||0]:(K.liste?K.liste(e):e.daten), r=L[i], I=K.info?K.info(r,e,t||0):{t:r.n||r.name||'',txt:r.t||r.text||''};
+    h=thKopf(sch.e,I.t,I.u)+thKpi(I.kpi)+(I.txt?`<p class="qwk-txt">${esc(I.txt)}</p>`:'')+(I.html||''); if(r.schema||e.schema) h+=`<div>${chip('✏️ schematisch')}</div>`; if(I.q) h+=`<p class="qwk-hin2">Beleg: ${esc(I.q)}</p>`; }
+  { const L=Array.isArray(e.legende)?e.legende:[]; const E=L.map(l=>Array.isArray(l)?[l[0],l[1]]:[l.n,l.c]).filter(x=>x[0]&&typeof x[0]==='string'); if(E.length) h+=`<h4>Legende</h4><div class="qwk-kl">${E.map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`; }
+  h+=`<h4>${esc(e.name||sch.n)}</h4>${thHin(K,e)?`<p class="qwk-hin2" style="margin-top:0">${esc(thHin(K,e))}</p>`:''}${thQuellenHtml(e)}`;
+  box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.thi=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
+/* Info-Teil für Landes-Ebenen (über den Länderdaten) bzw. Übersicht ohne gewähltes Land */
+function thLandBlock(G,i){ const id=G.th, e=th(id); if(!e) return ''; let h=`<div class="qwk-box qwk-thbox"><small>${G.e} ${esc(G.n)}</small>`;
+  if(G.thr){ const ll=S.klick; if(ll){ if(id==='klima_raster'){ const w=THS.filter(s=>s.id===id).map(s=>{ const v=thRasterWert(GRUND[s.k],ll[0],ll[1]); return v==null?null:`${s.n.split(' · ')[1]||s.n}: <b>${fmt(v)} ${s.u}</b>`; }).filter(Boolean); h+=`<div>${w.join('<br>')||'keine Angabe'}</div>`; }
+      else { const v=thRasterWert(G,ll[0],ll[1]); const k=e.klassen&&e.klassen[v]; h+=`<div><b>${k?esc(k[0]):'keine Angabe'}</b></div>`; } h+=`<div class="qwk-mini">an der angetippten Stelle (${koord(ll)})</div>`; } }
+  else if(G.thw){ const d=e.daten[i], v=thLandWert(G,i), K=THK[id]||{}; h+=`<div><b>${v==null?'keine Angabe':(K.text?K.text(d,v):fmt(v,v<100?1:0)+' '+esc(G.u||''))}</b></div>`; }
+  else if(G.thl){ const L=thListe(id), r=thRolle(L,i); h+=`<div><b>${esc(L.n)}</b>: ${r==='m'?(L.mitglieder&&L.mitglieder[i]!=null?'Mitglied seit '+thJahr(L.mitglieder[i]):'gehörte (ganz oder teilweise) dazu'):r==='a'?'Mitglied, ausgesetzt: '+esc(L.ausgesetzt[i]):r==='p'?esc(thRolleName(L,i,e)):'kein Mitglied'}</div>`; if(L.ehemalig&&L.ehemalig[i]) h+=`<div class="qwk-mini">früher: ${esc(L.ehemalig[i])}</div>`; const K=THK[id]||{}; if(K.landPlus) h+=K.landPlus(e,i); }
+  else if(id==='pflanzen_heimat'){ const P=e.daten[thWahl(id)]; const rh=(P.heimat||[]).includes(i)?'ursprünglich heimisch':(P.eingeb||[]).includes(i)?'eingeführt / eingebürgert':'nicht als heimisch oder eingebürgert geführt'; h+=`<div><b>${esc(P.n)}</b>: ${rh}</div>`; }
+  else { const K=THK[id]||{}, d=e.daten[i]; h+=d?(K.landInfo?K.landInfo(d,e):`<div>${esc(JSON.stringify(d))}</div>`):'<div>keine Angabe</div>'; }
+  const LQ=G.thl&&thListe(id)&&thListe(id).q; if(LQ&&LQ.t) return h+`<div class="qwk-mini" style="margin-top:4px">Beleg: ${esc(LQ.t)}${LQ.stand?' · Stand '+esc(LQ.stand):''}</div></div>`;
+  return h+`<div class="qwk-mini" style="margin-top:4px">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · Stand '+esc(thQ(e).stand):''}</div></div>`; }
+function thRolleName(L,i,e){ for(const k of ['partner','beobachter','kandidaten','moeglich']) if(Array.isArray(L[k])&&L[k].includes(i)){ const f=e.felder&&e.felder[k]; return f||k; } return ''; }
+function thUebersicht(G){ const box=$('.qwk-info',wrap), id=G.th, e=th(id), K=THK[id]||{}; let h=`<div class="qwk-kopf"><span class="qwk-flag">${G.e}</span><div><h2>${esc(G.n)}</h2><small>${esc(G.u||e.einheit||'')}</small></div></div>`;
+  if(G.thr&&S.klick) h+=thLandBlock(G,null);
+  const I=thIdx().by[id];
+  if(I&&I.wahl){ const w=thWahl(id); h+=`<h4>Auswahl</h4><div>${I.wahl.map(([k,n])=>`<button class="qwk-chip ${k===w?'k':''}" data-thw="${esc(k)}">${esc(n)}</button>`).join('')}</div>`;
+    if(G.thl){ const L=thListe(id); h+=`<div class="qwk-box"><b>${esc(L.voll||L.n)}</b>${L.zeit?` · ${esc(L.zeit)}`:''}${L.gegr?` · gegründet ${thJahr(L.gegr)}`:''}${L.fl?` · ca. ${esc(L.fl)} Mio. km²`:''}${L.hs?` · Hauptstadt ${esc(L.hs)}`:''}<p class="qwk-txt" style="margin:6px 0 0">${esc(L.t||'')}</p>${L.hinweis_mitglieder?`<p class="qwk-hin2">${esc(L.hinweis_mitglieder)}</p>`:''}</div>`;
+      const M=L.mitglieder?Object.entries(L.mitglieder).sort((a,b)=>a[1]-b[1]||thLand(a[0]).localeCompare(thLand(b[0]))):(L.l||[]).map(x=>[x,null]); h+=`<h4>${L.mitglieder?'Mitglieder ('+M.length+')':'Heutige Staaten (schematisch)'}</h4><div>${M.map(([c,j])=>chip(`${(DAT.idx[c]&&DAT.idx[c].f)||''} ${esc(thLand(c))}${j!=null?' · '+thJahr(j):''}${L.ausgesetzt&&L.ausgesetzt[c]?' (ausgesetzt)':''}`)).join('')}</div>`;
+      for(const k of ['partner','beobachter','kandidaten','moeglich']) if(Array.isArray(L[k])&&L[k].length) h+=`<h4>${esc((e.felder&&e.felder[k])||k)}</h4><div>${L[k].map(c=>chip(esc(thLand(c)))).join('')}</div>`;
+      if(L.ehemalig) h+=`<h4>Ehemalige</h4><div>${Object.entries(L.ehemalig).map(([c,z])=>chip(esc(thLand(c))+' · '+esc(z))).join('')}</div>`;
+      if(L.schema) h+=`<div>${chip('✏️ schematisch nach heutigen Grenzen')}</div>`; if(L.q) h+=`<p class="qwk-hin2">Beleg: ${L.q.u?`<a href="${esc(L.q.u)}" target="_blank" rel="noopener">${esc(L.q.t)}</a>`:esc(L.q.t||L.q)}${L.q.stand?' · Stand '+esc(L.q.stand):''}</p>`; }
+    if(id==='pflanzen_heimat'){ const P=e.daten[w]; h+=`<div class="qwk-box"><b>${esc(P.n)}</b> <i>${esc(P.wcvp||'')}</i><p class="qwk-txt" style="margin:6px 0 0">Heimat laut WCVP (Kew): ${(P.heimat||[]).length} Länder · eingebürgert in ${(P.eingeb||[]).length}</p>${P.gebiet_en?`<p class="qwk-hin2">WCVP-Arealtext (englisch): ${esc(P.gebiet_en)}</p>`:''}</div><div>${chip('🌿 '+esc(P.n)+' im Kompendium','#'+w,'k')}</div>`; } }
+  else if(K.uebersicht) h+=K.uebersicht(e,G);
+  h+=`<p class="qwk-hin2">Land antippen für Wert und Länderdaten.${thHin(K,e)?' '+esc(thHin(K,e)):''}</p><h4>Quelle</h4>${thQuellenHtml(e)}`;
+  box.innerHTML=h; box.querySelectorAll('[data-thw]').forEach(b=>b.onclick=()=>{ thWaehlen(id,b.dataset.thw); }); }
+function thWaehlen(id,w){ if(id==='pflanzen_heimat'){ S.pflanze=w; const sel=$('[data-pflanze]',wrap); if(sel) sel.value=w; } else S.thw[id]=w; const sl=wrap.querySelector(`[data-thwahl="${id}"]`); if(sl) sl.value=w; legende(); zeichne(); info(); }
+function thLegende(){ let h=''; const G=GRUND[S.grund], n=THS.filter(s=>s.art==='ov'&&S.ov[s.k]&&!s.basis).length;
+  for(const s of THS){ if(s.art!=='ov'||!S.ov[s.k]||(s.basis&&(!S.ov.grenzen||n<1))) continue; const e=th(s.id); if(!e) continue; const K=THK[s.id]||{}; const L=Array.isArray(e.legende)?e.legende:[];
+    const E=L.map(l=>Array.isArray(l)?[l[0],l[1]]:[l.n,l.c]).filter(x=>x[0]&&typeof x[0]==='string'), max=n>=3?3:n>=2?5:12;
+    const it=K.leg?K.leg(e):E.slice(0,max).map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')+(E.length>max?`<span style="color:var(--k-m)">+ ${E.length-max} weitere (Info)</span>`:'');
+    h+=`<div class="qwk-thleg"><b>${s.e} ${esc(s.n)}</b>${it?`<div class="qwk-kl">${it}</div>`:''}${thHin(K,e)&&n<2?`<div class="qwk-hin">${esc(thHin(K,e))}</div>`:''}</div>`; }
+  return h; }
+function thLegGrund(G){ const e=th(G.th), K=THK[G.th]||{}; if(!e) return ''; let h='';
+  if(G.kre){ h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${G.p.join(',')})"></div><div class="qwk-rl">${G.lg.map(x=>`<span>${x}</span>`).join('')}</div><div class="qwk-hin">logarithmische Skala · Kreis antippen</div>`; }
+  else if(G.thr){ if(e.klassen) h+=`<div class="qwk-kl">${Object.values(e.klassen).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`;
+    else { const st=(e.legende&&(e.legende[G.sub]||e.legende.t_jahr))||[]; h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${st.map(x=>x[1]).join(',')})"></div><div class="qwk-rl">${[st[0],st[st.length>>1],st[st.length-1]].filter(Boolean).map(x=>`<span>${fmt(x[0])}</span>`).join('')}</div>`; } }
+  else if(G.thw){ if(K.p) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${K.p.join(',')})"></div><div class="qwk-rl">${(K.lg||[]).map(x=>`<span>${esc(x)}</span>`).join('')}</div>`; else if(Array.isArray(e.legende)&&Array.isArray(e.legende[0])) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${e.legende.map(x=>x[1]).join(',')})"></div><div class="qwk-rl">${e.legende.map(x=>`<span>${fmt(x[0])}</span>`).join('')}</div>`; }
+  else if(G.thl){ const L=thListe(G.th); if(L){ const c=L.c||thLeg(e,0); h+=`<div class="qwk-kl"><span><i style="background:${c}"></i>${esc(L.n)}${L.mitglieder?' – Mitglieder':''}</span>${L.mitglieder?`<span><i style="background:${thA(c,.35)};outline:1px dashed ${c}"></i>ausgesetzt / Partner, Beobachter</span>`:''}${L.hs?`<span><i class="r" style="background:#fff"></i>Hauptstadt</span>`:''}</div>`; } }
+  else if(G.th==='pflanzen_heimat'){ const P=e.daten[thWahl(G.th)]; h+=`<div class="qwk-kl">${(e.legende||[]).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div><div class="qwk-hin">${esc(P?P.n:'')} · Pflanze im Themen-Menü wählen</div>`; }
+  else if(Array.isArray(e.legende)){ h+=`<div class="qwk-kl">${e.legende.map(l=>Array.isArray(l)?l:[l.n||'ohne Angabe',l.c]).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n||'ohne Angabe')}</span>`).join('')}</div>`; }
+  if(K.legPlus) h+=K.legPlus(e); if(thHin(K,e)) h+=`<div class="qwk-hin">${esc(thHin(K,e))}</div>`; { const LQ=G.thl&&thListe(G.th)&&thListe(G.th).q; h+=LQ&&LQ.t?`<div class="qwk-hin">Beleg: ${esc(LQ.t.split(/;| – |\(/)[0].trim())}${LQ.stand?' · '+esc(LQ.stand):''}</div>`:`<div class="qwk-hin">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · '+esc(thQ(e).stand):''}</div>`; } return h; }
+const QBASIS={t:null};
+function thQuelle(){ const q=$('.qwk-q',wrap); if(!q) return; if(QBASIS.t==null) QBASIS.t=q.textContent; const T=[]; const G=GRUND[S.grund];
+  const mit=id=>{ const e=th(id); if(!e) return; const Q=thQ(e); T.push(`${e.name} – ${(Q.t||'').split(/[;(,]/)[0].trim()}${Q.lizenz?' ('+Q.lizenz.split(/[;–(]/)[0].trim()+')':''}${Q.stand?', Stand '+Q.stand.split(' (')[0]:''}`); };
+  const ids=new Set(); if(G&&G.th) ids.add(G.th); THS.forEach(s=>{ if(s.art==='ov'&&S.ov[s.k]&&(s.id!=='strittig'||S.ov.grenzen)) ids.add(s.id); }); ids.forEach(mit);
+  q.textContent=QBASIS.t+(T.length?'; Themen: '+T.join('; '):''); }
+
+/* ---------- Auswahl „Themen“ (Desktop: Tafel neben den Ebenen, Handy: Blatt von unten) ---------- */
+const TH_GR_E={Natur:'🌿',Himmel:'✨',Deutschland:'🇩🇪',Menschen:'👥',Geschichte:'🏺',Wirtschaft:'🏭',Politik:'🏛️'};
+let THF={q:'',g:''};
+function thPanelHtml(){ return `<div class="qwk-bk qwk-thbk"><b>🗂 Themen</b><button data-thzu aria-label="Themen schließen">✕</button></div>
+  <input class="qwk-thsuch" type="search" placeholder="Thema suchen, z. B. Vulkane …" aria-label="Thema suchen">
+  <div class="qwk-thgr">${['',...TH_GRUPPEN.filter(g=>THS.some(s=>s.g===g))].map(g=>`<button data-thg="${g}" aria-pressed="${THF.g===g}">${g?TH_GR_E[g]+' '+g:'Alle'}</button>`).join('')}</div>
+  <div class="qwk-thakt"></div><div class="qwk-thliste"></div>`; }
+function thListeHtml(){ const q=THF.q.trim().toLowerCase(); let h='';
+  for(const g of TH_GRUPPEN){ if(THF.g&&THF.g!==g) continue; const L=THS.filter(s=>s.g===g&&(!q||(s.n+' '+s.kurz+' '+g).toLowerCase().includes(q))); if(!L.length) continue;
+    h+=`<h3>${TH_GR_E[g]} ${g}</h3>`+L.map(s=>{ const an=thAn_(s), I=thIdx().by[s.id];
+      const wahl=an&&s.wahl?`<select class="qwk-sel" data-thwahl="${s.id}">${s.wahl.map(([k,n])=>`<option value="${esc(k)}" ${k===thWahl(s.id)?'selected':''}>${esc(n)}</option>`).join('')}</select>`:'';
+      return `<div class="qwk-thit${an?' an':''}"><button data-ths="${s.k}" aria-pressed="${an}"><span class="e">${s.e}</span><span class="t"><b>${esc(s.n)}</b><small>${esc(s.kurz)}${s.stand?' · Stand '+esc(String(s.stand).split(' (')[0]):''}</small></span><span class="sw ${s.art==='grund'?'r':''}" title="${s.art==='grund'?'Grundkarte (eine zur Zeit)':'Überlagerung'}"></span></button>${wahl}</div>`; }).join(''); }
+  return h||'<p class="qwk-mini" style="padding:10px">Kein Thema gefunden.</p>'; }
+function thAktivHtml(){ const A=THS.filter(s=>thAn_(s)&&!s.basis); if(!A.length) return '<span class="qwk-mini">Kein Thema eingeschaltet.</span>'; return `<span class="qwk-mini">An:</span> ${A.map(s=>`<button class="qwk-chip k" data-thx="${s.k}">${s.e} ${esc(s.n)} ✕</button>`).join('')}<button class="qwk-chip" data-thalle>alle aus</button>`; }
+function thPanelNeu(){ const P=$('.qwk-th',wrap); if(!P) return; $('.qwk-thliste',P).innerHTML=thListeHtml(); $('.qwk-thakt',P).innerHTML=thAktivHtml();
+  P.querySelectorAll('[data-ths]').forEach(b=>b.onclick=()=>thUmschalten(b.dataset.ths));
+  P.querySelectorAll('[data-thx]').forEach(b=>b.onclick=()=>thUmschalten(b.dataset.thx,false));
+  P.querySelectorAll('[data-thwahl]').forEach(sl=>sl.onchange=()=>thWaehlen(sl.dataset.thwahl,sl.value));
+  const a=$('[data-thalle]',P); if(a) a.onclick=()=>thAlleAus();
+  const AN=THS.filter(s=>thAn_(s)&&!s.basis); const k=$('.qwk-thknopf span',wrap); if(k) k.textContent=AN.length?AN.length+' an':'';
+  const sa=$('.qwk-thside',wrap); if(sa) sa.innerHTML=AN.map(s=>`<button class="qwk-chip k" data-thx2="${s.k}">${s.e} ${esc(s.n)} ✕</button>`).join('');
+  wrap.querySelectorAll('[data-thx2]').forEach(b=>b.onclick=()=>thUmschalten(b.dataset.thx2,false)); }
+function thUmschalten(k,an){ const s=thSchalter(k); if(!s) return; const jetzt=thAn_(s); if(an===undefined) an=!jetzt; if(an===jetzt) return;
+  if(s.art==='grund'){ grundSetzen(an?k:'relief'); }
+  else { S.ov[k]=an; if(an){ th(s.id); if((THK[s.id]||{}).de&&S.zoom<4) flieg(10.4,51.2,W<700?6:6.5); } const cb=wrap.querySelector(`[data-ov="${k}"]`); if(cb) cb.checked=an; legende(); zeichne(); }
+  if(an&&s.id==='pflanzen_heimat'&&!S.pflanze) S.pflanze=thWahl(s.id);
+  thPanelNeu(); }
+function thAlleAus(){ THS.forEach(s=>{ if(s.art==='ov'&&!s.basis) S.ov[s.k]=false; }); if(GRUND[S.grund]&&GRUND[S.grund].th) grundSetzen('relief'); S.thi=null; legende(); zeichne(); info(); thPanelNeu(); }
+function thEreignisse(){ const P=$('.qwk-th',wrap); if(!P) return; $('.qwk-thsuch',P).oninput=e=>{ THF.q=e.target.value; thPanelNeu(); };
+  P.querySelectorAll('[data-thg]').forEach(b=>b.onclick=()=>{ THF.g=b.dataset.thg; P.querySelectorAll('[data-thg]').forEach(x=>x.setAttribute('aria-pressed',x===b)); thPanelNeu(); });
+  $('[data-thzu]',P).onclick=()=>wrap.classList.remove('qwk-themen-auf');
+  wrap.querySelectorAll('[data-thauf]').forEach(b=>b.onclick=()=>{ const an=!wrap.classList.contains('qwk-themen-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-info-auf'); wrap.classList.toggle('qwk-themen-auf',an); });
+  thPanelNeu(); }
+
 /* ---------- Info-Karte ---------- */
 function spark(i){ const p=reihe(i,'pop'); if(!p) return ''; const v=p.filter(x=>x!=null), mx=Math.max(...v), mn=Math.min(...v); const w=260,h=56; let d=''; p.forEach((x,k)=>{ if(x==null) return; const X=k/63*w, Y=h-4-(x-mn)/((mx-mn)||1)*(h-10); d+=(d?'L':'M')+X.toFixed(1)+','+Y.toFixed(1); }); const k=S.jahr-1960, cx=k/63*w, cy=p[k]!=null?h-4-(p[k]-mn)/((mx-mn)||1)*(h-10):h;
   return `<svg viewBox="0 0 ${w} ${h}" class="qwk-spark"><defs><linearGradient id="qwsg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#9fcf8a" stop-opacity=".45"/><stop offset="1" stop-color="#9fcf8a" stop-opacity="0"/></linearGradient></defs><path d="${d}L${w},${h}L0,${h}Z" fill="url(#qwsg)"/><path d="${d}" fill="none" stroke="#9fcf8a" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="3.5" fill="#fff"/></svg>`; }
@@ -866,13 +1318,15 @@ function infoBL(){ const box=$('.qwk-info',wrap), b=DAT.bl.find(x=>x.i===S.bl), 
   box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); });
   $('.qwk-x',box).onclick=()=>{ S.bl=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 function info(){
-  const box=$('.qwk-info',wrap); if(S.ort) return infoOrt(); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
+  const box=$('.qwk-info',wrap); if(S.thi&&th(S.thi[0])) return infoThema(); if(S.str!=null) return infoStrittig(); if(S.kr!=null&&(GRUND[S.grund].kre||S.ov.lkreise)) return infoKreis(); if(GRUND[S.grund].kre&&!S.sel) return krUebersicht(GRUND[S.grund]); if(S.ort) return infoOrt(); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
+  if(!S.sel&&GRUND[S.grund].th) return thUebersicht(GRUND[S.grund]);
   if(!S.sel){ box.innerHTML=`<div class="qwk-leer"><div class="qwk-gl">🌍</div><b>Land antippen</b><p>Tippe auf ein Land, um Einwohner, Dichte, Lebenserwartung, Ernten, Rohstoffe und passende Kapitel aus dem Kompendium zu sehen.</p><p class="qwk-mini">Ziehen = drehen · Zwei Finger oder Mausrad = zoomen · Beim Hineinzoomen erscheinen Städte, Flüsse und Landschaften</p>${S.klick?`<p class="qwk-mini">📍 Angetippt: ${koord(S.klick)}</p>`:''}</div>`; return; }
   const c=DAT.idx[S.sel], i=c.i, j=S.jahr, o=ow(i);
   const pop=wert(i,'pop',j), di=wert(i,'dichte',j), wa=wert(i,'wachstum',j);
   let h=`<div class="qwk-kopf"><span class="qwk-flag">${c.f||'🏳️'}</span><div><h2>${c.n}</h2><small>Stand ${j}${S.klick?` · ${fmt(Math.abs(S.klick[1]),1)}° ${S.klick[1]>=0?'N':'S'}, ${fmt(Math.abs(S.klick[0]),1)}° ${S.klick[0]>=0?'O':'W'}`:''}</small></div><button class="qwk-x" aria-label="Schließen">✕</button></div>
   <div class="qwk-kpi"><div><small>Einwohner</small><b>${pop?pop>=1e6?fmt(pop/1e6,2)+' Mrd.':pop>=1000?fmt(pop/1000,1)+' Mio.':fmt(pop)+' Tsd.':'–'}</b></div><div><small>Dichte</small><b>${fmt(di)} <i>/km²</i></b></div><div><small>Wachstum</small><b class="${wa>0?'plus':'minus'}">${wa==null?'–':(wa>0?'+':'')+fmt(wa,1)+' %'}</b></div><div><small>Fläche (ca.)</small><b>${fmt(c.a/1000)} <i>Tsd. km²</i></b></div></div>
   <div class="qwk-box qwk-kursbox"><div class="qwk-kurs"></div></div>`;
+  if(GRUND[S.grund].th) h=h.replace('<div class="qwk-kpi">',thLandBlock(GRUND[S.grund],i)+'<div class="qwk-kpi">');
   const ges=[['le','❤️ Lebenserwartung',v=>fmt(v,1)+' Jahre'],['fr','👶 Geburtenrate',v=>fmt(v,2)+' Kinder je Frau'],['km','🍼 Kindersterblichkeit',v=>fmt(v)+' je 1.000'],['su','🕯️ Suizidrate',v=>fmt(v,1)+' je 100.000'],['gl','😊 Lebenszufriedenheit',v=>fmt(v,1)+' von 10'],['un','🥣 Unterernährung',v=>fmt(v,1)+' %']].map(([k,n,f])=>{ const v=wert(i,k,j), st=stand(i,k,j); return v==null?'':chip(`${n}: ${f(v)}${st&&st!==j?` (${st})`:''}`); }).join('');
   h+=`<h4>Politik</h4><div>${chip('🏛️ '+STAAT[staatVon(i)][0],'#w-politik-systeme','k')}${i==='DEU'?chip('📜 Deutsche Geschichte','#w-dgeschichte','k'):''}</div>`;
   if(ges) h+=`<h4>Gesellschaft</h4><div>${ges}</div>`;
@@ -895,20 +1349,22 @@ function info(){
 /* ---------- Legende ---------- */
 function legende(){
   const g=GRUND[S.grund], L=$('.qwk-leg',wrap); let h=`<b>${g.e} ${g.n}</b>${g.u?` <span class="qwk-u">${g.u}</span>`:''}`;
-  if(g.p) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${g.p.join(',')})"></div><div class="qwk-rl"><span>${g.lg[0]}</span><span>${g.lg[1]}</span><span>${g.lg[2]}</span></div>`;
+  if(g.th) h+=thLegGrund(g);
+  else if(g.p) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${g.p.join(',')})"></div><div class="qwk-rl"><span>${g.lg[0]}</span><span>${g.lg[1]}</span><span>${g.lg[2]}</span></div>`;
   else if(g.r){ const t=g.r===2?KLIMA:g.r===3?BODEN:VEGN; h+=`<div class="qwk-kl">${Object.values(t).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div><div class="qwk-hin">Vereinfachtes Schema (2°-Raster), keine Messkarte</div>`; }
-  else if(S.grund==='relief') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#4e7842,#b0aa70,#aa8a60,#8c6c56,#f6f4f0)"></div><div class="qwk-rl"><span>Tiefland</span><span>Hochland</span><span>Hochgebirge, Eis</span></div>`;
+  else if(S.grund==='relief'&&!THS.some(s=>s.art==='ov'&&S.ov[s.k]&&!s.basis)) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#4e7842,#b0aa70,#aa8a60,#8c6c56,#f6f4f0)"></div><div class="qwk-rl"><span>Tiefland</span><span>Hochland</span><span>Hochgebirge, Eis</span></div>`;
   if(S.modus==='scheibe') h+=`<div class="qwk-hin">◎ Darstellung nach dem Flache-Erde-Modell (Netz nach Gleason 1892): Nordpol in der Mitte, Antarktis als Eiswall; Außenring: Längengrade und Ortszeit bei 12 Uhr in Greenwich. Gängige Darstellung: Kugel (Globus) · Kapitel W-12.</div>`;
   if(g.de) h+=`<div class="qwk-hin">Quelle: ${g.q}</div>`;
   if(g.kat) h+=`<div class="qwk-kl">${Object.values(STAAT).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div><div class="qwk-hin">Vereinfachte Einordnung, Stand 2026. Mehr im Kapitel W-08 Politik.</div>`;
-  if(S.grund==='relief'&&S.modus!=='scheibe') h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#468cb9,#1e508a,#133768,#081a40,#05112e)"></div><div class="qwk-rl"><span>Schelf 0–200 m</span><span>4.000 m</span><span>über 8.000 m</span></div>`;
+  if(S.grund==='relief'&&S.modus!=='scheibe'&&!THS.some(s=>s.art==='ov'&&S.ov[s.k]&&!s.basis)) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,#468cb9,#1e508a,#133768,#081a40,#05112e)"></div><div class="qwk-rl"><span>Schelf 0–200 m</span><span>4.000 m</span><span>über 8.000 m</span></div>`;
   if(S.grund==='su') h+=`<div class="qwk-hin">Mittel aus Männer- und Frauenrate (IHME). Hilfe in Deutschland: Telefonseelsorge 0800 111 0 111</div>`;
   const ov=[]; Object.entries(GETREIDE).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="r" style="background:${G2.c}"></i>${G2.n}</span>`)); Object.entries(ROH).forEach(([k,G2])=>S.ov[k]&&ov.push(`<span><i class="d" style="background:${G2.c}"></i>${G2.n}</span>`));
   if(S.ov.kriege) ov.push('<span><i class="r" style="background:#d8302a"></i>Kriege</span>'); if(S.ov.wander) ov.push('<span><i class="l"></i>Wanderungen</span>'); if(S.ov.erf) ov.push('<span><i class="r" style="background:#ffe14a"></i>Erfindungen</span>'); if(S.ov.geld) ov.push('<span><i class="r" style="background:#e8b030"></i>Geldgeschichte</span>'); if(S.ov.tiefen) ov.push('<span><i class="d" style="background:#7fe0ff"></i>Tiefseegräben (tiefste Stellen, ca.)</span>'); if(S.ov.goethe) ov.push('<span><i class="r" style="background:#ff8c6e"></i>Goethe (Größe = Dauer)</span>');
   if(S.ov.strassen) ov.push('<span><i class="l" style="border-top:2px solid #ffc46e"></i>Hauptstraßen</span>'); if(S.ov.bahn) ov.push('<span><i class="l" style="border-top:2px dashed #eceef8"></i>Eisenbahn</span>'); if(S.ov.haefen) ov.push('<span><i class="r" style="background:#8fe3ff"></i>Häfen</span>'); if(S.ov.flug) ov.push('<span><i class="r" style="background:#f2f4ff"></i>Flughäfen</span>'); if(S.ov.stadtfl) ov.push('<span><i style="background:#ffbe8c"></i>Bebaute Flächen</span>'); if(S.ov.zonen) ov.push('<span><i class="l" style="border-top:2px dashed #ffd678"></i>Zeitzonen</span>');
   if(S.ov.pfl) ov.push('<span><i class="r" style="background:#ff6a8a"></i>Pflanzen-Herkunft</span>'); if(S.ov.rez) ov.push('<span><i class="r" style="background:#c79aff"></i>Rezepte</span>'); if(S.ov.aut) ov.push('<span><i class="r" style="background:#6ac8ff"></i>Autoren</span>');
   if(ov.length) h+=`<div class="qwk-kl qwk-ov">${ov.join('')}</div>`;
-  L.innerHTML=h; if(S.modus==='scheibe'){ const a=SCHR; scheibeMass(); if(a!==SCHR) zeichne(); } }
+  h+=thLegende();
+  L.innerHTML=h; thQuelle(); thPanelNeu(); if(S.modus==='scheibe'){ const a=SCHR; scheibeMass(); if(a!==SCHR) zeichne(); } }
 
 /* ---------- Oberfläche ---------- */
 const CSS=`
@@ -953,6 +1409,19 @@ const CSS=`
 .qwk-bars{display:flex;flex-direction:column;gap:3px;margin:4px 0 10px}.qwk-bars div{display:grid;grid-template-columns:118px 1fr 52px;align-items:center;gap:7px;font-size:11.8px;color:#cdd6ea;cursor:pointer;padding:1px 3px;border-radius:6px}.qwk-bars div:hover,.qwk-bars .hl{background:rgba(255,255,255,.07);color:#fff;font-weight:700}.qwk-bars span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qwk-bars i{height:11px;background:#141d30;border-radius:6px;overflow:hidden}.qwk-bars i b{display:block;height:100%;border-radius:6px;animation:qwkbar .8s ease-out}.qwk-bars em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}.qwk-bars .bund{border-top:1px dashed #2a3858;margin-top:3px;padding-top:4px;color:#fff}.qwk-bars .bund b{background:repeating-linear-gradient(45deg,#8d9ab8 0 4px,#5a6888 4px 8px)}@keyframes qwkbar{from{width:0}}
 .qwk-mob,.qwk-bk{display:none}.qwk-bk{align-items:center;justify-content:space-between;position:sticky;top:-8px;z-index:2;margin:-2px -4px 0;padding:4px;background:inherit}.qwk-bk b{font:700 17px Georgia,serif}.qwk-bk button{all:unset;cursor:pointer;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#18233a;color:#cdd6ea}
 .qwk button:focus-visible,.qwk-map:focus-visible,.qwk-sw:focus-within,.qwk-such input:focus-visible,.qwk-sel:focus-visible{outline:2px solid var(--k-a);outline-offset:2px}
+.qwk-thknopf{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:8px;width:100%;cursor:pointer;padding:10px 12px;border-radius:12px;background:linear-gradient(180deg,#1d2e22,#16241a);border:1px solid var(--k-a);color:#fff;font-weight:700;font-size:13.5px}.qwk-thknopf span{margin-left:auto;font-weight:600;color:var(--k-a);font-size:12px}.qwk-thside{margin-top:6px}.qwk-thside .qwk-chip{cursor:pointer;font-size:12px}
+.qwk-th{display:none;position:absolute;left:300px;top:57px;bottom:62px;width:380px;z-index:6;background:var(--k-p);border:1px solid var(--k-l);border-left:0;border-radius:0 16px 16px 0;overflow:auto;padding:10px 14px 18px;box-shadow:14px 0 40px rgba(0,0,0,.45);overscroll-behavior:contain}.qwk.qwk-themen-auf .qwk-th{display:block}
+.qwk-th .qwk-thbk{display:flex}.qwk-th h3{font:700 10.5px system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--k-m);margin:14px 2px 8px;display:flex;align-items:center;gap:8px}.qwk-th h3:after{content:"";flex:1;height:1px;background:var(--k-l)}
+.qwk-thsuch{all:unset;box-sizing:border-box;width:100%;margin:6px 0 8px;padding:9px 12px;background:#0a1117;border:1px solid var(--k-l);border-radius:11px;color:var(--k-t);font-size:13.5px}
+.qwk-thgr{display:flex;flex-wrap:wrap;gap:5px}.qwk-thgr button{all:unset;cursor:pointer;padding:6px 10px;border-radius:16px;background:var(--k-p2);border:1px solid var(--k-l);font-size:12.3px;color:#cdd6ea}.qwk-thgr button[aria-pressed=true]{border-color:var(--k-a);color:#fff;background:rgba(159,207,138,.16)}
+.qwk-thakt{margin:10px 0 2px;display:flex;flex-wrap:wrap;align-items:center;gap:2px}.qwk-thakt .qwk-chip{cursor:pointer;font-size:12px}
+.qwk-thit{margin-bottom:6px}.qwk-thit>button{all:unset;box-sizing:border-box;display:flex;gap:10px;align-items:center;width:100%;padding:8px 10px;border-radius:12px;cursor:pointer;background:var(--k-p2);border:1px solid var(--k-l);transition:.15s}.qwk-thit>button:hover{border-color:#36507a}
+.qwk-thit.an>button{border-color:var(--k-a);background:linear-gradient(180deg,#1f3020,#18261a)}.qwk-thit .e{font-size:20px;width:26px;text-align:center;flex:none}.qwk-thit .t{flex:1;min-width:0}.qwk-thit .t b{display:block;font-size:13.2px;color:#fff;font-weight:700}.qwk-thit .t small{display:block;color:var(--k-m);font-size:11.3px;line-height:1.3;margin-top:2px}
+.qwk-thit .sw{flex:none;width:34px;height:20px;border-radius:12px;background:#1a2438;border:1px solid #2a3858;position:relative}.qwk-thit .sw:after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#6a7898;transition:.2s}.qwk-thit.an .sw{background:linear-gradient(90deg,#5d8f48,#9fcf8a);border-color:#9fcf8a}.qwk-thit.an .sw:after{left:16px;background:#fff}
+.qwk-thit .sw.r{width:20px;border-radius:50%}.qwk-thit .sw.r:after{left:2px}.qwk-thit.an .sw.r:after{left:2px;background:#fff;box-shadow:0 0 0 3px #5d8f48 inset}
+.qwk-thit .qwk-sel{margin:4px 0 2px}
+.qwk-leg{max-height:calc(100% - 28px);overflow:auto;overscroll-behavior:contain}.qwk-thleg{border-top:1px solid var(--k-l);margin-top:6px;padding-top:5px}.qwk-thleg>b{font-size:11.8px}.qwk-thleg .qwk-kl{margin-top:4px;gap:2px 9px;font-size:11.2px}.qwk-thq{font-size:11.5px;color:#b8c4c8;margin:4px 0;line-height:1.35}.qwk-thq a{color:#bfe3ad}.qwk-thq i{color:var(--k-m)}.qwk-thbox{margin:0 0 10px}.qwk-thbox b{color:#fff}
+@media (max-width:980px){.qwk-th{display:block;position:absolute;z-index:7;left:0;right:0;top:auto;bottom:58px;width:auto;max-height:70%;border:1px solid var(--k-l);border-bottom:0;border-radius:20px 20px 0 0;transform:translateY(calc(100% + 90px));transition:transform .34s cubic-bezier(.2,.85,.25,1);box-shadow:0 -14px 44px rgba(0,0,0,.55);background:rgba(12,19,34,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);max-width:560px;margin:0 auto;padding-top:8px}.qwk-th:before{content:"";display:block;width:38px;height:5px;border-radius:3px;background:#3a4868;margin:0 auto 6px}.qwk.qwk-themen-auf .qwk-th{transform:none}.qwk-thit>button{padding:10px}.qwk-thleg .qwk-kl{display:none}.qwk-leg{max-height:34%}}
 @media (max-width:980px){.qwk{grid-template-columns:1fr;grid-template-rows:auto minmax(300px,1fr) auto;margin-inline:8px;border-radius:18px}.qwk-top{grid-column:1;padding:8px 10px;gap:8px}.qwk-titel{display:none}.qwk-top>.qwk-seg:not(.qwk-mob){flex:1 1 100%;display:grid;grid-auto-flow:column;grid-auto-columns:1fr}.qwk-top>.qwk-seg:not(.qwk-mob) button{text-align:center;padding:8px 4px;white-space:nowrap;font-size:12.5px}.qwk-such{order:2;flex:1 1 150px}.qwk-mob{order:3}.qwk-mob button{padding:9px 12px}.qwk-zeit{grid-column:1}.qwk-side,.qwk-info{position:absolute;z-index:5;left:0;right:0;bottom:58px;max-height:62%;border:1px solid var(--k-l);border-bottom:0;border-radius:20px 20px 0 0;transform:translateY(calc(100% + 90px));transition:transform .34s cubic-bezier(.2,.85,.25,1);box-shadow:0 -14px 44px rgba(0,0,0,.55);background:rgba(12,19,34,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);max-width:560px;margin:0 auto;overscroll-behavior:contain}.qwk-side:before,.qwk-info:before{content:"";display:block;width:38px;height:5px;border-radius:3px;background:#3a4868;margin:0 auto 6px}.qwk-info{padding-top:8px}.qwk-side{padding-top:8px}.qwk-bk{display:flex}.qwk.qwk-ebenen-auf .qwk-side,.qwk.qwk-info-auf .qwk-info{transform:none}.qwk-mob{display:inline-flex}.qwk-such{margin-left:0;width:100%}.qwk-such input{width:100%}.qwk-leg{bottom:10px;left:10px;max-width:calc(100% - 20px);padding:8px 10px}.qwk-leg .qwk-hin{display:none}.qwk-q,.qwk-j0{display:none}.qwk-zeit{padding:8px 12px;gap:10px}.qwk-zoom{right:10px;top:10px}}
 @media (max-width:980px) and (max-height:700px){.qwk-leg .qwk-kl:not(.qwk-ov){display:none}}
 @media (prefers-reduced-motion:reduce){.qwk-side,.qwk-info{transition:none}.qwk-bars i b{animation:none}}
@@ -960,22 +1429,23 @@ const CSS=`
 function ui(root){
   const sw=(k,n,c,d)=>`<label class="qwk-sw"><input type="checkbox" data-ov="${k}" ${S.ov[k]?'checked':''}><span class="k"></span>${c?`<span class="dt ${d?'d':''}" style="color:${c};background:${c}"></span>`:''}${n}</label>`;
   const gb=k=>`<button data-grund="${k}" aria-pressed="${S.grund===k}"><span>${GRUND[k].e}</span><span>${GRUND[k].n}</span></button>`;
-  const gruppe=g=>Object.keys(GRUND).filter(k=>GRUND[k].g===g).map(gb).join('');
+  const gruppe=g=>Object.keys(GRUND).filter(k=>GRUND[k].g===g&&(!GRUND[k].th||GRUND[k].seite)).map(gb).join('');
   const pl=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).map(p=>`<option value="${p.id}">${p.nr} ${p.name.replace(' & Kiefernknospen','')}</option>`).join('');
   root.innerHTML=`<style>${CSS}</style><div class="qwk" lang="de">
   <div class="qwk-top"><div class="qwk-titel"><span class="qwk-gl2"></span><div>Weltkarte<small>Natur · Menschen · Rohstoffe · Geschichte</small></div></div>
    <div class="qwk-seg"><button data-modus="globus" aria-pressed="${S.modus==='globus'}">◉ Globus</button><button data-modus="flach" aria-pressed="${S.modus==='flach'}">▭ Karte</button><button data-modus="scheibe" aria-pressed="${S.modus==='scheibe'}" title="Darstellung im Flache-Erde-Modell">◎ Scheibe</button><button data-d3 title="Relief der Scheibe in 3D (Flache-Erde-Modell)">⛰ 3D-Scheibe</button></div>
-   <div class="qwk-seg qwk-mob"><button data-auf="ebenen">☰ Ebenen</button><button data-auf="info">ⓘ Info</button></div>
+   <div class="qwk-seg qwk-mob"><button data-auf="ebenen">☰ Ebenen</button><button data-thauf>🗂 Themen</button><button data-auf="info">ⓘ Info</button></div>
    <div class="qwk-such"><input list="qwk-dl" placeholder="Land, Stadt oder Pflanze …"><datalist id="qwk-dl">${DAT.laender.map(c=>`<option value="${c.n}">`).join('')}${DAT.staedte.slice(0,400).map(s=>`<option value="${s[0]}">`).join('')}${Object.keys(PFL).map(id=>`<option value="${pname(id)}">`).join('')}</datalist></div></div>
   <aside class="qwk-side" aria-label="Ebenen">
    <div class="qwk-bk"><b>Ebenen</b><button data-zu aria-label="Ebenen schließen">✕</button></div>
+   <h3>Themen</h3><button class="qwk-thknopf" data-thauf>🗂 Themen wählen <span></span></button><div class="qwk-thside"></div>
    <h3>Grundkarte · Natur</h3><div class="qwk-grund">${gruppe('Natur')}</div>
    <h3>Grundkarte · Menschen</h3><div class="qwk-grund">${gruppe('Menschen')}</div>
    <h3>Grundkarte · Wirtschaft</h3><div class="qwk-grund">${gruppe('Wirtschaft')}</div>
    <h3>Grundkarte · Politik</h3><div class="qwk-grund">${gruppe('Politik')}</div>
    <h3>Deutschland · Bundesländer</h3><div class="qwk-grund">${gruppe('Deutschland')}</div>
    <label class="qwk-sw" style="margin-top:6px"><input type="checkbox" data-unterlage ${S.unterlage?'checked':''}><span class="k"></span>Relief unter Statistik legen</label>
-   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${sw('innen','Bundesstaaten & Provinzen','#d8ccff')}${sw('staedte','Städte & Orte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('natur','Gletscher, Salzpfannen & Riffe','#e8f4ff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('netz','Gradnetz mit Gradzahlen','#cfe0f5')}${sw('kreise','Äquator, Wende- & Polarkreise','#ffcf7a')}${sw('wolken','Wolken','#f2f5fa')}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
+   <h3>Beschriftung</h3>${sw('namen','Ländernamen')}${sw('grenzen','Grenzen')}${S.ov.strittig!==undefined&&thIdx().strittig?sw('strittig','Umstrittene Gebiete kennzeichnen','#ffecc8'):''}${sw('innen','Bundesstaaten & Provinzen','#d8ccff')}${sw('staedte','Städte & Orte (mehr beim Zoomen)','#ffe9b8')}${sw('fluesse','Flüsse & Seen','#5aaaff')}${sw('landschaft','Gebirge & Landschaften','#f0d8b8')}${sw('gipfel','Gipfel','#ffffff')}${sw('natur','Gletscher, Salzpfannen & Riffe','#e8f4ff')}${sw('tiefen','Meerestiefen & Tiefseegräben','#7fe0ff',1)}${sw('netz','Gradnetz mit Gradzahlen','#cfe0f5')}${sw('kreise','Äquator, Wende- & Polarkreise','#ffcf7a')}${sw('wolken','Wolken','#f2f5fa')}${sw('nacht','Tag & Nacht (jetzt)','#ffd860')}
    <h3>Verkehr & Siedlung</h3>${sw('strassen','🛣️ Hauptstraßen','#ffc46e')}${sw('bahn','🚆 Eisenbahnen','#eceef8')}${sw('haefen','⚓ Häfen','#8fe3ff')}${sw('flug','✈️ Flughäfen','#f2f4ff')}${sw('stadtfl','🏙️ Bebaute Flächen','#ffbe8c',1)}${sw('zonen','🕐 Zeitzonen','#ffd678')}
    <h3>Geschichte</h3>${sw('kriege','⚔️ Kriege','#d8302a')}${sw('wander','🧭 Völkerwanderungen','#ffd28a')}${sw('erf','💡 Erfindungen','#ffe14a')}${sw('geld','🪙 Geldgeschichte','#e8b030')}${sw('goethe','✒️ Goethes Reisen','#ff8c6e')}<select class="qwk-sel" data-epoche><option value="">Alle Epochen</option>${Object.entries(EPOCHE).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
    <h3>Getreide · Teil G</h3>${Object.entries(GETREIDE).map(([k,G2])=>sw(k,G2.e+' '+G2.n,G2.c)).join('')}
@@ -984,6 +1454,7 @@ function ui(root){
   </aside>
   <div class="qwk-map" tabindex="0" role="application" aria-label="Weltkarte: ziehen dreht, Pfeiltasten drehen, Plus und Minus zoomen"><canvas></canvas><div class="qwk-zoom"><button data-z="1.5" aria-label="Hineinzoomen">＋</button><button data-z="0.67" aria-label="Herauszoomen">－</button><hr><button data-z="0" aria-label="Ansicht zurücksetzen" title="Ansicht zurücksetzen">⟲</button><button data-spin aria-pressed="false" aria-label="Globus langsam drehen" title="Globus langsam drehen">↻</button></div><div class="qwk-leg" title="Ebenen öffnen"></div></div>
   <aside class="qwk-info"></aside>
+  <aside class="qwk-th" aria-label="Themen">${thPanelHtml()}</aside>
   <div class="qwk-zeit"><button class="qwk-play" aria-label="Abspielen">▶</button><span class="qwk-j0" style="color:var(--k-m)">1960</span><input type="range" min="1960" max="2023" value="${S.jahr}"><span class="qwk-jahr">${S.jahr}</span><span class="qwk-q" title="Gestrichelte Grenzlinien: umstrittene oder unbestimmte Grenzen bzw. Anspruchslinien laut Natural Earth (ohne Wertung).">Quellen: Karte (Küsten, Gewässer, Grenzen, Landschaften, Gipfel, Verkehr, Städte) – Natural Earth 1:10/1:50 Mio. (gemeinfrei); weitere Orte und Einwohner – GeoNames (CC BY 4.0, Stand 2020); Höhen – NASA; Relief – three.js-Textur (MIT); Statistik – Our World in Data (UN, Energy Institute, IHME, Gapminder, WHR, FAO); Getreide – FAOSTAT 2022; Rohstoffe – Energy Institute, USGS, IAEA; Klima/Böden – Schema</span></div>
   </div>`;
   wrap=$('.qwk',root); cv=$('canvas',wrap); ctx=cv.getContext('2d');
@@ -1005,9 +1476,10 @@ function ereignisse(){
   wrap.querySelectorAll('[data-grund]').forEach(b=>b.onclick=()=>grundSetzen(b.dataset.grund));
   wrap.querySelectorAll('[data-modus]').forEach(b=>b.onclick=()=>{ S.modus=b.dataset.modus; S.zoom=1; S.px=0; scheibeMass(); S.py=S.modus==='scheibe'?SCHY:0; { const kc=$('[data-ov=kreise]',wrap); if(kc) kc.checked=kreiseAn(); } wrap.querySelectorAll('[data-modus]').forEach(x=>x.setAttribute('aria-pressed',x===b)); if(S.modus==='scheibe') S.spin=false; legende(); zeichne(); });
   $('[data-d3]',wrap).onclick=()=>scheibe3d();
-  wrap.querySelectorAll('[data-auf]').forEach(b=>b.onclick=()=>{ const a=b.dataset.auf, an=!wrap.classList.contains('qwk-'+a+'-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-info-auf'); if(an) wrap.classList.add('qwk-'+a+'-auf'); });
+  thEreignisse();
+  wrap.querySelectorAll('[data-auf]').forEach(b=>b.onclick=()=>{ const a=b.dataset.auf, an=!wrap.classList.contains('qwk-'+a+'-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-info-auf','qwk-themen-auf'); if(an) wrap.classList.add('qwk-'+a+'-auf'); });
   wrap.querySelectorAll('[data-zu]').forEach(b=>b.onclick=()=>wrap.classList.remove('qwk-ebenen-auf','qwk-info-auf'));
-  $('.qwk-leg',wrap).onclick=()=>{ wrap.classList.remove('qwk-info-auf'); wrap.classList.toggle('qwk-ebenen-auf'); };
+  $('.qwk-leg',wrap).onclick=e=>{ if(e.target.closest('a')) return; wrap.classList.remove('qwk-info-auf','qwk-themen-auf'); wrap.classList.toggle('qwk-ebenen-auf'); };
   const sb=$('[data-spin]',wrap); if(sb) sb.onclick=()=>{ S.spin=!S.spin&&S.modus==='globus'; sb.setAttribute('aria-pressed',S.spin); };
   wrap.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{ const z=+b.dataset.z; S.spin=false; schwungAus(); if(!z){ ZT=null; S.zoom=1; S.px=0; S.py=S.modus==='scheibe'?SCHY:0; zeichne(); } else zoomZu((ZT||S.zoom)*z); });
   $('[data-pflanze]',wrap).onchange=e=>{ S.pflanze=e.target.value; if(S.pflanze){ const P=PFL[S.pflanze]; flieg(P[0][0],P[0][1]); } zeichne(); };
@@ -1029,7 +1501,7 @@ function ereignisse(){
     neu(); });
   const ende=e=>{ if(!P.has(e.pointerId)) return; const mehr=P.size>1; P.delete(e.pointerId); if(P.size===1){ const [q]=[...P.values()]; start={x:q[0],y:q[1],lam:S.lam,phi:S.phi,px:S.px,py:S.py}; vx=vy=0; lt=e.timeStamp; lx=q[0]; ly=q[1]; }
     if(bewegt&&P.size===0&&!mehr&&e.type==='pointerup'&&e.timeStamp-lt<120) schwung(vx,vy);
-    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; S.ort=null; const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const oa=ortAn(x,y); if(oa){ S.ort=oa; S.hist=null; S.bl=null; S.klick=[oa[2],oa[3]]; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); return; } const ll=inv(x,y); if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
+    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; S.ort=null; S.thi=null; S.str=null; { const ta=thAn(x,y); if(ta){ S.thi=ta; S.sel=null; S.hist=null; S.bl=null; S.klick=inv(x,y); info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-themen-auf'); return; } const l2=inv(x,y), st=l2&&strAn(l2[0],l2[1]); if(st!=null&&!GRUND[S.grund].kre&&!GRUND[S.grund].de){ S.str=st; S.sel=null; S.hist=null; S.bl=null; S.klick=l2; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const oa=ortAn(x,y); if(oa){ S.ort=oa; S.hist=null; S.bl=null; S.klick=[oa[2],oa[3]]; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); return; } const ll=inv(x,y); S.kr=null; if(ll&&(GRUND[S.grund].kre||(S.ov.lkreise&&S.zoom>=4))){ const k=kreisAn(ll[0],ll[1]); if(k!=null){ S.kr=k; S.sel=null; S.hist=null; S.bl=null; S.klick=ll; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
   m.addEventListener('pointerup',ende); m.addEventListener('pointercancel',ende);
   m.addEventListener('wheel',e=>{ e.preventDefault(); S.spin=false; schwungAus(); zoomZu((ZT||S.zoom)*Math.exp(-Math.max(-120,Math.min(120,e.deltaY))*0.0022)); },{passive:false});
   m.addEventListener('dblclick',e=>{ if(e.target.closest('.qwk-zoom,.qwk-leg')) return; e.preventDefault(); zoomZu((ZT||S.zoom)*2); });
@@ -1040,8 +1512,8 @@ function ereignisse(){
     else ok=false; if(ok) e.preventDefault(); });
   if(!window.QWWELT_RS){ window.QWWELT_RS=true; let rt=0; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(wrap&&document.body.contains(wrap)) groesse(); },80); }); }
 }
-function grundSetzen(k){ S.grund=k; wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; legende(); zeichne(); info(); }
-function waehle(c,ll){ S.ort=null; S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
+function grundSetzen(k){ S.grund=k; S.thi=null; if(GRUND[k].th) th(GRUND[k].th); wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de||GRUND[k].kre){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; if(!GRUND[k].kre) S.kr=null; legende(); zeichne(); info(); }
+function waehle(c,ll){ S.ort=null; S.thi=null; S.str=null; S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
 function flieg(lon,lat,zz){ S.spin=false; if(S.modus==='scheibe'){ if(zz) S.zoom=zz; const r=(90-lat)/180*rd(), a=(lon-S.lam)*R2; S.px=-r*Math.sin(a); S.py=-r*Math.cos(a); zeichne(); return; } if(S.modus!=='globus'){ if(zz) S.zoom=zz; S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
   schwungAus(); ZT=null; const weit=Math.hypot(dl*Math.cos((a.p+b.p)/2*R2),b.p-a.p), dauer=RUHE()?1:Math.min(1500,650+weit*7), tal=Math.min(a.z,b.z), hub=weit>25&&tal>1.3?Math.min(.7,weit/160):0;
   (function st(t){ const k=Math.min(1,(t-t0)/dauer), e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2; S.lam=a.l+dl*e; S.phi=a.p+(b.p-a.p)*e; S.zoom=Math.exp(Math.log(a.z)+(Math.log(b.z)-Math.log(a.z))*e)*(1-hub*Math.sin(Math.PI*k)*(1-1/tal)); S.bewegt=k<1; zeichne(k>=1); if(k<1&&document.body.contains(wrap)) requestAnimationFrame(st); })(t0); }
@@ -1449,6 +1921,6 @@ let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; 
   requestAnimationFrame(dreh); }
 let wzug=0;
 
-window.QWWELT={ oeffne(root,ebene){ daten(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); glStart(); schriftLaden(); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
-  d3:()=>D3, zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); }, orte:()=>TREFF.map(t=>[t[3][1],Math.round(t[0]),Math.round(t[1]),t[3][0]]), felder:()=>BOX.slice() };
+window.QWWELT={ oeffne(root,ebene){ daten(); thInit(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de||GRUND[ebene].kre){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov){ S.ov[ebene]=true; const ts=thSchalter(ebene); if(ts&&(THK[ts.id]||{}).de){ S.lam=10.4; S.phi=51.2; S.zoom=6.5; S.spin=false; } } } ui(root); glStart(); schriftLaden(); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=S.spin&&!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
+  d3:()=>D3, zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); }, themen:()=>THS.map(s=>[s.k,s.art,thAn_(s)]), thema:(k,an)=>thUmschalten(k,an), thTreffer:()=>({p:THH.map(h=>[Math.round(h[0]),Math.round(h[1]),h[3],h[4]]),l:THL.length}), orte:()=>TREFF.map(t=>[t[3][1],Math.round(t[0]),Math.round(t[1]),t[3][0]]), felder:()=>BOX.slice() };
 })();
