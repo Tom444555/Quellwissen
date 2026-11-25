@@ -915,6 +915,31 @@ const THK={
   info:(r,e)=>({t:r.n,u:[thLand(r.land),(e.arten||{})[r.art]].filter(Boolean).join(' · '),kpi:[['Datierung',r.dat||'–']],txt:r.t})},
  entdeckungsfahrten:{e:'⛵',k:'Bekannte Entdeckungs- und Forschungsreisen (schematisch)',ov:1,lrz:[0,0,2],nz:[1.6,2.4,3],w:2.2,pfeil:1,dash:[7,5],orte:1,oz:2.2,onz:3.6,filter:r=>!S.epoche||thEp(r.von)===S.epoche,name:r=>r.n,
   info:r=>({t:r.n,u:[r.wer,thJahr(r.von)+(r.bis&&r.bis!==r.von?'–'+thJahr(r.bis):'')].filter(Boolean).join(' · '),txt:r.t,q:r.q})},
+ energie_leitungen:{e:'🛢️',k:'Wichtige Öl- und Gasleitungen mit Status (schematisch)',ov:1,lrz:[0,1.8,3],nz:[2.4,3.2,4.2],w:2.4,
+  c:(r,e)=>thLegK(e,r.stoff)||thLeg(e,0),stil:(r,e)=>/zerst|außer/.test(r.st||'')?{c:thLegK(e,'zerstört')||'#8a8a8a',dash:[2,4]}:/eingeschr/.test(r.st||'')?{a:.5,dash:[7,5]}:{dash:[9,4]},name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[(e.legende||[]).find(l=>l.k===r.stoff)?.n,r.jahr?'seit '+r.jahr:''].filter(Boolean).join(' · '),kpi:[['Kapazität',r.kap||'–'],['Status',r.st||'–']],txt:[r.status,r.t].filter(Boolean).join(' '),
+   html:r.laender&&r.laender.length?`<div>${r.laender.map(c=>chip(esc(thLand(c)))).join('')}</div>`:'',q:r.q})},
+ energie_engstellen:{e:'⚓',k:'Meerengen mit großem Öl- und Flüssiggas-Durchfluss',ov:1,rz:[0,0,0],nz:[1.5,2.5,3.5],sym:'kreis',alpha:.8,
+  leg:e=>`<span><i class="r" style="background:${(e.legende&&e.legende.c)||'#ffcf5a'}"></i>${esc((e.legende&&e.legende.groesse)||'')}</span>`,c:(r,e)=>(e.legende&&e.legende.c)||'#ffcf5a',r:r=>r.oel!=null?3+Math.sqrt(r.oel)*2.1:3.4,hohl:r=>r.oel==null,name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[thLand(r.land),r.jahr].filter(Boolean).join(' · '),kpi:[['Öl',r.oel!=null?fmt(r.oel,1)+' Mio. Barrel/Tag':'nicht angegeben'],['Flüssigerdgas (LNG)',r.lng!=null?fmt(r.lng,1)+' Mrd. Kubikfuß/Tag':'nicht angegeben']],txt:r.t})},
+ kraftwerke:{e:'⚡',k:'Große Kraftwerke und alle Kernkraftwerke (Leistung = Kreisgröße)',ov:1,rz:[0,2.2,3.6],nz:[4.5,6,8],sym:'kreis',alpha:.85,
+  rang:r=>r.art==='kern'?1:r.rang,c:(r,e)=>thLegK(e,r.art)||thLeg(e,0),r:r=>1.8+Math.sqrt(r.mw||0)/17,hohl:r=>!!r.aus,name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[thLand(r.land),(e.legende||[]).find(l=>l.k===r.art)?.n].filter(Boolean).join(' · '),kpi:[['Leistung',r.mw!=null?fmt(r.mw)+' MW':'–'],['Inbetriebnahme',r.j?String(r.j):'–']].concat(r.aus?[['Status','abgeschaltet']]:[]),txt:r.st||'',
+   html:(r.stq?`<p class="qwk-hin2">Beleg zum Status: ${esc(r.stq)}</p>`:'')+(r.neu?`<p class="qwk-hin2">nachgetragen, nicht aus der WRI-Datenbank</p>`:'')}),
+  hin:e=>thSatz1(String(e.hinweis||'').replace(/^ACHTUNG\s*/,''))},
+ staatsschulden:{e:'📉',k:'Bruttoschulden des Staates in % der Wirtschaftsleistung (IWF)',p:ROT,s:v=>Math.min(v,200)/200,lg:['0 %','100 %','200 %+'],text:(d,v)=>fmt(v,1)+' % des BIP'},
+ goldreserven:{e:'🥇',k:'Goldbestände der Zentralbanken (Kreisgröße = Tonnen)',ov:1,rz:[0,0,0],nz:[2.6,2.6,2.6],
+  liste:e=>e._liste||(e._liste=Object.entries(e.daten||{}).map(([iso,d])=>{ const c=DAT.idx[iso]; return c?Object.assign({iso,lon:c.lp[0],lat:c.lp[1]},d):null; }).filter(Boolean).sort((a,b)=>b.t-a.t)),
+  leg:e=>`<span><i class="r" style="background:#ffd23a"></i>${esc((e.legende&&e.legende.skala)||'Tonnen')}</span>`,f:()=>'kreis',c:()=>'#ffd23a',r:r=>3+Math.sqrt(r.t||0)/6.5,alpha:.85,name:r=>fmt(r.t)+' t',nc:'#ffe9a0',
+  info:r=>({t:thLand(r.iso),u:'Goldreserven der Zentralbank',kpi:[['Gold',fmt(r.t,1)+' t'],['Stand',r.stand||'–']],txt:''}),hin:e=>thSatz1(e.hinweis)},
+ waehrungen:{e:'💱',k:'Gesetzliche Zahlungsmittel und Währungsräume',
+  landInfo:d=>`<div>Währung: <b>${esc((d.w||[]).map((w,i)=>w+(d.code&&d.code[i]?' ('+d.code[i]+')':'')).join(', '))}</b></div>`},
+ buendnisse:{e:'🤝',k:'Mitglieder, Partner und Beobachter von 18 Bündnissen',
+  landPlus:(e,i)=>{ const A=(e.daten||[]).filter(L=>thRolle(L,i)); return A.length?`<div class="qwk-mini" style="margin-top:4px">Alle Zusammenschlüsse: ${A.map(L=>esc(L.n)+(thRolle(L,i)==='p'?' ('+esc(thRolleName(L,i,e))+')':thRolle(L,i)==='a'?' (ausgesetzt)':'')).join(', ')}</div>`:''; }},
+ stuetzpunkte:{e:'🎖️',k:'Militärstützpunkte im Ausland, nach Betreiberstaat',ov:1,rz:[0,2,3.5],nz:[3,4,5.5],sym:'raute',
+  c:(r,e)=>/^geräumt/.test(r.status||'')?'#9aa0a8':(thLegK(e,r.betreiber)||'#cccccc'),hohl:r=>/^geräumt/.test(r.status||''),r:r=>r.rang===1?4.4:3.6,name:r=>r.n,
+  art:{luft:'Luftwaffe',marine:'Marine',heer:'Heer',fuehrung:'Führung',aufkl:'Aufklärung',raketenabwehr:'Raketenabwehr',raumfahrt:'Raumfahrt',ausbildung:'Ausbildung',sanitaet:'Sanitätsdienst',gemischt:'gemischt'},
+  info:(r,e)=>({t:r.n,u:'Betreiber: '+thLand(r.betreiber)+' · Gastland: '+(r.gast?thLand(r.gast):(r.gebiet||'–')),kpi:[['Art',THK.stuetzpunkte.art[r.art]||r.art||'–'],['Status',r.status||'–']],txt:r.t,q:r.q})},
  heilbaeder:{e:'♨️',k:'Staatlich anerkannte Heilbäder und Orte mit Heilquellen',ov:1,de:1,rz:[0,0,0],nz:[6,6,6],sym:'kreis',
   c:(r,e)=>{ const a=r.art||''; return thLeg(e,/^Sole/.test(a)?0:/Thermal/.test(a)?1:/^Mineral/.test(a)?2:/^Moor/.test(a)?3:4); },r:()=>3.6,name:r=>r.n,
   hin:e=>'Teilliste: '+thSatz1(e.hinweis).replace(/\s*\(amtliche Landesverzeichnisse\)/,''),
@@ -922,7 +947,7 @@ const THK={
 };
 const TH_STRITTIG=false;
 const TH_GRUPPEN=['Natur','Himmel','Deutschland','Menschen','Geschichte','Wirtschaft','Politik'];
-const TH_AUS=new Set(['Himmel','Wirtschaft','Politik']);   // noch nicht freigegebene Gruppen
+const TH_AUS=new Set(['Himmel']);   // noch nicht freigegebene Gruppen
 /* Schalter: je Ebene einer (oder mehrere über THK.teile); art 'ov' = Überlagerung (S.ov), 'grund' = Grundkarte (GRUND) */
 let THS=[];
 function thInit(){ if(THS.length) return; const I=thIdx(); THS=[];
@@ -1026,10 +1051,10 @@ let THH=[], THL=[];                         // Treffer des letzten Bildes: Punkt
 const thRang=(z,rz)=>z>=(rz||[0,2,3.5])[0]; // Hilfe: ab welchem Zoom ein Rang erscheint
 function thRangAn(r,rz){ rz=rz||[0,2,3.5]; const k=Math.max(1,Math.min(rz.length,r||1))-1; return S.zoom>=rz[k]; }
 function thPunkte(id,liste,K,e,teil){ const rand=S.modus==='globus'; const nam=[];
-  liste.forEach((r,i)=>{ if(r.lon==null||r.lat==null) return; if(K.filter&&!K.filter(r)) return; if(!thRangAn(r.rang,K.rz)) return; if(!imBlickP(r.lon,r.lat)) return; const q=proj(r.lon,r.lat); if(rand&&q[2]<.08) return; if(q[0]<-20||q[0]>W+20||q[1]<-20||q[1]>H+20) return;
+  liste.forEach((r,i)=>{ if(r.lon==null||r.lat==null) return; if(K.filter&&!K.filter(r)) return; const rg=K.rang?K.rang(r):r.rang; if(!thRangAn(rg,K.rz)) return; if(!imBlickP(r.lon,r.lat)) return; const q=proj(r.lon,r.lat); if(rand&&q[2]<.08) return; if(q[0]<-20||q[0]>W+20||q[1]<-20||q[1]>H+20) return;
     const R=(K.r?K.r(r,e,teil):4)*Math.min(1.7,Math.max(.85,Math.sqrt(S.zoom)*.8)), c=K.c?K.c(r,e,teil):thLeg(e,0), f=K.f?K.f(r,e,teil):K.sym;
     thSym(f,q[0],q[1],R,c,K.hohl&&K.hohl(r),K.alpha); THH.push([q[0],q[1],R,id,i,teil]);
-    const nz=K.nz; if(nz&&K.name){ const z=nz[Math.max(1,Math.min(nz.length,r.rang||1))-1]; if(S.zoom>=z) nam.push([r,q,R]); } });
+    const nz=K.nz; if(nz&&K.name){ const z=nz[Math.max(1,Math.min(nz.length,rg||1))-1]; if(S.zoom>=z) nam.push([r,q,R]); } });
   nam.forEach(([r,q,R])=>{ TXA=rand?Math.max(0,Math.min(1,(q[2]-.2)/.3)):1; text(K.name(r,teil),q[0]+R+3,q[1]+4,10.2,K.nc||'#f2ecdf',false,'600'); }); TXA=1; }
 function thStrich(l){ let st=true, lx=null; const pts=[]; for(const p of l){ const q=proj(p[0],p[1]); if(q[2]<0||(S.modus==='flach'&&lx!==null&&Math.abs(q[0]-lx)>W/2)){ st=true; lx=q[0]; pts.push(null); continue; } if(st){ ctx.moveTo(q[0],q[1]); st=false; } else ctx.lineTo(q[0],q[1]); lx=q[0]; pts.push(q); } return pts; }
 function thPfeilSpitze(pts,c,L){ let e=null,f=null; for(let k=pts.length-1;k>=0;k--){ if(pts[k]){ if(!e) e=pts[k]; else if(Math.hypot(pts[k][0]-e[0],pts[k][1]-e[1])>4){ f=pts[k]; break; } } else if(e) break; } if(!e||!f) return;
@@ -1077,7 +1102,7 @@ function thZeichnen(){ THH=[]; THL=[];
     if(s.id==='platten'){ thPlatten(e); continue; }
     if(K.zeichne){ K.zeichne(e,s); continue; }
     if(s.typ==='linien') thLinien(s.id,K.liste?K.liste(e):e.daten||[],K,e,0);
-    else if(s.typ==='punkte'){ if(K.listen) K.listen(e).forEach((L,t)=>thPunkte(s.id,L,K,e,t)); else thPunkte(s.id,e.daten||[],K,e,0); } } }
+    else if(s.typ==='punkte'||K.liste){ if(K.liste) thPunkte(s.id,K.liste(e),K,e,0); else if(K.listen) K.listen(e).forEach((L,t)=>thPunkte(s.id,L,K,e,t)); else thPunkte(s.id,e.daten||[],K,e,0); } } }
 function thSegDist(px,py,a,b){ const dx=b[0]-a[0], dy=b[1]-a[1], L=dx*dx+dy*dy; let t=L?((px-a[0])*dx+(py-a[1])*dy)/L:0; t=Math.max(0,Math.min(1,t)); return Math.hypot(px-a[0]-t*dx,py-a[1]-t*dy); }
 function thAn(x,y){ let best=null, bd=1e9;
   for(const [hx,hy,R,id,i,t] of THH){ const d=Math.hypot(hx-x,hy-y); if(d<Math.max(10,R+6)&&d<bd){ bd=d; best=[id,i,t]; } }
@@ -1106,9 +1131,10 @@ function thLandBlock(G,i){ const id=G.th, e=th(id); if(!e) return ''; let h=`<di
   if(G.thr){ const ll=S.klick; if(ll){ if(id==='klima_raster'){ const w=THS.filter(s=>s.id===id).map(s=>{ const v=thRasterWert(GRUND[s.k],ll[0],ll[1]); return v==null?null:`${s.n.split(' · ')[1]||s.n}: <b>${fmt(v)} ${s.u}</b>`; }).filter(Boolean); h+=`<div>${w.join('<br>')||'keine Angabe'}</div>`; }
       else { const v=thRasterWert(G,ll[0],ll[1]); const k=e.klassen&&e.klassen[v]; h+=`<div><b>${k?esc(k[0]):'keine Angabe'}</b></div>`; } h+=`<div class="qwk-mini">an der angetippten Stelle (${koord(ll)})</div>`; } }
   else if(G.thw){ const d=e.daten[i], v=thLandWert(G,i), K=THK[id]||{}; h+=`<div><b>${v==null?'keine Angabe':(K.text?K.text(d,v):fmt(v,v<100?1:0)+' '+esc(G.u||''))}</b></div>`; }
-  else if(G.thl){ const L=thListe(id), r=thRolle(L,i); h+=`<div><b>${esc(L.n)}</b>: ${r==='m'?(L.mitglieder&&L.mitglieder[i]!=null?'Mitglied seit '+thJahr(L.mitglieder[i]):'gehörte (ganz oder teilweise) dazu'):r==='a'?'Mitglied, ausgesetzt: '+esc(L.ausgesetzt[i]):r==='p'?esc(thRolleName(L,i,e)):'kein Mitglied'}</div>`; if(L.ehemalig&&L.ehemalig[i]) h+=`<div class="qwk-mini">früher: ${esc(L.ehemalig[i])}</div>`; }
+  else if(G.thl){ const L=thListe(id), r=thRolle(L,i); h+=`<div><b>${esc(L.n)}</b>: ${r==='m'?(L.mitglieder&&L.mitglieder[i]!=null?'Mitglied seit '+thJahr(L.mitglieder[i]):'gehörte (ganz oder teilweise) dazu'):r==='a'?'Mitglied, ausgesetzt: '+esc(L.ausgesetzt[i]):r==='p'?esc(thRolleName(L,i,e)):'kein Mitglied'}</div>`; if(L.ehemalig&&L.ehemalig[i]) h+=`<div class="qwk-mini">früher: ${esc(L.ehemalig[i])}</div>`; const K=THK[id]||{}; if(K.landPlus) h+=K.landPlus(e,i); }
   else if(id==='pflanzen_heimat'){ const P=e.daten[thWahl(id)]; const rh=(P.heimat||[]).includes(i)?'ursprünglich heimisch':(P.eingeb||[]).includes(i)?'eingeführt / eingebürgert':'nicht als heimisch oder eingebürgert geführt'; h+=`<div><b>${esc(P.n)}</b>: ${rh}</div>`; }
   else { const K=THK[id]||{}, d=e.daten[i]; h+=d?(K.landInfo?K.landInfo(d,e):`<div>${esc(JSON.stringify(d))}</div>`):'<div>keine Angabe</div>'; }
+  const LQ=G.thl&&thListe(id)&&thListe(id).q; if(LQ&&LQ.t) return h+`<div class="qwk-mini" style="margin-top:4px">Beleg: ${esc(LQ.t)}${LQ.stand?' · Stand '+esc(LQ.stand):''}</div></div>`;
   return h+`<div class="qwk-mini" style="margin-top:4px">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · Stand '+esc(thQ(e).stand):''}</div></div>`; }
 function thRolleName(L,i,e){ for(const k of ['partner','beobachter','kandidaten','moeglich']) if(Array.isArray(L[k])&&L[k].includes(i)){ const f=e.felder&&e.felder[k]; return f||k; } return ''; }
 function thUebersicht(G){ const box=$('.qwk-info',wrap), id=G.th, e=th(id), K=THK[id]||{}; let h=`<div class="qwk-kopf"><span class="qwk-flag">${G.e}</span><div><h2>${esc(G.n)}</h2><small>${esc(G.u||e.einheit||'')}</small></div></div>`;
@@ -1139,7 +1165,7 @@ function thLegGrund(G){ const e=th(G.th), K=THK[G.th]||{}; if(!e) return ''; let
   else if(G.thl){ const L=thListe(G.th); if(L){ const c=L.c||thLeg(e,0); h+=`<div class="qwk-kl"><span><i style="background:${c}"></i>${esc(L.n)}${L.mitglieder?' – Mitglieder':''}</span>${L.mitglieder?`<span><i style="background:${thA(c,.35)};outline:1px dashed ${c}"></i>ausgesetzt / Partner, Beobachter</span>`:''}${L.hs?`<span><i class="r" style="background:#fff"></i>Hauptstadt</span>`:''}</div>`; } }
   else if(G.th==='pflanzen_heimat'){ const P=e.daten[thWahl(G.th)]; h+=`<div class="qwk-kl">${(e.legende||[]).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div><div class="qwk-hin">${esc(P?P.n:'')} · Pflanze im Themen-Menü wählen</div>`; }
   else if(Array.isArray(e.legende)){ h+=`<div class="qwk-kl">${e.legende.map(l=>Array.isArray(l)?l:[l.n||'ohne Angabe',l.c]).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n||'ohne Angabe')}</span>`).join('')}</div>`; }
-  if(K.legPlus) h+=K.legPlus(e); if(thHin(K,e)) h+=`<div class="qwk-hin">${esc(thHin(K,e))}</div>`; h+=`<div class="qwk-hin">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · '+esc(thQ(e).stand):''}</div>`; return h; }
+  if(K.legPlus) h+=K.legPlus(e); if(thHin(K,e)) h+=`<div class="qwk-hin">${esc(thHin(K,e))}</div>`; { const LQ=G.thl&&thListe(G.th)&&thListe(G.th).q; h+=LQ&&LQ.t?`<div class="qwk-hin">Beleg: ${esc(LQ.t.split(/;| – |\(/)[0].trim())}${LQ.stand?' · '+esc(LQ.stand):''}</div>`:`<div class="qwk-hin">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · '+esc(thQ(e).stand):''}</div>`; } return h; }
 const QBASIS={t:null};
 function thQuelle(){ const q=$('.qwk-q',wrap); if(!q) return; if(QBASIS.t==null) QBASIS.t=q.textContent; const T=[]; const G=GRUND[S.grund];
   const mit=id=>{ const e=th(id); if(!e) return; const Q=thQ(e); T.push(`${e.name} – ${(Q.t||'').split(/[;(,]/)[0].trim()}${Q.lizenz?' ('+Q.lizenz.split(/[;–(]/)[0].trim()+')':''}${Q.stand?', Stand '+Q.stand.split(' (')[0]:''}`); };
