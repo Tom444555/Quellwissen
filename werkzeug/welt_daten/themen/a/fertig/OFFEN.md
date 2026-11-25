@@ -1,0 +1,37 @@
+# Offen, unsicher, nur stichprobenhaft geprüft
+
+## Nicht geliefert
+- **Sonnenstunden:** keine freie, über GitHub/pip erreichbare Quelle gefunden (WorldClim/CRU nicht frei bzw. nicht erreichbar). Fehlt.
+- **Böden:** keine freie erreichbare Weltquelle (SoilGrids/HWSD nicht über GitHub/pip). Bestehendes Schema `BODEN` bleibt.
+- **Winterhärtezonen:** brauchen das mittlere jährliche Tiefstminimum; die gefundenen Raster haben nur Monatsmittel → nicht sauber ableitbar. Fehlt. (`t_kalt` im Klima-Raster ist das Mittel des kältesten Monats, *nicht* die Winterhärte.)
+- **Niederschlag/Temperatur als Länderwerte:** nicht nötig, Raster geliefert. (World-Bank-Niederschlag AG.LND.PRCP.MM läge in GitHub ronnywang/worldbank vor, falls gewünscht.)
+- **Naturparks:** Weiter nicht geliefert. Eine Liste mit Name/Fläche/Jahr existiert (BfN-Liste, Wiedergabe POLLICHIA; VDN), aber keine belegbare Lage je Park: GeoNames-Parkpunkte sind im verfügbaren Paket nicht enthalten, Wikidata war nicht erreichbar; ein Ersatz durch den Sitz der Geschäftsstelle wäre keine Lage des Parks (Gegenprüfung 25.11.2026).
+- **Europäische Fernwanderwege (E1, E3, E6, E8, E11):** Verlauf in Deutschland nicht sauber belegbar gefunden (OSM-Wiki ohne Ortsfolgen; OSM-Relationen wären ODbL). Fehlt.
+- **Heilbäder:** Niedersachsen (Stand 04/2026), Bayern (01/2020), Nordrhein-Westfalen (Verzeichnis bis 07/2026) und Sachsen (09/2019) – 57 Orte mit Lage (Gegenprüfung 25.11.2026: NW und SN ergänzt). Bayern und NRW nennen bei „Heilbad“ keine Quellenart. Kneipp-Heilbäder (NRW: 8) wie bisher weggelassen. Ohne Lage, weil nicht im GeoNames-Auszug: Bad Bederkesa, Bad Bayersoien, Bad Rodach, Bad Gottleuba (Salzgitter-Bad jetzt über GeoNames/geonamescache). Ortsteile (Bad Waldliesborn, Bad Westernkotten, Bad Holzhausen, Wildbach, Warmbad) mit der Lage der Gemeinde. **Weiter offen:** Baden-Württemberg (laut Landtag Drs. 17/8623: 54 höherprädikatisierte Heilbäder und Kurorte, Liste nicht gefunden), Hessen (Anerkennungen nur im Staatsanzeiger), Rheinland-Pfalz, Thüringen, Schleswig-Holstein, Saarland, Brandenburg, Mecklenburg-Vorpommern, Sachsen-Anhalt; ein Gesamtverzeichnis des Deutschen Heilbäderverbands war nicht abrufbar.
+- **Fliegenpilz (p13):** Pilz, nicht in WCVP; Heimat nicht geliefert.
+- **Vulkan-Ausbrüche nach 2019** (z. B. Hunga Tonga 2022, Reykjanes ab 2021): fehlen in den NOAA-Kopien; Smithsonian GVP wäre aktueller, aber Nutzungsbedingungen „nicht kommerziell“ → bewusst nicht genutzt.
+
+## Unsicher / Annahmen
+- **Vulkane:** Standortliste ist ein Stand um 2010; Zeitklasse wurde auf „seit 1964“ angehoben, wenn die Ausbruchsliste (bis 2019) einen späteren Ausbruch nennt. Rang ist eine eigene, im Skript beschriebene Regel. Deutsche Namen/Typ-Übersetzungen eigene Wahl. Todesopfer = NOAA „TOTAL_DEATHS“ (inkl. Folgen wie Tsunami/Hunger, z. B. Tambora 60.000).
+- **Erdbeben:** Länderzuordnung über vereinfachte Ländergrenzen der App; bei Beben im Meer das nächste Land (≤ 2,5°). 1900–1902 enthält der Katalog keine Beben M ≥ 7.
+- **Platten:** Beschriftungspunkt = beliebiger innerer Punkt der Platte (bei großen Platten teils im Meer weit weg vom Zentrum).
+- **Meeresströmungen:** Verläufe selbst gezeichnet (schematisch). Warm/kalt nach NOAA-Regel (polwärts = warm, äquatorwärts = kalt) zugeordnet, da NOAA die Farbe nur im Bild zeigt; Ost-West-Ströme mittlerer Breiten als „neutral“.
+- **Windgürtel:** Grenzen 60° (polare Ostwinde) und ±5° um 30° (Rossbreiten) als übliche Lehrbuchwerte gesetzt; Monsun-Rechtecke grob selbst gesetzt (nur die Gliederung stammt von IPCC).
+- **Klima-Raster:** Modell-/Satellitendaten 2,5°, auf 2° interpoliert; Temperatur der untersten Modellschicht (≈ 40 m über Modellgelände), Gebirge zu warm. Stichproben plausibel (Frankfurt 9 °C/1.100 mm Zelle; Sahara 24 °C/60 mm; Amazonas 25 °C/2.620 mm; Jakutsk −7 °C, kältester Monat −31 °C).
+- **Biome:** aus vereinfachter TopoJSON (mapshaper) gerastert; RESOLVE führt die Antarktis als Tundra, Fels/Eis (Biom 98, z. B. Grönland-Inland) fehlt in der Kopie → 0.
+- **Waldanteil:** FAO-Daten unter FAO-Bedingungen, von OWID als CC BY weitergegeben – Nennung beider.
+- **Pflanzen:** WCVP-Daten aus einem R-Paket (Paket GPL, Daten Kew CC BY 4.0) – nur die Kew-Daten genutzt; falls strenger gewünscht, dieselben Daten direkt von Kew (sftp.kew.org) holen. Löwenzahn = Taraxacum sect. Taraxacum. „Land = Heimat“, sobald ein botanisches Land darin ursprünglich ist (USA, Russland, China dadurch nur teilweise). WGSRPD-Zuordnung zu ISO3 ohne ausdrückliche Lizenz (Standard-Code-Tabelle).
+- **Sternbilder:** deutsche Sternnamen nur für 10 Sterne selbst gesetzt (Polarstern, Wega, Atair, Beteigeuze, Kanopus, Arktur, Toliman …), sonst IAU-Name; Stellarium-Übersetzungen (GPL) bewusst nicht genutzt. Deutsche Sternbildnamen aus d3-celestial (dort nach Wikipedia).
+- **Sonnenfinsternisse:** Abgleich mit NASA (Espenak) an 4 Finsternissen: 17.02.2026 Max. 12:11:53 UTC (NASA 12:11:51), 64,72° S 86,71° O (NASA 64,7° S 86,8° O), Dauer 2:16 (NASA 2:20); 12.08.2026 17:45:46 (NASA 17:45:51), 65,22° N 25,25° W (NASA 65,2° N 25,2° W), 2:21 (2:18); 06.02.2027 15:59:32 (NASA 15:59:32), 31,29° S 48,47° W (NASA 31,3° S 48,5° W), 7:45 (7:51); 02.08.2027 10:06:34 (NASA 10:06:34), 25,49° N 33,19° O (NASA 25,5° N 33,2° O), 6:27 (6:23). Zeit ±5 s, Ort ±0,1°, Dauer ±6 s. Hybride Finsternisse unterscheidet astronomy-engine nicht (erscheinen als total oder ringförmig). Pfadbreite fehlt.
+- **Kreise:** Hanau seit 01.01.2026 kreisfrei – Einwohner/Fläche fehlen, Main-Kinzig-Kreis-Werte (2024) enthalten Hanau noch. Summen geprüft: 83.577.140 Ew., 357.677 km² (= Destatis 31.12.2024).
+- **Schutzgebiete:** Lagepunkte aus Wikidata (teils auf 0,01° gerundet, nicht der Gebietsmittelpunkt). Drömling und Karstlandschaft Südharz ohne Lage; Drömling laut BfN 2021 nicht UNESCO-anerkannt (aktueller Stand nicht geprüft). Kurztexte der Nationalparks eigene, knappe Beschreibungen (nicht aus einer Quelle übernommen) – bei Bedarf weglassen. Harz: Gründung 1990 (Sachsen-Anhalt) / 1994 (Niedersachsen), vereinigt 2006.
+- **Wanderwege:** schematisch; belegt sind Länge, Start/Ziel und die je Weg im Feld `hinweis` genannten Orte. Weitere Zwischenorte nach Lage gesetzt (nicht einzeln belegt). Längen je nach Quelle/Variante verschieden (Westweg 280 km laut Factsheet, oft 285 km genannt; Rennsteig 168,3 km laut Ruhla, ADAC 170 km). Saar-Hunsrück-Steig 415 km laut Projektbüro.
+- **Wein/Hopfen:** Lagepunkt = bekannter Ort im Gebiet, keine Gebietsgrenze. Hopfenflächen ohne ausdrückliches Jahr in der Quelle; Summe 18.962 ≈ 18.961 ha (2025 laut Pressestatement) → 2025 angenommen.
+
+## Nur stichprobenhaft geprüft
+- Vulkane: Lage Ätna, Vesuv, Tambora gegen bekannte Werte.
+- Erdbeben: stärkste Beben (Chile 1960 M 9,5; Alaska 1964 M 9,2; Sumatra 2004 und Tōhoku 2011 M 9,1).
+- Polarstern-Position (RA 37,95°, Dek. 89,26° J2000).
+- Kreise: München 1.505.005 Ew. (31.12.2024) gegen Bayerisches Landesamt für Statistik bestätigt.
+- Sonnenstand-Formel gegen astronomy-engine über ein Jahr (≤ 0,2° Länge, ≤ 0,45° Breite).
+- Pflanzen: Gewürznelke (Molukken/IDN), Schwarznuss (CAN/USA), Aloe vera (Oman) gegen WCVP-Arealtext; nicht gegen POWO-Webseite gegengeprüft.
