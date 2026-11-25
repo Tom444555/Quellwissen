@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Quellwissen">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="qw-stand" content="202611251503">
+<meta name="qw-stand" content="202611251552">
 <script>
 if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
 addEventListener("load",function(){try{var s=document.querySelector("meta[name=qw-stand]").content,a=localStorage.getItem("qw-stand");if(a&&a!==s){var d=document.createElement("div");d.id="qw-neu";d.textContent="Neue Version geladen";document.body.appendChild(d);setTimeout(function(){d.remove();},4000);}localStorage.setItem("qw-stand",s);}catch(e){}});
@@ -1783,6 +1783,7 @@ window.QW_KONFIG={
  /* WAS IST NEU (Seite #neu, Karte auf der Startseite). Neuester Eintrag OBEN einfügen:
     {d:'JJJJ-MM-TT', t:'Titel', k:'Kurztext (ein Satz)', h:'#sprungziel' (darf fehlen), art:'Autor'|'Kapitel'|'Optik'|… (kleines Etikett)} */
  neu:[
+  {d:'2026-11-25', t:'Weltkarte: rund 33.000 Orte mehr, Flüsse und Seen mit Namen', k:'Beim Hineinzoomen erscheinen viel mehr Orte (Einwohner beim Antippen), Fluss-, See- und Landschaftsnamen, Bundesländer und Provinzen weltweit, feinere Küsten und Inseln. Zuschaltbar: Straßen, Bahn, Häfen, Flughäfen, bebaute Flächen, Zeitzonen.', h:'#welt', art:'Optik'},
   {d:'2026-11-25', t:'Vorrat & Blackout-Planer', k:'Neue Seite: Haushalt mit Kalorien- und Wasserbedarf, Lager erfassen, Reichweite in Tagen, Gerichte aus dem Bestand, Einkaufsliste und Haltbarkeit – läuft ohne Netz.', h:'#vorrat', art:'Werkzeug'},
   {d:'2026-11-15', t:'Roggen-Vollkornbrot mit Kernen', k:'Neues Rezept R-22: gerührtes Kastenbrot aus Roggen- und Weizenvollkorn mit Kernen – mit Tipps, Backchemie und einer Einordnung zu Ballaststoffen und Eiweiß.', h:'#r-roggenvollkorn', art:'Inhalt'},
   {d:'2026-11-14', t:'Weltkarte: schärfer, genauer, mehr Einzelheiten', k:'Scharfe Küsten und Seen, feineres Relief, rund 6.000 Städte mehr, Gradnetz und Maßstab; Scheibe mit Außenring und Bahnen; 3D-Scheibe mit Eisklippe und fünf Ansichten „Hinter der Eiswand“.', h:'#welt', art:'Optik'},
