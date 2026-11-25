@@ -1635,6 +1635,17 @@ i.fv-b{background:var(--tc,var(--accent))!important}
 .vr-toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:12px;max-width:min(92vw,520px);padding:10px 12px 10px 16px;border-radius:14px;background:var(--ink);color:var(--surface);box-shadow:0 8px 28px rgba(0,0,0,.28);font-size:.92rem}
 .vr-toast button{flex:none;min-height:38px;padding:0 12px;border:0;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:700}
 
+/* Feinschliff 2 */
+.vr-rechn{display:block;margin-top:4px;padding-top:6px;border-top:1px dashed var(--line);color:var(--muted);font-size:.8rem}
+.vr-schwelle{stroke:var(--vr-gut);stroke-width:1.2;stroke-dasharray:5 4;opacity:.8}
+.vr-kc.vr-plus{color:var(--vr-gut)}
+.vr-glgr{margin:12px 0}
+.vr-glgr>summary{display:flex;align-items:center;gap:8px;min-height:48px;cursor:pointer;font:700 1.12rem var(--display)}
+.vr-glgr>summary span{padding:1px 9px;border-radius:99px;background:var(--surface-2);font:600 .82rem var(--label);color:var(--muted)}
+.vr-glgr>.vr-gliste{margin-top:6px}
+.vr-luecke{list-style:none;margin-left:-1.1em;margin-top:4px;font-weight:700;color:var(--vr-schlecht);font-size:.86rem}
+.vr-portinfo{flex:1 1 140px;margin:0}
+
 /* Kachel auf der Rechner-Seite */
 .vr-kachel{display:flex;align-items:center;gap:14px;max-width:1240px;margin:8px auto 0;padding:14px 16px;border-radius:18px;background:color-mix(in srgb,var(--c-s,var(--accent)) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--c-s,var(--accent)) 40%,var(--line));box-shadow:var(--schatten);color:var(--ink);text-decoration:none}
 .vr-kachel>span:nth-child(2){flex:1;min-width:0}
@@ -4332,7 +4343,7 @@ var GERICHTE_ROH = [
   ['knaecke_wurst', 'Knäckebrot mit Leberwurst und Gurke', 'kalt', 'kalt', 1, 0, 3, [['knaecke|zwieback|vkbrot', 50], ['leberwurst|fruehstuecksfleisch|salami', 40], ['gurken', 30, 1]], ['Knäckebrot bestreichen bzw. belegen.', 'Gurkenscheiben darauflegen.'], { fr: 1 }],
   ['knaecke_kaese', 'Knäckebrot mit Käse und Apfel', 'kalt', 'kalt', 1, 0, 3, [['knaecke|zwieback|vkbrot|mischbrot', 50], ['hartkaese|gouda', 40], ['aepfel|birnen', 150]], ['Käse in Scheiben schneiden und aufs Brot legen.', 'Apfel dazu essen.'], { fr: 1 }],
   ['brot_erdnuss', 'Brot mit Erdnussmus und Banane', 'kalt', 'kalt', 1, 0, 3, [['vkbrot|mischbrot|toast|knaecke', 100], ['erdnussmus|nusscreme', 25], ['bananen|aepfel', 120]], ['Brot mit Erdnussmus bestreichen.', 'Banane in Scheiben darauflegen.'], { fr: 1 }],
-  ['brot_honig', 'Brot mit Butter und Honig', 'kalt', 'kalt', 1, 0, 2, [['vkbrot|mischbrot|toast|broetchen|knaecke', 100], ['butter|margarine', 15], ['honig|marmelade', 25]], ['Brot mit Butter und Honig oder Marmelade bestreichen.'], { fr: 1 }],
+  ['brot_honig', 'Brot mit Butter und Honig', 'kalt', 'kalt', 1, 0, 2, [['vkbrot|mischbrot|toast|broetchen|knaecke', 100], ['butter|margarine', 15, 1], ['honig|marmelade|nusscreme', 25]], ['Brot mit Butter und Honig oder Marmelade bestreichen.'], { fr: 1 }],
   ['corned_brot', 'Brot mit Corned Beef und Gurke', 'kalt', 'kalt', 2, 0, 5, [['vkbrot|mischbrot|knaecke|toast', 200], ['corned_beef|fruehstuecksfleisch', 170], ['gurken|rote_bete', 60, 1], ['senf', 10, 1]], ['Fleisch aus der Dose in Scheiben schneiden.', 'Brot mit Senf bestreichen, Fleisch und Gurke darauflegen.'], {}],
   ['thunfisch_bohnen', 'Bohnen-Thunfisch-Salat', 'kalt', 'kalt', 2, 0, 10, [['thunfisch|lachs_dose|makrele', 150], ['bohnen_dose|kidney_dose|kicher_dose', 250], ['zwiebeln', 50, 1], ['rapsoel|olivenoel|sonnenblumenoel', 20], ['essig|zitronensaft', 15, 1]], ['Bohnen abtropfen lassen, Fisch zerpflücken.', 'Zwiebel fein würfeln.', 'Alles mit Öl und Essig mischen, salzen und pfeffern.'], {}],
   ['kicher_salat', 'Kichererbsen-Mais-Salat', 'kalt', 'kalt', 2, 0, 10, [['kicher_dose|kidney_dose|bohnen_dose', 240], ['mais', 140], ['gurken|rote_bete|tomaten_dose', 100, 1], ['olivenoel|rapsoel', 20], ['essig|zitronensaft', 15, 1]], ['Kichererbsen und Mais abtropfen lassen.', 'Gurken klein schneiden.', 'Mit Öl, Essig, Salz und Pfeffer mischen.'], {}],
@@ -4372,6 +4383,13 @@ var GERICHTE_ROH = [
   ['polenta', 'Polenta mit Tomatensoße und Käse', 'warm', 'topf', 4, 1000, 15, [['polenta', 250], ['passata|tomaten_dose', 500], ['hartkaese|gouda', 50, 1], ['bruehe', 8]], ['1 l Wasser mit Brühe aufkochen, Polenta einrühren.', 'Unter Rühren etwa 5–10 Minuten quellen lassen (Packung beachten).', 'Tomatensoße erhitzen, Käse darüber.'], {}],
   ['hirse_gemuese', 'Hirse mit Gemüse', 'warm', 'topf', 3, 600, 25, [['hirse', 250], ['gemuese_tk|erbsen_moehren|erbsen_tk', 400], ['bruehe', 8], ['butter|rapsoel', 15, 1]], ['Hirse heiß abspülen, mit 600 ml Wasser und Brühe aufkochen.', 'Zugedeckt 20 Minuten quellen lassen.', 'Gemüse untermischen und heiß werden lassen.'], {}],
   ['spinat_ei', 'Spinat mit Ei und Kartoffeln (Gefriergut zuerst)', 'warm', 'topf', 4, 1000, 25, [['spinat_tk', 450], ['eier', 212], ['kartoffeln', 800], ['butter|margarine', 20, 1]], ['Kartoffeln garen, Eier hart kochen (10 Minuten).', 'Spinat im Topf mit wenig Wasser auftauen und erhitzen.', 'Alles zusammen essen.'], {}],
+  ['nudeln_oel', 'Nudeln mit Öl oder Butter (und Käse)', 'warm', 'topf', 4, 1200, 15, [['nudeln|nudeln_vk|eiernudeln', 400], ['olivenoel|rapsoel|butter|sonnenblumenoel', 40], ['hartkaese|gouda', 40, 1]], ['Nudeln wassersparend in 1,2 l Wasser mit Deckel garen.', 'Abgießen bzw. Restwasser verdampfen lassen, Öl oder Butter untermischen, salzen.', 'Mit geriebenem Käse essen.'], {}],
+  ['brueh_reis', 'Brühreis', 'warm', 'topf', 3, 600, 20, [['reis|reis_vk', 250], ['bruehe', 8], ['butter|rapsoel|olivenoel', 20, 1]], ['Reis mit 600 ml Wasser und Brühpulver aufkochen.', 'Zugedeckt bei kleinster Flamme quellen lassen, etwas Fett unterrühren.'], {}],
+  ['salzkartoffeln', 'Salzkartoffeln mit Butter', 'warm', 'topf', 4, 1000, 25, [['kartoffeln', 1000], ['butter|margarine|rapsoel', 30, 1]], ['Kartoffeln schälen, in wenig Salzwasser zugedeckt etwa 20 Minuten garen.', 'Abgießen, mit Butter oder einem Schuss Öl essen.'], {}],
+  ['linsen_reis', 'Linsen mit Reis und Röstzwiebeln', 'warm', 'topf', 4, 1100, 35, [['linsen|rote_linsen', 200], ['reis', 200], ['rapsoel|olivenoel|sonnenblumenoel', 40], ['zwiebeln', 150, 1], ['bruehe', 6, 1]], ['Linsen in 700 ml Wasser etwa 15 Minuten vorkochen.', 'Reis und 400 ml Wasser dazu, zugedeckt 20 Minuten quellen lassen.', 'Zwiebeln in Öl braun rösten und darübergeben.'], {}],
+  ['bohnen_reis', 'Bohnen mit Reis', 'warm', 'topf', 4, 400, 20, [['kidney_dose|bohnen_dose|kicher_dose|baked_beans', 500], ['reis', 200], ['rapsoel|olivenoel', 15], ['tomatenmark|passata', 40, 1]], ['Reis mit 400 ml Wasser zugedeckt quellen lassen.', 'Bohnen mit Öl und etwas Tomatenmark erhitzen, würzen.', 'Zum Reis essen.'], {}],
+  ['porridge_wasser', 'Haferbrei mit Wasser und Obst', 'warm', 'topf', 1, 250, 5, [['haferflocken', 70], ['pfirsiche|apfelmus|rosinen|aepfel|bananen|kirschen|pflaumen_getr', 60], ['zucker|honig', 10, 1]], ['Haferflocken mit 250 ml Wasser und einer Prise Salz aufkochen.', '2–3 Minuten köcheln, Obst unterrühren, nach Geschmack süßen.'], { fr: 1 }],
+  ['bohnensalat', 'Bohnensalat mit Zwiebeln', 'kalt', 'kalt', 2, 0, 10, [['kidney_dose|bohnen_dose|kicher_dose|gr_bohnen', 300], ['rapsoel|olivenoel|sonnenblumenoel', 20], ['zwiebeln', 50, 1], ['essig|zitronensaft', 15, 1]], ['Bohnen abtropfen lassen.', 'Mit Öl, Essig, Salz, Pfeffer und Zwiebelwürfeln mischen, kurz durchziehen lassen.'], {}],
   ['suppe_tuete', 'Instant-Suppe mit Zwieback', 'warm', 'topf', 2, 500, 5, [['suppe_tuete', 60], ['zwieback|knaecke|mischbrot', 60]], ['Suppenpulver nach Packung in 500 ml Wasser einrühren und aufkochen.', 'Zwieback dazu.'], {}],
   /* ---- Brot ohne Backofen ---- */
   ['pfannenbrot', 'Pfannenbrot mit Hefe', 'brot', 'topf', 6, 300, 30, [['mehl405|dinkelmehl|vollkornmehl', 500], ['trockenhefe|frischhefe*3', 7], ['rapsoel|olivenoel', 30], ['zucker', 5, 1]], ['Mehl, Hefe, 1½ TL Salz, Öl und 300 ml lauwarmes Wasser zu einem weichen Teig kneten.', 'Zugedeckt 45–60 Minuten gehen lassen.', 'In 6 Stücke teilen, flach drücken und in der Pfanne mit Deckel bei kleiner Hitze je Seite 5–7 Minuten backen.'], {}],
@@ -4537,12 +4555,18 @@ function gerichtWerte(S, r) {
 }
 function gerichtStatus(S, r, B) {
   var max = Infinity, fehlt = [];
-  r.zut.forEach(function (z) { if (z.opt) return; var je = z.g / r.p, da = zutatDa(z, B), n = Math.floor(da / je + 1e-9); if (n < max) max = n;
-    if (n < 1) fehlt.push({ z: z, g: je - da }); });
+  r.zut.forEach(function (z) { if (z.opt) return; var je = z.g / r.p, da = zutatDa(z, B), n = da / je; if (n < max) max = n;
+    if (n < 1 - 1e-9) fehlt.push({ z: z, g: je - da }); });
   if (!isFinite(max)) max = 0;
+  max = Math.floor(max * 10 + 1e-6) / 10;
   var st = max >= 1 ? 'geht' : fehlt.length <= 2 ? 'fast' : 'fehlt';
   return { st: st, max: max, fehlt: fehlt, koch: kannKochen(S, r.koch) };
 }
+/* Portionen nach Bedarf: 1 Portion = eine Mahlzeit für jemanden mit 2.200 kcal Tagesbedarf (Bezugswert der BLE-Tabelle).
+   Ein Kind mit 1.500 kcal bekommt 0,7 Portionen, ein Erwachsener mit 2.800 kcal 1,3. */
+var PORTION_KCAL = 2200;
+function portionenHaushalt(S) { var H = haushalt(S); return Math.round(H.kcalSpar / PORTION_KCAL * 10) / 10; }
+function portText(p) { return fz(p, 1) + (Math.abs(p - 1) < 1e-9 ? ' Portion' : ' Portionen'); }
 function zutatName(S, z) { return z.a.map(function (a) { var k = katVon(S, a[0]); return k ? k.n.replace(/ \(.*\)$/, '').replace(/, trocken$/, '') : a[0]; }).filter(function (v, i, A) { return A.indexOf(v) === i; }).slice(0, 3).join(' oder '); }
 
 /* Zutaten abziehen: zuerst Kühlschrank/Gefriertruhe, dann was zuerst abläuft. Gibt verbrauchte Mengen zurück */
@@ -4563,46 +4587,80 @@ function abziehen(S, r, port, heute) {
 var NICHT_PUR = ['zwiebeln', 'knoblauch', 'zucker', 'salz', 'bruehe', 'essig', 'senf', 'ketchup', 'mayonnaise', 'tomatenmark', 'passata', 'staerke', 'trockenhefe', 'frischhefe', 'backpulver', 'puddingpulver', 'kakao', 'honig', 'zitronensaft', 'marmelade', 'nusscreme', 'pilze_getr', 'tee', 'kaffee'];
 function pur(k) { return ['baby', 'fett', 'trinken'].indexOf(k.g) < 0 && NICHT_PUR.indexOf(k.i) < 0 && !/mehl/.test(k.i); }
 /* Speiseplan-Vorschlag: je Tag bis zu drei Gerichte (Portionen = Personen) aus dem Lager, Lücken mit Fertigem füllen */
-function speiseplan(S0, heute, tage) {
-  var S = klon(S0), H = haushalt(S), n = Math.max(1, H.n), D = H.kcalSpar, strom = !!(S.lage || {}).strom, leitung = !!(S.lage || {}).leitung;
-  var W = wasser(S0), wasserFrei = leitung ? Infinity : W.l * 1000, tageL = [], zuletzt = {}, knapp = 0, brennMin = 0;
-  if (D <= 0 || !n) return { tage: [], knapp: 0, brennMin: 0 };
+/* Höchstmenge je Lebensmittel und Tag beim Auffüllen, je Portion (= 2.200-kcal-Bedarf), in g bzw. ml – alltagsnahe Annahme */
+function auffuellMax(k) {
+  if (/nuesse|mandeln|cashew|kerne|leinsamen|erdnussmus/.test(k.i)) return 50;
+  if (/rosinen|pflaumen_getr|aprikosen_getr|feigen_getr|datteln/.test(k.i)) return 50;
+  if (k.g === 'sonst') return 40;                       // Süßes, Kekse, Chips
+  if (/hartkaese|gouda/.test(k.i)) return 60;
+  if (k.g === 'milch') return k.ml ? 250 : 150;        // Milch zum Trinken, Joghurt/Quark
+  if (k.g === 'eiweiss') return 120;
+  if (k.g === 'obst') return 200;
+  if (k.g === 'gemuese') return 150;
+  if (k.g === 'getreide') return /haferflocken|muesli|cornflakes/.test(k.i) ? 80 : 120;
+  return 100;
+}
+/* Speiseplan: je Tag drei Mahlzeiten und bis zu zwei kleine kalte Zwischenmahlzeiten aus dem Lager, Portionen nach Bedarf;
+   Lücken mit pur essbaren Lebensmitteln in alltagsnahen Mengen füllen; was dann fehlt, bleibt als Lücke stehen.
+   opt.koch = andere Kochmöglichkeit, opt.stopp = früh aufhören, wenn nichts mehr da ist */
+function speiseplan(S0, heute, tage, opt) {
+  opt = opt || {};
+  var S = klon(S0); if (opt.koch) S.lage.koch = opt.koch;
+  var H = haushalt(S), D = H.kcalSpar, PH = D / PORTION_KCAL, strom = !!(S.lage || {}).strom, leitung = !!(S.lage || {}).leitung;
+  var W = wasser(S0), wasserFrei = leitung ? Infinity : W.l * 1000, tageL = [], zuletzt = {}, knapp = 0, brennMin = 0, leer = 0;
+  if (D <= 0 || !H.n) return { tage: [], knapp: 0, brennMin: 0, reicht: 0, rest: 0, PH: 0 };
   for (var d = 1; d <= tage; d++) {
-    if (strom) { var vorher = (S.lager || []).length; S.lager = (S.lager || []).filter(function (it) { return !((it.o === 'k' && d > 1) || (it.o === 't' && d > 2)); }); void vorher; }
+    if (strom) S.lager = (S.lager || []).filter(function (it) { return !((it.o === 'k' && d > 1) || (it.o === 't' && d > 2)); });
     var B = bestand(S, heute), X = posten(S, heute), dringend = {};
     X.forEach(function (x) { var w = 0; if (strom && x.ort === 'k') w = 3; else if (strom && x.ort === 't') w = 2; else if (x.rest != null && x.rest - d < 30) w = 1; if (w) dringend[x.it.k] = Math.max(dringend[x.it.k] || 0, w); });
-    var tag = { d: d, essen: [], extra: [], kcal: 0 }, heuteGenutzt = {};
-    for (var slot = 0; slot < 3 && tag.kcal < D * 0.95; slot++) {
-      var best = null, bs = -1e9;
+    var tag = { d: d, essen: [], extra: [], kcal: 0, brenn: 0 }, heuteGenutzt = {};
+    for (var slot = 0; slot < 5 && tag.kcal < D * 0.95; slot++) {
+      var klein = slot >= 3, soll = klein ? PH * 0.5 : PH, best = null, bs = -1e9;
       GERICHTE.forEach(function (r) {
         if (!kannKochen(S, r.koch) || heuteGenutzt[r.id]) return;
-        var st = gerichtStatus(S, r, B); if (st.max < 1) return;
-        var port = Math.min(n, st.max), wv = gerichtWerte(S, r), wbed = wv.wasser * port; if (!leitung && wbed > wasserFrei * 0.5) return;
-        var s = wv.kcal * port / D * 40;
+        if (klein && r.koch !== 'kalt') return;
+        var st = gerichtStatus(S, r, B); if (st.max < Math.min(soll, 1) * 0.5) return;
+        var port = Math.min(soll, st.max), wv = gerichtWerte(S, r), wbed = wv.wasser * port; if (!leitung && wbed > wasserFrei * 0.5) return;
+        var luecke = D - tag.kcal, kc = wv.kcal * port;
+        var s = Math.min(kc, luecke) / D * 40 - Math.max(0, kc - luecke) / D * 20;
         r.zut.forEach(function (z) { z.a.forEach(function (a) { if (dringend[a[0]] && zutatDa({ a: [a] }, B) > 0) s += 25 * dringend[a[0]]; }); });
-        if (zuletzt[r.id] && d - zuletzt[r.id] < 3) s -= 30; if (slot === 0) s += r.fr ? 20 : -15; else if (r.fr) s -= 10;
-        if (port < n) s -= 15; s -= r.z / 10;
-        if (s > bs) { bs = s; best = { r: r, port: port, wv: wv }; }
+        if (zuletzt[r.id] && d - zuletzt[r.id] < 3) s -= 30; if (slot === 0) s += r.fr ? 20 : -60; else if (r.fr && !klein) s -= 10;
+        if (port < soll - 1e-9) s -= 15; s -= r.z / 10;
+        if (s > bs) { bs = s; best = { r: r, port: Math.floor(port * 10 + 1e-6) / 10, wv: wv }; }
       });
-      if (!best) break;
+      if (!best) continue;
       abziehen(S, best.r, best.port, heute); B = bestand(S, heute); heuteGenutzt[best.r.id] = 1; zuletzt[best.r.id] = d;
       if (!leitung) wasserFrei -= best.wv.wasser * best.port;
-      brennMin += best.r.koch === 'kalt' ? 0 : best.r.z;
-      tag.essen.push({ id: best.r.id, n: best.r.n, port: best.port, kcal: best.wv.kcal * best.port }); tag.kcal += best.wv.kcal * best.port;
+      brennMin += best.r.koch === 'kalt' ? 0 : best.r.z; tag.brenn += best.r.koch === 'kalt' ? 0 : best.r.z;
+      tag.essen.push({ id: best.r.id, n: best.r.n, port: best.port, kcal: best.wv.kcal * best.port, klein: klein }); tag.kcal += best.wv.kcal * best.port;
     }
     if (tag.kcal < D * 0.95) {
-      var kochen = (S.lage || {}).koch !== 'keine';
-      var F = posten(S, heute).filter(function (x) { return x.kcal > 0 && pur(x.k) && !x.ko && !(strom && ((x.ort === 'k' && d > 1) || (x.ort === 't' && d > 2))); })
-        .sort(function (a, b) { return rang(a, strom) - rang(b, strom); });
-      void kochen;
-      F.forEach(function (x) { var gap = D - tag.kcal; if (gap <= 1) return; var nimm = Math.min(x.kcal, gap, D * 0.15, 250 * n * x.k.k / 100), g = nimm / x.k.k * 100;
-        var eg = einheitG(x.k, x.it.e); x.it.m = Math.max(0, Math.round((x.g - g) / eg * 1000) / 1000); tag.kcal += nimm; tag.extra.push({ n: x.k.n, g: g }); });
+      var F = posten(S, heute).filter(function (x) { return x.kcal > 0 && pur(x.k) && !x.ko; }).sort(function (a, b) { return rang(a, strom) - rang(b, strom); });
+      F.forEach(function (x) { var gap = D - tag.kcal; if (gap <= 1) return; var gmax = auffuellMax(x.k) * PH, schon = 0;
+        tag.extra.forEach(function (e) { if (e.i === x.k.i) schon += e.g; });
+        var g = Math.min(x.g, gmax - schon, gap / x.k.k * 100); if (g < 5) return;
+        var eg = einheitG(x.k, x.it.e); x.it.m = Math.max(0, Math.round((x.g - g) / eg * 1000) / 1000); tag.kcal += g * x.k.k / 100;
+        var da = tag.extra.filter(function (e) { return e.i === x.k.i; })[0]; if (da) da.g += g; else tag.extra.push({ i: x.k.i, n: x.k.n, g: g }); });
       S.lager = (S.lager || []).filter(function (it) { return (+it.m || 0) > 1e-6; });
     }
-    tag.deckung = tag.kcal / D; if (!knapp && tag.deckung < 0.9) knapp = d;
+    tag.deckung = tag.kcal / D; tag.luecke = Math.max(0, D - tag.kcal); if (!knapp && tag.deckung < 0.9) knapp = d;
     tageL.push(tag);
+    if (opt.stopp && tag.deckung < 0.02) { if (++leer >= 2) break; } else leer = 0;
   }
-  return { tage: tageL, knapp: knapp, brennMin: brennMin };
+  /* reicht = volle Tage (mindestens 90 % gedeckt) vor dem ersten knappen Tag, plus der Anteil dieses Tages */
+  var reicht = knapp ? knapp - 1 + tageL[knapp - 1].deckung : tageL.length, rest = 0;
+  tageL.forEach(function (t, i) { if (knapp && i >= knapp) rest += Math.min(1, t.deckung); });
+  return { tage: tageL, knapp: knapp, brennMin: brennMin, reicht: reicht, rest: rest, PH: PH, voll: !knapp && tageL.length >= tage };
+}
+/* Alltagsnahe Reichweite: der Speiseplan, so lange, bis nichts mehr da ist (höchstens 90 Tage) */
+var ALLTAG_MAX = 90, MEMO = {};
+function alltag(S, heute, opt) {
+  opt = opt || {}; var key = JSON.stringify([S.personen, S.lage, S.lager, S.eigene, opt.koch || '', heute.toDateString()]);
+  if (MEMO[key]) return MEMO[key];
+  var keys = Object.keys(MEMO); if (keys.length > 12) MEMO = {};
+  var P = speiseplan(S, heute, ALLTAG_MAX, { koch: opt.koch, stopp: true });
+  P.max = !P.knapp && P.tage.length >= ALLTAG_MAX;
+  return (MEMO[key] = P);
 }
 
 /* Einkaufsliste bis zum Ziel */
@@ -4645,7 +4703,7 @@ function pruefeStand(x) {
 }
 
 var KERN = { KATALOG: KATALOG, GERICHTE: GERICHTE, GRUPPEN: GRUPPEN, DGE_E: DGE_E, QUELLEN: QUELLEN, CHECK: CHECK, bedarf: bedarf, haushalt: haushalt, reichweite: reichweite, wasser: wasser, gruppenStand: gruppenStand,
-  eiweissTage: eiweissTage, bestand: bestand, gerichtWerte: gerichtWerte, gerichtStatus: gerichtStatus, abziehen: abziehen, speiseplan: speiseplan, fehltListe: fehltListe, vorschlag: vorschlag,
+  eiweissTage: eiweissTage, alltag: alltag, dateiMoeglich: dateiMoeglich, reichtFuer: reichtFuer, portionenHaushalt: portionenHaushalt, auffuellMax: auffuellMax, PORTION_KCAL: PORTION_KCAL, bestand: bestand, gerichtWerte: gerichtWerte, gerichtStatus: gerichtStatus, abziehen: abziehen, speiseplan: speiseplan, fehltListe: fehltListe, vorschlag: vorschlag,
   beispiel: beispiel, leer: leer, pruefeStand: pruefeStand, gramm: gramm, einheiten: einheiten, zielTage: zielTage, posten: posten, katVon: katVon, kannKochen: kannKochen };
 
 /* ===================================================================== 4. Oberfläche */
@@ -4673,7 +4731,7 @@ function leisteHTML() {
     TABS.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (S.tab === t[0]) + '"><span aria-hidden="true">' + t[2] + '</span>' + t[1] + '</button>'; }).join('') + '</nav></div>';
 }
 function kurzZeile() {
-  var h = heute(), H = haushalt(S), rw = reichweite(S, h), W = wasser(S), z = zielTage(S);
+  var h = heute(), H = haushalt(S), A = alltag(S, h), W = wasser(S), z = zielTage(S), rw = { tage: A.max ? 730 : A.reicht };
   if (!H.n) return '<span>Noch niemand im Haushalt – lege unter „Haushalt“ Personen an.</span>';
   var gut = function (t) { return t >= z ? 'vr-gut' : t >= Math.min(3, z) ? 'vr-mittel' : 'vr-schlecht'; };
   return '<span><b>' + H.n + '</b> ' + (H.n === 1 ? 'Person' : 'Personen') + '</span><span><b>' + fz(H.kcalSpar) + '</b> kcal/Tag</span>' +
@@ -4726,9 +4784,19 @@ function haushaltHTML() {
   h += sicherungHTML();
   return h + '</section>';
 }
+/* Datei speichern/laden geht nicht, wenn die Seite eingebettet läuft (Claude-Artefakt: Downloads gesperrt) */
+function dateiMoeglich() {
+  if (typeof window === 'undefined') return false;
+  var rahmen = true; try { rahmen = window.self !== window.top; } catch (e) { rahmen = true; }
+  var hn = (location && location.hostname) || '', pr = (location && location.protocol) || '';
+  if (rahmen || /claude|anthropic/i.test(hn) || pr === 'blob:' || pr === 'about:' || pr === 'data:') return false;
+  return true;
+}
 function sicherungHTML() {
-  return '<h3>Sicherung</h3><div class="vr-karte"><p class="vr-klein">Alles bleibt nur auf diesem Gerät. Zum Umzug (z. B. vom iPhone aufs iPad) als Datei speichern oder als Text kopieren und auf dem anderen Gerät einfügen.</p>' +
-    '<div class="vr-knoepfe"><button type="button" class="vr-knopf" data-sich="datei">Als Datei speichern</button><label class="vr-knopf vr-datei">Datei laden<input type="file" accept=".json,application/json,text/plain" data-sich-datei></label>' +
+  var datei = dateiMoeglich();
+  return '<h3>Sicherung</h3><div class="vr-karte"><p class="vr-klein">Alles bleibt nur auf diesem Gerät. Zum Umzug (z. B. vom iPhone aufs iPad) ' + (datei ? 'als Datei speichern oder ' : '') + 'als Text kopieren und auf dem anderen Gerät einfügen.</p>' +
+    (datei ? '' : '<p class="vr-hinweis vr-klein">In dieser Vorschau sind Downloads gesperrt – darum hier nur „Als Text kopieren“ und „Text einfügen“. In der installierten App geht auch das Speichern als Datei.</p>') +
+    '<div class="vr-knoepfe">' + (datei ? '<button type="button" class="vr-knopf" data-sich="datei">Als Datei speichern</button><label class="vr-knopf vr-datei">Datei laden<input type="file" accept=".json,application/json,text/plain" data-sich-datei></label>' : '') +
     '<button type="button" class="vr-knopf" data-sich="kopie">Als Text kopieren</button></div>' +
     '<details class="vr-mehr"><summary>Text einfügen</summary><textarea class="vr-text" rows="4" placeholder="Hier den kopierten Text einfügen" aria-label="Sicherungstext"></textarea><div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-sich="einfuegen">Übernehmen</button></div></details>' +
     '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-gefahr" data-sich="alles-weg">Alles löschen</button></div></div>';
@@ -4791,45 +4859,50 @@ function eigenFormHTML() {
 }
 
 /* ---------- 3. Reichweite ---------- */
-function kursSVG(V, ziel, von) {
+function kursSVG(V, ziel, von, schwelle) {
   var W = Math.max(330, Math.min(900, ((R && R.clientWidth) || 700) - 64)), Hh = W < 500 ? 220 : 240, pl = 34, pr = 12, pt = 14, pb = 26, P = V.filter(function (p) { return p[0] >= von; }); if (P.length < 2) P = V.slice(-2);
-  var x0 = P[0][0], x1 = Math.max(P[P.length - 1][0], x0 + 1), ymax = Math.max(1, Math.max.apply(null, P.map(function (p) { return p[1]; })) * 1.1);
+  var x0 = P[0][0], x1 = Math.max(P[P.length - 1][0], x0 + 1), ymax = Math.max(schwelle != null ? 110 : 1, Math.max.apply(null, P.map(function (p) { return p[1]; })) * 1.05);
   var X = function (x) { return pl + (x - x0) / (x1 - x0) * (W - pl - pr); }, Y = function (y) { return pt + (1 - y / ymax) * (Hh - pt - pb); };
   var d = P.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); }).join('');
   var st = Math.pow(10, Math.floor(Math.log10(ymax))) || 1; if (ymax / st < 3) st /= 2; if (ymax / st > 8) st *= 2;
   var g = ''; for (var v = 0; v <= ymax; v += st) g += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '" class="vr-gl"/><text x="' + (pl - 6) + '" y="' + (Y(v) + 4).toFixed(1) + '" class="vr-ax" text-anchor="end">' + fz(v, st < 1 ? 1 : 0) + '</text>';
-  var xs = Math.max(1, Math.ceil((x1 - x0) / 6)); for (var t = Math.ceil(x0); t <= x1; t += xs) g += '<text x="' + X(t).toFixed(1) + '" y="' + (Hh - 8) + '" class="vr-ax" text-anchor="middle">' + (t === 0 ? 'heute' : 'Tag ' + t) + '</text>';
+  var xs = Math.max(1, Math.ceil((x1 - x0) / 6)); for (var t = Math.ceil(x0); t <= x1; t += xs) g += '<text x="' + X(t).toFixed(1) + '" y="' + (Hh - 8) + '" class="vr-ax" text-anchor="middle">' + 'Tag ' + t + '</text>';
   if (ziel >= x0 && ziel <= x1) g += '<line x1="' + X(ziel).toFixed(1) + '" x2="' + X(ziel).toFixed(1) + '" y1="' + pt + '" y2="' + (Hh - pb) + '" class="vr-ziel"/><text x="' + (X(ziel) + 4).toFixed(1) + '" y="' + (pt + 10) + '" class="vr-ax vr-zt">Ziel ' + ziel + ' T.</text>';
+  if (schwelle != null && schwelle <= ymax) g += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + Y(schwelle).toFixed(1) + '" y2="' + Y(schwelle).toFixed(1) + '" class="vr-schwelle"/>';
   var hi = P.reduce(function (a, p) { return p[1] > a[1] ? p : a; }, P[0]);
-  return '<svg viewBox="0 0 ' + W + ' ' + Hh + '" class="vr-kurs-svg" role="img" aria-label="Verlauf des Vorrats in Tagesrationen">' + g +
+  return '<svg viewBox="0 0 ' + W + ' ' + Hh + '" class="vr-kurs-svg" role="img" aria-label="Tagesdeckung in Prozent über die Tage">' + g +
     '<path d="' + d + 'L' + X(P[P.length - 1][0]).toFixed(1) + ',' + Y(0).toFixed(1) + 'L' + X(P[0][0]).toFixed(1) + ',' + Y(0).toFixed(1) + 'Z" class="vr-flaeche"/><path d="' + d + '" class="vr-linie"/>' +
     '<circle cx="' + X(hi[0]).toFixed(1) + '" cy="' + Y(hi[1]).toFixed(1) + '" r="4" class="vr-punkt"/></svg>';
 }
-function kursHTML(rw, z) {
-  var V = rw.verlauf; if (V.length < 2) return '';
-  var von = OFFEN.kz || 0, now = V[0][1], end = V[V.length - 1], ch = end[1] - now;
-  return '<div class="vr-karte vr-kurs"><div class="vr-kk"><span class="vr-fl">Vorrat in Tagesrationen</span><div class="vr-kw"><b>' + fz(now, now < 10 ? 1 : 0) + '</b> <small>heute</small></div>' +
-    '<div class="vr-kc vr-schlecht">▼ ' + fz(Math.abs(ch), 1) + ' bis Tag ' + end[0] + '</div></div>' + kursSVG(V, z, von) +
-    '<div class="vr-kz" role="group" aria-label="Zeitraum">' + [[0, 'Alle'], [Math.max(0, end[0] - 10), 'Letzte 10 T.']].map(function (b) { return '<button type="button" data-kz="' + b[0] + '" aria-pressed="' + (von === b[0]) + '">' + b[1] + '</button>'; }).join('') + '</div>' +
-    '<div class="vr-stats"><div><small>▲ Hoch</small><b>' + fz(now, 1) + '</b></div><div><small>▼ Tief</small><b>0</b></div><div><small>Verbrauch/Tag</small><b>' + fz(rw.D) + ' kcal</b></div><div><small>Ende</small><b>Tag ' + fz(rw.tage, 1) + '</b></div></div></div>';
+function kursHTML(A, z) {
+  var V = []; A.tage.forEach(function (t) { V.push([t.d, Math.min(1.5, t.deckung) * 100]); }); if (V.length < 2) return '';
+  var von = OFFEN.kz || 0, erst = V[0][1], letzt = V[V.length - 1], hoch = V.reduce(function (a, p) { return p[1] > a[1] ? p : a; }, V[0]), tief = V.reduce(function (a, p) { return p[1] < a[1] ? p : a; }, V[0]);
+  var ch = letzt[1] - erst, sz = 0; V.forEach(function (p) { sz += Math.min(100, p[1]); });
+  return '<div class="vr-karte vr-kurs"><div class="vr-kk"><span class="vr-fl">Wie gut ist jeder Tag gedeckt? (Mahlzeiten aus dem Lager)</span><div class="vr-kw"><b>' + fz(erst) + ' %</b> <small>Tag 1</small></div>' +
+    '<div class="vr-kc ' + (ch < 0 ? 'vr-schlecht' : 'vr-plus') + '">' + (ch < 0 ? '▼ ' : '▲ ') + fz(Math.abs(ch)) + ' Punkte bis Tag ' + letzt[0] + '</div></div>' + kursSVG(V, z, von, 90) +
+    '<div class="vr-kz" role="group" aria-label="Zeitraum">' + [[0, 'Alle'], [Math.max(0, letzt[0] - 10), 'Letzte 10 T.']].map(function (b) { return '<button type="button" data-kz="' + b[0] + '" aria-pressed="' + (von === b[0]) + '">' + b[1] + '</button>'; }).join('') + '</div>' +
+    '<div class="vr-stats"><div><small>▲ Hoch</small><b>' + fz(hoch[1]) + ' % · Tag ' + hoch[0] + '</b></div><div><small>▼ Tief</small><b>' + fz(tief[1]) + ' % · Tag ' + tief[0] + '</b></div><div><small>Ø je Tag</small><b>' + fz(sz / V.length) + ' %</b></div><div><small>Knapp ab</small><b>' + (A.knapp ? 'Tag ' + A.knapp : '–') + '</b></div></div>' +
+    '<p class="vr-klein">Gestrichelte Linie: 90 % des Tagesbedarfs. Grundlage ist der Speiseplan-Vorschlag mit der gewählten Kochmöglichkeit.</p></div>';
 }
 function reichweiteHTML() {
   var h0 = heute(), H = haushalt(S), z = zielTage(S), L = S.lage;
   var h = '<section class="vr-bereich" data-b="reichweite"><h2>Reichweite</h2>';
   if (!H.n) return h + leerText('Noch niemand im Haushalt – lege zuerst Personen an.', '<button type="button" class="vr-knopf vr-haupt" data-tab="haushalt">Zum Haushalt</button>') + '</section>';
-  var rw = reichweite(S, h0), W = wasser(S), ok = reichweite(S, h0, { ohneKochen: true }), E = eiweissTage(S, h0);
+  var rwK = reichweite(S, h0), A = alltag(S, h0), W = wasser(S), okA = alltag(S, h0, { koch: 'keine' }), E = eiweissTage(S, h0);
+  var rw = { tage: A.max ? 730 : A.reicht }, ok = { tage: okA.max ? 730 : okA.reicht };
   var farbe = function (t) { return t >= z ? 'vr-gut' : t >= Math.min(3, z) ? 'vr-mittel' : 'vr-schlecht'; };
   var zuerst = W.leitung ? 'essen' : (W.tage < rw.tage ? 'wasser' : 'essen');
   h += '<p class="vr-unter">Für ' + H.n + (H.n === 1 ? ' Person' : ' Personen') + ', ' + fz(H.kcalSpar) + ' kcal am Tag' + (H.spar < 100 ? ' (Ration ' + H.spar + ' %)' : '') + ' · Ziel ' + z + ' Tage · ' + (L.strom ? 'Strom weg' : 'Strom da') + ' · ' + KOCHT[L.koch] + '</p>';
   if (!S.lager.length) h += leerText('Noch nichts im Lager – trage unter „Lager“ ein, was du hast.', '<button type="button" class="vr-knopf vr-haupt" data-tab="lager">Zum Lager</button>');
-  h += '<div class="vr-gross"><div class="vr-karte ' + farbe(rw.tage) + '"><span class="vr-fl">Essen reicht</span><b class="vr-gz">' + tageZahl(rw.tage) + '</b><span class="vr-ge">' + (rw.tage === 1 ? 'Tag' : 'Tage') + '</span>' + balken(rw.tage, z) + '<small>Ziel ' + z + ' Tage</small></div>' +
+  h += '<div class="vr-gross"><div class="vr-karte ' + farbe(rw.tage) + '"><span class="vr-fl">Essen reicht</span><b class="vr-gz">' + (A.max ? '90+' : tageZahl(rw.tage)) + '</b><span class="vr-ge">' + (Math.floor(rw.tage) === 1 ? 'Tag' : 'Tage') + '</span>' + balken(rw.tage, z) + '<small>Ziel ' + z + ' Tage' + (A.rest >= 0.5 ? ' · danach Reste für ca. ' + fz(A.rest, 1) + ' Tage' : '') + '</small><small class="vr-rechn">rechnerisch nach Kalorien: ' + tageText(rwK.tage) + '</small></div>' +
     '<div class="vr-karte ' + (W.leitung ? 'vr-gut' : farbe(W.tage)) + '"><span class="vr-fl">Wasser reicht</span>' + (W.leitung ? '<b class="vr-gz vr-gz-t">Leitung läuft</b><span class="vr-ge">Vorrat ' + liter(W.l) + ' als Reserve</span>' : '<b class="vr-gz">' + tageZahl(W.tage) + '</b><span class="vr-ge">' + (W.tage === 1 ? 'Tag' : 'Tage') + '</span>' + balken(W.tage, z)) + '<small>' + liter(W.l) + ' da · ' + liter(W.bedarf) + ' am Tag</small></div></div>';
   if (S.lager.length && H.kcal > 0) h += '<p class="vr-zuerst ' + (zuerst === 'wasser' ? 'vr-warn' : '') + '">' + (W.leitung ? 'Solange Leitungswasser kommt, begrenzt das Essen.' : zuerst === 'wasser' ? '<b>Zuerst geht das Wasser aus</b> – nach ' + tageText(W.tage) + '. Wasser ist wichtiger als Essen.' : '<b>Zuerst geht das Essen aus</b> – nach ' + tageText(rw.tage) + '.') + '</p>';
-  h += kursHTML(rw, z);
+  if (S.lager.length && H.kcal > 0) h += '<p class="vr-klein">„Essen reicht“ zählt die Tage, an denen sich aus dem Lager mit der Kochmöglichkeit „' + KOCHT[L.koch] + '“ echte Mahlzeiten für alle machen lassen (mindestens 90 % des Bedarfs). „Rechnerisch nach Kalorien“ zählt alle Kalorien im Lager – auch Öl, Zucker oder Mehl, die sich ohne passende Zutaten nicht zu Mahlzeiten machen lassen.</p>';
+  h += kursHTML(A, z);
   h += '<div class="vr-kacheln"><div class="vr-karte"><span class="vr-fl">Ganz ohne Kochen</span><b>' + tageText(ok.tage) + '</b><small>nur mit Essen, das kalt geht</small></div>' +
     '<div class="vr-karte"><span class="vr-fl">Eiweiß reicht</span><b>' + tageText(E.tage) + '</b><small>' + fz(E.g) + ' g da · ' + fz(E.bedarf) + ' g am Tag</small></div>' +
-    '<div class="vr-karte"><span class="vr-fl">Energie im Lager</span><b>' + fz(rw.start) + ' kcal</b><small>davon nutzbar mit ' + KOCHT[L.koch] + '</small></div>' +
-    (L.strom && rw.verloren > 1 ? '<div class="vr-karte vr-schlecht"><span class="vr-fl">Geht verloren</span><b>' + fz(rw.verloren) + ' kcal</b><small>Kühl-/Gefriergut, das nicht rechtzeitig gegessen wird</small></div>' : '') + '</div>';
+    '<div class="vr-karte"><span class="vr-fl">Energie im Lager</span><b>' + fz(rwK.start) + ' kcal</b><small>davon nutzbar mit ' + KOCHT[L.koch] + '</small></div>' +
+    (L.strom && rwK.verloren > 1 ? '<div class="vr-karte vr-schlecht"><span class="vr-fl">Geht verloren</span><b>' + fz(rwK.verloren) + ' kcal</b><small>Kühl-/Gefriergut, das nicht rechtzeitig gegessen wird</small></div>' : '') + '</div>';
   /* Gruppen nach BLE-Tabelle */
   var G = gruppenStand(S, h0);
   h += '<h3>Vorrat nach Lebensmittelgruppen</h3><div class="vr-karte"><ul class="vr-gruppen" role="list">' + GRUPPEN.filter(function (g) { return g.ble; }).map(function (g) { var r = G[g.k], p = r.ziel ? r.ist / r.ziel : 0;
@@ -4842,13 +4915,13 @@ function reichweiteHTML() {
     h += '<h3>Zuerst essen</h3><div class="vr-karte">' + (K.length ? '<ul class="vr-liste-k" role="list">' + K.map(function (x) { return '<li><span>' + (x.ort === 'k' ? '❄︎ Kühlschrank' : '🧊 Gefriertruhe') + '</span><b>' + esc(x.k.n) + '</b><small>' + kg(x.g) + '</small></li>'; }).join('') + '</ul>' : '<p class="vr-klein">Nichts im Kühlschrank oder in der Gefriertruhe eingetragen.</p>') +
       '<p class="vr-klein">Ohne Strom hält ein geschlossener Kühlschrank je nach Füllung etwa 4–6 Stunden kalt, ein Gefriergerät oft bis zu 48 Stunden (Verbraucherzentrale Niedersachsen). Darum zählt die Rechnung Kühlware nur am 1. Tag und Gefriergut nur an den ersten 2 Tagen.</p></div>'; }
   /* läuft ab */
-  var A = X.filter(function (x) { return x.rest != null && x.rest <= z; }).sort(function (a, b) { return a.rest - b.rest; }), SP = rw.spaet;
-  if (A.length || SP.length) h += '<h3>Läuft bald ab</h3><div class="vr-karte"><ul class="vr-liste-k" role="list">' + A.map(function (x) { return '<li><span>' + (x.rest < 0 ? 'abgelaufen' : 'in ' + x.rest + ' T.') + '</span><b>' + esc(x.k.n) + '</b><small>' + mhdText(x.it.mhd) + (SP.indexOf(x.it.u) >= 0 ? ' · wird erst später gegessen' : '') + '</small></li>'; }).join('') + '</ul>' +
+  var AB = X.filter(function (x) { return x.rest != null && x.rest <= z; }).sort(function (a, b) { return a.rest - b.rest; }), SP = rwK.spaet;
+  if (AB.length || SP.length) h += '<h3>Läuft bald ab</h3><div class="vr-karte"><ul class="vr-liste-k" role="list">' + AB.map(function (x) { return '<li><span>' + (x.rest < 0 ? 'abgelaufen' : 'in ' + x.rest + ' T.') + '</span><b>' + esc(x.k.n) + '</b><small>' + mhdText(x.it.mhd) + (SP.indexOf(x.it.u) >= 0 ? ' · wird erst später gegessen' : '') + '</small></li>'; }).join('') + '</ul>' +
     '<p class="vr-klein">Nach dem Mindesthaltbarkeitsdatum ist vieles noch gut – erst prüfen (Aussehen, Geruch, Geschmack). Mehr unter „Haltbarkeit“.</p></div>';
   /* Brennstoff */
   var kart = zahl(L.kartusche);
-  if (L.koch === 'gas') { var PL = speiseplan(S, h0, z);
-    h += '<h3>Gaskartuschen (Schätzung)</h3><div class="vr-karte">' + (isFinite(kart) && kart > 0 ? '<p>Der Speiseplan-Vorschlag für ' + z + ' Tage braucht etwa <b>' + fz(PL.brennMin) + ' Minuten</b> Flamme. Bei ' + fz(kart) + ' Minuten je Kartusche sind das etwa <b>' + Math.ceil(PL.brennMin / kart) + ' Kartuschen</b>.</p>' : '<p class="vr-klein">Trage unter „Haushalt → Lage“ die Brenndauer einer Kartusche ein (steht auf der Packung). Dann schätzt der Planer, wie viele Kartuschen der Speiseplan braucht.</p>') +
+  if (L.koch === 'gas') { var PL = { brennMin: 0 }; A.tage.slice(0, z).forEach(function (t) { PL.brennMin += t.brenn; });
+    h += '<h3>Gaskartuschen (Schätzung)</h3><div class="vr-karte">' + (isFinite(kart) && kart > 0 ? '<p>Der Speiseplan-Vorschlag für ' + Math.min(z, A.tage.length) + ' Tage braucht etwa <b>' + fz(PL.brennMin) + ' Minuten</b> Flamme. Bei ' + fz(kart) + ' Minuten je Kartusche sind das etwa <b>' + Math.ceil(PL.brennMin / kart) + ' Kartuschen</b>.</p>' : '<p class="vr-klein">Trage unter „Haushalt → Lage“ die Brenndauer einer Kartusche ein (steht auf der Packung). Dann schätzt der Planer, wie viele Kartuschen der Speiseplan braucht.</p>') +
       '<p class="vr-klein">Schätzung aus den Kochzeiten der Gerichte – Wind, Kälte, Topfgröße und Deckel ändern viel. Campingkocher mit Kartusche nur im Freien benutzen, außer sie sind für Innenräume zugelassen (BBK).</p></div>'; }
   var baby = X.filter(function (x) { return x.k.g === 'baby'; });
   if (baby.length) h += '<p class="vr-klein">Babynahrung (' + baby.length + ' Posten) zählt nicht zur Reichweite der anderen – sie ist für das Baby reserviert.</p>';
@@ -4856,9 +4929,13 @@ function reichweiteHTML() {
 }
 
 /* ---------- 4. Gerichte ---------- */
+function reichtFuer(max, PH, n) {
+  if (PH > 0 && max >= PH) { var mal = Math.floor(max / PH + 1e-9); return 'reicht für ' + n + (n === 1 ? ' Person' : ' Personen') + ' (' + fz(PH, 1) + ' Port.)' + (mal >= 2 ? ' · ' + (mal > 20 ? '20+' : mal) + '×' : ''); }
+  return fz(max, 1) + ' Port. – nicht für alle';
+}
 function gerichtHTML(r, st, B) {
-  var wv = gerichtWerte(S, r), H = haushalt(S), n = Math.max(1, H.n), open = OFFEN['g:' + r.id];
-  var badge = !st.koch ? '<span class="vr-badge vr-grau">braucht ' + KNAME[r.koch] + '</span>' : st.st === 'geht' ? '<span class="vr-badge vr-gut">geht jetzt · ' + (st.max >= 99 ? '99+' : st.max) + ' Port.</span>' : st.st === 'fast' ? '<span class="vr-badge vr-mittel">fast</span>' : '<span class="vr-badge vr-grau">fehlt einiges</span>';
+  var wv = gerichtWerte(S, r), H = haushalt(S), PH = portionenHaushalt(S), open = OFFEN['g:' + r.id];
+  var badge = !st.koch ? '<span class="vr-badge vr-grau">braucht ' + KNAME[r.koch] + '</span>' : st.st === 'geht' ? '<span class="vr-badge vr-gut">geht jetzt · ' + reichtFuer(st.max, PH, H.n) + '</span>' : st.st === 'fast' ? '<span class="vr-badge vr-mittel">fast</span>' : '<span class="vr-badge vr-grau">fehlt einiges</span>';
   var h = '<article class="vr-karte vr-gericht" data-g="' + r.id + '"><button type="button" class="vr-gk" data-auf="g:' + r.id + '" aria-expanded="' + !!open + '"><span class="vr-gi" aria-hidden="true">' + ({ kalt: '🥣', warm: '🍲', brot: '🫓', ofen: '🍞' })[r.art] + '</span><span class="vr-gtx"><b>' + esc(r.n) + '</b><small>' + fz(wv.kcal) + ' kcal · ' + (r.wa ? fz(wv.wasser) + ' ml Wasser' : 'ohne Wasser') + ' · ' + r.z + ' min · ' + KNAME[r.koch] + '</small></span>' + badge + '</button>';
   if (st.st === 'fast' && st.koch) h += '<p class="vr-fehlt">Fehlt: ' + st.fehlt.map(function (f) { return esc(zutatName(S, f.z)) + ' (' + kg(f.g) + ')'; }).join(', ') + '</p>';
   if (open) {
@@ -4866,8 +4943,8 @@ function gerichtHTML(r, st, B) {
       return '<li class="' + (ok ? 'vr-da' : 'vr-nicht') + '"><span aria-hidden="true">' + (ok ? '✓' : '○') + '</span>' + fz(z.g) + ' g ' + esc(zutatName(S, z)) + (z.a.some(function (a) { return a[1] !== 1; }) ? ' (Frischhefe: dreifache Menge)' : '') + (z.opt ? ' <small>(nach Belieben)</small>' : '') + '</li>'; }).join('') + '<li class="vr-da"><span aria-hidden="true">·</span>Salz, Pfeffer, Gewürze nach Geschmack</li>' + (r.wa ? '<li><span aria-hidden="true">💧</span>' + fz(r.wa) + ' ml Wasser (Kochen und Teig)</li>' : '') + '</ul>' +
       '<h4>So geht es</h4><ol class="vr-schritte">' + r.sch.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>' + (r.hinweis ? '<p class="vr-warn">' + esc(r.hinweis) + '</p>' : '') +
       (r.rz ? '<p><a class="vr-link" href="#r-' + r.rz + '">Ausführliches Rezept in der App öffnen ›</a></p>' : '') +
-      '<p class="vr-klein">' + fz(wv.kcal) + ' kcal und ' + fz(wv.eiweiss) + ' g Eiweiß je Portion, gerechnet aus dem Katalog (erste genannte Zutat). Richtwert.</p>' +
-      (st.max >= 1 ? '<div class="vr-koch"><span class="vr-fl">Gekocht für</span><div class="vr-pm"><button type="button" class="vr-rund" data-port="-1" aria-label="weniger Portionen">−</button><b class="vr-port" data-portw>' + Math.min(n, st.max) + '</b><button type="button" class="vr-rund" data-port="1" aria-label="mehr Portionen">＋</button></div><button type="button" class="vr-knopf vr-haupt" data-gekocht="' + r.id + '">Gekocht – vom Lager abziehen</button></div>' : '') + '</div>';
+      '<p class="vr-klein">' + fz(wv.kcal) + ' kcal und ' + fz(wv.eiweiss) + ' g Eiweiß je Portion, gerechnet aus dem Katalog (erste genannte Zutat). 1 Portion = Mahlzeit für jemanden mit 2.200 kcal Tagesbedarf; euer Haushalt braucht ' + portText(PH) + ' je Mahlzeit (Kinder und Menschen mit kleinem Bedarf entsprechend weniger). Richtwert.</p>' +
+      (st.max >= 0.5 ? '<div class="vr-koch"><span class="vr-fl">Gekocht für</span><div class="vr-pm"><button type="button" class="vr-rund" data-port="-0.5" aria-label="weniger Portionen">−</button><b class="vr-port" data-portw="' + Math.min(PH, st.max) + '" data-max="' + st.max + '">' + fz(Math.min(PH, st.max), 1) + '</b><button type="button" class="vr-rund" data-port="0.5" aria-label="mehr Portionen">＋</button></div><span class="vr-klein vr-portinfo">' + (st.max >= PH ? 'Portionen = alle ' + H.n + ' Personen' : 'reicht nicht für alle') + '</span><button type="button" class="vr-knopf vr-haupt" data-gekocht="' + r.id + '">Gekocht – vom Lager abziehen</button></div>' : '') + '</div>';
   }
   return h + '</article>';
 }
@@ -4881,17 +4958,23 @@ function gerichteHTML() {
     if (GF.meine && !x.st.koch) return false; if (GF.ohneW && x.r.wa > 0) return false; if (GF.art !== 'alle' && x.r.art !== GF.art) return false;
     if (GF.st === 'geht' && x.st.st !== 'geht') return false; if (GF.st === 'fast' && x.st.st !== 'fast') return false; return true; });
   var ord = { geht: 0, fast: 1, fehlt: 2 }; L2.sort(function (a, b) { return (a.st.koch ? 0 : 3) + ord[a.st.st] - (b.st.koch ? 0 : 3) - ord[b.st.st]; });
-  h += L2.length ? '<div class="vr-gliste">' + L2.map(function (x) { return gerichtHTML(x.r, x.st, B); }).join('') + '</div>' : leerText(S.lager.length ? 'Mit diesen Filtern passt kein Gericht. Tippe auf „Alle“ oder ändere die Kochstelle.' : 'Noch nichts im Lager – dann kann auch nichts passen. Trage unter „Lager“ ein, was du hast.');
+  var gruppe = function (key, titel, M, auf) { if (!M.length) return ''; var o = OFFEN['gl:' + key] != null ? OFFEN['gl:' + key] : auf;
+    return '<details class="vr-glgr" data-gl="' + key + '"' + (o ? ' open' : '') + '><summary>' + titel + ' <span>' + M.length + '</span></summary><div class="vr-gliste">' + M.map(function (x) { return gerichtHTML(x.r, x.st, B); }).join('') + '</div></details>'; };
+  var Lg = L2.filter(function (x) { return x.st.koch && x.st.st === 'geht'; }), Lf = L2.filter(function (x) { return x.st.koch && x.st.st === 'fast'; }), Lr = L2.filter(function (x) { return !x.st.koch || x.st.st === 'fehlt'; });
+  h += L2.length ? gruppe('geht', 'Geht jetzt', Lg, true) + gruppe('fast', 'Fast – es fehlt nur wenig', Lf, GF.st === 'fast' || !Lg.length) + gruppe('rest', 'Fehlt mehr oder andere Kochstelle', Lr, false) : leerText(S.lager.length ? 'Mit diesen Filtern passt kein Gericht. Tippe auf „Alle“ oder ändere die Kochstelle.' : 'Noch nichts im Lager – dann kann auch nichts passen. Trage unter „Lager“ ein, was du hast.');
   return h + '</section>';
 }
+function planZiel() { var A = alltag(S, heute()), z = zielTage(S), T = A.tage.slice(0, z), D = haushalt(S).kcalSpar;
+  while (T.length < z && T.length) T.push({ d: T.length + 1, essen: [], extra: [], kcal: 0, deckung: 0, luecke: D, brenn: 0 });
+  return { tage: T, knapp: A.knapp && A.knapp <= z ? A.knapp : 0, PH: A.PH }; }
 function planHTML() {
   var P = PLAN, z = P.tage.length;
   if (!z) return leerText('Für einen Speiseplan braucht es Personen und Vorrat.');
   return '<div class="vr-karte vr-plan"><div class="vr-kh"><h3>Speiseplan-Vorschlag</h3><button type="button" class="vr-x" data-plan-zu aria-label="Speiseplan schließen">✕</button></div>' +
     '<p class="' + (P.knapp ? 'vr-warn' : 'vr-ok') + '">' + (P.knapp ? 'Ab <b>Tag ' + P.knapp + '</b> wird es knapp (weniger als 90 % des Tagesbedarfs).' : 'Der Vorrat deckt alle ' + z + ' Tage.') + '</p>' +
     '<ol class="vr-plantage">' + P.tage.map(function (t) { return '<li class="' + (t.deckung < 0.9 ? 'vr-knapp' : '') + '"><div class="vr-pt"><b>Tag ' + t.d + '</b><span>' + fz(Math.min(999, t.deckung * 100)) + ' %</span></div>' + balken(t.deckung, 1, t.deckung >= 0.9 ? 'vr-gut' : t.deckung >= 0.6 ? 'vr-mittel' : 'vr-schlecht') +
-      '<ul>' + t.essen.map(function (e) { return '<li>' + esc(e.n) + ' <small>· ' + e.port + ' Port.</small></li>'; }).join('') + (t.extra.length ? '<li class="vr-klein">dazu: ' + t.extra.map(function (x) { return esc(x.n.replace(/ \(.*\)$/, '')) + ' ' + kg(x.g); }).join(', ') + '</li>' : '') + (!t.essen.length && !t.extra.length ? '<li class="vr-klein">nichts mehr da</li>' : '') + '</ul></li>'; }).join('') + '</ol>' +
-    '<p class="vr-klein">Zuerst Kühlschrank und Gefriertruhe, dann was bald abläuft; möglichst Abwechslung. Portionen = Zahl der Personen. Der Plan ist strenger als die Rechnung unter „Reichweite“: Er nimmt nur ganze Gerichte und Lebensmittel, die man pur essen kann. Er ändert das Lager nicht – erst „Gekocht“ zieht ab.</p></div>';
+      '<ul>' + t.essen.map(function (e) { return '<li>' + esc(e.n) + ' <small>· ' + fz(e.port, 1) + ' Port.' + (e.klein ? ' · Zwischenmahlzeit' : '') + '</small></li>'; }).join('') + (t.extra.length ? '<li class="vr-klein">dazu: ' + t.extra.map(function (x) { return esc(x.n.replace(/ \(.*\)$/, '')) + ' ' + kg(x.g); }).join(', ') + '</li>' : '') + (!t.essen.length && !t.extra.length ? '<li class="vr-klein">nichts mehr da</li>' : '') + (t.luecke > 0.1 * haushalt(S).kcalSpar ? '<li class="vr-luecke">Lücke: ' + fz(Math.round(t.luecke / 10) * 10) + ' kcal</li>' : '') + '</ul></li>'; }).join('') + '</ol>' +
+    '<p class="vr-klein">Zuerst Kühlschrank und Gefriertruhe, dann was bald abläuft; möglichst Abwechslung. Portionen nach Bedarf (' + portText(P.PH) + ' je Mahlzeit). Lücken werden nur mit Fertigem in alltagsnahen Mengen gefüllt – was dann fehlt, steht als Lücke da. Derselbe Plan liegt der Zahl „Essen reicht“ zugrunde. Er ändert das Lager nicht – erst „Gekocht“ zieht ab.</p></div>';
 }
 
 /* ---------- 5. Fehlt noch ---------- */
@@ -4899,7 +4982,8 @@ function fehltHTML() {
   var h0 = heute(), F = fehltListe(S, h0), B = bestand(S, h0), H = haushalt(S);
   var h = '<section class="vr-bereich" data-b="fehlt"><h2>Fehlt noch</h2><p class="vr-unter">Was fehlt bis zum Ziel von <b>' + F.ziel + ' Tagen</b>?</p>';
   if (!H.n) return h + leerText('Lege zuerst unter „Haushalt“ Personen an.') + '</section>';
-  h += '<div class="vr-kacheln"><div class="vr-karte ' + (F.kcal > 0 ? 'vr-mittel' : 'vr-gut') + '"><span class="vr-fl">Essen</span><b>' + (F.kcal > 0 ? 'noch ' + fz(F.kcal) + ' kcal' : 'reicht') + '</b><small>' + (F.kcal > 0 ? '≈ ' + fz(F.kcal / H.kcal, 1) + ' Tagesrationen' : 'für das Ziel') + '</small></div>' +
+  var A = alltag(S, h0), fehltT = A.max ? 0 : Math.max(0, F.ziel - Math.floor(A.reicht + 1e-9));
+  h += '<div class="vr-kacheln"><div class="vr-karte ' + (fehltT > 0 ? 'vr-mittel' : 'vr-gut') + '"><span class="vr-fl">Essen</span><b>' + (fehltT > 0 ? 'noch ' + fehltT + (fehltT === 1 ? ' Tag' : ' Tage') : 'reicht') + '</b><small>' + (fehltT > 0 ? '≈ ' + fz(fehltT * H.kcal) + ' kcal als Mahlzeiten · rechnerisch nach Kalorien fehlen ' + (F.kcal > 0 ? fz(F.kcal / H.kcal, 1) + ' Tagesrationen' : 'keine') : 'für das Ziel') + '</small></div>' +
     '<div class="vr-karte ' + (F.wasserL > 0 ? 'vr-mittel' : 'vr-gut') + '"><span class="vr-fl">Wasser</span><b>' + (F.wasserL > 0 ? 'noch ' + liter(F.wasserL) : (S.lage.leitung ? 'Leitung läuft' : 'reicht')) + '</b><small>' + (F.wasserL > 0 ? '≈ ' + Math.ceil(F.wasserL / 1.5) + ' Flaschen à 1,5 l' : 'Ziel ' + liter(F.wasserZiel)) + '</small></div></div>';
   var liste = [];
   if (F.gruppen.length) { h += '<h3>Nach Lebensmittelgruppen</h3><div class="vr-karte"><ul class="vr-fl-liste" role="list">' + F.gruppen.map(function (x) { var v = vorschlag(S, x.g.k, x.gap); liste.push(x.g.kurz + ': noch ' + kg(x.gap) + ' – z. B. ' + v.join(' + '));
@@ -5001,17 +5085,19 @@ function binden() {
     if (li && t.hasAttribute('data-weg-l')) { UNDO = klon(S); var u = li.getAttribute('data-u'); S.lager = S.lager.filter(function (x) { return x.u !== u; }); nachAenderung(true); toast('Entfernt.', true); return; }
     if (t.hasAttribute('data-eigen-neu')) { eigenAnlegen(t.closest('.vr-eigen')); return; }
     if (t.hasAttribute('data-auf')) { OFFEN[a('data-auf')] = !OFFEN[a('data-auf')]; zeichnen(false); return; }
-    if (t.hasAttribute('data-port')) { var b = t.parentNode.querySelector('[data-portw]'), v = Math.max(1, (+b.textContent || 1) + (+a('data-port'))); b.textContent = v; return; }
-    if (t.hasAttribute('data-gekocht')) { var r = GERICHTE.filter(function (g) { return g.id === a('data-gekocht'); })[0], pw = t.closest('.vr-gd').querySelector('[data-portw]'), port = +pw.textContent || 1;
-      UNDO = klon(S); abziehen(S, r, port, heute()); PLAN = null; nachAenderung(true); toast(esc(r.n) + ': Zutaten für ' + port + ' Port. abgezogen.', true); return; }
-    if (t.hasAttribute('data-plan')) { PLAN = speiseplan(S, heute(), zielTage(S)); var po = R.querySelector('.vr-plan-ort'); po.innerHTML = planHTML(); po.scrollIntoView({ block: 'start' }); return; }
+    if (t.hasAttribute('data-port')) { var b = t.parentNode.querySelector('[data-portw]'), mx = +b.getAttribute('data-max') || 99, v = Math.round(((+b.getAttribute('data-portw') || 1) + (+a('data-port'))) * 10) / 10; v = Math.max(0.5, Math.min(mx, v)); b.setAttribute('data-portw', v); b.textContent = fz(v, 1);
+      var pi = t.closest('.vr-koch').querySelector('.vr-portinfo'), PH = portionenHaushalt(S); if (pi) pi.textContent = v >= PH - 1e-9 ? 'Portionen = alle ' + haushalt(S).n + ' Personen' : 'reicht für etwa ' + fz(v / PH * 100) + ' % des Haushalts'; return; }
+    if (t.hasAttribute('data-gekocht')) { var r = GERICHTE.filter(function (g) { return g.id === a('data-gekocht'); })[0], pw = t.closest('.vr-gd').querySelector('[data-portw]'), port = +pw.getAttribute('data-portw') || 1;
+      UNDO = klon(S); abziehen(S, r, port, heute()); PLAN = null; nachAenderung(true); toast(esc(r.n) + ': Zutaten für ' + fz(port, 1) + ' Port. abgezogen.', true); return; }
+    if (t.hasAttribute('data-plan')) { PLAN = planZiel(); var po = R.querySelector('.vr-plan-ort'); po.innerHTML = planHTML(); po.scrollIntoView({ block: 'start' }); return; }
     if (t.hasAttribute('data-plan-zu')) { PLAN = null; R.querySelector('.vr-plan-ort').innerHTML = ''; return; }
     if (t.hasAttribute('data-kz')) { OFFEN.kz = +a('data-kz'); zeichnen(false); return; }
     if (t.hasAttribute('data-liste')) { var txt = 'Vorrat – fehlt noch (Ziel ' + zielTage(S) + ' Tage)\n' + (OFFEN.liste || []).map(function (x) { return '☐ ' + x; }).join('\n');
       if (a('data-liste') === 'teilen' && navigator.share) navigator.share({ title: 'Vorrat – fehlt noch', text: txt }).catch(function () { /* abgebrochen */ }); else kopieren(txt, 'Liste kopiert.'); return; }
     if (t.hasAttribute('data-sich')) { var w2 = a('data-sich');
       if (w2 === 'datei') { var bl = new Blob([sicherungText()], { type: 'application/json' }), url = URL.createObjectURL(bl), aa = document.createElement('a'); aa.href = url; aa.download = 'vorrat-' + new Date().toISOString().slice(0, 10) + '.json'; document.body.appendChild(aa); aa.click(); setTimeout(function () { URL.revokeObjectURL(url); aa.remove(); }, 500); toast('Datei wird gespeichert.'); }
-      else if (w2 === 'kopie') kopieren(sicherungText(), 'Sicherung kopiert – auf dem anderen Gerät unter „Text einfügen“ einsetzen.');
+      else if (w2 === 'kopie') { var st2 = sicherungText(), ta = R.querySelector('.vr-text'); if (ta) { ta.value = st2; var dt = ta.closest('details'); if (dt) dt.open = true; }
+        kopieren(st2, 'Sicherung kopiert – auf dem anderen Gerät unter „Text einfügen“ einsetzen. Der Text steht auch im Feld darunter.'); }
       else if (w2 === 'einfuegen') sicherungLesen(R.querySelector('.vr-text').value);
       else if (w2 === 'alles-weg') { UNDO = klon(S); S = leer(); sichernJetzt(); PLAN = null; zeichnen(true); toast('Alles gelöscht.', true); }
       return; }
@@ -5025,6 +5111,7 @@ function binden() {
     if (t.hasAttribute('data-lf')) { S.lage[t.getAttribute('data-lf')] = t.value.trim(); PLAN = null; nachAenderung(false); return; }
     if (t.getAttribute('data-lf2') === 'm') { var it = lagerItem(t.closest('.vr-posten')); var v = zahl(t.value); if (it && isFinite(v) && v >= 0) { it.m = v; nachAenderung(false); } return; }
   });
+  R.addEventListener('toggle', function (ev) { var d = ev.target; if (d && d.getAttribute && d.getAttribute('data-gl')) OFFEN['gl:' + d.getAttribute('data-gl')] = d.open; }, true);
   R.addEventListener('change', function (ev) {
     var t = ev.target;
     if (t.hasAttribute('data-haken')) { var k = t.getAttribute('data-haken'); if (t.checked) S.haken[k] = 1; else delete S.haken[k]; nachAenderung(true); return; }
@@ -13249,8 +13336,8 @@ const IL = (()=>{
       g+=`<rect x="512" y="${B[2]-26}" width="40" height="26" rx="4" fill="${lg('#3d8a5a','#245a38',0)}" stroke="#163a22" stroke-width="1"/><path d="M520,${B[2]-14} h24" stroke="#f6f3e7" stroke-width="2"/>`;
       // Boden
       g+=`<path d="M8,280 H582" stroke="#8a7a5a" stroke-width="1.2" opacity=".6"/>`;
-      g+=T(295,300,'Das Ältere nach vorn, Neues nach hinten','var(--ink)',17,800);
-      return {vb:'0 0 590 310',breit:true,leg:[],svg:g}; },
+      g+=T(295,306,'Das Ältere nach vorn, Neues nach hinten','var(--ink)',26,800);
+      return {vb:'0 0 590 318',breit:true,leg:[],svg:g}; },
     /* Z-VORRAT-ENDE */
   };
   const cache={};
@@ -13384,6 +13471,7 @@ D.autoren.forEach(a=>{
   });
 });
 
+/* VORRAT-SUCHE */ add('Vorrat & Blackout-Planer','Werkzeug','Rechner','vorrat','Vorrat Notvorrat Blackout Stromausfall Lager Lebensmittel Speiseplan Haltbarkeit Mindesthaltbarkeit Wasservorrat Krisenvorsorge Notfall Vorsorge Reichweite');
 function suchen(q){
   const n = norm(q.trim()), k = kurz(q.trim());
   if(n.length<2) return [];
