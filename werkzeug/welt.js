@@ -540,6 +540,7 @@ function zeichne(fein){
   if(!G3){ const g0=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.8); g0.addColorStop(0,'#0e1a30'); g0.addColorStop(1,'#04070e'); ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
   if(!sterne){ sterne=[]; let s=7; const r=()=>(s=(s*16807)%2147483647)/2147483647; for(let i=0;i<260;i++) sterne.push([r(),r(),r()*1.2+.2,r()]); }
   sterne.forEach(([x,y,z,a])=>{ ctx.fillStyle=`rgba(200,220,255,${a*.6})`; ctx.fillRect(x*W,y*H,z,z); }); }
+  THH=[]; THL=[]; thHimmelHinten();
   const r=radius(), glob=S.modus==='globus', G=GRUND[S.grund], rast=G.r, mitRelief=S.grund==='relief'||(S.unterlage&&!rast&&!G.thr);
   if(glob){ if(!G3){ const at=ctx.createRadialGradient(W/2,H/2,r*0.92,W/2,H/2,r*1.18); at.addColorStop(0,'rgba(110,190,255,.62)'); at.addColorStop(.18,'rgba(80,160,255,.3)'); at.addColorStop(.5,'rgba(60,130,255,.1)'); at.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=at; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.18,0,7); ctx.fill();
     const hof=ctx.createRadialGradient(W/2-r*.25,H/2-r*.28,r*.9,W/2,H/2,r*1.6); hof.addColorStop(0,'rgba(90,160,255,.13)'); hof.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=hof; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.6,0,7); ctx.fill();
@@ -728,7 +729,10 @@ function pfeil(p,col,sel){ const pts=[]; for(let i=0;i<p.length-1;i++){ const [a
 function epocheVon(j){ return j<1500?'mittel':j<1900?'neu':j<2000?'20':'heute'; }
 function pname(id){ const p=(window.QW_DATEN&&window.QW_DATEN.pflanzen||[]).find(x=>x.id===id); return p?p.name.replace(' & Kiefernknospen',''):id; }
 function inBereich(P,g){ return P[2].some(b=>g[1]>=b[0]&&g[1]<=b[1]&&g[0]>=b[2]&&g[0]<=b[3]) && P[3].some(z=>g[2].startsWith(z)); }
-function sonne(d){ d=d||new Date(); const t=(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())-Date.UTC(d.getUTCFullYear(),0,0))/864e5; const dekl=-23.44*Math.cos(2*Math.PI/365*(t+10)); const h=d.getUTCHours()+d.getUTCMinutes()/60; return [(12-h)*15,dekl]; }
+/* Zenitpunkt der Sonne [lon, lat] – NOAA „General Solar Position Calculations“ (Spencer 1971), mit Zeitgleichung; Abweichung ≤ 0,2° Länge */
+function sonne(d){ d=d||new Date(); const y=d.getUTCFullYear(), n=Math.floor((Date.UTC(y,d.getUTCMonth(),d.getUTCDate())-Date.UTC(y,0,1))/864e5)+1, tage=(y%4===0&&(y%100!==0||y%400===0))?366:365, h=d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600, g=2*Math.PI/tage*(n-1+(h-12)/24);
+  const eqt=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g)), dek=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g);
+  let lon=-15*(h-12+eqt/60); lon=((lon+180)%360+360)%360-180; return [lon,dek*180/Math.PI]; }
 function nacht(G3){ const [sl,sp]=sonne(); const al=sl+180, ap=-sp; const pts=[]; for(let i=0;i<=180;i++){ const b=i*2*R2, d=90*R2, p1=ap*R2, l1=al*R2; const la=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(b)); const lo=l1+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(la)); pts.push([((lo/R2+540)%360)-180,la/R2]); }
   if(S.modus==='scheibe'){ const q=proj(sl,sp), [ml,mp]=mond(), m=proj(ml,mp), R0=rd(), cx=W/2+S.px, cy=H/2+S.py; const gg=ctx.createRadialGradient(q[0],q[1],R0*0.12,q[0],q[1],R0*1.1); gg.addColorStop(0,'rgba(2,6,20,0)'); gg.addColorStop(.45,'rgba(2,6,20,.15)'); gg.addColorStop(.7,'rgba(2,6,20,.6)'); gg.addColorStop(1,'rgba(2,6,20,.7)'); if(!G3){ ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R0,0,7); ctx.clip(); ctx.fillStyle=gg; ctx.fillRect(0,0,W,H); ctx.restore(); }
     ctx.save(); const rS=(90-sp)/180*R0, rM=(90-mp)/180*R0; ctx.lineWidth=1.5; ctx.strokeStyle='rgba(255,212,90,.8)'; ctx.shadowColor='rgba(255,200,80,.6)'; ctx.shadowBlur=6; ctx.beginPath(); ctx.arc(cx,cy,rS,0,7); ctx.stroke(); ctx.shadowBlur=0;
@@ -839,7 +843,7 @@ function thDek(v,dicht){ if(Array.isArray(v)) return v.map(x=>thDek(x,dicht)); i
 function thObj(e){ for(const k in e){ if(k.indexOf('daten')!==0||!Array.isArray(e[k])||!Array.isArray(e[k][0])) continue; const suf=k.slice(5); let F=Array.isArray(e['felder'+suf])?e['felder'+suf]:null;
     if(!F) for(const f in e) if(f.indexOf('felder')===0&&Array.isArray(e[f])&&e[f].length===e[k][0].length&&!Object.keys(e).some(k2=>k2!==k&&k2.indexOf('daten')===0&&('felder'+k2.slice(5))===f)){ F=e[f]; break; }
     if(F) e[k]=e[k].map(r=>{ const o={}; F.forEach((f,j)=>o[f]=r[j]); return o; }); } return e; }
-function th(id){ if(THE[id]) return THE[id]; const D=thDaten(), r=D[id]; if(!r) return null; const K=THK[id]||{}; const e=thObj(thDek(r,r.typ==='linien'&&K.dicht!==false)); THE[id]=e; return e; }
+function th(id){ if(THE[id]) return THE[id]; if(THK[id]&&THK[id].kopf) return THE[id]=THK[id].kopf; const D=thDaten(), r=D[id]; if(!r) return null; const K=THK[id]||{}; const e=thObj(thDek(r,r.typ==='linien'&&K.dicht!==false)); THE[id]=e; return e; }
 const thLeg=(e,i)=>{ const L=e&&e.legende; if(!Array.isArray(L)||!L[i]) return '#cccccc'; return Array.isArray(L[i])?L[i][1]:L[i].c; };
 const thLegK=(e,k)=>{ const L=(e&&e.legende)||[]; const x=Array.isArray(L)?L.find(l=>l&&l.k===k):null; return x?x.c:null; };
 const thQ=e=>(e&&e.quellen&&e.quellen[0])||{};
@@ -940,6 +944,14 @@ const THK={
   c:(r,e)=>/^geräumt/.test(r.status||'')?'#9aa0a8':(thLegK(e,r.betreiber)||'#cccccc'),hohl:r=>/^geräumt/.test(r.status||''),r:r=>r.rang===1?4.4:3.6,name:r=>r.n,
   art:{luft:'Luftwaffe',marine:'Marine',heer:'Heer',fuehrung:'Führung',aufkl:'Aufklärung',raketenabwehr:'Raketenabwehr',raumfahrt:'Raumfahrt',ausbildung:'Ausbildung',sanitaet:'Sanitätsdienst',gemischt:'gemischt'},
   info:(r,e)=>({t:r.n,u:'Betreiber: '+thLand(r.betreiber)+' · Gastland: '+(r.gast?thLand(r.gast):(r.gebiet||'–')),kpi:[['Art',THK.stuetzpunkte.art[r.art]||r.art||'–'],['Status',r.status||'–']],txt:r.t,q:r.q})},
+ sternbilder:{e:'✨',k:'88 Sternbilder mit deutschen Namen und helle Sterne',ov:1,hin:'Globus: Himmel hinter der Erde · Karte: Sterne im Zenit · Scheibe: Kuppel von oben (Stand jetzt)'},
+ sonnenfinsternisse:{e:'🌘',k:'Totale und ringförmige Sonnenfinsternisse 2026–2040, Mittellinie',ov:1,lrz:[0,0,0],w:2,
+  c:(r,e)=>thLeg(e,r.art==='total'?0:/ring/.test(r.art)?1:2),stil:()=>({dash:[]}),
+  hin:e=>{ const t=String(e.hinweis||'').split(/(?<=\.)\s+/).find(x=>/Breite/.test(x))||''; return t.split(';').pop().trim().replace(/\.$/,''); },
+  info:(r,e)=>({t:({total:'Totale',hybrid:'Hybride'}[r.art]||(/ring/.test(r.art)?'Ringförmige':''))+' Sonnenfinsternis',u:new Date(r.datum+'T12:00:00Z').toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}),
+   kpi:[['Maximum',(r.max_utc||'').slice(0,5)+' UTC'],['Dauer am Maximum',r.dauer||'–'],['Ort des Maximums',koord([r.lon,r.lat])]],txt:''})},
+ sonnenstand:{e:'☀️',k:'Punkt, über dem die Sonne gerade senkrecht steht, mit Tagesbahn',ov:1,formel:1,g:'Himmel',n:'Sonnenstand (Zenitpunkt)',stand:'jetzt',
+  kopf:{name:'Sonnenstand',quellen:[{t:'NOAA Global Monitoring Laboratory: General Solar Position Calculations (nach Spencer 1971)',u:'https://gml.noaa.gov/grad/solcalc/solareqns.PDF',stand:'Formel, Uhrzeit dieses Geräts',lizenz:'gemeinfrei (US-Bundesbehörde)'}]}},
  heilbaeder:{e:'♨️',k:'Staatlich anerkannte Heilbäder und Orte mit Heilquellen',ov:1,de:1,rz:[0,0,0],nz:[6,6,6],sym:'kreis',
   c:(r,e)=>{ const a=r.art||''; return thLeg(e,/^Sole/.test(a)?0:/Thermal/.test(a)?1:/^Mineral/.test(a)?2:/^Moor/.test(a)?3:4); },r:()=>3.6,name:r=>r.n,
   hin:e=>'Teilliste: '+thSatz1(e.hinweis).replace(/\s*\(amtliche Landesverzeichnisse\)/,''),
@@ -947,7 +959,7 @@ const THK={
 };
 const TH_STRITTIG=false;
 const TH_GRUPPEN=['Natur','Himmel','Deutschland','Menschen','Geschichte','Wirtschaft','Politik'];
-const TH_AUS=new Set(['Himmel']);   // noch nicht freigegebene Gruppen
+const TH_AUS=new Set([]);   // noch nicht freigegebene Gruppen
 /* Schalter: je Ebene einer (oder mehrere über THK.teile); art 'ov' = Überlagerung (S.ov), 'grund' = Grundkarte (GRUND) */
 let THS=[];
 function thInit(){ if(THS.length) return; const I=thIdx(); THS=[];
@@ -957,6 +969,7 @@ function thInit(){ if(THS.length) return; const I=thIdx(); THS=[];
       THS.push(s);
       if(s.art==='ov'){ if(!(s.k in S.ov)) S.ov[s.k]=false; }
       else GRUND[s.k]=Object.assign({n:s.n,g:x.gruppe,e:s.e,th:x.id,u:t.u||x.einheit},thGrundDef(x,K,t)); }); });
+  for(const id in THK){ const K=THK[id]; if(!K.formel||TH_AUS.has(K.g)) continue; THS.push({k:id,id,n:K.n,e:K.e,g:K.g,kurz:K.k,stand:K.stand,typ:'formel',art:'ov',teil:0}); if(!(id in S.ov)) S.ov[id]=false; }
   if(TH_STRITTIG&&I.strittig&&I.strittig.g) S.ov.strittig=S.ov.strittig!==false;
   const ord=Object.keys(THK); THS.sort((a,b)=>{ const x=ord.indexOf(a.id), y=ord.indexOf(b.id); return (x<0?999:x)-(y<0?999:y)||a.teil-b.teil; });
   if(!S.thw) S.thw={}; }
@@ -1015,6 +1028,31 @@ function thRasterZeichnen(G){ const K=THK[G.th]||{}, bild=thRasterBild(G); ctx.s
   ctx.globalAlpha=K.land?.9:.82; ctx.imageSmoothingEnabled=true; ctx.drawImage(bild,0,0,W,H); ctx.restore();
   const KU=feinRinge('land'); if(KU){ ctx.strokeStyle='rgba(8,16,28,.55)'; ctx.lineWidth=.9; ctx.lineJoin='round'; ctx.beginPath(); KU.forEach(rg=>{ if(rg.length>3&&vis(rg.bb)) pfad(rg,true); }); ctx.stroke(); } }
 
+/* ---------- Himmel: Sternbilder, Sonnenstand ---------- */
+function sternzeit(d){ const D=d.getTime()/864e5+2440587.5-2451545; return (((18.697374558+24.06570982441908*D)%24)+24)%24; }
+const stLon=(ra,gm)=>((ra-15*gm+540)%360+360)%360-180;
+/* Globus: Himmel hinter der Erde (Blick vom fernen Betrachter durch die Erde hindurch, Zentralprojektion), nur außerhalb der Erdscheibe */
+function thHimmelHinten(){ if(!S.ov.sternbilder||S.modus!=='globus') return; const e=th('sternbilder'); if(!e) return; const gm=sternzeit(new Date()), l=S.lam*R2, p=S.phi*R2, cp=Math.cos(p), sp=Math.sin(p), cl=Math.cos(l), sl=Math.sin(l), f=Math.min(W,H)*.36, R=radius();
+  const P=(ra,dec)=>{ const lo=stLon(ra,gm)*R2, la=dec*R2, x=Math.cos(la)*Math.cos(lo), y=Math.cos(la)*Math.sin(lo), z=Math.sin(la), dc=-(x*cp*cl+y*cp*sl+z*sp); if(dc<.08) return null; const ex=-x*sl+y*cl, ny=-x*sp*cl-y*sp*sl+z*cp; return [W/2+f*ex/dc,H/2-f*ny/dc]; };
+  ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.moveTo(W/2+R*1.02,H/2); ctx.arc(W/2,H/2,R*1.02,0,Math.PI*2,true); ctx.clip();
+  ctx.strokeStyle='rgba(106,138,200,.6)'; ctx.lineWidth=1; ctx.beginPath();
+  (e.daten||[]).forEach(b=>(b.l||[]).forEach(L=>{ let a=null; for(const q of L){ const z=P(q[0],q[1]); if(z&&a&&Math.hypot(z[0]-a[0],z[1]-a[1])<W*.6){ ctx.moveTo(a[0],a[1]); ctx.lineTo(z[0],z[1]); } a=z; } })); ctx.stroke();
+  thSterne(e,P,true); ctx.restore(); }
+function thSterne(e,P,hinten){ const zoomN=hinten?1.5:S.zoom;
+  (e.daten_sterne||[]).forEach((st,i)=>{ const q=P(st.ra,st.dec); if(!q||q[0]<-5||q[0]>W+5||q[1]<-5||q[1]>H+5) return; const r=Math.max(.6,3.2-.55*st.mag); ctx.fillStyle=st.mag<1?'#ffffff':'#c8d8ff'; ctx.globalAlpha=Math.min(1,.45+.6*(4.5-st.mag)/4.5); ctx.beginPath(); ctx.arc(q[0],q[1],r,0,7); ctx.fill(); ctx.globalAlpha=1;
+    if(st.polarstern){ ctx.strokeStyle='#ffe14a'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(q[0],q[1],r+3.5,0,7); ctx.stroke(); text(st.name||'Polarstern',q[0]+r+6,q[1]+4,10.5,'#ffe9a0',false,'700'); }
+    else if(st.name&&(zoomN>=2||st.mag<.5)) text(st.name,q[0]+r+3,q[1]+3.5,9.4,'#dfe8ff');
+    if(st.name) THH.push([q[0],q[1],Math.max(4,r),'sternbilder',i,'s']); });
+  TLS='1px'; (e.daten||[]).forEach((b,i)=>{ if((b.rang||1)>(zoomN>=2.5?3:zoomN>=1.4?2:1)) return; const q=P(b.ra,b.dec); if(!q) return; if(text(b.n,q[0],q[1],10,'#9fb8e8',true,'italic 400','meer')) THH.push([q[0],q[1]-4,9,'sternbilder',i,'b']); }); TLS='0px'; }
+/* Karte und Scheibe: Sterne an ihrem Zenitpunkt (auf der Scheibe = Kuppel von oben, wie die 3D-Kuppel) */
+function thHimmelOben(e){ if(S.modus==='globus') return; const gm=sternzeit(new Date()); const P=(ra,dec)=>{ const lo=stLon(ra,gm); if(!imBlickP(lo,dec)) return null; const q=proj(lo,dec); return q; };
+  ctx.strokeStyle='rgba(106,138,200,.55)'; ctx.lineWidth=1; ctx.beginPath();
+  (e.daten||[]).forEach(b=>(b.l||[]).forEach(L=>{ let a=null; for(const q0 of L){ const z=P(q0[0],q0[1]); if(z&&a&&Math.hypot(z[0]-a[0],z[1]-a[1])<W*.4){ ctx.moveTo(a[0],a[1]); ctx.lineTo(z[0],z[1]); } a=z; } })); ctx.stroke();
+  thSterne(e,P,false); }
+function thSonne(){ const now=new Date(), [lo,la]=sonne(now); ctx.strokeStyle='rgba(255,214,96,.7)'; ctx.lineWidth=1.3; ctx.setLineDash([5,5]); const pts=[]; for(let x=-180;x<=180;x+=3) pts.push([x,la]); ctx.beginPath(); thStrich(pts); ctx.stroke(); ctx.setLineDash([]);
+  const q=proj(lo,la); if(q[2]<.05) return; ctx.strokeStyle='rgba(255,226,140,.95)'; ctx.lineWidth=1.4; ctx.beginPath(); for(let k=0;k<12;k++){ const w=k*Math.PI/6, a=k%2?10:13; ctx.moveTo(q[0]+Math.cos(w)*8,q[1]+Math.sin(w)*8); ctx.lineTo(q[0]+Math.cos(w)*a,q[1]+Math.sin(w)*a); } ctx.stroke();
+  const g=ctx.createRadialGradient(q[0]-1.5,q[1]-1.5,0,q[0],q[1],7); g.addColorStop(0,'#fffbe8'); g.addColorStop(.6,'#ffe07a'); g.addColorStop(1,'#f0a830'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(q[0],q[1],7,0,7); ctx.fill();
+  boxAdd([q[0]-13,q[1]+13,26,26]); text('Sonne im Zenit · '+String(now.getUTCHours()).padStart(2,'0')+':'+String(now.getUTCMinutes()).padStart(2,'0')+' UTC',q[0]+15,q[1]+4,10.5,'#ffe9a0',false,'700'); THH.push([q[0],q[1],9,'sonnenstand',0,0]); }
 /* ---------- Landkreise ---------- */
 function krWert(r,w){ if(r.einwohner_2024==null) return null; return w==='ew'?r.einwohner_2024:(r.flaeche_km2?r.einwohner_2024/r.flaeche_km2:null); }
 function krZeichnen(G){ const e=th('kreise'); if(!e) return; const L=e.daten||[], mitWert=G&&G.kre, zf=Math.min(1.3,.6+S.zoom/20);
@@ -1096,11 +1134,14 @@ function thWindAn(lon,lat){ const e=th('windguertel'); if(!e) return null; const
 
 /* ---------- Zeichnen aller eingeschalteten Überlagerungen (aus zeichne()) ---------- */
 function thFlaechenZeichnen(){ if(S.ov.windguertel){ const e=th('windguertel'); if(e) thWind(e); } }
-function thZeichnen(){ THH=[]; THL=[];
+function thZeichnen(){
   for(const s of THS){ if(s.art!=='ov'||!S.ov[s.k]) continue; const e=th(s.id); if(!e) continue; const K=THK[s.id]||{};
     if(s.id==='windguertel'||s.typ==='kreise') continue;
     if(s.id==='platten'){ thPlatten(e); continue; }
     if(K.zeichne){ K.zeichne(e,s); continue; }
+    if(s.id==='sonnenstand'){ thSonne(); continue; }
+    if(s.id==='sternbilder'){ thHimmelOben(e); continue; }
+    if(s.id==='sonnenfinsternisse'){ thLinien(s.id,e.daten||[],K,e,0); const KP={rz:[0,0,0],nz:[1.5,1.5,1.5],sym:'kreis',c:()=>thLeg(e,3),r:()=>3,name:r=>thDatum(r.datum)+' '+r.art+' · '+r.dauer}; thPunkte(s.id,e.daten||[],KP,e,0); continue; }
     if(s.typ==='linien') thLinien(s.id,K.liste?K.liste(e):e.daten||[],K,e,0);
     else if(s.typ==='punkte'||K.liste){ if(K.liste) thPunkte(s.id,K.liste(e),K,e,0); else if(K.listen) K.listen(e).forEach((L,t)=>thPunkte(s.id,L,K,e,t)); else thPunkte(s.id,e.daten||[],K,e,0); } } }
 function thSegDist(px,py,a,b){ const dx=b[0]-a[0], dy=b[1]-a[1], L=dx*dx+dy*dy; let t=L?((px-a[0])*dx+(py-a[1])*dy)/L:0; t=Math.max(0,Math.min(1,t)); return Math.hypot(px-a[0]-t*dx,py-a[1]-t*dy); }
@@ -1120,11 +1161,14 @@ function infoThema(){ const box=$('.qwk-info',wrap), [id,i,t,seg]=S.thi, e=th(id
   if(id==='platten'){ const r=e.daten[i], cs=r.codes||'', ch=cs[Math.min(cs.length-1,seg||0)], cd=(e.codes||{})[ch]||[], P={}; (e.daten_platten||[]).forEach(p=>P[p.c]=p.n); const pb=String(r.pb||'').split(/[-\/\\]/).map(c=>P[c]||c);
     const arten=[...new Set(cs.split(''))].map(c=>(e.codes[c]||[])[1]).filter(Boolean);
     h=thKopf(sch.e,cd[1]||'Plattengrenze',pb.join(' – '))+thKpi([['Bewegung',cd[0]||'–'],['Relativbewegung',r.v_mm_jahr!=null?'ca. '+fmt(r.v_mm_jahr)+' mm/Jahr':'–']])+`<p class="qwk-txt">Grenze zwischen ${pb.map(esc).join(' und ')}. Abschnitte: ${arten.map(esc).join(', ')}.</p>`; }
+  else if(id==='sternbilder'){ if(t==='s'){ const st=e.daten_sterne[i]; h=thKopf(sch.e,st.name,st.bezeichnung||'')+thKpi([['Helligkeit',fmt(st.mag,2)+' mag'],['Rektaszension',fmt(st.ra/15,2)+' h'],['Deklination',fmt(st.dec,2)+'°'],['Im Zenit jetzt über',koord([stLon(st.ra,sternzeit(new Date())),st.dec])]]); }
+    else { const b=e.daten[i]; h=thKopf(sch.e,b.n,b.lat||'')+thKpi([['Kürzel',b.k||'–'],['Deklination (Mitte)',fmt(b.dec)+'°']]); } }
+  else if(id==='sonnenstand'){ const now=new Date(), [lo,la]=sonne(now); h=thKopf(sch.e,'Sonne im Zenit',now.toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})+' Uhr (Gerätezeit)')+thKpi([['Zenitpunkt',koord([lo,la])],['Deklination der Sonne',fmt(la,2)+'°'],['Uhrzeit UTC',String(now.getUTCHours()).padStart(2,'0')+':'+String(now.getUTCMinutes()).padStart(2,'0')]])+`<p class="qwk-txt">Über diesem Punkt steht die Sonne gerade senkrecht. Die gestrichelte Linie zeigt den Breitenkreis, über den der Zenitpunkt heute wandert. Zusammen mit „Tag & Nacht“ ergibt sich die Beleuchtung der Erde.</p>`; }
   else if(id==='windguertel'){ const r=seg==='m'||t==='m'?e.daten_monsun[i]:e.daten[i]; h=thKopf(sch.e,r.name,t==='m'?'Monsungebiet':(r.richtung||''))+`<p class="qwk-txt">${esc(r.text||'')}</p>`; }
   else { const L=K.listen?K.listen(e)[t||0]:(K.liste?K.liste(e):e.daten), r=L[i], I=K.info?K.info(r,e,t||0):{t:r.n||r.name||'',txt:r.t||r.text||''};
     h=thKopf(sch.e,I.t,I.u)+thKpi(I.kpi)+(I.txt?`<p class="qwk-txt">${esc(I.txt)}</p>`:'')+(I.html||''); if(r.schema||e.schema) h+=`<div>${chip('✏️ schematisch')}</div>`; if(I.q) h+=`<p class="qwk-hin2">Beleg: ${esc(I.q)}</p>`; }
   { const L=Array.isArray(e.legende)?e.legende:[]; const E=L.map(l=>Array.isArray(l)?[l[0],l[1]]:[l.n,l.c]).filter(x=>x[0]&&typeof x[0]==='string'); if(E.length) h+=`<h4>Legende</h4><div class="qwk-kl">${E.map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`; }
-  h+=`<h4>${esc(e.name)}</h4>${thHin(K,e)?`<p class="qwk-hin2" style="margin-top:0">${esc(thHin(K,e))}</p>`:''}${thQuellenHtml(e)}`;
+  h+=`<h4>${esc(e.name||sch.n)}</h4>${thHin(K,e)?`<p class="qwk-hin2" style="margin-top:0">${esc(thHin(K,e))}</p>`:''}${thQuellenHtml(e)}`;
   box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.thi=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 /* Info-Teil für Landes-Ebenen (über den Länderdaten) bzw. Übersicht ohne gewähltes Land */
 function thLandBlock(G,i){ const id=G.th, e=th(id); if(!e) return ''; let h=`<div class="qwk-box qwk-thbox"><small>${G.e} ${esc(G.n)}</small>`;
