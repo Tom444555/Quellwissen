@@ -71,7 +71,7 @@ let BG=new Map(); const BGS=48;
 function boxNeu(){ BOX=[]; BG=new Map(); }
 function boxAdd(b){ BOX.push(b); const x0=Math.floor(b[0]/BGS), x1=Math.floor((b[0]+b[2])/BGS), y0=Math.floor((b[1]-b[3])/BGS), y1=Math.floor(b[1]/BGS); for(let i=x0;i<=x1;i++) for(let j=y0;j<=y1;j++){ const k=(i+64)*4096+j+64; let c=BG.get(k); if(!c) BG.set(k,c=[]); c.push(b); } }
 /* Gewählte/angetippte Orte: [x, y, Radius, Datensatz] des letzten Bildes */
-let TREFF=[];
+let TREFF=[], STRL=[];
 
 /* ---------- kuratierte Daten (gerundet) ---------- */
 const GETREIDE={
@@ -535,7 +535,7 @@ function glScheibenbild(ts){ if(!glAn()||!GL.bereit) return null; const g=GL.g, 
 /* ---------- Zeichnen ---------- */
 let sterne=null, BOX=[], LAY=null; const SPERR=typeof CanvasRenderingContext2D!=='undefined'&&'letterSpacing' in CanvasRenderingContext2D.prototype;
 function zeichne(fein){
-  if(!ctx) return; boxNeu(); boxAdd(STB.slice()); VBX=null; TREFF=[]; PPD=111.32/kmProPx(); ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
+  if(!ctx) return; boxNeu(); boxAdd(STB.slice()); VBX=null; TREFF=[]; STRL=[]; PPD=111.32/kmProPx(); ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
   const G3=glZeichne(S.grund==='relief'||(S.unterlage&&!GRUND[S.grund].r),S.grund!=='relief');
   if(!G3){ const g0=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.8); g0.addColorStop(0,'#0e1a30'); g0.addColorStop(1,'#04070e'); ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
   if(!sterne){ sterne=[]; let s=7; const r=()=>(s=(s*16807)%2147483647)/2147483647; for(let i=0;i<260;i++) sterne.push([r(),r(),r()*1.2+.2,r()]); }
@@ -605,7 +605,8 @@ function zeichne(fein){
     DAT.laender.forEach(c=>{ ctx.beginPath(); let ok=false; c.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return;
       if(mitRelief){ ctx.strokeStyle=G3?'rgba(8,16,28,.3)':'rgba(8,16,28,.42)'; ctx.lineWidth=gw*2.3; ctx.stroke(); ctx.strokeStyle=G3?'rgba(255,250,235,.5)':'rgba(255,255,255,.58)'; ctx.lineWidth=gw*.8; ctx.stroke(); }
       else { ctx.strokeStyle='rgba(225,238,255,.34)'; ctx.lineWidth=gw*.75; ctx.stroke(); } }); }
-  if(S.ov.grenzen&&S.zoom>=1.8&&detail()){ const St=detLinien('strittig'); if(St){ ctx.setLineDash([4,3]); ctx.strokeStyle=mitRelief?'rgba(255,240,214,.6)':'rgba(225,238,255,.45)'; detStriche(St,()=>Math.min(1.4,.7+S.zoom/14)); ctx.setLineDash([]); } }
+  if(S.ov.grenzen&&S.zoom>=1.8&&detail()){ const St=detLinien('strittig'); if(St){ if(S.zoom>=5) for(const [,l] of St){ if(l.length<3||!vis(l.bb)) continue; { const c0=proj(l.bb[0],l.bb[2]), c1=proj(l.bb[1],l.bb[3]); if(Math.hypot(c1[0]-c0[0],c1[1]-c0[1])<110) continue; } const m=l[l.length>>1], a=l[Math.max(0,(l.length>>1)-1)], b=l[Math.min(l.length-1,(l.length>>1)+1)], pa=proj(a[0],a[1]), pb=proj(b[0],b[1]); if(Math.hypot(pb[0]-pa[0],pb[1]-pa[1])<1) continue; const ga=Math.atan2(b[1]-a[1],(b[0]-a[0])*Math.cos(m[1]*R2))/R2; STRL.push([m[0],m[1],ga]); }
+    ctx.setLineDash([4,3]); ctx.strokeStyle=mitRelief?'rgba(255,240,214,.6)':'rgba(225,238,255,.45)'; detStriche(St,()=>Math.min(1.4,.7+S.zoom/14)); ctx.setLineDash([]); } }
   verkehr(mitRelief);
   if(S.sel){ const c=DAT.idx[S.sel]; ctx.beginPath(); c.p.forEach(rg=>pfad(rg)); ctx.strokeStyle='#fff'; ctx.lineWidth=2.2; ctx.shadowColor='rgba(120,200,255,.9)'; ctx.shadowBlur=12; ctx.stroke(); ctx.shadowBlur=0; }
   if(S.ov.nacht) nacht(G3);
@@ -629,6 +630,7 @@ function zeichne(fein){
   // Beschriftung: Landschaften, Gipfel, Länder, Städte
   const zs=zstufe();
   const rand=q=>glob?Math.max(0,Math.min(1,(q[2]-.2)/.3)):1; // zum Kugelrand hin ausblenden statt stauchen
+  if(S.ort){ const o=S.ort, q=proj(o[2],o[3]); if(q[2]>.1){ const R=3.2; if(text(o[1],q[0]+R+4,q[1]+4,11.5,'#ffffff',false,'700')){ boxAdd([q[0]-R,q[1]+R,R*2,R*2]); ctx.fillStyle='#ffd86a'; ctx.strokeStyle='rgba(20,16,8,.85)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); } } }
   if(S.ov.namen&&mitRelief){ TLS='2.4px'; MEERE.forEach(([n,lo,la,rg])=>{ if(rg>zs-.6) return; const q=proj(lo,la); if(q[2]<0.3) return; TXA=rand(q)*.88; text(n,q[0],q[1],(rg<1?14.5:rg<2?12.5:11.5)-(W<520?1.8:0),'#c4dcf0',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
   if(S.ov.landschaft){ TLS='1px'; DAT.regionen.forEach(([n,k,lo,la,sr])=>{ if(sr>zs+0.5) return; const q=proj(lo,la); if(q[2]<0.25) return; TXA=rand(q); text(n,q[0],q[1],11,k==='Range/mtn'?'#ecd9bd':k==='Desert'?'#f3dfae':'#d6e6c6',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
   if(S.ov.landschaft&&S.zoom>=1.8&&detail()){ TLS='1px'; for(const g of DET.geo){ if(g[3]>zs+.3) break; if('mbs'.indexOf(g[4])<0) geoText(g,rand); } TLS='0px'; TXA=1; }
@@ -674,6 +676,7 @@ function flugZeichen(x,y){ ctx.fillStyle='rgba(16,20,34,.85)'; ctx.strokeStyle='
 function detailNamen(zs,rand,G){ if(!(S.zoom>=1.8||S.ov.zonen)||!detail()) return; const D=DET;
   if(S.ov.zonen) for(const [t,lo,la] of D.zonenN){ if(!imBlickP(lo,la)) continue; const q=proj(lo,la); if(q[2]<.25) continue; TXA=rand(q); text(t.replace('UTC','UTC '),q[0],q[1],10,'#ffe2a0',true,'700'); } TXA=1;
   if(S.zoom<1.8) return;
+  for(const [lo,la,ga] of STRL){ const q=proj(lo,la); if(q[2]<.3) continue; TXA=rand(q)*.9; TLS='.5px'; textR('umstrittene Grenze',q[0],q[1],bildWinkel(lo,la,ga),8.6,'#ffe9c8','italic 400','meer'); TLS='0px'; } TXA=1;
   if(S.ov.innen&&S.zoom>=2.4){ TLS='1.3px'; for(const [n,lo,la,st] of D.a1N){ if(st>zs-1.2) break; if(!imBlickP(lo,la)) continue; if(G.de&&lo>5.5&&lo<15.5&&la>47&&la<55.2&&landAn(lo,la)===DAT.idx.DEU) continue; const q=proj(lo,la); if(q[2]<.3) continue; TXA=rand(q)*.85; text(n,q[0],q[1]+4,9.6,'#dcd2f6',true,'500','sc'); } TLS='0px'; TXA=1; }
   if(S.ov.namen){ TLS='.8px'; const se=(n,lo,la,st)=>{ if(st>zs||!imBlickP(lo,la)) return; const q=proj(lo,la); if(q[2]<.25) return; TXA=rand(q)*.95; text(n,q[0],q[1]+4,st<8?10:9.4,'#b4dcf2',true,'italic 400','meer'); };
     for(const [n,lo,la,st] of (DAT.fein&&DAT.fein.seeN)||[]) if(st>7.5) se(/^(Weißer|Pleskauer)$/.test(n)?n+' See':n,lo,la,st); for(const [n,lo,la,st] of D.seeN) se(n,lo,la,st); TLS='0px'; TXA=1; }
@@ -981,7 +984,7 @@ function ui(root){
   </aside>
   <div class="qwk-map" tabindex="0" role="application" aria-label="Weltkarte: ziehen dreht, Pfeiltasten drehen, Plus und Minus zoomen"><canvas></canvas><div class="qwk-zoom"><button data-z="1.5" aria-label="Hineinzoomen">＋</button><button data-z="0.67" aria-label="Herauszoomen">－</button><hr><button data-z="0" aria-label="Ansicht zurücksetzen" title="Ansicht zurücksetzen">⟲</button><button data-spin aria-pressed="false" aria-label="Globus langsam drehen" title="Globus langsam drehen">↻</button></div><div class="qwk-leg" title="Ebenen öffnen"></div></div>
   <aside class="qwk-info"></aside>
-  <div class="qwk-zeit"><button class="qwk-play" aria-label="Abspielen">▶</button><span class="qwk-j0" style="color:var(--k-m)">1960</span><input type="range" min="1960" max="2023" value="${S.jahr}"><span class="qwk-jahr">${S.jahr}</span><span class="qwk-q">Quellen: Küsten, Seen, Flüsse, Grenzen, Bundesstaaten/Provinzen, Landschafts- und Meeresnamen, Gipfel, Gletscher, Straßen, Bahnen, Häfen, Flughäfen, bebaute Flächen, Zeitzonen, Städte – Natural Earth 1:10 Mio./1:50 Mio. (gemeinfrei, Version 5); weitere Orte mit Einwohnerzahlen – GeoNames (CC BY 4.0, geonames.org, Abzug 2020); gestrichelte Grenzlinien = umstrittene oder unbestimmte Grenzen bzw. Anspruchslinien (ohne Wertung); Höhenmodell – NASA (gemeinfrei); Relief – three.js-Beispieltextur (MIT); Bevölkerung, Energie, Gesellschaft – Our World in Data (UN, Energy Institute, IHME, Gapminder, WHR, FAO); Getreide – FAOSTAT 2022; Rohstoffe – Energy Institute, USGS, IAEA; Klima/Böden – vereinfachtes Schema</span></div>
+  <div class="qwk-zeit"><button class="qwk-play" aria-label="Abspielen">▶</button><span class="qwk-j0" style="color:var(--k-m)">1960</span><input type="range" min="1960" max="2023" value="${S.jahr}"><span class="qwk-jahr">${S.jahr}</span><span class="qwk-q" title="Gestrichelte Grenzlinien: umstrittene oder unbestimmte Grenzen bzw. Anspruchslinien laut Natural Earth (ohne Wertung).">Quellen: Karte (Küsten, Gewässer, Grenzen, Landschaften, Gipfel, Verkehr, Städte) – Natural Earth 1:10/1:50 Mio. (gemeinfrei); weitere Orte und Einwohner – GeoNames (CC BY 4.0, Stand 2020); Höhen – NASA; Relief – three.js-Textur (MIT); Statistik – Our World in Data (UN, Energy Institute, IHME, Gapminder, WHR, FAO); Getreide – FAOSTAT 2022; Rohstoffe – Energy Institute, USGS, IAEA; Klima/Böden – Schema</span></div>
   </div>`;
   wrap=$('.qwk',root); cv=$('canvas',wrap); ctx=cv.getContext('2d');
 }
