@@ -57,5 +57,5 @@
       g+=`<rect x="512" y="${B[2]-26}" width="40" height="26" rx="4" fill="${lg('#3d8a5a','#245a38',0)}" stroke="#163a22" stroke-width="1"/><path d="M520,${B[2]-14} h24" stroke="#f6f3e7" stroke-width="2"/>`;
       // Boden
       g+=`<path d="M8,280 H582" stroke="#8a7a5a" stroke-width="1.2" opacity=".6"/>`;
-      g+=T(295,300,'Das Ältere nach vorn, Neues nach hinten','var(--ink)',17,800);
-      return {vb:'0 0 590 310',breit:true,leg:[],svg:g}; },
+      g+=T(295,306,'Das Ältere nach vorn, Neues nach hinten','var(--ink)',26,800);
+      return {vb:'0 0 590 318',breit:true,leg:[],svg:g}; },

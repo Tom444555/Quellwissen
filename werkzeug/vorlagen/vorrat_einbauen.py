@@ -8,7 +8,8 @@ Was passiert (jeweils nur, wenn es noch fehlt bzw. ersetzt zwischen Markern):
   3. Zeichnung vorrat_bild ins Zeichen-Objekt Z (zwischen /* Z-VORRAT-ANFANG */ und /* Z-VORRAT-ENDE */)
   4. Route #vorrat, Funktion vorratSeite(), Leisten-Reiter „Mehr“
   5. Kachel oben auf der Rechner-Seite, Zeile im Blatt „Mehr“
-  6. QW_KONFIG: Gruppen dürfen Verweise haben (links:[{t,h,i,k}]); Eintrag in Teil S, Gruppe „Sammeln & Küche“"""
+  6. App-Suche findet die Seite (Vorrat, Blackout, Notvorrat, Stromausfall, Lager, Speiseplan, Haltbarkeit …)
+  7. QW_KONFIG: Gruppen dürfen Verweise haben (links:[{t,h,i,k}]); Eintrag in Teil S, Gruppe „Sammeln & Küche“"""
 import sys, os, re
 basis = os.path.dirname(os.path.abspath(__file__))
 werkzeug = os.path.dirname(basis)
@@ -75,6 +76,9 @@ einmal("${krumen([['Start','#start'],['Rechner & Umrechner']])}</div><div id=\"r
        "${krumen([['Start','#start'],['Rechner & Umrechner']])}</div>" + KACHEL + "<div id=\"rz-ort\"></div>", 'Kachel Rechner-Seite')
 einmal("${zeile('#rechner','🧮','Rechner &amp; Umrechner','Prozent, Einheiten, Währungen, Chemie, Kalender','var(--c-b)')}",
        "${zeile('#rechner','🧮','Rechner &amp; Umrechner','Prozent, Einheiten, Währungen, Chemie, Kalender','var(--c-b)')}${zeile('#vorrat','🥫','Vorrat &amp; Blackout-Planer','Wie lange reichen Essen und Wasser?','var(--c-s)')}", 'Blatt Mehr')
+
+# 4b. App-Suche: Eintrag für die Seite (wie andere Seiten über add(label, art, wo, hash, extra))
+einmal("\nfunction suchen(q){", "\n/* VORRAT-SUCHE */ add('Vorrat & Blackout-Planer','Werkzeug','Rechner','vorrat','Vorrat Notvorrat Blackout Stromausfall Lager Lebensmittel Speiseplan Haltbarkeit Mindesthaltbarkeit Wasservorrat Krisenvorsorge Notfall Vorsorge Reichweite');\nfunction suchen(q){", 'Suche')
 
 # 6. Verweise in Gruppen (QW_KONFIG): Render-Code und Eintrag
 einmal("({t:g.t,rest:!!g.rest,items:", "({t:g.t,rest:!!g.rest,links:g.links||[],items:", 'Gruppen-Verweise (Daten)')

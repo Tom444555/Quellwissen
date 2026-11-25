@@ -90,6 +90,25 @@ ok(K.bestand(S, heute).nudeln > 0, 'Speiseplan ändert das Lager nicht');
 var F = K.fehltListe(S, heute); ok(F.wasserL > 0 && F.gruppen.length > 0 && F.kcal > 0, 'Einkaufsliste');
 ok(K.vorschlag(S, 'getreide', 2000).length === 2, 'Vorschläge');
 
+/* 5b. Feinschliff: eine Zahl, Portionen nach Bedarf, Auffüll-Grenzen */
+var PH = K.portionenHaushalt(S); nah(PH, Math.round(D / 2200 * 10) / 10, 1e-9, 'Portionen nach Bedarf (Haushalt = Summe kcal / 2.200)');
+ok(PH < 3.5 && PH > 2.5, 'Kind/Seniorin zählen nicht als volle Portion: ' + PH);
+ok(/reicht für 3 Personen \(2,9 Port\.\)/.test(K.reichtFuer(6, 2.9, 3)), 'Anzeige „reicht für 3 Personen (2,9 Port.)“: ' + K.reichtFuer(6, 2.9, 3));
+ok(/nicht für alle/.test(K.reichtFuer(1.5, 2.9, 3)), 'Anzeige bei zu wenig');
+var S6 = JSON.parse(JSON.stringify(S)), v6 = K.bestand(S6, heute).nudeln; K.abziehen(S6, nt, 2.4, heute); nah(v6 - K.bestand(S6, heute).nudeln, 240, 0.01, 'Gekocht mit 2,4 Portionen zieht 240 g ab');
+var A = K.alltag(S, heute), Ak = K.reichweite(S, heute);
+ok(A.reicht <= Ak.tage + 1e-6, 'alltagsnahe Reichweite nicht größer als die Kalorien-Reichweite (' + A.reicht.toFixed(2) + ' ≤ ' + Ak.tage.toFixed(2) + ')');
+if (A.knapp) { ok(A.tage.slice(0, A.knapp - 1).every(function (t) { return t.deckung >= 0.9; }), 'vor „knapp ab“ alle Tage ≥ 90 %'); ok(A.tage[A.knapp - 1].deckung < 0.9, 'knapper Tag < 90 %');
+  nah(A.reicht, A.knapp - 1 + A.tage[A.knapp - 1].deckung, 1e-9, '„Essen reicht“ = volle Tage vor „knapp ab“'); }
+var P10 = K.speiseplan(S, heute, 10); ok(P10.knapp === A.knapp || (A.knapp > 10 && !P10.knapp) || (!A.knapp && !P10.knapp), 'Speiseplan und Reichweite melden denselben knappen Tag');
+var maxOk = true; A.tage.forEach(function (t) { t.extra.forEach(function (x) { if (x.g > K.auffuellMax(K.katVon(S, x.i)) * A.PH + 0.5) { maxOk = false; console.log('  zu viel:', t.d, x.n, Math.round(x.g)); } });
+  t.essen.forEach(function (e) { if (e.port > A.PH + 1e-6) maxOk = false; }); });
+ok(maxOk, 'Auffüllen und Portionen bleiben unter den Obergrenzen');
+nah(K.auffuellMax(K.katVon(S, 'hmilch')) * 3, 750, 1e-9, 'H-Milch höchstens 250 ml je Portion und Tag');
+var Bk = K.beispiel(heute), Ab = K.alltag(Bk, heute); ok(Ab.tage.every(function (t) { return t.extra.every(function (x) { return !(x.i === 'hmilch' && x.g > 250 * Ab.PH + 0.5); }); }), 'Beispiel: keine 750 ml H-Milch je Person');
+ok(K.alltag(S, heute, { koch: 'keine' }).reicht <= A.reicht + 1e-6, 'ohne Kochen nicht länger');
+ok(K.dateiMoeglich() === false, 'ohne Browser keine Datei-Sicherung');
+
 /* 6. Beispiel, Sicherung */
 var Bsp = K.beispiel(heute); ok(Bsp.beispiel && Bsp.personen.length === 3 && Bsp.lager.length > 15, 'Beispiel-Haushalt');
 ok(Bsp.lager.every(function (it) { return !!K.katVon(Bsp, it.k); }), 'Beispiel nur mit Katalog-IDs');
