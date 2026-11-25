@@ -1378,6 +1378,286 @@ i.fv-b{background:var(--tc,var(--accent))!important}
 .rz-link{display:inline-flex;align-items:center;text-decoration:none}
 @media (min-width:720px){.rz-inh .rz-chips{flex-wrap:wrap;overflow:visible}}
 /* RECHNER-ENDE */
+/* VORRAT-ANFANG */
+/* Quellwissen – „Vorrat & Blackout-Planer“ · alle Klassen mit Präfix .vr- · nutzt die App-Variablen (hell/dunkel) */
+.vr-seite{--vr-gut:#3f7a35;--vr-mittel:#9a6a10;--vr-schlecht:#a8433a;--vr-r:18px;
+  max-width:1240px;margin:0 auto;padding:8px 16px 56px;color:var(--ink);font-family:var(--body);line-height:1.5;overflow-wrap:break-word}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vr-seite{--vr-gut:#9fcf8a;--vr-mittel:#e6c070;--vr-schlecht:#f2a89e}}
+:root[data-theme="dark"] .vr-seite{--vr-gut:#9fcf8a;--vr-mittel:#e6c070;--vr-schlecht:#f2a89e}
+.vr-seite *,.vr-seite *::before,.vr-seite *::after{box-sizing:border-box}
+:where(.vr-seite) :where(button,input,select,textarea){font:inherit;color:inherit}
+.vr-seite button{cursor:pointer}
+.vr-seite :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vr-seite [hidden]{display:none!important}
+.vr-vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.vr-seite h2{margin:.2em 0 .1em;font:800 clamp(1.5rem,1.2rem + 1.4vw,2rem)/1.15 var(--display);letter-spacing:-.01em}
+.vr-seite h3{margin:1.3em 0 .5em;font:700 1.18rem/1.25 var(--display)}
+.vr-seite h4{margin:.9em 0 .3em;font:700 .98rem var(--display)}
+.vr-unter{margin:0 0 12px;color:var(--muted)}
+.vr-klein{margin:.5em 0 0;font-size:.84rem;color:var(--muted);line-height:1.45}
+.vr-hinweis{margin:0;color:var(--muted)}
+
+/* Kopf mit Zeichnung */
+.vr-kopf{padding:14px 2px 6px}
+.vr-ober{margin:0;font:600 .78rem/1.3 var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.vr-kopf h1{margin:.1em 0 .2em;font:800 clamp(1.9rem,1.3rem + 2.6vw,2.8rem)/1.08 var(--display);letter-spacing:-.02em}
+.vr-intro{margin:0;max-width:62ch;color:var(--muted);font-size:1.02rem}
+.vr-bild{margin:10px 0 0;max-width:820px}
+.vr-bild figure{margin:0}
+
+/* Leiste: Kurzzahlen + Bereiche (bleibt oben) */
+.vr-leiste{position:sticky;top:var(--qw-oben,0px);z-index:6;margin:10px -16px 0;padding:8px 16px 4px;background:var(--bar,var(--bg));-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.vr-kurz{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.vr-kurz b{color:var(--ink)}
+.vr-kurz .vr-gut b{color:var(--vr-gut)}.vr-kurz .vr-mittel b{color:var(--vr-mittel)}.vr-kurz .vr-schlecht b{color:var(--vr-schlecht)}
+.vr-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 0 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.vr-tabs::-webkit-scrollbar{display:none}
+.vr-tabs button{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:.94rem;white-space:nowrap}
+.vr-tabs button[aria-selected="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink);font-weight:700}
+.vr-tabs button span{font-size:1rem}
+
+/* Bereich, Karten */
+.vr-inhalt{padding-top:12px;min-height:50vh}
+.vr-karte{position:relative;min-width:0;background:var(--surface);border:1px solid color-mix(in srgb,var(--line) 80%,transparent);border-radius:var(--vr-r);box-shadow:var(--schatten);padding:16px}
+.vr-karte + .vr-karte{margin-top:12px}
+.vr-raster{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:12px}
+.vr-raster .vr-karte + .vr-karte{margin-top:0}
+.vr-kh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.vr-kh h3{margin:0;flex:1}
+.vr-name{flex:1;min-width:0;min-height:44px;padding:0 10px;border:1px solid transparent;border-radius:10px;background:transparent;font:700 1.15rem var(--display)}
+.vr-name:hover,.vr-name:focus{border-color:var(--line);background:var(--surface-2)}
+.vr-x{flex:none;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);color:var(--muted);font-size:1rem}
+.vr-x:hover{color:var(--vr-schlecht);border-color:var(--vr-schlecht)}
+
+/* Felder */
+.vr-felder{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;align-items:end}
+.vr-feld{display:flex;flex-direction:column;gap:4px;min-width:0;margin:0}
+.vr-voll{grid-column:1/-1}
+.vr-fl{font:600 .78rem/1.25 var(--label);letter-spacing:.03em;color:var(--muted)}
+.vr-ein{display:flex;align-items:center;min-height:46px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.vr-ein:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+.vr-ein input{flex:1;min-width:0;min-height:44px;padding:0 12px;border:0;background:transparent;font-size:1.06rem;font-variant-numeric:tabular-nums;outline:none}
+.vr-ein i{flex:none;padding:0 12px 0 2px;font-style:normal;font-size:.84rem;color:var(--muted);white-space:nowrap}
+.vr-seite select{min-height:46px;max-width:100%;padding:0 30px 0 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 10px center;-webkit-appearance:none;appearance:none;font-size:.98rem}
+.vr-text{width:100%;min-height:96px;margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);font:400 .9rem/1.4 ui-monospace,monospace}
+.vr-seg{display:flex;gap:4px;padding:3px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+.vr-seg button{flex:1;min-height:40px;padding:0 10px;border:0;border-radius:11px;background:transparent;font-size:.94rem;white-space:nowrap}
+.vr-seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.18);font-weight:700;color:var(--ink)}
+.vr-seg-wrap{flex-wrap:wrap}
+.vr-seg-wrap button{flex:1 1 auto}
+
+/* Knöpfe */
+.vr-knoepfe{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.vr-knopf{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:0 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-weight:600;text-decoration:none;color:var(--ink)}
+.vr-knopf:hover{border-color:var(--accent)}
+.vr-haupt{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.vr-gefahr{color:var(--vr-schlecht)}
+.vr-datei{position:relative;overflow:hidden;cursor:pointer;font:600 1rem var(--body)}
+.vr-datei input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.vr-rund{flex:none;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:var(--surface-2);font-size:1.25rem;line-height:1}
+.vr-chips{display:flex;flex-wrap:wrap;gap:6px}
+.vr-chip{min-height:40px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:var(--surface-2);font-size:.9rem;text-align:left}
+.vr-chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.vr-mehr{margin:10px 0}
+.vr-mehr>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--accent)}
+.vr-link{font-weight:700;color:var(--accent)}
+
+/* Zahlen */
+.vr-zahlen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vr-zahlen div{padding:10px;border-radius:12px;background:var(--surface-2);min-width:0}
+.vr-zahlen b{display:block;font:800 1.3rem/1.1 var(--display);font-variant-numeric:tabular-nums}
+.vr-zahlen small{display:block;font-size:.76rem;color:var(--muted);line-height:1.25}
+.vr-erg{margin-top:12px}
+.vr-summe{margin-top:12px}
+.vr-gross{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vr-gross .vr-karte{margin:0;display:flex;flex-direction:column;gap:2px}
+.vr-gz{font:800 clamp(2.6rem,2rem + 3vw,4rem)/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-top:4px}
+.vr-gz-t{font-size:clamp(1.5rem,1.2rem + 1.4vw,2.2rem)}
+.vr-ge{font-weight:700;color:var(--muted)}
+.vr-gross small{color:var(--muted);font-size:.82rem}
+.vr-gut .vr-gz{color:var(--vr-gut)}.vr-mittel .vr-gz{color:var(--vr-mittel)}.vr-schlecht .vr-gz{color:var(--vr-schlecht)}
+.vr-kacheln{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:12px;margin-top:12px}
+.vr-kacheln .vr-karte{margin:0;display:flex;flex-direction:column;gap:2px}
+.vr-kacheln b{font:800 1.3rem/1.2 var(--display);font-variant-numeric:tabular-nums}
+.vr-kacheln small{color:var(--muted);font-size:.82rem}
+.vr-kacheln .vr-gut b{color:var(--vr-gut)}.vr-kacheln .vr-mittel b{color:var(--vr-mittel)}.vr-kacheln .vr-schlecht b{color:var(--vr-schlecht)}
+.vr-bar{display:block;height:8px;margin:8px 0 4px;border-radius:99px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden}
+.vr-bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
+.vr-bar.vr-gut i,.vr-gut>.vr-bar i{background:var(--vr-gut)}.vr-bar.vr-mittel i,.vr-mittel>.vr-bar i{background:var(--vr-mittel)}.vr-bar.vr-schlecht i,.vr-schlecht>.vr-bar i{background:var(--vr-schlecht)}
+.vr-zuerst{margin:12px 0 0;padding:12px 14px;border-radius:14px;background:var(--surface-2)}
+.vr-warn{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--vr-mittel) 14%,var(--surface));border-left:4px solid var(--vr-mittel);font-size:.92rem}
+.vr-ok{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--vr-gut) 12%,var(--surface));border-left:4px solid var(--vr-gut)}
+.vr-leer{padding:22px 16px;border:2px dashed var(--line);border-radius:var(--vr-r);text-align:center;color:var(--muted)}
+.vr-leer p{margin:0 0 10px}
+.vr-beispiel{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin:0 0 14px;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--sting) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--sting) 40%,var(--line))}
+.vr-beispiel p{margin:0;flex:1 1 240px}
+
+/* Verlauf im Börsenkurs-Stil */
+.vr-kurs{margin-top:12px}
+.vr-kk{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.vr-kk .vr-fl{flex-basis:100%}
+.vr-kw b{font:800 2rem/1 var(--display);font-variant-numeric:tabular-nums}
+.vr-kw small{color:var(--muted)}
+.vr-kc{font-weight:700;font-variant-numeric:tabular-nums}
+.vr-kc.vr-schlecht{color:var(--vr-schlecht)}
+.vr-kurs-svg{display:block;width:100%;height:auto;margin:8px 0 4px}
+.vr-gl{stroke:var(--line);stroke-width:1;opacity:.6}
+.vr-ax{fill:var(--muted);font:600 11px var(--label)}
+.vr-zt{fill:var(--ink)}
+.vr-ziel{stroke:var(--ink);stroke-width:1.2;stroke-dasharray:4 4;opacity:.7}
+.vr-linie{fill:none;stroke:var(--vr-schlecht);stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+.vr-flaeche{fill:var(--vr-schlecht);opacity:.13}
+.vr-punkt{fill:var(--surface);stroke:var(--vr-schlecht);stroke-width:2.4}
+.vr-kz{display:flex;gap:6px;margin:2px 0 8px}
+.vr-kz button{min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface-2);font-size:.86rem}
+.vr-kz button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.vr-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.vr-stats div{padding:8px 10px;border-radius:12px;background:var(--surface-2);min-width:0}
+.vr-stats small{display:block;font-size:.74rem;color:var(--muted)}
+.vr-stats b{font-variant-numeric:tabular-nums;font-size:.95rem}
+
+/* Gruppenbalken */
+.vr-gruppen{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.vr-gruppen li{display:grid;grid-template-columns:1fr auto;gap:0 10px;align-items:baseline}
+.vr-gruppen .vr-bar{grid-column:1/-1;margin:4px 0 0}
+.vr-gn{font-weight:600}
+.vr-gw{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.vr-gw small{font-weight:400;color:var(--muted)}
+.vr-liste-k{list-style:none;margin:0;padding:0}
+.vr-liste-k li{display:grid;grid-template-columns:minmax(84px,auto) 1fr auto;gap:4px 10px;padding:8px 0;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent);align-items:baseline}
+.vr-liste-k li:first-child{border-top:0}
+.vr-liste-k span{font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.vr-liste-k small{color:var(--muted);font-size:.82rem;text-align:right}
+
+/* Lager */
+.vr-such{display:flex;align-items:center;gap:8px;padding:4px 12px;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--schatten)}
+.vr-such:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent),var(--schatten)}
+.vr-such span{color:var(--muted);font-size:1.2rem}
+.vr-such input{flex:1;min-width:0;min-height:48px;border:0;background:transparent;font-size:1.08rem;outline:none;-webkit-appearance:none;appearance:none}
+.vr-treffer{list-style:none;margin:8px 0 0;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.vr-treffer li + li{border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.vr-treffer button{display:grid;grid-template-columns:1fr auto;gap:0 10px;width:100%;min-height:52px;padding:8px 14px;border:0;background:transparent;text-align:left}
+.vr-treffer button:hover{background:var(--surface-2)}
+.vr-treffer small{grid-column:1;color:var(--muted);font-size:.8rem}
+.vr-treffer b{grid-row:1/3;grid-column:2;align-self:center;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink)}
+.vr-katalog .vr-kg{margin:6px 0;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:0 12px}
+.vr-kg>summary{min-height:48px;display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:600}
+.vr-kg>summary span{margin-left:auto;font-weight:400;color:var(--muted);font-size:.84rem}
+.vr-kg .vr-chips{padding:0 0 12px}
+.vr-summezeile{margin:14px 0 0;color:var(--muted)}
+.vr-gt{display:flex;align-items:center;gap:6px}
+.vr-liste{list-style:none;margin:0;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));align-items:start}
+.vr-posten{padding:12px;border:1px solid color-mix(in srgb,var(--line) 80%,transparent);border-radius:16px;background:var(--surface);box-shadow:var(--schatten);display:grid;gap:8px}
+.vr-posten.vr-bald{border-color:color-mix(in srgb,var(--vr-mittel) 60%,var(--line))}
+.vr-posten.vr-ab{border-color:color-mix(in srgb,var(--vr-schlecht) 60%,var(--line))}
+.vr-pk{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 10px;align-items:baseline}
+.vr-pk span{color:var(--muted);font-size:.86rem;font-variant-numeric:tabular-nums}
+.vr-pm{display:flex;align-items:center;gap:6px;min-width:0}
+.vr-pm select{flex:1;min-width:0}
+.vr-menge{width:68px;flex:none}
+.vr-menge input{text-align:center;padding:0 6px}
+.vr-pd{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.vr-pd>select{flex:1 1 120px;min-width:0}
+.vr-mhd{display:flex;gap:6px;flex:2 1 170px;min-width:0}
+.vr-mhd select{flex:1;min-width:0}
+.vr-pw{margin:0}
+.vr-bald .vr-pw{color:var(--vr-mittel)}.vr-ab .vr-pw{color:var(--vr-schlecht)}
+.vr-blitz{animation:vr-blitz 1.6s ease-out}
+@keyframes vr-blitz{0%,30%{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 45%,transparent)}100%{box-shadow:var(--schatten)}}
+.vr-eigen{padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+
+/* Gerichte */
+.vr-filter{display:grid;gap:8px;margin-bottom:6px}
+.vr-gliste{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:10px;align-items:start}
+.vr-gliste .vr-karte + .vr-karte{margin-top:0}
+.vr-gericht{padding:0;overflow:hidden}
+.vr-gk{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;width:100%;padding:12px 14px;border:0;background:transparent;text-align:left;align-items:center}
+.vr-gi{grid-row:1/3;font-size:1.6rem}
+.vr-gtx b{display:block;font:700 1.04rem/1.25 var(--display)}
+.vr-gtx small{display:block;color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums}
+.vr-badge{grid-column:2;justify-self:start;margin-top:4px;padding:3px 9px;border-radius:999px;font-size:.78rem;font-weight:700;background:var(--surface-2);color:var(--muted)}
+.vr-badge.vr-gut{background:color-mix(in srgb,var(--vr-gut) 16%,var(--surface));color:var(--vr-gut)}
+.vr-badge.vr-mittel{background:color-mix(in srgb,var(--vr-mittel) 16%,var(--surface));color:var(--vr-mittel)}
+.vr-fehlt{margin:0;padding:0 14px 12px 56px;font-size:.84rem;color:var(--vr-mittel)}
+.vr-gd{padding:0 14px 14px;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.vr-zut{list-style:none;margin:0;padding:0}
+.vr-zut li{display:flex;gap:8px;padding:3px 0}
+.vr-zut li span{flex:none;width:18px;text-align:center}
+.vr-zut .vr-da span{color:var(--vr-gut)}.vr-zut .vr-nicht{color:var(--muted)}
+.vr-schritte{margin:0;padding-left:1.3em}
+.vr-schritte li{margin:4px 0}
+.vr-koch{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.vr-koch .vr-pm{flex:none}
+.vr-port{min-width:2ch;text-align:center;font:800 1.2rem var(--display)}
+.vr-plan{margin:6px 0 14px}
+.vr-plantage{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:8px}
+.vr-plantage>li{padding:10px 12px;border-radius:14px;background:var(--surface-2)}
+.vr-plantage>li.vr-knapp{background:color-mix(in srgb,var(--vr-schlecht) 10%,var(--surface-2))}
+.vr-pt{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.vr-plantage ul{margin:4px 0 0;padding-left:1.1em;font-size:.9rem}
+.vr-plantage .vr-klein{list-style:none;margin-left:-1.1em}
+
+/* Fehlt noch, Checkliste */
+.vr-fl-liste{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.vr-fl-liste li{display:grid;gap:2px}
+.vr-fl-liste small{color:var(--muted)}
+.vr-zaehl{font:600 .82rem var(--label);color:var(--muted);margin-left:6px}
+.vr-check{margin:12px 0 0;padding:0;border:0}
+.vr-check legend{font-weight:700;margin-bottom:4px}
+.vr-check label{display:flex;align-items:flex-start;gap:10px;min-height:44px;padding:8px 2px;border-top:1px solid color-mix(in srgb,var(--line) 50%,transparent);cursor:pointer}
+.vr-check input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--accent)}
+.vr-check input:checked + span{color:var(--muted);text-decoration:line-through}
+
+/* Haltbarkeit */
+.vr-hk{display:flex;align-items:center;gap:8px;margin:14px 0 2px;font-size:1.02rem}
+.vr-hk:first-child{margin-top:0}
+.vr-hk span{padding:1px 8px;border-radius:99px;background:var(--surface-2);font-size:.8rem;color:var(--muted)}
+.vr-hk-ab{color:var(--vr-schlecht)}.vr-hk-30{color:var(--vr-mittel)}
+.vr-info{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:12px;margin-top:12px;align-items:start}
+.vr-info .vr-karte + .vr-karte{margin-top:0}
+.vr-info h3{margin-top:0}
+.vr-info ul{margin:0;padding-left:1.2em}
+.vr-info li{margin:4px 0}
+.vr-info p{margin:.4em 0}
+.vr-wichtig{border-left:4px solid var(--vr-mittel)}
+.vr-tab-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.vr-tab{width:100%;border-collapse:collapse;font-size:.88rem}
+.vr-tab th,.vr-tab td{padding:6px 8px;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);text-align:left;vertical-align:top}
+.vr-tab th{font:600 .76rem var(--label);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.vr-tab td:nth-child(2){white-space:nowrap;font-weight:700}
+
+/* Quellen, Hinweisleiste */
+.vr-quellen{margin-top:28px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--vr-r);background:var(--surface)}
+.vr-quellen summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center}
+.vr-quellen ol{margin:8px 0 0;padding-left:1.3em;font-size:.9rem}
+.vr-quellen li{margin:6px 0}
+.vr-quellen small{color:var(--muted)}
+.vr-toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:12px;max-width:min(92vw,520px);padding:10px 12px 10px 16px;border-radius:14px;background:var(--ink);color:var(--surface);box-shadow:0 8px 28px rgba(0,0,0,.28);font-size:.92rem}
+.vr-toast button{flex:none;min-height:38px;padding:0 12px;border:0;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:700}
+
+/* Kachel auf der Rechner-Seite */
+.vr-kachel{display:flex;align-items:center;gap:14px;max-width:1240px;margin:8px auto 0;padding:14px 16px;border-radius:18px;background:color-mix(in srgb,var(--c-s,var(--accent)) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--c-s,var(--accent)) 40%,var(--line));box-shadow:var(--schatten);color:var(--ink);text-decoration:none}
+.vr-kachel>span:nth-child(2){flex:1;min-width:0}
+.vr-kachel b{display:block;font:800 1.15rem var(--display)}
+.vr-kachel small{display:block;color:var(--muted);font-size:.86rem;line-height:1.3}
+.vr-kachel .vr-ki{font-size:1.9rem}
+
+@media (max-width:560px){
+  .vr-seite{padding:6px 12px 56px}
+  .vr-leiste{margin:10px -12px 0;padding:8px 12px 4px}
+  .vr-gross{gap:8px}
+  .vr-gross .vr-karte{padding:12px}
+  .vr-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vr-zahlen b{font-size:1.1rem}
+  .vr-felder{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vr-liste-k li{grid-template-columns:1fr auto}
+  .vr-liste-k li>span{grid-column:1/-1}
+  .vr-kurz{font-size:.8rem;gap:2px 10px}
+  .vr-tab td:nth-child(2){white-space:normal}
+  .vr-tab th:nth-child(3),.vr-tab td:nth-child(3){display:none}
+}
+@media (prefers-reduced-motion:reduce){.vr-blitz{animation:none}}
+/* VORRAT-ENDE */
 </style>
 
 <a class="sprung" href="#inhalt">Zum Inhalt springen</a>
@@ -1426,6 +1706,7 @@ i.fv-b{background:var(--tc,var(--accent))!important}
      farbe    Farbe des Teils (CSS-Wert) · symbol = Zeichen für Kacheln
      text     Einleitung der Teil-Seite
      gruppen  [{t:'Name', ids:['id1','id2']}] – Reihenfolge der ids = Reihenfolge der Anzeige.
+              links:[{t:'Titel', h:'#ziel', i:'🥫', k:'Kurztext'}] an einer Gruppe: Verweise auf Werkzeug-Seiten (z. B. #vorrat).
               {rest:true} an einer Gruppe: alle nicht einsortierten Einträge landen dort.
               Ohne rest-Gruppe erscheinen neue Einträge automatisch unter „Weitere“.
      standard Name der Gruppe, wenn es keine Gruppen gibt (z. B. „Kapitel“)
@@ -1448,7 +1729,7 @@ window.QW_KONFIG={
    gruppen:[
     {t:'Garten & Boden',ids:['huegelbeet','boden','mischkultur','mulch']},
     {t:'Anbau',ids:['aussaat','tabak','hanf']},
-    {t:'Sammeln & Küche',ids:['knospen','blueten','kueche','hefe','einfrieren','wildgruen']},
+    {t:'Sammeln & Küche',ids:['knospen','blueten','kueche','hefe','einfrieren','wildgruen'],links:[{t:'Vorrat & Blackout-Planer',h:'#vorrat',i:'🥫',k:'Wie lange reichen Essen und Wasser? Was kann ich daraus kochen?'}]},
     {t:'Hausapotheke',ids:['tinkturen','faktencheck','gicht']},
     {t:'Haus & Hof',ids:['heizen','waschmittel']},
     {t:'Pilze',ids:['pilze']},
@@ -1482,6 +1763,7 @@ window.QW_KONFIG={
  /* WAS IST NEU (Seite #neu, Karte auf der Startseite). Neuester Eintrag OBEN einfügen:
     {d:'JJJJ-MM-TT', t:'Titel', k:'Kurztext (ein Satz)', h:'#sprungziel' (darf fehlen), art:'Autor'|'Kapitel'|'Optik'|… (kleines Etikett)} */
  neu:[
+  {d:'2026-11-25', t:'Vorrat & Blackout-Planer', k:'Neue Seite: Haushalt mit Kalorien- und Wasserbedarf, Lager erfassen, Reichweite in Tagen, Gerichte aus dem Bestand, Einkaufsliste und Haltbarkeit – läuft ohne Netz.', h:'#vorrat', art:'Werkzeug'},
   {d:'2026-11-15', t:'Roggen-Vollkornbrot mit Kernen', k:'Neues Rezept R-22: gerührtes Kastenbrot aus Roggen- und Weizenvollkorn mit Kernen – mit Tipps, Backchemie und einer Einordnung zu Ballaststoffen und Eiweiß.', h:'#r-roggenvollkorn', art:'Inhalt'},
   {d:'2026-11-14', t:'Weltkarte: schärfer, genauer, mehr Einzelheiten', k:'Scharfe Küsten und Seen, feineres Relief, rund 6.000 Städte mehr, Gradnetz und Maßstab; Scheibe mit Außenring und Bahnen; 3D-Scheibe mit Eisklippe und fünf Ansichten „Hinter der Eiswand“.', h:'#welt', art:'Optik'},
     {d:'2026-11-12',t:'Michael Nehls – Gespräch bei REALTALK (Mai 2025)',k:'Lithium, Gehirn, Schlaf, Evolution, Intelligenz, RFK: 46 Abschnitte, Abgleich mit Fachstellen, Diagramme und Prüfstand.',h:'#a-nehls-realtalk25',art:'Video'},
@@ -3795,6 +4077,994 @@ root.QWRechner = { seite: seite, _kern: KERN };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.QWRechner;
 
 
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script id="vorrat-modul">
+/* Quellwissen – „Vorrat & Blackout-Planer“ (eigenständiges Modul, ES2019, offline, ohne Bibliotheken) · Quelle: werkzeug/vorlagen/vorrat.js
+   Schnittstelle: window.QWVorrat.seite(el, {figur})  ·  reine Rechenlogik zusätzlich unter QWVorrat._kern
+   Speicher: localStorage „qw_vorrat_v1“ (nur auf diesem Gerät). Einbau: python3 werkzeug/vorlagen/vorrat_einbauen.py */
+(function (root) {
+'use strict';
+
+/* ===================================================================== 1. Helfer */
+var SPEICHER = 'qw_vorrat_v1';
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+var NFC = {};
+function nf(d) { return NFC[d] || (NFC[d] = new Intl.NumberFormat('de-DE', { maximumFractionDigits: d, minimumFractionDigits: 0 })); }
+function fz(x, d) { if (x == null || !isFinite(x)) return '–'; return nf(d || 0).format(d ? x : Math.round(x)).replace('-', '−'); }
+function kg(g) { return g >= 1000 ? fz(g / 1000, g >= 10000 ? 0 : 1) + ' kg' : fz(g) + ' g'; }
+function liter(l) { return fz(l, l < 10 ? 1 : 0) + ' l'; }
+function zahl(s) { if (typeof s === 'number') return s; s = String(s == null ? '' : s).trim().replace(/\s/g, '').replace(',', '.'); if (!s) return NaN; var x = parseFloat(s); return isFinite(x) ? x : NaN; }
+function tageText(t) { if (!isFinite(t)) return 'unbegrenzt'; if (t >= 730) return 'über 2 Jahre'; if (t < 1) return t <= 0 ? '0 Tage' : 'unter 1 Tag'; var r = Math.floor(t + 1e-9); return r + (r === 1 ? ' Tag' : ' Tage'); }
+function tageZahl(t) { if (!isFinite(t)) return '∞'; if (t >= 730) return '730+'; if (t < 1 && t > 0) return '<1'; return String(Math.floor(t + 1e-9)); }
+function uid() { return Math.random().toString(36).slice(2, 9); }
+function klon(x) { return JSON.parse(JSON.stringify(x)); }
+var MONATE = ['Jan.', 'Feb.', 'März', 'Apr.', 'Mai', 'Juni', 'Juli', 'Aug.', 'Sep.', 'Okt.', 'Nov.', 'Dez.'];
+/* MHD „JJJJ-MM“ → letzter Tag des Monats */
+function mhdDatum(s) { var m = /^(\d{4})-(\d{2})$/.exec(s || ''); if (!m) return null; return new Date(+m[1], +m[2], 0, 12); }
+function mhdText(s) { var m = /^(\d{4})-(\d{2})$/.exec(s || ''); return m ? MONATE[+m[2] - 1] + ' ' + m[1] : ''; }
+function tageBis(d, heute) { return Math.floor((d.getTime() - heute.getTime()) / 86400000); }
+
+/* ===================================================================== 2. Tabellen */
+/* Lebensmittelgruppen nach der Vorratstabelle der BLE (ernaehrungsvorsorge.de, Mischkost, © BLE 2024):
+   Menge je Person für 10 Tage bei durchschnittlich 2.200 kcal am Tag. g = Gramm (Getränke: Milliliter) */
+var GRUPPEN = [
+  { k: 'getreide', n: 'Getreide, Brot, Kartoffeln, Nudeln, Reis', kurz: 'Getreide & Brot', i: '🌾', ble: 3300 },
+  { k: 'gemuese', n: 'Gemüse, Hülsenfrüchte, Pilze', kurz: 'Gemüse & Hülsenfrüchte', i: '🥕', ble: 4000 },
+  { k: 'obst', n: 'Obst und Nüsse', kurz: 'Obst & Nüsse', i: '🍎', ble: 2500 },
+  { k: 'milch', n: 'Milch und Milchprodukte', kurz: 'Milch', i: '🥛', ble: 2500 },
+  { k: 'eiweiss', n: 'Fisch, Fleisch, Eier', kurz: 'Fisch, Fleisch, Eier', i: '🥚', ble: 1200 },
+  { k: 'fett', n: 'Fette und Öle', kurz: 'Fette & Öle', i: '🫒', ble: 330 },
+  { k: 'trinken', n: 'Getränke', kurz: 'Getränke', i: '💧', ble: 0 },
+  { k: 'sonst', n: 'Sonstiges (Zucker, Honig, Salz, Brühe, Backzutaten, Süßes)', kurz: 'Sonstiges', i: '🧂', ble: 0 },
+  { k: 'baby', n: 'Babynahrung', kurz: 'Baby', i: '🍼', ble: 0 }
+];
+var GR = {}; GRUPPEN.forEach(function (g) { GR[g.k] = g; });
+var BLE_KCAL = 2200, BLE_TAGE = 10;
+
+/* Katalog: je 100 g (Getränke/Milch: je 100 ml) – k kcal, e Eiweiß, f Fett, c Kohlenhydrate (bei USDA „by difference“, inkl. Ballaststoffe).
+   q Quelle: A = Nährwert-Liste der App (S-23), U<Nr> = USDA FoodData Central SR Legacy (fdc_id), — = ohne Energie.
+   ko = braucht Kochen · w = Kochwasser ml je 100 g · z = Kochzeit min · h/ht = übliche Haltbarkeit ungeöffnet (Tage, Richtwert; Text)
+   p = übliche Packungen [Name, g] (Richtwert – das Etikett gilt) · st = g je Stück · l = Lagerort-Vorgabe (k Kühlschrank, t Gefriertruhe)
+   ml = Menge in ml · fl = zählt als Trinkwasser · x = Umrechnung auf die Menge der BLE-Tabelle (z. B. trockene Linsen → gekochte: Energie-Verhältnis) */
+var KATALOG = [
+{"i":"haferflocken","n":"Haferflocken","g":"getreide","k":370,"e":13.5,"f":7,"c":58.7,"q":"A","h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"hafer müsli porridge"},
+{"i":"nudeln","n":"Nudeln (Hartweizen), trocken","g":"getreide","k":355,"e":12.5,"f":1.5,"c":71,"q":"A","ko":1,"w":1000,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"spaghetti makkaroni penne pasta teigwaren"},
+{"i":"nudeln_vk","n":"Vollkornnudeln, trocken","g":"getreide","k":352,"e":13.9,"f":2.9,"c":73.4,"q":"U169738","ko":1,"w":1000,"z":12,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"pasta"},
+{"i":"eiernudeln","n":"Eiernudeln / Spätzle, trocken","g":"getreide","k":384,"e":14.2,"f":4.4,"c":71.3,"q":"U169731","ko":1,"w":1000,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"spätzle bandnudeln"},
+{"i":"reis","n":"Reis, weiß, trocken","g":"getreide","k":350,"e":7,"f":0.6,"c":78,"q":"A","ko":1,"w":200,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 1 kg",1000],["Kochbeutel 125 g",125]],"s":"langkorn basmati"},
+{"i":"reis_vk","n":"Vollkornreis, trocken","g":"getreide","k":350,"e":7.5,"f":2.7,"c":72,"q":"A","ko":1,"w":250,"z":35,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 1 kg",1000]]},
+{"i":"couscous","n":"Couscous, trocken","g":"getreide","k":355,"e":12.8,"f":0.6,"c":72,"q":"A","ko":1,"w":120,"z":5,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"bulgur","n":"Bulgur, trocken","g":"getreide","k":342,"e":12.3,"f":1.3,"c":75.9,"q":"U170688","ko":1,"w":200,"z":15,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"hirse","n":"Hirse, trocken","g":"getreide","k":378,"e":11.0,"f":4.2,"c":72.8,"q":"U169702","ko":1,"w":250,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"quinoa","n":"Quinoa, trocken","g":"getreide","k":355,"e":14,"f":6,"c":57,"q":"A","ko":1,"w":200,"z":15,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"griess","n":"Weichweizengrieß","g":"getreide","k":360,"e":12.7,"f":1.1,"c":72.8,"q":"U169715","ko":1,"z":5,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"grieß griessbrei"},
+{"i":"polenta","n":"Polenta / Maisgrieß","g":"getreide","k":370,"e":7.1,"f":1.8,"c":79.5,"q":"U168929","ko":1,"w":400,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"maisgriess"},
+{"i":"weizenkoerner","n":"Weizenkörner (ganz)","g":"getreide","k":327,"e":12.6,"f":1.5,"c":71.2,"q":"U168890","ko":1,"w":300,"z":60,"h":730,"ht":"2 Jahre","p":[["Sack 1 kg",1000],["Sack 5 kg",5000]],"s":"getreide korn dinkel"},
+{"i":"mehl405","n":"Weizenmehl Type 405/550","g":"getreide","k":345,"e":10,"f":1,"c":71,"q":"A","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl"},
+{"i":"vollkornmehl","n":"Weizenvollkornmehl","g":"getreide","k":330,"e":12,"f":2,"c":60,"q":"A","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl vollkorn"},
+{"i":"dinkelmehl","n":"Dinkelmehl","g":"getreide","k":338,"e":14.6,"f":2.4,"c":70.2,"q":"U169745","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl dinkel 630 vollkorn"},
+{"i":"roggenmehl","n":"Roggenmehl (Type 997/1150)","g":"getreide","k":349,"e":10.9,"f":1.5,"c":75.4,"q":"U168886","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl roggen"},
+{"i":"roggenvollkornmehl","n":"Roggenvollkornmehl","g":"getreide","k":325,"e":15.9,"f":2.2,"c":68.6,"q":"U168885","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl roggen vollkorn"},
+{"i":"staerke","n":"Speisestärke","g":"getreide","k":381,"e":0.3,"f":0.1,"c":91.3,"q":"U169698","ko":1,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 400 g",400]],"s":"maisstärke stärke"},
+{"i":"kartoffeln","n":"Kartoffeln, roh","g":"getreide","k":77,"e":2.0,"f":0.1,"c":17.5,"q":"U170026","ko":1,"w":100,"z":20,"h":180,"ht":"6–8 Monate (dunkel, 5–10 °C)","p":[["Netz 2,5 kg",2500],["Sack 10 kg",10000]],"st":150},
+{"i":"pueree","n":"Kartoffelpüree-Flocken","g":"getreide","k":354,"e":8.3,"f":0.4,"c":81.2,"q":"U170445","ko":1,"w":450,"z":2,"h":365,"ht":"1–2 Jahre","p":[["Packung 3 × 3 Port. (ca. 240 g)",240]],"s":"kartoffelbrei püree"},
+{"i":"knaecke","n":"Knäckebrot","g":"getreide","k":366,"e":7.9,"f":1.3,"c":82.2,"q":"U172739","h":365,"ht":"etwa 1 Jahr","p":[["Packung 250 g",250]],"s":"knäcke"},
+{"i":"zwieback","n":"Zwieback","g":"getreide","k":426,"e":10.1,"f":9.7,"c":74.2,"q":"U171372","h":365,"ht":"etwa 1 Jahr","p":[["Packung 225 g",225]]},
+{"i":"vkbrot","n":"Vollkornbrot (Schnittbrot, verpackt)","g":"getreide","k":200,"e":6.5,"f":1.2,"c":38,"q":"A","ht":"MHD auf der Packung","p":[["Packung 500 g",500]],"s":"pumpernickel schwarzbrot"},
+{"i":"mischbrot","n":"Brot, frisch (Mischbrot)","g":"getreide","k":220,"e":6.5,"f":1.2,"c":43,"q":"A","h":10,"ht":"10–12 Tage","p":[["Laib 1 kg",1000],["Laib 750 g",750]],"s":"brot laib"},
+{"i":"toast","n":"Toastbrot","g":"getreide","k":260,"e":8,"f":3.5,"c":47,"q":"A","ht":"MHD auf der Packung","p":[["Packung 500 g",500]]},
+{"i":"broetchen","n":"Brötchen","g":"getreide","k":260,"e":8.5,"f":1.5,"c":51,"q":"A","h":1,"ht":"1–2 Tage","st":55,"s":"semmel schrippe"},
+{"i":"tortilla","n":"Weizen-Tortillas (Fladen)","g":"getreide","k":297,"e":8.0,"f":7.6,"c":49.3,"q":"U167535","ht":"MHD auf der Packung","p":[["Packung 8 St. (ca. 320 g)",320]],"st":40,"s":"wraps fladen"},
+{"i":"reiswaffeln","n":"Reiswaffeln","g":"getreide","k":392,"e":7.1,"f":4.3,"c":81.1,"q":"U168107","ht":"MHD auf der Packung","p":[["Packung 100 g",100]]},
+{"i":"cornflakes","n":"Cornflakes","g":"getreide","k":378,"e":7,"f":0.9,"c":84,"q":"A","h":365,"ht":"etwa 1 Jahr","p":[["Packung 375 g",375]],"s":"maisflocken"},
+{"i":"muesli","n":"Müsli (mit Nüssen, gesüßt)","g":"getreide","k":489,"e":13.7,"f":24.3,"c":53.9,"q":"U171646","ht":"MHD auf der Packung","p":[["Packung 750 g",750]],"s":"granola knuspermüsli"},
+{"i":"ravioli","n":"Ravioli in Tomatensoße (Dose)","g":"getreide","k":77,"e":2.5,"f":1.4,"c":13.6,"q":"U173328","z":5,"h":365,"ht":"1–2 Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve"},
+{"i":"linsen","n":"Linsen (braun/Teller), trocken","g":"gemuese","k":352,"e":24.6,"f":1.1,"c":63.4,"q":"U172420","ko":1,"w":300,"z":30,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.03,"s":"hülsenfrüchte"},
+{"i":"rote_linsen","n":"Rote Linsen, trocken","g":"gemuese","k":358,"e":23.9,"f":2.2,"c":63.1,"q":"U174284","ko":1,"w":250,"z":12,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.09,"s":"hülsenfrüchte dal"},
+{"i":"erbsen_getr","n":"Schälerbsen (getrocknet)","g":"gemuese","k":364,"e":23.1,"f":3.9,"c":61.6,"q":"U172428","ko":1,"w":300,"z":45,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.08,"s":"erbsen hülsenfrüchte erbsensuppe"},
+{"i":"bohnen_getr","n":"Weiße Bohnen, getrocknet","g":"gemuese","k":333,"e":23.4,"f":0.8,"c":60.3,"q":"U175202","ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.4,"s":"hülsenfrüchte einweichen"},
+{"i":"kidney_getr","n":"Kidneybohnen, getrocknet","g":"gemuese","k":337,"e":22.5,"f":1.1,"c":61.3,"q":"U173744","ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.72,"s":"hülsenfrüchte rote bohnen"},
+{"i":"kicher_getr","n":"Kichererbsen, getrocknet","g":"gemuese","k":378,"e":20.5,"f":6.0,"c":63.0,"q":"U173756","ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.3,"s":"hülsenfrüchte"},
+{"i":"kidney_dose","n":"Kidneybohnen (Dose, abgetropft)","g":"gemuese","k":124,"e":8.0,"f":1.1,"c":21.5,"q":"U174285","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (250 g abgetropft)",250],["Dose 800 g (500 g abgetropft)",500]],"s":"rote bohnen konserve"},
+{"i":"kicher_dose","n":"Kichererbsen (Dose, abgetropft)","g":"gemuese","k":139,"e":7.0,"f":2.8,"c":22.5,"q":"U173800","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (240 g abgetropft)",240]],"s":"konserve hummus"},
+{"i":"bohnen_dose","n":"Weiße Bohnen (Dose)","g":"gemuese","k":114,"e":7.3,"f":0.3,"c":21.2,"q":"U175204","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (250 g abgetropft)",250]],"s":"konserve"},
+{"i":"baked_beans","n":"Bohnen in Tomatensoße (Dose)","g":"gemuese","k":94,"e":4.8,"f":0.4,"c":21.1,"q":"U175182","h":365,"ht":"1–2 Jahre","p":[["Dose 415 g",415]],"s":"baked beans konserve"},
+{"i":"gr_bohnen","n":"Grüne Bohnen (Dose, abgetropft)","g":"gemuese","k":21,"e":1.1,"f":0.4,"c":4.2,"q":"U169143","h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (220 g abgetropft)",220],["Dose 850 ml (440 g abgetropft)",440]],"s":"brechbohnen konserve"},
+{"i":"erbsen_moehren","n":"Erbsen & Möhren (Dose)","g":"gemuese","k":38,"e":2.2,"f":0.3,"c":8.5,"q":"U170424","h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (280 g abgetropft)",280],["Dose 850 ml (530 g abgetropft)",530]],"s":"karotten konserve"},
+{"i":"mais","n":"Mais (Dose, abgetropft)","g":"gemuese","k":67,"e":2.3,"f":1.2,"c":14.3,"q":"U169214","h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (285 g abgetropft)",285],["Dose 212 ml (140 g abgetropft)",140]],"s":"zuckermais konserve"},
+{"i":"rotkohl_glas","n":"Rotkohl (Glas)","g":"gemuese","k":29,"e":1.5,"f":0.1,"c":6.9,"q":"U169978","z":10,"h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (680 g)",680]],"s":"blaukraut konserve"},
+{"i":"sauerkraut","n":"Sauerkraut (Dose/Glas)","g":"gemuese","k":19,"e":0.9,"f":0.1,"c":4.3,"q":"U169279","h":365,"ht":"1–2 Jahre","p":[["Dose 850 ml (770 g)",770],["Glas 720 ml (680 g)",680]],"s":"konserve"},
+{"i":"pilze_dose","n":"Champignons (Dose, abgetropft)","g":"gemuese","k":25,"e":1.9,"f":0.3,"c":5.1,"q":"U169254","h":365,"ht":"1–2 Jahre","p":[["Dose 314 ml (170 g abgetropft)",170]],"s":"pilze konserve"},
+{"i":"gurken","n":"Gewürzgurken (Glas, abgetropft)","g":"gemuese","k":12,"e":0.5,"f":0.3,"c":2.4,"q":"U168558","h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (360 g abgetropft)",360]],"s":"essiggurken konserve"},
+{"i":"rote_bete","n":"Rote Bete (Glas, abgetropft)","g":"gemuese","k":31,"e":0.9,"f":0.1,"c":7.2,"q":"U169966","h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (350 g abgetropft)",350]],"s":"rote beete konserve"},
+{"i":"tomaten_dose","n":"Tomaten, gehackt (Dose)","g":"gemuese","k":16,"e":0.8,"f":0.2,"c":3.5,"q":"U170051","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g",400],["Packung 500 g",500]],"s":"konserve tomate"},
+{"i":"passata","n":"Passierte Tomaten","g":"gemuese","k":38,"e":1.6,"f":0.2,"c":9.0,"q":"U170546","h":365,"ht":"1–2 Jahre","p":[["Packung 500 g",500],["Flasche 700 g",700]],"s":"tomatensoße konserve"},
+{"i":"tomatenmark","n":"Tomatenmark","g":"gemuese","k":82,"e":4.3,"f":0.5,"c":18.9,"q":"U170459","h":365,"ht":"1–2 Jahre","p":[["Tube 200 g",200],["Dose 70 g",70]]},
+{"i":"spargel","n":"Spargel (Glas, abgetropft)","g":"gemuese","k":19,"e":2.1,"f":0.7,"c":2.5,"q":"U169207","h":365,"ht":"1–2 Jahre","p":[["Glas 370 ml (205 g abgetropft)",205]],"s":"konserve"},
+{"i":"eintopf","n":"Erbseneintopf (Dose)","g":"gemuese","k":77,"e":4.6,"f":1.7,"c":11.2,"q":"U171555","z":5,"h":365,"ht":"1–2 Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"suppe eintopf fertiggericht konserve"},
+{"i":"pilze_getr","n":"Pilze, getrocknet","g":"gemuese","k":296,"e":9.6,"f":1.0,"c":75.4,"q":"U168436","ko":1,"w":200,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Beutel 30 g",30]],"s":"steinpilze shiitake"},
+{"i":"zwiebeln","n":"Zwiebeln","g":"gemuese","k":38,"e":1.1,"f":0.1,"c":7.6,"q":"A","ht":"MHD auf der Packung","p":[["Netz 1 kg",1000]],"st":100,"s":"zwiebel"},
+{"i":"knoblauch","n":"Knoblauch","g":"gemuese","k":149,"e":6.4,"f":0.5,"c":33.1,"q":"U169230","ht":"MHD auf der Packung","st":5,"s":"knolle zehe"},
+{"i":"moehren","n":"Möhren, frisch","g":"gemuese","k":38,"e":0.9,"f":0.2,"c":6.8,"q":"A","h":8,"ht":"etwa 8 Tage (Kühlschrank)","p":[["Beutel 1 kg",1000]],"l":"k","st":80,"s":"karotten möhre"},
+{"i":"kohl","n":"Weißkohl / Rotkohl, frisch","g":"gemuese","k":24,"e":1.3,"f":0.1,"c":3.3,"q":"A","ht":"MHD auf der Packung","l":"k","st":1000,"s":"kraut kohlkopf"},
+{"i":"erbsen_tk","n":"Erbsen (tiefgekühlt)","g":"gemuese","k":73,"e":5.4,"f":0.4,"c":9.4,"q":"A","ko":1,"w":50,"z":5,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Beutel 750 g",750]],"l":"t","s":"tk tiefkühl"},
+{"i":"spinat_tk","n":"Spinat (tiefgekühlt)","g":"gemuese","k":29,"e":3.6,"f":0.6,"c":4.2,"q":"U169287","ko":1,"z":10,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Packung 450 g",450]],"l":"t","s":"tk tiefkühl"},
+{"i":"gemuese_tk","n":"Gemüsemischung (tiefgekühlt)","g":"gemuese","k":72,"e":3.3,"f":0.5,"c":13.5,"q":"U170471","ko":1,"w":50,"z":8,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Beutel 750 g",750]],"l":"t","s":"tk tiefkühl"},
+{"i":"aepfel","n":"Äpfel","g":"obst","k":53,"e":0.3,"f":0.2,"c":11.4,"q":"A","h":90,"ht":"3–5 Monate (kühl, dunkel)","p":[["Beutel 1 kg",1000]],"st":150,"s":"apfel"},
+{"i":"bananen","n":"Bananen","g":"obst","k":93,"e":1.1,"f":0.3,"c":20.2,"q":"A","ht":"MHD auf der Packung","st":120,"s":"banane"},
+{"i":"orangen","n":"Orangen","g":"obst","k":47,"e":0.9,"f":0.1,"c":9.4,"q":"A","ht":"MHD auf der Packung","st":150,"s":"apfelsine"},
+{"i":"pfirsiche","n":"Pfirsiche (Dose)","g":"obst","k":54,"e":0.5,"f":0.0,"c":14.6,"q":"U169111","h":365,"ht":"etwa 1 Jahr","p":[["Dose 820 g",820],["Dose 410 g",410]],"s":"konserve obst"},
+{"i":"birnen","n":"Birnen (Dose)","g":"obst","k":57,"e":0.2,"f":0.0,"c":15.2,"q":"U169938","h":365,"ht":"etwa 1 Jahr","p":[["Dose 820 g",820]],"s":"konserve obst"},
+{"i":"mandarinen","n":"Mandarinen (Dose)","g":"obst","k":61,"e":0.5,"f":0.1,"c":16.2,"q":"U169924","h":365,"ht":"etwa 1 Jahr","p":[["Dose 314 ml (300 g)",300]],"s":"konserve obst"},
+{"i":"ananas","n":"Ananas (Dose, im Saft)","g":"obst","k":60,"e":0.4,"f":0.1,"c":15.7,"q":"U169126","h":365,"ht":"etwa 1 Jahr","p":[["Dose 580 ml (565 g)",565]],"s":"konserve obst"},
+{"i":"kirschen","n":"Sauerkirschen (Glas)","g":"obst","k":75,"e":0.7,"f":0.1,"c":19.3,"q":"U173956","h":365,"ht":"etwa 1 Jahr","p":[["Glas 720 ml (680 g)",680]],"s":"konserve obst"},
+{"i":"apfelmus","n":"Apfelmus (Glas)","g":"obst","k":68,"e":0.2,"f":0.2,"c":17.5,"q":"U171696","h":365,"ht":"etwa 1 Jahr","p":[["Glas 720 ml (710 g)",710],["Glas 360 ml (355 g)",355]],"s":"konserve obst"},
+{"i":"rosinen","n":"Rosinen","g":"obst","k":299,"e":3.3,"f":0.2,"c":79.3,"q":"U168165","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 250 g",250]],"s":"trockenobst sultaninen"},
+{"i":"pflaumen_getr","n":"Trockenpflaumen","g":"obst","k":240,"e":2.2,"f":0.4,"c":63.9,"q":"U168162","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 250 g",250]],"s":"trockenobst backpflaumen"},
+{"i":"aprikosen_getr","n":"Aprikosen, getrocknet","g":"obst","k":241,"e":3.4,"f":0.5,"c":62.6,"q":"U173941","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
+{"i":"feigen_getr","n":"Feigen, getrocknet","g":"obst","k":249,"e":3.3,"f":0.9,"c":63.9,"q":"U174665","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
+{"i":"datteln","n":"Datteln, getrocknet","g":"obst","k":290,"e":1.8,"f":0.2,"c":68,"q":"A","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
+{"i":"haselnuesse","n":"Haselnüsse","g":"obst","k":650,"e":15,"f":61,"c":7,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"walnuesse","n":"Walnüsse","g":"obst","k":690,"e":15,"f":65,"c":7,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"mandeln","n":"Mandeln","g":"obst","k":580,"e":21,"f":50,"c":5.7,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"erdnuesse","n":"Erdnüsse, geröstet","g":"obst","k":610,"e":24,"f":50,"c":13,"q":"A","ht":"MHD auf der Packung","p":[["Dose 200 g",200]],"s":"nüsse"},
+{"i":"cashew","n":"Cashewkerne","g":"obst","k":580,"e":18,"f":44,"c":27,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"erdnussmus","n":"Erdnussmus / Erdnussbutter","g":"obst","k":600,"e":25,"f":50,"c":14,"q":"A","ht":"MHD auf der Packung","p":[["Glas 350 g",350]],"s":"erdnussbutter nüsse"},
+{"i":"sonnenblumenkerne","n":"Sonnenblumenkerne","g":"obst","k":600,"e":21,"f":51,"c":11,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"kerne saaten"},
+{"i":"kuerbiskerne","n":"Kürbiskerne","g":"obst","k":590,"e":30,"f":49,"c":5,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"kerne saaten"},
+{"i":"leinsamen","n":"Leinsamen","g":"obst","k":510,"e":18,"f":42,"c":1.6,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 250 g",250]],"s":"kerne saaten"},
+{"i":"hmilch","n":"H-Milch 3,5 %","g":"milch","k":64,"e":3.3,"f":3.5,"c":4.8,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"milch haltbarmilch uht"},
+{"i":"hmilch15","n":"H-Milch 1,5 %","g":"milch","k":47,"e":3.4,"f":1.5,"c":4.9,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"milch haltbarmilch fettarm"},
+{"i":"frischmilch","n":"Frischmilch","g":"milch","k":64,"e":3.3,"f":3.5,"c":4.8,"q":"A","h":2,"ht":"2–5 Tage (Kühlschrank)","p":[["Flasche 1 l",1000]],"l":"k","ml":1,"s":"milch"},
+{"i":"milchpulver","n":"Vollmilchpulver","g":"milch","k":496,"e":26.3,"f":26.7,"c":38.4,"q":"U173454","ht":"MHD auf der Packung","p":[["Packung 400 g",400]],"x":8.13,"s":"trockenmilch pulver"},
+{"i":"kondensmilch","n":"Kondensmilch 7,5 %","g":"milch","k":134,"e":6.8,"f":7.6,"c":10.0,"q":"U172194","ht":"MHD auf der Packung","p":[["Dose 340 g",340],["Tube 170 g",170]],"s":"dosenmilch"},
+{"i":"hartkaese","n":"Hartkäse am Stück (z. B. Parmesan, Bergkäse)","g":"milch","k":390,"e":35,"f":26,"c":0,"q":"A","ht":"MHD auf der Packung","p":[["Stück 200 g",200]],"l":"k","s":"käse"},
+{"i":"gouda","n":"Schnittkäse (z. B. Gouda)","g":"milch","k":360,"e":25,"f":29,"c":0,"q":"A","h":8,"ht":"8–10 Tage","p":[["Packung 400 g",400]],"l":"k","s":"käse"},
+{"i":"joghurt","n":"Naturjoghurt","g":"milch","k":66,"e":3.8,"f":3.5,"c":4.6,"q":"A","h":14,"ht":"etwa 2 Wochen (Kühlschrank)","p":[["Becher 500 g",500]],"l":"k","s":"jogurt"},
+{"i":"quark","n":"Magerquark","g":"milch","k":67,"e":12,"f":0.3,"c":4,"q":"A","ht":"MHD auf der Packung","p":[["Becher 500 g",500]],"l":"k","s":"topfen"},
+{"i":"sahne","n":"Schlagsahne 30 %","g":"milch","k":290,"e":2.4,"f":30,"c":3.2,"q":"A","h":14,"ht":"etwa 2 Wochen (Kühlschrank)","p":[["Becher 200 g",200]],"l":"k","s":"sahne"},
+{"i":"hafermilch","n":"Haferdrink","g":"milch","k":46,"e":1,"f":1.5,"c":6.7,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"hafermilch pflanzendrink"},
+{"i":"sojadrink","n":"Sojadrink ungesüßt","g":"milch","k":35,"e":3.3,"f":1.9,"c":0.5,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"sojamilch pflanzendrink"},
+{"i":"thunfisch","n":"Thunfisch im eigenen Saft (Dose, abgetropft)","g":"eiweiss","k":110,"e":25,"f":1,"c":0,"q":"A","h":730,"ht":"mehrere Jahre","p":[["Dose 185 g (150 g abgetropft)",150]],"s":"fisch konserve"},
+{"i":"sardinen","n":"Sardinen in Öl (Dose, abgetropft)","g":"eiweiss","k":208,"e":24.6,"f":11.4,"c":0.0,"q":"U175139","h":730,"ht":"mehrere Jahre","p":[["Dose 125 g (90 g abgetropft)",90]],"s":"fisch konserve"},
+{"i":"makrele","n":"Makrelenfilet (Dose, abgetropft)","g":"eiweiss","k":156,"e":23.2,"f":6.3,"c":0.0,"q":"U175121","h":730,"ht":"mehrere Jahre","p":[["Dose 125 g (90 g abgetropft)",90]],"s":"fisch konserve"},
+{"i":"lachs_dose","n":"Lachs (Dose, abgetropft)","g":"eiweiss","k":138,"e":23.1,"f":5.0,"c":0.0,"q":"U175175","h":730,"ht":"mehrere Jahre","p":[["Dose 213 g (150 g abgetropft)",150]],"s":"fisch konserve"},
+{"i":"corned_beef","n":"Corned Beef (Dose)","g":"eiweiss","k":250,"e":27.1,"f":14.9,"c":0.0,"q":"U170602","h":730,"ht":"mehrere Jahre","p":[["Dose 340 g",340]],"s":"fleisch konserve rind"},
+{"i":"fruehstuecksfleisch","n":"Frühstücksfleisch (Dose)","g":"eiweiss","k":334,"e":12.5,"f":30.3,"c":2.1,"q":"U174571","h":730,"ht":"mehrere Jahre","p":[["Dose 200 g",200]],"s":"fleisch konserve schwein"},
+{"i":"leberwurst","n":"Leberwurst (Dose/Glas)","g":"eiweiss","k":300,"e":14,"f":27,"c":1.5,"q":"A","h":730,"ht":"mehrere Jahre","p":[["Dose 125 g",125],["Glas 200 g",200]],"s":"wurst konserve"},
+{"i":"wuerstchen","n":"Würstchen im Glas (Wiener/Bockwurst)","g":"eiweiss","k":280,"e":13,"f":25,"c":1,"q":"A","z":5,"h":730,"ht":"mehrere Jahre","p":[["Glas 6 St. (250 g abgetropft)",250]],"st":42,"s":"bockwurst wiener wurst konserve"},
+{"i":"salami","n":"Salami / Dauerwurst","g":"eiweiss","k":380,"e":21,"f":33,"c":1,"q":"A","ht":"MHD auf der Packung","p":[["Stück 250 g",250]],"s":"wurst dauerwurst"},
+{"i":"jagdwurst","n":"Jagdwurst / Fleischwurst","g":"eiweiss","k":308,"e":15.2,"f":24.6,"c":5.5,"q":"U172013","ht":"MHD auf der Packung","p":[["Ring 400 g",400]],"l":"k","s":"wurst lyoner"},
+{"i":"chili","n":"Chili con Carne (Dose)","g":"eiweiss","k":107,"e":5.8,"f":3.5,"c":13.1,"q":"U172097","z":5,"h":730,"ht":"mehrere Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve"},
+{"i":"gulasch","n":"Rindergulasch / Eintopf mit Fleisch (Dose)","g":"eiweiss","k":99,"e":4.4,"f":5.5,"c":7.8,"q":"U173330","z":5,"h":730,"ht":"mehrere Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve eintopf"},
+{"i":"eier","n":"Eier (Größe M)","g":"eiweiss","k":143,"e":12.6,"f":9.5,"c":0.7,"q":"A","ko":1,"w":50,"z":10,"ht":"MHD auf der Packung","p":[["Packung 10 St.",530],["Packung 6 St.",318]],"st":53,"s":"ei hühnerei"},
+{"i":"hack_tk","n":"Hackfleisch (tiefgekühlt)","g":"eiweiss","k":254,"e":17,"f":20,"c":0,"q":"A","ko":1,"z":15,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 500 g",500]],"l":"t","s":"hack fleisch tk"},
+{"i":"haehnchen_tk","n":"Hähnchenbrust (tiefgekühlt)","g":"eiweiss","k":110,"e":23,"f":1.5,"c":0,"q":"A","ko":1,"z":20,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 1 kg",1000]],"l":"t","s":"huhn fleisch tk geflügel"},
+{"i":"fisch_tk","n":"Fischfilet (tiefgekühlt)","g":"eiweiss","k":82,"e":18,"f":0.7,"c":0,"q":"A","ko":1,"z":15,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 400 g",400]],"l":"t","s":"seelachs kabeljau tk"},
+{"i":"tofu","n":"Tofu natur","g":"eiweiss","k":125,"e":13.5,"f":7.5,"c":1,"q":"A","ht":"MHD auf der Packung","p":[["Packung 200 g",200]],"l":"k","s":"soja fleischersatz"},
+{"i":"rapsoel","n":"Rapsöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"6–12 Monate","p":[["Flasche 1 l (920 g)",920],["Flasche 0,5 l (460 g)",460]],"s":"öl speiseöl"},
+{"i":"sonnenblumenoel","n":"Sonnenblumenöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"6–12 Monate","p":[["Flasche 1 l (920 g)",920]],"s":"öl speiseöl"},
+{"i":"olivenoel","n":"Olivenöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"6–12 Monate","p":[["Flasche 0,75 l (690 g)",690],["Flasche 0,5 l (460 g)",460]],"s":"öl"},
+{"i":"butter","n":"Butter","g":"fett","k":741,"e":0.7,"f":82,"c":0.6,"q":"A","h":28,"ht":"4–6 Wochen (Kühlschrank)","p":[["Stück 250 g",250]],"l":"k"},
+{"i":"margarine","n":"Margarine","g":"fett","k":720,"e":0.2,"f":80,"c":0.4,"q":"A","h":28,"ht":"4–6 Wochen (Kühlschrank)","p":[["Becher 500 g",500]],"l":"k"},
+{"i":"butterschmalz","n":"Butterschmalz","g":"fett","k":876,"e":0.3,"f":99.5,"c":0.0,"q":"U173412","h":180,"ht":"viele Monate","p":[["Glas 500 g",500],["Packung 250 g",250]],"s":"ghee"},
+{"i":"schmalz","n":"Schweineschmalz","g":"fett","k":900,"e":0,"f":100,"c":0,"q":"A","ht":"MHD auf der Packung","p":[["Becher 250 g",250]]},
+{"i":"kokosfett","n":"Kokosfett","g":"fett","k":890,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"viele Monate","p":[["Packung 250 g",250]],"s":"kokosöl palmin"},
+{"i":"wasser","n":"Mineralwasser","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","h":365,"ht":"MHD meist 1–1½ Jahre","p":[["Flasche 1,5 l",1500],["Flasche 1 l",1000],["Flasche 0,5 l",500],["Kasten 6 × 1,5 l",9000],["Kasten 12 × 0,7 l",8400]],"ml":1,"fl":1,"s":"trinkwasser sprudel flasche"},
+{"i":"wasser_kanister","n":"Trinkwasser im Kanister (selbst abgefüllt)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","ht":"MHD auf der Packung","p":[["Kanister 5 l",5000],["Kanister 10 l",10000],["Kanister 20 l",20000]],"ml":1,"fl":1,"s":"leitungswasser kanister"},
+{"i":"apfelsaft","n":"Apfelsaft","g":"trinken","k":46,"e":0.1,"f":0.1,"c":11.3,"q":"U173933","ht":"MHD auf der Packung","p":[["Flasche 1 l",1000]],"ml":1,"fl":1,"s":"saft"},
+{"i":"orangensaft","n":"Orangensaft","g":"trinken","k":43,"e":0.7,"f":0.2,"c":9,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"fl":1,"s":"saft"},
+{"i":"zitronensaft","n":"Zitronensaft","g":"trinken","k":17,"e":0.5,"f":0.1,"c":5.6,"q":"U167748","ht":"MHD auf der Packung","p":[["Flasche 200 ml",200]],"ml":1,"s":"zitrone"},
+{"i":"tee","n":"Tee (schwarz oder Kräuter)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 20 Beutel (40 g)",40]],"kein":1,"s":"teebeutel"},
+{"i":"kaffee","n":"Kaffee (Pulver)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","ht":"MHD auf der Packung","p":[["Packung 500 g",500],["Glas Instant 100 g",100]],"kein":1,"s":"instant"},
+{"i":"zucker","n":"Zucker","g":"sonst","k":400,"e":0,"f":0,"c":100,"q":"A","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 1 kg",1000]],"s":"zucker"},
+{"i":"honig","n":"Honig","g":"sonst","k":326,"e":0.3,"f":0,"c":81,"q":"A","ht":"MHD auf der Packung","p":[["Glas 500 g",500]]},
+{"i":"marmelade","n":"Konfitüre / Marmelade","g":"sonst","k":278,"e":0.4,"f":0.1,"c":68.9,"q":"U169641","h":365,"ht":"etwa 1 Jahr","p":[["Glas 450 g",450]],"s":"marmelade gelee"},
+{"i":"nusscreme","n":"Nuss-Nougat-Creme","g":"sonst","k":539,"e":5.4,"f":29.7,"c":62.4,"q":"U168000","ht":"MHD auf der Packung","p":[["Glas 400 g",400]],"s":"schokocreme"},
+{"i":"schoko","n":"Vollmilchschokolade","g":"sonst","k":535,"e":7,"f":30,"c":57,"q":"A","ht":"MHD auf der Packung","p":[["Tafel 100 g",100]],"s":"schokolade"},
+{"i":"zartbitter","n":"Zartbitterschokolade","g":"sonst","k":575,"e":7.8,"f":42,"c":35,"q":"A","ht":"MHD auf der Packung","p":[["Tafel 100 g",100]],"s":"schokolade"},
+{"i":"kakao","n":"Kakaopulver (ungesüßt)","g":"sonst","k":228,"e":19.6,"f":13.7,"c":57.9,"q":"U169593","ht":"MHD auf der Packung","p":[["Dose 250 g",250]]},
+{"i":"kekse","n":"Butterkekse","g":"sonst","k":435,"e":7.5,"f":11,"c":74,"q":"A","ht":"MHD auf der Packung","p":[["Packung 200 g",200]],"s":"kekse"},
+{"i":"riegel","n":"Müsliriegel","g":"sonst","k":471,"e":10.1,"f":19.8,"c":64.4,"q":"U167542","ht":"MHD auf der Packung","p":[["Packung 6 St. (150 g)",150]],"st":25,"s":"riegel"},
+{"i":"salzstangen","n":"Salzstangen / Brezeln","g":"sonst","k":384,"e":10.0,"f":2.9,"c":80.4,"q":"U167555","ht":"MHD auf der Packung","p":[["Beutel 250 g",250]]},
+{"i":"chips","n":"Kartoffelchips","g":"sonst","k":530,"e":6,"f":33,"c":50,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 175 g",175]]},
+{"i":"crackers","n":"Cracker","g":"sonst","k":418,"e":9.5,"f":8.6,"c":74.0,"q":"U172746","ht":"MHD auf der Packung","p":[["Packung 200 g",200]]},
+{"i":"salz","n":"Salz","g":"sonst","k":0,"e":0,"f":0,"c":0,"q":"—","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 500 g",500]],"kein":1},
+{"i":"bruehe","n":"Gemüsebrühe (Pulver)","g":"sonst","k":267,"e":16.7,"f":13.9,"c":18.0,"q":"U171562","ht":"MHD auf der Packung","p":[["Glas 150 g (ca. 7 l)",150]],"s":"brühe bouillon suppenpulver"},
+{"i":"trockenhefe","n":"Trockenhefe","g":"sonst","k":325,"e":40.4,"f":7.6,"c":41.2,"q":"U175043","ht":"MHD auf der Packung","p":[["Päckchen 7 g",7]],"s":"hefe"},
+{"i":"frischhefe","n":"Frische Hefe","g":"sonst","k":105,"e":8.4,"f":1.9,"c":18.1,"q":"U175042","ko":1,"ht":"MHD auf der Packung","p":[["Würfel 42 g",42]],"l":"k","s":"hefe würfel"},
+{"i":"backpulver","n":"Backpulver","g":"sonst","k":51,"e":0.1,"f":0.0,"c":24.1,"q":"U172804","ko":1,"ht":"MHD auf der Packung","p":[["Päckchen 15 g",15]]},
+{"i":"puddingpulver","n":"Puddingpulver","g":"sonst","k":379,"e":0.3,"f":0.4,"c":93.5,"q":"U169609","ko":1,"z":5,"ht":"MHD auf der Packung","p":[["Päckchen 37 g",37]],"s":"pudding"},
+{"i":"essig","n":"Essig","g":"sonst","k":21,"e":0.0,"f":0.0,"c":0.9,"q":"U173469","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Flasche 750 ml",750]],"ml":1},
+{"i":"senf","n":"Senf","g":"sonst","k":60,"e":3.7,"f":3.3,"c":5.8,"q":"U172234","ht":"MHD auf der Packung","p":[["Tube 200 ml",200]]},
+{"i":"ketchup","n":"Ketchup","g":"sonst","k":101,"e":1.0,"f":0.1,"c":27.4,"q":"U168556","ht":"MHD auf der Packung","p":[["Flasche 500 ml (550 g)",550]]},
+{"i":"mayonnaise","n":"Mayonnaise","g":"sonst","k":720,"e":1,"f":79,"c":1.5,"q":"A","ht":"MHD auf der Packung","p":[["Glas 250 ml (240 g)",240]],"s":"mayo"},
+{"i":"suppe_tuete","n":"Instant-Suppe (Tüte)","g":"sonst","k":377,"e":15.4,"f":6.5,"c":62.3,"q":"U171571","ko":1,"w":500,"z":5,"ht":"MHD auf der Packung","p":[["Tüte 60 g (für 0,5 l)",60]],"s":"tütensuppe nudelsuppe"},
+{"i":"saeuglingsmilch","n":"Säuglingsmilch (Pulver)","g":"baby","k":522,"e":10.9,"f":28.9,"c":54.7,"q":"U173561","ko":1,"ht":"MHD auf der Packung","p":[["Packung 800 g",800]],"s":"pre milch anfangsnahrung baby"},
+{"i":"babybrei_getreide","n":"Getreidebrei für Babys (Pulver)","g":"baby","k":390,"e":6.7,"f":2.2,"c":83.1,"q":"U170969","ko":1,"ht":"MHD auf der Packung","p":[["Packung 250 g",250]],"s":"baby brei reisflocken"},
+{"i":"babygl_menue","n":"Baby-Menü im Glas","g":"baby","k":53,"e":2.0,"f":1.1,"c":8.7,"q":"U173513","ht":"MHD auf der Packung","p":[["Glas 190 g",190]],"s":"baby gläschen"},
+{"i":"babygl_obst","n":"Obstbrei für Babys (Glas)","g":"baby","k":41,"e":0.2,"f":0.2,"c":10.8,"q":"U173512","ht":"MHD auf der Packung","p":[["Glas 125 g",125]],"s":"baby gläschen apfel"}
+];
+var KAT = {}; KATALOG.forEach(function (k) { KAT[k.i] = k; });
+
+/* DGE-Richtwerte für die Energiezufuhr (kcal/Tag), Ableitung 2015, für PAL 1,4 · 1,6 · 1,8; Referenzgewicht kg (m, w) */
+var DGE_E = [
+  [1, 4, [1200, 1200, 1200], [1100, 1100, 1100], 13.9, 13.2],
+  [4, 7, [1400, 1600, 1800], [1300, 1500, 1700], 20.2, 20.1],
+  [7, 10, [1700, 1900, 2100], [1500, 1800, 2000], 29.3, 28.7],
+  [10, 13, [1900, 2200, 2400], [1700, 2000, 2200], 41.0, 42.1],
+  [13, 15, [2300, 2600, 2900], [1900, 2200, 2500], 55.5, 54.0],
+  [15, 19, [2600, 3000, 3400], [2000, 2300, 2600], 69.2, 59.5],
+  [19, 25, [2400, 2800, 3100], [1900, 2200, 2500], 70.8, 60.5],
+  [25, 51, [2300, 2700, 3000], [1800, 2100, 2400], 70.7, 60.0],
+  [51, 65, [2200, 2500, 2800], [1700, 2000, 2200], 68.7, 58.2],
+  [65, 200, [2100, 2500, 2800], [1700, 1900, 2100], 66.8, 57.1]
+];
+var TAETIG = [['ruhig', 'ruhig', 1.4, 'meist sitzend'], ['normal', 'normal', 1.6, 'etwas Bewegung'], ['koerper', 'körperlich', 1.8, 'viel auf den Beinen']];
+/* DGE-Referenzwerte Protein (g je kg Körpergewicht und Tag), Ableitung 2017 */
+function eiweissProKg(a, s) { if (a < 4) return 1.0; if (a < 15) return 0.9; if (a < 19) return s === 'w' ? 0.8 : 0.9; if (a < 65) return 0.8; return 1.0; }
+/* BBK-Ratgeber (Stand 11/2025): 2 l Wasser je Person und Tag, davon 0,5 l zum Kochen */
+var WASSER_TAG = 2, WASSER_KOCHEN = 0.5;
+
+var ORTE = [['v', 'Vorrat'], ['k', 'Kühlschrank'], ['t', 'Gefriertruhe']];
+var ORT = { v: 'Vorrat', k: 'Kühlschrank', t: 'Gefriertruhe' };
+var KOCH = [['keine', 'Keine', 'keine Kochstelle'], ['gas', 'Gaskocher', 'Campingkocher mit Kartusche'], ['feuer', 'Grill / Feuer', 'Grill, Feuerstelle'], ['holzofen', 'Holzofen', 'mit Backfach'], ['herd', 'Herd normal', 'Herd und Backofen gehen']];
+var KOCHT = {}; KOCH.forEach(function (k) { KOCHT[k[0]] = k[1]; });
+/* welche Kochstelle reicht für welches Gericht */
+var KANN = { kalt: ['keine', 'gas', 'feuer', 'holzofen', 'herd'], topf: ['gas', 'feuer', 'holzofen', 'herd'], glut: ['feuer', 'holzofen'], ofen: ['holzofen', 'herd'] };
+var KNAME = { kalt: 'ohne Kochen', topf: 'Topf/Pfanne', glut: 'Glut/Feuer', ofen: 'Backofen' };
+var ZIELE = [3, 10, 14, 28];
+var VORSCHLAG = { getreide: ['nudeln', 'reis', 'haferflocken', 'knaecke'], gemuese: ['linsen', 'kidney_dose', 'erbsen_moehren', 'tomaten_dose'], obst: ['pfirsiche', 'apfelmus', 'rosinen', 'haselnuesse'],
+  milch: ['hmilch', 'hartkaese', 'milchpulver'], eiweiss: ['thunfisch', 'wuerstchen', 'corned_beef'], fett: ['rapsoel', 'butterschmalz'] };
+
+/* Gerichte: [id, Name, Art, Kochstelle, Portionen, Wasser ml (ganze Menge), Zeit min, Zutaten, Schritte, Zusatz]
+   Zutat: ['id|id2|id3*3', Gramm für die ganze Menge, optional]. „*3“ = von dieser Zutat die dreifache Menge (z. B. Frischhefe statt Trockenhefe).
+   Kochstelle: kalt · topf (Gaskocher, Grill, Holzofen, Herd) · glut (offenes Feuer/Holzofen) · ofen (Backofen/Holzofen mit Backfach). fr = fürs Frühstück */
+var GERICHTE_ROH = [
+  /* ---- kalt: ohne Kochen ---- */
+  ['muesli', 'Haferflocken-Müsli mit Milch', 'kalt', 'kalt', 1, 0, 5, [['haferflocken|muesli', 60], ['hmilch|hmilch15|frischmilch|hafermilch|sojadrink', 200], ['rosinen|aprikosen_getr|pflaumen_getr|datteln', 20, 1]], ['Haferflocken in eine Schüssel geben.', 'Milch oder Pflanzendrink darübergießen, 5 Minuten quellen lassen.', 'Trockenobst klein schneiden und darüberstreuen.'], { fr: 1 }],
+  ['oats', 'Über-Nacht-Haferflocken mit Apfelmus', 'kalt', 'kalt', 1, 0, 5, [['haferflocken', 60], ['hmilch|hmilch15|frischmilch|hafermilch|sojadrink', 150], ['apfelmus|pfirsiche|kirschen', 100]], ['Haferflocken und Milch mischen, abgedeckt über Nacht stehen lassen.', 'Am Morgen Apfelmus oder Obst unterrühren.'], { fr: 1 }],
+  ['joghurt', 'Joghurt mit Müsli', 'kalt', 'kalt', 1, 0, 3, [['joghurt|quark', 150], ['muesli|haferflocken|cornflakes', 50]], ['Joghurt in eine Schüssel geben, Müsli darüber.', 'Kühlware zuerst aufbrauchen.'], { fr: 1 }],
+  ['quark_obst', 'Quark mit Obst', 'kalt', 'kalt', 2, 0, 5, [['quark|joghurt', 250], ['pfirsiche|mandarinen|kirschen|apfelmus|ananas', 200], ['honig|zucker', 10, 1]], ['Quark glatt rühren, bei Bedarf mit etwas Obstsaft aus der Dose.', 'Obst abtropfen, klein schneiden und unterheben. Nach Geschmack süßen.'], { fr: 1 }],
+  ['knaecke_wurst', 'Knäckebrot mit Leberwurst und Gurke', 'kalt', 'kalt', 1, 0, 3, [['knaecke|zwieback|vkbrot', 50], ['leberwurst|fruehstuecksfleisch|salami', 40], ['gurken', 30, 1]], ['Knäckebrot bestreichen bzw. belegen.', 'Gurkenscheiben darauflegen.'], { fr: 1 }],
+  ['knaecke_kaese', 'Knäckebrot mit Käse und Apfel', 'kalt', 'kalt', 1, 0, 3, [['knaecke|zwieback|vkbrot|mischbrot', 50], ['hartkaese|gouda', 40], ['aepfel|birnen', 150]], ['Käse in Scheiben schneiden und aufs Brot legen.', 'Apfel dazu essen.'], { fr: 1 }],
+  ['brot_erdnuss', 'Brot mit Erdnussmus und Banane', 'kalt', 'kalt', 1, 0, 3, [['vkbrot|mischbrot|toast|knaecke', 100], ['erdnussmus|nusscreme', 25], ['bananen|aepfel', 120]], ['Brot mit Erdnussmus bestreichen.', 'Banane in Scheiben darauflegen.'], { fr: 1 }],
+  ['brot_honig', 'Brot mit Butter und Honig', 'kalt', 'kalt', 1, 0, 2, [['vkbrot|mischbrot|toast|broetchen|knaecke', 100], ['butter|margarine', 15], ['honig|marmelade', 25]], ['Brot mit Butter und Honig oder Marmelade bestreichen.'], { fr: 1 }],
+  ['corned_brot', 'Brot mit Corned Beef und Gurke', 'kalt', 'kalt', 2, 0, 5, [['vkbrot|mischbrot|knaecke|toast', 200], ['corned_beef|fruehstuecksfleisch', 170], ['gurken|rote_bete', 60, 1], ['senf', 10, 1]], ['Fleisch aus der Dose in Scheiben schneiden.', 'Brot mit Senf bestreichen, Fleisch und Gurke darauflegen.'], {}],
+  ['thunfisch_bohnen', 'Bohnen-Thunfisch-Salat', 'kalt', 'kalt', 2, 0, 10, [['thunfisch|lachs_dose|makrele', 150], ['bohnen_dose|kidney_dose|kicher_dose', 250], ['zwiebeln', 50, 1], ['rapsoel|olivenoel|sonnenblumenoel', 20], ['essig|zitronensaft', 15, 1]], ['Bohnen abtropfen lassen, Fisch zerpflücken.', 'Zwiebel fein würfeln.', 'Alles mit Öl und Essig mischen, salzen und pfeffern.'], {}],
+  ['kicher_salat', 'Kichererbsen-Mais-Salat', 'kalt', 'kalt', 2, 0, 10, [['kicher_dose|kidney_dose|bohnen_dose', 240], ['mais', 140], ['gurken|rote_bete|tomaten_dose', 100, 1], ['olivenoel|rapsoel', 20], ['essig|zitronensaft', 15, 1]], ['Kichererbsen und Mais abtropfen lassen.', 'Gurken klein schneiden.', 'Mit Öl, Essig, Salz und Pfeffer mischen.'], {}],
+  ['wraps', 'Wraps mit Bohnen und Mais', 'kalt', 'kalt', 2, 0, 10, [['tortilla', 160], ['baked_beans|kidney_dose|bohnen_dose', 250], ['mais', 140], ['hartkaese|gouda', 40, 1]], ['Bohnen grob zerdrücken.', 'Auf die Fladen streichen, Mais und geriebenen Käse darüber.', 'Aufrollen. Schmeckt kalt, warm noch besser.'], {}],
+  ['fisch_knaecke', 'Sardinen auf Knäckebrot', 'kalt', 'kalt', 1, 0, 3, [['sardinen|makrele|thunfisch|lachs_dose', 90], ['knaecke|zwieback|vkbrot', 50], ['zitronensaft', 5, 1]], ['Fisch mit der Gabel zerdrücken und auf das Knäckebrot geben.', 'Nach Geschmack Zitronensaft darüber.'], {}],
+  ['couscous_kalt', 'Couscous-Salat (kalt gequollen)', 'kalt', 'kalt', 2, 220, 40, [['couscous', 150], ['tomaten_dose|passata', 200], ['gurken|mais', 80, 1], ['olivenoel|rapsoel', 15], ['bruehe', 4, 1]], ['Couscous mit 220 ml kaltem Wasser und etwas Brühpulver übergießen.', 'Abgedeckt etwa 30–40 Minuten quellen lassen, mit der Gabel auflockern.', 'Tomaten, Gurken und Öl untermischen.'], {}],
+  ['obstsalat', 'Obstsalat aus der Dose mit Nüssen', 'kalt', 'kalt', 2, 0, 5, [['pfirsiche|birnen|mandarinen|ananas|kirschen', 300], ['haselnuesse|walnuesse|mandeln|cashew', 40]], ['Obst abtropfen lassen und klein schneiden.', 'Gehackte Nüsse darüberstreuen.'], { fr: 1 }],
+  ['studentenfutter', 'Nüsse und Trockenobst', 'kalt', 'kalt', 1, 0, 1, [['erdnuesse|haselnuesse|mandeln|cashew|walnuesse', 30], ['rosinen|aprikosen_getr|pflaumen_getr|datteln|feigen_getr', 30]], ['Nüsse und Trockenobst mischen – gut für unterwegs.'], {}],
+  ['dose_kalt', 'Eintopf aus der Dose mit Brot', 'kalt', 'kalt', 1, 0, 2, [['eintopf|chili|gulasch|ravioli|baked_beans', 400], ['mischbrot|vkbrot|knaecke|zwieback', 60]], ['Fertiggerichte aus der Dose sind gegart und können zur Not kalt gegessen werden.', 'Gut umrühren, Brot dazu.'], {}],
+  /* ---- warm: Topf oder Pfanne auf Gaskocher, Grill, Feuer, Holzofen oder Herd ---- */
+  ['dose_warm', 'Eintopf aus der Dose, aufgewärmt', 'warm', 'topf', 1, 0, 5, [['eintopf|chili|gulasch|ravioli|baked_beans', 400], ['mischbrot|vkbrot|knaecke|zwieback', 60, 1]], ['Doseninhalt in einen Topf geben (nicht in der Dose erhitzen).', 'Unter Rühren heiß werden lassen, Deckel drauf spart Brennstoff.'], {}],
+  ['porridge', 'Haferbrei', 'warm', 'topf', 1, 0, 5, [['haferflocken', 70], ['hmilch|hmilch15|frischmilch|hafermilch|sojadrink', 250], ['rosinen|apfelmus|aprikosen_getr', 30, 1], ['zucker|honig', 10, 1]], ['Milch mit den Haferflocken aufkochen.', 'Unter Rühren 2–3 Minuten köcheln, dann zugedeckt quellen lassen.', 'Mit Obst und etwas Süße essen.'], { fr: 1 }],
+  ['griessbrei', 'Grießbrei mit Kirschen', 'warm', 'topf', 3, 0, 10, [['griess', 100], ['hmilch|hmilch15|frischmilch', 750], ['zucker', 30], ['kirschen|apfelmus|pfirsiche', 300, 1]], ['Milch mit Zucker aufkochen.', 'Grieß unter Rühren einrieseln lassen, kurz köcheln, vom Feuer nehmen und quellen lassen.', 'Mit Kirschen oder Apfelmus essen.'], { fr: 1 }],
+  ['milchreis', 'Milchreis mit Apfelmus', 'warm', 'topf', 4, 0, 35, [['reis', 200], ['hmilch|hmilch15|frischmilch', 1000], ['zucker', 40], ['apfelmus|kirschen|pfirsiche', 300, 1]], ['Milch mit Reis und Zucker aufkochen.', 'Bei kleinster Flamme zugedeckt etwa 30 Minuten quellen lassen, ab und zu rühren.', 'Mit Apfelmus oder Kirschen essen.'], {}],
+  ['pudding', 'Vanillepudding', 'warm', 'topf', 4, 0, 8, [['puddingpulver', 37], ['hmilch|hmilch15|frischmilch', 500], ['zucker', 40]], ['Pulver mit Zucker und etwas Milch glatt rühren.', 'Übrige Milch aufkochen, Pulver einrühren, kurz aufkochen lassen.', 'Abkühlen lassen.'], {}],
+  ['ruehrei', 'Rührei mit Brot', 'warm', 'topf', 2, 0, 8, [['eier', 212], ['butter|margarine|rapsoel', 10], ['mischbrot|vkbrot|toast|broetchen', 200]], ['Eier verquirlen, salzen.', 'In der Pfanne mit Fett bei mittlerer Hitze stocken lassen, dabei schieben.', 'Mit Brot essen.'], { fr: 1 }],
+  ['pfannkuchen', 'Pfannkuchen mit Apfelmus', 'warm', 'topf', 4, 0, 25, [['mehl405|dinkelmehl|vollkornmehl', 250], ['eier', 159], ['hmilch|hmilch15|frischmilch', 500], ['rapsoel|sonnenblumenoel|butterschmalz', 30], ['apfelmus|marmelade', 360, 1]], ['Mehl, Eier, Milch und eine Prise Salz zu einem glatten Teig rühren.', 'Pfanne mit wenig Öl erhitzen, dünne Pfannkuchen von beiden Seiten backen.', 'Mit Apfelmus oder Marmelade essen.'], {}],
+  ['nudeln_tomate', 'Nudeln mit Tomatensoße', 'warm', 'topf', 4, 1200, 15, [['nudeln|nudeln_vk|eiernudeln', 400], ['passata|tomaten_dose', 500], ['zwiebeln', 50, 1], ['olivenoel|rapsoel', 15], ['hartkaese', 30, 1]], ['Nudeln wassersparend kochen: 1,2 l Wasser, Deckel drauf, oft rühren; ist das Wasser fast weg, sind sie meist gar.', 'Zwiebel in Öl andünsten, Tomaten dazu, salzen, 5 Minuten köcheln.', 'Soße über die Nudeln, Käse darüber.'], {}],
+  ['bolognese', 'Nudeln Bolognese (Gefriergut zuerst)', 'warm', 'topf', 4, 1200, 25, [['hack_tk', 400], ['nudeln|nudeln_vk|eiernudeln', 400], ['passata|tomaten_dose', 500], ['zwiebeln', 80, 1], ['rapsoel', 10]], ['Hackfleisch auftauen lassen und vollständig durchbraten.', 'Zwiebel dazu, Tomaten angießen, 10 Minuten köcheln.', 'Nudeln wassersparend kochen und mit der Soße mischen.'], {}],
+  ['jagdwurstnudeln', 'Nudeln mit Jagdwurst und Tomatensoße', 'warm', 'topf', 4, 2000, 30, [['nudeln|eiernudeln|nudeln_vk', 500], ['jagdwurst|wuerstchen|fruehstuecksfleisch', 150], ['zwiebeln', 100, 1], ['butter|margarine|rapsoel', 40], ['mehl405|dinkelmehl', 40], ['tomatenmark', 10], ['ketchup', 220], ['zucker', 5, 1]], ['Wurst und Zwiebel würfeln und anbraten.', 'Aus Butter und Mehl eine Mehlschwitze rühren, mit 0,5 l Wasser ablöschen, Tomatenmark und Ketchup einrühren.', 'Wurst in die Soße, Nudeln kochen und mischen. Ausführlich im Rezept der App.'], { rz: 'jagdwurstnudeln' }],
+  ['reis_gemuese', 'Reis mit Erbsen und Möhren', 'warm', 'topf', 3, 500, 20, [['reis|reis_vk', 250], ['erbsen_moehren|erbsen_tk|gemuese_tk|mais', 280], ['bruehe', 8], ['butter|rapsoel|margarine', 15, 1]], ['Reis mit 500 ml Wasser und Brühpulver aufkochen.', 'Zugedeckt bei kleinster Flamme 15–20 Minuten quellen lassen.', 'Gemüse untermischen und heiß werden lassen.'], {}],
+  ['thunfisch_reis', 'Reis mit Thunfisch und Tomaten', 'warm', 'topf', 3, 500, 20, [['reis', 250], ['thunfisch|lachs_dose|makrele', 150], ['tomaten_dose|passata', 400], ['zwiebeln', 50, 1], ['olivenoel|rapsoel', 15]], ['Reis mit 500 ml Wasser zugedeckt quellen lassen.', 'Zwiebel in Öl andünsten, Tomaten dazu, kurz köcheln.', 'Fisch zerpflücken, unterheben, mit dem Reis essen.'], {}],
+  ['chili_reis', 'Chili con Carne mit Reis', 'warm', 'topf', 4, 400, 20, [['chili', 800], ['reis', 200]], ['Reis mit 400 ml Wasser zugedeckt quellen lassen.', 'Chili im Topf erhitzen und zum Reis essen.'], {}],
+  ['haehnchen_reis', 'Hähnchen-Reis-Pfanne (Gefriergut zuerst)', 'warm', 'topf', 4, 500, 30, [['haehnchen_tk', 400], ['reis', 250], ['gemuese_tk|erbsen_tk|erbsen_moehren', 400], ['rapsoel', 20], ['bruehe', 6]], ['Hähnchen auftauen, klein schneiden und vollständig durchbraten.', 'Reis mit 500 ml Wasser und Brühe quellen lassen.', 'Gemüse zum Fleisch geben, alles mischen.'], {}],
+  ['linseneintopf', 'Linseneintopf', 'warm', 'topf', 4, 1500, 35, [['linsen|rote_linsen', 250], ['kartoffeln', 300], ['moehren|erbsen_moehren', 150, 1], ['zwiebeln', 80, 1], ['bruehe', 10], ['essig', 15, 1], ['wuerstchen', 250, 1]], ['Zwiebel und Gemüse würfeln, mit Linsen, Kartoffelwürfeln und 1,5 l Wasser aufkochen.', 'Brühe dazu, zugedeckt etwa 30 Minuten köcheln.', 'Mit Essig abschmecken, Würstchen darin heiß werden lassen.'], {}],
+  ['dal', 'Rote-Linsen-Dal mit Reis', 'warm', 'topf', 4, 1100, 25, [['rote_linsen', 200], ['reis', 200], ['tomaten_dose|passata', 400], ['zwiebeln', 80, 1], ['rapsoel', 15], ['bruehe', 6]], ['Zwiebel in Öl andünsten, Linsen, Tomaten, Brühe und 700 ml Wasser dazu.', 'Etwa 15 Minuten köcheln, bis die Linsen zerfallen.', 'Reis mit 400 ml Wasser zugedeckt quellen lassen und dazu essen.'], {}],
+  ['erbsensuppe', 'Erbsensuppe aus Schälerbsen', 'warm', 'topf', 4, 1500, 60, [['erbsen_getr', 300], ['kartoffeln', 300], ['moehren', 150, 1], ['zwiebeln', 80, 1], ['bruehe', 10], ['wuerstchen|fruehstuecksfleisch', 250, 1]], ['Erbsen mit 1,5 l Wasser aufkochen, Schaum abschöpfen.', 'Zugedeckt etwa 45 Minuten köcheln, dann Kartoffel- und Gemüsewürfel dazu, weitere 15 Minuten.', 'Mit Brühe abschmecken, Würstchen darin erwärmen.'], {}],
+  ['bohneneintopf', 'Weiße-Bohnen-Eintopf mit Tomaten', 'warm', 'topf', 4, 1800, 90, [['bohnen_getr', 300], ['tomaten_dose|passata', 400], ['kartoffeln', 300], ['zwiebeln', 80, 1], ['bruehe', 10], ['fruehstuecksfleisch|wuerstchen|corned_beef', 200, 1]], ['Bohnen über Nacht in reichlich Wasser einweichen, Einweichwasser weggießen.', 'Mit frischem Wasser etwa 60 Minuten weich kochen.', 'Tomaten, Kartoffeln, Zwiebel und Brühe dazu, weitere 25 Minuten köcheln.'], { hinweis: 'Getrocknete Bohnen immer gut durchkochen, nie roh essen.' }],
+  ['kartoffeln_quark', 'Pellkartoffeln mit Quark', 'warm', 'topf', 4, 1000, 25, [['kartoffeln', 800], ['quark|joghurt', 500], ['leinsamen', 20, 1], ['zwiebeln', 50, 1]], ['Kartoffeln mit Schale in wenig Wasser zugedeckt etwa 20–25 Minuten garen.', 'Quark mit etwas Milch oder Wasser, Salz und Zwiebelwürfeln verrühren.', 'Kühlware zuerst verbrauchen.'], {}],
+  ['bratkartoffeln', 'Bratkartoffeln mit Spiegelei', 'warm', 'topf', 3, 800, 35, [['kartoffeln', 700], ['eier', 159], ['rapsoel|schmalz|butterschmalz', 40], ['zwiebeln', 80, 1]], ['Kartoffeln kochen (am besten vom Vortag), pellen und in Scheiben schneiden.', 'In der Pfanne mit Fett und Zwiebeln knusprig braten.', 'Eier daneben in die Pfanne schlagen und braten.'], {}],
+  ['pueree_wurst', 'Kartoffelpüree mit Würstchen', 'warm', 'topf', 3, 500, 10, [['pueree', 160], ['hmilch|hmilch15|frischmilch', 250], ['butter|margarine', 20, 1], ['wuerstchen|jagdwurst', 250]], ['Wasser und Milch erhitzen (nicht kochen), vom Feuer nehmen.', 'Flocken einrühren, kurz quellen lassen, Butter dazu.', 'Würstchen im heißen Wasser erwärmen.'], {}],
+  ['sauerkraut_kartoffeln', 'Sauerkraut mit Kartoffeln und Würstchen', 'warm', 'topf', 4, 800, 25, [['sauerkraut', 770], ['kartoffeln', 800], ['wuerstchen|jagdwurst|fruehstuecksfleisch', 250]], ['Kartoffeln schälen und in Salzwasser garen.', 'Sauerkraut im Topf erhitzen, Würstchen darin erwärmen.'], {}],
+  ['rotkohl_kartoffeln', 'Rotkohl mit Kartoffeln und Corned Beef', 'warm', 'topf', 4, 800, 25, [['rotkohl_glas', 680], ['kartoffeln', 800], ['corned_beef|fruehstuecksfleisch|wuerstchen', 340]], ['Kartoffeln garen.', 'Rotkohl erhitzen, Fleisch in Scheiben schneiden und kurz anbraten.', 'Frischer Rotkohl: siehe Rezept der App.'], { rz: 'rotkohl' }],
+  ['soljanka', 'Soljanka', 'warm', 'topf', 4, 1000, 30, [['salami|jagdwurst|wuerstchen|fruehstuecksfleisch', 400], ['zwiebeln', 200], ['gurken', 180], ['tomatenmark', 40], ['bruehe', 15], ['rapsoel', 10]], ['Zwiebeln in Öl anbraten, Wurststreifen und Gurkenscheiben dazu.', 'Tomatenmark kurz mitrösten, mit 1 l Wasser und Brühe auffüllen.', 'Etwa 20 Minuten köcheln. Ausführlich im Rezept der App.'], { rz: 'soljanka' }],
+  ['couscous_warm', 'Couscous mit Kichererbsen und Tomaten', 'warm', 'topf', 3, 300, 10, [['couscous', 250], ['kicher_dose|bohnen_dose', 240], ['tomaten_dose|passata', 400], ['bruehe', 8], ['olivenoel|rapsoel', 20]], ['300 ml Wasser mit Brühe aufkochen, über den Couscous gießen, zugedeckt 5 Minuten quellen lassen.', 'Tomaten und Kichererbsen im Topf erhitzen.', 'Mit Öl unter den Couscous mischen.'], {}],
+  ['bulgur', 'Bulgur-Tomaten-Pfanne', 'warm', 'topf', 3, 400, 20, [['bulgur|hirse', 250], ['tomaten_dose|passata', 400], ['zwiebeln', 80, 1], ['rapsoel', 15], ['bruehe', 6]], ['Zwiebel in Öl andünsten, Bulgur kurz mitrösten.', 'Tomaten, 400 ml Wasser und Brühe dazu, zugedeckt 15 Minuten quellen lassen.'], {}],
+  ['polenta', 'Polenta mit Tomatensoße und Käse', 'warm', 'topf', 4, 1000, 15, [['polenta', 250], ['passata|tomaten_dose', 500], ['hartkaese|gouda', 50, 1], ['bruehe', 8]], ['1 l Wasser mit Brühe aufkochen, Polenta einrühren.', 'Unter Rühren etwa 5–10 Minuten quellen lassen (Packung beachten).', 'Tomatensoße erhitzen, Käse darüber.'], {}],
+  ['hirse_gemuese', 'Hirse mit Gemüse', 'warm', 'topf', 3, 600, 25, [['hirse', 250], ['gemuese_tk|erbsen_moehren|erbsen_tk', 400], ['bruehe', 8], ['butter|rapsoel', 15, 1]], ['Hirse heiß abspülen, mit 600 ml Wasser und Brühe aufkochen.', 'Zugedeckt 20 Minuten quellen lassen.', 'Gemüse untermischen und heiß werden lassen.'], {}],
+  ['spinat_ei', 'Spinat mit Ei und Kartoffeln (Gefriergut zuerst)', 'warm', 'topf', 4, 1000, 25, [['spinat_tk', 450], ['eier', 212], ['kartoffeln', 800], ['butter|margarine', 20, 1]], ['Kartoffeln garen, Eier hart kochen (10 Minuten).', 'Spinat im Topf mit wenig Wasser auftauen und erhitzen.', 'Alles zusammen essen.'], {}],
+  ['suppe_tuete', 'Instant-Suppe mit Zwieback', 'warm', 'topf', 2, 500, 5, [['suppe_tuete', 60], ['zwieback|knaecke|mischbrot', 60]], ['Suppenpulver nach Packung in 500 ml Wasser einrühren und aufkochen.', 'Zwieback dazu.'], {}],
+  /* ---- Brot ohne Backofen ---- */
+  ['pfannenbrot', 'Pfannenbrot mit Hefe', 'brot', 'topf', 6, 300, 30, [['mehl405|dinkelmehl|vollkornmehl', 500], ['trockenhefe|frischhefe*3', 7], ['rapsoel|olivenoel', 30], ['zucker', 5, 1]], ['Mehl, Hefe, 1½ TL Salz, Öl und 300 ml lauwarmes Wasser zu einem weichen Teig kneten.', 'Zugedeckt 45–60 Minuten gehen lassen.', 'In 6 Stücke teilen, flach drücken und in der Pfanne mit Deckel bei kleiner Hitze je Seite 5–7 Minuten backen.'], {}],
+  ['fladen_backpulver', 'Schnelle Fladen ohne Hefe', 'brot', 'topf', 4, 0, 15, [['mehl405|dinkelmehl|vollkornmehl', 300], ['backpulver', 10], ['joghurt|hmilch|frischmilch|quark', 200], ['rapsoel|olivenoel', 20]], ['Mehl, Backpulver und eine Prise Salz mischen, Joghurt und Öl unterkneten.', 'In 4 Teile teilen, dünn ausrollen.', 'In der heißen Pfanne ohne Fett je Seite 2–3 Minuten backen.'], {}],
+  ['chapati', 'Wasser-Fladen (wie Chapati)', 'brot', 'topf', 4, 180, 20, [['vollkornmehl|mehl405|dinkelmehl', 300], ['rapsoel|olivenoel', 10, 1]], ['Mehl, ½ TL Salz und 180 ml Wasser zu einem glatten Teig kneten, 15 Minuten ruhen lassen.', 'In 8 Kugeln teilen, sehr dünn ausrollen.', 'In der trockenen, heißen Pfanne je Seite etwa 1 Minute backen.'], {}],
+  ['stockbrot', 'Stockbrot', 'brot', 'glut', 6, 250, 15, [['mehl405|dinkelmehl', 500], ['trockenhefe|frischhefe*3', 7], ['rapsoel|olivenoel', 40], ['zucker', 10, 1]], ['Mehl, Hefe, 1½ TL Salz, Zucker, Öl und 250 ml lauwarmes Wasser zu einem festen Teig kneten, 30 Minuten gehen lassen.', 'Teigstränge um geschälte Stöcke wickeln.', 'Über der Glut (nicht in die Flammen) unter Drehen 10–15 Minuten backen.'], {}],
+  ['topfbrot_glut', 'Topfbrot in der Glut', 'brot', 'glut', 10, 380, 50, [['mehl405|dinkelmehl', 500], ['roggenmehl|vollkornmehl', 100, 1], ['trockenhefe|frischhefe*3', 7]], ['Mehl, Hefe, 2 TL Salz und 380 ml lauwarmes Wasser zu einem weichen Teig rühren, 1–2 Stunden gehen lassen.', 'In einen gefetteten gusseisernen Topf mit Deckel geben.', 'Topf in die Glut stellen, auch Glut auf den Deckel legen; etwa 40–50 Minuten backen. Klopfprobe: hohl = fertig.'], {}],
+  /* ---- Backofen / Holzofen mit Backfach ---- */
+  ['dinkeltopf', 'Dinkel-Joghurt-Brot aus dem Topf', 'ofen', 'ofen', 10, 350, 60, [['dinkelmehl|mehl405', 600], ['roggenmehl|dinkelmehl', 100], ['trockenhefe|frischhefe*3', 7], ['joghurt', 150], ['zucker', 5, 1]], ['Hefe in 350 ml lauwarmem Wasser lösen, mit Mehl, Joghurt und Salz gründlich kneten.', 'Eine Stunde gehen lassen, in einen Topf mit Deckel geben.', 'Bei 180 °C etwa 50 Minuten backen, dann ohne Deckel bräunen. Ausführlich im Rezept der App.'], { rz: 'dinkeltopf' }],
+  ['dinkelvollkorn', 'Dinkel-Vollkornbrot mit Saaten', 'ofen', 'ofen', 12, 500, 60, [['dinkelmehl|vollkornmehl', 500], ['sonnenblumenkerne|kuerbiskerne', 100], ['leinsamen', 25, 1], ['essig', 30, 1], ['trockenhefe|frischhefe*3', 14]], ['Alle Zutaten mit 500 ml lauwarmem Wasser verrühren und in eine gefettete Kastenform füllen.', 'In den kalten Ofen, bei 200 °C etwa 60 Minuten backen.', 'Ausführlich im Rezept der App.'], { rz: 'dinkelvollkorn' }],
+  ['zwiebelbrot', 'Zwiebelbrot ohne Sauerteig', 'ofen', 'ofen', 10, 300, 45, [['mehl405|dinkelmehl', 500], ['trockenhefe|frischhefe*3', 7], ['rapsoel|sonnenblumenoel', 45], ['zwiebeln', 200]], ['Zwiebeln in Öl glasig braten und abkühlen lassen.', 'Mehl, Hefe, Salz, Öl und 300 ml lauwarmes Wasser kneten, Zwiebeln unterkneten, gehen lassen.', 'In der Kastenform backen. Ausführlich im Rezept der App.'], { rz: 'zwiebelbrot' }],
+  ['roggenvollkorn', 'Roggen-Vollkornbrot mit Kernen', 'ofen', 'ofen', 12, 450, 60, [['roggenvollkornmehl|roggenmehl', 350], ['vollkornmehl|dinkelmehl', 150], ['trockenhefe|frischhefe*3', 7], ['honig|zucker', 7, 1], ['sonnenblumenkerne|kuerbiskerne', 40, 1], ['leinsamen', 20, 1]], ['Mehle, Hefe und Salz mischen, Honig und 450 ml lauwarmes Wasser zu einem klebrigen Teig rühren, Kerne dazu.', 'Eine Stunde gehen lassen, in die gefettete Kastenform füllen.', 'Backen und gut auskühlen lassen. Ausführlich im Rezept der App.'], { rz: 'roggenvollkorn' }],
+  ['kartoffelbrot', 'Kartoffelbrot', 'ofen', 'ofen', 10, 600, 60, [['kartoffeln', 400], ['mehl405|dinkelmehl', 500], ['trockenhefe|frischhefe*3', 7]], ['Kartoffeln kochen, pellen und zerdrücken.', 'Mit Mehl, Hefe, Salz und 100 ml lauwarmem Wasser kneten, 1 Stunde gehen lassen.', 'In der Kastenform backen. Ausführlich im Rezept der App.'], { rz: 'kartoffelbrot' }],
+  ['nudelauflauf', 'Nudelauflauf mit Käse und Gemüse', 'ofen', 'ofen', 4, 800, 45, [['nudeln|eiernudeln|nudeln_vk', 300], ['hmilch|hmilch15|frischmilch', 400], ['eier', 106], ['hartkaese|gouda', 100], ['erbsen_moehren|mais|erbsen_tk|gemuese_tk', 280]], ['Nudeln bissfest vorkochen.', 'Mit Gemüse in eine Form geben, Milch und Eier verquirlt darübergießen, Käse obendrauf.', 'Bei etwa 180 °C 25–30 Minuten backen.'], {}],
+  ['ofenkartoffeln', 'Ofenkartoffeln mit Quark', 'ofen', 'ofen', 4, 0, 45, [['kartoffeln', 1000], ['rapsoel|olivenoel', 30], ['quark|joghurt', 500, 1]], ['Kartoffeln gründlich waschen, halbieren, mit Öl und Salz mischen.', 'Mit der Schnittfläche nach unten bei etwa 200 °C 35–45 Minuten backen.', 'Mit Quark essen.'], {}],
+  ['haferkekse', 'Haferflocken-Kekse', 'ofen', 'ofen', 6, 0, 15, [['haferflocken', 200], ['mehl405|dinkelmehl|vollkornmehl', 100], ['zucker|honig', 80], ['butter|margarine', 100], ['eier', 53], ['backpulver', 5, 1]], ['Butter schmelzen, mit Zucker und Ei verrühren.', 'Haferflocken, Mehl und Backpulver unterrühren, kleine Häufchen aufs Blech setzen.', 'Bei 180 °C etwa 12–15 Minuten backen.'], {}],
+  ['ruehrkuchen', 'Einfacher Rührkuchen', 'ofen', 'ofen', 12, 0, 50, [['mehl405|dinkelmehl', 300], ['zucker', 150], ['eier', 212], ['rapsoel|sonnenblumenoel|butter', 150], ['hmilch|hmilch15|frischmilch', 125], ['backpulver', 15]], ['Eier mit Zucker schaumig rühren, Öl und Milch dazu.', 'Mehl mit Backpulver unterrühren, in eine gefettete Form füllen.', 'Bei 175 °C etwa 45–50 Minuten backen (Stäbchenprobe).'], {}]
+];
+function zutatLesen(z) { return { a: z[0].split('|').map(function (s) { var m = s.split('*'); return [m[0], m[1] ? +m[1] : 1]; }), g: z[1], opt: !!z[2] }; }
+var GERICHTE = GERICHTE_ROH.map(function (r) { return { id: r[0], n: r[1], art: r[2], koch: r[3], p: r[4], wa: r[5], z: r[6], zut: r[7].map(zutatLesen), sch: r[8], rz: r[9].rz, fr: !!r[9].fr, hinweis: r[9].hinweis || '' }; });
+var ARTEN = [['alle', 'Alle'], ['kalt', 'Ohne Kochen'], ['warm', 'Topf & Pfanne'], ['brot', 'Brot ohne Ofen'], ['ofen', 'Backofen']];
+
+/* Abhak-Liste nach den Checklisten des BBK-Ratgebers (Stand 11/2025) – alles außer Essen und Trinken */
+var CHECK = [
+  ['Information', ['Radio mit Batterie, Solar oder Kurbel (mit Ersatzbatterien)', 'Warn-App auf dem Handy (z. B. NINA)', 'Aufgeladene Powerbank', 'Wichtige Telefonnummern auf Papier']],
+  ['Licht und Wärme', ['Taschenlampe und Ersatzbatterien', 'Kerzen und Feuerzeug oder Streichhölzer', 'Kochgelegenheit ohne Strom (z. B. Campingkocher, Gasgrill)', 'Brennstoff für die Kochgelegenheit (z. B. Gaskartuschen)', 'Warme Kleidung, Decken, Schlafsäcke', 'Heizgelegenheit ohne Strom, für Innenräume zugelassen', 'Brennstoff für die Heizgelegenheit']],
+  ['Hausapotheke', ['Persönliche Medikamente (Vorrat für mindestens 10 Tage)', 'Schmerzmittel und fiebersenkende Mittel', 'Fieberthermometer', 'Wund- und Hautdesinfektion', 'Pflaster und Verbandmaterial', 'Mittel gegen Durchfall, Übelkeit, Erbrechen', 'Elektrolyte gegen Flüssigkeitsverlust', 'Einmalhandschuhe, Pinzette, Schere']],
+  ['Hygiene', ['Zahnbürsten und Zahnpasta', 'Seife', 'Toilettenpapier', 'Persönliche Hygieneartikel (Monatshygiene, Windeln)', 'Stabile Müllbeutel (auch für die Toilette) oder Campingtoilette', 'Desinfektionsmittel', 'Feuchttücher und Haushaltspapier', 'Haushaltshandschuhe']],
+  ['Brandschutz', ['Rauchmelder', 'Feuerlöscher oder Feuerlöschspray', 'Kohlenmonoxid-Melder (bei Gas, Holz, Kohle im Haus)']],
+  ['Sonstiges', ['Bargeld in kleinen Scheinen', 'Mappe mit wichtigen Dokumenten', 'Behälter für Brauchwasser (z. B. Kanister, Eimer)', 'Dosenöffner und Taschenmesser', 'Futtervorrat für Haustiere', 'Ersatz für Brille oder Hörgerät-Batterien', 'Atemschutzmasken (FFP2)']]
+];
+/* Übliche Haltbarkeit (BLE „So können Lebensmittel gelagert werden“) */
+var HALTB = [
+  ['Gemüsekonserven', '1–2 Jahre', 'trocken, luftig, möglichst unter 20 °C'], ['Obstkonserven, Marmelade', 'etwa 1 Jahr', 'trocken, luftig, unter 20 °C'], ['Fisch- und Fleischkonserven', 'mehrere Jahre', 'kühl und trocken, MHD beachten'],
+  ['Trockenobst und -gemüse', 'etwa 1 Jahr', 'trocken, dunkel, in Glas oder Dose'], ['Kartoffelflocken', '1–2 Jahre', 'trocken, unter 20 °C'], ['Grieß, Haferflocken, Reis, Nudeln, Stärke', 'etwa 1 Jahr', 'dicht verschlossen und trocken'],
+  ['Getreide, ganzes Korn', '2 Jahre', 'trocken, ab und zu lüften'], ['Knäckebrot, Zwieback', 'etwa 1 Jahr', 'MHD beachten'], ['Vollkornbrot (frisch)', '10–12 Tage', 'Brotkasten oder Steintopf'],
+  ['Speiseöl, ungeöffnet', '6–12 Monate', 'dunkel, bis 20 °C'], ['Butter, Margarine', '4–6 Wochen', 'Kühlschrank'], ['Kartoffeln (größere Menge)', '6–8 Monate', 'dunkel, luftig, 5–10 °C'],
+  ['Äpfel', '3–5 Monate', 'kühl, dunkel, feucht'], ['Zucker, Salz, Tee', 'praktisch unbegrenzt', 'trocken'], ['Tiefkühl: Gemüse / Obst', '6–12 / 8–12 Monate', 'mindestens −18 °C'], ['Tiefkühl: Fleisch / Brot', '3–12 / 1–3 Monate', 'mindestens −18 °C']
+];
+var QUELLEN = [
+  ['BBK: Ratgeber „Vorsorgen für Krisen und Katastrophen“, 2. Auflage, Stand 11/2025 (PDF)', 'https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=39', '10 Tage, mindestens 3 Tage; 2 l Wasser je Person und Tag, davon 0,5 l zum Kochen; Kochen ohne Strom; Hausapotheke'],
+  ['BBK: Essen und Trinken bevorraten', 'https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html', 'haltbar, fertig, kurze Kochzeit'],
+  ['BBK: Checklisten zur Vorsorge (PDF)', 'https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/Checklisten-zur-Vorsorge-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=19', 'Abhak-Liste „Fehlt noch“'],
+  ['BLE: Vorratstabelle Mischkost (ernaehrungsvorsorge.de, © BLE 2024, PDF)', 'https://www.ernaehrungsvorsorge.de/fileadmin/SITE_MASTER/content/Dokumente/Anhang_3.1_Vorratstabelle_Mischkost_-_DIN_A4.pdf', 'Mengen je Gruppe für 1 Person, 10 Tage, 2.200 kcal; Energiewerte nach BLS 3.02'],
+  ['BLE: Vorratstabelle und Vorratskalkulator', 'https://www.ernaehrungsvorsorge.de/private-vorsorge/notvorrat/vorratstabelle', 'Erläuterungen, vegetarische Fassung'],
+  ['BLE: So können Lebensmittel gelagert werden', 'https://www.ernaehrungsvorsorge.de/private-vorsorge/empfehlungen-tipps/so-koennen-lebensmittel-gelagert-werden', 'übliche Haltbarkeiten'],
+  ['Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall (Stand 04.08.2026)', 'https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714', 'Kühlschrank 4–6 Stunden, Gefriergerät oft bis 48 Stunden, BfR zu −12 °C'],
+  ['Verbraucherzentrale Niedersachsen: Trinkwasservorrat (Stand 24.09.2026)', 'https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/trinkwasservorrat-so-sichern-sie-die-versorgung-im-haushalt-125990', 'Wasser lagern, Glas und PET, Säuglingsnahrung'],
+  ['DGE: Referenzwerte Energie (Richtwerte, Ableitung 2015)', 'https://www.dge.de/wissenschaft/referenzwerte/energie/', 'Kinder und Jugendliche; PAL 1,4 · 1,6 · 1,8'],
+  ['DGE: Referenzwerte Protein (Ableitung 2017)', 'https://www.dge.de/wissenschaft/referenzwerte/protein/', 'g Eiweiß je kg Körpergewicht'],
+  ['Mifflin et al. (1990): Gleichung für den Ruheumsatz (PubMed)', 'https://pubmed.ncbi.nlm.nih.gov/2305711/', 'Erwachsene, wie im Energie-Rechner der App'],
+  ['Verbraucherzentrale: MHD ist nicht gleich Verbrauchsdatum (Stand 02.10.2025)', 'https://www.verbraucherzentrale.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/mindesthaltbarkeitsdatum-mhd-ist-nicht-gleich-verbrauchsdatum-13452', ''],
+  ['BZfE: Lebensmittelverderb erkennen (Stand 20.02.2025)', 'https://www.bzfe.de/nachhaltiger-konsum/lagern-kochen-essen-teilen/lebensmittelverderb-erkennen/', 'Warnzeichen'],
+  ['BZfE: Lagerung – neue Vorräte nach hinten (Stand 13.08.2026)', 'https://www.bzfe.de/einfache-sprache/kochen-und-aufbewahren/lagerung', 'zuerst rein, zuerst raus'],
+  ['BZfE: Private Ernährungsvorsorge (Stand 09.06.2026)', 'https://www.bzfe.de/kueche-und-alltag/private-ernaehrungsvorsorge', '„first in, first out“'],
+  ['USDA FoodData Central, SR Legacy (2018)', 'https://fdc.nal.usda.gov/', 'Nährwerte je 100 g (Nummer im Katalog)']
+];
+
+/* ===================================================================== 3. Rechenkern (ohne DOM) */
+function katVon(S, id) { if (KAT[id]) return KAT[id]; var e = (S.eigene || []).filter(function (x) { return x.i === id; })[0]; return e || null; }
+function einheiten(k) {
+  var L = k.ml ? [{ k: 'ml', t: 'ml', g: 1 }, { k: 'l', t: 'l', g: 1000 }] : [{ k: 'g', t: 'g', g: 1 }, { k: 'kg', t: 'kg', g: 1000 }];
+  if (k.st) L.push({ k: 'st', t: 'Stück (ca. ' + fz(k.st) + ' g)', g: k.st });
+  (k.p || []).forEach(function (p, i) { L.push({ k: 'p' + i, t: p[0], g: p[1] }); });
+  return L;
+}
+function einheitG(k, e) { var L = einheiten(k); for (var i = 0; i < L.length; i++) if (L[i].k === e) return L[i].g; return 1; }
+function einheitT(k, e) { var L = einheiten(k); for (var i = 0; i < L.length; i++) if (L[i].k === e) return L[i].t; return 'g'; }
+function stdEinheit(k) { return k.p && k.p.length ? 'p0' : k.st ? 'st' : k.ml ? 'l' : 'g'; }
+function gramm(S, it) { var k = katVon(S, it.k); if (!k) return 0; return Math.max(0, (+it.m || 0) * einheitG(k, it.e)); }
+
+/* Tagesbedarf einer Person: Erwachsene (ab 18) nach Mifflin-St Jeor × PAL, Kinder/Jugendliche nach DGE-Richtwerten */
+function bedarf(p) {
+  var a = zahl(p.a), m = p.s !== 'w', ti = 0;
+  TAETIG.forEach(function (t, i) { if (t[0] === p.t) ti = i; }); if (!p.t) ti = 1;
+  var pal = TAETIG[ti][2], eig = zahl(p.eigen), kgw = zahl(p.kg), cm = zahl(p.cm), r = { kcal: 0, eiweiss: 0, art: '', text: '' };
+  if (!isFinite(a)) { r.art = 'fehlt'; r.text = 'Alter eingeben'; }
+  else if (a < 1) { r.art = 'baby'; r.text = 'Säugling: Bedarf von Hand eintragen (Kinderarzt, Packung der Säuglingsnahrung)'; }
+  else {
+    var row = null; DGE_E.forEach(function (d) { if (a >= d[0] && a < d[1]) row = d; });
+    var refKg = row ? (m ? row[4] : row[5]) : 70;
+    var kgE = isFinite(kgw) && kgw > 0 ? kgw : refKg;
+    if (a >= 18 && isFinite(kgw) && kgw >= 30 && isFinite(cm) && cm >= 120) {
+      var gu = 10 * kgw + 6.25 * cm - 5 * a + (m ? 5 : -161);
+      r.kcal = gu * pal; r.art = 'formel'; r.text = 'Grundumsatz ' + fz(gu) + ' kcal × ' + fz(pal, 1) + ' (Mifflin-St Jeor)';
+    } else if (row) {
+      r.kcal = (m ? row[2] : row[3])[ti]; r.art = 'dge'; r.text = 'DGE-Richtwert für ' + row[0] + ' bis unter ' + (row[1] > 100 ? '…' : row[1]) + ' Jahre' + (row[0] === 1 ? '' : ', PAL ' + fz(pal, 1));
+    }
+    r.eiweiss = eiweissProKg(a, p.s) * kgE;
+  }
+  if (isFinite(eig) && eig > 0) { r.kcal = eig; r.text = 'eigener Wert' + (r.text ? ' (berechnet: ' + r.text + ')' : ''); r.art = 'eigen'; }
+  return r;
+}
+function haushalt(S) {
+  var P = (S.personen || []).map(function (p) { return { p: p, b: bedarf(p) }; });
+  var kcal = 0, eiw = 0; P.forEach(function (x) { kcal += x.b.kcal; eiw += x.b.eiweiss; });
+  var n = P.length, L = S.lage || {}, hyg = Math.max(0, zahl(L.hyg) || 0);
+  var tiereW = 0; (S.tiere || []).forEach(function (t) { tiereW += Math.max(0, zahl(t.wasser) || 0); });
+  var wasser = n * (WASSER_TAG + hyg) + tiereW;
+  var spar = [100, 80, 60].indexOf(+L.spar) >= 0 ? +L.spar : 100;
+  return { P: P, n: n, kcal: kcal, kcalSpar: kcal * spar / 100, spar: spar, eiweiss: eiw, wasser: wasser, wasserKochen: n * WASSER_KOCHEN, tiereW: tiereW, hyg: hyg };
+}
+function zielTage(S) { var L = S.lage || {}; var z = L.ziel === 'frei' ? zahl(L.zielFrei) : +L.ziel; return isFinite(z) && z > 0 ? Math.min(365, Math.round(z)) : 10; }
+function kannKochen(S, need) { var k = (S.lage || {}).koch || 'gas'; return (KANN[need] || []).indexOf(k) >= 0; }
+
+/* Lagerposten mit Werten */
+function posten(S, heute) {
+  return (S.lager || []).map(function (it) {
+    var k = katVon(S, it.k); if (!k) return null;
+    var g = gramm(S, it), d = mhdDatum(it.mhd);
+    return { it: it, k: k, g: g, kcal: g * (k.k || 0) / 100, eiw: g * (k.e || 0) / 100, ort: it.o || 'v', mhd: d, rest: d ? tageBis(d, heute) : null, ko: !!k.ko };
+  }).filter(Boolean);
+}
+/* Reihenfolge beim Essen: Kühlschrank, Gefriertruhe, dann was zuerst abläuft */
+function rang(x, strom) { var r = 0; if (strom) r = x.ort === 'k' ? 0 : x.ort === 't' ? 1 : 2; return r * 1e6 + (x.rest == null ? 9e5 : Math.max(-1e4, Math.min(8e5, x.rest))); }
+
+/* Fett, Zucker, Mehl und andere Zutaten zählen je Tag höchstens mit 30 % des Bedarfs (Annahme: so viel lässt sich sinnvoll verkochen;
+   die DGE nennt für Fett 30–35 % der Energie). Sonst würde z. B. eine Flasche Öl allein mehrere Tage „füllen“. */
+var ZUTAT_ANTEIL = 0.3;
+function begrenzt(k) { return k.g === 'fett' || ['zucker', 'honig', 'marmelade', 'nusscreme', 'mayonnaise', 'ketchup', 'bruehe', 'kakao', 'puddingpulver', 'butterschmalz'].indexOf(k.i) >= 0; }
+/* Reichweite: Tag für Tag essen. Bei Stromausfall zählt Kühlschrank-Ware nur am 1. Tag, Gefriergut nur an den Tagen 1–2 (VZ: Kühlschrank 4–6 h, Gefriergerät oft bis 48 h) */
+function reichweite(S, heute, opt) {
+  opt = opt || {}; var H = haushalt(S), D = H.kcalSpar, L = S.lage || {}, strom = !!L.strom, kochen = opt.ohneKochen ? false : ((L.koch || 'gas') !== 'keine');
+  var X = posten(S, heute).filter(function (x) { return x.k.g !== 'baby' && x.kcal > 0; });
+  X.forEach(function (x) { x.r = x.kcal; x.e = x.eiw; x.pur = !begrenzt(x.k); });
+  X.sort(function (a, b) { return rang(a, strom) - rang(b, strom); });
+  var nutzbar = function (x, d) { if (x.ko && !kochen) return false; if (strom && x.ort === 'k' && d > 1) return false; if (strom && x.ort === 't' && d > 2) return false; return true; };
+  var start = 0; X.forEach(function (x) { if (nutzbar(x, 1)) start += x.r; });
+  var verlauf = [[0, D > 0 ? start / D : 0]], tage = 0, verloren = 0, spaet = [], d = 0, MAX = 730;
+  if (D <= 0) return { D: 0, tage: 0, verlauf: [], start: start, verloren: 0, spaet: [], max: false };
+  while (d < MAX) {
+    d++; var need = D, zut = D * ZUTAT_ANTEIL;
+    for (var i = 0; i < X.length && need > 1e-9; i++) { var x = X[i]; if (x.r <= 1e-9 || !nutzbar(x, d)) continue;
+      var t = Math.min(x.r, need); if (!x.pur) { t = Math.min(t, zut); if (t <= 1e-9) continue; zut -= t; } if (x.rest != null && x.rest < d - 1 && spaet.indexOf(x) < 0) spaet.push(x); x.r -= t; need -= t; }
+    var rest = 0; X.forEach(function (x) { if (x.r > 1e-9 && nutzbar(x, d + 1)) rest += x.r; });
+    if (need > 1e-9) { tage += (D - need) / D; verlauf.push([d, 0]); break; }
+    tage += 1; verlauf.push([d, rest / D]);
+    if (rest <= 1e-9) break;
+  }
+  X.forEach(function (x) { if (x.r > 1e-9 && strom && (x.ort === 'k' || x.ort === 't')) verloren += x.r; });
+  return { D: D, tage: tage, verlauf: verlauf, start: start, verloren: verloren, spaet: spaet.map(function (x) { return x.it.u; }), max: d >= MAX };
+}
+function wasser(S) {
+  var H = haushalt(S), L = S.lage || {}, l = 0;
+  (S.lager || []).forEach(function (it) { var k = katVon(S, it.k); if (k && k.fl) l += gramm(S, it) / 1000; });
+  var tage = L.leitung ? Infinity : (H.wasser > 0 ? l / H.wasser : 0);
+  return { l: l, bedarf: H.wasser, tage: tage, leitung: !!L.leitung };
+}
+function gruppenStand(S, heute) {
+  var H = haushalt(S), z = zielTage(S), fak = H.kcal / BLE_KCAL * z / BLE_TAGE, R = {};
+  GRUPPEN.forEach(function (g) { R[g.k] = { g: g, ist: 0, ziel: g.ble * fak, kcal: 0 }; });
+  posten(S, heute).forEach(function (x) { var r = R[x.k.g]; if (!r) return; r.ist += x.g * (x.k.x || 1); r.kcal += x.kcal; });
+  return R;
+}
+function eiweissTage(S, heute) { var H = haushalt(S), e = 0; posten(S, heute).forEach(function (x) { if (x.k.g !== 'baby') e += x.eiw; }); return { g: e, tage: H.eiweiss > 0 ? e / H.eiweiss : 0, bedarf: H.eiweiss }; }
+
+/* Gerichte gegen das Lager prüfen */
+function bestand(S, heute) { var B = {}; posten(S, heute).forEach(function (x) { B[x.it.k] = (B[x.it.k] || 0) + x.g; }); return B; }
+function zutatDa(z, B) { var s = 0; z.a.forEach(function (a) { s += (B[a[0]] || 0) / a[1]; }); return s; }
+function gerichtWerte(S, r) {
+  var k = 0, e = 0; r.zut.forEach(function (z) { if (z.opt) return; var kk = katVon(S, z.a[0][0]); if (!kk) return; k += z.g * (kk.k || 0) / 100; e += z.g * (kk.e || 0) / 100; });
+  return { kcal: k / r.p, eiweiss: e / r.p, wasser: r.wa / r.p };
+}
+function gerichtStatus(S, r, B) {
+  var max = Infinity, fehlt = [];
+  r.zut.forEach(function (z) { if (z.opt) return; var je = z.g / r.p, da = zutatDa(z, B), n = Math.floor(da / je + 1e-9); if (n < max) max = n;
+    if (n < 1) fehlt.push({ z: z, g: je - da }); });
+  if (!isFinite(max)) max = 0;
+  var st = max >= 1 ? 'geht' : fehlt.length <= 2 ? 'fast' : 'fehlt';
+  return { st: st, max: max, fehlt: fehlt, koch: kannKochen(S, r.koch) };
+}
+function zutatName(S, z) { return z.a.map(function (a) { var k = katVon(S, a[0]); return k ? k.n.replace(/ \(.*\)$/, '').replace(/, trocken$/, '') : a[0]; }).filter(function (v, i, A) { return A.indexOf(v) === i; }).slice(0, 3).join(' oder '); }
+
+/* Zutaten abziehen: zuerst Kühlschrank/Gefriertruhe, dann was zuerst abläuft. Gibt verbrauchte Mengen zurück */
+function abziehen(S, r, port, heute) {
+  var strom = !!(S.lage || {}).strom, X = posten(S, heute), weg = [];
+  r.zut.forEach(function (z) {
+    var need = z.g / r.p * port; if (z.opt && zutatDa(z, bestand(S, heute)) <= 0) return;
+    var C = X.filter(function (x) { return z.a.some(function (a) { return a[0] === x.it.k; }); }).sort(function (a, b) { return rang(a, true) - rang(b, true); });
+    C.forEach(function (x) { if (need <= 1e-9) return; var f = 1; z.a.forEach(function (a) { if (a[0] === x.it.k) f = a[1]; });
+      var g = gramm(S, x.it), nimm = Math.min(g, need * f); if (nimm <= 0) return;
+      var eg = einheitG(x.k, x.it.e); x.it.m = Math.max(0, Math.round((g - nimm) / eg * 1000) / 1000); need -= nimm / f; weg.push([x.k.n, nimm]); });
+  });
+  S.lager = (S.lager || []).filter(function (it) { return (+it.m || 0) > 1e-6; });
+  return weg;
+}
+
+/* Was man auch pur essen kann (zum Auffüllen eines Tages im Speiseplan) */
+var NICHT_PUR = ['zwiebeln', 'knoblauch', 'zucker', 'salz', 'bruehe', 'essig', 'senf', 'ketchup', 'mayonnaise', 'tomatenmark', 'passata', 'staerke', 'trockenhefe', 'frischhefe', 'backpulver', 'puddingpulver', 'kakao', 'honig', 'zitronensaft', 'marmelade', 'nusscreme', 'pilze_getr', 'tee', 'kaffee'];
+function pur(k) { return ['baby', 'fett', 'trinken'].indexOf(k.g) < 0 && NICHT_PUR.indexOf(k.i) < 0 && !/mehl/.test(k.i); }
+/* Speiseplan-Vorschlag: je Tag bis zu drei Gerichte (Portionen = Personen) aus dem Lager, Lücken mit Fertigem füllen */
+function speiseplan(S0, heute, tage) {
+  var S = klon(S0), H = haushalt(S), n = Math.max(1, H.n), D = H.kcalSpar, strom = !!(S.lage || {}).strom, leitung = !!(S.lage || {}).leitung;
+  var W = wasser(S0), wasserFrei = leitung ? Infinity : W.l * 1000, tageL = [], zuletzt = {}, knapp = 0, brennMin = 0;
+  if (D <= 0 || !n) return { tage: [], knapp: 0, brennMin: 0 };
+  for (var d = 1; d <= tage; d++) {
+    if (strom) { var vorher = (S.lager || []).length; S.lager = (S.lager || []).filter(function (it) { return !((it.o === 'k' && d > 1) || (it.o === 't' && d > 2)); }); void vorher; }
+    var B = bestand(S, heute), X = posten(S, heute), dringend = {};
+    X.forEach(function (x) { var w = 0; if (strom && x.ort === 'k') w = 3; else if (strom && x.ort === 't') w = 2; else if (x.rest != null && x.rest - d < 30) w = 1; if (w) dringend[x.it.k] = Math.max(dringend[x.it.k] || 0, w); });
+    var tag = { d: d, essen: [], extra: [], kcal: 0 }, heuteGenutzt = {};
+    for (var slot = 0; slot < 3 && tag.kcal < D * 0.95; slot++) {
+      var best = null, bs = -1e9;
+      GERICHTE.forEach(function (r) {
+        if (!kannKochen(S, r.koch) || heuteGenutzt[r.id]) return;
+        var st = gerichtStatus(S, r, B); if (st.max < 1) return;
+        var port = Math.min(n, st.max), wv = gerichtWerte(S, r), wbed = wv.wasser * port; if (!leitung && wbed > wasserFrei * 0.5) return;
+        var s = wv.kcal * port / D * 40;
+        r.zut.forEach(function (z) { z.a.forEach(function (a) { if (dringend[a[0]] && zutatDa({ a: [a] }, B) > 0) s += 25 * dringend[a[0]]; }); });
+        if (zuletzt[r.id] && d - zuletzt[r.id] < 3) s -= 30; if (slot === 0) s += r.fr ? 20 : -15; else if (r.fr) s -= 10;
+        if (port < n) s -= 15; s -= r.z / 10;
+        if (s > bs) { bs = s; best = { r: r, port: port, wv: wv }; }
+      });
+      if (!best) break;
+      abziehen(S, best.r, best.port, heute); B = bestand(S, heute); heuteGenutzt[best.r.id] = 1; zuletzt[best.r.id] = d;
+      if (!leitung) wasserFrei -= best.wv.wasser * best.port;
+      brennMin += best.r.koch === 'kalt' ? 0 : best.r.z;
+      tag.essen.push({ id: best.r.id, n: best.r.n, port: best.port, kcal: best.wv.kcal * best.port }); tag.kcal += best.wv.kcal * best.port;
+    }
+    if (tag.kcal < D * 0.95) {
+      var kochen = (S.lage || {}).koch !== 'keine';
+      var F = posten(S, heute).filter(function (x) { return x.kcal > 0 && pur(x.k) && !x.ko && !(strom && ((x.ort === 'k' && d > 1) || (x.ort === 't' && d > 2))); })
+        .sort(function (a, b) { return rang(a, strom) - rang(b, strom); });
+      void kochen;
+      F.forEach(function (x) { var gap = D - tag.kcal; if (gap <= 1) return; var nimm = Math.min(x.kcal, gap, D * 0.15, 250 * n * x.k.k / 100), g = nimm / x.k.k * 100;
+        var eg = einheitG(x.k, x.it.e); x.it.m = Math.max(0, Math.round((x.g - g) / eg * 1000) / 1000); tag.kcal += nimm; tag.extra.push({ n: x.k.n, g: g }); });
+      S.lager = (S.lager || []).filter(function (it) { return (+it.m || 0) > 1e-6; });
+    }
+    tag.deckung = tag.kcal / D; if (!knapp && tag.deckung < 0.9) knapp = d;
+    tageL.push(tag);
+  }
+  return { tage: tageL, knapp: knapp, brennMin: brennMin };
+}
+
+/* Einkaufsliste bis zum Ziel */
+function fehltListe(S, heute) {
+  var H = haushalt(S), z = zielTage(S), R = gruppenStand(S, heute), W = wasser(S), out = [];
+  GRUPPEN.forEach(function (g) { var r = R[g.k]; if (!g.ble) return; var gap = r.ziel - r.ist; if (gap > r.ziel * 0.05 && gap > 50) out.push({ g: g, gap: gap, ziel: r.ziel, ist: r.ist }); });
+  var wz = W.bedarf * z, wl = W.leitung ? 0 : Math.max(0, wz - W.l);
+  var rw = reichweite(S, heute), kcalFehlt = Math.max(0, H.kcal * z - rw.start);
+  return { gruppen: out, wasserL: wl, wasserZiel: wz, kcal: kcalFehlt, ziel: z };
+}
+function vorschlag(S, gk, gap) {
+  var ids = (VORSCHLAG[gk] || []).slice(0, 2), out = [];
+  ids.forEach(function (id) { var k = KAT[id]; if (!k) return; var teil = gap / ids.length / (k.x || 1), pg = k.p && k.p.length ? k.p[0] : null;
+    var nm = k.n.replace(/ \(.*\)$/, '').replace(/, trocken$/, ''); if (pg) out.push(Math.max(1, Math.ceil(teil / pg[1])) + ' × ' + nm + ' (' + pg[0].replace(/ \(.*\)$/, '') + ')'); else out.push(kg(teil) + ' ' + nm); });
+  return out;
+}
+
+/* Beispiel-Haushalt beim ersten Öffnen */
+function beispiel(heute) {
+  var y = heute.getFullYear(), mo = heute.getMonth() + 1, m = function (plus) { var t = (mo - 1) + plus, yy = y + Math.floor(t / 12), mm = (t % 12 + 12) % 12 + 1; return yy + '-' + (mm < 10 ? '0' : '') + mm; };
+  var L = function (k, mm, e, mhd, o) { return { u: uid(), k: k, m: mm, e: e, mhd: mhd || '', o: o || (KAT[k].l || 'v') }; };
+  return { v: 1, beispiel: true, tab: 'reichweite',
+    personen: [{ id: uid(), n: 'Erwachsener', s: 'm', a: 42, kg: 84, cm: 180, t: 'normal' }, { id: uid(), n: 'Erwachsene', s: 'w', a: 39, kg: 64, cm: 168, t: 'normal' }, { id: uid(), n: 'Kind', s: 'm', a: 9, kg: 30, cm: 136, t: 'normal' }],
+    tiere: [], lage: { strom: true, leitung: false, koch: 'gas', ziel: 10, zielFrei: 21, spar: 100, hyg: 0, kartusche: '' },
+    lager: [L('nudeln', 4, 'p0', m(14)), L('reis', 1, 'p0', m(10)), L('haferflocken', 2, 'p0', m(5)), L('knaecke', 2, 'p0', m(8)), L('kartoffeln', 1, 'p0', ''),
+      L('linsen', 1, 'p0', m(20)), L('kidney_dose', 2, 'p0', m(24)), L('erbsen_moehren', 2, 'p0', m(30)), L('tomaten_dose', 3, 'p0', m(18)), L('zwiebeln', 1, 'p0', ''),
+      L('pfirsiche', 2, 'p0', m(16)), L('apfelmus', 1, 'p0', m(2)), L('rosinen', 1, 'p0', m(6)), L('haselnuesse', 1, 'p0', m(1)),
+      L('hmilch', 4, 'p0', m(3)), L('hartkaese', 1, 'p0', '', 'k'), L('joghurt', 1, 'p0', m(0), 'k'),
+      L('thunfisch', 3, 'p0', m(36)), L('wuerstchen', 1, 'p0', m(20)), L('eier', 1, 'p0', m(0), 'k'), L('hack_tk', 1, 'p0', m(4), 't'),
+      L('rapsoel', 1, 'p0', m(9)), L('butter', 1, 'p0', m(1), 'k'), L('wasser', 2, 'p3', m(14)), L('zucker', 1, 'p0', ''), L('honig', 1, 'p0', m(24)), L('bruehe', 1, 'p0', m(12))],
+    eigene: [], haken: {} };
+}
+function leer() { return { v: 1, beispiel: false, tab: 'haushalt', personen: [], tiere: [], lage: { strom: true, leitung: false, koch: 'gas', ziel: 10, zielFrei: 21, spar: 100, hyg: 0, kartusche: '' }, lager: [], eigene: [], haken: {} }; }
+function pruefeStand(x) {
+  if (!x || typeof x !== 'object' || !Array.isArray(x.personen) || !Array.isArray(x.lager)) return null;
+  var S = leer(); Object.keys(S).forEach(function (k) { if (x[k] != null) S[k] = x[k]; });
+  S.lage = Object.assign(leer().lage, x.lage || {}); S.lager = S.lager.filter(function (it) { return it && it.k && (KAT[it.k] || (S.eigene || []).some(function (e) { return e.i === it.k; })); });
+  S.lager.forEach(function (it) { if (!it.u) it.u = uid(); });
+  return S;
+}
+
+var KERN = { KATALOG: KATALOG, GERICHTE: GERICHTE, GRUPPEN: GRUPPEN, DGE_E: DGE_E, QUELLEN: QUELLEN, CHECK: CHECK, bedarf: bedarf, haushalt: haushalt, reichweite: reichweite, wasser: wasser, gruppenStand: gruppenStand,
+  eiweissTage: eiweissTage, bestand: bestand, gerichtWerte: gerichtWerte, gerichtStatus: gerichtStatus, abziehen: abziehen, speiseplan: speiseplan, fehltListe: fehltListe, vorschlag: vorschlag,
+  beispiel: beispiel, leer: leer, pruefeStand: pruefeStand, gramm: gramm, einheiten: einheiten, zielTage: zielTage, posten: posten, katVon: katVon, kannKochen: kannKochen };
+
+/* ===================================================================== 4. Oberfläche */
+var S = null, R = null, FIG = null, UNDO = null, TOAST_T = null, SPEICHER_T = null, SUCHE = '', GF = { st: 'alle', art: 'alle', meine: true, ohneW: false }, PLAN = null, OFFEN = {};
+var TABS = [['reichweite', 'Reichweite', '◔'], ['haushalt', 'Haushalt', '👪'], ['lager', 'Lager', '🥫'], ['gerichte', 'Gerichte', '🍲'], ['fehlt', 'Fehlt noch', '🛒'], ['haltbar', 'Haltbarkeit', '📅']];
+function heute() { var d = new Date(); d.setHours(12, 0, 0, 0); return d; }
+function laden() { try { var x = JSON.parse(localStorage.getItem(SPEICHER) || 'null'); return pruefeStand(x); } catch (e) { return null; } }
+function sichern() { if (SPEICHER_T) clearTimeout(SPEICHER_T); SPEICHER_T = setTimeout(function () { try { localStorage.setItem(SPEICHER, JSON.stringify(S)); } catch (e) { toast('Speichern ging nicht – ist der Speicher voll oder gesperrt?'); } }, 250); }
+function sichernJetzt() { try { localStorage.setItem(SPEICHER, JSON.stringify(S)); } catch (e) { /* gesperrt */ } }
+
+function seg(name, L, wert, cls) { return '<div class="vr-seg ' + (cls || '') + '" role="group">' + L.map(function (o) { return '<button type="button" data-set="' + name + '" data-wert="' + esc(o[0]) + '" aria-pressed="' + (String(wert) === String(o[0])) + '">' + esc(o[1]) + '</button>'; }).join('') + '</div>'; }
+function feld(lbl, inner, cls) { return '<label class="vr-feld ' + (cls || '') + '"><span class="vr-fl">' + lbl + '</span>' + inner + '</label>'; }
+function zahlIn(attr, wert, einh, ph, mode) { return '<span class="vr-ein"><input type="text" inputmode="' + (mode || 'decimal') + '" ' + attr + ' value="' + esc(wert == null ? '' : String(wert).replace('.', ',')) + '" placeholder="' + esc(ph || '') + '" autocomplete="off">' + (einh ? '<i>' + einh + '</i>' : '') + '</span>'; }
+function balken(ist, ziel, cls) { var p = ziel > 0 ? Math.min(100, ist / ziel * 100) : 0; return '<span class="vr-bar ' + (cls || '') + '" role="img" aria-label="' + fz(p) + ' Prozent"><i style="width:' + p.toFixed(1) + '%"></i></span>'; }
+function leerText(t, knopf) { return '<div class="vr-leer"><p>' + t + '</p>' + (knopf || '') + '</div>'; }
+
+/* ---------- Kopf, Leiste ---------- */
+function kopfHTML() {
+  return '<header class="vr-kopf"><p class="vr-ober">Werkzeug · offline · nur auf diesem Gerät</p><h1>Vorrat &amp; Blackout-Planer</h1>' +
+    '<p class="vr-intro">Wie lange reichen Essen und Wasser für deinen Haushalt? Was kannst du daraus kochen und backen, was fehlt noch und was läuft bald ab?</p>' +
+    (FIG ? '<div class="vr-bild">' + FIG + '</div>' : '') + '</header>';
+}
+function leisteHTML() {
+  return '<div class="vr-leiste"><div class="vr-kurz" aria-live="polite"></div><nav class="vr-tabs" role="tablist" aria-label="Bereiche">' +
+    TABS.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (S.tab === t[0]) + '"><span aria-hidden="true">' + t[2] + '</span>' + t[1] + '</button>'; }).join('') + '</nav></div>';
+}
+function kurzZeile() {
+  var h = heute(), H = haushalt(S), rw = reichweite(S, h), W = wasser(S), z = zielTage(S);
+  if (!H.n) return '<span>Noch niemand im Haushalt – lege unter „Haushalt“ Personen an.</span>';
+  var gut = function (t) { return t >= z ? 'vr-gut' : t >= Math.min(3, z) ? 'vr-mittel' : 'vr-schlecht'; };
+  return '<span><b>' + H.n + '</b> ' + (H.n === 1 ? 'Person' : 'Personen') + '</span><span><b>' + fz(H.kcalSpar) + '</b> kcal/Tag</span>' +
+    '<span class="' + gut(rw.tage) + '">Essen <b>' + tageText(rw.tage) + '</b></span><span class="' + gut(W.tage) + '">Wasser <b>' + (W.leitung ? 'Leitung' : tageText(W.tage)) + '</b></span>';
+}
+
+/* ---------- 1. Haushalt ---------- */
+function personHTML(p, i) {
+  var b = bedarf(p);
+  return '<article class="vr-karte vr-person" data-p="' + i + '"><div class="vr-kh"><input class="vr-name" type="text" data-pf="n" value="' + esc(p.n || '') + '" placeholder="Name" aria-label="Name" maxlength="40">' +
+    '<button type="button" class="vr-x" data-weg-p="' + i + '" aria-label="Person entfernen">✕</button></div>' +
+    '<div class="vr-felder">' + feld('Geschlecht', seg('p' + i + ':s', [['m', 'Mann'], ['w', 'Frau']], p.s || 'm')) +
+    feld('Alter', zahlIn('data-pf="a"', p.a, 'Jahre', '', 'numeric')) + feld('Gewicht', zahlIn('data-pf="kg"', p.kg, 'kg')) + feld('Größe', zahlIn('data-pf="cm"', p.cm, 'cm', '', 'numeric')) +
+    feld('Tätigkeit', seg('p' + i + ':t', TAETIG.map(function (t) { return [t[0], t[1]]; }), p.t || 'normal'), 'vr-voll') + '</div>' +
+    '<div class="vr-erg" data-perg="' + i + '">' + personErg(p, b) + '</div>' +
+    '<details class="vr-mehr"><summary>Eigenen Kalorienwert eintragen</summary>' + feld('Eigener Wert (z. B. vom Arzt; leer = berechnet)', zahlIn('data-pf="eigen"', p.eigen, 'kcal/Tag', '', 'numeric')) + '</details></article>';
+}
+function personErg(p, b) {
+  if (!b.kcal) return '<p class="vr-hinweis">' + esc(b.text || 'Angaben ergänzen') + '</p>';
+  return '<div class="vr-zahlen"><div><b>' + fz(b.kcal) + '</b><small>kcal am Tag</small></div><div><b>' + fz(b.eiweiss) + ' g</b><small>Eiweiß (DGE)</small></div><div><b>' + fz(WASSER_TAG + (haushalt(S).hyg || 0), 1) + ' l</b><small>Wasser</small></div></div>' +
+    '<p class="vr-klein">' + esc(b.text) + (b.art === 'dge' ? ' · Richtwert' : '') + '</p>';
+}
+function tierHTML(t, i) {
+  var f = zahl(t.futter), v = zahl(t.vorrat), tg = f > 0 && v >= 0 ? v * 1000 / f : NaN;
+  return '<article class="vr-karte vr-tier" data-t="' + i + '"><div class="vr-kh"><input class="vr-name" type="text" data-tf="n" value="' + esc(t.n || '') + '" placeholder="z. B. Hund" aria-label="Name des Tieres" maxlength="30"><button type="button" class="vr-x" data-weg-t="' + i + '" aria-label="Tier entfernen">✕</button></div>' +
+    '<div class="vr-felder">' + feld('Futter am Tag', zahlIn('data-tf="futter"', t.futter, 'g', '', 'numeric')) + feld('Wasser am Tag', zahlIn('data-tf="wasser"', t.wasser, 'l')) + feld('Futter im Vorrat', zahlIn('data-tf="vorrat"', t.vorrat, 'kg')) + '</div>' +
+    '<p class="vr-klein" data-terg="' + i + '">' + (isFinite(tg) ? 'Futter reicht etwa <b>' + tageText(tg) + '</b>.' : 'Mengen eintragen – das Futter steht auf der Packung oder beim Tierarzt.') + '</p></article>';
+}
+function haushaltHTML() {
+  var H = haushalt(S), L = S.lage;
+  var h = '<section class="vr-bereich" data-b="haushalt"><h2>Haushalt</h2><p class="vr-unter">Wer gehört dazu? Daraus ergibt sich, wie viel ihr am Tag braucht.</p>';
+  h += S.personen.length ? '<div class="vr-raster">' + S.personen.map(personHTML).join('') + '</div>' : leerText('Noch niemand angelegt – tippe auf „Person hinzufügen“.');
+  h += '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-neu-p>＋ Person hinzufügen</button></div>';
+  h += '<div class="vr-karte vr-summe"><div class="vr-zahlen"><div><b>' + fz(H.kcal) + '</b><small>kcal am Tag für alle</small></div><div><b>' + fz(H.eiweiss) + ' g</b><small>Eiweiß am Tag</small></div><div><b>' + fz(H.wasser, 1) + ' l</b><small>Wasser am Tag</small></div></div>' +
+    '<p class="vr-klein">Erwachsene ab 18: Grundumsatz nach Mifflin-St Jeor (wie im Energie-Rechner der App) × Tätigkeit (ruhig 1,4 · normal 1,6 · körperlich 1,8). Kinder und Jugendliche: Richtwerte der DGE. Eiweiß: DGE-Referenzwerte je kg Körpergewicht. Wasser: 2 l je Person und Tag, davon 0,5 l zum Kochen (BBK). Alles Richtwerte.</p></div>';
+  h += '<h3>Haustiere</h3>' + (S.tiere.length ? '<div class="vr-raster">' + S.tiere.map(tierHTML).join('') + '</div>' : '<p class="vr-klein">Keine Haustiere eingetragen.</p>') +
+    '<div class="vr-knoepfe"><button type="button" class="vr-knopf" data-neu-t>＋ Haustier hinzufügen</button></div>';
+  h += '<h3>Lage</h3><div class="vr-karte vr-lage"><div class="vr-felder">' +
+    feld('Strom weg?', seg('lage:strom', [['1', 'Ja'], ['0', 'Nein']], L.strom ? '1' : '0')) +
+    feld('Leitungswasser da?', seg('lage:leitung', [['1', 'Ja'], ['0', 'Nein']], L.leitung ? '1' : '0')) +
+    feld('Kochmöglichkeit', seg('lage:koch', KOCH.map(function (k) { return [k[0], k[1]]; }), L.koch, 'vr-seg-wrap'), 'vr-voll') +
+    (L.strom && L.koch === 'herd' ? '<p class="vr-warn vr-voll">Ein Elektroherd geht ohne Strom nicht. „Herd normal“ nur wählen, wenn es ein Gasherd ist.</p>' : '') +
+    feld('Ziel: so viele Tage', seg('lage:ziel', ZIELE.map(function (z) { return [String(z), String(z)]; }).concat([['frei', 'frei']]), String(L.ziel)), 'vr-voll') +
+    (L.ziel === 'frei' ? feld('Eigene Zahl', zahlIn('data-lf="zielFrei"', L.zielFrei, 'Tage', '', 'numeric')) : '') +
+    feld('Ration', seg('lage:spar', [['100', '100 %'], ['80', '80 %'], ['60', '60 %']], String(L.spar)), 'vr-voll') +
+    (+L.spar < 100 ? '<p class="vr-warn vr-voll">Weniger essen geht nur für kurze Zeit und nur für gesunde Erwachsene – nicht für Kinder, Schwangere, Stillende, Kranke oder ältere Menschen. Wasser nie kürzen. Das ist eine Rechenhilfe, keine Empfehlung.</p>' : '') +
+    feld('Zusätzlich Wasser zum Waschen', zahlIn('data-lf="hyg"', L.hyg || '', 'l je Person/Tag', '0 = aus'), 'vr-voll') +
+    (L.koch === 'gas' ? feld('Brenndauer einer Gaskartusche (steht auf der Packung)', zahlIn('data-lf="kartusche"', L.kartusche, 'Minuten', 'leer = keine Schätzung', 'numeric'), 'vr-voll') : '') +
+    '</div><p class="vr-klein">Der BBK rät, sich möglichst 10 Tage selbst versorgen zu können – aber auch ein Vorrat für 3 Tage hilft schon sehr.</p></div>';
+  h += sicherungHTML();
+  return h + '</section>';
+}
+function sicherungHTML() {
+  return '<h3>Sicherung</h3><div class="vr-karte"><p class="vr-klein">Alles bleibt nur auf diesem Gerät. Zum Umzug (z. B. vom iPhone aufs iPad) als Datei speichern oder als Text kopieren und auf dem anderen Gerät einfügen.</p>' +
+    '<div class="vr-knoepfe"><button type="button" class="vr-knopf" data-sich="datei">Als Datei speichern</button><label class="vr-knopf vr-datei">Datei laden<input type="file" accept=".json,application/json,text/plain" data-sich-datei></label>' +
+    '<button type="button" class="vr-knopf" data-sich="kopie">Als Text kopieren</button></div>' +
+    '<details class="vr-mehr"><summary>Text einfügen</summary><textarea class="vr-text" rows="4" placeholder="Hier den kopierten Text einfügen" aria-label="Sicherungstext"></textarea><div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-sich="einfuegen">Übernehmen</button></div></details>' +
+    '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-gefahr" data-sich="alles-weg">Alles löschen</button></div></div>';
+}
+
+/* ---------- 2. Lager ---------- */
+function alleKat() { return KATALOG.concat(S.eigene || []); }
+function sucheTreffer(q) {
+  q = q.toLowerCase().trim(); if (!q) return [];
+  var W = q.split(/\s+/);
+  return alleKat().map(function (k) { var t = (k.n + ' ' + (k.s || '')).toLowerCase(), s = 0; for (var i = 0; i < W.length; i++) { var p = t.indexOf(W[i]); if (p < 0) return null; s += p === 0 ? 0 : t.charAt(p - 1) === ' ' ? 1 : 3; } return [s + (k.n.toLowerCase().indexOf(q) === 0 ? -2 : 0), k]; })
+    .filter(Boolean).sort(function (a, b) { return a[0] - b[0] || a[1].n.localeCompare(b[1].n, 'de'); }).slice(0, 10).map(function (x) { return x[1]; });
+}
+function trefferHTML() {
+  var T = sucheTreffer(SUCHE);
+  if (!SUCHE) return '';
+  if (!T.length) return '<p class="vr-klein">Nichts gefunden. Lege es unten unter „Eigenes Lebensmittel“ an.</p>';
+  return '<ul class="vr-treffer" role="list">' + T.map(function (k) { return '<li><button type="button" data-add="' + esc(k.i) + '"><span>' + esc(k.n) + '</span><small>' + GR[k.g].kurz + ' · ' + fz(k.k) + ' kcal/100 ' + (k.ml ? 'ml' : 'g') + '</small><b aria-hidden="true">＋</b></button></li>'; }).join('') + '</ul>';
+}
+function mhdSel(it) {
+  var m = /^(\d{4})-(\d{2})$/.exec(it.mhd || ''), y0 = new Date().getFullYear(), jm = m ? +m[1] : 0, mm = m ? +m[2] : 0, J = [];
+  for (var y = y0 - 2; y <= y0 + 10; y++) J.push(y); if (jm && J.indexOf(jm) < 0) J.unshift(jm);
+  return '<span class="vr-mhd"><select data-lf2="mm" aria-label="Haltbar bis Monat"><option value="">Monat</option>' + MONATE.map(function (t, i) { return '<option value="' + (i + 1) + '"' + (mm === i + 1 ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select>' +
+    '<select data-lf2="jj" aria-label="Haltbar bis Jahr"><option value="">Jahr</option>' + J.map(function (y) { return '<option' + (jm === y ? ' selected' : '') + '>' + y + '</option>'; }).join('') + '</select></span>';
+}
+function postenHTML(x, h) {
+  var it = x.it, k = x.k, warn = x.rest != null && x.rest < 0 ? ' vr-ab' : x.rest != null && x.rest < 30 ? ' vr-bald' : '';
+  return '<li class="vr-posten' + warn + '" data-u="' + esc(it.u) + '"><div class="vr-pk"><b>' + esc(k.n) + '</b><span>' + fz(x.kcal) + ' kcal' + (k.fl ? ' · ' + liter(x.g / 1000) : ' · ' + kg(x.g)) + '</span></div>' +
+    '<div class="vr-pm"><button type="button" class="vr-rund" data-minus aria-label="weniger">−</button><span class="vr-ein vr-menge"><input type="text" inputmode="decimal" data-lf2="m" value="' + esc(String(Math.round((+it.m || 0) * 100) / 100).replace('.', ',')) + '" aria-label="Menge"></span>' +
+    '<button type="button" class="vr-rund" data-plus aria-label="mehr">＋</button>' +
+    '<select data-lf2="e" aria-label="Einheit">' + einheiten(k).map(function (e) { return '<option value="' + e.k + '"' + (e.k === it.e ? ' selected' : '') + '>' + esc(e.t.replace(/ \((ca\. )?(\d[^)]*abgetropft|\d+ g)\)$/, '')) + '</option>'; }).join('') + '</select></div>' +
+    '<div class="vr-pd">' + mhdSel(it) + '<select data-lf2="o" aria-label="Lagerort">' + ORTE.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === (it.o || 'v') ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
+    '<button type="button" class="vr-x" data-weg-l aria-label="' + esc(k.n) + ' entfernen">✕</button></div>' +
+    (warn ? '<p class="vr-klein vr-pw">' + (x.rest < 0 ? 'MHD überschritten – prüfen (Aussehen, Geruch, Geschmack).' : 'Läuft in ' + x.rest + ' Tagen ab – bald verbrauchen.') + '</p>' : '') + '</li>';
+}
+function lagerHTML() {
+  var h0 = heute(), X = posten(S, h0), sum = 0; X.forEach(function (x) { if (x.k.g !== 'baby') sum += x.kcal; });
+  var h = '<section class="vr-bereich" data-b="lager"><h2>Lager</h2><p class="vr-unter">Was hast du im Haus? Suchen, antippen, Menge anpassen.</p>' +
+    '<div class="vr-such"><label class="vr-vh" for="vr-such">Lebensmittel suchen</label><span aria-hidden="true">⌕</span><input id="vr-such" type="search" placeholder="z. B. Nudeln, Thunfisch, Wasser …" autocomplete="off" value="' + esc(SUCHE) + '"></div>' +
+    '<div class="vr-treffer-ort" aria-live="polite">' + trefferHTML() + '</div>' +
+    '<details class="vr-mehr vr-katalog"><summary>Aus der Liste wählen (' + KATALOG.length + ' Lebensmittel)</summary>' + GRUPPEN.map(function (g) {
+      var K = alleKat().filter(function (k) { return k.g === g.k; }); if (!K.length) return '';
+      return '<details class="vr-kg"><summary>' + g.i + ' ' + esc(g.n) + ' <span>' + K.length + '</span></summary><div class="vr-chips">' + K.map(function (k) { return '<button type="button" class="vr-chip" data-add="' + esc(k.i) + '">' + esc(k.n) + '</button>'; }).join('') + '</div></details>'; }).join('') + '</details>' +
+    '<details class="vr-mehr"><summary>Eigenes Lebensmittel anlegen</summary>' + eigenFormHTML() + '</details>';
+  if (!X.length) h += leerText('Noch nichts im Lager – tippe oben ins Suchfeld oder auf „Aus der Liste wählen“.');
+  else {
+    h += '<p class="vr-summezeile">' + X.length + ' Posten · zusammen <b>' + fz(sum) + ' kcal</b> (ohne Babynahrung)</p>';
+    GRUPPEN.forEach(function (g) { var G = X.filter(function (x) { return x.k.g === g.k; }); if (!G.length) return;
+      h += '<h3 class="vr-gt">' + g.i + ' ' + esc(g.n) + '</h3><ul class="vr-liste" role="list">' + G.map(function (x) { return postenHTML(x, h0); }).join('') + '</ul>'; });
+  }
+  h += '<p class="vr-klein">Nährwerte je 100 g aus der Nährwert-Liste der App bzw. USDA FoodData Central (gerundet); Packungsgrößen und Haltbarkeiten sind Richtwerte – maßgeblich ist das Etikett.</p>';
+  return h + '</section>';
+}
+function eigenFormHTML() {
+  return '<div class="vr-eigen"><div class="vr-felder">' + feld('Name', '<span class="vr-ein"><input type="text" data-ef="n" maxlength="50" placeholder="z. B. Bohnensuppe vom Markt"></span>', 'vr-voll') +
+    feld('Gruppe', '<select data-ef="g">' + GRUPPEN.map(function (g) { return '<option value="' + g.k + '">' + esc(g.kurz) + '</option>'; }).join('') + '</select>') +
+    feld('kcal je 100 g', zahlIn('data-ef="k"', '', 'kcal', 'Etikett')) + feld('Eiweiß je 100 g', zahlIn('data-ef="e"', '', 'g')) + feld('Fett je 100 g', zahlIn('data-ef="f"', '', 'g')) + feld('Kohlenhydrate je 100 g', zahlIn('data-ef="c"', '', 'g')) +
+    feld('Packungsgröße', zahlIn('data-ef="pg"', '', 'g', 'freiwillig')) + feld('Ohne Kochen essbar?', seg('ef:ko', [['0', 'Ja'], ['1', 'Nein']], '0')) + '</div>' +
+    '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-eigen-neu>Anlegen und ins Lager</button></div></div>';
+}
+
+/* ---------- 3. Reichweite ---------- */
+function kursSVG(V, ziel, von) {
+  var W = Math.max(330, Math.min(900, ((R && R.clientWidth) || 700) - 64)), Hh = W < 500 ? 220 : 240, pl = 34, pr = 12, pt = 14, pb = 26, P = V.filter(function (p) { return p[0] >= von; }); if (P.length < 2) P = V.slice(-2);
+  var x0 = P[0][0], x1 = Math.max(P[P.length - 1][0], x0 + 1), ymax = Math.max(1, Math.max.apply(null, P.map(function (p) { return p[1]; })) * 1.1);
+  var X = function (x) { return pl + (x - x0) / (x1 - x0) * (W - pl - pr); }, Y = function (y) { return pt + (1 - y / ymax) * (Hh - pt - pb); };
+  var d = P.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); }).join('');
+  var st = Math.pow(10, Math.floor(Math.log10(ymax))) || 1; if (ymax / st < 3) st /= 2; if (ymax / st > 8) st *= 2;
+  var g = ''; for (var v = 0; v <= ymax; v += st) g += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '" class="vr-gl"/><text x="' + (pl - 6) + '" y="' + (Y(v) + 4).toFixed(1) + '" class="vr-ax" text-anchor="end">' + fz(v, st < 1 ? 1 : 0) + '</text>';
+  var xs = Math.max(1, Math.ceil((x1 - x0) / 6)); for (var t = Math.ceil(x0); t <= x1; t += xs) g += '<text x="' + X(t).toFixed(1) + '" y="' + (Hh - 8) + '" class="vr-ax" text-anchor="middle">' + (t === 0 ? 'heute' : 'Tag ' + t) + '</text>';
+  if (ziel >= x0 && ziel <= x1) g += '<line x1="' + X(ziel).toFixed(1) + '" x2="' + X(ziel).toFixed(1) + '" y1="' + pt + '" y2="' + (Hh - pb) + '" class="vr-ziel"/><text x="' + (X(ziel) + 4).toFixed(1) + '" y="' + (pt + 10) + '" class="vr-ax vr-zt">Ziel ' + ziel + ' T.</text>';
+  var hi = P.reduce(function (a, p) { return p[1] > a[1] ? p : a; }, P[0]);
+  return '<svg viewBox="0 0 ' + W + ' ' + Hh + '" class="vr-kurs-svg" role="img" aria-label="Verlauf des Vorrats in Tagesrationen">' + g +
+    '<path d="' + d + 'L' + X(P[P.length - 1][0]).toFixed(1) + ',' + Y(0).toFixed(1) + 'L' + X(P[0][0]).toFixed(1) + ',' + Y(0).toFixed(1) + 'Z" class="vr-flaeche"/><path d="' + d + '" class="vr-linie"/>' +
+    '<circle cx="' + X(hi[0]).toFixed(1) + '" cy="' + Y(hi[1]).toFixed(1) + '" r="4" class="vr-punkt"/></svg>';
+}
+function kursHTML(rw, z) {
+  var V = rw.verlauf; if (V.length < 2) return '';
+  var von = OFFEN.kz || 0, now = V[0][1], end = V[V.length - 1], ch = end[1] - now;
+  return '<div class="vr-karte vr-kurs"><div class="vr-kk"><span class="vr-fl">Vorrat in Tagesrationen</span><div class="vr-kw"><b>' + fz(now, now < 10 ? 1 : 0) + '</b> <small>heute</small></div>' +
+    '<div class="vr-kc vr-schlecht">▼ ' + fz(Math.abs(ch), 1) + ' bis Tag ' + end[0] + '</div></div>' + kursSVG(V, z, von) +
+    '<div class="vr-kz" role="group" aria-label="Zeitraum">' + [[0, 'Alle'], [Math.max(0, end[0] - 10), 'Letzte 10 T.']].map(function (b) { return '<button type="button" data-kz="' + b[0] + '" aria-pressed="' + (von === b[0]) + '">' + b[1] + '</button>'; }).join('') + '</div>' +
+    '<div class="vr-stats"><div><small>▲ Hoch</small><b>' + fz(now, 1) + '</b></div><div><small>▼ Tief</small><b>0</b></div><div><small>Verbrauch/Tag</small><b>' + fz(rw.D) + ' kcal</b></div><div><small>Ende</small><b>Tag ' + fz(rw.tage, 1) + '</b></div></div></div>';
+}
+function reichweiteHTML() {
+  var h0 = heute(), H = haushalt(S), z = zielTage(S), L = S.lage;
+  var h = '<section class="vr-bereich" data-b="reichweite"><h2>Reichweite</h2>';
+  if (!H.n) return h + leerText('Noch niemand im Haushalt – lege zuerst Personen an.', '<button type="button" class="vr-knopf vr-haupt" data-tab="haushalt">Zum Haushalt</button>') + '</section>';
+  var rw = reichweite(S, h0), W = wasser(S), ok = reichweite(S, h0, { ohneKochen: true }), E = eiweissTage(S, h0);
+  var farbe = function (t) { return t >= z ? 'vr-gut' : t >= Math.min(3, z) ? 'vr-mittel' : 'vr-schlecht'; };
+  var zuerst = W.leitung ? 'essen' : (W.tage < rw.tage ? 'wasser' : 'essen');
+  h += '<p class="vr-unter">Für ' + H.n + (H.n === 1 ? ' Person' : ' Personen') + ', ' + fz(H.kcalSpar) + ' kcal am Tag' + (H.spar < 100 ? ' (Ration ' + H.spar + ' %)' : '') + ' · Ziel ' + z + ' Tage · ' + (L.strom ? 'Strom weg' : 'Strom da') + ' · ' + KOCHT[L.koch] + '</p>';
+  if (!S.lager.length) h += leerText('Noch nichts im Lager – trage unter „Lager“ ein, was du hast.', '<button type="button" class="vr-knopf vr-haupt" data-tab="lager">Zum Lager</button>');
+  h += '<div class="vr-gross"><div class="vr-karte ' + farbe(rw.tage) + '"><span class="vr-fl">Essen reicht</span><b class="vr-gz">' + tageZahl(rw.tage) + '</b><span class="vr-ge">' + (rw.tage === 1 ? 'Tag' : 'Tage') + '</span>' + balken(rw.tage, z) + '<small>Ziel ' + z + ' Tage</small></div>' +
+    '<div class="vr-karte ' + (W.leitung ? 'vr-gut' : farbe(W.tage)) + '"><span class="vr-fl">Wasser reicht</span>' + (W.leitung ? '<b class="vr-gz vr-gz-t">Leitung läuft</b><span class="vr-ge">Vorrat ' + liter(W.l) + ' als Reserve</span>' : '<b class="vr-gz">' + tageZahl(W.tage) + '</b><span class="vr-ge">' + (W.tage === 1 ? 'Tag' : 'Tage') + '</span>' + balken(W.tage, z)) + '<small>' + liter(W.l) + ' da · ' + liter(W.bedarf) + ' am Tag</small></div></div>';
+  if (S.lager.length && H.kcal > 0) h += '<p class="vr-zuerst ' + (zuerst === 'wasser' ? 'vr-warn' : '') + '">' + (W.leitung ? 'Solange Leitungswasser kommt, begrenzt das Essen.' : zuerst === 'wasser' ? '<b>Zuerst geht das Wasser aus</b> – nach ' + tageText(W.tage) + '. Wasser ist wichtiger als Essen.' : '<b>Zuerst geht das Essen aus</b> – nach ' + tageText(rw.tage) + '.') + '</p>';
+  h += kursHTML(rw, z);
+  h += '<div class="vr-kacheln"><div class="vr-karte"><span class="vr-fl">Ganz ohne Kochen</span><b>' + tageText(ok.tage) + '</b><small>nur mit Essen, das kalt geht</small></div>' +
+    '<div class="vr-karte"><span class="vr-fl">Eiweiß reicht</span><b>' + tageText(E.tage) + '</b><small>' + fz(E.g) + ' g da · ' + fz(E.bedarf) + ' g am Tag</small></div>' +
+    '<div class="vr-karte"><span class="vr-fl">Energie im Lager</span><b>' + fz(rw.start) + ' kcal</b><small>davon nutzbar mit ' + KOCHT[L.koch] + '</small></div>' +
+    (L.strom && rw.verloren > 1 ? '<div class="vr-karte vr-schlecht"><span class="vr-fl">Geht verloren</span><b>' + fz(rw.verloren) + ' kcal</b><small>Kühl-/Gefriergut, das nicht rechtzeitig gegessen wird</small></div>' : '') + '</div>';
+  /* Gruppen nach BLE-Tabelle */
+  var G = gruppenStand(S, h0);
+  h += '<h3>Vorrat nach Lebensmittelgruppen</h3><div class="vr-karte"><ul class="vr-gruppen" role="list">' + GRUPPEN.filter(function (g) { return g.ble; }).map(function (g) { var r = G[g.k], p = r.ziel ? r.ist / r.ziel : 0;
+    return '<li><span class="vr-gn">' + g.i + ' ' + esc(g.kurz) + '</span><span class="vr-gw">' + kg(r.ist) + ' <small>von ' + kg(r.ziel) + '</small></span>' + balken(r.ist, r.ziel, p >= 1 ? 'vr-gut' : p >= 0.5 ? 'vr-mittel' : 'vr-schlecht') + '</li>'; }).join('') +
+    '<li><span class="vr-gn">💧 Getränke</span><span class="vr-gw">' + liter(W.l) + ' <small>von ' + liter(W.bedarf * z) + '</small></span>' + balken(W.l, W.bedarf * z, W.l >= W.bedarf * z ? 'vr-gut' : 'vr-mittel') + '</li></ul>' +
+    '<p class="vr-klein">Ziel nach der Vorratstabelle der BLE (je Person für 10 Tage bei 2.200 kcal), umgerechnet auf euren Bedarf (' + fz(H.kcal) + ' kcal) und ' + z + ' Tage. Trockene Hülsenfrüchte und Milchpulver werden über den Energiegehalt auf die Menge der Tabelle umgerechnet. Richtwert.</p></div>';
+  /* Strom weg: zuerst essen */
+  var X = posten(S, h0);
+  if (L.strom) { var K = X.filter(function (x) { return x.ort === 'k' || x.ort === 't'; }).sort(function (a, b) { return rang(a, true) - rang(b, true); });
+    h += '<h3>Zuerst essen</h3><div class="vr-karte">' + (K.length ? '<ul class="vr-liste-k" role="list">' + K.map(function (x) { return '<li><span>' + (x.ort === 'k' ? '❄︎ Kühlschrank' : '🧊 Gefriertruhe') + '</span><b>' + esc(x.k.n) + '</b><small>' + kg(x.g) + '</small></li>'; }).join('') + '</ul>' : '<p class="vr-klein">Nichts im Kühlschrank oder in der Gefriertruhe eingetragen.</p>') +
+      '<p class="vr-klein">Ohne Strom hält ein geschlossener Kühlschrank je nach Füllung etwa 4–6 Stunden kalt, ein Gefriergerät oft bis zu 48 Stunden (Verbraucherzentrale Niedersachsen). Darum zählt die Rechnung Kühlware nur am 1. Tag und Gefriergut nur an den ersten 2 Tagen.</p></div>'; }
+  /* läuft ab */
+  var A = X.filter(function (x) { return x.rest != null && x.rest <= z; }).sort(function (a, b) { return a.rest - b.rest; }), SP = rw.spaet;
+  if (A.length || SP.length) h += '<h3>Läuft bald ab</h3><div class="vr-karte"><ul class="vr-liste-k" role="list">' + A.map(function (x) { return '<li><span>' + (x.rest < 0 ? 'abgelaufen' : 'in ' + x.rest + ' T.') + '</span><b>' + esc(x.k.n) + '</b><small>' + mhdText(x.it.mhd) + (SP.indexOf(x.it.u) >= 0 ? ' · wird erst später gegessen' : '') + '</small></li>'; }).join('') + '</ul>' +
+    '<p class="vr-klein">Nach dem Mindesthaltbarkeitsdatum ist vieles noch gut – erst prüfen (Aussehen, Geruch, Geschmack). Mehr unter „Haltbarkeit“.</p></div>';
+  /* Brennstoff */
+  var kart = zahl(L.kartusche);
+  if (L.koch === 'gas') { var PL = speiseplan(S, h0, z);
+    h += '<h3>Gaskartuschen (Schätzung)</h3><div class="vr-karte">' + (isFinite(kart) && kart > 0 ? '<p>Der Speiseplan-Vorschlag für ' + z + ' Tage braucht etwa <b>' + fz(PL.brennMin) + ' Minuten</b> Flamme. Bei ' + fz(kart) + ' Minuten je Kartusche sind das etwa <b>' + Math.ceil(PL.brennMin / kart) + ' Kartuschen</b>.</p>' : '<p class="vr-klein">Trage unter „Haushalt → Lage“ die Brenndauer einer Kartusche ein (steht auf der Packung). Dann schätzt der Planer, wie viele Kartuschen der Speiseplan braucht.</p>') +
+      '<p class="vr-klein">Schätzung aus den Kochzeiten der Gerichte – Wind, Kälte, Topfgröße und Deckel ändern viel. Campingkocher mit Kartusche nur im Freien benutzen, außer sie sind für Innenräume zugelassen (BBK).</p></div>'; }
+  var baby = X.filter(function (x) { return x.k.g === 'baby'; });
+  if (baby.length) h += '<p class="vr-klein">Babynahrung (' + baby.length + ' Posten) zählt nicht zur Reichweite der anderen – sie ist für das Baby reserviert.</p>';
+  return h + '</section>';
+}
+
+/* ---------- 4. Gerichte ---------- */
+function gerichtHTML(r, st, B) {
+  var wv = gerichtWerte(S, r), H = haushalt(S), n = Math.max(1, H.n), open = OFFEN['g:' + r.id];
+  var badge = !st.koch ? '<span class="vr-badge vr-grau">braucht ' + KNAME[r.koch] + '</span>' : st.st === 'geht' ? '<span class="vr-badge vr-gut">geht jetzt · ' + (st.max >= 99 ? '99+' : st.max) + ' Port.</span>' : st.st === 'fast' ? '<span class="vr-badge vr-mittel">fast</span>' : '<span class="vr-badge vr-grau">fehlt einiges</span>';
+  var h = '<article class="vr-karte vr-gericht" data-g="' + r.id + '"><button type="button" class="vr-gk" data-auf="g:' + r.id + '" aria-expanded="' + !!open + '"><span class="vr-gi" aria-hidden="true">' + ({ kalt: '🥣', warm: '🍲', brot: '🫓', ofen: '🍞' })[r.art] + '</span><span class="vr-gtx"><b>' + esc(r.n) + '</b><small>' + fz(wv.kcal) + ' kcal · ' + (r.wa ? fz(wv.wasser) + ' ml Wasser' : 'ohne Wasser') + ' · ' + r.z + ' min · ' + KNAME[r.koch] + '</small></span>' + badge + '</button>';
+  if (st.st === 'fast' && st.koch) h += '<p class="vr-fehlt">Fehlt: ' + st.fehlt.map(function (f) { return esc(zutatName(S, f.z)) + ' (' + kg(f.g) + ')'; }).join(', ') + '</p>';
+  if (open) {
+    h += '<div class="vr-gd"><h4>Zutaten für ' + r.p + ' ' + (r.p === 1 ? 'Portion' : 'Portionen') + '</h4><ul class="vr-zut">' + r.zut.map(function (z) { var da = zutatDa(z, B), ok = da >= z.g / r.p;
+      return '<li class="' + (ok ? 'vr-da' : 'vr-nicht') + '"><span aria-hidden="true">' + (ok ? '✓' : '○') + '</span>' + fz(z.g) + ' g ' + esc(zutatName(S, z)) + (z.a.some(function (a) { return a[1] !== 1; }) ? ' (Frischhefe: dreifache Menge)' : '') + (z.opt ? ' <small>(nach Belieben)</small>' : '') + '</li>'; }).join('') + '<li class="vr-da"><span aria-hidden="true">·</span>Salz, Pfeffer, Gewürze nach Geschmack</li>' + (r.wa ? '<li><span aria-hidden="true">💧</span>' + fz(r.wa) + ' ml Wasser (Kochen und Teig)</li>' : '') + '</ul>' +
+      '<h4>So geht es</h4><ol class="vr-schritte">' + r.sch.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>' + (r.hinweis ? '<p class="vr-warn">' + esc(r.hinweis) + '</p>' : '') +
+      (r.rz ? '<p><a class="vr-link" href="#r-' + r.rz + '">Ausführliches Rezept in der App öffnen ›</a></p>' : '') +
+      '<p class="vr-klein">' + fz(wv.kcal) + ' kcal und ' + fz(wv.eiweiss) + ' g Eiweiß je Portion, gerechnet aus dem Katalog (erste genannte Zutat). Richtwert.</p>' +
+      (st.max >= 1 ? '<div class="vr-koch"><span class="vr-fl">Gekocht für</span><div class="vr-pm"><button type="button" class="vr-rund" data-port="-1" aria-label="weniger Portionen">−</button><b class="vr-port" data-portw>' + Math.min(n, st.max) + '</b><button type="button" class="vr-rund" data-port="1" aria-label="mehr Portionen">＋</button></div><button type="button" class="vr-knopf vr-haupt" data-gekocht="' + r.id + '">Gekocht – vom Lager abziehen</button></div>' : '') + '</div>';
+  }
+  return h + '</article>';
+}
+function gerichteHTML() {
+  var h0 = heute(), B = bestand(S, h0), L = S.lage;
+  var h = '<section class="vr-bereich" data-b="gerichte"><h2>Was kann ich kochen und backen?</h2><p class="vr-unter">' + GERICHTE.length + ' einfache Vorratsgerichte, abgeglichen mit deinem Lager. Kochstelle: <b>' + KOCHT[L.koch] + '</b> (ändern unter „Haushalt → Lage“).</p>';
+  h += '<div class="vr-filter">' + seg('gf:st', [['alle', 'Alle'], ['geht', 'Geht jetzt'], ['fast', 'Fast']], GF.st) + seg('gf:art', ARTEN, GF.art, 'vr-seg-wrap') +
+    '<div class="vr-chips"><button type="button" class="vr-chip" data-gf-t="meine" aria-pressed="' + GF.meine + '">Nur meine Kochstelle</button><button type="button" class="vr-chip" data-gf-t="ohneW" aria-pressed="' + GF.ohneW + '">Ohne Wasser</button></div></div>';
+  h += '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-plan>📋 Speiseplan-Vorschlag für ' + zielTage(S) + ' Tage</button></div><div class="vr-plan-ort">' + (PLAN ? planHTML() : '') + '</div>';
+  var L2 = GERICHTE.map(function (r) { return { r: r, st: gerichtStatus(S, r, B) }; }).filter(function (x) {
+    if (GF.meine && !x.st.koch) return false; if (GF.ohneW && x.r.wa > 0) return false; if (GF.art !== 'alle' && x.r.art !== GF.art) return false;
+    if (GF.st === 'geht' && x.st.st !== 'geht') return false; if (GF.st === 'fast' && x.st.st !== 'fast') return false; return true; });
+  var ord = { geht: 0, fast: 1, fehlt: 2 }; L2.sort(function (a, b) { return (a.st.koch ? 0 : 3) + ord[a.st.st] - (b.st.koch ? 0 : 3) - ord[b.st.st]; });
+  h += L2.length ? '<div class="vr-gliste">' + L2.map(function (x) { return gerichtHTML(x.r, x.st, B); }).join('') + '</div>' : leerText(S.lager.length ? 'Mit diesen Filtern passt kein Gericht. Tippe auf „Alle“ oder ändere die Kochstelle.' : 'Noch nichts im Lager – dann kann auch nichts passen. Trage unter „Lager“ ein, was du hast.');
+  return h + '</section>';
+}
+function planHTML() {
+  var P = PLAN, z = P.tage.length;
+  if (!z) return leerText('Für einen Speiseplan braucht es Personen und Vorrat.');
+  return '<div class="vr-karte vr-plan"><div class="vr-kh"><h3>Speiseplan-Vorschlag</h3><button type="button" class="vr-x" data-plan-zu aria-label="Speiseplan schließen">✕</button></div>' +
+    '<p class="' + (P.knapp ? 'vr-warn' : 'vr-ok') + '">' + (P.knapp ? 'Ab <b>Tag ' + P.knapp + '</b> wird es knapp (weniger als 90 % des Tagesbedarfs).' : 'Der Vorrat deckt alle ' + z + ' Tage.') + '</p>' +
+    '<ol class="vr-plantage">' + P.tage.map(function (t) { return '<li class="' + (t.deckung < 0.9 ? 'vr-knapp' : '') + '"><div class="vr-pt"><b>Tag ' + t.d + '</b><span>' + fz(Math.min(999, t.deckung * 100)) + ' %</span></div>' + balken(t.deckung, 1, t.deckung >= 0.9 ? 'vr-gut' : t.deckung >= 0.6 ? 'vr-mittel' : 'vr-schlecht') +
+      '<ul>' + t.essen.map(function (e) { return '<li>' + esc(e.n) + ' <small>· ' + e.port + ' Port.</small></li>'; }).join('') + (t.extra.length ? '<li class="vr-klein">dazu: ' + t.extra.map(function (x) { return esc(x.n.replace(/ \(.*\)$/, '')) + ' ' + kg(x.g); }).join(', ') + '</li>' : '') + (!t.essen.length && !t.extra.length ? '<li class="vr-klein">nichts mehr da</li>' : '') + '</ul></li>'; }).join('') + '</ol>' +
+    '<p class="vr-klein">Zuerst Kühlschrank und Gefriertruhe, dann was bald abläuft; möglichst Abwechslung. Portionen = Zahl der Personen. Der Plan ist strenger als die Rechnung unter „Reichweite“: Er nimmt nur ganze Gerichte und Lebensmittel, die man pur essen kann. Er ändert das Lager nicht – erst „Gekocht“ zieht ab.</p></div>';
+}
+
+/* ---------- 5. Fehlt noch ---------- */
+function fehltHTML() {
+  var h0 = heute(), F = fehltListe(S, h0), B = bestand(S, h0), H = haushalt(S);
+  var h = '<section class="vr-bereich" data-b="fehlt"><h2>Fehlt noch</h2><p class="vr-unter">Was fehlt bis zum Ziel von <b>' + F.ziel + ' Tagen</b>?</p>';
+  if (!H.n) return h + leerText('Lege zuerst unter „Haushalt“ Personen an.') + '</section>';
+  h += '<div class="vr-kacheln"><div class="vr-karte ' + (F.kcal > 0 ? 'vr-mittel' : 'vr-gut') + '"><span class="vr-fl">Essen</span><b>' + (F.kcal > 0 ? 'noch ' + fz(F.kcal) + ' kcal' : 'reicht') + '</b><small>' + (F.kcal > 0 ? '≈ ' + fz(F.kcal / H.kcal, 1) + ' Tagesrationen' : 'für das Ziel') + '</small></div>' +
+    '<div class="vr-karte ' + (F.wasserL > 0 ? 'vr-mittel' : 'vr-gut') + '"><span class="vr-fl">Wasser</span><b>' + (F.wasserL > 0 ? 'noch ' + liter(F.wasserL) : (S.lage.leitung ? 'Leitung läuft' : 'reicht')) + '</b><small>' + (F.wasserL > 0 ? '≈ ' + Math.ceil(F.wasserL / 1.5) + ' Flaschen à 1,5 l' : 'Ziel ' + liter(F.wasserZiel)) + '</small></div></div>';
+  var liste = [];
+  if (F.gruppen.length) { h += '<h3>Nach Lebensmittelgruppen</h3><div class="vr-karte"><ul class="vr-fl-liste" role="list">' + F.gruppen.map(function (x) { var v = vorschlag(S, x.g.k, x.gap); liste.push(x.g.kurz + ': noch ' + kg(x.gap) + ' – z. B. ' + v.join(' + '));
+    return '<li><b>' + x.g.i + ' ' + esc(x.g.kurz) + ': noch ' + kg(x.gap) + '</b><small>z. B. ' + esc(v.join(' + ')) + '</small>' + balken(x.ist, x.ziel, 'vr-mittel') + '</li>'; }).join('') + '</ul><p class="vr-klein">Nach der Vorratstabelle der BLE, umgerechnet auf euren Bedarf. Vorschläge sind Beispiele – nimm, was ihr gern esst.</p></div>'; }
+  else if (S.lager.length) h += '<p class="vr-ok">Alle Lebensmittelgruppen sind für ' + F.ziel + ' Tage gut gefüllt.</p>';
+  if (F.wasserL > 0) liste.push('Wasser: noch ' + liter(F.wasserL));
+  /* fehlende Zutaten der „fast“-Gerichte */
+  var Z = {}; GERICHTE.forEach(function (r) { var st = gerichtStatus(S, r, B); if (st.st !== 'fast' || !st.koch) return; st.fehlt.forEach(function (f) { var k = zutatName(S, f.z); Z[k] = Z[k] || { g: 0, r: [] }; Z[k].g = Math.max(Z[k].g, f.g * Math.max(1, H.n)); Z[k].r.push(r.n); }); });
+  var ZK = Object.keys(Z).sort(function (a, b) { return Z[b].r.length - Z[a].r.length; }), ZN = ZK.length; ZK = ZK.slice(0, 12);
+  if (ZK.length) { h += '<h3>Damit mehr Gerichte gehen</h3><div class="vr-karte"><ul class="vr-fl-liste" role="list">' + ZK.map(function (k) { liste.push(k + ' (für ' + Z[k].r.length + ' Gerichte)'); return '<li><b>' + esc(k) + '</b><small>für ' + esc(Z[k].r.slice(0, 3).join(', ')) + (Z[k].r.length > 3 ? ' …' : '') + '</small></li>'; }).join('') + '</ul>' + (ZN > ZK.length ? '<p class="vr-klein">Die ' + ZK.length + ' wichtigsten von ' + ZN + ' fehlenden Zutaten – alle stehen unter „Gerichte → Fast“.</p>' : '') + '</div>'; }
+  /* Abhak-Liste BBK */
+  var n = 0, d = 0; CHECK.forEach(function (c) { c[1].forEach(function (t) { n++; if (S.haken[t]) d++; }); });
+  h += '<h3>Alles außer Essen <small class="vr-zaehl">' + d + ' von ' + n + '</small></h3><div class="vr-karte">' + balken(d, n, 'vr-gut') + CHECK.map(function (c) {
+    return '<fieldset class="vr-check"><legend>' + esc(c[0]) + '</legend>' + c[1].map(function (t) { if (!S.haken[t]) liste.push(t); return '<label><input type="checkbox" data-haken="' + esc(t) + '"' + (S.haken[t] ? ' checked' : '') + '><span>' + esc(t) + '</span></label>'; }).join('') + '</fieldset>'; }).join('') +
+    '<p class="vr-klein">Nach den Checklisten im BBK-Ratgeber „Vorsorgen für Krisen und Katastrophen“. Haken bleiben auf diesem Gerät gespeichert.</p></div>';
+  OFFEN.liste = liste;
+  h += '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-liste="kopie">Liste kopieren</button>' + (typeof navigator !== 'undefined' && navigator.share ? '<button type="button" class="vr-knopf" data-liste="teilen">Teilen</button>' : '') + '</div>';
+  return h + '</section>';
+}
+
+/* ---------- 6. Haltbarkeit ---------- */
+function haltbarHTML() {
+  var h0 = heute(), X = posten(S, h0);
+  var K = [['ab', 'Abgelaufen', function (x) { return x.rest != null && x.rest < 0; }], ['30', 'In weniger als 30 Tagen', function (x) { return x.rest != null && x.rest >= 0 && x.rest < 30; }], ['90', 'In 30 bis 90 Tagen', function (x) { return x.rest != null && x.rest >= 30 && x.rest < 90; }], ['gut', 'Länger als 90 Tage', function (x) { return x.rest != null && x.rest >= 90; }], ['ohne', 'Ohne Datum', function (x) { return x.rest == null; }]];
+  var h = '<section class="vr-bereich" data-b="haltbar"><h2>Haltbarkeit</h2><p class="vr-unter">Dein Lager nach Mindesthaltbarkeitsdatum (MHD) – das Älteste zuerst verbrauchen.</p>';
+  if (!X.length) h += leerText('Noch nichts im Lager.');
+  else h += '<div class="vr-karte">' + K.map(function (k) { var G = X.filter(k[2]).sort(function (a, b) { return (a.rest == null ? 1e9 : a.rest) - (b.rest == null ? 1e9 : b.rest); }); if (!G.length) return '';
+    return '<h3 class="vr-hk vr-hk-' + k[0] + '">' + k[1] + ' <span>' + G.length + '</span></h3><ul class="vr-liste-k" role="list">' + G.map(function (x) { return '<li><span>' + (x.it.mhd ? mhdText(x.it.mhd) : (x.k.ht || '–')) + '</span><b>' + esc(x.k.n) + '</b><small>' + ORT[x.ort] + '</small></li>'; }).join('') + '</ul>'; }).join('') + '</div>';
+  h += '<div class="vr-info">' +
+    '<div class="vr-karte"><h3>MHD oder Verbrauchsdatum?</h3><p><b>Mindesthaltbarkeitsdatum</b> („mindestens haltbar bis“): Bis dahin garantiert der Hersteller Geruch, Geschmack und Nährwert – ungeöffnet und richtig gelagert. Danach ist vieles noch gut: erst ansehen, riechen, probieren.</p><p><b>Verbrauchsdatum</b> („zu verbrauchen bis“): steht auf leicht verderblicher Ware wie Hackfleisch oder frischem Fisch. Danach nicht mehr essen.</p><p class="vr-klein">Nach dem Öffnen gilt das MHD nicht mehr (Verbraucherzentrale).</p></div>' +
+    '<div class="vr-karte"><h3>Zuerst rein, zuerst raus</h3><p>Neue Vorräte nach hinten stellen, damit die älteren zuerst benutzt werden (BZfE). So bleibt der Vorrat frisch und nichts verdirbt: im Alltag aus dem Vorrat essen und laufend nachkaufen.</p></div>' +
+    '<div class="vr-karte"><h3>Strom weg: Kühlschrank und Gefriertruhe</h3><ul><li>Türen so selten wie möglich öffnen.</li><li>Der geschlossene Kühlschrank hält je nach Füllung etwa <b>4–6 Stunden</b> kalt.</li><li>Ein Gefriergerät hält geschlossen oft <b>bis zu 48 Stunden</b>, besonders wenn es voll ist.</li><li>Steigt die Temperatur von −18 °C auf −12 °C, bleiben die Lebensmittel laut BfR gesundheitlich unbedenklich.</li><li>Aufgetaute gegarte Speisen und rohe pflanzliche Lebensmittel bald verarbeiten; <b>rohe tierische Lebensmittel vollständig durcherhitzen</b>. Angetautes Speiseeis wegwerfen.</li></ul><p class="vr-klein">Verbraucherzentrale Niedersachsen, Stand 04.08.2026.</p></div>' +
+    '<div class="vr-karte"><h3>Wasser lagern</h3><ul><li>Mineralwasser hat meist ein MHD von 1 bis 1½ Jahren; ungeöffnet ist es meist deutlich länger gut.</li><li>Glasflaschen eignen sich für lange Lagerung, PET eher für kurze bis mittlere – kühl, dunkel, ohne Sonne.</li><li>Für Säuglingsnahrung Leitungswasser abkochen und auf etwa 30–40 °C abkühlen lassen.</li></ul><p class="vr-klein">Verbraucherzentrale Niedersachsen, Stand 24.09.2026.</p></div>' +
+    '<div class="vr-karte"><h3>Warnzeichen – dann wegwerfen</h3><ul><li><b>Verpackung:</b> aufgeblähte Packungen, gewölbte Deckel, eingedrückte Dosen.</li><li><b>Aussehen:</b> Schimmel, Flecken, faule oder schmierige Stellen, Schädlinge.</li><li><b>Geruch:</b> muffig, ranzig, faulig, säuerlich oder ungewohnt.</li><li><b>Geschmack:</b> sauer, ranzig, muffig oder ungewöhnlich bitter.</li></ul><p class="vr-klein">BZfE „Lebensmittelverderb erkennen“, Stand 20.02.2025.</p></div>' +
+    '<div class="vr-karte"><h3>Übliche Haltbarkeit ungeöffnet</h3><div class="vr-tab-wrap"><table class="vr-tab"><thead><tr><th>Lebensmittel</th><th>Haltbarkeit</th><th>Lagerung</th></tr></thead><tbody>' + HALTB.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td></tr>'; }).join('') + '</tbody></table></div><p class="vr-klein">Richtwerte nach BLE (ernaehrungsvorsorge.de). Das Datum auf der Packung geht vor.</p></div>' +
+    '<div class="vr-karte vr-wichtig"><h3>Besondere Bedürfnisse</h3><ul><li><b>Babys und Kleinkinder:</b> Säuglingsnahrung, Wasser zum Abkochen, Fläschchen, Windeln einplanen.</li><li><b>Wer regelmäßig Medikamente braucht:</b> Vorrat für mindestens 10 Tage (BBK), Haltbarkeit und Lagerung beachten – ggf. Kühlung bei Stromausfall mit Arzt oder Apotheke klären.</li><li><b>Diabetes, Allergien, Unverträglichkeiten, Kranke, Schwangere:</b> Vorrat darauf abstimmen und Fragen mit Arzt oder Apotheke besprechen.</li><li><b>Haustiere:</b> Futter und Wasser mitrechnen.</li></ul><p class="vr-klein">Dieser Planer rechnet mit Richtwerten und ersetzt keine Beratung.</p></div></div>';
+  return h + '</section>';
+}
+function quellenHTML() {
+  return '<details class="vr-quellen"><summary>Quellen und Stand</summary><ol>' + QUELLEN.map(function (q) { return '<li><a href="' + esc(q[1]) + '" target="_blank" rel="noopener">' + esc(q[0]) + '</a>' + (q[2] ? '<small> – ' + esc(q[2]) + '</small>' : '') + '</li>'; }).join('') + '</ol>' +
+    '<p class="vr-klein">Geprüft im November 2026. Alle Zahlen sind Richtwerte; Kochwasser, Kochzeiten und Packungsgrößen sind übliche Angaben – maßgeblich sind Etikett und Packung.</p></details>';
+}
+
+/* ---------- Aufbau und Aktualisieren ---------- */
+var BEREICH = { reichweite: reichweiteHTML, haushalt: haushaltHTML, lager: lagerHTML, gerichte: gerichteHTML, fehlt: fehltHTML, haltbar: haltbarHTML };
+function zeichnen(rollen) {
+  if (!R) return;
+  var ort = R.querySelector('.vr-inhalt'), y = window.scrollY;
+  ort.innerHTML = (S.beispiel ? '<div class="vr-beispiel"><p><b>Das ist ein Beispiel-Haushalt</b> mit 3 Personen und einem kleinen Lager – zum Ausprobieren.</p><button type="button" class="vr-knopf" data-beispiel-weg>Beispiel löschen</button></div>' : '') + BEREICH[S.tab]();
+  R.querySelector('.vr-kurz').innerHTML = kurzZeile();
+  var T = R.querySelectorAll('.vr-tabs [data-tab]'); for (var i = 0; i < T.length; i++) T[i].setAttribute('aria-selected', T[i].getAttribute('data-tab') === S.tab);
+  if (rollen) { var nb = R.querySelector('.vr-tabs [aria-selected="true"]'); if (nb && nb.scrollIntoView) try { nb.scrollIntoView({ block: 'nearest', inline: 'center' }); } catch (e) { /* alt */ }
+    var top = R.querySelector('.vr-leiste').getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--qw-oben')) || 0);
+    if (window.scrollY > top) window.scrollTo(0, top); }
+  else window.scrollTo(0, y);
+}
+function tab(t) { if (!BEREICH[t] || t === S.tab) return; S.tab = t; PLAN = null; sichern(); zeichnen(true); }
+function toast(t, undo) {
+  var el = R && R.querySelector('.vr-toast'); if (!el) return;
+  el.innerHTML = '<span>' + t + '</span>' + (undo ? '<button type="button" data-undo>Rückgängig</button>' : ''); el.hidden = false;
+  if (TOAST_T) clearTimeout(TOAST_T); TOAST_T = setTimeout(function () { el.hidden = true; UNDO = null; }, undo ? 8000 : 3500);
+}
+function nachAenderung(neuZeichnen) { if (S.beispiel) { /* bleibt Beispiel, bis gelöscht */ } sichern(); if (neuZeichnen) zeichnen(false); else R.querySelector('.vr-kurz').innerHTML = kurzZeile(); }
+function kopieren(text, ok) {
+  var fertig = function () { toast(ok || 'Kopiert.'); };
+  if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(fertig, function () { altKopie(text); fertig(); }); } else { altKopie(text); fertig(); }
+}
+function altKopie(text) { var t = document.createElement('textarea'); t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (e) { /* alt */ } document.body.removeChild(t); }
+function sicherungText() { return JSON.stringify({ app: 'Quellwissen Vorrat', v: 1, datum: new Date().toISOString().slice(0, 10), daten: S }); }
+function sicherungLesen(text) {
+  try { var x = JSON.parse(String(text || '').trim()); if (x && x.daten) x = x.daten; var n = pruefeStand(x); if (!n) throw new Error('x');
+    UNDO = klon(S); S = n; S.beispiel = false; S.tab = 'reichweite'; sichernJetzt(); PLAN = null; zeichnen(true); toast('Sicherung übernommen.', true); } catch (e) { toast('Das ist keine gültige Sicherung.'); }
+}
+
+function binden() {
+  R.addEventListener('click', function (ev) {
+    var t = ev.target.closest('button, [data-tab]'); if (!t || !R.contains(t)) return;
+    var a = function (n) { return t.getAttribute(n); };
+    if (t.hasAttribute('data-tab')) { tab(a('data-tab')); return; }
+    if (t.hasAttribute('data-undo')) { if (UNDO) { S = UNDO; UNDO = null; sichernJetzt(); PLAN = null; zeichnen(false); toast('Rückgängig gemacht.'); } return; }
+    if (t.hasAttribute('data-beispiel-weg')) { UNDO = klon(S); S = leer(); sichernJetzt(); PLAN = null; zeichnen(true); toast('Beispiel gelöscht.', true); return; }
+    if (t.hasAttribute('data-set')) { var k = a('data-set'), w = a('data-wert'), p = k.split(':');
+      if (p[0] === 'lage') { if (p[1] === 'strom' || p[1] === 'leitung') S.lage[p[1]] = w === '1'; else if (p[1] === 'ziel') S.lage.ziel = w === 'frei' ? 'frei' : +w; else if (p[1] === 'spar') S.lage.spar = +w; else S.lage[p[1]] = w; PLAN = null; nachAenderung(true); return; }
+      if (p[0] === 'gf') { GF[p[1]] = w; zeichnen(false); return; }
+      if (p[0] === 'ef') { var sg = t.parentNode.querySelectorAll('button'); for (var i = 0; i < sg.length; i++) sg[i].setAttribute('aria-pressed', sg[i] === t); return; }
+      if (p[0].charAt(0) === 'p') { var pi = +p[0].slice(1); if (S.personen[pi]) { S.personen[pi][p[1]] = w; nachAenderung(true); } return; }
+      return; }
+    if (t.hasAttribute('data-gf-t')) { GF[a('data-gf-t')] = !GF[a('data-gf-t')]; zeichnen(false); return; }
+    if (t.hasAttribute('data-neu-p')) { S.personen.push({ id: uid(), n: '', s: 'w', a: '', kg: '', cm: '', t: 'normal' }); nachAenderung(true); var L = R.querySelectorAll('.vr-person'); if (L.length) { var inp = L[L.length - 1].querySelector('.vr-name'); if (inp) inp.focus(); } return; }
+    if (t.hasAttribute('data-weg-p')) { UNDO = klon(S); S.personen.splice(+a('data-weg-p'), 1); nachAenderung(true); toast('Person entfernt.', true); return; }
+    if (t.hasAttribute('data-neu-t')) { S.tiere.push({ id: uid(), n: '', futter: '', wasser: '', vorrat: '' }); nachAenderung(true); return; }
+    if (t.hasAttribute('data-weg-t')) { UNDO = klon(S); S.tiere.splice(+a('data-weg-t'), 1); nachAenderung(true); toast('Haustier entfernt.', true); return; }
+    if (t.hasAttribute('data-add')) { var kk = katVon(S, a('data-add')); if (!kk) return; var it = { u: uid(), k: kk.i, m: 1, e: stdEinheit(kk), mhd: '', o: kk.l || 'v' }; S.lager.push(it); SUCHE = ''; nachAenderung(true);
+      var row = R.querySelector('[data-u="' + it.u + '"]'); if (row) { row.scrollIntoView({ block: 'center' }); row.classList.add('vr-blitz'); }
+      toast(esc(kk.n) + ' hinzugefügt – Menge und Datum anpassen.'); return; }
+    var li = t.closest('.vr-posten');
+    if (li && (t.hasAttribute('data-minus') || t.hasAttribute('data-plus'))) { var it2 = lagerItem(li); if (!it2) return; var kat = katVon(S, it2.k), st = /^(g|ml)$/.test(it2.e) ? 100 : /^(kg|l)$/.test(it2.e) ? 0.5 : 1;
+      it2.m = Math.max(0, Math.round(((+it2.m || 0) + (t.hasAttribute('data-plus') ? st : -st)) * 100) / 100); void kat; nachAenderung(true); return; }
+    if (li && t.hasAttribute('data-weg-l')) { UNDO = klon(S); var u = li.getAttribute('data-u'); S.lager = S.lager.filter(function (x) { return x.u !== u; }); nachAenderung(true); toast('Entfernt.', true); return; }
+    if (t.hasAttribute('data-eigen-neu')) { eigenAnlegen(t.closest('.vr-eigen')); return; }
+    if (t.hasAttribute('data-auf')) { OFFEN[a('data-auf')] = !OFFEN[a('data-auf')]; zeichnen(false); return; }
+    if (t.hasAttribute('data-port')) { var b = t.parentNode.querySelector('[data-portw]'), v = Math.max(1, (+b.textContent || 1) + (+a('data-port'))); b.textContent = v; return; }
+    if (t.hasAttribute('data-gekocht')) { var r = GERICHTE.filter(function (g) { return g.id === a('data-gekocht'); })[0], pw = t.closest('.vr-gd').querySelector('[data-portw]'), port = +pw.textContent || 1;
+      UNDO = klon(S); abziehen(S, r, port, heute()); PLAN = null; nachAenderung(true); toast(esc(r.n) + ': Zutaten für ' + port + ' Port. abgezogen.', true); return; }
+    if (t.hasAttribute('data-plan')) { PLAN = speiseplan(S, heute(), zielTage(S)); var po = R.querySelector('.vr-plan-ort'); po.innerHTML = planHTML(); po.scrollIntoView({ block: 'start' }); return; }
+    if (t.hasAttribute('data-plan-zu')) { PLAN = null; R.querySelector('.vr-plan-ort').innerHTML = ''; return; }
+    if (t.hasAttribute('data-kz')) { OFFEN.kz = +a('data-kz'); zeichnen(false); return; }
+    if (t.hasAttribute('data-liste')) { var txt = 'Vorrat – fehlt noch (Ziel ' + zielTage(S) + ' Tage)\n' + (OFFEN.liste || []).map(function (x) { return '☐ ' + x; }).join('\n');
+      if (a('data-liste') === 'teilen' && navigator.share) navigator.share({ title: 'Vorrat – fehlt noch', text: txt }).catch(function () { /* abgebrochen */ }); else kopieren(txt, 'Liste kopiert.'); return; }
+    if (t.hasAttribute('data-sich')) { var w2 = a('data-sich');
+      if (w2 === 'datei') { var bl = new Blob([sicherungText()], { type: 'application/json' }), url = URL.createObjectURL(bl), aa = document.createElement('a'); aa.href = url; aa.download = 'vorrat-' + new Date().toISOString().slice(0, 10) + '.json'; document.body.appendChild(aa); aa.click(); setTimeout(function () { URL.revokeObjectURL(url); aa.remove(); }, 500); toast('Datei wird gespeichert.'); }
+      else if (w2 === 'kopie') kopieren(sicherungText(), 'Sicherung kopiert – auf dem anderen Gerät unter „Text einfügen“ einsetzen.');
+      else if (w2 === 'einfuegen') sicherungLesen(R.querySelector('.vr-text').value);
+      else if (w2 === 'alles-weg') { UNDO = klon(S); S = leer(); sichernJetzt(); PLAN = null; zeichnen(true); toast('Alles gelöscht.', true); }
+      return; }
+  });
+  R.addEventListener('input', function (ev) {
+    var t = ev.target;
+    if (t.id === 'vr-such') { SUCHE = t.value; R.querySelector('.vr-treffer-ort').innerHTML = trefferHTML(); return; }
+    if (t.hasAttribute('data-pf')) { var c = t.closest('[data-p]'), i = +c.getAttribute('data-p'), p = S.personen[i]; if (!p) return; var f = t.getAttribute('data-pf'); p[f] = f === 'n' ? t.value : t.value.trim();
+      var e = c.querySelector('[data-perg="' + i + '"]'); if (e) e.innerHTML = personErg(p, bedarf(p)); nachAenderung(false); return; }
+    if (t.hasAttribute('data-tf')) { var c2 = t.closest('[data-t]'), j = +c2.getAttribute('data-t'), tt = S.tiere[j]; if (!tt) return; tt[t.getAttribute('data-tf')] = t.value; nachAenderung(false); return; }
+    if (t.hasAttribute('data-lf')) { S.lage[t.getAttribute('data-lf')] = t.value.trim(); PLAN = null; nachAenderung(false); return; }
+    if (t.getAttribute('data-lf2') === 'm') { var it = lagerItem(t.closest('.vr-posten')); var v = zahl(t.value); if (it && isFinite(v) && v >= 0) { it.m = v; nachAenderung(false); } return; }
+  });
+  R.addEventListener('change', function (ev) {
+    var t = ev.target;
+    if (t.hasAttribute('data-haken')) { var k = t.getAttribute('data-haken'); if (t.checked) S.haken[k] = 1; else delete S.haken[k]; nachAenderung(true); return; }
+    if (t.hasAttribute('data-sich-datei')) { var f = t.files && t.files[0]; if (!f) return; var rd = new FileReader(); rd.onload = function () { sicherungLesen(rd.result); }; rd.readAsText(f); t.value = ''; return; }
+    if (t.hasAttribute('data-pf') || t.hasAttribute('data-tf') || t.hasAttribute('data-lf')) { nachAenderung(true); return; }
+    var l2 = t.getAttribute('data-lf2'); if (!l2) return; var it = lagerItem(t.closest('.vr-posten')); if (!it) return;
+    if (l2 === 'm') { var v = zahl(t.value); if (isFinite(v) && v >= 0) it.m = v; }
+    else if (l2 === 'e') { var kat = katVon(S, it.k), g = gramm(S, it); it.e = t.value; it.m = Math.round(g / einheitG(kat, it.e) * 100) / 100; }
+    else if (l2 === 'o') it.o = t.value;
+    else if (l2 === 'mm' || l2 === 'jj') { var box = t.closest('.vr-mhd'), mm = box.querySelector('[data-lf2="mm"]').value, jj = box.querySelector('[data-lf2="jj"]').value; it.mhd = mm && jj ? jj + '-' + (mm < 10 ? '0' : '') + mm : ''; }
+    nachAenderung(true);
+  });
+  /* Wischen zwischen den Bereichen (Handy, Tablet) */
+  var x0 = null, y0 = 0, t0 = 0;
+  R.addEventListener('touchstart', function (e) { var t = e.target; if (t.closest('input, select, textarea, .vr-tabs, .vr-tab-wrap, .vr-kurs, .vr-seg, .vr-chips')) { x0 = null; return; } x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); }, { passive: true });
+  R.addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) < 80 || Math.abs(dy) > Math.abs(dx) * 0.6 || Date.now() - t0 > 700) return;
+    var i = TABS.map(function (t) { return t[0]; }).indexOf(S.tab), n = i + (dx < 0 ? 1 : -1); if (n >= 0 && n < TABS.length) tab(TABS[n][0]); }, { passive: true });
+}
+function lagerItem(li) { if (!li) return null; var u = li.getAttribute('data-u'); return S.lager.filter(function (x) { return x.u === u; })[0] || null; }
+function eigenAnlegen(box) {
+  var q = function (n) { return box.querySelector('[data-ef="' + n + '"]'); }, n = q('n').value.trim(), k = zahl(q('k').value);
+  if (!n) { toast('Bitte einen Namen eingeben.'); q('n').focus(); return; }
+  if (!isFinite(k) || k < 0 || k > 950) { toast('Bitte kcal je 100 g vom Etikett eintragen.'); q('k').focus(); return; }
+  var ko = box.querySelector('[data-set="ef:ko"][aria-pressed="true"]'), pg = zahl(q('pg').value);
+  var e = { i: 'e_' + uid(), n: n, g: q('g').value, k: k, e: zahl(q('e').value) || 0, f: zahl(q('f').value) || 0, c: zahl(q('c').value) || 0, q: 'eigen', ht: 'MHD auf der Packung' };
+  if (ko && ko.getAttribute('data-wert') === '1') e.ko = 1; if (e.g === 'trinken') { e.ml = 1; } if (isFinite(pg) && pg > 0) e.p = [['Packung ' + fz(pg) + ' g', pg]];
+  S.eigene.push(e); S.lager.push({ u: uid(), k: e.i, m: 1, e: stdEinheit(e), mhd: '', o: 'v' }); nachAenderung(true); toast(esc(n) + ' angelegt und ins Lager gelegt.');
+}
+
+function seite(el, opt) {
+  if (!el) return; opt = opt || {};
+  S = laden(); if (!S) { S = beispiel(heute()); sichernJetzt(); }
+  if (!BEREICH[S.tab]) S.tab = 'reichweite';
+  FIG = opt.figur || null; PLAN = null; SUCHE = ''; OFFEN = {};
+  el.innerHTML = '<div class="vr-seite">' + kopfHTML() + leisteHTML() + '<div class="vr-inhalt"></div>' + quellenHTML() + '<div class="vr-toast" role="status" aria-live="polite" hidden></div></div>';
+  R = el.querySelector('.vr-seite'); binden(); zeichnen(false);
+  return R;
+}
+
+root.QWVorrat = { seite: seite, _kern: KERN };
+if (typeof module !== 'undefined' && module.exports) module.exports = root.QWVorrat;
 })(typeof window !== 'undefined' ? window : globalThis);
 </script>
 <script id="folge-modul">
@@ -11305,6 +12575,69 @@ const IL = (()=>{
       return {vb:'0 0 760 280',breit:true,leg:[],svg:g}; },
     roggenvollkorn_leiste(){ return Z.rezept_leiste([['schuessel','1 · Beide Mehle, Hefe, Salz mischen',{zutaten:['#b89a70','#d8c090','#ffffff'],f:'#c8ac80'}],['kneten','2 · Honig + Wasser: klebrig rühren',{t:'450 ml'}],['kerne','3 · Kerne und Leinsamen dazu',{t:'je 2 EL'}],['warm','4 · 60 Min. warm gehen',{t:'60 Min.',f:'#b89468'}],['kasten','5 · In die Form, bestreuen, 20 Min. ruhen',{t:'20 Min.',auf:true,f:'#b89468'}],['ofen','6 · 200 °C O/U, 50–55 Min.',{t:'200 °C'}],['gitter','7 · Ganz auskühlen lassen',{f:'#a8703a'}]]); },
 
+    /* Z-VORRAT-ANFANG */
+    vorrat_bild(){ seed=2611; let g='';
+      const T=(x,y,t,c='var(--muted)',s=11,w=700,a='middle')=>`<text x="${x}" y="${y}" style="fill:${c};font:${w} ${s}px var(--label);text-anchor:${a};paint-order:stroke;stroke:var(--surface);stroke-width:3">${t}</text>`;
+      // Regal: zwei Seitenwangen, drei Böden
+      const X0=30, X1=560, B=[96,176,256];
+      g+=`<rect x="${X0-14}" y="18" width="14" height="262" rx="3" fill="${lg('#b88a58','#7a5230',0)}" stroke="#4e3218" stroke-width="1.1"/>`;
+      g+=`<rect x="${X1}" y="18" width="14" height="262" rx="3" fill="${lg('#b88a58','#7a5230',0)}" stroke="#4e3218" stroke-width="1.1"/>`;
+      g+=`<rect x="${X0}" y="18" width="${X1-X0}" height="250" fill="#f3ead8" opacity=".35"/>`;
+      for(const y of B){ g+=`<rect x="${X0-14}" y="${y}" width="${X1-X0+28}" height="11" rx="2" fill="${lg('#c89a64','#8a5e34',90)}" stroke="#5a3a1c" stroke-width="1"/>`;
+        g+=`<path d="M${X0},${y+4} q${(X1-X0)/2},${R(rnd()*3-1.5)} ${X1-X0},0" stroke="#7a5028" stroke-width=".7" fill="none" opacity=".5"/>`; }
+      // oberes Fach: Gläser und Dosen
+      const glas=(x,w,h,inh,deckel)=>{ const y=B[0]; let s=`<rect x="${x}" y="${y-h}" width="${w}" height="${h}" rx="6" fill="${lg('#eef3f1','#c4d0cc',0)}" stroke="#7d8a86" stroke-width="1"/>`;
+        s+=`<rect x="${x+3}" y="${y-h+12}" width="${w-6}" height="${h-15}" rx="4" fill="${inh}"/>`;
+        s+=`<rect x="${x-1}" y="${y-h-7}" width="${w+2}" height="9" rx="2" fill="${deckel}" stroke="${shade(deckel,-0.4)}" stroke-width=".8"/>`;
+        s+=`<rect x="${x+5}" y="${y-h+16}" width="4" height="${h-26}" rx="2" fill="#ffffff" opacity=".35"/>`; return s; };
+      const dose=(x,w,h,band,y0)=>{ const y=y0||B[0]; let s=`<rect x="${x}" y="${y-h}" width="${w}" height="${h}" rx="3" fill="${lg('#d8dce0','#8a9096',0)}" stroke="#555b62" stroke-width="1"/>`;
+        s+=`<rect x="${x}" y="${y-h*0.72}" width="${w}" height="${h*0.48}" fill="${band}"/>`;
+        s+=`<ellipse cx="${x+w/2}" cy="${y-h}" rx="${w/2}" ry="3" fill="#c8ccd0" stroke="#555b62" stroke-width=".8"/>`;
+        for(let i=1;i<4;i++) s+=`<path d="M${x},${R(y-h+i*3)} H${x+w}" stroke="#6a7078" stroke-width=".4" opacity=".5"/>`; return s; };
+      g+=glas(44,40,58,'#8a2f5a','#c0392b')+glas(90,40,58,'#7a8a2a','#d4a017')+glas(136,40,50,'#b0202e','#c0392b');
+      g+=dose(190,38,52,'#d98c2b')+dose(232,38,52,'#4f8a3c')+dose(274,38,52,'#c84b3a');
+      g+=dose(320,48,30,'#3a6ea5')+`<rect x="320" y="${B[0]-60}" width="48" height="28" rx="3" fill="${lg('#d8dce0','#8a9096',0)}" stroke="#555b62" stroke-width="1"/><rect x="320" y="${B[0]-52}" width="48" height="12" fill="#3a6ea5"/>`;
+      g+=glas(380,46,66,'#e3b23c','#7a5634')+glas(432,38,46,'#b85d0f','#7a5634');
+      g+=`<rect x="478" y="${B[0]-74}" width="66" height="74" rx="4" fill="${lg('#e8d7a8','#b89a5a',0)}" stroke="#7a6230" stroke-width="1"/><rect x="484" y="${B[0]-62}" width="54" height="24" rx="3" fill="#c0392b" opacity=".85"/>`;
+      // mittleres Fach: Säcke, Packungen, Knäckebrot
+      const sack=(x,w,h,f,band)=>{ const y=B[1]; let s=`<path d="M${x},${y} L${x+3},${y-h+12} Q${x+w/2},${y-h-6} ${x+w-3},${y-h+12} L${x+w},${y} Z" fill="${lg(shade(f,0.15),shade(f,-0.2),0)}" stroke="${shade(f,-0.45)}" stroke-width="1"/>`;
+        s+=`<path d="M${x+6},${y-h+14} Q${x+w/2},${y-h+4} ${x+w-6},${y-h+14}" stroke="${shade(f,-0.4)}" stroke-width="1.1" fill="none"/>`;
+        if(band) s+=`<rect x="${x+8}" y="${y-h*0.55}" width="${w-16}" height="${h*0.28}" rx="3" fill="${band}" opacity=".85"/>`; return s; };
+      g+=sack(44,56,62,'#efe6cf','#b7472a')+sack(106,50,56,'#f4f1e6','#3a6ea5')+sack(162,52,60,'#e9dcc0','#4f8a3c');
+      g+=`<rect x="222" y="${B[1]-58}" width="34" height="58" rx="2" fill="${lg('#2f6aa8','#1f4a78',0)}" stroke="#163556" stroke-width="1"/><rect x="226" y="${B[1]-46}" width="26" height="18" rx="2" fill="#f4c430"/>`;
+      g+=`<rect x="260" y="${B[1]-58}" width="34" height="58" rx="2" fill="${lg('#c0392b','#8e241a',0)}" stroke="#5e160f" stroke-width="1"/><rect x="264" y="${B[1]-46}" width="26" height="18" rx="2" fill="#f6f3e7"/>`;
+      for(let i=0;i<4;i++) g+=`<rect x="${302+i*3}" y="${B[1]-40+i*2}" width="76" height="${40-i*2}" rx="2" fill="${lg('#e8c98a','#b98f4a',90)}" stroke="#7a5a26" stroke-width=".8"/>`;
+      for(let i=0;i<14;i++) g+=`<circle cx="${R(312+rnd()*60)}" cy="${R(B[1]-30+rnd()*24)}" r="1.1" fill="#7a5a26" opacity=".6"/>`;
+      g+=`<rect x="392" y="${B[1]-52}" width="44" height="52" rx="3" fill="${lg('#f0e6c8','#c8b47e',0)}" stroke="#8a7440" stroke-width="1"/><path d="M398,${B[1]-30} h32" stroke="#8a7440" stroke-width="3"/>`;
+      // Kerzen, Streichhölzer, Taschenlampe
+      g+=`<rect x="450" y="${B[1]-44}" width="12" height="44" rx="2" fill="#fbf6e6" stroke="#b8ae90" stroke-width="1"/><rect x="466" y="${B[1]-36}" width="12" height="36" rx="2" fill="#fbf6e6" stroke="#b8ae90" stroke-width="1"/>`;
+      g+=`<path d="M456,${B[1]-44} v-6" stroke="#333" stroke-width="1"/><path d="M472,${B[1]-36} v-6" stroke="#333" stroke-width="1"/>`;
+      g+=`<rect x="486" y="${B[1]-18}" width="64" height="18" rx="7" fill="${lg('#4a4f57','#24282e',90)}" stroke="#15181c" stroke-width="1"/><rect x="540" y="${B[1]-22}" width="12" height="26" rx="3" fill="#6b7078" stroke="#15181c" stroke-width="1"/>`;
+      // unteres Fach: Wasserflaschen und Kanister
+      const flasche=(x)=>{ const y=B[2]; let s=`<path d="M${x},${y} V${y-50} Q${x},${y-60} ${x+6},${y-64} V${y-72} H${x+14} V${y-64} Q${x+20},${y-60} ${x+20},${y-50} V${y} Z" fill="${lg('#e4f1f8','#9cc4dc',0)}" stroke="#5a86a0" stroke-width="1"/>`;
+        s+=`<rect x="${x+6}" y="${y-76}" width="8" height="5" rx="1.5" fill="#2f7fb8"/><rect x="${x+1}" y="${y-38}" width="18" height="14" fill="#2f7fb8" opacity=".75"/>`;
+        s+=`<rect x="${x+3}" y="${y-48}" width="3" height="40" rx="1.5" fill="#ffffff" opacity=".45"/>`; return s; };
+      for(let i=0;i<6;i++) g+=flasche(44+i*24);
+      g+=`<path d="M200,${B[2]} V${B[2]-62} Q200,${B[2]-70} 208,${B[2]-70} H262 Q270,${B[2]-70} 270,${B[2]-62} V${B[2]} Z" fill="${lg('#7fb0d6','#3f78a8',0)}" stroke="#244e70" stroke-width="1.1"/>`;
+      g+=`<rect x="248" y="${B[2]-80}" width="14" height="12" rx="2" fill="#244e70"/><path d="M212,${B[2]-70} q8,-14 24,0" stroke="#244e70" stroke-width="4" fill="none"/>`;
+      g+=`<rect x="206" y="${B[2]-46}" width="58" height="20" rx="3" fill="#f6f3e7" opacity=".7"/>`;
+      // Gaskocher mit Kartusche, Topf
+      g+=`<rect x="300" y="${B[2]-36}" width="58" height="36" rx="8" fill="${lg('#5a6068','#2c3036',90)}" stroke="#15181c" stroke-width="1"/><rect x="306" y="${B[2]-28}" width="22" height="14" rx="3" fill="#c0392b"/>`;
+      g+=`<path d="M296,${B[2]-38} H362" stroke="#2c3036" stroke-width="4" stroke-linecap="round"/>`;
+      g+=`<path d="M304,${B[2]-40} V${B[2]-68} Q304,${B[2]-72} 310,${B[2]-72} H348 Q354,${B[2]-72} 354,${B[2]-68} V${B[2]-40} Z" fill="${lg('#c8ccd0','#7a8088',0)}" stroke="#3a3e44" stroke-width="1.1"/>`;
+      g+=`<path d="M298,${B[2]-72} H360" stroke="#3a3e44" stroke-width="3" stroke-linecap="round"/><path d="M322,${B[2]-76} h14" stroke="#3a3e44" stroke-width="3" stroke-linecap="round"/>`;
+      g+=`<rect x="372" y="${B[2]-58}" width="30" height="58" rx="6" fill="${lg('#f08a24','#b85d0f',0)}" stroke="#7a3a08" stroke-width="1"/><rect x="380" y="${B[2]-66}" width="14" height="9" rx="2" fill="#7a8088"/>`;
+      // Kurbelradio
+      g+=`<rect x="418" y="${B[2]-46}" width="84" height="46" rx="6" fill="${lg('#e7d9b0','#b8a66e',90)}" stroke="#6e5e2c" stroke-width="1"/>`;
+      for(let i=0;i<5;i++) g+=`<path d="M${426+i*7},${B[2]-36} v26" stroke="#6e5e2c" stroke-width="2"/>`;
+      g+=`<circle cx="482" cy="${B[2]-23}" r="11" fill="${lg('#5a6068','#2c3036',90)}" stroke="#15181c" stroke-width="1"/><path d="M482,${B[2]-23} l14,-10" stroke="#15181c" stroke-width="2.4" stroke-linecap="round"/>`;
+      g+=`<path d="M420,${B[2]-46} l22,-26" stroke="#6b7078" stroke-width="1.6"/>`;
+      g+=`<rect x="512" y="${B[2]-26}" width="40" height="26" rx="4" fill="${lg('#3d8a5a','#245a38',0)}" stroke="#163a22" stroke-width="1"/><path d="M520,${B[2]-14} h24" stroke="#f6f3e7" stroke-width="2"/>`;
+      // Boden
+      g+=`<path d="M8,280 H582" stroke="#8a7a5a" stroke-width="1.2" opacity=".6"/>`;
+      g+=T(295,300,'Das Ältere nach vorn, Neues nach hinten','var(--ink)',17,800);
+      return {vb:'0 0 590 310',breit:true,leg:[],svg:g}; },
+    /* Z-VORRAT-ENDE */
   };
   const cache={};
   const MINI={};
@@ -12011,13 +13344,13 @@ const SANFT = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)
 function teilGruppen(k){
   const T=TEIL[k]; if(!T) return [];
   const arr=teilArr(k), byId=new Map(arr.map(e=>[e.id,e])), vergeben=new Set();
-  const gr=(T.gruppen||[]).map(g=>({t:g.t,rest:!!g.rest,items:(g.ids||[]).map(id=>byId.get(id)).filter(e=>{ if(!e||vergeben.has(e.id)) return false; vergeben.add(e.id); return true; })}));
+  const gr=(T.gruppen||[]).map(g=>({t:g.t,rest:!!g.rest,links:g.links||[],items:(g.ids||[]).map(id=>byId.get(id)).filter(e=>{ if(!e||vergeben.has(e.id)) return false; vergeben.add(e.id); return true; })}));
   const frei=arr.filter(e=>!vergeben.has(e.id));
   const ohne=T.ohneReiter?frei.filter(e=>!e.reiter):[], rest=T.ohneReiter?frei.filter(e=>e.reiter):frei;
   const rg=gr.find(g=>g.rest);
   if(rg) rg.items.push(...rest); else if(rest.length) gr.push({t:gr.length?'Weitere':(T.standard||'Kapitel'),items:rest});
   if(ohne.length) gr.push(T.ohneReiter.sammel?{t:T.ohneReiter.t,items:[],sammel:T.ohneReiter.sammel,n:ohne.length}:{t:T.ohneReiter.t,items:ohne,kurz:true});
-  return gr.filter(g=>g.items.length||g.sammel);
+  return gr.filter(g=>g.items.length||g.sammel||(g.links&&g.links.length));
 }
 function gruppeVon(k,id){ const g=teilGruppen(k).find(g=>g.items.some(e=>e.id===id)); return g?g.t:''; }
 function krumen(teile){ // [[Text, href?], …] – letzter Eintrag = aktuelle Seite
@@ -12131,7 +13464,7 @@ function teilSeite(teil, ziel){
   const karten = teil==='A'||teil==='P';
   const gt = (g,n) => `<h2 class="gruppen-titel" id="gr-${teil}-${n}">${esc(g.t)} <span>${g.items.length}</span></h2>`;
   let liste;
-  if(gruppiert) liste = G.filter(g=>g.items.length).map((g,n)=>`<section class="gruppe">${gt(g,n)}<div class="${karten?'teilkarten':'stack'}">${g.items.map(karten?kachel:eintrag).join('')}</div></section>`).join('');
+  if(gruppiert) liste = G.filter(g=>g.items.length).map((g,n)=>`<section class="gruppe">${gt(g,n)}<div class="${karten?'teilkarten':'stack'}">${g.items.map(karten?kachel:eintrag).join('')}</div>${(g.links||[]).map(l=>`<a class="werk-teaser" href="${esc(l.h)}"><span class="werk-i" aria-hidden="true">${esc(l.i||'🧮')}</span><span><b>${esc(l.t)}</b>${l.k?`<small>${esc(l.k)}</small>`:''}</span><span class="neu-pf" aria-hidden="true">›</span></a>`).join('')}</section>`).join('');
   else liste = `<div class="${karten?'teilkarten':'stack'}">${arr.map(karten?kachel:eintrag).join('')}</div>`;
   const sprung = gruppiert&&G.length>2 ? `<div class="sprungchips" role="group" aria-label="Gruppen">${G.filter(g=>g.items.length).map((g,n)=>`<button type="button" data-gr="gr-${teil}-${n}">${esc(g.t)}</button>`).join('')}</div>` : '';
   document.title = T.lang+' · Quellwissen';
@@ -12149,7 +13482,7 @@ function uebersicht(){
     <ul class="bm-aeste">${KONF.teile.map(T=>{ const pre=teilPre(T.k), G=teilGruppen(T.k);
       return `<li class="bm-ast" id="start-${T.k}" style="--tc:${T.farbe}">
       <a class="bm-knoten" href="#teil-${T.k}"><span class="bu">${T.k}</span><span class="bm-kt">${esc(T.titel)}</span><span class="bm-kn">${teilArr(T.k).length}</span></a>
-      <ul class="bm-gruppen">${G.map(g=>`<li><details open><summary class="bm-gruppe">${esc(g.t)} <span>${g.n||g.items.length}</span></summary><ul class="bm-zweige">${g.sammel?zweig([g.sammel,'#teil-'+T.k]):g.items.map(e=>zweig([eName(e,T.k),'#'+pre+e.id,g.kurz?null:e.illu])).join('')}</ul></details></li>`).join('')}</ul>
+      <ul class="bm-gruppen">${G.map(g=>`<li><details open><summary class="bm-gruppe">${esc(g.t)} <span>${g.n||g.items.length}</span></summary><ul class="bm-zweige">${g.sammel?zweig([g.sammel,'#teil-'+T.k]):g.items.map(e=>zweig([eName(e,T.k),'#'+pre+e.id,g.kurz?null:e.illu])).join('')+(g.links||[]).map(l=>zweig([l.t,l.h])).join('')}</ul></details></li>`).join('')}</ul>
     </li>`; }).join('')}</ul>
   </nav>`;
 }
@@ -12196,8 +13529,15 @@ function neuSeite(){
 /* Seite „Werkzeuge & Skills“ – Einträge stehen in QW_KONFIG.skills */
 function rechnerSeite(){
   document.title='Rechner & Umrechner · Quellwissen';
-  main.innerHTML=`<div class="stack seitenkopf">${krumen([['Start','#start'],['Rechner & Umrechner']])}</div><div id="rz-ort"></div><p class="fuss fusslinks"><a href="#start">Startseite</a><a href="#neu">Was ist neu</a></p>`;
+  main.innerHTML=`<div class="stack seitenkopf">${krumen([['Start','#start'],['Rechner & Umrechner']])}</div><a class="vr-kachel" href="#vorrat"><span class="vr-ki" aria-hidden="true">🥫</span><span><b>Vorrat &amp; Blackout-Planer</b><small>Wie lange reichen Essen und Wasser? Was kann ich kochen, was fehlt noch?</small></span><span class="neu-pf" aria-hidden="true">›</span></a><div id="rz-ort"></div><p class="fuss fusslinks"><a href="#start">Startseite</a><a href="#neu">Was ist neu</a></p>`;
   if(window.QWRechner) QWRechner.seite(document.getElementById('rz-ort'));
+  scrollTo(0,0);
+}
+/* Seite „Vorrat & Blackout-Planer“ – Modul QWVorrat (Quelle: werkzeug/vorlagen/vorrat.js) */
+function vorratSeite(){
+  document.title='Vorrat & Blackout-Planer · Quellwissen';
+  main.innerHTML=`<div class="stack seitenkopf">${krumen([['Start','#start'],['Rechner','#rechner'],['Vorrat & Blackout-Planer']])}</div><div id="vr-ort"></div><p class="fuss fusslinks"><a href="#rechner">Rechner</a><a href="#teil-S">Selbstversorgung</a><a href="#start">Startseite</a></p>`;
+  if(window.QWVorrat) QWVorrat.seite(document.getElementById('vr-ort'),{figur:IL.has('vorrat_bild')?IL.figur('vorrat_bild','Vorratsregal mit Gläsern, Dosen, Nudeln, Wasser, Gaskocher und Kurbelradio'):''});
   scrollTo(0,0);
 }
 function skillsSeite(){
@@ -12223,7 +13563,7 @@ function blattAuf(art,von){
     h=`<div class="bz-liste">${KONF.teile.map(T=>zeile('#teil-'+T.k,T.k,esc(T.titel),teilArr(T.k).length+' Einträge · '+esc(teilGruppen(T.k).slice(0,3).map(g=>g.t).join(', ')),T.farbe)).join('')}</div>
       <div class="bz-liste">${zeile('#welt','🌍','Weltkarte','Globus mit Ebenen, Zeitregler und Länder-Verläufen','var(--c-w)')}</div>${zl}`; }
   else { titel='Mehr'; const th=themaLesen();
-    h=`<div class="bz-liste">${zeile('#neu','★','Was ist neu','Die letzten Ergänzungen','var(--sting)')}${zeile('#rechner','🧮','Rechner &amp; Umrechner','Prozent, Einheiten, Währungen, Chemie, Kalender','var(--c-b)')}${zeile('#skills','🧰','Werkzeuge &amp; Skills','Welcher Skill für welche Aufgabe','var(--c-a)')}${zeile('#welt','🌍','Weltkarte','','var(--c-w)')}</div>
+    h=`<div class="bz-liste">${zeile('#neu','★','Was ist neu','Die letzten Ergänzungen','var(--sting)')}${zeile('#rechner','🧮','Rechner &amp; Umrechner','Prozent, Einheiten, Währungen, Chemie, Kalender','var(--c-b)')}${zeile('#vorrat','🥫','Vorrat &amp; Blackout-Planer','Wie lange reichen Essen und Wasser?','var(--c-s)')}${zeile('#skills','🧰','Werkzeuge &amp; Skills','Welcher Skill für welche Aufgabe','var(--c-a)')}${zeile('#welt','🌍','Weltkarte','','var(--c-w)')}</div>
       <div class="unter">Darstellung</div><div class="seg" role="group" aria-label="Darstellung">${[['auto','Automatisch'],['light','Hell'],['dark','Dunkel']].map(([k,n])=>`<button type="button" data-thema="${k}" aria-pressed="${th===k}">${n}</button>`).join('')}</div>
       <div class="unter">Zeichen im Text</div>${legende()}${zl}
       <p class="klein">Quellwissen · Kompendium für Natur, Selbstversorgung und Gesundheit. Gelesene Stellen und eigene Fotos bleiben auf diesem Gerät.</p>`; }
@@ -12260,6 +13600,7 @@ function route(){
   else if(h==='neu'){ seite='neu'; neuSeite(); }
   else if(h==='skills'){ seite='skills'; skillsSeite(); }
   else if(h==='rechner'){ seite='rechner'; rechnerSeite(); }
+  else if(h==='vorrat'){ seite='vorrat'; vorratSeite(); }
   else if(h.startsWith('teil-')){ teil = h.slice(5); seite='teil'; teilSeite(teil); if(!TEIL[teil]){ teil=null; seite='start'; } }
   else if(tk && TEIL[tk]){
     teil=tk; const rest=m[2];
@@ -12274,7 +13615,7 @@ function route(){
   }
   document.body.dataset.seite = seite; main.style.setProperty('--tc', TEIL[teil]?TEIL[teil].farbe:teil==='WK'?'var(--c-w)':'var(--accent)');
   document.querySelectorAll('.teile button[data-ziel]').forEach(b=>b.setAttribute('aria-current', b.dataset.ziel==='teil-'+teil || (teil==='WK'&&b.dataset.ziel==='welt') || (seite==='neu'&&b.dataset.ziel==='neu')));
-  const tab = seite==='start'?'start':seite==='welt'?'welt':seite==='neu'?'neu':(seite==='skills'||seite==='rechner')?'mehr':'themen';
+  const tab = seite==='start'?'start':seite==='welt'?'welt':seite==='neu'?'neu':(seite==='skills'||seite==='rechner'||seite==='vorrat')?'mehr':'themen';
   { const rk=document.querySelector('.rechner-knopf'); if(rk){ if(seite==='rechner') rk.setAttribute('aria-current','page'); else rk.removeAttribute('aria-current'); } }
   document.querySelectorAll('.leiste [data-tab]').forEach(b=>{ if(b.dataset.tab===tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if(nachOben) nachOben.hidden=true;
