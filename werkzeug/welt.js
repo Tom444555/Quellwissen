@@ -58,9 +58,9 @@ function vis(bb){ return imBlick(bb)&&!winzig(bb)&&(S.modus==='globus'||bbSicht(
 function imBlickP(lo,la){ const V=vb(); if(la>V.la1||la<V.la0) return false; return V.voll||Math.abs(((lo-V.c+540)%360)-180)<=V.h+.2; }
 /* Linien einer Ebene zeichnen: nur sichtbare, nach Rang gestaffelt (st(rang) liefert Strichstärke oder 0 = weglassen) */
 /* winzig (unter ~1 Bildpunkt) – solche Linien und Flächen werden übersprungen */
-let PPD=1; function winzig(bb){ return (bb[1]-bb[0])*PPD*Math.max(.2,Math.cos((bb[2]+bb[3])/2*R2))<1.1&&(bb[3]-bb[2])*PPD<1.1; }
+let PPD=1; function winzig(bb,px=1.1){ return (bb[1]-bb[0])*PPD*Math.max(.2,Math.cos((bb[2]+bb[3])/2*R2))<px&&(bb[3]-bb[2])*PPD<px; }
 function detStriche(L,st,stil){ let lr=null, w=0; for(const [sr,l] of L){ if(sr!==lr){ if(lr!==null&&w) ctx.stroke(); lr=sr; w=st(sr); if(w){ ctx.beginPath(); ctx.lineWidth=w; if(stil) stil(sr); } } if(w&&vis(l.bb)) pfad(l,true); } if(lr!==null&&w) ctx.stroke(); }
-function detFlaechen(R){ ctx.beginPath(); let n=0; for(const r of R){ if(vis(r.bb)&&pfad(r)) n++; } return n; }
+function detFlaechen(R,px){ ctx.beginPath(); let n=0; for(const r of R){ if(imBlick(r.bb)&&!winzig(r.bb,px)&&(S.modus==='globus'||bbSicht(r.bb))&&pfad(r)) n++; } return n; }
 /* gedrehte Beschriftung (Flüsse, Gebirge, Meeresstraßen); Winkel in Grad gegen den Uhrzeigersinn ab Osten (geografisch) */
 function bildWinkel(lo,la,ang){ const a=ang*R2, e=.05, c=Math.max(.2,Math.cos(la*R2)), p=proj(lo-Math.cos(a)*e/c,la-Math.sin(a)*e), q=proj(lo+Math.cos(a)*e/c,la+Math.sin(a)*e); let w=Math.atan2(q[1]-p[1],q[0]-p[0]); if(w>Math.PI/2) w-=Math.PI; if(w<-Math.PI/2) w+=Math.PI; return w; }
 function textR(t,x,y,w,s,col,gew,fam){ if(Math.abs(w)<.06) return text(t,x,y,s,col,true,gew,fam); s+=1.4; ctx.font=`${gew} ${s}px ${SCHRIFT[fam||'meer']}`; if(SPERR) ctx.letterSpacing=TLS; const L=ctx.measureText(t).width, cw=Math.abs(Math.cos(w)), sw=Math.abs(Math.sin(w)), bw=L*cw+s*sw, bh=L*sw+s*cw;
@@ -577,9 +577,9 @@ function zeichne(fein){
   // Detailflächen beim Hineinzoomen: Schelfeis, Gletscher, Salzpfannen, bebaute Flächen
   if(S.ov.natur&&S.zoom>=2.2&&detail()){ const sch=detRinge('schelf'), eis=S.zoom>=2.8&&detRinge('eis'), sal=detRinge('salz');
     if(sch&&detFlaechen(sch)){ ctx.fillStyle='rgba(214,230,246,.4)'; ctx.fill('evenodd'); }
-    if(eis&&detFlaechen(eis)){ ctx.fillStyle=G3&&mitRelief?'rgba(242,247,252,.58)':'rgba(236,244,252,.66)'; ctx.fill('evenodd'); }
+    if(eis&&detFlaechen(eis,2.6)){ ctx.fillStyle=G3&&mitRelief?'rgba(242,247,252,.58)':'rgba(236,244,252,.66)'; ctx.fill('evenodd'); }
     if(sal&&detFlaechen(sal)){ ctx.fillStyle='rgba(236,224,194,.5)'; ctx.fill('evenodd'); } }
-  if(S.ov.stadtfl&&S.zoom>=2.6&&detail()){ const u=detRinge('stadtfl'); if(u&&detFlaechen(u)){ ctx.fillStyle='rgba(255,190,140,.36)'; ctx.fill('evenodd'); ctx.strokeStyle='rgba(255,206,166,.55)'; ctx.lineWidth=.6; ctx.stroke(); } }
+  if(S.ov.stadtfl&&S.zoom>=2.6&&detail()){ const u=detRinge('stadtfl'); if(u&&detFlaechen(u,1.8)){ ctx.fillStyle='rgba(255,190,140,.36)'; ctx.fill('evenodd'); ctx.strokeStyle='rgba(255,206,166,.55)'; ctx.lineWidth=.6; ctx.stroke(); } }
   // Gewässer
   const FS=seeRinge(), FL=feinLinien('fluesse'), KU=feinRinge('land');
   if(S.ov.fluesse){ ctx.fillStyle=G3&&mitRelief?(S.grund==='relief'?'rgba(24,82,132,.94)':'rgba(40,74,104,.9)'):mitRelief?'rgba(30,80,140,.9)':'#0c2c52';
