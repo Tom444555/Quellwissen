@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Themen-Ebenen der Weltkarte einsammeln und kompakt ablegen.
 
-Aufruf:  python3 -I werkzeug/welt_daten/prep/themen_holen.py <ordner-a> <ordner-b> [ne_10m_admin_0_disputed_areas.geojson]
+Aufruf:  python3 -I werkzeug/welt_daten/prep/themen_holen.py [<ordner-a> <ordner-b> [ne_10m_admin_0_disputed_areas.geojson]]
+         ohne Angaben: welt_daten/themen/a/fertig, welt_daten/themen/b/fertig, welt_daten/themen/roh/ne_10m_admin_0_disputed_areas.geojson
 
 Liest alle Ebenen-Dateien (*.json mit Kopf {id, name, gruppe, typ, …, daten}) aus den Ordnern und schreibt
 werkzeug/welt_daten/welt_themen.json:
@@ -91,10 +92,16 @@ EN = {  # englische Namen in Natural Earth NOTE_BRK -> ISO3 der App (deutscher N
  'Spain':'ESP','Portugal':'PRT','Moldova':'MDA','Ukraine':'UKR','Russia':'RUS','U.K.':'GBR','Sudan':'SDN','Cyprus':'CYP','Kazakhstan':'KAZ','Chile':'CHL',
  'Argentina':'ARG','Bhutan':'BTN','Lebanon':'LBN','Egypt':'EGY','Palestine':'PSE','Taiwan':'TWN','Saudi Arabia':'SAU','Madagascar':'MDG','Comoros':'COM',
  'Mauritius':'MUS','Seychelles':'SYC','the Seychelles':'SYC','Japan':'JPN','Vietnam':'VNM','U.S.A.':'USA','U.S.A':'USA','the United States':'USA','United States':'USA',
- 'Tokelau':'NZL','Malaysia':'MYS','the Philippines':'PHL','Philippines':'PHL','Brunei':'BRN','Marshall Islands':'MHL','Ireland':'IRL','Denmark':'DNK','Iceland':'ISL',
+'Malaysia':'MYS','the Philippines':'PHL','Philippines':'PHL','Brunei':'BRN','Marshall Islands':'MHL','Ireland':'IRL','Denmark':'DNK','Iceland':'ISL',
  'Haiti':'HTI','UAE':'ARE','Colombia':'COL','Jamaica':'JAM','Nicaragua':'NIC','Honduras':'HND','Guatemala':'GTM','Canada':'CAN','Equatorial Guinea':'GNQ',
- 'Djibouti':'DJI','Eritrea':'ERI','Gabon':'GAB','Kenya':'KEN','Iran':'IRN','Cuba':'CUB','South Korea':'KOR','Belize':'BLZ','Vanuatu':'VUT','Mali':'MLI'}
-NAME_KORR = {'Spratly Is.':'Spratly-Inseln', 'Tiran and Sanafir Is.':'Tiran und Sanafir'}   # offensichtlich falsches NAME_DE in der Quelle
+ 'Djibouti':'DJI','Eritrea':'ERI','Gabon':'GAB','Kenya':'KEN','Iran':'IRN','Cuba':'CUB','South Korea':'KOR','Belize':'BLZ','Vanuatu':'VUT','Mali':'MLI',
+ 'American Samoa':'ASM','New Caledonia':'NCL','Egypt':'EGY'}
+# Übrige Vermerke aus NOTE_BRK wörtlich übersetzt (Inhalt unverändert, nur deutsch); unbekannte Vermerke brechen den Lauf ab
+VERMERK = {'under survey':'Grenzverlauf in Vermessung', 'Between Egypt and Sudan':'zwischen Ägypten und Sudan'}
+NAME_KORR = {'Spratly Is.':'Spratly-Inseln', 'Tiran and Sanafir Is.':'Tiran und Sanafir',   # falsches NAME_DE in der Quelle
+             'USNB Guantanamo Bay':'Marinestützpunkt Guantánamo-Bucht', 'Diego Garcia NSF':'Diego Garcia (Marinestützpunkt)', 'Corner of Artigas':'Rincón de Artigas',
+             'Swains Island':'Swains-Insel', 'Serranilla Bank':'Serranilla-Bank', 'Mbane Island':'Insel Mbanié'}   # englisches NAME_DE eingedeutscht
+NAMEN_EXTRA = {'Tokelau':'Tokelau'}   # Gebiete ohne eigenen Eintrag in der App
 WEG = {'Israel', 'Belize'}          # ganze Staatsfläche – Grenzen stehen schon in der Grundkarte
 WEG_ART = ('overlay',)              # UN-Pufferzonen/Demarkationsstreifen: keine Gebietsansprüche
 
@@ -117,7 +124,7 @@ def strittig_bauen(pfad, laender):
         return [x.strip() for x in s.split(',') if x.strip()]
     def land(t):
         if t in EN: return name(EN[t])
-        return t
+        return NAMEN_EXTRA.get(t, t)
     geb = []
     for f in g['features']:
         p = f['properties']; nm = p.get('NAME') or ''
@@ -128,7 +135,7 @@ def strittig_bauen(pfad, laender):
             if m:
                 x = m.group(1)
                 m2 = re.match(r'(.+?) for (.+)', x)
-                verw = ' für '.join(land(y) for y in (m2.groups() if m2 else [x])); continue
+                verw = (land(m2.group(1)) + ' für ' + land(m2.group(2))) if m2 else land(x); continue
             m = re.match(r'(?i)self admin\.?', teil)
             if m: verw = 'selbst verwaltet'; continue
             m = re.match(r'(?i)claimed by (.+)', teil)
@@ -141,20 +148,27 @@ def strittig_bauen(pfad, laender):
             if m: satz.append(f'verpachtet von {land(m.group(2).strip())} an {land(m.group(1).strip())}'); continue
             m = re.match(r'(?i)ceded to (.+?) by (.+)', teil)
             if m: satz.append(f'von {land(m.group(2).strip())} an {land(m.group(1).strip())} abgetreten'); continue
-            satz.append(teil)   # unverändert (englisch) übernehmen, nicht umdeuten
-        nd = NAME_KORR.get(nm) or p.get('NAME_DE') or nm
+            if teil in VERMERK: satz.append(VERMERK[teil]); continue
+            sys.exit(f'Unbekannter Natural-Earth-Vermerk „{teil}“ ({nm}) – bitte in VERMERK übersetzen')
+        nd = NAME_KORR.get(nm) or NAME_KORR.get(p.get('NAME_DE') or '') or p.get('NAME_DE') or nm
         geo = f['geometry']; polys = geo['coordinates'] if geo['type'] == 'MultiPolygon' else [geo['coordinates']]
         ringe = []
         for poly in polys:
             r = [[round(x, 2), round(y, 2)] for x, y in poly[0]]
             r = ring_vereinfachen(r)
             ringe.append(r)
-        geb.append({'n': nd, 'ne': nm, 'v': verw, 'a': ansp, 's': '; '.join(satz), 'art': p.get('TYPE') or '', 'l': {'_l': enc_linien(ringe)}})
+        for t in (verw, ansp):
+            for w in re.split(r',\s*| für ', t):
+                if w and w not in laender.values() and w not in NAMEN_EXTRA.values() and w not in ('selbst verwaltet', 'mehrere Staaten'): sys.exit(f'Ländername ohne Übersetzung: „{w}“ ({nm})')
+        geb.append({'n': nd, 'v': verw, 'a': ansp, 's': '; '.join(satz), 'l': {'_l': enc_linien(ringe)}})
     return geb
 
 def main():
-    if len(sys.argv) < 3: print(__doc__); sys.exit(1)
-    ordner = sys.argv[1:3]; ne = sys.argv[3] if len(sys.argv) > 3 else None
+    T = os.path.join(HIER, '..', 'themen')
+    if len(sys.argv) == 1: ordner = [os.path.join(T, 'a', 'fertig'), os.path.join(T, 'b', 'fertig')]; ne = os.path.join(T, 'roh', 'ne_10m_admin_0_disputed_areas.geojson')
+    elif len(sys.argv) >= 3: ordner = sys.argv[1:3]; ne = sys.argv[3] if len(sys.argv) > 3 else None
+    else: print(__doc__); sys.exit(1)
+    if ne and not os.path.exists(ne): print('ohne umstrittene Gebiete (Datei fehlt):', ne); ne = None
     laender = {c['i']: c['n'] for c in json.load(open(BASIS))['laender']}
     ebenen = {}; index = []
     for o in ordner:
