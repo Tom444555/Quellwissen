@@ -540,7 +540,7 @@ function zeichne(fein){
   if(!G3){ const g0=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.8); g0.addColorStop(0,'#0e1a30'); g0.addColorStop(1,'#04070e'); ctx.fillStyle=g0; ctx.fillRect(0,0,W,H);
   if(!sterne){ sterne=[]; let s=7; const r=()=>(s=(s*16807)%2147483647)/2147483647; for(let i=0;i<260;i++) sterne.push([r(),r(),r()*1.2+.2,r()]); }
   sterne.forEach(([x,y,z,a])=>{ ctx.fillStyle=`rgba(200,220,255,${a*.6})`; ctx.fillRect(x*W,y*H,z,z); }); }
-  THH=[]; THL=[]; thHimmelHinten();
+  THH=[]; THL=[]; THSN=[]; thHimmelHinten();
   const r=radius(), glob=S.modus==='globus', G=GRUND[S.grund], rast=G.r, mitRelief=S.grund==='relief'||(S.unterlage&&!rast&&!G.thr);
   if(glob){ if(!G3){ const at=ctx.createRadialGradient(W/2,H/2,r*0.92,W/2,H/2,r*1.18); at.addColorStop(0,'rgba(110,190,255,.62)'); at.addColorStop(.18,'rgba(80,160,255,.3)'); at.addColorStop(.5,'rgba(60,130,255,.1)'); at.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=at; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.18,0,7); ctx.fill();
     const hof=ctx.createRadialGradient(W/2-r*.25,H/2-r*.28,r*.9,W/2,H/2,r*1.6); hof.addColorStop(0,'rgba(90,160,255,.13)'); hof.addColorStop(1,'rgba(40,100,255,0)'); ctx.fillStyle=hof; ctx.beginPath(); ctx.arc(W/2,H/2,r*1.6,0,7); ctx.fill();
@@ -565,7 +565,7 @@ function zeichne(fein){
     [[0,'Nullmeridian'],[180,'180. Längengrad']].forEach(([lo,n])=>{ const pts=[], l1=S.modus==='scheibe'?90:Math.min(89.5,V.la1); for(let la=Math.max(-89.5,V.la0); la<=l1; la+=Math.max(.05,(l1-V.la0)/240)) pts.push([lo,la]); ctx.strokeStyle='#d6dbe8'; ctx.globalAlpha=.5; const vp=linie(pts); ctx.stroke(); NT.push(['km',n,vp,'#dfe4ef']); });
     ctx.globalAlpha=1; ctx.setLineDash([]); }
   // Länderflächen
-  if(S.grund!=='relief'){ const alpha=mitRelief?0.62:1, KL=G3&&!rast&&kuesteRinge(), haupt=ctx;
+  if(S.grund!=='relief'){ const alpha=mitRelief?0.62:1, KL=G3&&!rast&&!G.thr&&kuesteRinge(), haupt=ctx;
     /* Länderflächen auf eigener Ebene: leicht aufgeweitet und dann auf die feine Küste zugeschnitten (keine Säume an groben Umrissen) */
     if(KL){ if(!LAY) LAY=document.createElement('canvas'); if(LAY.width!==cv.width||LAY.height!==cv.height){ LAY.width=cv.width; LAY.height=cv.height; } ctx=LAY.getContext('2d'); ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H); ctx.lineJoin='round'; }
     DAT.laender.forEach(c=>{ const f=rast?null:farbe(c.i); if(mitRelief&&!f) return; ctx.beginPath(); let ok=false; c.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=KL?1:alpha; ctx.fillStyle=f||(rast?'#22303a':'#1e2c3a'); ctx.fill(); if(KL){ ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=Math.min(8,2+S.zoom*.6); ctx.stroke(); } ctx.globalAlpha=1; });
@@ -651,6 +651,7 @@ function zeichne(fein){
       else text(n,q[0],q[1]+4,art==='m'?10:10.5,art==='m'?'#bfe0f4':'#efe6cf',true,'italic 400','meer'); }); TLS='0px'; TXA=1; }
   if(S.ov.staedte) DAT.staedte.forEach(([n,lo,la,p,mz,hs])=>{ if(mz>zs||!imBlickP(lo,la)) return; const q=proj(lo,la); if(q[2]<0.22) return; if(q[0]<-8||q[0]>W+8||q[1]<-8||q[1]>H+12) return; const R=1.4+Math.sqrt(Math.max(p,.1))*0.7; if(!frei(q[0]-R,q[1]+R,R*2,R*2)) return; TXA=rand(q); const ok=text(n,q[0]+R+3,q[1]+3.5,p>5?11:10.2,'#f6ecd6',false,p>5?'700':'500'); if(!ok){ TXA=1; return; } boxAdd([q[0]-R,q[1]+R,R*2,R*2]); TREFF.push([q[0],q[1],R,['ne',n,lo,la,p,hs]]); ctx.globalAlpha=TXA; ctx.fillStyle=hs?'#f3cf62':'#f6e7c2'; ctx.strokeStyle='rgba(20,16,8,.75)'; ctx.lineWidth=1; ctx.beginPath(); if(hs) ctx.rect(q[0]-R,q[1]-R,R*2,R*2); else ctx.arc(q[0],q[1],R,0,7); ctx.fill(); ctx.stroke(); ctx.globalAlpha=1; TXA=1; });
   detailNamen(zs,rand,G);
+  thSpaet();
   if(NT.length) netzText(NT.filter(n=>n[0]==='p'||n[0]==='m'),rand);
   if(S.ov.tiefen) TIEFEN.forEach(([n,lo,la,t])=>{ const q=proj(lo,la); if(q[2]<0.15) return; ctx.fillStyle='#7fe0ff'; ctx.strokeStyle='#02101e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(q[0]-5,q[1]-4); ctx.lineTo(q[0]+5,q[1]-4); ctx.lineTo(q[0],q[1]+4); ctx.closePath(); ctx.fill(); ctx.stroke(); text(`${n} −${fmt(t)} m`,q[0]+7,q[1]+4,10.5,'#bff0ff'); });
   if(S.klick){ const q=proj(S.klick[0],S.klick[1]); if(q[2]>0){ ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(q[0],q[1],6,0,7); ctx.stroke(); } }
@@ -854,6 +855,8 @@ const thBL=c=>{ const b=(DAT.bl||[]).find(x=>x.i===c); return b?b.n:c; };
 const thBLs=t=>String(t||'').split(/,\s*/).map(thBL).join(', ');
 const thQk=e=>{ const t=String(thQ(e).t||''); const k=t.split(/;| – |\(|, Kopie|, aufbereitet/)[0].trim(); return k.length>90?k.slice(0,88)+'…':k; };
 const thEp=j=>j==null?'':j<500?(j<-1000?'vor':'antike'):j<1500?'mittel':j<1900?'neu':j<2000?'20':'heute';
+const thJR=()=>S.jahr<2023;  // Jahres-Regler unten bewegt (2023 = Ende = alles zeigen)
+const thJahrzehnt=j=>thJR()&&j!=null&&Math.floor(j/10)===Math.floor(S.jahr/10);
 const thJahr=j=>j==null?'':j<0?(-j)+' v. Chr.':String(j);
 const thDatum=d=>{ const m=/^(\d{4})-(\d\d)-(\d\d)/.exec(d||''); return m?`${m[3]}.${m[2]}.${m[1]}`:(d||''); };
 const thLand=i=>{ const c=DAT.idx[i]; return c?c.n:(i||''); };
@@ -866,12 +869,16 @@ const ZEIT_LEG=z=>z===1?0:z===2?1:z>=3&&z<=5?2:3;
 const KR_ALT=(a,b)=>a&&b?(a/b):null;
 const THK={
  vulkane:{e:'🌋',k:'Lage, Typ und letzter Ausbruch der Vulkane',ov:1,sym:'dreieck',rz:[0,2,4],nz:[2.5,3.5,5],
+  hl:r=>thJahrzehnt(r.letzter_bedeutender_ausbruch),rang:r=>thJahrzehnt(r.letzter_bedeutender_ausbruch)?1:r.rang,
+  hin:()=>thJR()?`Jahres-Regler: bedeutende Ausbrüche der ${Math.floor(S.jahr/10)*10}er hervorgehoben`:'',
   c:(r,e)=>thLeg(e,ZEIT_LEG(r.zeit)),r:r=>r.rang===1?4.6:r.rang===2?3.8:3.2,name:r=>r.name,
   info:(r,e)=>({t:r.name,u:[r.typ,thLand(r.iso3)].filter(Boolean).join(' · '),kpi:[['Höhe',r.hoehe_m!=null?fmt(r.hoehe_m)+' m':'–'],['Letzter Ausbruch',(e.zeit&&e.zeit[r.zeit])||'–']].concat(r.letzter_bedeutender_ausbruch?[['Bedeutender Ausbruch',thJahr(r.letzter_bedeutender_ausbruch)]]:[]),txt:r.text})},
  erdbeben:{e:'〰️',k:'Starke Erdbeben seit 1900, Größe nach Magnitude',ov:1,sym:'kreis',rz:[0,1.5,3],nz:[4,99,99],alpha:.72,
+  zusatz:()=>thJR()?' · bis '+S.jahr:'',filter:r=>!thJR()||+String(r.datum).slice(0,4)<=S.jahr,hl:r=>thJahrzehnt(+String(r.datum).slice(0,4)),
+  hin:()=>thJR()?`Jahres-Regler: Beben bis ${S.jahr}, Jahrzehnt ${Math.floor(S.jahr/10)*10}er hervorgehoben`:'Jahres-Regler unten zeigt Beben bis zu einem Jahr',
   c:(r,e)=>thLeg(e,(r.rang||3)-1),r:r=>2+3*Math.pow(Math.max(0,r.magnitude-7),1.5),name:r=>'M '+fmt(r.magnitude,1)+' · '+String(r.datum).slice(0,4),
   info:(r,e)=>({t:'Erdbeben M '+fmt(r.magnitude,1),u:thDatum(r.datum)+' · '+(r.meer?'im Meer, nächstes Land: ':'')+thLand(r.iso3),kpi:[['Magnitude',fmt(r.magnitude,1)],['Herdtiefe',r.tiefe_km!=null?fmt(r.tiefe_km)+' km':'–']],txt:''})},
- platten:{e:'🧩',k:'Grenzen der Erdplatten nach Bewegungsart',ov:1,dicht:false,lrz:[0,1.6,3],seg:1},
+ platten:{e:'🧩',k:'Grenzen der Erdplatten nach Bewegungsart',ov:1,dicht:false,lrz:[0,1.6,3],seg:1,hin:'Zähne an Subduktionszonen zeigen zur oberen Platte (ab Zoom 1,6)'},
  meeresstroemungen:{e:'🌊',k:'Große Oberflächenströmungen, warm und kalt (schematisch)',ov:1,lrz:[0,1.8,3],pfeil:1,dash:[7,5],w:2,nz:[2,2.6,3.4],
   c:(r,e)=>thLeg(e,r.art==='warm'?0:r.art==='kalt'?1:2),name:r=>r.n,
   info:(r,e)=>({t:r.n,u:[r.art==='warm'?'warme Strömung':r.art==='kalt'?'kalte Strömung':'ohne klare Zuordnung',r.meer].filter(Boolean).join(' · '),txt:r.text})},
@@ -928,7 +935,8 @@ const THK={
   leg:e=>`<span><i class="r" style="background:${(e.legende&&e.legende.c)||'#ffcf5a'}"></i>${esc((e.legende&&e.legende.groesse)||'')}</span>`,c:(r,e)=>(e.legende&&e.legende.c)||'#ffcf5a',r:r=>r.oel!=null?3+Math.sqrt(r.oel)*2.1:3.4,hohl:r=>r.oel==null,name:r=>r.n,
   info:(r,e)=>({t:r.n,u:[thLand(r.land),r.jahr].filter(Boolean).join(' · '),kpi:[['Öl',r.oel!=null?fmt(r.oel,1)+' Mio. Barrel/Tag':'nicht angegeben'],['Flüssigerdgas (LNG)',r.lng!=null?fmt(r.lng,1)+' Mrd. Kubikfuß/Tag':'nicht angegeben']],txt:r.t})},
  kraftwerke:{e:'⚡',k:'Große Kraftwerke und alle Kernkraftwerke (Leistung = Kreisgröße)',ov:1,rz:[0,2.2,3.6],nz:[4.5,6,8],sym:'kreis',alpha:.85,
-  rang:r=>r.art==='kern'?1:r.rang,c:(r,e)=>thLegK(e,r.art)||thLeg(e,0),r:r=>1.8+Math.sqrt(r.mw||0)/17,hohl:r=>!!r.aus,name:r=>r.n,
+  wahl:e=>[['','alle Arten']].concat((e.legende||[]).map(l=>[l.k,l.n])),filter:r=>!S.thw.kraftwerke||r.art===S.thw.kraftwerke,
+  rang:r=>r.art==='kern'||S.thw.kraftwerke?1:r.rang,c:(r,e)=>thLegK(e,r.art)||thLeg(e,0),r:r=>1.8+Math.sqrt(r.mw||0)/17,hohl:r=>!!r.aus,name:r=>r.n,
   info:(r,e)=>({t:r.n,u:[thLand(r.land),(e.legende||[]).find(l=>l.k===r.art)?.n].filter(Boolean).join(' · '),kpi:[['Leistung',r.mw!=null?fmt(r.mw)+' MW':'–'],['Inbetriebnahme',r.j?String(r.j):'–']].concat(r.aus?[['Status','abgeschaltet']]:[]),txt:r.st||'',
    html:(r.stq?`<p class="qwk-hin2">Beleg zum Status: ${esc(r.stq)}</p>`:'')+(r.neu?`<p class="qwk-hin2">nachgetragen, nicht aus der WRI-Datenbank</p>`:'')}),
   hin:e=>thSatz1(String(e.hinweis||'').replace(/^ACHTUNG\s*/,''))},
@@ -942,6 +950,7 @@ const THK={
  buendnisse:{e:'🤝',k:'Mitglieder, Partner und Beobachter von 18 Bündnissen',
   landPlus:(e,i)=>{ const A=(e.daten||[]).filter(L=>thRolle(L,i)); return A.length?`<div class="qwk-mini" style="margin-top:4px">Alle Zusammenschlüsse: ${A.map(L=>esc(L.n)+(thRolle(L,i)==='p'?' ('+esc(thRolleName(L,i,e))+')':thRolle(L,i)==='a'?' (ausgesetzt)':'')).join(', ')}</div>`:''; }},
  stuetzpunkte:{e:'🎖️',k:'Militärstützpunkte im Ausland, nach Betreiberstaat',ov:1,rz:[0,2,3.5],nz:[3,4,5.5],sym:'raute',
+  wahl:e=>[['','alle Betreiber']].concat((e.legende||[]).map(l=>[l.k,l.n])),filter:r=>!S.thw.stuetzpunkte||r.betreiber===S.thw.stuetzpunkte,rang:r=>S.thw.stuetzpunkte?1:r.rang,
   c:(r,e)=>/^geräumt/.test(r.status||'')?'#9aa0a8':(thLegK(e,r.betreiber)||'#cccccc'),hohl:r=>/^geräumt/.test(r.status||''),r:r=>r.rang===1?4.4:3.6,name:r=>r.n,
   art:{luft:'Luftwaffe',marine:'Marine',heer:'Heer',fuehrung:'Führung',aufkl:'Aufklärung',raketenabwehr:'Raketenabwehr',raumfahrt:'Raumfahrt',ausbildung:'Ausbildung',sanitaet:'Sanitätsdienst',gemischt:'gemischt'},
   info:(r,e)=>({t:r.n,u:'Betreiber: '+thLand(r.betreiber)+' · Gastland: '+(r.gast?thLand(r.gast):(r.gebiet||'–')),kpi:[['Art',THK.stuetzpunkte.art[r.art]||r.art||'–'],['Status',r.status||'–']],txt:r.t,q:r.q})},
@@ -956,8 +965,10 @@ const THK={
  strittig:{e:'▨',k:'Neutrale Kennzeichnung: verwaltet von … · beansprucht von … (Natural Earth)',ov:1,formel:1,basis:1,g:'Politik',n:'Umstrittene Gebiete',
   leg:()=>'<span><i style="background:repeating-linear-gradient(135deg,#ffecc8 0 1.5px,transparent 1.5px 5px);outline:1px dashed #ffecc8"></i>Status umstritten laut Quelle (ohne Wertung)</span>'},
  heilbaeder:{e:'♨️',k:'Staatlich anerkannte Heilbäder und Orte mit Heilquellen',ov:1,de:1,rz:[0,0,0],nz:[6,6,6],sym:'kreis',
-  c:(r,e)=>{ const a=r.art||''; return thLeg(e,/^Sole/.test(a)?0:/Thermal/.test(a)?1:/^Mineral/.test(a)?2:/^Moor/.test(a)?3:4); },r:()=>3.6,name:r=>r.n,
-  hin:e=>'Teilliste: '+thSatz1(e.hinweis).replace(/\s*\(amtliche Landesverzeichnisse\)/,''),
+  zus:[['Heilquelle','#5ad8b8'],['Heilstollen','#e8c060']],
+  c:(r,e)=>{ const a=r.art||'', z=THK.heilbaeder.zus.find(x=>a.indexOf(x[0])===0); return z?z[1]:thLeg(e,/^Sole/.test(a)?0:/Thermal/.test(a)?1:/^Mineral/.test(a)?2:/^Moor/.test(a)?3:4); },r:()=>3.6,name:r=>r.n,
+  legE:e=>{ const L=(e.legende||[]).map(l=>[l[0],l[1]]); return L.slice(0,-1).concat(THK.heilbaeder.zus,L.slice(-1)); },
+  hin:e=>'Teil-Liste: noch nicht alle Bundesländer – '+thSatz1(e.hinweis).replace(/\s*\(amtliche Landesverzeichnisse\)/,''),
   info:(r,e)=>({t:r.n,u:[thBLs(r.land),r.praedikat].filter(Boolean).join(' · '),kpi:[['Art',r.art||'–'],['Stand Verzeichnis',r.stand||'–']],txt:''})}
 };
 const TH_STRITTIG=true;
@@ -1019,7 +1030,11 @@ function thRasterBild(G){ const R=thRasterDaten(G), s=S.bewegt?.34:.5, w=Math.ma
   const farb=(lon,lat,o)=>{ let fx=(lon+179)/2, fy=(89-lat)/2; fx=((fx%180)+180)%180; fy=Math.max(0,Math.min(89,fy));
     if(kl){ const i=(Math.round(fy)*180+(Math.round(fx)%180))*4, v=A[i/4]*4; d[o]=L[v]; d[o+1]=L[v+1]; d[o+2]=L[v+2]; d[o+3]=L[v+3]; return; }
     const x0=Math.floor(fx), y0=Math.min(88,Math.floor(fy)), ax=fx-x0, ay=fy-y0, x1=(x0+1)%180; let r=0,g=0,b=0,a=0;
-    for(const [xx,yy,ww] of [[x0,y0,(1-ax)*(1-ay)],[x1,y0,ax*(1-ay)],[x0,y0+1,(1-ax)*ay],[x1,y0+1,ax*ay]]){ const v=A[yy*180+xx]*4, al=L[v+3]*ww; r+=L[v]*al; g+=L[v+1]*al; b+=L[v+2]*al; a+=al; }
+    const i0=y0*180, i1=i0+180; let v,al;
+    v=A[i0+x0]*4; al=L[v+3]*(1-ax)*(1-ay); r+=L[v]*al; g+=L[v+1]*al; b+=L[v+2]*al; a+=al;
+    v=A[i0+x1]*4; al=L[v+3]*ax*(1-ay); r+=L[v]*al; g+=L[v+1]*al; b+=L[v+2]*al; a+=al;
+    v=A[i1+x0]*4; al=L[v+3]*(1-ax)*ay; r+=L[v]*al; g+=L[v+1]*al; b+=L[v+2]*al; a+=al;
+    v=A[i1+x1]*4; al=L[v+3]*ax*ay; r+=L[v]*al; g+=L[v+1]*al; b+=L[v+2]*al; a+=al;
     if(a>0){ d[o]=r/a; d[o+1]=g/a; d[o+2]=b/a; d[o+3]=Math.min(255,a); } };
   if(S.modus==='globus'){ const r=radius()*s, cx=W/2*s, cy=H/2*s, p0=S.phi*R2, sp=Math.sin(p0), cp=Math.cos(p0), l0=S.lam*R2, y0=Math.max(0,Math.floor(cy-r)), y1=Math.min(h-1,Math.ceil(cy+r));
     for(let py=y0;py<=y1;py++){ const Y=-(py-cy)/r, xx=Math.sqrt(Math.max(0,1-Y*Y))*r, x0=Math.max(0,Math.floor(cx-xx)), x1=Math.min(w-1,Math.ceil(cx+xx));
@@ -1042,12 +1057,18 @@ function thHimmelHinten(){ if(!S.ov.sternbilder||S.modus!=='globus') return; con
   ctx.strokeStyle='rgba(106,138,200,.6)'; ctx.lineWidth=1; ctx.beginPath();
   (e.daten||[]).forEach(b=>(b.l||[]).forEach(L=>{ let a=null; for(const q of L){ const z=P(q[0],q[1]); if(z&&a&&Math.hypot(z[0]-a[0],z[1]-a[1])<W*.6){ ctx.moveTo(a[0],a[1]); ctx.lineTo(z[0],z[1]); } a=z; } })); ctx.stroke();
   thSterne(e,P,true); ctx.restore(); }
-function thSterne(e,P,hinten){ const zoomN=hinten?1.5:S.zoom;
+let THSN=[];   // Himmelsnamen auf Karte/Scheibe: erst nach den Kartennamen setzen (Kollisionsprüfung gegen alle vorhandenen Felder)
+function thSterne(e,P,hinten){ const R=radius(), NL=[];
+  const aussen=(x,y,w,h)=>{ const cx=Math.max(x,Math.min(W/2,x+w)), cy=Math.max(y-h,Math.min(H/2,y)); return Math.hypot(cx-W/2,cy-H/2)>R*1.05; };
+  const sMag=hinten?.5:S.zoom>=4?2:S.zoom>=2.5?1:.3, bRang=hinten?2:S.zoom>=3.5?3:S.zoom>=2?2:1;
   (e.daten_sterne||[]).forEach((st,i)=>{ const q=P(st.ra,st.dec); if(!q||q[0]<-5||q[0]>W+5||q[1]<-5||q[1]>H+5) return; const r=Math.max(.6,3.2-.55*st.mag); ctx.fillStyle=st.mag<1?'#ffffff':'#c8d8ff'; ctx.globalAlpha=Math.min(1,.45+.6*(4.5-st.mag)/4.5); ctx.beginPath(); ctx.arc(q[0],q[1],r,0,7); ctx.fill(); ctx.globalAlpha=1;
-    if(st.polarstern){ ctx.strokeStyle='#ffe14a'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(q[0],q[1],r+3.5,0,7); ctx.stroke(); text(st.name||'Polarstern',q[0]+r+6,q[1]+4,10.5,'#ffe9a0',false,'700'); }
-    else if(st.name&&(zoomN>=2||st.mag<.5)) text(st.name,q[0]+r+3,q[1]+3.5,9.4,'#dfe8ff');
+    if(st.polarstern){ ctx.strokeStyle='#ffe14a'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(q[0],q[1],r+3.5,0,7); ctx.stroke(); NL.push([st.name||'Polarstern',q[0]+r+6,q[1]+4,10.5,'#ffe9a0',false,'700',null,null]); }
+    else if(st.name&&st.mag<sMag) NL.push([st.name,q[0]+r+3,q[1]+3.5,9.4,'#dfe8ff',false,'500',null,null]);
     if(st.name) THH.push([q[0],q[1],Math.max(4,r),'sternbilder',i,'s']); });
-  TLS='1px'; (e.daten||[]).forEach((b,i)=>{ if((b.rang||1)>(zoomN>=2.5?3:zoomN>=1.4?2:1)) return; const q=P(b.ra,b.dec); if(!q) return; if(text(b.n,q[0],q[1],10,'#9fb8e8',true,'italic 400','meer')) THH.push([q[0],q[1]-4,9,'sternbilder',i,'b']); }); TLS='0px'; }
+  (e.daten||[]).forEach((b,i)=>{ if((b.rang||1)>bRang) return; const q=P(b.ra,b.dec); if(!q) return; NL.push([b.n,q[0],q[1],10,'#9fb8e8',true,'italic 400','meer',[q[0],q[1]-4,9,'sternbilder',i,'b']]); });
+  if(hinten){ NL.forEach(n=>{ const w=n[0].length*(n[3]+1.4)*.56, x0=n[5]?n[1]-w/2:n[1]; if(!aussen(x0,n[2],w,n[3]+3)) return; TLS=n[5]?'1px':'0px'; if(text(n[0],n[1],n[2],n[3],n[4],n[5],n[6],n[7])&&n[8]) THH.push(n[8]); }); TLS='0px'; }
+  else THSN.push(...NL); }
+function thSpaet(){ if(!THSN.length) return; THSN.forEach(n=>{ TLS=n[5]?'1px':'0px'; if(text(n[0],n[1],n[2],n[3],n[4],n[5],n[6],n[7])&&n[8]) THH.push(n[8]); }); TLS='0px'; THSN=[]; }
 /* Karte und Scheibe: Sterne an ihrem Zenitpunkt (auf der Scheibe = Kuppel von oben, wie die 3D-Kuppel) */
 function thHimmelOben(e){ if(S.modus==='globus') return; const gm=sternzeit(new Date()); const P=(ra,dec)=>{ const lo=stLon(ra,gm); if(!imBlickP(lo,dec)) return null; const q=proj(lo,dec); return q; };
   ctx.strokeStyle='rgba(106,138,200,.55)'; ctx.lineWidth=1; ctx.beginPath();
@@ -1065,12 +1086,11 @@ function strZeichnen(){ if(!S.ov.strittig||!S.ov.grenzen) return; const G=strGeb
   G.forEach(g=>{ let ok=false; ctx.beginPath(); for(const r of g.ringe){ if(r.bb&&vis(r.bb)){ pfad(r); ok=true; } } if(!ok) return; ctx.fillStyle=pat; ctx.fill('evenodd'); ctx.stroke(); });
   ctx.setLineDash([]); ctx.restore(); }
 function strAn(lon,lat){ if(!S.ov.strittig||!S.ov.grenzen) return null; const G=strGebiete(); let best=null, fl=1e9; G.forEach((g,i)=>{ for(const r of g.ringe){ const b=r.bb; if(lon<b[0]||lon>b[1]||lat<b[2]||lat>b[3]) continue; if(inring(lon,lat,r)){ const a=(b[1]-b[0])*(b[3]-b[2]); if(a<fl){ fl=a; best=i; } } } }); return best; }
-function infoStrittig(){ const box=$('.qwk-info',wrap), g=strGebiete()[S.str], I=thIdx().strittig, c=S.klick&&landAn(S.klick[0],S.klick[1]);
-  const zeilen=[g.v?['verwaltet',g.v==='selbst verwaltet'?'selbst verwaltet':'verwaltet von '+g.v]:null,g.a?['beansprucht','beansprucht von '+g.a]:null].filter(Boolean);
-  box.innerHTML=thKopf('▨',g.n,'Gebiet mit umstrittenem Status')+(zeilen.length?`<div class="qwk-box">${zeilen.map(z=>`<div style="margin:2px 0"><b>${esc(z[1])}</b></div>`).join('')}${g.s?`<div class="qwk-mini">${esc(g.s)}</div>`:''}</div>`:`<div class="qwk-box"><b>Status laut Quelle umstritten</b>${g.s?`<div class="qwk-mini">${esc(g.s)}</div>`:'<div class="qwk-mini">keine nähere Angabe zu Verwaltung und Anspruch in der Quelle</div>'}</div>`)+
-   `<p class="qwk-hin2">Kennzeichnung nach ${esc(I.q)} · Stand ${esc(I.stand)}${g.ne&&g.ne!==g.n?' · dort „'+esc(g.ne)+'“':''}${g.art?' · Kategorie „'+esc(g.art)+'“':''}. Gleiche Darstellung für alle Fälle, ohne Wertung; die Ländergrenzen der Grundkarte folgen ebenfalls Natural Earth.</p>`+
-   (c?`<div>${chip('','','')}<button class="qwk-chip k" data-land>${c.f||''} ${esc(c.n)} – Länderdaten</button></div>`:'');
-  const b=$('[data-land]',box); if(b) b.onclick=()=>{ S.str=null; waehle(c,S.klick); }; box.querySelectorAll('.qwk-chip:not([data-land])').forEach(x=>x.remove());
+function strZeile(g){ const v=g.v==='selbst verwaltet'?'selbst verwaltet':g.v?'verwaltet von '+g.v:'', a=g.a?'beansprucht von '+g.a:''; return [v,a].filter(Boolean).join(' · '); }
+function infoStrittig(){ const box=$('.qwk-info',wrap), g=strGebiete()[S.str], I=thIdx().strittig, c=S.klick&&landAn(S.klick[0],S.klick[1]), z=strZeile(g);
+  box.innerHTML=thKopf('▨',g.n,'Gebiet mit umstrittenem Status')+`<div class="qwk-box"><b>${esc(z||'Status laut Quelle umstritten')}</b>${g.s?`<div class="qwk-mini" style="margin-top:4px">${esc(g.s)}</div>`:''}</div>`+
+   `<p class="qwk-hin2">Quelle: ${esc(I.q)} · Stand ${esc(I.stand)}</p>`+(c?`<div><button class="qwk-chip k" data-land>${c.f||''} ${esc(c.n)} – Länderdaten</button></div>`:'');
+  const b=$('[data-land]',box); if(b) b.onclick=()=>{ S.str=null; waehle(c,S.klick); };
   $('.qwk-x',box).onclick=()=>{ S.str=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 /* ---------- Landkreise ---------- */
 function krWert(r,w){ if(r.einwohner_2024==null) return null; return w==='ew'?r.einwohner_2024:(r.flaeche_km2?r.einwohner_2024/r.flaeche_km2:null); }
@@ -1110,6 +1130,7 @@ function thRangAn(r,rz){ rz=rz||[0,2,3.5]; const k=Math.max(1,Math.min(rz.length
 function thPunkte(id,liste,K,e,teil){ const rand=S.modus==='globus'; const nam=[];
   liste.forEach((r,i)=>{ if(r.lon==null||r.lat==null) return; if(K.filter&&!K.filter(r)) return; const rg=K.rang?K.rang(r):r.rang; if(!thRangAn(rg,K.rz)) return; if(!imBlickP(r.lon,r.lat)) return; const q=proj(r.lon,r.lat); if(rand&&q[2]<.08) return; if(q[0]<-20||q[0]>W+20||q[1]<-20||q[1]>H+20) return;
     const R=(K.r?K.r(r,e,teil):4)*Math.min(1.7,Math.max(.85,Math.sqrt(S.zoom)*.8)), c=K.c?K.c(r,e,teil):thLeg(e,0), f=K.f?K.f(r,e,teil):K.sym;
+    if(K.hl&&K.hl(r)){ ctx.strokeStyle='#ffffff'; ctx.lineWidth=1.8; ctx.beginPath(); ctx.arc(q[0],q[1],R+4,0,7); ctx.stroke(); }
     thSym(f,q[0],q[1],R,c,K.hohl&&K.hohl(r),K.alpha); THH.push([q[0],q[1],R,id,i,teil]);
     const nz=K.nz; if(nz&&K.name){ const z=nz[Math.max(1,Math.min(nz.length,rg||1))-1]; if(S.zoom>=z) nam.push([r,q,R]); } });
   nam.forEach(([r,q,R])=>{ TXA=rand?Math.max(0,Math.min(1,(q[2]-.2)/.3)):1; text(K.name(r,teil),q[0]+R+3,q[1]+4,10.2,K.nc||'#f2ecdf',false,'600'); }); TXA=1; }
@@ -1133,6 +1154,14 @@ function thPlatten(e){ const K=THK.platten, codes=e.codes||{}, art=ch=>{ const a
     for(let k=0;k<l.length-1;k++){ const a=pts[k], b=pts[k+1]; if(!a||!b) continue; if(S.modus==='flach'&&Math.abs(a[0]-b[0])>W/2) continue; const P=pfade[kl(cs[k]||cs[cs.length-1])]; P.moveTo(a[0],a[1]); P.lineTo(b[0],b[1]); }
     THL.push(['platten',i,[pts],0]); });
   pfade.forEach((P,k)=>{ ctx.strokeStyle='rgba(6,12,20,.55)'; ctx.lineWidth=3.4*zf; ctx.stroke(P); ctx.strokeStyle=farbe[k]||'#fff'; ctx.lineWidth=1.6*zf; ctx.stroke(P); });
+  /* Zähne auf der Seite der oberen Platte: PB2002 – erste Platte links der Linie, „/“ = zweite taucht ab, „\“ = erste taucht ab */
+  if(S.zoom>=1.6){ const Z=new Path2D(), ab=5.5*zf, gr=4*zf;
+    e.daten.forEach(r=>{ if(!thRangAn(r.rang,K.lrz)) return; const pb=String(r.pb||''), sl=pb.indexOf('/')>=0?1:pb.indexOf('\\')>=0?-1:0; if(!sl) return; const l=r.koord_flach&&r.koord_flach[0]; if(!l||!sichtbar(l.bb)) return; const cs=r.codes||''; let rest=0;
+      for(let k=0;k<l.length-1;k++){ if((cs[k]||cs[cs.length-1])!=='S') continue; const A=l[k], B=l[k+1], a=proj(A[0],A[1]), b=proj(B[0],B[1]); if(a[2]<.05||b[2]<.05) continue; const L=Math.hypot(b[0]-a[0],b[1]-a[1]); if(L<.5||(S.modus==='flach'&&Math.abs(a[0]-b[0])>W/2)) continue;
+        const mx=(A[0]+B[0])/2, my=(A[1]+B[1])/2, dx=(B[0]-A[0])*Math.cos(my*R2), dy=B[1]-A[1], dn=Math.hypot(dx,dy)||1, o=proj(mx-dy/dn*.05*sl/Math.max(.2,Math.cos(my*R2)),my+dx/dn*.05*sl), m=proj(mx,my);
+        let nx=o[0]-m[0], ny=o[1]-m[1]; const nn=Math.hypot(nx,ny); if(nn<1e-6) continue; nx/=nn; ny/=nn; const ux=(b[0]-a[0])/L, uy=(b[1]-a[1])/L;
+        for(let t=rest;t<L;t+=ab){ const px=a[0]+ux*t, py=a[1]+uy*t; Z.moveTo(px-ux*gr*.5,py-uy*gr*.5); Z.lineTo(px+nx*gr,py+ny*gr); Z.lineTo(px+ux*gr*.5,py+uy*gr*.5); Z.closePath(); } rest=(rest-L)%ab; if(rest<0) rest+=ab; } });
+    ctx.fillStyle=farbe[1]||'#4ac8ff'; ctx.fill(Z); }
   (e.daten_platten||[]).forEach(p=>{ if(!thRangAn(p.rang,[1,2.5,4])) return; const q=proj(p.lon,p.lat); if(q[2]<.25) return; TXA=.9; text(p.n,q[0],q[1],10.6,'#ffe2c8',true,'italic 400','meer'); }); TXA=1; }
 /* Windgürtel: Bänder mit Pfeilreihen, Monsungebiete gestrichelt */
 function thWind(e){ const B=e.daten||[], M=e.daten_monsun||[], zf=Math.min(1.5,Math.max(1,Math.sqrt(S.zoom)*.8));
@@ -1187,7 +1216,7 @@ function infoThema(){ const box=$('.qwk-info',wrap), [id,i,t,seg]=S.thi, e=th(id
   else if(id==='windguertel'){ const r=seg==='m'||t==='m'?e.daten_monsun[i]:e.daten[i]; h=thKopf(sch.e,r.name,t==='m'?'Monsungebiet':(r.richtung||''))+`<p class="qwk-txt">${esc(r.text||'')}</p>`; }
   else { const L=K.listen?K.listen(e)[t||0]:(K.liste?K.liste(e):e.daten), r=L[i], I=K.info?K.info(r,e,t||0):{t:r.n||r.name||'',txt:r.t||r.text||''};
     h=thKopf(sch.e,I.t,I.u)+thKpi(I.kpi)+(I.txt?`<p class="qwk-txt">${esc(I.txt)}</p>`:'')+(I.html||''); if(r.schema||e.schema) h+=`<div>${chip('✏️ schematisch')}</div>`; if(I.q) h+=`<p class="qwk-hin2">Beleg: ${esc(I.q)}</p>`; }
-  { const L=Array.isArray(e.legende)?e.legende:[]; const E=L.map(l=>Array.isArray(l)?[l[0],l[1]]:[l.n,l.c]).filter(x=>x[0]&&typeof x[0]==='string'); if(E.length) h+=`<h4>Legende</h4><div class="qwk-kl">${E.map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`; }
+  { const E=thLegE(e,K); if(E.length) h+=`<h4>Legende</h4><div class="qwk-kl">${E.map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`; }
   h+=`<h4>${esc(e.name||sch.n)}</h4>${thHin(K,e)?`<p class="qwk-hin2" style="margin-top:0">${esc(thHin(K,e))}</p>`:''}${thQuellenHtml(e)}`;
   box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.thi=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 /* Info-Teil für Landes-Ebenen (über den Länderdaten) bzw. Übersicht ohne gewähltes Land */
@@ -1214,13 +1243,22 @@ function thUebersicht(G){ const box=$('.qwk-info',wrap), id=G.th, e=th(id), K=TH
   else if(K.uebersicht) h+=K.uebersicht(e,G);
   h+=`<p class="qwk-hin2">Land antippen für Wert und Länderdaten.${thHin(K,e)?' '+esc(thHin(K,e)):''}</p><h4>Quelle</h4>${thQuellenHtml(e)}`;
   box.innerHTML=h; box.querySelectorAll('[data-thw]').forEach(b=>b.onclick=()=>{ thWaehlen(id,b.dataset.thw); }); }
+function thWahlListe(s,an){ if(s.wahl) return s.wahl; const K=THK[s.id]||{}; return an&&K.wahl&&th(s.id)?K.wahl(th(s.id)):null; }
+function thWahlName(s){ const K=THK[s.id]||{}; if(K.zusatz) return esc(K.zusatz()); if(!K.wahl||!S.thw[s.id]) return ''; const x=(thWahlListe(s,true)||[]).find(w=>w[0]===S.thw[s.id]); return x?' · '+esc(x[1]):''; }
 function thWaehlen(id,w){ if(id==='pflanzen_heimat'){ S.pflanze=w; const sel=$('[data-pflanze]',wrap); if(sel) sel.value=w; } else S.thw[id]=w; const sl=wrap.querySelector(`[data-thwahl="${id}"]`); if(sl) sl.value=w; legende(); zeichne(); info(); }
 function thLegende(){ let h=''; const G=GRUND[S.grund], n=THS.filter(s=>s.art==='ov'&&S.ov[s.k]&&!s.basis).length;
   for(const s of THS){ if(s.art!=='ov'||!S.ov[s.k]||(s.basis&&(!S.ov.grenzen||n<1))) continue; const e=th(s.id); if(!e) continue; const K=THK[s.id]||{}; const L=Array.isArray(e.legende)?e.legende:[];
-    const E=L.map(l=>Array.isArray(l)?[l[0],l[1]]:[l.n,l.c]).filter(x=>x[0]&&typeof x[0]==='string'), max=n>=3?3:n>=2?5:12;
-    const it=K.leg?K.leg(e):E.slice(0,max).map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')+(E.length>max?`<span style="color:var(--k-m)">+ ${E.length-max} weitere (Info)</span>`:'');
-    h+=`<div class="qwk-thleg"><b>${s.e} ${esc(s.n)}</b>${it?`<div class="qwk-kl">${it}</div>`:''}${thHin(K,e)&&n<2?`<div class="qwk-hin">${esc(thHin(K,e))}</div>`:''}</div>`; }
-  return h; }
+    const E=thLegE(e,K), max=n>=3?3:n>=2?5:12;
+    const it=K.leg?K.leg(e):E.slice(0,max).map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')+(E.length>max?`<button class="qwk-legmehr" data-legvoll>+ ${E.length-max} weitere</button>`:'');
+    const dots=E.slice(0,8).map(([,c])=>`<i style="background:${c}"></i>`).join('');
+    h+=`<div class="qwk-thleg"><b>${s.e} ${esc(s.n)}${thWahlName(s)}<span class="qwk-thdots">${dots}</span></b>${it?`<div class="qwk-kl">${it}</div>`:''}${thHin(K,e)&&n<2?`<div class="qwk-hin">${esc(thHin(K,e))}</div>`:''}</div>`; }
+  if(h) h=`<button class="qwk-legvoll" data-legvoll>Ganze Legende der Themen ›</button>`+h; return h; }
+function thLegE(e,K){ if(K&&K.legE) return K.legE(e); const L=Array.isArray(e.legende)?e.legende:[]; return L.map(l=>Array.isArray(l)?[l[0],l[1]]:[l.n,l.c]).filter(x=>x[0]&&typeof x[0]==='string'); }
+function thLegVoll(){ const box=$('.qwk-info',wrap), G=GRUND[S.grund]; let h=thKopf('🗺️','Legende','alle eingeschalteten Themen');
+  if(G&&G.th) h+=`<h4>${G.e} ${esc(G.n)}</h4>`+thLegGrund(G);
+  for(const s of THS){ if(s.art!=='ov'||!S.ov[s.k]||(s.basis&&!S.ov.grenzen)) continue; const e=th(s.id); if(!e) continue; const K=THK[s.id]||{}; const E=thLegE(e,K);
+    h+=`<h4>${s.e} ${esc(s.n)}${thWahlName(s)}</h4><div class="qwk-kl">${K.leg?K.leg(e):E.map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>${thHin(K,e)?`<div class="qwk-hin">${esc(thHin(K,e))}</div>`:''}<div class="qwk-hin">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · '+esc(thQ(e).stand):''}</div>`; }
+  box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.legvoll=false; info(); wrap.classList.remove('qwk-info-auf'); }; }
 function thLegGrund(G){ const e=th(G.th), K=THK[G.th]||{}; if(!e) return ''; let h='';
   if(G.kre){ h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${G.p.join(',')})"></div><div class="qwk-rl">${G.lg.map(x=>`<span>${x}</span>`).join('')}</div><div class="qwk-hin">logarithmische Skala · Kreis antippen</div>`; }
   else if(G.thr){ if(e.klassen) h+=`<div class="qwk-kl">${Object.values(e.klassen).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`;
@@ -1246,7 +1284,7 @@ function thPanelHtml(){ return `<div class="qwk-bk qwk-thbk"><b>🗂 Themen</b><
 function thListeHtml(){ const q=THF.q.trim().toLowerCase(); let h='';
   for(const g of TH_GRUPPEN){ if(THF.g&&THF.g!==g) continue; const L=THS.filter(s=>s.g===g&&(!q||(s.n+' '+s.kurz+' '+g).toLowerCase().includes(q))); if(!L.length) continue;
     h+=`<h3>${TH_GR_E[g]} ${g}</h3>`+L.map(s=>{ const an=thAn_(s), I=thIdx().by[s.id];
-      const wahl=an&&s.wahl?`<select class="qwk-sel" data-thwahl="${s.id}">${s.wahl.map(([k,n])=>`<option value="${esc(k)}" ${k===thWahl(s.id)?'selected':''}>${esc(n)}</option>`).join('')}</select>`:'';
+      const WL=thWahlListe(s,an), cur=s.wahl?thWahl(s.id):(S.thw[s.id]||''), wahl=an&&WL?`<select class="qwk-sel" data-thwahl="${s.id}">${WL.map(([k,n])=>`<option value="${esc(k)}" ${k===cur?'selected':''}>${esc(n)}</option>`).join('')}</select>`:'';
       return `<div class="qwk-thit${an?' an':''}"><button data-ths="${s.k}" aria-pressed="${an}"><span class="e">${s.e}</span><span class="t"><b>${esc(s.n)}</b><small>${esc(s.kurz)}${s.stand?' · Stand '+esc(String(s.stand).split(' (')[0]):''}</small></span><span class="sw ${s.art==='grund'?'r':''}" title="${s.art==='grund'?'Grundkarte (eine zur Zeit)':'Überlagerung'}"></span></button>${wahl}</div>`; }).join(''); }
   return h||'<p class="qwk-mini" style="padding:10px">Kein Thema gefunden.</p>'; }
 function thAktivHtml(){ const A=THS.filter(s=>thAn_(s)&&!s.basis); if(!A.length) return '<span class="qwk-mini">Kein Thema eingeschaltet.</span>'; return `<span class="qwk-mini">An:</span> ${A.map(s=>`<button class="qwk-chip k" data-thx="${s.k}">${s.e} ${esc(s.n)} ✕</button>`).join('')}<button class="qwk-chip" data-thalle>alle aus</button>`; }
@@ -1318,7 +1356,7 @@ function infoBL(){ const box=$('.qwk-info',wrap), b=DAT.bl.find(x=>x.i===S.bl), 
   box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); });
   $('.qwk-x',box).onclick=()=>{ S.bl=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 function info(){
-  const box=$('.qwk-info',wrap); if(S.thi&&th(S.thi[0])) return infoThema(); if(S.str!=null) return infoStrittig(); if(S.kr!=null&&(GRUND[S.grund].kre||S.ov.lkreise)) return infoKreis(); if(GRUND[S.grund].kre&&!S.sel) return krUebersicht(GRUND[S.grund]); if(S.ort) return infoOrt(); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
+  const box=$('.qwk-info',wrap); if(S.legvoll) return thLegVoll(); if(S.thi&&th(S.thi[0])) return infoThema(); if(S.str!=null) return infoStrittig(); if(S.kr!=null&&(GRUND[S.grund].kre||S.ov.lkreise)) return infoKreis(); if(GRUND[S.grund].kre&&!S.sel) return krUebersicht(GRUND[S.grund]); if(S.ort) return infoOrt(); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
   if(!S.sel&&GRUND[S.grund].th) return thUebersicht(GRUND[S.grund]);
   if(!S.sel){ box.innerHTML=`<div class="qwk-leer"><div class="qwk-gl">🌍</div><b>Land antippen</b><p>Tippe auf ein Land, um Einwohner, Dichte, Lebenserwartung, Ernten, Rohstoffe und passende Kapitel aus dem Kompendium zu sehen.</p><p class="qwk-mini">Ziehen = drehen · Zwei Finger oder Mausrad = zoomen · Beim Hineinzoomen erscheinen Städte, Flüsse und Landschaften</p>${S.klick?`<p class="qwk-mini">📍 Angetippt: ${koord(S.klick)}</p>`:''}</div>`; return; }
   const c=DAT.idx[S.sel], i=c.i, j=S.jahr, o=ow(i);
@@ -1422,6 +1460,8 @@ const CSS=`
 .qwk-thit .qwk-sel{margin:4px 0 2px}
 .qwk-leg{max-height:calc(100% - 28px);overflow:auto;overscroll-behavior:contain}.qwk-thleg{border-top:1px solid var(--k-l);margin-top:6px;padding-top:5px}.qwk-thleg>b{font-size:11.8px}.qwk-thleg .qwk-kl{margin-top:4px;gap:2px 9px;font-size:11.2px}.qwk-thq{font-size:11.5px;color:#b8c4c8;margin:4px 0;line-height:1.35}.qwk-thq a{color:#bfe3ad}.qwk-thq i{color:var(--k-m)}.qwk-thbox{margin:0 0 10px}.qwk-thbox b{color:#fff}
 @media (max-width:980px){.qwk-th{display:block;position:absolute;z-index:7;left:0;right:0;top:auto;bottom:58px;width:auto;max-height:70%;border:1px solid var(--k-l);border-bottom:0;border-radius:20px 20px 0 0;transform:translateY(calc(100% + 90px));transition:transform .34s cubic-bezier(.2,.85,.25,1);box-shadow:0 -14px 44px rgba(0,0,0,.55);background:rgba(12,19,34,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);max-width:560px;margin:0 auto;padding-top:8px}.qwk-th:before{content:"";display:block;width:38px;height:5px;border-radius:3px;background:#3a4868;margin:0 auto 6px}.qwk.qwk-themen-auf .qwk-th{transform:none}.qwk-thit>button{padding:10px}.qwk-thleg .qwk-kl{display:none}.qwk-leg{max-height:34%}}
+.qwk-legmehr,.qwk-legvoll{all:unset;cursor:pointer;color:var(--k-a);font-size:11.2px;font-weight:600}.qwk-legvoll{display:none;margin-top:4px}.qwk-thdots{display:none}
+@media (max-width:980px){.qwk-thleg .qwk-kl,.qwk-thleg .qwk-hin{display:none}.qwk-thdots{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle}.qwk-thdots i{width:9px;height:9px;border-radius:50%;display:inline-block}.qwk-thleg>b{display:flex;align-items:center;font-size:12.5px}.qwk-legvoll{display:inline-block;font-size:12.5px;padding:4px 0}}
 @media (max-width:980px){.qwk{grid-template-columns:1fr;grid-template-rows:auto minmax(300px,1fr) auto;margin-inline:8px;border-radius:18px}.qwk-top{grid-column:1;padding:8px 10px;gap:8px}.qwk-titel{display:none}.qwk-top>.qwk-seg:not(.qwk-mob){flex:1 1 100%;display:grid;grid-auto-flow:column;grid-auto-columns:1fr}.qwk-top>.qwk-seg:not(.qwk-mob) button{text-align:center;padding:8px 4px;white-space:nowrap;font-size:12.5px}.qwk-such{order:2;flex:1 1 150px}.qwk-mob{order:3}.qwk-mob button{padding:9px 12px}.qwk-zeit{grid-column:1}.qwk-side,.qwk-info{position:absolute;z-index:5;left:0;right:0;bottom:58px;max-height:62%;border:1px solid var(--k-l);border-bottom:0;border-radius:20px 20px 0 0;transform:translateY(calc(100% + 90px));transition:transform .34s cubic-bezier(.2,.85,.25,1);box-shadow:0 -14px 44px rgba(0,0,0,.55);background:rgba(12,19,34,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);max-width:560px;margin:0 auto;overscroll-behavior:contain}.qwk-side:before,.qwk-info:before{content:"";display:block;width:38px;height:5px;border-radius:3px;background:#3a4868;margin:0 auto 6px}.qwk-info{padding-top:8px}.qwk-side{padding-top:8px}.qwk-bk{display:flex}.qwk.qwk-ebenen-auf .qwk-side,.qwk.qwk-info-auf .qwk-info{transform:none}.qwk-mob{display:inline-flex}.qwk-such{margin-left:0;width:100%}.qwk-such input{width:100%}.qwk-leg{bottom:10px;left:10px;max-width:calc(100% - 20px);padding:8px 10px}.qwk-leg .qwk-hin{display:none}.qwk-q,.qwk-j0{display:none}.qwk-zeit{padding:8px 12px;gap:10px}.qwk-zoom{right:10px;top:10px}}
 @media (max-width:980px) and (max-height:700px){.qwk-leg .qwk-kl:not(.qwk-ov){display:none}}
 @media (prefers-reduced-motion:reduce){.qwk-side,.qwk-info{transition:none}.qwk-bars i b{animation:none}}
@@ -1479,13 +1519,13 @@ function ereignisse(){
   thEreignisse();
   wrap.querySelectorAll('[data-auf]').forEach(b=>b.onclick=()=>{ const a=b.dataset.auf, an=!wrap.classList.contains('qwk-'+a+'-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-info-auf','qwk-themen-auf'); if(an) wrap.classList.add('qwk-'+a+'-auf'); });
   wrap.querySelectorAll('[data-zu]').forEach(b=>b.onclick=()=>wrap.classList.remove('qwk-ebenen-auf','qwk-info-auf'));
-  $('.qwk-leg',wrap).onclick=e=>{ if(e.target.closest('a')) return; wrap.classList.remove('qwk-info-auf','qwk-themen-auf'); wrap.classList.toggle('qwk-ebenen-auf'); };
+  $('.qwk-leg',wrap).onclick=e=>{ if(e.target.closest('a')) return; if(e.target.closest('[data-legvoll]')){ e.stopPropagation(); S.legvoll=true; info(); wrap.classList.remove('qwk-ebenen-auf','qwk-themen-auf'); wrap.classList.add('qwk-info-auf'); return; } wrap.classList.remove('qwk-info-auf','qwk-themen-auf'); wrap.classList.toggle('qwk-ebenen-auf'); };
   const sb=$('[data-spin]',wrap); if(sb) sb.onclick=()=>{ S.spin=!S.spin&&S.modus==='globus'; sb.setAttribute('aria-pressed',S.spin); };
   wrap.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{ const z=+b.dataset.z; S.spin=false; schwungAus(); if(!z){ ZT=null; S.zoom=1; S.px=0; S.py=S.modus==='scheibe'?SCHY:0; zeichne(); } else zoomZu((ZT||S.zoom)*z); });
   $('[data-pflanze]',wrap).onchange=e=>{ S.pflanze=e.target.value; if(S.pflanze){ const P=PFL[S.pflanze]; flieg(P[0][0],P[0][1]); } zeichne(); };
   $('[data-epoche]',wrap).onchange=e=>{ S.epoche=e.target.value; zeichne(); };
-  const rg=$('.qwk-zeit input',wrap), jl=$('.qwk-jahr',wrap); rg.oninput=()=>{ S.jahr=+rg.value; jl.textContent=S.jahr; zeichne(); info(); };
-  let spiel=null; $('.qwk-play',wrap).onclick=e=>{ const b=e.currentTarget; if(spiel){ clearInterval(spiel); spiel=null; b.textContent='▶'; return; } b.textContent='❚❚'; if(S.jahr>=2023) S.jahr=1960; spiel=setInterval(()=>{ S.jahr++; rg.value=S.jahr; jl.textContent=S.jahr; zeichne(); info(); if(S.jahr>=2023){ clearInterval(spiel); spiel=null; b.textContent='▶'; } },160); };
+  const rg=$('.qwk-zeit input',wrap), jl=$('.qwk-jahr',wrap); rg.oninput=()=>{ S.jahr=+rg.value; jl.textContent=S.jahr; if(S.ov.erdbeben||S.ov.vulkane) legende(); zeichne(); info(); };
+  let spiel=null; $('.qwk-play',wrap).onclick=e=>{ const b=e.currentTarget; if(spiel){ clearInterval(spiel); spiel=null; b.textContent='▶'; return; } b.textContent='❚❚'; if(S.jahr>=2023) S.jahr=1960; spiel=setInterval(()=>{ S.jahr++; rg.value=S.jahr; jl.textContent=S.jahr; if(S.ov.erdbeben||S.ov.vulkane) legende(); zeichne(); info(); if(S.jahr>=2023){ clearInterval(spiel); spiel=null; b.textContent='▶'; } },160); };
   $('.qwk-such input',wrap).onchange=e=>{ const v=e.target.value.trim().toLowerCase(); const c=DAT.laender.find(c=>c.n.toLowerCase()===v); if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); return; }
     const st=DAT.staedte.find(s=>s[0].toLowerCase()===v); if(st){ S.ov.staedte=true; const cc=landAn(st[1],st[2]); if(cc) waehle(cc,[st[1],st[2]]); flieg(st[1],st[2],Math.max(S.zoom,4)); return; }
     const id=Object.keys(PFL).find(id=>pname(id).toLowerCase()===v); if(id){ S.pflanze=id; $('[data-pflanze]',wrap).value=id; S.ov.pfl=true; flieg(PFL[id][0][0],PFL[id][0][1]); zeichne(); return; }
@@ -1501,7 +1541,7 @@ function ereignisse(){
     neu(); });
   const ende=e=>{ if(!P.has(e.pointerId)) return; const mehr=P.size>1; P.delete(e.pointerId); if(P.size===1){ const [q]=[...P.values()]; start={x:q[0],y:q[1],lam:S.lam,phi:S.phi,px:S.px,py:S.py}; vx=vy=0; lt=e.timeStamp; lx=q[0]; ly=q[1]; }
     if(bewegt&&P.size===0&&!mehr&&e.type==='pointerup'&&e.timeStamp-lt<120) schwung(vx,vy);
-    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; S.ort=null; S.thi=null; S.str=null; { const ta=thAn(x,y); if(ta){ S.thi=ta; S.sel=null; S.hist=null; S.bl=null; S.klick=inv(x,y); info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-themen-auf'); return; } const l2=inv(x,y), st=l2&&strAn(l2[0],l2[1]); if(st!=null&&!GRUND[S.grund].kre&&!GRUND[S.grund].de){ S.str=st; S.sel=null; S.hist=null; S.bl=null; S.klick=l2; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const oa=ortAn(x,y); if(oa){ S.ort=oa; S.hist=null; S.bl=null; S.klick=[oa[2],oa[3]]; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); return; } const ll=inv(x,y); S.kr=null; if(ll&&(GRUND[S.grund].kre||(S.ov.lkreise&&S.zoom>=4))){ const k=kreisAn(ll[0],ll[1]); if(k!=null){ S.kr=k; S.sel=null; S.hist=null; S.bl=null; S.klick=ll; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
+    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; S.ort=null; S.thi=null; S.str=null; S.legvoll=false; { const ta=thAn(x,y); if(ta){ S.thi=ta; S.sel=null; S.hist=null; S.bl=null; S.klick=inv(x,y); info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-themen-auf'); return; } const l2=inv(x,y), st=l2&&strAn(l2[0],l2[1]); if(st!=null&&!GRUND[S.grund].kre&&!GRUND[S.grund].de){ S.str=st; S.sel=null; S.hist=null; S.bl=null; S.klick=l2; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const oa=ortAn(x,y); if(oa){ S.ort=oa; S.hist=null; S.bl=null; S.klick=[oa[2],oa[3]]; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); return; } const ll=inv(x,y); S.kr=null; if(ll&&(GRUND[S.grund].kre||(S.ov.lkreise&&S.zoom>=4))){ const k=kreisAn(ll[0],ll[1]); if(k!=null){ S.kr=k; S.sel=null; S.hist=null; S.bl=null; S.klick=ll; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
   m.addEventListener('pointerup',ende); m.addEventListener('pointercancel',ende);
   m.addEventListener('wheel',e=>{ e.preventDefault(); S.spin=false; schwungAus(); zoomZu((ZT||S.zoom)*Math.exp(-Math.max(-120,Math.min(120,e.deltaY))*0.0022)); },{passive:false});
   m.addEventListener('dblclick',e=>{ if(e.target.closest('.qwk-zoom,.qwk-leg')) return; e.preventDefault(); zoomZu((ZT||S.zoom)*2); });
@@ -1513,7 +1553,7 @@ function ereignisse(){
   if(!window.QWWELT_RS){ window.QWWELT_RS=true; let rt=0; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(wrap&&document.body.contains(wrap)) groesse(); },80); }); }
 }
 function grundSetzen(k){ S.grund=k; S.thi=null; if(GRUND[k].th) th(GRUND[k].th); wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de||GRUND[k].kre){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; if(!GRUND[k].kre) S.kr=null; legende(); zeichne(); info(); }
-function waehle(c,ll){ S.ort=null; S.thi=null; S.str=null; S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
+function waehle(c,ll){ S.ort=null; S.thi=null; S.str=null; S.legvoll=false; S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
 function flieg(lon,lat,zz){ S.spin=false; if(S.modus==='scheibe'){ if(zz) S.zoom=zz; const r=(90-lat)/180*rd(), a=(lon-S.lam)*R2; S.px=-r*Math.sin(a); S.py=-r*Math.cos(a); zeichne(); return; } if(S.modus!=='globus'){ if(zz) S.zoom=zz; S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
   schwungAus(); ZT=null; const weit=Math.hypot(dl*Math.cos((a.p+b.p)/2*R2),b.p-a.p), dauer=RUHE()?1:Math.min(1500,650+weit*7), tal=Math.min(a.z,b.z), hub=weit>25&&tal>1.3?Math.min(.7,weit/160):0;
   (function st(t){ const k=Math.min(1,(t-t0)/dauer), e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2; S.lam=a.l+dl*e; S.phi=a.p+(b.p-a.p)*e; S.zoom=Math.exp(Math.log(a.z)+(Math.log(b.z)-Math.log(a.z))*e)*(1-hub*Math.sin(Math.PI*k)*(1-1/tal)); S.bewegt=k<1; zeichne(k>=1); if(k<1&&document.body.contains(wrap)) requestAnimationFrame(st); })(t0); }
