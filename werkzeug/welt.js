@@ -573,7 +573,7 @@ function zeichne(fein){
   if(rast){ const half=1.02, tab=rast===2?KLIMA:rast===3?BODEN:VEGN; ctx.save(); ctx.beginPath(); DAT.laender.forEach(c=>c.p.forEach(rg=>pfad(rg))); ctx.clip();
     DAT.raster.forEach(g=>{ const k=g[rast]; const q=proj(g[0],g[1]); if(q[2]<0.05) return; const a=proj(g[0]-half,g[1]+half),b=proj(g[0]+half,g[1]+half),c2=proj(g[0]+half,g[1]-half),d=proj(g[0]-half,g[1]-half);
       if(!glob && Math.abs(a[0]-b[0])>W/2) return; ctx.fillStyle=tab[k][1]; ctx.globalAlpha=.86; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.lineTo(c2[0],c2[1]); ctx.lineTo(d[0],d[1]); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; }); ctx.restore(); }
-  if(G.thr) thRasterZeichnen(G); else if(G.th) thLandExtra(G);
+  if(G.thr) thRasterZeichnen(G); else if(G.kre||S.ov.lkreise) krZeichnen(G.kre?G:null); else if(G.th) thLandExtra(G);
   thFlaechenZeichnen();
   if(G.de&&DAT.bl){ DAT.bl.forEach(b=>{ const v=deWert(b.i,S.grund); ctx.beginPath(); let ok=false; b.p.forEach(rg=>{ if(pfad(rg)) ok=true; }); if(!ok) return; ctx.globalAlpha=.88; ctx.fillStyle=v==null?'#333':ramp(G.p,G.s(v)); ctx.fill(); ctx.globalAlpha=1; ctx.strokeStyle=S.bl===b.i?'#fff':'rgba(255,255,255,.7)'; ctx.lineWidth=S.bl===b.i?2.6:.9; ctx.stroke(); }); }
   // Detailflächen beim Hineinzoomen: Schelfeis, Gletscher, Salzpfannen, bebaute Flächen
@@ -843,6 +843,10 @@ function th(id){ if(THE[id]) return THE[id]; const D=thDaten(), r=D[id]; if(!r) 
 const thLeg=(e,i)=>{ const L=e&&e.legende; if(!Array.isArray(L)||!L[i]) return '#cccccc'; return Array.isArray(L[i])?L[i][1]:L[i].c; };
 const thLegK=(e,k)=>{ const L=(e&&e.legende)||[]; const x=Array.isArray(L)?L.find(l=>l&&l.k===k):null; return x?x.c:null; };
 const thQ=e=>(e&&e.quellen&&e.quellen[0])||{};
+const thHin=(K,e)=>!K||!K.hin?'':typeof K.hin==='function'?K.hin(e):K.hin;
+const thSatz1=t=>{ t=String(t||''); const m=t.match(/^.*?[.;](\s|$)/); return (m?m[0]:t).replace(/[;.]\s*$/,'').trim(); };
+const thBL=c=>{ const b=(DAT.bl||[]).find(x=>x.i===c); return b?b.n:c; };
+const thBLs=t=>String(t||'').split(/,\s*/).map(thBL).join(', ');
 const thQk=e=>{ const t=String(thQ(e).t||''); const k=t.split(/;| – |\(|, Kopie|, aufbereitet/)[0].trim(); return k.length>90?k.slice(0,88)+'…':k; };
 const thJahr=j=>j==null?'':j<0?(-j)+' v. Chr.':String(j);
 const thDatum=d=>{ const m=/^(\d{4})-(\d\d)-(\d\d)/.exec(d||''); return m?`${m[3]}.${m[2]}.${m[1]}`:(d||''); };
@@ -873,24 +877,43 @@ const THK={
    {k:'niederschlag',sub:'niederschlag',n:'Niederschlag · Jahr',e:'🌧️',f:b=>b*20,u:'mm/Jahr'}]},
  biome:{e:'🌿',k:'14 Großlebensräume (RESOLVE 2017) im 2°-Raster',land:1},
  waldanteil:{e:'🌲',k:'Waldfläche in % der Landfläche je Land'},
- pflanzen_heimat:{e:'🌱',k:'Ursprüngliche Heimat und Einbürgerung der Heilpflanzen (WCVP)'}
+ pflanzen_heimat:{e:'🌱',k:'Ursprüngliche Heimat und Einbürgerung der Heilpflanzen (WCVP)'},
+ kreise:{e:'🏘️',k:'401 Landkreise und kreisfreie Städte',de:1,teile:[
+   {k:'kreise',n:'Landkreise · Einwohnerdichte',e:'🏘️',grund:1,wert:'dichte',u:'Einwohner je km² · 31.12.2024',kurz:'Einwohner je km² je Kreis (Destatis 31.12.2024)',p:MAGMA,s:v=>Math.log10(Math.max(v,35)/35)/Math.log10(4800/35),lg:['35','400','4.800']},
+   {k:'kreise_ew',n:'Landkreise · Einwohner',e:'👥',grund:1,wert:'ew',u:'Einwohner · 31.12.2024',kurz:'Einwohnerzahl je Kreis (Destatis 31.12.2024)',p:TEAL,s:v=>Math.log10(Math.max(v,30000)/30000)/Math.log10(3.9e6/30000),lg:['30.000','340.000','3,9 Mio.']},
+   {k:'lkreise',n:'Landkreisgrenzen',e:'🗺️',grund:0,kurz:'Grenzen und Namen der Kreise (VG250, vereinfacht)'}],leg:()=>'<span><i class="l" style="border-top:2px solid #ffecc8"></i>Kreisgrenze (vereinfacht)</span>',hin:e=>thSatz1(String(e.hinweis||'').replace(/^Gebietsstand[^:]*:\s*\d+ Kreise\.\s*/,''))},
+ schutzgebiete:{e:'🦌',k:'Nationalparks und Biosphärenreservate',ov:1,de:1,rz:[0,0,0],nz:[5,5,5],
+  f:r=>/national/i.test(r.art)?'quadrat':'kreis',c:(r,e)=>thLeg(e,/national/i.test(r.art)?0:r.unesco?1:2),r:r=>Math.min(8,2.4+Math.sqrt(r.ha||0)/120),name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[r.art,thBLs(r.land),r.jahr?'seit '+r.jahr:''].filter(Boolean).join(' · '),kpi:[['Fläche',r.ha!=null?fmt(r.ha)+' ha':'–']].concat(r.unesco!=null&&/bios/i.test(r.art)?[['UNESCO',r.unesco?'anerkannt':'nicht anerkannt']]:[]),txt:r.text||''}),
+  uebersichtOhneLage:1},
+ wanderwege:{e:'🥾',k:'Bekannte Fernwanderwege (schematisch)',ov:1,de:1,lrz:[0,0,6],nz:[5,5,6.5],w:2.8,dash:[8,5],orte:1,oz:6,onz:8,
+  linien:r=>r._l||(r._l=[thBB(thDicht(r.p.map(x=>[x[0],x[1]])))]),ortL:r=>r.p.map(x=>[x[2],x[0],x[1]]),c:(r,e)=>thLeg(e,0),name:r=>r.n,
+  info:(r,e)=>{ const q=(e.quellen_wege||{})[r.q]; return {t:r.n,u:[r.km!=null?fmt(r.km,1)+' km':'',thBLs(r.land)].filter(Boolean).join(' · '),kpi:[['Start',r.p[0][2]],['Ziel',r.p[r.p.length-1][2]]],txt:r.text,
+   html:(r.hinweis?`<p class="qwk-hin2">${esc(r.hinweis)}</p>`:'')+(q?`<p class="qwk-hin2">Beleg: ${q.u?`<a href="${esc(String(q.u).split(' ; ')[0])}" target="_blank" rel="noopener">${esc(q.t)}</a>`:esc(q.t)}${q.stand?' · '+esc(q.stand):''}</p>`:'')}; }},
+ wein_hopfen:{e:'🍇',k:'Weinanbaugebiete und Hopfengebiete (Größe = Fläche)',ov:1,de:1,rz:[0,0,0],nz:[5.5,5.5,5.5],listen:e=>[e.daten||[],e.daten_hopfen||[]],alpha:.82,
+  c:(r,e,t)=>thLeg(e,t),r:r=>Math.min(9,2.2+Math.sqrt(r.ha||0)/30),name:r=>r.n,
+  info:(r,e,t)=>({t:r.n,u:[t?'Hopfenanbaugebiet':'Weinanbaugebiet',thBLs(r.land),r.ort?'Lagepunkt '+r.ort:''].filter(Boolean).join(' · '),kpi:[[t?'Hopfenfläche':'Rebfläche',r.ha!=null?fmt(r.ha)+' ha':'–']].concat(r.tsd_hl_2025!=null?[['Weinerzeugung 2025',fmt(r.tsd_hl_2025/1000,2)+' Mio. hl']]:[]),txt:r.text||''})},
+ heilbaeder:{e:'♨️',k:'Staatlich anerkannte Heilbäder und Orte mit Heilquellen',ov:1,de:1,rz:[0,0,0],nz:[6,6,6],sym:'kreis',
+  c:(r,e)=>{ const a=r.art||''; return thLeg(e,/^Sole/.test(a)?0:/Thermal/.test(a)?1:/^Mineral/.test(a)?2:/^Moor/.test(a)?3:4); },r:()=>3.6,name:r=>r.n,
+  hin:e=>'Teilliste: '+thSatz1(e.hinweis).replace(/\s*\(amtliche Landesverzeichnisse\)/,''),
+  info:(r,e)=>({t:r.n,u:[thBLs(r.land),r.praedikat].filter(Boolean).join(' · '),kpi:[['Art',r.art||'–'],['Stand Verzeichnis',r.stand||'–']],txt:''})}
 };
 const TH_STRITTIG=false;
 const TH_GRUPPEN=['Natur','Himmel','Deutschland','Menschen','Geschichte','Wirtschaft','Politik'];
-const TH_AUS=new Set(['Himmel','Deutschland','Menschen','Geschichte','Wirtschaft','Politik']);   // noch nicht freigegebene Gruppen
+const TH_AUS=new Set(['Himmel','Menschen','Geschichte','Wirtschaft','Politik']);   // noch nicht freigegebene Gruppen
 /* Schalter: je Ebene einer (oder mehrere über THK.teile); art 'ov' = Überlagerung (S.ov), 'grund' = Grundkarte (GRUND) */
 let THS=[];
 function thInit(){ if(THS.length) return; const I=thIdx(); THS=[];
-  I.index.forEach(x=>{ if(TH_AUS.has(x.gruppe)) return; const K=THK[x.id]||{}; const grund=/^land-|^raster$/.test(x.typ)&&!K.ov;
+  I.index.forEach(x=>{ if(TH_AUS.has(x.gruppe)) return; const K=THK[x.id]||{}; const grund0=/^land-|^raster$/.test(x.typ)&&!K.ov;
     const teile=K.teile||[{k:x.id,n:x.name,e:K.e}];
-    teile.forEach((t,ti)=>{ const s={k:t.k,id:x.id,n:t.n,e:t.e||K.e||'◆',g:x.gruppe,kurz:t.kurz||K.k||x.einheit||'',stand:x.stand,typ:x.typ,art:grund?'grund':'ov',sub:t.sub,f:t.f,u:t.u,wahl:x.wahl,teil:ti};
+    teile.forEach((t,ti)=>{ const grund=t.grund!=null?!!t.grund:grund0; const s={k:t.k,id:x.id,n:t.n,e:t.e||K.e||'◆',g:x.gruppe,kurz:t.kurz||K.k||x.einheit||'',stand:x.stand,typ:x.typ,art:grund?'grund':'ov',sub:t.sub,f:t.f,u:t.u,wahl:x.wahl,teil:ti};
       THS.push(s);
       if(s.art==='ov'){ if(!(s.k in S.ov)) S.ov[s.k]=false; }
       else GRUND[s.k]=Object.assign({n:s.n,g:x.gruppe,e:s.e,th:x.id,u:t.u||x.einheit},thGrundDef(x,K,t)); }); });
   if(TH_STRITTIG&&I.strittig&&I.strittig.g) S.ov.strittig=S.ov.strittig!==false;
   const ord=Object.keys(THK); THS.sort((a,b)=>{ const x=ord.indexOf(a.id), y=ord.indexOf(b.id); return (x<0?999:x)-(y<0?999:y)||a.teil-b.teil; });
   if(!S.thw) S.thw={}; }
-function thGrundDef(x,K,t){ if(x.typ==='raster') return {thr:1,sub:t.sub,f:t.f}; if(x.typ==='land-wert') return {thw:1}; if(x.typ==='land-liste') return {thl:1}; return {thk:1}; }
+function thGrundDef(x,K,t){ if(x.typ==='kreise') return {kre:1,wert:t.wert,p:t.p,s:t.s,lg:t.lg,seite:1}; if(x.typ==='raster') return {thr:1,sub:t.sub,f:t.f}; if(x.typ==='land-wert') return {thw:1}; if(x.typ==='land-liste') return {thl:1}; return {thk:1}; }
 function thSchalter(k){ return THS.find(s=>s.k===k); }
 function thAn_(s){ return s.art==='grund'?S.grund===s.k:!!S.ov[s.k]; }
 
@@ -902,7 +925,7 @@ function thListe(id){ const e=th(id); if(!e) return null; const w=thWahl(id); re
 /* Rolle eines Landes in einer Liste (Bündnis/Reich): m Mitglied, a ausgesetzt, p Partner/Beobachter/Kandidat */
 function thRolle(L,i){ if(!L) return null; if(L.mitglieder&&L.mitglieder[i]!=null) return L.ausgesetzt&&L.ausgesetzt[i]?'a':'m'; if(Array.isArray(L.l)&&L.l.includes(i)) return 'm';
   for(const k of ['partner','beobachter','kandidaten','moeglich']) if(Array.isArray(L[k])&&L[k].includes(i)) return 'p'; return null; }
-function thFarbe(G,i){ const id=G.th, e=th(id); if(!e) return null; const K=THK[id]||{};
+function thFarbe(G,i){ const id=G.th, e=th(id); if(!e||G.kre) return null; const K=THK[id]||{};
   if(G.thw){ const v=thLandWert(G,i); return v==null?null:thWertFarbe(G,v); }
   if(G.thl){ const L=thListe(id), r=thRolle(L,i); if(!r) return null; const c=L.c||thLeg(e,0); return r==='m'?thA(c,1):r==='a'?thA(c,.6):thA(c,.42); }
   if(G.thk){ if(id==='pflanzen_heimat'){ const P=e.daten[thWahl(id)]; if(!P) return null; if((P.heimat||[]).includes(i)) return thA(thLeg(e,0),.95); if((P.eingeb||[]).includes(i)) return thA(thLeg(e,1),.8); return null; }
@@ -945,6 +968,29 @@ function thRasterZeichnen(G){ const K=THK[G.th]||{}, bild=thRasterBild(G); ctx.s
   ctx.globalAlpha=K.land?.9:.82; ctx.imageSmoothingEnabled=true; ctx.drawImage(bild,0,0,W,H); ctx.restore();
   const KU=feinRinge('land'); if(KU){ ctx.strokeStyle='rgba(8,16,28,.55)'; ctx.lineWidth=.9; ctx.lineJoin='round'; ctx.beginPath(); KU.forEach(rg=>{ if(rg.length>3&&vis(rg.bb)) pfad(rg,true); }); ctx.stroke(); } }
 
+/* ---------- Landkreise ---------- */
+function krWert(r,w){ if(r.einwohner_2024==null) return null; return w==='ew'?r.einwohner_2024:(r.flaeche_km2?r.einwohner_2024/r.flaeche_km2:null); }
+function krZeichnen(G){ const e=th('kreise'); if(!e) return; const L=e.daten||[], mitWert=G&&G.kre, zf=Math.min(1.3,.6+S.zoom/20);
+  ctx.lineJoin='round';
+  L.forEach((r,i)=>{ const R=r.ringe||[]; if(!R.length) return; let ok=false; ctx.beginPath(); for(const rg of R){ if(rg.bb&&sichtbar(rg.bb)){ pfad(rg); ok=true; } } if(!ok) return;
+    if(mitWert){ const v=krWert(r,G.wert); ctx.fillStyle=v==null?'rgba(70,74,84,.85)':ramp(G.p,G.s(v)); ctx.globalAlpha=.9; ctx.fill(); ctx.globalAlpha=1; if(v==null){ ctx.fillStyle=schraffur('rgba(255,255,255,.35)',6); ctx.fill(); } }
+    ctx.strokeStyle=S.kr===i?'#ffffff':mitWert?'rgba(255,255,255,.32)':'rgba(255,236,200,.55)'; ctx.lineWidth=(S.kr===i?2.4:.75)*zf; ctx.stroke(); });
+  if(S.zoom>=6){ const z=S.zoom; L.slice().sort((a,b)=>(b.einwohner_2024||0)-(a.einwohner_2024||0)).forEach(r=>{ const ew=r.einwohner_2024||0; if(z<(ew>600000?6:ew>250000?8:10)) return; if(!imBlickP(r.lon,r.lat)) return; const q=proj(r.lon,r.lat); if(q[2]<.2) return;
+    text(r.name,q[0],q[1]+4,z>=12?10.8:9.8,'#fff4dc',true,'600'); }); } }
+function kreisAn(lon,lat){ const e=th('kreise'); if(!e) return null; const L=e.daten||[]; for(let i=0;i<L.length;i++) for(const rg of (L[i].ringe||[])){ const b=rg.bb; if(lon<b[0]||lon>b[1]||lat<b[2]||lat>b[3]) continue; if(inring(lon,lat,rg)) return i; } return null; }
+function infoKreis(){ const box=$('.qwk-info',wrap), e=th('kreise'), L=e.daten, r=L[S.kr], G=GRUND[S.grund]&&GRUND[S.grund].kre?GRUND[S.grund]:GRUND.kreise, w=G.wert;
+  const d=krWert(r,'dichte'), rang=k=>{ const a=L.map(x=>krWert(x,k)).filter(v=>v!=null).sort((x,y)=>y-x); const v=krWert(r,k); return v==null?'–':(a.indexOf(v)+1)+' von '+a.length; };
+  const imLand=L.map((x,i)=>[x,i]).filter(([x])=>x.land===r.land&&krWert(x,w)!=null).sort((a,b)=>krWert(b[0],w)-krWert(a[0],w)), mx=imLand.length?krWert(imLand[0][0],w):1;
+  let h=thKopf('🏘️',r.name,[r.art,thBL(r.land),r.ags?'AGS '+r.ags:''].filter(Boolean).join(' · '))+thKpi([['Einwohner',r.einwohner_2024!=null?fmt(r.einwohner_2024):'–'],['Fläche',r.flaeche_km2!=null?fmt(r.flaeche_km2,0)+' km²':'–'],['Einwohner je km²',d!=null?fmt(d):'–'],['Rang Dichte',rang('dichte')]]);
+  if(r.einwohner_2024==null) h+=`<p class="qwk-hin2">${esc(thSatz1(String(e.hinweis||'').replace(/^Gebietsstand[^:]*:\s*\d+ Kreise\.\s*/,'')))}</p>`;
+  if(imLand.length) h+=`<h4>${esc(G.n.split(' · ')[1]||G.n)} – ${esc(thBL(r.land))}</h4><div class="qwk-bars">${imLand.slice(0,24).map(([x,i])=>{ const v=krWert(x,w); return `<div class="${i===S.kr?'hl':''}" data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${fmt(v)}</em></div>`; }).join('')}</div>${imLand.length>24?`<p class="qwk-mini">… und ${imLand.length-24} weitere</p>`:''}`;
+  h+=`<h4>Quelle</h4>${thQuellenHtml(e)}`; box.innerHTML=h;
+  box.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{ S.kr=+b.dataset.kr; const x=L[S.kr]; info(); flieg(x.lon,x.lat,Math.max(S.zoom,8)); });
+  $('.qwk-x',box).onclick=()=>{ S.kr=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
+function krUebersicht(G){ const box=$('.qwk-info',wrap), e=th('kreise'), L=e.daten, w=G.wert, A=L.map((x,i)=>[x,i]).filter(([x])=>krWert(x,w)!=null).sort((a,b)=>krWert(b[0],w)-krWert(a[0],w));
+  const zeile=([x,i])=>{ const v=krWert(x,w); return `<div data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${fmt(v)}</em></div>`; };
+  box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">${G.e}</span><div><h2>${esc(G.n)}</h2><small>${esc(G.u)}</small></div></div><h4>Höchste Werte</h4><div class="qwk-bars">${A.slice(0,12).map(zeile).join('')}</div><h4>Niedrigste Werte</h4><div class="qwk-bars">${A.slice(-6).map(zeile).join('')}</div><p class="qwk-hin2">Kreis antippen für alle Werte und die Rangliste im Bundesland. ${esc(thHin(THK.kreise,e))}</p><h4>Quelle</h4>${thQuellenHtml(e)}`;
+  box.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{ S.kr=+b.dataset.kr; const x=L[S.kr]; info(); flieg(x.lon,x.lat,Math.max(S.zoom,8)); }); }
 /* ---------- Zeichen ---------- */
 function thSym(f,x,y,r,c,hohl,alpha){ ctx.beginPath();
   if(f==='dreieck'){ ctx.moveTo(x,y-r*1.1); ctx.lineTo(x+r,y+r*.75); ctx.lineTo(x-r,y+r*.75); ctx.closePath(); }
@@ -972,7 +1018,7 @@ function thLinien(id,liste,K,e,teil){ const zf=Math.min(1.6,Math.max(.9,Math.sqr
     const c=K.c?K.c(r,e):(r.c||thLeg(e,0)), st=K.stil?K.stil(r,e):{}; ctx.strokeStyle=st.c||c; ctx.lineWidth=(st.w||K.w||2)*zf; ctx.globalAlpha=st.a||1; ctx.setLineDash(st.dash||(r.schema||K.dash?(K.dash||[7,5]):[]));
     let alle=[]; for(const l of Ls){ if(!Array.isArray(l[0])||!l.bb||!sichtbar(l.bb)) continue; ctx.beginPath(); const pts=thStrich(l); ctx.stroke(); alle.push(pts); if(K.pfeil) { ctx.setLineDash([]); thPfeilSpitze(pts,st.c||c,8*zf); ctx.setLineDash(st.dash||(r.schema||K.dash?(K.dash||[7,5]):[])); } }
     ctx.setLineDash([]); ctx.globalAlpha=1; if(alle.length){ THL.push([id,i,alle,teil]); if(K.nz&&K.name&&S.zoom>=K.nz[Math.max(1,Math.min(K.nz.length,r.rang||1))-1]) nam.push([r,alle]); }
-    if(K.orte&&r.orte&&S.zoom>=(K.oz||2.5)) r.orte.forEach(o=>{ const q=proj(o[1],o[2]); if(q[2]<.1) return; ctx.fillStyle=c; ctx.strokeStyle='rgba(4,10,18,.85)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(q[0],q[1],2.6,0,7); ctx.fill(); ctx.stroke(); if(S.zoom>=(K.onz||4)) text(o[0],q[0]+5,q[1]+4,9.6,'#f0eadc'); }); });
+    const OR=K.ortL?K.ortL(r):r.orte; if(K.orte&&OR&&S.zoom>=(K.oz||2.5)) OR.forEach(o=>{ const q=proj(o[1],o[2]); if(q[2]<.1) return; ctx.fillStyle=c; ctx.strokeStyle='rgba(4,10,18,.85)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(q[0],q[1],2.6,0,7); ctx.fill(); ctx.stroke(); if(S.zoom>=(K.onz||4)) text(o[0],q[0]+5,q[1]+4,9.6,'#f0eadc'); }); });
   nam.forEach(([r,alle])=>{ let best=null, bl=0; alle.forEach(pts=>{ const v=pts.filter(Boolean); if(v.length>bl){ bl=v.length; best=v; } }); if(!best||best.length<3) return; const m=best[best.length>>1]; text(K.name(r),m[0]+6,m[1]-6,10.2,K.nc||'#f4efe2',false,'italic 400','meer'); }); }
 /* Plattengrenzen: Teilstrecken nach Art einfärben */
 function thPlatten(e){ const K=THK.platten, codes=e.codes||{}, art=ch=>{ const a=codes[ch]; return a?a[0]:''; }, farbe={}; (e.legende||[]).forEach((l,i)=>{ farbe[i]=l[1]; });
@@ -1005,7 +1051,7 @@ function thWindAn(lon,lat){ const e=th('windguertel'); if(!e) return null; const
 function thFlaechenZeichnen(){ if(S.ov.windguertel){ const e=th('windguertel'); if(e) thWind(e); } }
 function thZeichnen(){ THH=[]; THL=[];
   for(const s of THS){ if(s.art!=='ov'||!S.ov[s.k]) continue; const e=th(s.id); if(!e) continue; const K=THK[s.id]||{};
-    if(s.id==='windguertel') continue;
+    if(s.id==='windguertel'||s.typ==='kreise') continue;
     if(s.id==='platten'){ thPlatten(e); continue; }
     if(K.zeichne){ K.zeichne(e,s); continue; }
     if(s.typ==='linien') thLinien(s.id,K.liste?K.liste(e):e.daten||[],K,e,0);
@@ -1030,7 +1076,7 @@ function infoThema(){ const box=$('.qwk-info',wrap), [id,i,t,seg]=S.thi, e=th(id
   else if(id==='windguertel'){ const r=seg==='m'||t==='m'?e.daten_monsun[i]:e.daten[i]; h=thKopf(sch.e,r.name,t==='m'?'Monsungebiet':(r.richtung||''))+`<p class="qwk-txt">${esc(r.text||'')}</p>`; }
   else { const L=K.listen?K.listen(e)[t||0]:(K.liste?K.liste(e):e.daten), r=L[i], I=K.info?K.info(r,e,t||0):{t:r.n||r.name||'',txt:r.t||r.text||''};
     h=thKopf(sch.e,I.t,I.u)+thKpi(I.kpi)+(I.txt?`<p class="qwk-txt">${esc(I.txt)}</p>`:'')+(I.html||''); if(r.schema||e.schema) h+=`<div>${chip('✏️ schematisch')}</div>`; if(I.q) h+=`<p class="qwk-hin2">Beleg: ${esc(I.q)}</p>`; }
-  h+=`<h4>${esc(e.name)}</h4>${K.hin?`<p class="qwk-hin2" style="margin-top:0">${esc(K.hin)}</p>`:''}${thQuellenHtml(e)}`;
+  h+=`<h4>${esc(e.name)}</h4>${thHin(K,e)?`<p class="qwk-hin2" style="margin-top:0">${esc(thHin(K,e))}</p>`:''}${thQuellenHtml(e)}`;
   box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.thi=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 /* Info-Teil für Landes-Ebenen (über den Länderdaten) bzw. Übersicht ohne gewähltes Land */
 function thLandBlock(G,i){ const id=G.th, e=th(id); if(!e) return ''; let h=`<div class="qwk-box qwk-thbox"><small>${G.e} ${esc(G.n)}</small>`;
@@ -1053,22 +1099,23 @@ function thUebersicht(G){ const box=$('.qwk-info',wrap), id=G.th, e=th(id), K=TH
       if(L.schema) h+=`<div>${chip('✏️ schematisch nach heutigen Grenzen')}</div>`; if(L.q) h+=`<p class="qwk-hin2">Beleg: ${L.q.u?`<a href="${esc(L.q.u)}" target="_blank" rel="noopener">${esc(L.q.t)}</a>`:esc(L.q.t||L.q)}${L.q.stand?' · Stand '+esc(L.q.stand):''}</p>`; }
     if(id==='pflanzen_heimat'){ const P=e.daten[w]; h+=`<div class="qwk-box"><b>${esc(P.n)}</b> <i>${esc(P.wcvp||'')}</i><p class="qwk-txt" style="margin:6px 0 0">Heimat laut WCVP (Kew): ${(P.heimat||[]).length} Länder · eingebürgert in ${(P.eingeb||[]).length}</p>${P.gebiet_en?`<p class="qwk-hin2">WCVP-Arealtext (englisch): ${esc(P.gebiet_en)}</p>`:''}</div><div>${chip('🌿 '+esc(P.n)+' im Kompendium','#'+w,'k')}</div>`; } }
   else if(K.uebersicht) h+=K.uebersicht(e,G);
-  h+=`<p class="qwk-hin2">Land antippen für Wert und Länderdaten.${K.hin?' '+esc(K.hin):''}</p><h4>Quelle</h4>${thQuellenHtml(e)}`;
+  h+=`<p class="qwk-hin2">Land antippen für Wert und Länderdaten.${thHin(K,e)?' '+esc(thHin(K,e)):''}</p><h4>Quelle</h4>${thQuellenHtml(e)}`;
   box.innerHTML=h; box.querySelectorAll('[data-thw]').forEach(b=>b.onclick=()=>{ thWaehlen(id,b.dataset.thw); }); }
 function thWaehlen(id,w){ if(id==='pflanzen_heimat'){ S.pflanze=w; const sel=$('[data-pflanze]',wrap); if(sel) sel.value=w; } else S.thw[id]=w; const sl=wrap.querySelector(`[data-thwahl="${id}"]`); if(sl) sl.value=w; legende(); zeichne(); info(); }
 function thLegende(){ let h=''; const G=GRUND[S.grund], n=THS.filter(s=>s.art==='ov'&&S.ov[s.k]).length;
   for(const s of THS){ if(s.art!=='ov'||!S.ov[s.k]) continue; const e=th(s.id); if(!e) continue; const K=THK[s.id]||{}; const L=Array.isArray(e.legende)?e.legende:[];
     const it=K.leg?K.leg(e):L.map(l=>Array.isArray(l)?[l[0],l[1]]:[l.n,l.c]).filter(x=>x[0]&&typeof x[0]==='string').map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('');
-    h+=`<div class="qwk-thleg"><b>${s.e} ${esc(s.n)}</b>${it?`<div class="qwk-kl">${it}</div>`:''}${K.hin&&n<2?`<div class="qwk-hin">${esc(K.hin)}</div>`:''}</div>`; }
+    h+=`<div class="qwk-thleg"><b>${s.e} ${esc(s.n)}</b>${it?`<div class="qwk-kl">${it}</div>`:''}${thHin(K,e)&&n<2?`<div class="qwk-hin">${esc(thHin(K,e))}</div>`:''}</div>`; }
   return h; }
 function thLegGrund(G){ const e=th(G.th), K=THK[G.th]||{}; if(!e) return ''; let h='';
-  if(G.thr){ if(e.klassen) h+=`<div class="qwk-kl">${Object.values(e.klassen).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`;
+  if(G.kre){ h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${G.p.join(',')})"></div><div class="qwk-rl">${G.lg.map(x=>`<span>${x}</span>`).join('')}</div><div class="qwk-hin">logarithmische Skala · Kreis antippen</div>`; }
+  else if(G.thr){ if(e.klassen) h+=`<div class="qwk-kl">${Object.values(e.klassen).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`;
     else { const st=(e.legende&&(e.legende[G.sub]||e.legende.t_jahr))||[]; h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${st.map(x=>x[1]).join(',')})"></div><div class="qwk-rl">${[st[0],st[st.length>>1],st[st.length-1]].filter(Boolean).map(x=>`<span>${fmt(x[0])}</span>`).join('')}</div>`; } }
   else if(G.thw){ if(K.p) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${K.p.join(',')})"></div><div class="qwk-rl">${(K.lg||[]).map(x=>`<span>${esc(x)}</span>`).join('')}</div>`; else if(Array.isArray(e.legende)&&Array.isArray(e.legende[0])) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${e.legende.map(x=>x[1]).join(',')})"></div><div class="qwk-rl">${e.legende.map(x=>`<span>${fmt(x[0])}</span>`).join('')}</div>`; }
   else if(G.thl){ const L=thListe(G.th); if(L){ const c=L.c||thLeg(e,0); h+=`<div class="qwk-kl"><span><i style="background:${c}"></i>${esc(L.n)}${L.mitglieder?' – Mitglieder':''}</span>${L.mitglieder?`<span><i style="background:${thA(c,.35)};outline:1px dashed ${c}"></i>ausgesetzt / Partner, Beobachter</span>`:''}${L.hs?`<span><i class="r" style="background:#fff"></i>Hauptstadt</span>`:''}</div>`; } }
   else if(G.th==='pflanzen_heimat'){ const P=e.daten[thWahl(G.th)]; h+=`<div class="qwk-kl">${(e.legende||[]).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div><div class="qwk-hin">${esc(P?P.n:'')} · Pflanze im Themen-Menü wählen</div>`; }
   else if(Array.isArray(e.legende)){ h+=`<div class="qwk-kl">${e.legende.map(l=>Array.isArray(l)?l:[l.n||'ohne Angabe',l.c]).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n||'ohne Angabe')}</span>`).join('')}</div>`; }
-  if(K.hin) h+=`<div class="qwk-hin">${esc(K.hin)}</div>`; h+=`<div class="qwk-hin">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · '+esc(thQ(e).stand):''}</div>`; return h; }
+  if(thHin(K,e)) h+=`<div class="qwk-hin">${esc(thHin(K,e))}</div>`; h+=`<div class="qwk-hin">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · '+esc(thQ(e).stand):''}</div>`; return h; }
 const QBASIS={t:null};
 function thQuelle(){ const q=$('.qwk-q',wrap); if(!q) return; if(QBASIS.t==null) QBASIS.t=q.textContent; const T=[]; const G=GRUND[S.grund];
   const mit=id=>{ const e=th(id); if(!e) return; const Q=thQ(e); T.push(`${e.name} – ${(Q.t||'').split(/[;(,]/)[0].trim()}${Q.lizenz?' ('+Q.lizenz.split(/[;–(]/)[0].trim()+')':''}${Q.stand?', Stand '+Q.stand.split(' (')[0]:''}`); };
@@ -1100,7 +1147,7 @@ function thPanelNeu(){ const P=$('.qwk-th',wrap); if(!P) return; $('.qwk-thliste
   wrap.querySelectorAll('[data-thx2]').forEach(b=>b.onclick=()=>thUmschalten(b.dataset.thx2,false)); }
 function thUmschalten(k,an){ const s=thSchalter(k); if(!s) return; const jetzt=thAn_(s); if(an===undefined) an=!jetzt; if(an===jetzt) return;
   if(s.art==='grund'){ grundSetzen(an?k:'relief'); }
-  else { S.ov[k]=an; if(an) th(s.id); const cb=wrap.querySelector(`[data-ov="${k}"]`); if(cb) cb.checked=an; legende(); zeichne(); }
+  else { S.ov[k]=an; if(an){ th(s.id); if((THK[s.id]||{}).de&&S.zoom<4) flieg(10.4,51.2,W<700?6:6.5); } const cb=wrap.querySelector(`[data-ov="${k}"]`); if(cb) cb.checked=an; legende(); zeichne(); }
   if(an&&s.id==='pflanzen_heimat'&&!S.pflanze) S.pflanze=thWahl(s.id);
   thPanelNeu(); }
 function thAlleAus(){ THS.forEach(s=>{ if(s.art==='ov') S.ov[s.k]=false; }); if(GRUND[S.grund]&&GRUND[S.grund].th) grundSetzen('relief'); S.thi=null; legende(); zeichne(); info(); thPanelNeu(); }
@@ -1158,7 +1205,7 @@ function infoBL(){ const box=$('.qwk-info',wrap), b=DAT.bl.find(x=>x.i===S.bl), 
   box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); });
   $('.qwk-x',box).onclick=()=>{ S.bl=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 function info(){
-  const box=$('.qwk-info',wrap); if(S.thi&&th(S.thi[0])) return infoThema(); if(S.ort) return infoOrt(); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
+  const box=$('.qwk-info',wrap); if(S.thi&&th(S.thi[0])) return infoThema(); if(S.kr!=null&&(GRUND[S.grund].kre||S.ov.lkreise)) return infoKreis(); if(GRUND[S.grund].kre&&!S.sel) return krUebersicht(GRUND[S.grund]); if(S.ort) return infoOrt(); if(S.hist) return infoHist(); if(S.bl&&GRUND[S.grund].de) return infoBL(); if(!S.sel&&GRUND[S.grund].de){ box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">🇩🇪</span><div><h2>${GRUND[S.grund].n}</h2><small>${GRUND[S.grund].u}</small></div></div>${balken(S.grund)}<p class="qwk-hin2">Bundesland antippen für alle Werte. Quelle: ${GRUND[S.grund].q}</p><div>${chip('📖 Mehr dazu',GRUND[S.grund].l,'k')}</div>`; box.querySelectorAll('[data-bl]').forEach(r=>r.onclick=()=>{ S.bl=r.dataset.bl; infoBL(); zeichne(); }); return; }
   if(!S.sel&&GRUND[S.grund].th) return thUebersicht(GRUND[S.grund]);
   if(!S.sel){ box.innerHTML=`<div class="qwk-leer"><div class="qwk-gl">🌍</div><b>Land antippen</b><p>Tippe auf ein Land, um Einwohner, Dichte, Lebenserwartung, Ernten, Rohstoffe und passende Kapitel aus dem Kompendium zu sehen.</p><p class="qwk-mini">Ziehen = drehen · Zwei Finger oder Mausrad = zoomen · Beim Hineinzoomen erscheinen Städte, Flüsse und Landschaften</p>${S.klick?`<p class="qwk-mini">📍 Angetippt: ${koord(S.klick)}</p>`:''}</div>`; return; }
   const c=DAT.idx[S.sel], i=c.i, j=S.jahr, o=ow(i);
@@ -1341,7 +1388,7 @@ function ereignisse(){
     neu(); });
   const ende=e=>{ if(!P.has(e.pointerId)) return; const mehr=P.size>1; P.delete(e.pointerId); if(P.size===1){ const [q]=[...P.values()]; start={x:q[0],y:q[1],lam:S.lam,phi:S.phi,px:S.px,py:S.py}; vx=vy=0; lt=e.timeStamp; lx=q[0]; ly=q[1]; }
     if(bewegt&&P.size===0&&!mehr&&e.type==='pointerup'&&e.timeStamp-lt<120) schwung(vx,vy);
-    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; S.ort=null; S.thi=null; { const ta=thAn(x,y); if(ta){ S.thi=ta; S.sel=null; S.hist=null; S.bl=null; S.klick=inv(x,y); info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-themen-auf'); return; } } const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const oa=ortAn(x,y); if(oa){ S.ort=oa; S.hist=null; S.bl=null; S.klick=[oa[2],oa[3]]; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); return; } const ll=inv(x,y); if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
+    if(!bewegt&&P.size===0){ const r=m.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top; S.ort=null; S.thi=null; { const ta=thAn(x,y); if(ta){ S.thi=ta; S.sel=null; S.hist=null; S.bl=null; S.klick=inv(x,y); info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf','qwk-themen-auf'); return; } } const h=histAn(x,y); if(h){ S.hist=h; S.sel=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } const oa=ortAn(x,y); if(oa){ S.ort=oa; S.hist=null; S.bl=null; S.klick=[oa[2],oa[3]]; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); return; } const ll=inv(x,y); S.kr=null; if(ll&&(GRUND[S.grund].kre||(S.ov.lkreise&&S.zoom>=4))){ const k=kreisAn(ll[0],ll[1]); if(k!=null){ S.kr=k; S.sel=null; S.hist=null; S.bl=null; S.klick=ll; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll&&GRUND[S.grund].de){ const b=blAn(ll[0],ll[1]); if(b){ S.bl=b.i; S.sel=null; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); return; } } if(ll){ const c=landAn(ll[0],ll[1]); S.hist=null; S.bl=null; if(c) waehle(c,ll); else { S.sel=null; S.klick=ll; info(); zeichne(); } } } };
   m.addEventListener('pointerup',ende); m.addEventListener('pointercancel',ende);
   m.addEventListener('wheel',e=>{ e.preventDefault(); S.spin=false; schwungAus(); zoomZu((ZT||S.zoom)*Math.exp(-Math.max(-120,Math.min(120,e.deltaY))*0.0022)); },{passive:false});
   m.addEventListener('dblclick',e=>{ if(e.target.closest('.qwk-zoom,.qwk-leg')) return; e.preventDefault(); zoomZu((ZT||S.zoom)*2); });
@@ -1352,7 +1399,7 @@ function ereignisse(){
     else ok=false; if(ok) e.preventDefault(); });
   if(!window.QWWELT_RS){ window.QWWELT_RS=true; let rt=0; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(wrap&&document.body.contains(wrap)) groesse(); },80); }); }
 }
-function grundSetzen(k){ S.grund=k; S.thi=null; if(GRUND[k].th) th(GRUND[k].th); wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; legende(); zeichne(); info(); }
+function grundSetzen(k){ S.grund=k; S.thi=null; if(GRUND[k].th) th(GRUND[k].th); wrap.querySelectorAll('[data-grund]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.grund===k)); if(GRUND[k].de||GRUND[k].kre){ S.sel=null; S.hist=null; if(S.zoom<5) flieg(10.4,51.2,W<700?6.5:7.5); } else S.bl=null; if(!GRUND[k].kre) S.kr=null; legende(); zeichne(); info(); }
 function waehle(c,ll){ S.ort=null; S.thi=null; S.sel=c.i; S.klick=ll; S.hist=null; info(); zeichne(); wrap.classList.add('qwk-info-auf'); wrap.classList.remove('qwk-ebenen-auf'); }
 function flieg(lon,lat,zz){ S.spin=false; if(S.modus==='scheibe'){ if(zz) S.zoom=zz; const r=(90-lat)/180*rd(), a=(lon-S.lam)*R2; S.px=-r*Math.sin(a); S.py=-r*Math.cos(a); zeichne(); return; } if(S.modus!=='globus'){ if(zz) S.zoom=zz; S.lam=lon; S.px=0; S.py=lat*kf(); zeichne(); return; } const a={l:S.lam,p:S.phi,z:S.zoom}, b={l:lon,p:Math.max(-60,Math.min(60,lat)),z:zz||Math.max(S.zoom,1.5)}; let dl=((b.l-a.l+540)%360)-180; const t0=performance.now();
   schwungAus(); ZT=null; const weit=Math.hypot(dl*Math.cos((a.p+b.p)/2*R2),b.p-a.p), dauer=RUHE()?1:Math.min(1500,650+weit*7), tal=Math.min(a.z,b.z), hub=weit>25&&tal>1.3?Math.min(.7,weit/160):0;
@@ -1761,6 +1808,6 @@ let letzt=0; function dreh(t){ if(!wrap||!document.body.contains(wrap)) return; 
   requestAnimationFrame(dreh); }
 let wzug=0;
 
-window.QWWELT={ oeffne(root,ebene){ daten(); thInit(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov) S.ov[ebene]=true; } ui(root); glStart(); schriftLaden(); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
+window.QWWELT={ oeffne(root,ebene){ daten(); thInit(); let mit3d=false; if(ebene==='scheibe3d'){ mit3d=true; ebene='scheibe'; } if(ebene==='scheibe'){ S.modus='scheibe'; S.zoom=1; S.px=S.py=0; S.ov.nacht=true; ebene=''; } if(ebene){ if(GRUND[ebene]){ S.grund=ebene; if(GRUND[ebene].de||GRUND[ebene].kre){ S.lam=10.4; S.phi=51.2; S.zoom=7; S.spin=false; } } else if(ebene in S.ov){ S.ov[ebene]=true; const ts=thSchalter(ebene); if(ts&&(THK[ts.id]||{}).de){ S.lam=10.4; S.phi=51.2; S.zoom=6.5; S.spin=false; } } } ui(root); glStart(); schriftLaden(); ereignisse(); requestAnimationFrame(()=>{ groesse(); legende(); info(); }); S.spin=S.spin&&!RUHE()&&!(GRUND[S.grund].de)&&S.modus==='globus'; { const sb=$('[data-spin]',wrap); if(sb) sb.setAttribute('aria-pressed',S.spin); } requestAnimationFrame(dreh); if(mit3d) scheibe3d(); },
   d3:()=>D3, zustand:S, zeichne:()=>zeichne(), legende:()=>legende(), waehle:(i)=>{ const c=DAT.idx[i]; if(c){ waehle(c,c.lp); flieg(c.lp[0],c.lp[1]); } }, flieg:(a,b,z)=>flieg(a,b,z), hist:(a,i)=>{ S.hist=[a,i]; info(); zeichne(); }, grund:k=>grundSetzen(k), bl:c=>{ S.bl=c; info(); zeichne(); }, themen:()=>THS.map(s=>[s.k,s.art,thAn_(s)]), thema:(k,an)=>thUmschalten(k,an), thTreffer:()=>({p:THH.map(h=>[Math.round(h[0]),Math.round(h[1]),h[3],h[4]]),l:THL.length}), orte:()=>TREFF.map(t=>[t[3][1],Math.round(t[0]),Math.round(t[1]),t[3][0]]), felder:()=>BOX.slice() };
 })();
