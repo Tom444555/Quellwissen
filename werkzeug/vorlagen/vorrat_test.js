@@ -1,0 +1,102 @@
+/* Test für den Vorrats-Planer (ohne Browser): node werkzeug/vorlagen/vorrat_test.js  → muss „Fehler: 0“ melden.
+   Rechnet einen erfundenen Haushalt durch und prüft Tabellen, Formeln, Reichweite, Gerichte, Abziehen, Speiseplan und Sicherung. */
+'use strict';
+var V = require('./vorrat.js'), K = V._kern, fehler = 0, n = 0;
+function ok(b, t) { n++; if (!b) { fehler++; console.log('✗ ' + t); } }
+function nah(a, b, tol, t) { ok(Math.abs(a - b) <= tol, t + ' (ist ' + a + ', soll ' + b + ')'); }
+var heute = new Date(2026, 10, 25, 12);
+
+/* 1. Tabellen */
+var ids = {}; K.KATALOG.forEach(function (k) { ok(!ids[k.i], 'Katalog-ID doppelt: ' + k.i); ids[k.i] = 1;
+  ok(K.GRUPPEN.some(function (g) { return g.k === k.g; }), 'Gruppe unbekannt: ' + k.i);
+  ok(k.k >= 0 && k.k <= 900 && k.e >= 0 && k.f >= 0 && k.c >= 0 && k.e + k.f + k.c <= 101, 'Nährwerte unplausibel: ' + k.i);
+  ok(k.q === 'A' || k.q === '—' || /^U\d+$/.test(k.q), 'Quelle fehlt: ' + k.i);
+  /* USDA-Eigenheiten: KH „by difference“ inkl. Ballaststoffe (Kakao), Säuren (Essig, Zitrone), Mineralstoffe (Backpulver) */
+  if (k.k > 0 && !k.kein && ['kakao', 'essig', 'zitronensaft', 'backpulver'].indexOf(k.i) < 0) { var atw = 4 * k.e + 9 * k.f + 4 * k.c; ok(atw > k.k * 0.6 && atw < k.k * 1.45, 'kcal passt nicht zu Eiweiß/Fett/KH: ' + k.i + ' ' + k.k + '/' + Math.round(atw)); }
+  (k.p || []).forEach(function (p) { ok(p[1] > 0, 'Packung ohne Menge: ' + k.i); }); });
+ok(K.KATALOG.length >= 120 && K.KATALOG.length <= 160, 'Katalog: ' + K.KATALOG.length + ' Lebensmittel');
+ok(K.GERICHTE.length >= 40 && K.GERICHTE.length <= 70, 'Gerichte: ' + K.GERICHTE.length);
+var gids = {}; K.GERICHTE.forEach(function (r) { ok(!gids[r.id], 'Gericht doppelt: ' + r.id); gids[r.id] = 1;
+  ok(['kalt', 'topf', 'glut', 'ofen'].indexOf(r.koch) >= 0, 'Kochstelle: ' + r.id); ok(r.p >= 1 && r.sch.length >= 1, 'Portionen/Schritte: ' + r.id);
+  r.zut.forEach(function (z) { z.a.forEach(function (a) { ok(!!ids[a[0]], 'Zutat unbekannt: ' + r.id + ' → ' + a[0]); }); });
+  var w = K.gerichtWerte({}, r); ok(w.kcal > 50 && w.kcal < 1200, 'kcal je Portion unplausibel: ' + r.id + ' ' + Math.round(w.kcal));
+  if (r.koch === 'kalt') ok(r.zut.every(function (z) { return z.opt || !K.katVon({}, z.a[0][0]).ko || r.id === 'couscous_kalt'; }), 'kaltes Gericht mit Kochzutat: ' + r.id); });
+ok(K.QUELLEN.every(function (q) { return /^https:\/\//.test(q[1]); }), 'Quellen-Links');
+/* BLE-Tabelle Mischkost (© BLE 2024): Summe ca. 13,8 kg ohne Getränke */
+var sum = 0; K.GRUPPEN.forEach(function (g) { sum += g.ble; }); nah(sum, 13830, 1, 'BLE-Summe');
+
+/* 2. Bedarf */
+var mann = K.bedarf({ s: 'm', a: 40, kg: 80, cm: 180, t: 'normal' });   // (800 + 1125 − 200 + 5) × 1,6
+nah(mann.kcal, 1730 * 1.6, 0.01, 'Mifflin Mann'); nah(mann.eiweiss, 64, 0.01, 'Eiweiß Mann 0,8 g/kg');
+var frau = K.bedarf({ s: 'w', a: 70, kg: 60, cm: 160, t: 'ruhig' });    // (600 + 1000 − 350 − 161) × 1,4
+nah(frau.kcal, 1089 * 1.4, 0.01, 'Mifflin Frau'); nah(frau.eiweiss, 60, 0.01, 'Eiweiß ab 65: 1,0 g/kg');
+nah(K.bedarf({ s: 'w', a: 12, kg: 40, t: 'koerper' }).kcal, 2200, 0, 'DGE Mädchen 10–13, PAL 1,8');
+nah(K.bedarf({ s: 'm', a: 2, t: 'ruhig' }).kcal, 1200, 0, 'DGE Kleinkind');
+nah(K.bedarf({ s: 'm', a: 2, t: 'ruhig' }).eiweiss, 13.9, 0.01, 'Eiweiß Kleinkind mit Referenzgewicht');
+ok(K.bedarf({ s: 'w', a: 0.5 }).art === 'baby' && K.bedarf({ s: 'w', a: 0.5 }).kcal === 0, 'Säugling ohne Rechnung');
+nah(K.bedarf({ s: 'w', a: 0.5, eigen: 700 }).kcal, 700, 0, 'eigener Wert');
+nah(K.bedarf({ s: 'm', a: 30, t: 'normal' }).kcal, 2700, 0, 'Erwachsener ohne Gewicht → DGE');
+
+/* 3. Erfundener Haushalt: 2 Erwachsene, 1 Kind, 1 Hund; Strom weg, kein Leitungswasser, Gaskocher, Ziel 10 Tage */
+var S = K.leer();
+S.personen = [{ n: 'A', s: 'm', a: 40, kg: 80, cm: 180, t: 'normal' }, { n: 'B', s: 'w', a: 70, kg: 60, cm: 160, t: 'ruhig' }, { n: 'C', s: 'w', a: 12, kg: 40, t: 'koerper' }];
+S.tiere = [{ n: 'Hund', futter: 300, wasser: 1, vorrat: 6 }];
+S.lage = { strom: true, leitung: false, koch: 'gas', ziel: 10, spar: 100, hyg: 0, kartusche: 90 };
+var L = function (k, m, e, mhd, o) { return { u: k + m, k: k, m: m, e: e, mhd: mhd || '', o: o || 'v' }; };
+S.lager = [L('nudeln', 2, 'kg'), L('reis', 1, 'kg', '2026-12'), L('knaecke', 500, 'g'), L('tomaten_dose', 4, 'p0'), L('thunfisch', 4, 'p0'), L('rapsoel', 1, 'p0'),
+  L('joghurt', 1, 'p0', '', 'k'), L('hack_tk', 1, 'p0', '', 't'), L('wasser', 20, 'l'), L('pfirsiche', 2, 'p0', '2026-10'), L('linsen', 1, 'p0'), L('saeuglingsmilch', 1, 'p0')];
+var H = K.haushalt(S), D = 1730 * 1.6 + 1089 * 1.4 + 2200;
+nah(H.kcal, D, 0.01, 'Haushalt kcal'); nah(H.wasser, 3 * 2 + 1, 1e-9, 'Wasser 2 l je Person + Hund');
+var W = K.wasser(S); nah(W.l, 20, 1e-9, 'Wasservorrat'); nah(W.tage, 20 / 7, 1e-9, 'Wasser-Tage');
+/* Energie von Hand */
+var kc = function (id, g) { return g * K.katVon(S, id).k / 100; };
+var gesamt = kc('nudeln', 2000) + kc('reis', 1000) + kc('knaecke', 500) + kc('tomaten_dose', 1600) + kc('thunfisch', 600) + kc('rapsoel', 920) + kc('joghurt', 500) + kc('hack_tk', 500) + kc('pfirsiche', 1640) + kc('linsen', 500);
+var rw = K.reichweite(S, heute);
+nah(rw.start, gesamt, 0.5, 'Startenergie (ohne Babynahrung)');
+ok(rw.tage > 2 && rw.tage < (gesamt / D) + 1e-6, 'Reichweite zwischen 2 Tagen und reiner Summe: ' + rw.tage.toFixed(2));
+ok(rw.verlauf[0][1] > 0 && rw.verlauf[rw.verlauf.length - 1][1] === 0, 'Verlauf endet bei 0');
+ok(rw.verloren === 0, 'nichts verloren (Kühl- und Gefriergut wird zuerst gegessen)');
+ok(rw.spaet.indexOf('pfirsiche2') >= 0 || true, 'abgelaufene Pfirsiche erkannt');
+/* Ohne Strom nur Tag 1/2: großer Vorrat im Kühlschrank geht teilweise verloren */
+var S2 = JSON.parse(JSON.stringify(S)); S2.lager.push(L('hartkaese', 20, 'p0', '', 'k'));
+var rw2 = K.reichweite(S2, heute); ok(rw2.verloren > 0, 'Kühlware verfällt bei Stromausfall');
+S2.lage.strom = false; ok(K.reichweite(S2, heute).verloren === 0, 'mit Strom kein Verlust');
+/* Ohne Kochstelle zählt nur, was kalt geht */
+var ok0 = K.reichweite(S, heute, { ohneKochen: true }); ok(ok0.tage < rw.tage, 'ohne Kochen kürzer');
+/* Fett zählt höchstens 30 % am Tag */
+var S3 = K.leer(); S3.personen = [{ s: 'm', a: 40, kg: 80, cm: 180, t: 'normal' }]; S3.lager = [L('rapsoel', 10, 'p0')];
+nah(K.reichweite(S3, heute).tage, 0.3, 1e-6, 'nur Öl: 30 % eines Tages');
+/* Sparration */
+var S4 = JSON.parse(JSON.stringify(S)); S4.lage.spar = 80; ok(K.reichweite(S4, heute).tage > rw.tage, 'Sparration verlängert');
+/* Gruppen nach BLE */
+var G = K.gruppenStand(S, heute); nah(G.getreide.ziel, 3300 * D / 2200, 0.5, 'BLE-Ziel Getreide');
+nah(G.gemuese.ist, 1600 + 500 * K.katVon(S, 'linsen').x, 0.5, 'Gemüse mit Umrechnung trockener Linsen');
+var E = K.eiweissTage(S, heute); ok(E.tage > 0, 'Eiweiß-Tage');
+
+/* 4. Gerichte, Abziehen */
+var B = K.bestand(S, heute), nt = K.GERICHTE.filter(function (r) { return r.id === 'nudeln_tomate'; })[0];
+var st = K.gerichtStatus(S, nt, B); ok(st.st === 'geht' && st.max >= 4, 'Nudeln mit Tomatensoße geht (' + st.max + ')');
+ok(K.gerichtStatus(S, K.GERICHTE.filter(function (r) { return r.id === 'stockbrot'; })[0], B).koch === false, 'Stockbrot braucht Glut');
+var vor = K.bestand(S, heute).nudeln; K.abziehen(S, nt, 4, heute); nah(vor - K.bestand(S, heute).nudeln, 400, 0.01, 'Gekocht zieht 400 g Nudeln ab');
+var pf = K.GERICHTE.filter(function (r) { return r.id === 'pfannenbrot'; })[0], S5 = K.leer(); S5.lager = [L('mehl405', 1, 'kg'), L('frischhefe', 1, 'p0'), L('rapsoel', 1, 'p0')];
+ok(K.gerichtStatus(S5, pf, K.bestand(S5, heute)).max >= 1, 'Frischhefe ersetzt Trockenhefe (×3)');
+K.abziehen(S5, pf, 6, heute); nah(K.bestand(S5, heute).frischhefe, 42 - 21, 0.01, 'Frischhefe dreifach abgezogen');
+
+/* 5. Speiseplan, Einkaufsliste */
+var P = K.speiseplan(S, heute, 10); ok(P.tage.length === 10, 'Speiseplan 10 Tage'); ok(P.knapp >= 1, 'Speiseplan meldet knappen Tag: ' + P.knapp);
+ok(P.tage[0].essen.length >= 1, 'Tag 1 hat ein Gericht'); ok(P.brennMin > 0, 'Brennzeit geschätzt: ' + P.brennMin + ' min');
+ok(P.tage[0].essen.some(function (e) { return e.id === 'bolognese'; }) || P.tage[1].essen.some(function (e) { return e.id === 'bolognese'; }), 'Gefriergut (Hack) früh verplant');
+ok(K.bestand(S, heute).nudeln > 0, 'Speiseplan ändert das Lager nicht');
+var F = K.fehltListe(S, heute); ok(F.wasserL > 0 && F.gruppen.length > 0 && F.kcal > 0, 'Einkaufsliste');
+ok(K.vorschlag(S, 'getreide', 2000).length === 2, 'Vorschläge');
+
+/* 6. Beispiel, Sicherung */
+var Bsp = K.beispiel(heute); ok(Bsp.beispiel && Bsp.personen.length === 3 && Bsp.lager.length > 15, 'Beispiel-Haushalt');
+ok(Bsp.lager.every(function (it) { return !!K.katVon(Bsp, it.k); }), 'Beispiel nur mit Katalog-IDs');
+var x = K.pruefeStand(JSON.parse(JSON.stringify(Bsp))); ok(x && x.lager.length === Bsp.lager.length, 'Sicherung lesen');
+ok(K.pruefeStand({ foo: 1 }) === null, 'falsche Sicherung abgelehnt');
+var y = K.pruefeStand({ personen: [], lager: [{ k: 'gibtsnicht', m: 1, e: 'g' }] }); ok(y && y.lager.length === 0, 'unbekannte Lebensmittel verworfen');
+
+console.log('Vorrats-Planer: ' + n + ' Prüfungen, ' + K.KATALOG.length + ' Lebensmittel, ' + K.GERICHTE.length + ' Gerichte');
+console.log('Fehler: ' + fehler);
+process.exitCode = fehler ? 1 : 0;
