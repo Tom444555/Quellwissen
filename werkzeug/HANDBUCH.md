@@ -353,7 +353,25 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - Erledigt am 12.11. spät: Regenauer-Reiter „Kernideen“ (jetzt 11 Leitgedanken) und „Seine Sicht“ um die drei REALTALK-Gespräche ergänzt (`werkzeug/gen/regenauer/ergaenzen_kernideen.py`, nur aus den vorhandenen Auswertungen, keine neue Recherche).
 - Noch offen aus früheren Übergaben: Skill `quellwissen` um A-11, A-12 und Nehls als Sammelstelle ergänzen (propose_skills); Veröffentlichungsdaten der REALTALK-Videos; sonst wie „Übergabe 12.11.2026 (Vormittag 2)“.
 
-## Übergabe für einen neuen Chat (Stand 26.11.2026, 10 Uhr)
+## Übergabe für einen neuen Chat (Stand 26.11.2026, mittags)
+
+**Alles ist live** (main, Artefakt, Pages geprüft). Keine offene Vorschau.
+
+Erledigt am 26.11.2026 (Karten-Lücken, Toms Auftrag „mach mit den Karten-Lücken weiter“):
+- **Klima je Landkreis** (Felder in `kreise.json`, DWD 1991–2020, CC BY 4.0): Sonnenstunden und Globalstrahlung (Jahr + 12 Monate, Monatsbalken in der Kreis-Info), Frosttage, Winterhärtezone (USDA, aus 327 Stationen JA_MX_TN, Regression auf Januar-Tmin-Raster + IDW; Kreuzvalidierung 0,82 K). Neue Kreis-Ebenen `kreise_sonne`, `kreise_strahl`, `kreise_zone`, `kreise_frost` (THK.kreise.teile; `krWert` liest beliebige Felder, `fw` formatiert, `lin` = lineare Skala). Skripte und Prüfbericht `welt_daten/themen/a/prep/klima_de/`.
+- **Weltweit:** `boeden` (ISRIC SoilGrids WRB, Kategorie-Raster, 0 = keine Angabe), `sonneneinstrahlung` (NASA POWER, Jahr/Juni/Dezember; Raster-Info zeigt jetzt Werte für alle Nicht-Kategorie-Raster), `goldreserven` 157 Länder (IWF IL, RGV_REVS, kommerziell nur mit Genehmigung). Skripte `a/prep/welt_global/`.
+- **Wikidata (CC0):** `welterbe_staetten` (1.273 Punkte), `naturparks` (104 = VDN), Heilbäder +43 (HE, TH, ST, BB; jetzt 100). Skripte `b/prep/wikidata/`.
+- Unabhängige Gegenprüfung: `welt_daten/themen/PRUEFBERICHT_2026-11-26.md` (Pfälzerwald entfernt, Welterbe 1351 nur Mexiko, drei Gründungsjahre nach VDN).
+
+**Merken:** `curl` erreicht jetzt opendata.dwd.de, query.wikidata.org, api.imf.org, files.isric.org, power.larc.nasa.gov.
+
+**Offen:**
+1. Karte: Seekabel (keine freie Quelle), europäische Fernwanderwege (nur ODbL), Sonnenstunden weltweit (nur Einstrahlung frei), Heilbäder BW, RP, SL, SH, MV; Winterhärte-Zonen aus ungerundeten Werten neu rechnen (15 Grenzlagen); Harz-Fläche klären; Welterbe ohne deutschen Namen (89).
+2. Planer: Punkte wie in der Übergabe 26.11.2026 (10 Uhr) darunter, Punkt 2. Idee: Solar im Planer für andere Kreise aus `strahl_m` (nur waagrecht – Umrechnung auf Neigung bräuchte PVGIS).
+3. Toms Test am echten iPhone/iPad/Android.
+4. Älteres wie darunter, Punkt 4.
+
+## Übergabe 26.11.2026 (10 Uhr)
 
 **Alles ist live** (main `8f2feed` plus dieser Handbuch-Stand, Artefakt, Pages geprüft). Keine offene Vorschau. Planer-Test: 2.770 Prüfungen, 0 Fehler. Geprüft nur am Rechner in Handy-Breite, nicht am echten Gerät. Die Zweige `vorschau3`, `vorschau4`, `vorschau5`, `welt-vorschau` sind überholt (Tom kann sie löschen).
 
