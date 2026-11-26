@@ -513,6 +513,576 @@
    }
   },
   {
+   "id": "ca-7-10",
+   "kategorie": "Calcium",
+   "gruppe": "7 bis unter 10",
+   "titel": "Calcium 7 bis unter 10",
+   "text": "900 mg am Tag.",
+   "wert": 900,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Calcium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/calcium/",
+    "stand": "Ableitung 2013, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fe-1-7",
+   "kategorie": "Eisen",
+   "gruppe": "1 bis unter 7",
+   "titel": "Eisen 1 bis unter 7",
+   "text": "7 mg am Tag.",
+   "wert": 7,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Eisen",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/eisen/",
+    "stand": "Ableitung 2023, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fe-7-10",
+   "kategorie": "Eisen",
+   "gruppe": "7 bis unter 10",
+   "titel": "Eisen 7 bis unter 10",
+   "text": "10 mg am Tag.",
+   "wert": 10,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Eisen",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/eisen/",
+    "stand": "Ableitung 2023, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fe-10-13",
+   "kategorie": "Eisen",
+   "gruppe": "10 bis unter 13",
+   "titel": "Eisen 10 bis unter 13",
+   "text": "14 mg am Tag. Mädchen mit frühzeitiger, schon regelmäßiger Regelblutung: 16 mg.",
+   "wert": 14,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Eisen",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/eisen/",
+    "stand": "Ableitung 2023, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fe-13-19-m",
+   "kategorie": "Eisen",
+   "gruppe": "männlich 13 bis unter 19",
+   "titel": "Eisen männlich 13 bis unter 19",
+   "text": "11 mg am Tag.",
+   "wert": 11,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Eisen",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/eisen/",
+    "stand": "Ableitung 2023, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fe-13-19-w",
+   "kategorie": "Eisen",
+   "gruppe": "weiblich 13 bis unter 19",
+   "titel": "Eisen weiblich 13 bis unter 19",
+   "text": "16 mg am Tag.",
+   "wert": 16,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Eisen",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/eisen/",
+    "stand": "Ableitung 2023, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-1-4",
+   "kategorie": "Magnesium",
+   "gruppe": "1 bis unter 4",
+   "titel": "Magnesium 1 bis unter 4",
+   "text": "170 mg am Tag.",
+   "wert": 170,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-4-7",
+   "kategorie": "Magnesium",
+   "gruppe": "4 bis unter 7",
+   "titel": "Magnesium 4 bis unter 7",
+   "text": "190 mg am Tag.",
+   "wert": 190,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-7-10",
+   "kategorie": "Magnesium",
+   "gruppe": "7 bis unter 10",
+   "titel": "Magnesium 7 bis unter 10",
+   "text": "240 mg am Tag.",
+   "wert": 240,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-10-13-m",
+   "kategorie": "Magnesium",
+   "gruppe": "männlich 10 bis unter 13",
+   "titel": "Magnesium männlich 10 bis unter 13",
+   "text": "260 mg am Tag.",
+   "wert": 260,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-10-13-w",
+   "kategorie": "Magnesium",
+   "gruppe": "weiblich 10 bis unter 13",
+   "titel": "Magnesium weiblich 10 bis unter 13",
+   "text": "230 mg am Tag.",
+   "wert": 230,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-13-15-m",
+   "kategorie": "Magnesium",
+   "gruppe": "männlich 13 bis unter 15",
+   "titel": "Magnesium männlich 13 bis unter 15",
+   "text": "280 mg am Tag.",
+   "wert": 280,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-13-15-w",
+   "kategorie": "Magnesium",
+   "gruppe": "weiblich 13 bis unter 15",
+   "titel": "Magnesium weiblich 13 bis unter 15",
+   "text": "240 mg am Tag.",
+   "wert": 240,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-15-19-m",
+   "kategorie": "Magnesium",
+   "gruppe": "männlich 15 bis unter 19",
+   "titel": "Magnesium männlich 15 bis unter 19",
+   "text": "330 mg am Tag.",
+   "wert": 330,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-15-19-w",
+   "kategorie": "Magnesium",
+   "gruppe": "weiblich 15 bis unter 19",
+   "titel": "Magnesium weiblich 15 bis unter 19",
+   "text": "260 mg am Tag.",
+   "wert": 260,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-m",
+   "kategorie": "Magnesium",
+   "gruppe": "Männer",
+   "titel": "Magnesium Männer",
+   "text": "350 mg am Tag. Gilt ab 19 Jahren, auch ab 65.",
+   "wert": 350,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mg-w",
+   "kategorie": "Magnesium",
+   "gruppe": "Frauen",
+   "titel": "Magnesium Frauen",
+   "text": "300 mg am Tag. Gilt ab 19 Jahren, auch ab 65, für Schwangere und Stillende.",
+   "wert": 300,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Magnesium",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+    "stand": "Ableitung 2021, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-1-4",
+   "kategorie": "Zink",
+   "gruppe": "1 bis unter 4",
+   "titel": "Zink 1 bis unter 4",
+   "text": "3 mg am Tag.",
+   "wert": 3,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-4-7",
+   "kategorie": "Zink",
+   "gruppe": "4 bis unter 7",
+   "titel": "Zink 4 bis unter 7",
+   "text": "4 mg am Tag.",
+   "wert": 4,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-7-10",
+   "kategorie": "Zink",
+   "gruppe": "7 bis unter 10",
+   "titel": "Zink 7 bis unter 10",
+   "text": "6 mg am Tag.",
+   "wert": 6,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-10-13-m",
+   "kategorie": "Zink",
+   "gruppe": "männlich 10 bis unter 13",
+   "titel": "Zink männlich 10 bis unter 13",
+   "text": "9 mg am Tag.",
+   "wert": 9,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-10-13-w",
+   "kategorie": "Zink",
+   "gruppe": "weiblich 10 bis unter 13",
+   "titel": "Zink weiblich 10 bis unter 13",
+   "text": "8 mg am Tag.",
+   "wert": 8,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-13-15-m",
+   "kategorie": "Zink",
+   "gruppe": "männlich 13 bis unter 15",
+   "titel": "Zink männlich 13 bis unter 15",
+   "text": "12 mg am Tag.",
+   "wert": 12,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-13-15-w",
+   "kategorie": "Zink",
+   "gruppe": "weiblich 13 bis unter 15",
+   "titel": "Zink weiblich 13 bis unter 15",
+   "text": "10 mg am Tag.",
+   "wert": 10,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-15-19-m",
+   "kategorie": "Zink",
+   "gruppe": "männlich 15 bis unter 19",
+   "titel": "Zink männlich 15 bis unter 19",
+   "text": "14 mg am Tag.",
+   "wert": 14,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-15-19-w",
+   "kategorie": "Zink",
+   "gruppe": "weiblich 15 bis unter 19",
+   "titel": "Zink weiblich 15 bis unter 19",
+   "text": "11 mg am Tag.",
+   "wert": 11,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-m",
+   "kategorie": "Zink",
+   "gruppe": "Männer",
+   "titel": "Zink Männer",
+   "text": "14 mg am Tag. Wert bei mittlerer Phytatzufuhr. Phytat steckt vor allem in Vollkorn und Hülsenfrüchten und hemmt die Aufnahme: bei niedriger Phytatzufuhr 11 mg, bei hoher 16 mg.",
+   "wert": 14,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "zn-w",
+   "kategorie": "Zink",
+   "gruppe": "Frauen",
+   "titel": "Zink Frauen",
+   "text": "8 mg am Tag. Wert bei mittlerer Phytatzufuhr; bei niedriger 7 mg, bei hoher 10 mg. Schwangere und Stillende brauchen mehr (DGE-Tabelle).",
+   "wert": 8,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Zink",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+    "stand": "Ableitung 2019, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fol-1-4",
+   "kategorie": "Folat",
+   "gruppe": "1 bis unter 4",
+   "titel": "Folat 1 bis unter 4",
+   "text": "120 µg Folat-Äquivalente am Tag.",
+   "wert": 120,
+   "einheit": "µg Folat-Äquivalente je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Folat",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/folat/",
+    "stand": "Ableitung 2015, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fol-4-7",
+   "kategorie": "Folat",
+   "gruppe": "4 bis unter 7",
+   "titel": "Folat 4 bis unter 7",
+   "text": "140 µg Folat-Äquivalente am Tag.",
+   "wert": 140,
+   "einheit": "µg Folat-Äquivalente je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Folat",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/folat/",
+    "stand": "Ableitung 2015, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fol-7-10",
+   "kategorie": "Folat",
+   "gruppe": "7 bis unter 10",
+   "titel": "Folat 7 bis unter 10",
+   "text": "180 µg Folat-Äquivalente am Tag.",
+   "wert": 180,
+   "einheit": "µg Folat-Äquivalente je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Folat",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/folat/",
+    "stand": "Ableitung 2015, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fol-10-13",
+   "kategorie": "Folat",
+   "gruppe": "10 bis unter 13",
+   "titel": "Folat 10 bis unter 13",
+   "text": "240 µg Folat-Äquivalente am Tag.",
+   "wert": 240,
+   "einheit": "µg Folat-Äquivalente je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Folat",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/folat/",
+    "stand": "Ableitung 2015, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "fol-13",
+   "kategorie": "Folat",
+   "gruppe": "ab 13 Jahren",
+   "titel": "Folat ab 13 Jahren",
+   "text": "300 µg Folat-Äquivalente am Tag. Schwangere 550, Stillende 450 µg. 1 µg Folat-Äquivalent = 1 µg Nahrungsfolat = 0,5 µg synthetische Folsäure.",
+   "wert": 300,
+   "einheit": "µg Folat-Äquivalente je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Folat",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/folat/",
+    "stand": "Ableitung 2015, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "b12-1-4",
+   "kategorie": "Vitamin B12",
+   "gruppe": "1 bis unter 4",
+   "titel": "Vitamin B12 1 bis unter 4",
+   "text": "1,5 µg am Tag.",
+   "wert": 1.5,
+   "einheit": "µg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Vitamin B12",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/vitamin-b12/",
+    "stand": "Ableitung 2018, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "b12-4-7",
+   "kategorie": "Vitamin B12",
+   "gruppe": "4 bis unter 7",
+   "titel": "Vitamin B12 4 bis unter 7",
+   "text": "2 µg am Tag.",
+   "wert": 2.0,
+   "einheit": "µg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Vitamin B12",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/vitamin-b12/",
+    "stand": "Ableitung 2018, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "b12-7-10",
+   "kategorie": "Vitamin B12",
+   "gruppe": "7 bis unter 10",
+   "titel": "Vitamin B12 7 bis unter 10",
+   "text": "2,5 µg am Tag.",
+   "wert": 2.5,
+   "einheit": "µg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Vitamin B12",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/vitamin-b12/",
+    "stand": "Ableitung 2018, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "b12-10-13",
+   "kategorie": "Vitamin B12",
+   "gruppe": "10 bis unter 13",
+   "titel": "Vitamin B12 10 bis unter 13",
+   "text": "3,5 µg am Tag.",
+   "wert": 3.5,
+   "einheit": "µg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Vitamin B12",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/vitamin-b12/",
+    "stand": "Ableitung 2018, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "b12-13",
+   "kategorie": "Vitamin B12",
+   "gruppe": "ab 13 Jahren",
+   "titel": "Vitamin B12 ab 13 Jahren",
+   "text": "4 µg am Tag. Schwangere 4,5, Stillende 5,5 µg.",
+   "wert": 4.0,
+   "einheit": "µg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Referenzwerte Vitamin B12",
+    "u": "https://www.dge.de/wissenschaft/referenzwerte/vitamin-b12/",
+    "stand": "Ableitung 2018, abgerufen 26.11.2026"
+   }
+  },
+  {
    "id": "q-paprika",
    "kategorie": "Vitamin-C-Quellen",
    "gruppe": null,
@@ -703,6 +1273,36 @@
    "t": "Verbraucherzentrale: Eisen – Qualität nicht Quantität ist die Frage (nach D-A-CH-Referenzwerten, wiss. Ableitung Stand 2023)",
    "u": "https://www.verbraucherzentrale.de/wissen/lebensmittel/nahrungsergaenzungsmittel/eisen-qualitaet-nicht-quantitaet-ist-die-frage-8026",
    "stand": "21.07.2026"
+  },
+  {
+   "t": "DGE: Referenzwerte Calcium",
+   "u": "https://www.dge.de/wissenschaft/referenzwerte/calcium/",
+   "stand": "Ableitung 2013, abgerufen 26.11.2026"
+  },
+  {
+   "t": "DGE: Referenzwerte Eisen",
+   "u": "https://www.dge.de/wissenschaft/referenzwerte/eisen/",
+   "stand": "Ableitung 2023, abgerufen 26.11.2026"
+  },
+  {
+   "t": "DGE: Referenzwerte Magnesium",
+   "u": "https://www.dge.de/wissenschaft/referenzwerte/magnesium/",
+   "stand": "Ableitung 2021, abgerufen 26.11.2026"
+  },
+  {
+   "t": "DGE: Referenzwerte Zink",
+   "u": "https://www.dge.de/wissenschaft/referenzwerte/zink/",
+   "stand": "Ableitung 2019, abgerufen 26.11.2026"
+  },
+  {
+   "t": "DGE: Referenzwerte Folat",
+   "u": "https://www.dge.de/wissenschaft/referenzwerte/folat/",
+   "stand": "Ableitung 2015, abgerufen 26.11.2026"
+  },
+  {
+   "t": "DGE: Referenzwerte Vitamin B12",
+   "u": "https://www.dge.de/wissenschaft/referenzwerte/vitamin-b12/",
+   "stand": "Ableitung 2018, abgerufen 26.11.2026"
   }
  ],
  "hinweis": "Referenzwerte der DGE (D-A-CH) für gesunde Menschen; nicht für Kranke oder als Therapie. Feld 'gruppe' ist eine Ergänzung zum Grundformat. Energie-Richtwerte nur für die vier im DGE-FAQ genannten Gruppen; vollständige Tabelle und Eisen-Werte für Kinder fehlen (siehe OFFEN.md). Sauerkraut, Trockenfrüchte und Säfte ohne belegten Vitamin-C-Wert."

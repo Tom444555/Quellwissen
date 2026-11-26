@@ -78,7 +78,7 @@ for k in kreise:
         "sonne_mon_h": [int(round(float(np.nanmean(m.ravel()[idx])))) for m in monate],
         "frosttage": int(round(float(np.nanmean(frost.ravel()[idx])))),
         "tmin_abs_c": round(tm, 1),
-        "zone": zone(round(tm, 1)),
+        "zone": zone(tm),  # aus dem ungerundeten Kreismittel (Korrektur 26.11.2026 nachmittags)
         "zone_kalt": zone(float(tz.min())),
         "zone_mild": zone(float(tz.max())),
         "zellen": int(len(idx)),

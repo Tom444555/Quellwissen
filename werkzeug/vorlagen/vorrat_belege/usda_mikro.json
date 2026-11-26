@@ -1,0 +1,1334 @@
+{
+ "quelle": "USDA FoodData Central, SR Legacy (2018), Datei FoodData_Central_sr_legacy_food_csv_2018-04.zip; Nährstoffe 1090 Magnesium (mg), 1095 Zink (mg), 1187 Folat aus Lebensmitteln „Folate, food“ (µg, ohne zugesetzte Folsäure), 1178 Vitamin B12 (µg) abzüglich 1246 „Vitamin B-12, added“; je 100 g; gemeinfrei",
+ "abgerufen": "26.11.2026",
+ "werte": {
+  "haferflocken": {
+   "fdc_id": 169705,
+   "usda": "Oats (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 177.0,
+   "zn_mg": 3.97,
+   "fol_ug": 56.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "nudeln": {
+   "fdc_id": 169736,
+   "usda": "Pasta, dry, enriched",
+   "mg_mg": 53.0,
+   "zn_mg": 1.41,
+   "fol_ug": 18.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "nudeln_vk": {
+   "fdc_id": 169738,
+   "usda": "Pasta, whole-wheat, dry (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 128.0,
+   "zn_mg": 2.97,
+   "fol_ug": 69.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "eiernudeln": {
+   "fdc_id": 169731,
+   "usda": "Noodles, egg, dry, enriched",
+   "mg_mg": 58.0,
+   "zn_mg": 1.92,
+   "fol_ug": 29.0,
+   "b12_ug": 0.29,
+   "ueber": "q"
+  },
+  "reis": {
+   "fdc_id": 168877,
+   "usda": "Rice, white, long-grain, regular, raw, enriched",
+   "mg_mg": 25.0,
+   "zn_mg": 1.09,
+   "fol_ug": 8.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "reis_vk": {
+   "fdc_id": 169703,
+   "usda": "Rice, brown, long-grain, raw (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 116.0,
+   "zn_mg": 2.13,
+   "fol_ug": 23.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "couscous": {
+   "fdc_id": 169699,
+   "usda": "Couscous, dry",
+   "mg_mg": 44.0,
+   "zn_mg": 0.83,
+   "fol_ug": 20.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "bulgur": {
+   "fdc_id": 170688,
+   "usda": "Bulgur, dry",
+   "mg_mg": 164.0,
+   "zn_mg": 1.93,
+   "fol_ug": 27.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "hirse": {
+   "fdc_id": 169702,
+   "usda": "Millet, raw",
+   "mg_mg": 114.0,
+   "zn_mg": 1.68,
+   "fol_ug": 85.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "quinoa": {
+   "fdc_id": 168874,
+   "usda": "Quinoa, uncooked",
+   "mg_mg": 197.0,
+   "zn_mg": 3.1,
+   "fol_ug": 184.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "griess": {
+   "fdc_id": 169715,
+   "usda": "Semolina, enriched",
+   "mg_mg": 47.0,
+   "zn_mg": 1.05,
+   "fol_ug": 72.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "polenta": {
+   "fdc_id": 168929,
+   "usda": "Cornmeal, degermed, unenriched, yellow",
+   "mg_mg": 32.0,
+   "zn_mg": 0.66,
+   "fol_ug": 30.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "weizenkoerner": {
+   "fdc_id": 168890,
+   "usda": "Wheat, hard red winter",
+   "mg_mg": 126.0,
+   "zn_mg": 2.65,
+   "fol_ug": 38.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "mehl405": {
+   "fdc_id": 168894,
+   "usda": "Wheat flour, white, all-purpose, enriched, bleached",
+   "mg_mg": 22.0,
+   "zn_mg": 0.7,
+   "fol_ug": 29.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "vollkornmehl": {
+   "fdc_id": 168893,
+   "usda": "Wheat flour, whole-grain (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 137.0,
+   "zn_mg": 2.6,
+   "fol_ug": 44.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "dinkelmehl": {
+   "fdc_id": 169745,
+   "usda": "Spelt, uncooked",
+   "mg_mg": 136.0,
+   "zn_mg": 3.28,
+   "fol_ug": 45.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "roggenmehl": {
+   "fdc_id": 168886,
+   "usda": "Rye flour, medium",
+   "mg_mg": 63.0,
+   "zn_mg": 2.17,
+   "fol_ug": 34.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "roggenvollkornmehl": {
+   "fdc_id": 168885,
+   "usda": "Rye flour, dark",
+   "mg_mg": 160.0,
+   "zn_mg": 5.04,
+   "fol_ug": 33.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "staerke": {
+   "fdc_id": 169698,
+   "usda": "Cornstarch",
+   "mg_mg": 3.0,
+   "zn_mg": 0.06,
+   "fol_ug": 0.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "kartoffeln": {
+   "fdc_id": 170026,
+   "usda": "Potatoes, flesh and skin, raw",
+   "mg_mg": 23.0,
+   "zn_mg": 0.3,
+   "fol_ug": 15.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "pueree": {
+   "fdc_id": 170445,
+   "usda": "Potatoes, mashed, dehydrated, flakes without milk, dry form",
+   "mg_mg": 66.0,
+   "zn_mg": 0.7,
+   "fol_ug": 46.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "knaecke": {
+   "fdc_id": 172739,
+   "usda": "Crackers, crispbread, rye",
+   "mg_mg": 78.0,
+   "zn_mg": 2.39,
+   "fol_ug": 22.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "zwieback": {
+   "fdc_id": 171372,
+   "usda": "Zwieback",
+   "mg_mg": 14.0,
+   "zn_mg": 0.54,
+   "fol_ug": 20.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "vkbrot": {
+   "fdc_id": 174918,
+   "usda": "Bread, pumpernickel",
+   "mg_mg": 54.0,
+   "zn_mg": 1.48,
+   "fol_ug": 34.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "mischbrot": {
+   "fdc_id": 172684,
+   "usda": "Bread, rye",
+   "mg_mg": 40.0,
+   "zn_mg": 1.14,
+   "fol_ug": 51.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "toast": {
+   "fdc_id": 174924,
+   "usda": "Bread, white, commercially prepared (includes soft bread crumbs)",
+   "mg_mg": 23.0,
+   "zn_mg": 0.74,
+   "fol_ug": 25.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "broetchen": {
+   "fdc_id": 175031,
+   "usda": "Rolls, hard (includes kaiser)",
+   "mg_mg": 27.0,
+   "zn_mg": 0.94,
+   "fol_ug": 15.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "tortilla": {
+   "fdc_id": 167535,
+   "usda": "Tortillas, ready-to-bake or -fry, flour, shelf stable",
+   "mg_mg": 21.0,
+   "zn_mg": 0.57,
+   "fol_ug": 19.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "reiswaffeln": {
+   "fdc_id": 168107,
+   "usda": "Rice cake, cracker (include hain mini rice cakes)",
+   "mg_mg": 131.0,
+   "zn_mg": 3.0,
+   "fol_ug": 21.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "cornflakes": {
+   "fdc_id": 174648,
+   "usda": "Cereals ready-to-eat, RALSTON Corn Flakes",
+   "mg_mg": 7.0,
+   "zn_mg": 0.2,
+   "fol_ug": null,
+   "b12_ug": 5.36,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "muesli": {
+   "fdc_id": 171646,
+   "usda": "Cereals ready-to-eat, granola, homemade",
+   "mg_mg": 168.0,
+   "zn_mg": 4.17,
+   "fol_ug": 84.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "ravioli": {
+   "fdc_id": 173328,
+   "usda": "Ravioli, cheese-filled, canned",
+   "mg_mg": 15.0,
+   "zn_mg": 0.36,
+   "fol_ug": 11.0,
+   "b12_ug": 0.03,
+   "ueber": "q"
+  },
+  "linsen": {
+   "fdc_id": 172420,
+   "usda": "Lentils, raw",
+   "mg_mg": 47.0,
+   "zn_mg": 3.27,
+   "fol_ug": 479.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "rote_linsen": {
+   "fdc_id": 174284,
+   "usda": "Lentils, pink or red, raw",
+   "mg_mg": 59.0,
+   "zn_mg": 3.6,
+   "fol_ug": 204.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "erbsen_getr": {
+   "fdc_id": 172428,
+   "usda": "Peas, green, split, mature seeds, raw",
+   "mg_mg": 63.0,
+   "zn_mg": 3.49,
+   "fol_ug": 15.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "bohnen_getr": {
+   "fdc_id": 175202,
+   "usda": "Beans, white, mature seeds, raw",
+   "mg_mg": 190.0,
+   "zn_mg": 3.67,
+   "fol_ug": 388.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "kidney_getr": {
+   "fdc_id": 173744,
+   "usda": "Beans, kidney, red, mature seeds, raw",
+   "mg_mg": 138.0,
+   "zn_mg": 2.79,
+   "fol_ug": 394.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "kicher_getr": {
+   "fdc_id": 173756,
+   "usda": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+   "mg_mg": 79.0,
+   "zn_mg": 2.76,
+   "fol_ug": 557.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "kidney_dose": {
+   "fdc_id": 174285,
+   "usda": "Beans, kidney, red, mature seeds, canned, drained solids",
+   "mg_mg": 30.0,
+   "zn_mg": 0.75,
+   "fol_ug": 28.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "kicher_dose": {
+   "fdc_id": 173800,
+   "usda": "Chickpeas (garbanzo beans, bengal gram), mature seeds, canned, drained solids",
+   "mg_mg": 26.0,
+   "zn_mg": 0.63,
+   "fol_ug": 48.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "bohnen_dose": {
+   "fdc_id": 175204,
+   "usda": "Beans, white, mature seeds, canned",
+   "mg_mg": 51.0,
+   "zn_mg": 1.12,
+   "fol_ug": 65.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "baked_beans": {
+   "fdc_id": 175182,
+   "usda": "Beans, baked, canned, plain or vegetarian",
+   "mg_mg": 27.0,
+   "zn_mg": 2.28,
+   "fol_ug": 12.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "gr_bohnen": {
+   "fdc_id": 169143,
+   "usda": "Beans, snap, green, canned, regular pack, drained solids",
+   "mg_mg": 13.0,
+   "zn_mg": 0.19,
+   "fol_ug": 24.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "erbsen_moehren": {
+   "fdc_id": 170424,
+   "usda": "Peas and carrots, canned, regular pack, solids and liquids",
+   "mg_mg": 14.0,
+   "zn_mg": 0.58,
+   "fol_ug": 18.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "mais": {
+   "fdc_id": 169214,
+   "usda": "Corn, sweet, yellow, canned, whole kernel, drained solids",
+   "mg_mg": 13.0,
+   "zn_mg": 0.32,
+   "fol_ug": 39.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "rotkohl_glas": {
+   "fdc_id": 169978,
+   "usda": "Cabbage, red, cooked, boiled, drained, without salt",
+   "mg_mg": 17.0,
+   "zn_mg": 0.25,
+   "fol_ug": 24.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "sauerkraut": {
+   "fdc_id": 169279,
+   "usda": "Sauerkraut, canned, solids and liquids",
+   "mg_mg": 13.0,
+   "zn_mg": 0.19,
+   "fol_ug": 24.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "pilze_dose": {
+   "fdc_id": 169254,
+   "usda": "Mushrooms, canned, drained solids",
+   "mg_mg": 15.0,
+   "zn_mg": 0.72,
+   "fol_ug": 12.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "gurken": {
+   "fdc_id": 168558,
+   "usda": "Pickles, cucumber, dill or kosher dill",
+   "mg_mg": 7.0,
+   "zn_mg": 0.1,
+   "fol_ug": 8.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "rote_bete": {
+   "fdc_id": 169966,
+   "usda": "Beets, canned, drained solids",
+   "mg_mg": 17.0,
+   "zn_mg": 0.21,
+   "fol_ug": 30.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "tomaten_dose": {
+   "fdc_id": 170051,
+   "usda": "Tomatoes, red, ripe, canned, packed in tomato juice",
+   "mg_mg": 10.0,
+   "zn_mg": 0.12,
+   "fol_ug": 8.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "passata": {
+   "fdc_id": 170546,
+   "usda": "Tomato products, canned, puree, with salt added",
+   "mg_mg": 23.0,
+   "zn_mg": 0.36,
+   "fol_ug": 11.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "tomatenmark": {
+   "fdc_id": 170459,
+   "usda": "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 42.0,
+   "zn_mg": 0.63,
+   "fol_ug": 12.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "spargel": {
+   "fdc_id": 169207,
+   "usda": "Asparagus, canned, drained solids",
+   "mg_mg": 10.0,
+   "zn_mg": 0.4,
+   "fol_ug": 96.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "eintopf": {
+   "fdc_id": 171555,
+   "usda": "Soup, pea, split with ham, canned, chunky, ready-to-serve",
+   "mg_mg": 16.0,
+   "zn_mg": 1.3,
+   "fol_ug": 2.0,
+   "b12_ug": 0.1,
+   "ueber": "q"
+  },
+  "pilze_getr": {
+   "fdc_id": 168436,
+   "usda": "Mushrooms, shiitake, dried",
+   "mg_mg": 132.0,
+   "zn_mg": 7.66,
+   "fol_ug": 163.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "zwiebeln": {
+   "fdc_id": 170000,
+   "usda": "Onions, raw",
+   "mg_mg": 10.0,
+   "zn_mg": 0.17,
+   "fol_ug": 19.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "knoblauch": {
+   "fdc_id": 169230,
+   "usda": "Garlic, raw",
+   "mg_mg": 25.0,
+   "zn_mg": 1.16,
+   "fol_ug": 3.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "moehren": {
+   "fdc_id": 170393,
+   "usda": "Carrots, raw",
+   "mg_mg": 12.0,
+   "zn_mg": 0.24,
+   "fol_ug": 19.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "kohl": {
+   "fdc_id": 169975,
+   "usda": "Cabbage, raw",
+   "mg_mg": 12.0,
+   "zn_mg": 0.18,
+   "fol_ug": 43.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "erbsen_tk": {
+   "fdc_id": 170016,
+   "usda": "Peas, green, frozen, unprepared (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 26.0,
+   "zn_mg": 0.82,
+   "fol_ug": 53.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "spinat_tk": {
+   "fdc_id": 169287,
+   "usda": "Spinach, frozen, chopped or leaf, unprepared (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 75.0,
+   "zn_mg": 0.56,
+   "fol_ug": 145.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "gemuese_tk": {
+   "fdc_id": 170471,
+   "usda": "Vegetables, mixed, frozen, unprepared",
+   "mg_mg": 24.0,
+   "zn_mg": 0.45,
+   "fol_ug": 29.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "aepfel": {
+   "fdc_id": 171688,
+   "usda": "Apples, raw, with skin (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 5.0,
+   "zn_mg": 0.04,
+   "fol_ug": 3.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "bananen": {
+   "fdc_id": 173944,
+   "usda": "Bananas, raw",
+   "mg_mg": 27.0,
+   "zn_mg": 0.15,
+   "fol_ug": 20.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "orangen": {
+   "fdc_id": 169097,
+   "usda": "Oranges, raw, all commercial varieties",
+   "mg_mg": 10.0,
+   "zn_mg": 0.07,
+   "fol_ug": 30.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "pfirsiche": {
+   "fdc_id": 169111,
+   "usda": "Peaches, canned, light syrup pack, solids and liquids",
+   "mg_mg": 5.0,
+   "zn_mg": 0.09,
+   "fol_ug": 3.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "birnen": {
+   "fdc_id": 169938,
+   "usda": "Pears, canned, light syrup pack, solids and liquids",
+   "mg_mg": 4.0,
+   "zn_mg": 0.08,
+   "fol_ug": 1.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "mandarinen": {
+   "fdc_id": 169924,
+   "usda": "Tangerines, (mandarin oranges), canned, light syrup pack",
+   "mg_mg": 8.0,
+   "zn_mg": 0.24,
+   "fol_ug": 5.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "ananas": {
+   "fdc_id": 169126,
+   "usda": "Pineapple, canned, juice pack, solids and liquids",
+   "mg_mg": 14.0,
+   "zn_mg": 0.1,
+   "fol_ug": 5.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "kirschen": {
+   "fdc_id": 173956,
+   "usda": "Cherries, sour, red, canned, light syrup pack, solids and liquids",
+   "mg_mg": 6.0,
+   "zn_mg": 0.07,
+   "fol_ug": 8.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "apfelmus": {
+   "fdc_id": 171696,
+   "usda": "Applesauce, canned, sweetened, without salt",
+   "mg_mg": 3.0,
+   "zn_mg": 0.03,
+   "fol_ug": 1.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "rosinen": {
+   "fdc_id": 168165,
+   "usda": "Raisins, dark, seedless (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 36.0,
+   "zn_mg": 0.36,
+   "fol_ug": 5.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "pflaumen_getr": {
+   "fdc_id": 168162,
+   "usda": "Plums, dried (prunes), uncooked",
+   "mg_mg": 41.0,
+   "zn_mg": 0.44,
+   "fol_ug": 4.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "aprikosen_getr": {
+   "fdc_id": 173941,
+   "usda": "Apricots, dried, sulfured, uncooked",
+   "mg_mg": 32.0,
+   "zn_mg": 0.39,
+   "fol_ug": 10.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "feigen_getr": {
+   "fdc_id": 174665,
+   "usda": "Figs, dried, uncooked",
+   "mg_mg": 68.0,
+   "zn_mg": 0.55,
+   "fol_ug": 9.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "datteln": {
+   "fdc_id": 171726,
+   "usda": "Dates, deglet noor",
+   "mg_mg": 43.0,
+   "zn_mg": 0.29,
+   "fol_ug": 19.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "haselnuesse": {
+   "fdc_id": 170581,
+   "usda": "Nuts, hazelnuts or filberts",
+   "mg_mg": 163.0,
+   "zn_mg": 2.45,
+   "fol_ug": 113.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "walnuesse": {
+   "fdc_id": 170187,
+   "usda": "Nuts, walnuts, english",
+   "mg_mg": 158.0,
+   "zn_mg": 3.09,
+   "fol_ug": 98.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "mandeln": {
+   "fdc_id": 170158,
+   "usda": "Nuts, almonds, dry roasted, without salt added",
+   "mg_mg": 279.0,
+   "zn_mg": 3.31,
+   "fol_ug": 55.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "erdnuesse": {
+   "fdc_id": 173806,
+   "usda": "Peanuts, all types, dry-roasted, without salt",
+   "mg_mg": 178.0,
+   "zn_mg": 2.77,
+   "fol_ug": 97.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "cashew": {
+   "fdc_id": 170162,
+   "usda": "Nuts, cashew nuts, raw",
+   "mg_mg": 292.0,
+   "zn_mg": 5.78,
+   "fol_ug": 25.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "erdnussmus": {
+   "fdc_id": 172470,
+   "usda": "Peanut butter, smooth style, without salt",
+   "mg_mg": 168.0,
+   "zn_mg": 2.51,
+   "fol_ug": 87.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "sonnenblumenkerne": {
+   "fdc_id": 170562,
+   "usda": "Seeds, sunflower seed kernels, dried",
+   "mg_mg": 325.0,
+   "zn_mg": 5.0,
+   "fol_ug": 227.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "kuerbiskerne": {
+   "fdc_id": 170556,
+   "usda": "Seeds, pumpkin and squash seed kernels, dried",
+   "mg_mg": 592.0,
+   "zn_mg": 7.81,
+   "fol_ug": 58.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "leinsamen": {
+   "fdc_id": 169414,
+   "usda": "Seeds, flaxseed",
+   "mg_mg": 392.0,
+   "zn_mg": 4.34,
+   "fol_ug": 87.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "hmilch": {
+   "fdc_id": 171265,
+   "usda": "Milk, whole, 3.25% milkfat, with added vitamin D",
+   "mg_mg": 10.0,
+   "zn_mg": 0.37,
+   "fol_ug": 5.0,
+   "b12_ug": 0.45,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "hmilch15": {
+   "fdc_id": 171267,
+   "usda": "Milk, reduced fat, fluid, 2% milkfat, with added vitamin A and vitamin D",
+   "mg_mg": 11.0,
+   "zn_mg": 0.48,
+   "fol_ug": 5.0,
+   "b12_ug": 0.53,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "frischmilch": {
+   "fdc_id": 171265,
+   "usda": "Milk, whole, 3.25% milkfat, with added vitamin D",
+   "mg_mg": 10.0,
+   "zn_mg": 0.37,
+   "fol_ug": 5.0,
+   "b12_ug": 0.45,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "milchpulver": {
+   "fdc_id": 173454,
+   "usda": "Milk, dry, whole, without added vitamin D",
+   "mg_mg": 85.0,
+   "zn_mg": 3.34,
+   "fol_ug": 37.0,
+   "b12_ug": 3.25,
+   "ueber": "q"
+  },
+  "kondensmilch": {
+   "fdc_id": 172194,
+   "usda": "Milk, canned, evaporated, with added vitamin A",
+   "mg_mg": 24.0,
+   "zn_mg": 0.77,
+   "fol_ug": 8.0,
+   "b12_ug": 0.16,
+   "ueber": "q"
+  },
+  "hartkaese": {
+   "fdc_id": 170848,
+   "usda": "Cheese, parmesan, hard",
+   "mg_mg": 44.0,
+   "zn_mg": 2.75,
+   "fol_ug": 7.0,
+   "b12_ug": 1.2,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "gouda": {
+   "fdc_id": 171241,
+   "usda": "Cheese, gouda",
+   "mg_mg": 29.0,
+   "zn_mg": 3.9,
+   "fol_ug": 21.0,
+   "b12_ug": 1.54,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "joghurt": {
+   "fdc_id": 171284,
+   "usda": "Yogurt, plain, whole milk",
+   "mg_mg": 12.0,
+   "zn_mg": 0.59,
+   "fol_ug": 7.0,
+   "b12_ug": 0.37,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "quark": {
+   "fdc_id": 172181,
+   "usda": "Cheese, cottage, nonfat, uncreamed, dry, large or small curd",
+   "mg_mg": 11.0,
+   "zn_mg": 0.47,
+   "fol_ug": 9.0,
+   "b12_ug": 0.46,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "sahne": {
+   "fdc_id": 170859,
+   "usda": "Cream, fluid, heavy whipping",
+   "mg_mg": 7.0,
+   "zn_mg": 0.24,
+   "fol_ug": 4.0,
+   "b12_ug": 0.16,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "thunfisch": {
+   "fdc_id": 173709,
+   "usda": "Fish, tuna, light, canned in water, drained solids (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 23.0,
+   "zn_mg": 0.69,
+   "fol_ug": 4.0,
+   "b12_ug": 2.55,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "sardinen": {
+   "fdc_id": 175139,
+   "usda": "Fish, sardine, Atlantic, canned in oil, drained solids with bone",
+   "mg_mg": 39.0,
+   "zn_mg": 1.31,
+   "fol_ug": 10.0,
+   "b12_ug": 8.94,
+   "ueber": "q"
+  },
+  "makrele": {
+   "fdc_id": 175121,
+   "usda": "Fish, mackerel, jack, canned, drained solids",
+   "mg_mg": 37.0,
+   "zn_mg": 1.02,
+   "fol_ug": 5.0,
+   "b12_ug": 6.94,
+   "ueber": "q"
+  },
+  "lachs_dose": {
+   "fdc_id": 175175,
+   "usda": "Fish, salmon, pink, canned, drained solids",
+   "mg_mg": 32.0,
+   "zn_mg": 0.96,
+   "fol_ug": 4.0,
+   "b12_ug": 4.95,
+   "ueber": "q"
+  },
+  "corned_beef": {
+   "fdc_id": 170602,
+   "usda": "Beef, cured, corned beef, canned",
+   "mg_mg": 14.0,
+   "zn_mg": 3.57,
+   "fol_ug": 9.0,
+   "b12_ug": 1.62,
+   "ueber": "q"
+  },
+  "fruehstuecksfleisch": {
+   "fdc_id": 174571,
+   "usda": "Luncheon meat, pork, canned",
+   "mg_mg": 10.0,
+   "zn_mg": 1.48,
+   "fol_ug": 6.0,
+   "b12_ug": 0.9,
+   "ueber": "q"
+  },
+  "leberwurst": {
+   "fdc_id": 173870,
+   "usda": "Liver sausage, liverwurst, pork",
+   "mg_mg": 12.0,
+   "zn_mg": 2.3,
+   "fol_ug": 30.0,
+   "b12_ug": 13.46,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "salami": {
+   "fdc_id": 172938,
+   "usda": "Salami, dry or hard, pork",
+   "mg_mg": 22.0,
+   "zn_mg": 4.2,
+   "fol_ug": 2.0,
+   "b12_ug": 2.8,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "jagdwurst": {
+   "fdc_id": 172013,
+   "usda": "Bologna, beef and pork",
+   "mg_mg": 17.0,
+   "zn_mg": 2.3,
+   "fol_ug": 6.0,
+   "b12_ug": 1.82,
+   "ueber": "q"
+  },
+  "chili": {
+   "fdc_id": 172097,
+   "usda": "Chili con carne with beans, canned entree",
+   "mg_mg": 28.0,
+   "zn_mg": 0.89,
+   "fol_ug": 21.0,
+   "b12_ug": 0.28,
+   "ueber": "q"
+  },
+  "gulasch": {
+   "fdc_id": 173330,
+   "usda": "Beef stew, canned entree",
+   "mg_mg": 8.0,
+   "zn_mg": 1.0,
+   "fol_ug": 14.0,
+   "b12_ug": 0.5,
+   "ueber": "q"
+  },
+  "eier": {
+   "fdc_id": 171287,
+   "usda": "Egg, whole, raw, fresh",
+   "mg_mg": 12.0,
+   "zn_mg": 1.29,
+   "fol_ug": 47.0,
+   "b12_ug": 0.89,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "hack_tk": {
+   "fdc_id": 174036,
+   "usda": "Beef, ground, 80% lean meat / 20% fat, raw",
+   "mg_mg": 17.0,
+   "zn_mg": 4.18,
+   "fol_ug": 7.0,
+   "b12_ug": 2.14,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "haehnchen_tk": {
+   "fdc_id": 171077,
+   "usda": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw",
+   "mg_mg": 28.0,
+   "zn_mg": 0.68,
+   "fol_ug": 9.0,
+   "b12_ug": 0.21,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "fisch_tk": {
+   "fdc_id": 171955,
+   "usda": "Fish, cod, Atlantic, raw",
+   "mg_mg": 32.0,
+   "zn_mg": 0.45,
+   "fol_ug": 7.0,
+   "b12_ug": 0.91,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "tofu": {
+   "fdc_id": 172475,
+   "usda": "Tofu, raw, firm, prepared with calcium sulfate",
+   "mg_mg": 58.0,
+   "zn_mg": 1.57,
+   "fol_ug": 29.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "butterschmalz": {
+   "fdc_id": 173412,
+   "usda": "Butter oil, anhydrous",
+   "mg_mg": 0.0,
+   "zn_mg": 0.01,
+   "fol_ug": 0.0,
+   "b12_ug": 0.01,
+   "ueber": "q"
+  },
+  "apfelsaft": {
+   "fdc_id": 173933,
+   "usda": "Apple juice, canned or bottled, unsweetened, without added ascorbic acid",
+   "mg_mg": 5.0,
+   "zn_mg": 0.02,
+   "fol_ug": 0.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "orangensaft": {
+   "fdc_id": 169098,
+   "usda": "Orange juice, raw (Includes foods for USDA's Food Distribution Program)",
+   "mg_mg": 11.0,
+   "zn_mg": 0.05,
+   "fol_ug": 30.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "zitronensaft": {
+   "fdc_id": 167748,
+   "usda": "Lemon juice from concentrate, canned or bottled",
+   "mg_mg": 7.0,
+   "zn_mg": 0.19,
+   "fol_ug": 9.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "zucker": {
+   "fdc_id": 169655,
+   "usda": "Sugars, granulated",
+   "mg_mg": 0.0,
+   "zn_mg": 0.01,
+   "fol_ug": 0.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "marmelade": {
+   "fdc_id": 169641,
+   "usda": "Jams and preserves",
+   "mg_mg": 4.0,
+   "zn_mg": 0.06,
+   "fol_ug": 11.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "nusscreme": {
+   "fdc_id": 168000,
+   "usda": "Chocolate-flavored hazelnut spread",
+   "mg_mg": 64.0,
+   "zn_mg": 1.06,
+   "fol_ug": 14.0,
+   "b12_ug": 0.27,
+   "ueber": "q"
+  },
+  "schoko": {
+   "fdc_id": 167587,
+   "usda": "Candies, milk chocolate",
+   "mg_mg": 63.0,
+   "zn_mg": 2.3,
+   "fol_ug": 11.0,
+   "b12_ug": 0.75,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "zartbitter": {
+   "fdc_id": 170273,
+   "usda": "Chocolate, dark, 70-85% cacao solids",
+   "mg_mg": 228.0,
+   "zn_mg": 3.31,
+   "fol_ug": null,
+   "b12_ug": 0.28,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "kakao": {
+   "fdc_id": 169593,
+   "usda": "Cocoa, dry powder, unsweetened",
+   "mg_mg": 499.0,
+   "zn_mg": 6.81,
+   "fol_ug": 32.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "kekse": {
+   "fdc_id": 172819,
+   "usda": "Cookies, butter, commercially prepared, unenriched",
+   "mg_mg": 12.0,
+   "zn_mg": 0.38,
+   "fol_ug": 6.0,
+   "b12_ug": 0.36,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "riegel": {
+   "fdc_id": 167542,
+   "usda": "Snacks, granola bars, hard, plain",
+   "mg_mg": 97.0,
+   "zn_mg": 2.03,
+   "fol_ug": 23.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "salzstangen": {
+   "fdc_id": 167555,
+   "usda": "Snacks, pretzels, hard, plain, salted",
+   "mg_mg": 29.0,
+   "zn_mg": 1.04,
+   "fol_ug": 166.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "chips": {
+   "fdc_id": 169677,
+   "usda": "Snacks, potato chips, plain, salted",
+   "mg_mg": 63.0,
+   "zn_mg": 1.09,
+   "fol_ug": 29.0,
+   "b12_ug": 0.0,
+   "ueber": "vq (ähnlichster Eintrag)"
+  },
+  "crackers": {
+   "fdc_id": 172746,
+   "usda": "Crackers, saltines (includes oyster, soda, soup)",
+   "mg_mg": 23.0,
+   "zn_mg": 0.69,
+   "fol_ug": 17.0,
+   "b12_ug": 0.09,
+   "ueber": "q"
+  },
+  "bruehe": {
+   "fdc_id": 171562,
+   "usda": "Soup, chicken broth or bouillon, dry",
+   "mg_mg": 56.0,
+   "zn_mg": 0.09,
+   "fol_ug": 32.0,
+   "b12_ug": 0.3,
+   "ueber": "q"
+  },
+  "trockenhefe": {
+   "fdc_id": 175043,
+   "usda": "Leavening agents, yeast, baker's, active dry",
+   "mg_mg": 54.0,
+   "zn_mg": 7.94,
+   "fol_ug": 2340.0,
+   "b12_ug": 0.07,
+   "ueber": "q"
+  },
+  "frischhefe": {
+   "fdc_id": 175042,
+   "usda": "Leavening agents, yeast, baker's, compressed",
+   "mg_mg": 40.0,
+   "zn_mg": 9.97,
+   "fol_ug": 785.0,
+   "b12_ug": 0.01,
+   "ueber": "q"
+  },
+  "backpulver": {
+   "fdc_id": 172804,
+   "usda": "Leavening agents, baking powder, double-acting, straight phosphate",
+   "mg_mg": 39.0,
+   "zn_mg": 0.02,
+   "fol_ug": 0.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "puddingpulver": {
+   "fdc_id": 169609,
+   "usda": "Puddings, vanilla, dry mix, regular",
+   "mg_mg": 0.0,
+   "zn_mg": 0.02,
+   "fol_ug": 0.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "essig": {
+   "fdc_id": 173469,
+   "usda": "Vinegar, cider",
+   "mg_mg": 5.0,
+   "zn_mg": 0.04,
+   "fol_ug": 0.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "senf": {
+   "fdc_id": 172234,
+   "usda": "Mustard, prepared, yellow",
+   "mg_mg": 48.0,
+   "zn_mg": 0.64,
+   "fol_ug": 7.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "ketchup": {
+   "fdc_id": 168556,
+   "usda": "Catsup",
+   "mg_mg": 13.0,
+   "zn_mg": 0.17,
+   "fol_ug": 9.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "suppe_tuete": {
+   "fdc_id": 171571,
+   "usda": "Soup, chicken noodle, dry, mix",
+   "mg_mg": 38.0,
+   "zn_mg": 1.65,
+   "fol_ug": 9.0,
+   "b12_ug": 0.75,
+   "ueber": "q"
+  },
+  "saeuglingsmilch": {
+   "fdc_id": 173561,
+   "usda": "Infant formula, ABBOTT NUTRITION, SIMILAC, ADVANCE, with iron, powder, not reconstituted",
+   "mg_mg": 32.0,
+   "zn_mg": 3.94,
+   "fol_ug": 0.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "babybrei_getreide": {
+   "fdc_id": 170969,
+   "usda": "Babyfood, cereal, rice, dry fortified",
+   "mg_mg": 37.0,
+   "zn_mg": 10.92,
+   "fol_ug": 230.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  },
+  "babygl_menue": {
+   "fdc_id": 173513,
+   "usda": "Babyfood, dinner, vegetables and chicken, junior",
+   "mg_mg": 8.0,
+   "zn_mg": 0.3,
+   "fol_ug": 3.0,
+   "b12_ug": 0.02,
+   "ueber": "q"
+  },
+  "babygl_obst": {
+   "fdc_id": 173512,
+   "usda": "Babyfood, fruit, applesauce, strained",
+   "mg_mg": 3.0,
+   "zn_mg": 0.02,
+   "fol_ug": 2.0,
+   "b12_ug": 0.0,
+   "ueber": "q"
+  }
+ },
+ "weggelassen": {
+  "toast": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "broetchen": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "tortilla": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "cornflakes": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "salzstangen": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "crackers": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "mischbrot": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "vkbrot": {
+   "felder": [
+    "zn",
+    "b12"
+   ],
+   "grund": "US-Backware bzw. Frühstücksflocken, dort teils mit Zusätzen angereichert; für hiesige Ware nicht übertragbar"
+  },
+  "babybrei_getreide": {
+   "felder": [
+    "mg",
+    "zn",
+    "fol",
+    "b12"
+   ],
+   "grund": "USDA-Eintrag ist angereichert; für hiesige Ware nicht übertragbar"
+  }
+ },
+ "hinweis": "Gleiche USDA-Einträge wie bei Calcium und Eisen (usda_calcium_eisen.json). Folat: „Folate, food“ entspricht dem Nahrungsfolat, mit dem die DGE-Folat-Äquivalente gerechnet werden; zugesetzte Folsäure ist nicht enthalten. Fehlt ein Wert in der USDA-Datei, bleibt das Feld leer und zählt im Check mit 0."
+}

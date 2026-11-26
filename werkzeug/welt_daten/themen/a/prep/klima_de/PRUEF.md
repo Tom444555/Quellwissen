@@ -122,3 +122,6 @@ nur Jahre 1991–2020 mit ≥ 347 gültigen Tagen):
 
 Alle Abweichungen innerhalb der DWD-Unsicherheit (±6 %). Freiburg und Hamburg haben nur 18 bzw. 13 vollständige
 Messjahre im Zeitraum – der Stationswert ist dort selbst unsicherer (andere Jahre als das 30-Jahres-Raster).
+
+## Nachtrag 26.11.2026 (nachmittags): Zone aus dem ungerundeten Wert
+Schritte 1 und 3 mit frisch geladenen DWD-Daten wiederholt (gleiche 327 Stationen, Regression −10,933 + 1,352 · Tjan, alle 401 Kreiswerte `tmin_abs_c`, `zone_kalt`, `zone_mild` unverändert). Die Zone wird jetzt aus dem **ungerundeten** Kreismittel bestimmt. Dadurch ändern sich sechs Kreise: Cochem-Zell 8a → 7b (−12,225 °C), Roth, Cottbus, Dahme-Spreewald, Ilm-Kreis und Saalfeld-Rudolstadt 7b → 7a (−15,000 bis −15,037 °C). Die übrigen neun Grenzlagen aus dem Prüfbericht (u. a. Garmisch, Stormarn, Stuttgart, Viersen, Herne) bleiben in ihrer Zone. Die App weist bei Werten bis 0,1 K an einer Grenze weiter auf die Nachbarzone hin.

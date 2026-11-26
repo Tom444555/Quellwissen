@@ -353,7 +353,22 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - Erledigt am 12.11. spät: Regenauer-Reiter „Kernideen“ (jetzt 11 Leitgedanken) und „Seine Sicht“ um die drei REALTALK-Gespräche ergänzt (`werkzeug/gen/regenauer/ergaenzen_kernideen.py`, nur aus den vorhandenen Auswertungen, keine neue Recherche).
 - Noch offen aus früheren Übergaben: Skill `quellwissen` um A-11, A-12 und Nehls als Sammelstelle ergänzen (propose_skills); Veröffentlichungsdaten der REALTALK-Videos; sonst wie „Übergabe 12.11.2026 (Vormittag 2)“.
 
-## Übergabe für einen neuen Chat (Stand 26.11.2026, mittags)
+## Übergabe für einen neuen Chat (Stand 26.11.2026, nachmittags)
+
+**Alles ist live** (main, Artefakt, Pages geprüft). Keine offene Vorschau. Planer-Test 2.854 Prüfungen, 0 Fehler; geprüft nur am Rechner in Handy-Breite.
+
+Erledigt am 26.11.2026 nachmittags (Toms Auftrag „mach mit den offenen Punkten weiter“):
+- **Planer, Nährstoffe:** Magnesium, Zink, Folat, Vitamin B12 neu; Calcium 7 bis unter 10 (900 mg) und Eisen für Kinder ergänzt. Bedarf nach den DGE-Referenzwert-Seiten (`dge.de/wissenschaft/referenzwerte/<stoff>/`, Tabellen per `curl` + `pandas.read_html` gelesen), Einträge in `naehrstoffe.json` (Ids `mg-…`, `zn-…`, `fol-…`, `b12-…`, `ca-7-10`, `fe-1-7` … `fe-13-19-w`). Zink: Wert bei mittlerer Phytatzufuhr. Gehalte aus derselben USDA-Datei wie Calcium/Eisen, Katalogfelder `mg`, `zn`, `fol` (nur „Folate, food“, ohne zugesetzte Folsäure), `b12` (gesamt minus „added“); Herkunft und Weglassungen in `vorrat_belege/usda_mikro.json`. Code: `MIKRO`, `mikroBedarf`, `naehrLeer` in `vorrat_notfall.js`.
+- **Planer, Solar:** Standortwahl je Bundesland (PVGIS 5.3 für 16 Landeshauptstädte, Rohdaten `vorrat_belege/pvgis/laender/<land>_<30|60|90|ost|west>.json`), Aufstellung zusätzlich Ost/West (30°). Beleg `pv-orte` in `strom.json` (Feld `orte`); ohne Wahl gilt das Bundesland aus „Region“, sonst Saarland. `pv-monat` (Saarbrücken) bleibt als Rückfall.
+- **Karte:** Winterhärtezone aus dem ungerundeten Kreismittel (DWD-Kette neu gerechnet, Werte gleich; sechs Kreise neue Zone, Nachtrag in `a/prep/klima_de/PRUEF.md`). 79 Welterbestätten ohne deutsche Wikidata-Bezeichnung mit eigener Übersetzung (Feld `n_wd` = Wikidata-Name), Nr. 803 heißt „Las Médulas“.
+
+**Offen:**
+1. Karte: Seekabel, europäische Fernwanderwege, Sonnenstunden weltweit (keine freien Daten); Heilbäder BW, RP, SL, SH, MV; Harz-Fläche klären.
+2. Planer: Notfalltreffpunkte außer Homburg; Störungsnummern VSE, Pfalzwerke, KEW, weitere Stadtwerke; Abgleich der Nährwerte mit BLS 4.0; KATWARN-Aussage des Landes; amtliche SR-Frequenzliste; Solar feiner als je Bundesland (nur bei Bedarf).
+3. Toms Test am echten iPhone/iPad/Android.
+4. Älteres wie in „Übergabe 26.11.2026 (10 Uhr)“, Punkt 4.
+
+## Übergabe 26.11.2026 (mittags)
 
 **Alles ist live** (main, Artefakt, Pages geprüft). Keine offene Vorschau.
 
