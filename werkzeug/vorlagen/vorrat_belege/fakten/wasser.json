@@ -81,30 +81,30 @@
    "einheit": "Liter je Person und Tag (nur wenige Tage)",
    "warnung": null,
    "quelle": {
-    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC)",
-    "u": "https://www.slideshare.net/slideshow/who5-minimum-water-quantity-needed-for-domestic-use/48638611",
-    "stand": "ohne Jahresangabe im Dokument, abgerufen 26.11.2026"
+    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC), Tabelle 1",
+    "u": "https://medbox.org/index.php/dl/5e148832db60a2044c2d2465",
+    "stand": "ohne Jahresangabe im Dokument (inhaltsgleich auch auf slideshare.net), abgerufen 26.11.2026"
    }
   },
   {
    "id": "bedarf-who-hygiene",
    "kategorie": "Bedarf",
    "titel": "Körperpflege",
-   "text": "Für die Körperpflege rechnet die WHO bei längerer Notlage mit 6–7 Litern je Person und Tag, für Wäsche mit 4–6 Litern.",
+   "text": "Für eine mittelfristige Notlage (insgesamt 15–20 Liter je Person und Tag) rechnet die WHO mit 6–7 Litern für die Körperpflege und 4–6 Litern für Wäsche.",
    "wert": 6,
    "einheit": "Liter je Person und Tag (6–7, Körperpflege)",
    "warnung": null,
    "quelle": {
-    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC)",
-    "u": "https://www.slideshare.net/slideshow/who5-minimum-water-quantity-needed-for-domestic-use/48638611",
-    "stand": "ohne Jahresangabe im Dokument, abgerufen 26.11.2026"
+    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC), Tabelle 1",
+    "u": "https://medbox.org/index.php/dl/5e148832db60a2044c2d2465",
+    "stand": "ohne Jahresangabe im Dokument (inhaltsgleich auch auf slideshare.net), abgerufen 26.11.2026"
    }
   },
   {
    "id": "bedarf-sphere",
    "kategorie": "Bedarf",
    "titel": "Mindestmenge in Hilfseinsätzen",
-   "text": "Internationale Hilfsstandards (Sphere) sehen mindestens 15 Liter je Person und Tag für den Haushalt vor.",
+   "text": "Internationale Hilfsstandards (Sphere) sehen mindestens 15 Liter je Person und Tag für Trinken, Kochen und Körperpflege im Haushalt vor.",
    "wert": 15,
    "einheit": "Liter je Person und Tag",
    "warnung": null,
@@ -118,7 +118,7 @@
    "id": "bedarf-notbrunnen",
    "kategorie": "Bedarf",
    "titel": "Notversorgung in Deutschland",
-   "text": "Die staatliche Trinkwasser-Notversorgung (z. B. Notbrunnen) plant mit 15 Litern je Person und Tag. Normal sind es etwa 120 Liter.",
+   "text": "Die staatliche Trinkwasser-Notversorgung (z. B. Notbrunnen) plant mit 15 Litern je Person und Tag.",
    "wert": 15,
    "einheit": "Liter je Person und Tag (Notversorgung)",
    "warnung": null,
@@ -132,14 +132,14 @@
    "id": "bedarf-toilette",
    "kategorie": "Bedarf",
    "titel": "Spültoilette braucht viel Wasser",
-   "text": "Toiletten mit Wasserspülung brauchen laut WHO bis zu 70 Liter je Person und Tag. In der Notlage daher sparsam spülen oder Alternativen nutzen.",
+   "text": "Toiletten mit Wasserspülung brauchen laut WHO bis zu 70 Liter je Person und Tag.",
    "wert": 70,
    "einheit": "Liter je Person und Tag (bis zu, Spültoilette)",
    "warnung": null,
    "quelle": {
-    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC)",
-    "u": "https://www.slideshare.net/slideshow/who5-minimum-water-quantity-needed-for-domestic-use/48638611",
-    "stand": "ohne Jahresangabe im Dokument, abgerufen 26.11.2026"
+    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC), Tabelle 1",
+    "u": "https://medbox.org/index.php/dl/5e148832db60a2044c2d2465",
+    "stand": "ohne Jahresangabe im Dokument (inhaltsgleich auch auf slideshare.net), abgerufen 26.11.2026"
    }
   },
   {
@@ -160,10 +160,10 @@
    "id": "quelle-boiler",
    "kategorie": "Notquellen",
    "titel": "Warmwasserspeicher",
-   "text": "Wasser aus dem Warmwasserspeicher der Trinkwasseranlage ist eine Notquelle. Nicht gemeint ist der Kessel bzw. die Heizungsanlage.",
+   "text": "Wasser aus dem Warmwasserspeicher der Trinkwasseranlage (der an Wasserhähne und Duschen angeschlossen ist) ist eine Notquelle. Nicht gemeint ist der Speicher der Heizungsanlage, der Heizkörper versorgt.",
    "wert": null,
    "einheit": null,
-   "warnung": "Wasser aus Heizkörpern oder dem Heizkessel niemals zum Trinken, Kochen oder für die Körperpflege verwenden.",
+   "warnung": "Nur den Trinkwasser-Warmwasserspeicher nutzen, nicht den Speicher der Heizungsanlage.",
    "quelle": {
     "t": "CDC (USA): How to Find Clean Water in an Emergency",
     "u": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html",
@@ -174,7 +174,7 @@
    "id": "quelle-spuelkasten",
    "kategorie": "Notquellen",
    "titel": "Spülkasten",
-   "text": "Wasser aus dem Spülkasten (nicht aus dem WC-Becken) ist nutzbar, wenn es klar ist und keine Reinigungsmittel enthält, die das Wasser färben.",
+   "text": "Wasser aus dem Spülkasten (nicht aus dem WC-Becken) ist nutzbar, wenn es klar ist und nicht chemisch mit Toilettenreinigern behandelt wurde.",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -202,7 +202,7 @@
    "id": "quelle-regen",
    "kategorie": "Notquellen",
    "titel": "Regenwasser",
-   "text": "Regenwasser und andere Wasserquellen im Freien müssen vor dem Trinken behandelt werden, damit Krankheitserreger abgetötet werden.",
+   "text": "Regenwasser und andere Wasserquellen außerhalb des Hauses müssen vor dem Trinken behandelt werden, damit Krankheitserreger abgetötet werden. Wasser, das mit Treibstoff oder giftigen Chemikalien verunreinigt ist, nicht verwenden.",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -216,7 +216,7 @@
    "id": "quelle-pool",
    "kategorie": "Notquellen",
    "titel": "Pool-Wasser",
-   "text": "Wasser aus Pools und Whirlpools ist für Körperpflege und Reinigung nutzbar, aber nicht zum Trinken.",
+   "text": "Wasser aus Schwimmbecken und Whirlpools (Spas) ist für Körperpflege und Reinigung nutzbar, aber nicht zum Trinken.",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -233,7 +233,7 @@
    "text": "Wasser mit Treibstoff, giftigen Chemikalien oder radioaktiven Stoffen lässt sich durch Abkochen oder Entkeimen nicht trinkbar machen.",
    "wert": null,
    "einheit": null,
-   "warnung": "Solches Wasser nicht trinken und nicht zum Waschen verwenden; anderes Wasser nutzen und das Gesundheitsamt fragen.",
+   "warnung": "Solches Wasser nicht verwenden; abgefülltes Wasser oder eine andere Quelle nutzen und das Gesundheitsamt um Rat fragen.",
    "quelle": {
     "t": "CDC (USA): How to Make Water Safe in an Emergency",
     "u": "https://cdc.gov/water-emergency/about",
@@ -244,21 +244,21 @@
    "id": "auf-abkochen",
    "kategorie": "Aufbereitung",
    "titel": "Abkochen",
-   "text": "Wasser einmal sprudelnd aufkochen und danach mindestens 10 Minuten abkühlen lassen. Ein Wasserkocher eignet sich gut.",
+   "text": "Wasser einmal sprudelnd aufkochen und danach langsam über mindestens 10 Minuten abkühlen lassen. Handelsübliche Wasserkocher sind dazu gut geeignet.",
    "wert": 10,
    "einheit": "Minuten abkühlen (nach sprudelndem Aufkochen)",
-   "warnung": "Erst handwarm verwenden: Kinder, alte und kranke Menschen bemerken heißes Wasser oft nicht – Verbrühungsgefahr.",
+   "warnung": "Verbrühungsgefahr: Besonders Kinder sowie alte und kranke Menschen nehmen die hohe Temperatur oft nicht wahr. Für die meisten Zwecke warten, bis das Wasser nur noch handwarm ist.",
    "quelle": {
-    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot",
+    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot (S. 93–95) und Mustertexte A.4",
     "u": "https://www.umweltbundesamt.de/system/files/document/260417_UBA_Empfehlungen_%C2%A7%C2%A762-68_nach_Freigabe_final_clean.pdf",
-    "stand": "Februar 2026 (redaktionelle Änderungen 04/2026)"
+    "stand": "11.02.2026 (redaktionelle Änderungen 04/2026)"
    }
   },
   {
    "id": "auf-abkochen-international",
    "kategorie": "Aufbereitung",
    "titel": "Abkochen – internationale Angabe",
-   "text": "Die US-Gesundheitsbehörde CDC empfiehlt, klares Wasser 1 Minute sprudelnd kochen zu lassen (oberhalb von etwa 2000 m Höhe 3 Minuten). Trübes Wasser vorher durch ein sauberes Tuch oder einen Kaffeefilter gießen.",
+   "text": "Die US-Gesundheitsbehörde CDC empfiehlt, klares Wasser 1 Minute sprudelnd kochen zu lassen (oberhalb von etwa 2000 m bzw. 6500 Fuß 3 Minuten). Trübes Wasser vorher durch ein sauberes Tuch, Küchenpapier oder einen Kaffeefilter gießen oder absetzen lassen.",
    "wert": 1,
    "einheit": "Minute sprudelnd kochen",
    "warnung": null,
@@ -272,38 +272,38 @@
    "id": "auf-wofuer",
    "kategorie": "Aufbereitung",
    "titel": "Wofür abgekochtes Wasser",
-   "text": "Bei Abkochgebot abgekocht verwenden für: Trinken, Zähneputzen, Eiswürfel, Waschen und Zubereiten von Obst, Gemüse und ungekochten Speisen sowie Körperpflege bei Kleinkindern, Kranken und Immungeschwächten.",
+   "text": "Bei Abkochgebot abgekocht verwenden für: Trinken, Waschen und Zubereiten von Obst, Gemüse, Getränken oder anderen ungekochten Nahrungsmitteln, Eiswürfel und Zähneputzen. Zur Körperpflege zumindest bei Kleinkindern sowie kranken oder immungeschwächten Menschen abgekochtes und abgekühltes Wasser nehmen.",
    "wert": null,
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot",
+    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot (S. 93–95) und Mustertexte A.4",
     "u": "https://www.umweltbundesamt.de/system/files/document/260417_UBA_Empfehlungen_%C2%A7%C2%A762-68_nach_Freigabe_final_clean.pdf",
-    "stand": "Februar 2026 (redaktionelle Änderungen 04/2026)"
+    "stand": "11.02.2026 (redaktionelle Änderungen 04/2026)"
    }
   },
   {
    "id": "auf-ausnahmen",
    "kategorie": "Aufbereitung",
    "titel": "Wofür nicht zwingend",
-   "text": "Toilettenspülung, Duschen, Wäsche ab 40 °C und Spülmaschine ab 60 °C kommen nach UBA kurzzeitig ohne Abkochen aus. Offene Wunden beim Waschen wasserdicht abdecken, Hände gründlich mit Seife waschen.",
+   "text": "Laut UBA kann im Ausnahmefall für kurze Zeit auf das Abkochen verzichtet werden – bei leicht erhöhtem Infektionsrisiko – für: Spülmaschine bei mindestens 60 °C bzw. mit Heißtrocknung, Waschmaschine bei mindestens 40 °C, Körperpflege und sonstiges Reinigen (nicht bei Kleinkindern, Kranken, Immungeschwächten). Offene Wunden wasserdicht abdecken, Hände gründlich mit Seife waschen. Für die Toilettenspülung kann Leitungswasser laut UBA-Mustertext genutzt werden.",
    "wert": null,
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot",
+    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot (S. 93–95) und Mustertexte A.4",
     "u": "https://www.umweltbundesamt.de/system/files/document/260417_UBA_Empfehlungen_%C2%A7%C2%A762-68_nach_Freigabe_final_clean.pdf",
-    "stand": "Februar 2026 (redaktionelle Änderungen 04/2026)"
+    "stand": "11.02.2026 (redaktionelle Änderungen 04/2026)"
    }
   },
   {
    "id": "auf-tabletten",
    "kategorie": "Aufbereitung",
    "titel": "Entkeimungstabletten",
-   "text": "Chlor-, Chlordioxid- oder Iodtabletten genau nach Packungsangabe verwenden. Sie töten Bakterien und Viren, aber nicht unbedingt Parasiten; gegen Cryptosporidien wirkt nur Chlordioxid bei richtiger Anwendung.",
+   "text": "Chlor-, Chlordioxid- oder Iodtabletten genau nach Packungsangabe verwenden. Chemische Entkeimungsmittel töten Viren und Bakterien, aber nicht unbedingt Parasiten. Cryptosporidien tötet nur Chlordioxid bei richtiger Anwendung, nicht Iod oder Chlor.",
    "wert": null,
    "einheit": null,
-   "warnung": "Dosierung ausschließlich nach Packungsangabe. Iod nicht in der Schwangerschaft, bei Schilddrüsenerkrankungen oder Iod-Überempfindlichkeit, und von niemandem länger als einige Wochen.",
+   "warnung": "Dosierung ausschließlich nach Packungsangabe. Iod-entkeimtes Wasser nicht in der Schwangerschaft, bei Schilddrüsenerkrankungen oder Iod-Überempfindlichkeit trinken, und niemand länger als einige Wochen am Stück.",
    "quelle": {
     "t": "CDC (USA): How to Make Water Safe in an Emergency",
     "u": "https://cdc.gov/water-emergency/about",
@@ -314,10 +314,10 @@
    "id": "auf-filter",
    "kategorie": "Aufbereitung",
    "titel": "Wasserfilter",
-   "text": "Tragbare Filter mit absoluter Porengröße von 1 Mikrometer oder kleiner halten Parasiten zurück, 0,3 Mikrometer oder kleiner auch Bakterien. Viren entfernen sie nicht – danach zusätzlich chemisch entkeimen.",
+   "text": "Tragbare Filter mit einer absoluten Porengröße von 1 Mikrometer oder kleiner halten Parasiten wie Giardien und Cryptosporidien zurück, 0,3 Mikrometer oder kleiner auch Bakterien. Viren entfernen sie nicht – die CDC rät, danach zusätzlich chemisch zu entkeimen.",
    "wert": 1,
    "einheit": "Mikrometer Porengröße (höchstens, gegen Parasiten)",
-   "warnung": "Filter machen chemisch verunreinigtes Wasser nicht sicher.",
+   "warnung": null,
    "quelle": {
     "t": "CDC (USA): How to Make Water Safe in an Emergency",
     "u": "https://cdc.gov/water-emergency/about",
@@ -370,7 +370,7 @@
    "id": "lager-ort",
    "kategorie": "Lagern",
    "titel": "Lagerort",
-   "text": "Kühl (etwa 10–21 °C), ohne direkte Sonne und entfernt von Benzin, Pflanzenschutzmitteln und anderen giftigen Stoffen lagern.",
+   "text": "Kühl (etwa 10–21 °C, CDC: 50–70 °F), ohne direkte Sonne und entfernt von giftigen Stoffen wie Benzin oder Pflanzenschutzmitteln lagern.",
    "wert": 21,
    "einheit": "°C (höchstens, Bereich 10–21 °C)",
    "warnung": null,
@@ -384,7 +384,7 @@
    "id": "lager-mineral",
    "kategorie": "Lagern",
    "titel": "Ein Teil als Mineralwasser",
-   "text": "Ein Teil des Vorrats sollte aus gekauftem (Mineral-)Wasser bestehen.",
+   "text": "Ein gewisser Anteil des Vorrats sollte auch aus (Mineral-)Wasser bestehen. Fruchtsäfte und andere Getränke können mitgerechnet werden.",
    "wert": null,
    "einheit": null,
    "warnung": null,

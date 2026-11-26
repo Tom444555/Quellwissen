@@ -160,7 +160,7 @@
    "id": "notfallausweis",
    "feldtyp": "text",
    "titel": "Notfallausweis",
-   "text": "Angaben zu Krankheiten, Allergien, Hilfsmitteln und Notfallkontakten – auch digital auf dem Smartphone möglich.",
+   "text": "Notfallausweis mit wichtigen Angaben; viele Smartphones bieten an, ihn digital anzulegen – er lässt sich dann auch bei gesperrtem Bildschirm öffnen.",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -230,21 +230,21 @@
    "id": "nr-112",
    "feldtyp": "nummer",
    "titel": "Notruf Feuerwehr und Rettungsdienst",
-   "text": "112 – europaweit und kostenfrei.",
+   "text": "112 – Feuerwehr und Rettungsdienst; europaweit einheitliche Notrufnummer. Bei Lebensgefahr, z. B. starken Brustschmerzen oder schweren Verletzungen.",
    "wert": 112,
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
-    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
-    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+    "t": "Bundesministerium für Gesundheit: Medizinische Hilfe rund um die Uhr (116117 / 112)",
+    "u": "https://www.bundesgesundheitsministerium.de/ministerium/meldungen/2019/bereitschaftsdienst.html",
+    "stand": "11.02.2019"
    }
   },
   {
    "id": "nr-110",
    "feldtyp": "nummer",
    "titel": "Notruf Polizei",
-   "text": "110.",
+   "text": "110 – Polizei.",
    "wert": 110,
    "einheit": null,
    "warnung": null,
@@ -258,38 +258,38 @@
    "id": "nr-115",
    "feldtyp": "nummer",
    "titel": "Behördenrufnummer",
-   "text": "115.",
+   "text": "115 – Behördennummer für Fragen an die Verwaltung von Bund, Ländern und Kommunen; Montag bis Freitag 8–18 Uhr (in einigen Regionen länger), zum Ortstarif.",
    "wert": 115,
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
-    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
-    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+    "t": "Verwaltungsportal des Bundes: Behördennummer 115",
+    "u": "https://verwaltung.bund.de/leistungsverzeichnis/DE/leistung/99144017000000",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
    }
   },
   {
    "id": "nr-116117",
    "feldtyp": "nummer",
    "titel": "Ärztlicher Bereitschaftsdienst",
-   "text": "116117.",
+   "text": "116117 – ärztlicher Bereitschaftsdienst; deutschlandweit und kostenfrei. Bei Lebensgefahr 112.",
    "wert": 116117,
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
-    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
-    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+    "t": "Bundesministerium für Gesundheit: Medizinische Hilfe rund um die Uhr (116117 / 112)",
+    "u": "https://www.bundesgesundheitsministerium.de/ministerium/meldungen/2019/bereitschaftsdienst.html",
+    "stand": "11.02.2019"
    }
   },
   {
    "id": "nr-gift-saar",
    "feldtyp": "nummer",
    "titel": "Giftnotruf (Saarland)",
-   "text": "Zuständig für das Saarland ist das Giftinformationszentrum Mainz: 06131 19240.",
+   "text": "Laut BfR ist für das Saarland das Giftinformationszentrum Mainz zuständig: 06131 19240.",
    "wert": "06131 19240",
    "einheit": null,
-   "warnung": null,
+   "warnung": "Das BfR (Stand 22.07.2026) nennt für das Saarland nur das GIZ Mainz (06131 19240). Einige Kreis- und Gemeindeseiten nennen noch 06841 19240 (Homburg); in der aktuellen BfR-Liste steht Homburg nicht. Bei lebensbedrohlichen Anzeichen immer den Notruf 112 wählen.",
    "quelle": {
     "t": "BfR: Giftinformationszentren in Deutschland",
     "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
@@ -314,7 +314,7 @@
    "id": "nr-eigene",
    "feldtyp": "liste",
    "titel": "Eigene Nummern",
-   "text": "Platz für Krankentransport, Apothekenbereitschaft, Stadtwerke/Netzbetreiber, Stadt- oder Gemeindeverwaltung.",
+   "text": "Platz für Krankentransport, Giftnotruf, Apothekenbereitschaft, Stadtwerke/Netzbetreiber und Stadt- oder Gemeindeverwaltung (Felder laut BBK-Checkliste).",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -328,21 +328,21 @@
    "id": "nr-seelsorge",
    "feldtyp": "nummer",
    "titel": "Telefonseelsorge",
-   "text": "Rund um die Uhr, kostenlos, auf Wunsch anonym: 0800 111 0 111, 0800 111 0 222, 116 123.",
+   "text": "Telefonseelsorge: kostenfrei, anonym und rund um die Uhr: 0800 111 0 111 oder 0800 111 0 222; der BBK-Ratgeber nennt zusätzlich 116 123.",
    "wert": "0800 111 0 111",
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
-    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
-    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+    "t": "Bundesregierung: Hilfs- und Krisentelefone (Telefonseelsorge)",
+    "u": "https://www.bundesregierung.de/breg-de/service/fragen-und-anworten/hilfs-und-krisentelefone-2009712",
+    "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
    }
   },
   {
    "id": "ohne-netz",
    "feldtyp": "haken",
    "titel": "Wenn 110 und 112 nicht erreichbar sind",
-   "text": "Zur nächsten Polizeiwache oder zu einem Krankenhaus gehen.",
+   "text": "Im Notfall, wenn möglich, zur nächsten Polizeiwache oder ins Krankenhaus gehen.",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -356,7 +356,7 @@
    "id": "nora",
    "feldtyp": "haken",
    "titel": "Notruf ohne Sprechen",
-   "text": "Die offizielle Notruf-App nora ermöglicht einen Notruf ohne Sprechen.",
+   "text": "Mit der offiziellen Notruf-App nora kann man einen Notruf absetzen, ohne sprechen zu müssen (www.nora-notruf.de).",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -397,6 +397,21 @@
    "t": "BfR: Giftinformationszentren in Deutschland",
    "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
    "stand": "22.07.2026"
+  },
+  {
+   "t": "Bundesministerium für Gesundheit: Medizinische Hilfe rund um die Uhr (116117 / 112)",
+   "u": "https://www.bundesgesundheitsministerium.de/ministerium/meldungen/2019/bereitschaftsdienst.html",
+   "stand": "11.02.2019"
+  },
+  {
+   "t": "Verwaltungsportal des Bundes: Behördennummer 115",
+   "u": "https://verwaltung.bund.de/leistungsverzeichnis/DE/leistung/99144017000000",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Bundesregierung: Hilfs- und Krisentelefone (Telefonseelsorge)",
+   "u": "https://www.bundesregierung.de/breg-de/service/fragen-und-anworten/hilfs-und-krisentelefone-2009712",
+   "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
   }
  ],
  "hinweis": "Feld 'feldtyp' (text, liste, person, nummer, haken) ist ein Vorschlag für die Eingabemaske und eine Ergänzung zum Grundformat. Das DRK-Angebot zum Notfallplan konnte nicht geöffnet werden; ersatzweise Johanniter und ASB (ebenfalls anerkannte Hilfsorganisationen). Die Empfehlung einer Kontaktperson außerhalb der Region ist in den gelesenen Quellen nicht enthalten."
