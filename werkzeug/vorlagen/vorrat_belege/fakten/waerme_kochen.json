@@ -1,0 +1,526 @@
+{
+ "thema": "Wärme und Kochen ohne Strom",
+ "stand": "26.11.2026",
+ "eintraege": [
+  {
+   "id": "b-fluessiggas",
+   "kategorie": "Brennstoffe",
+   "titel": "Flüssiggas (Kartuschen)",
+   "text": "Flüssiggas hat einen Heizwert von rund 45,4 MJ je kg, das sind etwa 12,6 kWh je kg (umgerechnet).",
+   "wert": 12.6,
+   "einheit": "kWh je kg",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerisches Landesamt für Statistik: Heizwerte der Energieträger (Energiebilanz 2015)",
+    "u": "https://www.StMWi.bayern.de/fileadmin/user_upload/stmwi/Energie/Energiedaten/Energiebilanz_2015/heizwerte.pdf",
+    "stand": "21.11.2018"
+   }
+  },
+  {
+   "id": "b-butan",
+   "kategorie": "Brennstoffe",
+   "titel": "Butan",
+   "text": "n-Butan: 45,3 MJ je kg (unterer Heizwert), etwa 12,6 kWh je kg.",
+   "wert": 12.6,
+   "einheit": "kWh je kg",
+   "warnung": null,
+   "quelle": {
+    "t": "Argonne National Laboratory, GREET: Lower and Higher Heating Values of Gas, Liquid and Solid Fuels (Kursunterlage Univ. Illinois)",
+    "u": "https://courses.grainger.illinois.edu/npre470/sp2018/web/Lower_and_Higher_Heating_Values_of_Gas_Liquid_and_Solid_Fuels.pdf",
+    "stand": "26.08.2010"
+   }
+  },
+  {
+   "id": "b-kartusche-190",
+   "kategorie": "Brennstoffe",
+   "titel": "Gaskartusche 190 g",
+   "text": "Bei 12,6 kWh je kg enthalten 190 g Gas rechnerisch etwa 2,4 kWh (Richtwert, gerechnet; die Brenndauer hängt vom Brenner ab).",
+   "wert": 2.4,
+   "einheit": "kWh (gerechnet)",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerisches Landesamt für Statistik: Heizwerte der Energieträger (Energiebilanz 2015)",
+    "u": "https://www.StMWi.bayern.de/fileadmin/user_upload/stmwi/Energie/Energiedaten/Energiebilanz_2015/heizwerte.pdf",
+    "stand": "21.11.2018"
+   }
+  },
+  {
+   "id": "b-kartusche-230",
+   "kategorie": "Brennstoffe",
+   "titel": "Gaskartusche 230 g",
+   "text": "230 g Gas enthalten rechnerisch etwa 2,9 kWh (Richtwert, gerechnet).",
+   "wert": 2.9,
+   "einheit": "kWh (gerechnet)",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerisches Landesamt für Statistik: Heizwerte der Energieträger (Energiebilanz 2015)",
+    "u": "https://www.StMWi.bayern.de/fileadmin/user_upload/stmwi/Energie/Energiedaten/Energiebilanz_2015/heizwerte.pdf",
+    "stand": "21.11.2018"
+   }
+  },
+  {
+   "id": "b-kartusche-450",
+   "kategorie": "Brennstoffe",
+   "titel": "Gaskartusche 450 g",
+   "text": "450 g Gas enthalten rechnerisch etwa 5,7 kWh (Richtwert, gerechnet).",
+   "wert": 5.7,
+   "einheit": "kWh (gerechnet)",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerisches Landesamt für Statistik: Heizwerte der Energieträger (Energiebilanz 2015)",
+    "u": "https://www.StMWi.bayern.de/fileadmin/user_upload/stmwi/Energie/Energiedaten/Energiebilanz_2015/heizwerte.pdf",
+    "stand": "21.11.2018"
+   }
+  },
+  {
+   "id": "b-ethanol",
+   "kategorie": "Brennstoffe",
+   "titel": "Brennspiritus (Ethanol)",
+   "text": "Ethanol: 27,0 MJ je kg (unterer Heizwert), etwa 7,5 kWh je kg. Brennspiritus ist vergälltes Ethanol mit etwas Wasser; der Wert ist daher eine Obergrenze.",
+   "wert": 7.5,
+   "einheit": "kWh je kg (Obergrenze)",
+   "warnung": null,
+   "quelle": {
+    "t": "Argonne National Laboratory, GREET: Lower and Higher Heating Values of Gas, Liquid and Solid Fuels (Kursunterlage Univ. Illinois)",
+    "u": "https://courses.grainger.illinois.edu/npre470/sp2018/web/Lower_and_Higher_Heating_Values_of_Gas_Liquid_and_Solid_Fuels.pdf",
+    "stand": "26.08.2010"
+   }
+  },
+  {
+   "id": "b-petroleum",
+   "kategorie": "Brennstoffe",
+   "titel": "Petroleum",
+   "text": "Petroleum: 42,8 MJ je kg, etwa 11,9 kWh je kg (umgerechnet).",
+   "wert": 11.9,
+   "einheit": "kWh je kg",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerisches Landesamt für Statistik: Heizwerte der Energieträger (Energiebilanz 2015)",
+    "u": "https://www.StMWi.bayern.de/fileadmin/user_upload/stmwi/Energie/Energiedaten/Energiebilanz_2015/heizwerte.pdf",
+    "stand": "21.11.2018"
+   }
+  },
+  {
+   "id": "b-holz-kg",
+   "kategorie": "Brennstoffe",
+   "titel": "Brennholz je kg",
+   "text": "Lufttrockenes Holz mit 20 % Wassergehalt: Fichte/Kiefer etwa 4,0 kWh je kg, Buche/Birke etwa 3,9 kWh je kg.",
+   "wert": 3.9,
+   "einheit": "kWh je kg (Buche, 20 % Wasser)",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerische Landesanstalt für Wald und Forstwirtschaft: Merkblatt 20 Scheitholz",
+    "u": "https://lwf.bayern.de/mam/cms04/service/dateien/mb20_scheitholz_2025_rz_web_bf.pdf",
+    "stand": "07/2025"
+   }
+  },
+  {
+   "id": "b-holz-rm",
+   "kategorie": "Brennstoffe",
+   "titel": "Brennholz je Raummeter",
+   "text": "Bei 20 % Wassergehalt: Buche etwa 1.885 kWh, Birke 1.777, Kiefer 1.516, Fichte 1.333 kWh je Raummeter.",
+   "wert": 1885,
+   "einheit": "kWh je Raummeter (Buche)",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerische Landesanstalt für Wald und Forstwirtschaft: Merkblatt 20 Scheitholz",
+    "u": "https://lwf.bayern.de/mam/cms04/service/dateien/mb20_scheitholz_2025_rz_web_bf.pdf",
+    "stand": "07/2025"
+   }
+  },
+  {
+   "id": "b-holz-trocken",
+   "kategorie": "Brennstoffe",
+   "titel": "Nur trockenes Holz",
+   "text": "Nur naturbelassenes, lufttrockenes Holz mit höchstens 20 % Wassergehalt verbrennen. Ungespaltenes Holz braucht bis zu 2 Jahre zum Trocknen.",
+   "wert": 20,
+   "einheit": "% Wassergehalt (höchstens)",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerische Landesanstalt für Wald und Forstwirtschaft: Merkblatt 20 Scheitholz",
+    "u": "https://lwf.bayern.de/mam/cms04/service/dateien/mb20_scheitholz_2025_rz_web_bf.pdf",
+    "stand": "07/2025"
+   }
+  },
+  {
+   "id": "b-wasser-1l",
+   "kategorie": "Brennstoffe",
+   "titel": "Energie für 1 Liter Wasser",
+   "text": "Zum Erwärmen von 1 kg Wasser um 1 K sind 4.190 J nötig. Von 15 auf 100 °C sind das rund 356 kJ = 0,1 kWh je Liter (gerechnet, ohne Verluste; mit Kocher-Verlusten deutlich mehr).",
+   "wert": 0.1,
+   "einheit": "kWh je Liter von 15 auf 100 °C (ohne Verluste)",
+   "warnung": null,
+   "quelle": {
+    "t": "Universität des Saarlandes, Physik: Arbeitsblatt Wärmekapazität",
+    "u": "https://www.uni-saarland.de/fileadmin/upload/fachrichtung/physik/Schule/Waermekapazitaet-Schueler.pdf",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "b-gas-je-liter",
+   "kategorie": "Brennstoffe",
+   "titel": "Gas je Liter Wasser (Richtwert)",
+   "text": "Rechnerisch reichen 0,1 kWh Wärme für 1 Liter; das entspricht etwa 8 g Gas ohne Verluste. Campingkocher nutzen nur einen Teil der Wärme, daher in der Praxis deutlich mehr einplanen (Richtwert, gerechnet).",
+   "wert": 8,
+   "einheit": "g Gas je Liter (theoretisch, ohne Verluste)",
+   "warnung": null,
+   "quelle": {
+    "t": "Bayerisches Landesamt für Statistik: Heizwerte der Energieträger (Energiebilanz 2015)",
+    "u": "https://www.StMWi.bayern.de/fileadmin/user_upload/stmwi/Energie/Energiedaten/Energiebilanz_2015/heizwerte.pdf",
+    "stand": "21.11.2018"
+   }
+  },
+  {
+   "id": "k-innen",
+   "kategorie": "Kochen",
+   "titel": "In Innenräumen möglich",
+   "text": "Stövchen mit Teelicht, Fondue-Set mit Brennpaste und Gaskocher, die ausdrücklich für Innenräume zugelassen sind. Ein Gasherd kann oft weiter genutzt werden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Offenes Feuer und Verbrennung in Innenräumen können unsichtbares, geruchloses Kohlenmonoxid bilden – Lebensgefahr.",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "k-aussen",
+   "kategorie": "Kochen",
+   "titel": "Nur im Freien",
+   "text": "Campingkocher mit Gaskartusche, Gas- und Holzkohlegrill nur im Freien verwenden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Nicht in der Wohnung oder im Haus grillen – es besteht Erstickungsgefahr.",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "k-haftung",
+   "kategorie": "Kochen",
+   "titel": "Herstellerangabe beachten",
+   "text": "Ein Gerät, das der Hersteller nur für außen zugelassen hat, drinnen zu betreiben, kann im Schadensfall als grob fahrlässig gewertet werden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "k-gerichte",
+   "kategorie": "Kochen",
+   "titel": "Energiesparend kochen",
+   "text": "Eintopfgerichte mit kurzer Garzeit wählen, z. B. Getreideflocken, Couscous, Bulgur oder geschälte Hülsenfrüchte.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "k-deckel",
+   "kategorie": "Kochen",
+   "titel": "Mit Deckel kochen",
+   "text": "Bei fest geschlossenem Deckel entweicht kaum Dampf; Kartoffeln, Reis und Eier garen deutlich schneller.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BZfE: Beim Kochen Energie und Wasser sparen",
+    "u": "https://www.bzfe.de/presse/pressemeldungen-archiv/beim-kochen-energie-und-wasser-sparen",
+    "stand": "16.10.2024"
+   }
+  },
+  {
+   "id": "k-lueften",
+   "kategorie": "Kochen",
+   "titel": "Lüften beim Kochen",
+   "text": "Bei Kerzen oder Gaskochern regelmäßig lüften und offenes Feuer nie unbeobachtet lassen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadt Plettenberg: Notfall-Ratgeber Energieausfall",
+    "u": "https://www.plettenberg.de/krise/notfall-ratgeber/energieausfall",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "kk-prinzip",
+   "kategorie": "Kochkiste",
+   "titel": "Kochkiste: Prinzip",
+   "text": "Das Gericht kurz ankochen und im fest verschlossenen Topf in einer gut isolierten Kiste ohne weitere Energie nachgaren. Nichts brennt an oder kocht über.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BZfE (Bundeszentrum für Ernährung): Energie sparen mit der Kochkiste",
+    "u": "https://www.bzfe.de/presse/pressemeldungen-archiv/energie-sparen-mit-der-kochkiste",
+    "stand": "03.01.2023"
+   }
+  },
+  {
+   "id": "kk-erbsen",
+   "kategorie": "Kochkiste",
+   "titel": "Kochkiste: Erbsensuppe",
+   "text": "Etwa 15 Minuten kochen, dann 2 bis 3 Stunden in der Kiste garen.",
+   "wert": 15,
+   "einheit": "Minuten ankochen (dann 2–3 h Kiste)",
+   "warnung": null,
+   "quelle": {
+    "t": "BZfE (Bundeszentrum für Ernährung): Energie sparen mit der Kochkiste",
+    "u": "https://www.bzfe.de/presse/pressemeldungen-archiv/energie-sparen-mit-der-kochkiste",
+    "stand": "03.01.2023"
+   }
+  },
+  {
+   "id": "kk-milchreis",
+   "kategorie": "Kochkiste",
+   "titel": "Kochkiste: Milchreis",
+   "text": "Reis in kochende Milch einrühren und etwa 1 Stunde in der Kiste garen.",
+   "wert": 1,
+   "einheit": "Stunde in der Kiste",
+   "warnung": null,
+   "quelle": {
+    "t": "BZfE (Bundeszentrum für Ernährung): Energie sparen mit der Kochkiste",
+    "u": "https://www.bzfe.de/presse/pressemeldungen-archiv/energie-sparen-mit-der-kochkiste",
+    "stand": "03.01.2023"
+   }
+  },
+  {
+   "id": "kk-geeignet",
+   "kategorie": "Kochkiste",
+   "titel": "Kochkiste: geeignet",
+   "text": "Geeignet sind u. a. Reis, Hirse, Quinoa, Maisgrieß, Kartoffeln, Rotkohl, Hülsenfrüchte, Hühner- und Rindfleischsuppe und Gulasch.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BZfE (Bundeszentrum für Ernährung): Energie sparen mit der Kochkiste",
+    "u": "https://www.bzfe.de/presse/pressemeldungen-archiv/energie-sparen-mit-der-kochkiste",
+    "stand": "03.01.2023"
+   }
+  },
+  {
+   "id": "h-kleidung",
+   "kategorie": "Heizen",
+   "titel": "Warm bleiben",
+   "text": "Warme Kleidung, Schuhe, Wolldecken und eine Wärmflasche bereithalten. Heiße Getränke helfen beim Aufwärmen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadt Plettenberg: Notfall-Ratgeber Energieausfall",
+    "u": "https://www.plettenberg.de/krise/notfall-ratgeber/energieausfall",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "h-ein-raum",
+   "kategorie": "Heizen",
+   "titel": "Nur einen Raum nutzen",
+   "text": "Nur einen Raum beheizen, Fenster und Türen abdichten und geschlossen halten. Gelegentlich lüften, aber Zugluft vermeiden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadt Plettenberg: Notfall-Ratgeber Energieausfall",
+    "u": "https://www.plettenberg.de/krise/notfall-ratgeber/energieausfall",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "h-lueften",
+   "kategorie": "Heizen",
+   "titel": "Lüften trotz Kälte",
+   "text": "Regelmäßig für wenige Minuten weit lüften – besonders bei Kerzen und Öfen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "h-zugelassen",
+   "kategorie": "Heizen",
+   "titel": "Zugelassene Geräte",
+   "text": "Für Innenräume zugelassene Gasheizer, Ethanolkamine und Petroleumöfen funktionieren ohne Strom. Gasbetriebene Geräte brauchen Sicherheitseinrichtungen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Keine Gas- oder Petroleum-Heizquellen nutzen, die nicht für Innenräume zugelassen sind.",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "h-kamin",
+   "kategorie": "Heizen",
+   "titel": "Kamin- und Kachelofen",
+   "text": "Wer einen Kamin oder Ofen hat, legt einen Vorrat an Holz, Briketts oder Kohle an. Alternative Heizquellen von Fachleuten prüfen lassen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "h-teelichtofen",
+   "kategorie": "Heizen",
+   "titel": "Keine Teelichtöfen",
+   "text": "Teelichtöfen nicht verwenden – es droht ein Wachsbrand.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Brandgefahr durch Wachsbrand.",
+   "quelle": {
+    "t": "Stadt Plettenberg: Notfall-Ratgeber Energieausfall",
+    "u": "https://www.plettenberg.de/krise/notfall-ratgeber/energieausfall",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "h-grill-heizstrahler",
+   "kategorie": "Heizen",
+   "titel": "Kein Grill und kein Heizstrahler drinnen",
+   "text": "Holzkohlegrill oder Heizstrahler unter keinen Umständen in Wohnung oder Garage nutzen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Offenes Feuer und Verbrennung in Innenräumen können unsichtbares, geruchloses Kohlenmonoxid bilden – Lebensgefahr.",
+   "quelle": {
+    "t": "Kreisbrandinspektion Dachau: Gefahren durch Kohlenstoffmonoxid",
+    "u": "https://www.kbi-dachau.de/gefahren-durch-kohlenmonoxid.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "h-elektro",
+   "kategorie": "Heizen",
+   "titel": "Elektroheizer nicht sofort",
+   "text": "Fällt nur die Heizung aus, elektrische Heizgeräte nicht sofort einschalten – wenn viele das gleichzeitig tun, droht eine Überlastung des Stromnetzes.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadt Plettenberg: Notfall-Ratgeber Energieausfall",
+    "u": "https://www.plettenberg.de/krise/notfall-ratgeber/energieausfall",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "co-melder",
+   "kategorie": "Heizen",
+   "titel": "Kohlenmonoxid-Melder",
+   "text": "Ein geprüfter CO-Melder erhöht die Sicherheit. Empfohlen sind Geräte nach EN 50291; Montage an der Decke mit mindestens 30 cm Abstand zur Wand, nicht direkt über Ofen oder Kamin.",
+   "wert": 30,
+   "einheit": "cm Abstand zur Wand (mindestens)",
+   "warnung": null,
+   "quelle": {
+    "t": "Kreisbrandinspektion Dachau: Gefahren durch Kohlenstoffmonoxid",
+    "u": "https://www.kbi-dachau.de/gefahren-durch-kohlenmonoxid.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "co-symptome",
+   "kategorie": "Heizen",
+   "titel": "Anzeichen einer CO-Vergiftung",
+   "text": "Kopfschmerzen, Benommenheit und Übelkeit, später Schwindel, Verwirrtheit, Herzrasen bis Bewusstlosigkeit.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Kreisbrandinspektion Dachau: Gefahren durch Kohlenstoffmonoxid",
+    "u": "https://www.kbi-dachau.de/gefahren-durch-kohlenmonoxid.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "co-alarm",
+   "kategorie": "Heizen",
+   "titel": "Bei CO-Alarm",
+   "text": "Gebäude sofort mit allen Personen verlassen, wenn möglich Türen und Fenster öffnen, über 112 Feuerwehr und Rettungsdienst rufen. Draußen warten, nicht zurückgehen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Nicht ins Haus zurückgehen.",
+   "quelle": {
+    "t": "Kreisbrandinspektion Dachau: Gefahren durch Kohlenstoffmonoxid",
+    "u": "https://www.kbi-dachau.de/gefahren-durch-kohlenmonoxid.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  }
+ ],
+ "quellen": [
+  {
+   "t": "Bayerisches Landesamt für Statistik: Heizwerte der Energieträger (Energiebilanz 2015)",
+   "u": "https://www.StMWi.bayern.de/fileadmin/user_upload/stmwi/Energie/Energiedaten/Energiebilanz_2015/heizwerte.pdf",
+   "stand": "21.11.2018"
+  },
+  {
+   "t": "Argonne National Laboratory, GREET: Lower and Higher Heating Values of Gas, Liquid and Solid Fuels (Kursunterlage Univ. Illinois)",
+   "u": "https://courses.grainger.illinois.edu/npre470/sp2018/web/Lower_and_Higher_Heating_Values_of_Gas_Liquid_and_Solid_Fuels.pdf",
+   "stand": "26.08.2010"
+  },
+  {
+   "t": "Bayerische Landesanstalt für Wald und Forstwirtschaft: Merkblatt 20 Scheitholz",
+   "u": "https://lwf.bayern.de/mam/cms04/service/dateien/mb20_scheitholz_2025_rz_web_bf.pdf",
+   "stand": "07/2025"
+  },
+  {
+   "t": "Universität des Saarlandes, Physik: Arbeitsblatt Wärmekapazität",
+   "u": "https://www.uni-saarland.de/fileadmin/upload/fachrichtung/physik/Schule/Waermekapazitaet-Schueler.pdf",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+   "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+   "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+  },
+  {
+   "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+   "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+   "stand": "04.08.2026"
+  },
+  {
+   "t": "BZfE: Beim Kochen Energie und Wasser sparen",
+   "u": "https://www.bzfe.de/presse/pressemeldungen-archiv/beim-kochen-energie-und-wasser-sparen",
+   "stand": "16.10.2024"
+  },
+  {
+   "t": "Stadt Plettenberg: Notfall-Ratgeber Energieausfall",
+   "u": "https://www.plettenberg.de/krise/notfall-ratgeber/energieausfall",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BZfE (Bundeszentrum für Ernährung): Energie sparen mit der Kochkiste",
+   "u": "https://www.bzfe.de/presse/pressemeldungen-archiv/energie-sparen-mit-der-kochkiste",
+   "stand": "03.01.2023"
+  },
+  {
+   "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+   "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Kreisbrandinspektion Dachau: Gefahren durch Kohlenstoffmonoxid",
+   "u": "https://www.kbi-dachau.de/gefahren-durch-kohlenmonoxid.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  }
+ ],
+ "hinweis": "Energieinhalte der Kartuschen und der Wasserbedarf sind aus Heizwert bzw. Wärmekapazität gerechnet (Richtwert); tatsächliche Brenndauern hängen vom Brenner ab und stehen im Herstellerdatenblatt. Heizwerte sind untere Heizwerte. Für Trockenbrennstoff, Thermoskannen-Garen und Topf über Glut fand sich keine seriöse Quelle (siehe OFFEN.md)."
+}

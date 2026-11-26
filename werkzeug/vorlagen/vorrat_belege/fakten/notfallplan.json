@@ -1,0 +1,403 @@
+{
+ "thema": "Familien-Notfallplan (Felder für die App)",
+ "stand": "26.11.2026",
+ "eintraege": [
+  {
+   "id": "treffpunkt-nah",
+   "feldtyp": "text",
+   "titel": "Treffpunkt in der Nähe",
+   "text": "Ein sicherer Treffpunkt nahe der Wohnung, z. B. ein Park oder öffentlicher Platz – für den Fall, dass nicht alle zu Hause sind und Netze ausfallen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Johanniter-Unfall-Hilfe (Landesverband Nord): Der Familien-Notfallplan",
+    "u": "https://www.johanniter.de/juh/lv-nord/unsere-jahresthemen-im-norden/bereit-fuer-alle-faelle/so-sind-sie-gut-vorbereitet/der-familien-notfallplan/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "treffpunkt-fern",
+   "feldtyp": "text",
+   "titel": "Treffpunkt weiter entfernt",
+   "text": "Ein zweiter, weiter entfernter Treffpunkt für den Fall, dass die ganze Nachbarschaft geräumt wird.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Johanniter-Unfall-Hilfe (Landesverband Nord): Der Familien-Notfallplan",
+    "u": "https://www.johanniter.de/juh/lv-nord/unsere-jahresthemen-im-norden/bereit-fuer-alle-faelle/so-sind-sie-gut-vorbereitet/der-familien-notfallplan/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "anlaufstelle",
+   "feldtyp": "text",
+   "titel": "Örtliche Anlaufstelle",
+   "text": "Vorab wissen, wo man vor Ort Informationen bekommt, z. B. Rathaus oder Notfalltreffpunkt der Gemeinde.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "fluchtwege",
+   "feldtyp": "text",
+   "titel": "Fluchtwege und Erreichbarkeiten",
+   "text": "Mit der Familie Fluchtwege, Treffpunkte und Erreichbarkeiten besprechen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Ratgeber für Notfallvorsorge und richtiges Handeln in Notsituationen (bereitgestellt vom Sächsischen Staatsministerium des Innern)",
+    "u": "https://www.bevoelkerungsschutz.sachsen.de/download/2013_08_Ratgeber_BBK.pdf",
+    "stand": "1. Auflage, 08/2013"
+   }
+  },
+  {
+   "id": "kontaktzeiten",
+   "feldtyp": "text",
+   "titel": "Vereinbarte Kontaktzeiten",
+   "text": "Bei Stromausfall feste Zeiten vereinbaren, zu denen man sich bei Angehörigen meldet.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Arbeiter-Samariter-Bund: Tipps für Notlagen",
+    "u": "https://www.asb.de/unsere-angebote/asb-rettungsdienst-katastrophenschutz/tipps-fuer-notlagen",
+    "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "kontakte",
+   "feldtyp": "liste",
+   "titel": "Kontaktliste",
+   "text": "Familie, Freunde, Nachbarn, Kita, Schule, Arbeitsplatz. Nicht nur im Smartphone speichern.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Arbeiter-Samariter-Bund: Tipps für Notlagen",
+    "u": "https://www.asb.de/unsere-angebote/asb-rettungsdienst-katastrophenschutz/tipps-fuer-notlagen",
+    "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "kontakte-papier",
+   "feldtyp": "haken",
+   "titel": "Kontaktliste auf Papier",
+   "text": "Jedes Familienmitglied trägt eine Papierkopie bei sich, z. B. im Portemonnaie. Regelmäßig aktualisieren.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Smartphones und Netze können ausfallen – Papierliste ist Pflicht.",
+   "quelle": {
+    "t": "Johanniter-Unfall-Hilfe (Landesverband Nord): Der Familien-Notfallplan",
+    "u": "https://www.johanniter.de/juh/lv-nord/unsere-jahresthemen-im-norden/bereit-fuer-alle-faelle/so-sind-sie-gut-vorbereitet/der-familien-notfallplan/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "kinder-einrichtung",
+   "feldtyp": "text",
+   "titel": "Kinder: Kita und Schule",
+   "text": "Sicherstellen, dass Kita oder Schule die Familie erreichen kann, und deren Evakuierungspläne kennen: Wo wird das Kind nach einer Räumung abgeholt?",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Johanniter-Unfall-Hilfe (Landesverband Nord): Der Familien-Notfallplan",
+    "u": "https://www.johanniter.de/juh/lv-nord/unsere-jahresthemen-im-norden/bereit-fuer-alle-faelle/so-sind-sie-gut-vorbereitet/der-familien-notfallplan/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "kinder-wer",
+   "feldtyp": "person",
+   "titel": "Wer holt die Kinder?",
+   "text": "Festlegen, wer sich um Kinder, ältere Angehörige und Haustiere kümmert.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Arbeiter-Samariter-Bund: Tipps für Notlagen",
+    "u": "https://www.asb.de/unsere-angebote/asb-rettungsdienst-katastrophenschutz/tipps-fuer-notlagen",
+    "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "kinder-ausweis",
+   "feldtyp": "haken",
+   "titel": "Notfallkarte für Kinder",
+   "text": "Für Kinder einen Brustbeutel oder eine Kapsel mit Name, Geburtsdatum und Anschrift.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Ratgeber für Notfallvorsorge und richtiges Handeln in Notsituationen (bereitgestellt vom Sächsischen Staatsministerium des Innern)",
+    "u": "https://www.bevoelkerungsschutz.sachsen.de/download/2013_08_Ratgeber_BBK.pdf",
+    "stand": "1. Auflage, 08/2013"
+   }
+  },
+  {
+   "id": "pflege",
+   "feldtyp": "text",
+   "titel": "Pflegebedürftige Angehörige",
+   "text": "Besondere Bedürfnisse, Medikamente und barrierefreie Wege einplanen. Klären, ob Hausnotruf, Pflegedienst oder Essen auf Rädern bei längerem Ausfall weiter verfügbar sind.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  },
+  {
+   "id": "notfallausweis",
+   "feldtyp": "text",
+   "titel": "Notfallausweis",
+   "text": "Angaben zu Krankheiten, Allergien, Hilfsmitteln und Notfallkontakten – auch digital auf dem Smartphone möglich.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "haustiere",
+   "feldtyp": "text",
+   "titel": "Haustiere",
+   "text": "Futter, Wasser, stabile Transportbox, Impfpass und tierärztliche Bescheinigungen bereithalten. Für größere Tiere eine Unterbringung überlegen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Johanniter-Unfall-Hilfe (Landesverband Nord): Der Familien-Notfallplan",
+    "u": "https://www.johanniter.de/juh/lv-nord/unsere-jahresthemen-im-norden/bereit-fuer-alle-faelle/so-sind-sie-gut-vorbereitet/der-familien-notfallplan/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "nachbarn",
+   "feldtyp": "liste",
+   "titel": "Nachbarschaft",
+   "text": "Nachbarn als Kontaktpersonen einbeziehen. Für den Ausfall von Telefon und Mobilfunk Zeichen mit Nachbarn absprechen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Ratgeber für Notfallvorsorge und richtiges Handeln in Notsituationen (bereitgestellt vom Sächsischen Staatsministerium des Innern)",
+    "u": "https://www.bevoelkerungsschutz.sachsen.de/download/2013_08_Ratgeber_BBK.pdf",
+    "stand": "1. Auflage, 08/2013"
+   }
+  },
+  {
+   "id": "aufgaben",
+   "feldtyp": "liste",
+   "titel": "Aufgabenverteilung",
+   "text": "Jedem Familienmitglied Aufgaben geben, z. B. Kontakte aktualisieren oder Notfallausrüstung prüfen. Plan regelmäßig gemeinsam überprüfen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Johanniter-Unfall-Hilfe (Landesverband Nord): Der Familien-Notfallplan",
+    "u": "https://www.johanniter.de/juh/lv-nord/unsere-jahresthemen-im-norden/bereit-fuer-alle-faelle/so-sind-sie-gut-vorbereitet/der-familien-notfallplan/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "dokumente-ort",
+   "feldtyp": "text",
+   "titel": "Ort der Dokumentenmappe",
+   "text": "Alle Familienmitglieder wissen, wo die Dokumentenmappe liegt.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Ratgeber für Notfallvorsorge und richtiges Handeln in Notsituationen (bereitgestellt vom Sächsischen Staatsministerium des Innern)",
+    "u": "https://www.bevoelkerungsschutz.sachsen.de/download/2013_08_Ratgeber_BBK.pdf",
+    "stand": "1. Auflage, 08/2013"
+   }
+  },
+  {
+   "id": "nr-112",
+   "feldtyp": "nummer",
+   "titel": "Notruf Feuerwehr und Rettungsdienst",
+   "text": "112 – europaweit und kostenfrei.",
+   "wert": 112,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "nr-110",
+   "feldtyp": "nummer",
+   "titel": "Notruf Polizei",
+   "text": "110.",
+   "wert": 110,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "nr-115",
+   "feldtyp": "nummer",
+   "titel": "Behördenrufnummer",
+   "text": "115.",
+   "wert": 115,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "nr-116117",
+   "feldtyp": "nummer",
+   "titel": "Ärztlicher Bereitschaftsdienst",
+   "text": "116117.",
+   "wert": 116117,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "nr-gift-saar",
+   "feldtyp": "nummer",
+   "titel": "Giftnotruf (Saarland)",
+   "text": "Zuständig für das Saarland ist das Giftinformationszentrum Mainz: 06131 19240.",
+   "wert": "06131 19240",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BfR: Giftinformationszentren in Deutschland",
+    "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
+    "stand": "22.07.2026"
+   }
+  },
+  {
+   "id": "nr-gift-andere",
+   "feldtyp": "nummer",
+   "titel": "Giftnotruf (andere Länder)",
+   "text": "Zuständiges Giftinformationszentrum je Bundesland aus der BfR-Liste eintragen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BfR: Giftinformationszentren in Deutschland",
+    "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
+    "stand": "22.07.2026"
+   }
+  },
+  {
+   "id": "nr-eigene",
+   "feldtyp": "liste",
+   "titel": "Eigene Nummern",
+   "text": "Platz für Krankentransport, Apothekenbereitschaft, Stadtwerke/Netzbetreiber, Stadt- oder Gemeindeverwaltung.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "nr-seelsorge",
+   "feldtyp": "nummer",
+   "titel": "Telefonseelsorge",
+   "text": "Rund um die Uhr, kostenlos, auf Wunsch anonym: 0800 111 0 111, 0800 111 0 222, 116 123.",
+   "wert": "0800 111 0 111",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "ohne-netz",
+   "feldtyp": "haken",
+   "titel": "Wenn 110 und 112 nicht erreichbar sind",
+   "text": "Zur nächsten Polizeiwache oder zu einem Krankenhaus gehen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "nora",
+   "feldtyp": "haken",
+   "titel": "Notruf ohne Sprechen",
+   "text": "Die offizielle Notruf-App nora ermöglicht einen Notruf ohne Sprechen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  }
+ ],
+ "quellen": [
+  {
+   "t": "Johanniter-Unfall-Hilfe (Landesverband Nord): Der Familien-Notfallplan",
+   "u": "https://www.johanniter.de/juh/lv-nord/unsere-jahresthemen-im-norden/bereit-fuer-alle-faelle/so-sind-sie-gut-vorbereitet/der-familien-notfallplan/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+   "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+   "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+  },
+  {
+   "t": "BBK: Ratgeber für Notfallvorsorge und richtiges Handeln in Notsituationen (bereitgestellt vom Sächsischen Staatsministerium des Innern)",
+   "u": "https://www.bevoelkerungsschutz.sachsen.de/download/2013_08_Ratgeber_BBK.pdf",
+   "stand": "1. Auflage, 08/2013"
+  },
+  {
+   "t": "Arbeiter-Samariter-Bund: Tipps für Notlagen",
+   "u": "https://www.asb.de/unsere-angebote/asb-rettungsdienst-katastrophenschutz/tipps-fuer-notlagen",
+   "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
+  },
+  {
+   "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+   "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+   "stand": "Mai 2015"
+  },
+  {
+   "t": "BfR: Giftinformationszentren in Deutschland",
+   "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
+   "stand": "22.07.2026"
+  }
+ ],
+ "hinweis": "Feld 'feldtyp' (text, liste, person, nummer, haken) ist ein Vorschlag für die Eingabemaske und eine Ergänzung zum Grundformat. Das DRK-Angebot zum Notfallplan konnte nicht geöffnet werden; ersatzweise Johanniter und ASB (ebenfalls anerkannte Hilfsorganisationen). Die Empfehlung einer Kontaktperson außerhalb der Region ist in den gelesenen Quellen nicht enthalten."
+}

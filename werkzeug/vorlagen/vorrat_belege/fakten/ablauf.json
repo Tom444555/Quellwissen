@@ -1,0 +1,558 @@
+{
+ "thema": "Stromausfall – Ablauf Schritt für Schritt",
+ "stand": "26.11.2026",
+ "eintraege": [
+  {
+   "id": "h1-ruhe",
+   "abschnitt": "Erste Stunde",
+   "titel": "Ruhe bewahren",
+   "text": "In der Regel werden Stromausfälle in wenigen Stunden behoben. Bei großflächigen Schäden kann es aber Tage dauern.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "h1-pruefen",
+   "abschnitt": "Erste Stunde",
+   "titel": "Sicherung und Nachbarn prüfen",
+   "text": "Sicherungen prüfen und Nachbarn fragen, ob bei ihnen auch der Strom fehlt. Ist das ganze Haus oder Wohngebiet betroffen, die Störungsnummer des Netzbetreibers anrufen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Saarbrücker Stadtwerke: Soforthilfemaßnahmen – Stromversorgung ausgefallen",
+    "u": "https://www.saarbruecker-stadtwerke.de/media/download-636cf3281b83d",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "h1-anzeige",
+   "abschnitt": "Erste Stunde",
+   "titel": "Eine Lampe als Anzeige",
+   "text": "Nur ein Radio oder eine Lampe eingeschaltet lassen – so merkt man, wann der Strom zurück ist.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Saarpfalz-Kreis / Arbeitsgruppe Stromausfall: Flyer Stromausfall",
+    "u": "https://www.saarpfalz-kreis.de/images/SicherheitOrdnungBauenVerkehr/Notfaelle/pdf/Stromausfall_Flyer.pdf",
+    "stand": "04/2019"
+   }
+  },
+  {
+   "id": "h1-geraete-aus",
+   "abschnitt": "Erste Stunde",
+   "titel": "Wärmegeräte ausschalten",
+   "text": "Herd, Ofen, Bügeleisen, Kaffeemaschine, Wasserkocher, Heizdecken und Heizlüfter sofort ausschalten oder ausstecken. So laufen sie nicht unbeaufsichtigt wieder an, wenn der Strom zurückkommt.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Eingeschaltete Herdplatten oder Backöfen können bei Stromrückkehr einen Brand auslösen.",
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "h1-kuehlgeraete-zu",
+   "abschnitt": "Erste Stunde",
+   "titel": "Kühlschrank und Gefriergerät geschlossen lassen",
+   "text": "Türen möglichst lange geschlossen halten, damit die Kälte drinnen bleibt. Ein Kühlschrank hält je nach Füllung und Isolierung etwa 4 bis 6 Stunden kühl.",
+   "wert": 4,
+   "einheit": "Stunden (bis 6) Kühlschrank geschlossen",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "h1-wasser-sichern",
+   "abschnitt": "Erste Stunde",
+   "titel": "Wasser sammeln, solange es noch fließt",
+   "text": "Badewanne, Eimer, Töpfe und saubere, lebensmittelechte Kanister füllen. Das Badewannenwasser dient vor allem der Toilettenspülung; Trinkwasser in saubere Kanister.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Ministerium des Innern und für Kommunales Brandenburg: Wenn der Strom ausfällt … (Ratgeber)",
+    "u": "https://mik.brandenburg.de/sixcms/media.php/9/Broschure_Blackout.pdf",
+    "stand": "April 2016"
+   }
+  },
+  {
+   "id": "h1-licht",
+   "abschnitt": "Erste Stunde",
+   "titel": "Licht ohne Netzstrom",
+   "text": "Taschenlampe mit Ersatzbatterien bereitlegen. Kerzen nur unter Aufsicht und mit Lüftung verwenden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Unbeaufsichtigte offene Flammen erhöhen das Brandrisiko (BBK 2015). Brennende Kerzen nie unbeaufsichtigt lassen (Feuerwehr Heidelberg).",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "h1-radio",
+   "abschnitt": "Erste Stunde",
+   "titel": "Radio einschalten",
+   "text": "Batterie-, Kurbel-, Solar- oder Autoradio nutzen. Warn-Apps und Handywarnungen fallen bei Netzausfall oft aus, das Radio bleibt meist empfangbar.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "h1-telefon",
+   "abschnitt": "Erste Stunde",
+   "titel": "Telefon nur für Dringendes",
+   "text": "Gespräche auf das Nötigste beschränken, damit Notrufe durchkommen. Notrufnummern 110 und 112 nur in echten Notfällen wählen, nicht für Auskünfte.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "h1-akkus",
+   "abschnitt": "Erste Stunde",
+   "titel": "Akkus schonen",
+   "text": "Geladene Powerbank bereitlegen. Das Festnetz fällt nach einigen Stunden aus, Mobilfunknetze sind teils nicht notstromversorgt.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "t1-lebensmittel",
+   "abschnitt": "Erster Tag",
+   "titel": "Erst Verderbliches essen",
+   "text": "Zuerst Lebensmittel aus dem Kühlschrank verbrauchen (Milchprodukte, Fleisch, Fisch, Eierspeisen), solange es darin noch unter 7 °C ist. Danach haltbare Vorräte.",
+   "wert": 7,
+   "einheit": "°C (Obergrenze für zügigen Verbrauch)",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "t1-gefrier",
+   "abschnitt": "Erster Tag",
+   "titel": "Gefriergerät: bis zu 48 Stunden",
+   "text": "Ein gut gefülltes, geschlossenes Gefriergerät hält die Temperatur oft bis zu 48 Stunden. Steigt sie von −18 °C nur bis −12 °C, gelten die Lebensmittel laut BfR als unbedenklich.",
+   "wert": 48,
+   "einheit": "Stunden (höchstens, geschlossen und gut gefüllt)",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "t1-kochen",
+   "abschnitt": "Erster Tag",
+   "titel": "Kalt essen oder sicher kochen",
+   "text": "In Innenräumen nur Stövchen mit Teelicht, Fondue mit Brennpaste oder ausdrücklich für Innenräume zugelassene Gaskocher. Campingkocher mit Kartusche und Grills nur im Freien.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Nicht in der Wohnung oder im Haus grillen – es besteht Erstickungsgefahr (BBK). Offenes Feuer in Innenräumen kann Kohlenmonoxid bilden.",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t1-waerme",
+   "abschnitt": "Erster Tag",
+   "titel": "Warm halten",
+   "text": "Warme Kleidung, Decken und Schlafsäcke nutzen. Regelmäßig für wenige Minuten weit lüften, besonders bei Kerzenlicht.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t1-nachbarn",
+   "abschnitt": "Erster Tag",
+   "titel": "Nachbarn ansprechen",
+   "text": "Nachbarn können Hilfe brauchen oder geben. An ältere, pflegebedürftige oder allein lebende Menschen denken.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "t1-pflege",
+   "abschnitt": "Erster Tag",
+   "titel": "Pflegedienste und Hausnotruf",
+   "text": "Bei pflegebedürftigen Angehörigen klären, ob Hausnotruf, Pflegedienst oder Essen auf Rädern bei längerem Ausfall weiter verfügbar sind.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "t1-bargeld",
+   "abschnitt": "Erster Tag",
+   "titel": "Mit Bargeld rechnen",
+   "text": "Geldautomaten und Kartenzahlung funktionieren ohne Strom nicht. Vorhandenes Bargeld einteilen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "t1-trinken",
+   "abschnitt": "Erster Tag",
+   "titel": "Wasser einteilen",
+   "text": "Richtwert: 2 Liter je Person und Tag, davon 0,5 Liter zum Kochen. Haustiere mit einplanen.",
+   "wert": 2,
+   "einheit": "Liter je Person und Tag (Richtwert)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t1-nicht-generator",
+   "abschnitt": "Erster Tag",
+   "titel": "Kein Stromerzeuger im Haus",
+   "text": "Stromerzeuger nur im Freien an einem gut belüfteten, trockenen Platz betreiben. Einspeisen ins Hausnetz nur durch einen Elektrofachbetrieb.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Stromerzeuger niemals in Wohnung, Keller oder Garage betreiben: giftige Abgase, Erstickungsgefahr. Beim Betanken und an heißen Teilen besteht Brandgefahr.",
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "t1-nicht-heizer",
+   "abschnitt": "Erster Tag",
+   "titel": "Keine Grill- oder Campingheizer drinnen",
+   "text": "Zum Heizen in Innenräumen nur Geräte, die dafür zugelassen sind (z. B. zugelassene Gasheizer, Ethanolkamine, Petroleumöfen). Gasgeräte brauchen Sicherheitseinrichtungen; ein Kohlenmonoxid-Melder erhöht die Sicherheit.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Holzkohle- und Gasgrills sowie Campingkocher in Innenräumen: Lebensgefahr durch Kohlenmonoxid.",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t23-toilette",
+   "abschnitt": "Tag 2–3",
+   "titel": "Toilette mit gesammeltem Wasser spülen",
+   "text": "Gesammeltes Brauchwasser (z. B. aus der Badewanne) für die Toilettenspülung nutzen. Alternativ stabile Müllbeutel zum Einhängen in die Toilette oder eine Campingtoilette.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t23-hygiene",
+   "abschnitt": "Tag 2–3",
+   "titel": "Hygiene mit wenig Wasser",
+   "text": "Feuchttücher, Desinfektionsmittel und Haushaltshandschuhe aus dem Vorrat nutzen. Müll in stabilen Müllbeuteln sammeln.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t23-kuehlgut-pruefen",
+   "abschnitt": "Tag 2–3",
+   "titel": "Kühlgut prüfen",
+   "text": "Was ungewöhnlich aussieht, riecht oder schmeckt, entsorgen. Im Zweifel wegwerfen – Lebensmittelvergiftungen können schwer verlaufen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Angetautes Speiseeis sicherheitshalber entsorgen.",
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "t23-angetaut",
+   "abschnitt": "Tag 2–3",
+   "titel": "Angetaute Tiefkühlkost",
+   "text": "Gegarte Speisen und rohe pflanzliche Lebensmittel bald verbrauchen. Rohe tierische Produkte vollständig durcherhitzen; das gilt auch für TK-Gemüse, Beeren und Sprossen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "t23-informiert",
+   "abschnitt": "Tag 2–3",
+   "titel": "Informiert bleiben",
+   "text": "Regelmäßig Radio hören. Vorab wissen, wo es vor Ort Informationen gibt (z. B. Rathaus, Notfalltreffpunkte). Sind 110 und 112 nicht erreichbar: nächste Polizeiwache oder ein Krankenhaus aufsuchen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t23-medikamente",
+   "abschnitt": "Tag 2–3",
+   "titel": "Medikamente im Blick",
+   "text": "Bei regelmäßigem Bedarf sollten persönliche Medikamente für mindestens 10 Tage vorrätig sein. Rechtzeitig nachfragen, wenn der Vorrat knapp wird.",
+   "wert": 10,
+   "einheit": "Tage Vorrat (Mindestempfehlung)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t410-vorrat",
+   "abschnitt": "Tag 4–10",
+   "titel": "Vorrat für 10 Tage",
+   "text": "Das BBK empfiehlt, sich möglichst 10 Tage selbst versorgen zu können. Schon 3 Tage helfen und lassen sich schrittweise ausbauen.",
+   "wert": 10,
+   "einheit": "Tage (Ziel)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "t410-wasser",
+   "abschnitt": "Tag 4–10",
+   "titel": "Wasserbedarf für 10 Tage",
+   "text": "Bei 2 Litern je Person und Tag braucht ein Drei-Personen-Haushalt 60 Liter für 10 Tage.",
+   "wert": 60,
+   "einheit": "Liter (3 Personen, 10 Tage)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "t410-lueften",
+   "abschnitt": "Tag 4–10",
+   "titel": "Weiter regelmäßig lüften",
+   "text": "Auch wenn es kalt ist: mehrmals täglich kurz weit lüften. Besonders wichtig bei Kerzen, Öfen und Gasgeräten.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "t410-gemeinschaft",
+   "abschnitt": "Tag 4–10",
+   "titel": "Gemeinsam statt allein",
+   "text": "Nachbarschaftshilfe wird im Notfall von den meisten erwartet (93 % laut BBK-Studie 2013). Nachbarn ansprechen und Anlaufstellen der Gemeinde (z. B. Rathaus, Notfalltreffpunkte) nutzen.",
+   "wert": 93,
+   "einheit": "% der Bevölkerung erwarten Nachbarschaftshilfe (2013)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "t410-kraftstoff",
+   "abschnitt": "Tag 4–10",
+   "titel": "Kraftstoff sicher lagern",
+   "text": "Im Keller höchstens 10 kg Benzin oder 20 kg Diesel in geeigneten Kanistern lagern, Gas gar nicht im Keller.",
+   "wert": 10,
+   "einheit": "kg Benzin (Diesel: 20 kg) im Keller höchstens",
+   "warnung": "Brandgefahr beim Umfüllen und Betanken.",
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+   }
+  },
+  {
+   "id": "n-nacheinander",
+   "abschnitt": "Wenn der Strom wieder da ist",
+   "titel": "Geräte nacheinander einschalten",
+   "text": "Nur einschalten, was sofort gebraucht wird, und nacheinander. So wird das Netz nicht überlastet und ein erneuter Ausfall vermieden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Feuerwehr Heidelberg: Stromausfall",
+    "u": "https://www.heidelberg.de/Feuerwehr,Len/feuerwehr/Berufsfeuerwehr/stromausfall.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "n-geraete-pruefen",
+   "abschnitt": "Wenn der Strom wieder da ist",
+   "titel": "Vergessene Geräte ausschalten",
+   "text": "Prüfen, ob Herd, Bügeleisen oder Heizlüfter noch eingeschaltet waren und von selbst wieder anlaufen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Ministerium des Innern und für Kommunales Brandenburg: Wenn der Strom ausfällt … (Ratgeber)",
+    "u": "https://mik.brandenburg.de/sixcms/media.php/9/Broschure_Blackout.pdf",
+    "stand": "April 2016"
+   }
+  },
+  {
+   "id": "n-feucht",
+   "abschnitt": "Wenn der Strom wieder da ist",
+   "titel": "Feuchte Geräte nicht benutzen",
+   "text": "Geräte, die Feuchtigkeit abbekommen haben, nicht einschalten. Uhren und Zeitschaltuhren neu stellen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Saarpfalz-Kreis / Arbeitsgruppe Stromausfall: Flyer Stromausfall",
+    "u": "https://www.saarpfalz-kreis.de/images/SicherheitOrdnungBauenVerkehr/Notfaelle/pdf/Stromausfall_Flyer.pdf",
+    "stand": "04/2019"
+   }
+  },
+  {
+   "id": "n-gefrier",
+   "abschnitt": "Wenn der Strom wieder da ist",
+   "titel": "Gefriergut kontrollieren",
+   "text": "Prüfen, ob das Gefriergut durchgehend gefroren blieb. Angetautes gemäß den Hinweisen verbrauchen oder durcherhitzen, im Zweifel entsorgen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+    "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+    "stand": "04.08.2026"
+   }
+  },
+  {
+   "id": "n-vorrat",
+   "abschnitt": "Wenn der Strom wieder da ist",
+   "titel": "Vorrat auffüllen",
+   "text": "Verbrauchtes Wasser, Lebensmittel, Batterien und Brennstoffe ersetzen, Powerbanks laden. Checkliste des BBK zum Nachprüfen nutzen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  }
+ ],
+ "quellen": [
+  {
+   "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+   "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Saarbrücker Stadtwerke: Soforthilfemaßnahmen – Stromversorgung ausgefallen",
+   "u": "https://www.saarbruecker-stadtwerke.de/media/download-636cf3281b83d",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Saarpfalz-Kreis / Arbeitsgruppe Stromausfall: Flyer Stromausfall",
+   "u": "https://www.saarpfalz-kreis.de/images/SicherheitOrdnungBauenVerkehr/Notfaelle/pdf/Stromausfall_Flyer.pdf",
+   "stand": "04/2019"
+  },
+  {
+   "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+   "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+   "stand": "Mai 2015 (Ausgabe 1); Original-Download beim BBK: https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/stromausfall-vorsorge-selbsthilfe.pdf?__blob=publicationFile&v=11"
+  },
+  {
+   "t": "Verbraucherzentrale Niedersachsen: Verpflegung bei Stromausfall",
+   "u": "https://www.verbraucherzentrale-niedersachsen.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/verpflegung-bei-stromausfall-vorraete-sichern-tiefkuehlkost-retten-und-ohne-strom-kochen-124714",
+   "stand": "04.08.2026"
+  },
+  {
+   "t": "Ministerium des Innern und für Kommunales Brandenburg: Wenn der Strom ausfällt … (Ratgeber)",
+   "u": "https://mik.brandenburg.de/sixcms/media.php/9/Broschure_Blackout.pdf",
+   "stand": "April 2016"
+  },
+  {
+   "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+   "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+   "stand": "10/2025 (gelesen über die inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+  },
+  {
+   "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+   "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Feuerwehr Heidelberg: Stromausfall",
+   "u": "https://www.heidelberg.de/Feuerwehr,Len/feuerwehr/Berufsfeuerwehr/stromausfall.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  }
+ ],
+ "hinweis": "Die Einteilung in Zeitabschnitte (Erste Stunde … Tag 4–10) ist eine redaktionelle Zuordnung; die Inhalte selbst stammen aus den genannten Quellen. Das Feld 'abschnitt' ist eine Ergänzung zum Grundformat. Kein Ersatz für Anweisungen der Behörden vor Ort. Die BBK-Broschüre zum Stromausfall ist von 2015, die Brandenburger von 2016; Kernaussagen stimmen mit dem aktuellen BBK-Ratgeber (10/2025) überein."
+}

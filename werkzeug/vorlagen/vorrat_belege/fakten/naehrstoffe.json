@@ -1,0 +1,704 @@
+{
+ "thema": "Nährstoffe im Notvorrat",
+ "stand": "26.11.2026",
+ "eintraege": [
+  {
+   "id": "prio-wasser",
+   "kategorie": "Einordnung",
+   "gruppe": null,
+   "titel": "Was in 10 Tagen zuerst zählt: Wasser",
+   "text": "Ein Mensch kann unter Umständen drei Wochen ohne Nahrung auskommen, aber nur vier Tage ohne Flüssigkeit. Wasser hat daher Vorrang.",
+   "wert": 4,
+   "einheit": "Tage ohne Flüssigkeit",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "prio-energie",
+   "kategorie": "Einordnung",
+   "gruppe": null,
+   "titel": "Dann: genug Energie",
+   "text": "Die BLE-Vorratstabelle für 10 Tage rechnet mit durchschnittlich 2.200 kcal je Person und Tag und 20 Litern Getränken.",
+   "wert": 2200,
+   "einheit": "kcal je Person und Tag (Planungswert)",
+   "warnung": null,
+   "quelle": {
+    "t": "BLE / ernaehrungsvorsorge.de: Vorratstabelle Mischkost (1 Person, 10 Tage)",
+    "u": "https://www.ernaehrungsvorsorge.de/fileadmin/SITE_MASTER/content/Dokumente/Anhang_3.1_Vorratstabelle_Mischkost_-_DIN_A4.pdf",
+    "stand": "2024"
+   }
+  },
+  {
+   "id": "prio-vitamine",
+   "kategorie": "Einordnung",
+   "gruppe": null,
+   "titel": "Vitamine: erst bei längerer Dauer kritisch",
+   "text": "Ein Vitamin-C-Mangel ist hierzulande äußerst selten; erste Anzeichen sind Müdigkeit, Abwehrschwäche und Muskelschmerzen, später Zahnfleischbluten. Der Körperbestand Erwachsener liegt bei 1,5 bis 2 g Vitamin C, der tägliche Verlust bei etwa 3 % davon.",
+   "wert": 3,
+   "einheit": "% des Körperbestands Verlust je Tag (ohne Zufuhr, Größenordnung)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "prio-skorbut",
+   "kategorie": "Einordnung",
+   "gruppe": null,
+   "titel": "Skorbut-Schutz",
+   "text": "Schon etwa 10 mg Vitamin C am Tag verhindern Skorbut (DGE-FAQ); die Fachveröffentlichung der DGE nennt 7 mg.",
+   "wert": 10,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Vitamin C",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Vitamin_C-2015.pdf",
+    "stand": "02/2015"
+   }
+  },
+  {
+   "id": "en-m65",
+   "kategorie": "Energie",
+   "gruppe": "Männer ab 65",
+   "titel": "Energie Männer ab 65",
+   "text": "Richtwert bei geringer körperlicher Aktivität (PAL 1,4): 2.000 kcal am Tag.",
+   "wert": 2000,
+   "einheit": "kcal je Tag (PAL 1,4)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Energie (Richtwerte für die Energiezufuhr)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Energie-2015.pdf",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "en-w65",
+   "kategorie": "Energie",
+   "gruppe": "Frauen ab 65",
+   "titel": "Energie Frauen ab 65",
+   "text": "Richtwert bei PAL 1,4: 1.600 kcal am Tag.",
+   "wert": 1600,
+   "einheit": "kcal je Tag (PAL 1,4)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Energie (Richtwerte für die Energiezufuhr)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Energie-2015.pdf",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "en-j1519",
+   "kategorie": "Energie",
+   "gruppe": "Jungen 15 bis unter 19",
+   "titel": "Energie Jungen 15–19",
+   "text": "Richtwert bei PAL 1,4: 2.600 kcal am Tag.",
+   "wert": 2600,
+   "einheit": "kcal je Tag (PAL 1,4)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Energie (Richtwerte für die Energiezufuhr)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Energie-2015.pdf",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "en-m14",
+   "kategorie": "Energie",
+   "gruppe": "Mädchen 1 bis unter 4",
+   "titel": "Energie Mädchen 1–4",
+   "text": "Richtwert bei PAL 1,4: 1.100 kcal am Tag.",
+   "wert": 1100,
+   "einheit": "kcal je Tag (PAL 1,4)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Energie (Richtwerte für die Energiezufuhr)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Energie-2015.pdf",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "p-1-4",
+   "kategorie": "Eiweiß",
+   "gruppe": "Kinder 1 bis unter 4",
+   "titel": "Eiweiß Kinder 1–4",
+   "text": "1,0 g Eiweiß je kg Körpergewicht und Tag.",
+   "wert": 1.0,
+   "einheit": "g je kg Körpergewicht und Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Protein (Referenzwerte)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Protein-2021.pdf",
+    "stand": "2021 (Ableitung 2017)"
+   }
+  },
+  {
+   "id": "p-4-19",
+   "kategorie": "Eiweiß",
+   "gruppe": "4 bis unter 19",
+   "titel": "Eiweiß Kinder und Jugendliche 4–19",
+   "text": "Der Wert sinkt mit dem Wachstum je nach Alter und Geschlecht auf 0,8 g je kg Körpergewicht und Tag.",
+   "wert": 0.8,
+   "einheit": "g je kg Körpergewicht und Tag (Endwert)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Protein (Referenzwerte)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Protein-2021.pdf",
+    "stand": "2021 (Ableitung 2017)"
+   }
+  },
+  {
+   "id": "p-19-65",
+   "kategorie": "Eiweiß",
+   "gruppe": "Erwachsene 19 bis unter 65",
+   "titel": "Eiweiß Erwachsene 19–65",
+   "text": "0,8 g Eiweiß je kg Körpergewicht und Tag (bei Normalgewicht).",
+   "wert": 0.8,
+   "einheit": "g je kg Körpergewicht und Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Protein (Referenzwerte)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Protein-2021.pdf",
+    "stand": "2021 (Ableitung 2017)"
+   }
+  },
+  {
+   "id": "p-65",
+   "kategorie": "Eiweiß",
+   "gruppe": "ab 65",
+   "titel": "Eiweiß ab 65",
+   "text": "1,0 g Eiweiß je kg Körpergewicht und Tag (Schätzwert).",
+   "wert": 1.0,
+   "einheit": "g je kg Körpergewicht und Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Protein (Referenzwerte)",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Protein-2021.pdf",
+    "stand": "2021 (Ableitung 2017)"
+   }
+  },
+  {
+   "id": "f-erw",
+   "kategorie": "Makronährstoffe",
+   "gruppe": "Erwachsene",
+   "titel": "Fettanteil Erwachsene",
+   "text": "30 % der Energie aus Fett, bei körperlich Aktiven bis 35 %.",
+   "wert": 30,
+   "einheit": "% der Energie (30–35)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Position – Richtwerte für die Energiezufuhr aus Kohlenhydraten und Fett",
+    "u": "https://www.dge.de/fileadmin/dok/wissenschaft/positionen/DGE-Positionspapier-Richtwerte-Energiezufuhr-KH-und-Fett.pdf",
+    "stand": "01/2011"
+   }
+  },
+  {
+   "id": "kh-erw",
+   "kategorie": "Makronährstoffe",
+   "gruppe": "Erwachsene",
+   "titel": "Kohlenhydratanteil Erwachsene",
+   "text": "Mehr als 50 % der Energie aus Kohlenhydraten.",
+   "wert": 50,
+   "einheit": "% der Energie (mehr als)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: Position – Richtwerte für die Energiezufuhr aus Kohlenhydraten und Fett",
+    "u": "https://www.dge.de/fileadmin/dok/wissenschaft/positionen/DGE-Positionspapier-Richtwerte-Energiezufuhr-KH-und-Fett.pdf",
+    "stand": "01/2011"
+   }
+  },
+  {
+   "id": "b-erw",
+   "kategorie": "Makronährstoffe",
+   "gruppe": "Erwachsene",
+   "titel": "Ballaststoffe Erwachsene",
+   "text": "Mindestens 30 g am Tag. Dazu ausreichend trinken; die Menge bei ungewohnter Kost langsam steigern.",
+   "wert": 30,
+   "einheit": "g je Tag (mindestens)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Ballaststoffe",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Ballaststoffe-2021.pdf",
+    "stand": "11/2021"
+   }
+  },
+  {
+   "id": "b-kind",
+   "kategorie": "Makronährstoffe",
+   "gruppe": "Kinder und Jugendliche",
+   "titel": "Ballaststoffe Kinder",
+   "text": "Kein eigener Richtwert; zur Orientierung 14,6 g je 1.000 kcal wie bei Erwachsenen.",
+   "wert": 14.6,
+   "einheit": "g je 1.000 kcal",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Ballaststoffe",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Ballaststoffe-2021.pdf",
+    "stand": "11/2021"
+   }
+  },
+  {
+   "id": "c-1-4",
+   "kategorie": "Vitamin C",
+   "gruppe": "1 bis unter 4",
+   "titel": "Vitamin C 1–4 Jahre",
+   "text": "20 mg am Tag.",
+   "wert": 20,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-4-7",
+   "kategorie": "Vitamin C",
+   "gruppe": "4 bis unter 7",
+   "titel": "Vitamin C 4–7 Jahre",
+   "text": "30 mg am Tag.",
+   "wert": 30,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-7-10",
+   "kategorie": "Vitamin C",
+   "gruppe": "7 bis unter 10",
+   "titel": "Vitamin C 7–10 Jahre",
+   "text": "45 mg am Tag.",
+   "wert": 45,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-10-13",
+   "kategorie": "Vitamin C",
+   "gruppe": "10 bis unter 13",
+   "titel": "Vitamin C 10–13 Jahre",
+   "text": "65 mg am Tag.",
+   "wert": 65,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-13-15",
+   "kategorie": "Vitamin C",
+   "gruppe": "13 bis unter 15",
+   "titel": "Vitamin C 13–15 Jahre",
+   "text": "85 mg am Tag.",
+   "wert": 85,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-15-19-m",
+   "kategorie": "Vitamin C",
+   "gruppe": "männlich 15 bis unter 19",
+   "titel": "Vitamin C Jungen 15–19",
+   "text": "105 mg am Tag.",
+   "wert": 105,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-15-19-w",
+   "kategorie": "Vitamin C",
+   "gruppe": "weiblich 15 bis unter 19",
+   "titel": "Vitamin C Mädchen 15–19",
+   "text": "90 mg am Tag.",
+   "wert": 90,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-m",
+   "kategorie": "Vitamin C",
+   "gruppe": "Männer",
+   "titel": "Vitamin C Männer",
+   "text": "110 mg am Tag (Raucher 155 mg).",
+   "wert": 110,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "c-w",
+   "kategorie": "Vitamin C",
+   "gruppe": "Frauen",
+   "titel": "Vitamin C Frauen",
+   "text": "95 mg am Tag (Raucherinnen 135 mg, Schwangere ab 4. Monat 105 mg, Stillende 125 mg).",
+   "wert": 95,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+    "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+    "stand": "2015"
+   }
+  },
+  {
+   "id": "ca-1-4",
+   "kategorie": "Calcium",
+   "gruppe": "1 bis unter 4",
+   "titel": "Calcium 1–4 Jahre",
+   "text": "600 mg am Tag.",
+   "wert": 600,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Calcium (Ann Nutr Metab 63:186)",
+    "u": "https://karger.com/anm/article/63/3/186/41929/New-Reference-Values-for-Calcium",
+    "stand": "2013"
+   }
+  },
+  {
+   "id": "ca-4-7",
+   "kategorie": "Calcium",
+   "gruppe": "4 bis unter 7",
+   "titel": "Calcium 4–7 Jahre",
+   "text": "750 mg am Tag.",
+   "wert": 750,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Calcium",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Calcium-2013.pdf",
+    "stand": "2013"
+   }
+  },
+  {
+   "id": "ca-10-13",
+   "kategorie": "Calcium",
+   "gruppe": "10 bis unter 13",
+   "titel": "Calcium 10–13 Jahre",
+   "text": "1.100 mg am Tag.",
+   "wert": 1100,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Calcium",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Calcium-2013.pdf",
+    "stand": "2013"
+   }
+  },
+  {
+   "id": "ca-13-19",
+   "kategorie": "Calcium",
+   "gruppe": "13 bis unter 19",
+   "titel": "Calcium 13–19 Jahre",
+   "text": "1.200 mg am Tag.",
+   "wert": 1200,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Calcium (Ann Nutr Metab 63:186)",
+    "u": "https://karger.com/anm/article/63/3/186/41929/New-Reference-Values-for-Calcium",
+    "stand": "2013"
+   }
+  },
+  {
+   "id": "ca-erw",
+   "kategorie": "Calcium",
+   "gruppe": "Erwachsene",
+   "titel": "Calcium Erwachsene",
+   "text": "1.000 mg am Tag.",
+   "wert": 1000,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE/ÖGE/SGE: New Reference Values for Calcium (Ann Nutr Metab 63:186)",
+    "u": "https://karger.com/anm/article/63/3/186/41929/New-Reference-Values-for-Calcium",
+    "stand": "2013"
+   }
+  },
+  {
+   "id": "fe-m",
+   "kategorie": "Eisen",
+   "gruppe": "Männer",
+   "titel": "Eisen Männer",
+   "text": "11 mg am Tag.",
+   "wert": 11,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale NRW: Empfehlungen für die Mineralstoff-Versorgung (nach DGE/ÖGE-Referenzwerten, Stand 16.08.2024)",
+    "u": "https://www.verbraucherzentrale.de/sites/default/files/2024-08/empfehlungen-fuer-die-mineralstoff-versorgung-2024_08_ac.pdf",
+    "stand": "08/2024"
+   }
+  },
+  {
+   "id": "fe-w-prae",
+   "kategorie": "Eisen",
+   "gruppe": "Frauen prämenopausal",
+   "titel": "Eisen Frauen vor den Wechseljahren",
+   "text": "16 mg am Tag.",
+   "wert": 16,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale NRW: Empfehlungen für die Mineralstoff-Versorgung (nach DGE/ÖGE-Referenzwerten, Stand 16.08.2024)",
+    "u": "https://www.verbraucherzentrale.de/sites/default/files/2024-08/empfehlungen-fuer-die-mineralstoff-versorgung-2024_08_ac.pdf",
+    "stand": "08/2024"
+   }
+  },
+  {
+   "id": "fe-w-post",
+   "kategorie": "Eisen",
+   "gruppe": "Frauen postmenopausal",
+   "titel": "Eisen Frauen nach den Wechseljahren",
+   "text": "14 mg am Tag; Frauen ohne Menstruation 11 mg.",
+   "wert": 14,
+   "einheit": "mg je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale NRW: Empfehlungen für die Mineralstoff-Versorgung (nach DGE/ÖGE-Referenzwerten, Stand 16.08.2024)",
+    "u": "https://www.verbraucherzentrale.de/sites/default/files/2024-08/empfehlungen-fuer-die-mineralstoff-versorgung-2024_08_ac.pdf",
+    "stand": "08/2024"
+   }
+  },
+  {
+   "id": "fe-schwanger",
+   "kategorie": "Eisen",
+   "gruppe": "Schwangere",
+   "titel": "Eisen Schwangere und Stillende",
+   "text": "Schwangere 27 mg, Stillende 16 mg am Tag (DGE-Werte seit 2024).",
+   "wert": 27,
+   "einheit": "mg je Tag (Schwangere)",
+   "warnung": null,
+   "quelle": {
+    "t": "Apotheke adhoc: Neue DGE-Referenzwerte Eisen (Schwangere, Stillende)",
+    "u": "https://www.apotheke-adhoc.de/nachrichten/detail/pta-live/weniger-eisen-fuer-schwangere-und-stillende/",
+    "stand": "05.04.2024"
+   }
+  },
+  {
+   "id": "q-paprika",
+   "kategorie": "Vitamin-C-Quellen",
+   "gruppe": null,
+   "titel": "Rote Paprika",
+   "text": "Etwa 140 mg Vitamin C je 100 g – mehr als der Tagesbedarf eines Erwachsenen. Vitamin C wird durch Licht bei der Lagerung und starkes Erhitzen abgebaut.",
+   "wert": 140,
+   "einheit": "mg je 100 g",
+   "warnung": null,
+   "quelle": {
+    "t": "BfR: FAQ Vitamin C steckt nicht nur in Obst und Gemüse",
+    "u": "https://www.bfr.bund.de/fragen-und-antworten/thema/vitamin-c-steckt-nicht-nur-in-obst-und-gemuese/",
+    "stand": "16.03.2026"
+   }
+  },
+  {
+   "id": "q-kartoffel-roh",
+   "kategorie": "Vitamin-C-Quellen",
+   "gruppe": null,
+   "titel": "Kartoffeln (lagerfähig)",
+   "text": "Rohe, ungeschälte Kartoffeln: 18,8 mg je 100 g; geschält und gegart 14,9 mg (Bundeslebensmittelschlüssel).",
+   "wert": 18.8,
+   "einheit": "mg je 100 g (roh)",
+   "warnung": null,
+   "quelle": {
+    "t": "LfL Bayern: Inhaltsstoffe Kartoffel/Süßkartoffel (Werte aus Bundeslebensmittelschlüssel BLS 3.02)",
+    "u": "https://www.lfl.bayern.de/mam/cms07/iem/dateien/inhaltsstoffe_kartoffel_süßkartoffel_kurz.pdf",
+    "stand": "27.05.2020"
+   }
+  },
+  {
+   "id": "q-weisskohl",
+   "kategorie": "Vitamin-C-Quellen",
+   "gruppe": null,
+   "titel": "Weißkohl (lagerfähig)",
+   "text": "Roher Weißkohl: 45 mg je 100 g. Wintersorten halten im Keller bis zu 6 Monate.",
+   "wert": 45,
+   "einheit": "mg je 100 g (roh)",
+   "warnung": null,
+   "quelle": {
+    "t": "LfL Bayern: Merkblatt Kohl/Sauerkraut",
+    "u": "https://www.lfl.bayern.de/mam/cms07/publikationen/daten/merkblaetter/p_20114.pdf",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "q-sanddorn",
+   "kategorie": "Vitamin-C-Quellen",
+   "gruppe": null,
+   "titel": "Sanddorn",
+   "text": "Durchschnittlich 450 mg je 100 g; Sanddornsaft gehört zu den Lebensmitteln mit über 100 mg je 100 g.",
+   "wert": 450,
+   "einheit": "mg je 100 g",
+   "warnung": null,
+   "quelle": {
+    "t": "Stiftung Warentest: Wildfrüchte – Die Vitamin-C-Bomben",
+    "u": "https://www.test.de/Wildfruechte-Die-Vitamin-C-Bomben-4137000-0/",
+    "stand": "23.09.2010, geändert 26.05.2015"
+   }
+  },
+  {
+   "id": "q-hagebutte",
+   "kategorie": "Vitamin-C-Quellen",
+   "gruppe": null,
+   "titel": "Hagebutte",
+   "text": "Über 1.000 mg je 100 g (frisch).",
+   "wert": 1000,
+   "einheit": "mg je 100 g (mehr als)",
+   "warnung": null,
+   "quelle": {
+    "t": "Stiftung Warentest: Wildfrüchte – Die Vitamin-C-Bomben",
+    "u": "https://www.test.de/Wildfruechte-Die-Vitamin-C-Bomben-4137000-0/",
+    "stand": "23.09.2010, geändert 26.05.2015"
+   }
+  },
+  {
+   "id": "q-portion",
+   "kategorie": "Vitamin-C-Quellen",
+   "gruppe": null,
+   "titel": "Beispiel-Portion",
+   "text": "Eine halbe rote Paprika (75 g) und ein kleines Glas Orangensaft (125 ml) liefern zusammen über 155 mg Vitamin C.",
+   "wert": 155,
+   "einheit": "mg (mehr als)",
+   "warnung": null,
+   "quelle": {
+    "t": "DGE: FAQ Vitamin C",
+    "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Vitamin_C-2015.pdf",
+    "stand": "02/2015"
+   }
+  },
+  {
+   "id": "q-zusatz",
+   "kategorie": "Vitamin-C-Quellen",
+   "gruppe": null,
+   "titel": "Zugesetztes Vitamin C",
+   "text": "Vitamin C wird manchen Konserven, Marmeladen sowie Fleisch- und Wurstwaren als Antioxidationsmittel zugesetzt (Zutatenliste: Ascorbinsäure, E 300); Mengen werden dabei nicht angegeben.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BfR: FAQ Vitamin C steckt nicht nur in Obst und Gemüse",
+    "u": "https://www.bfr.bund.de/fragen-und-antworten/thema/vitamin-c-steckt-nicht-nur-in-obst-und-gemuese/",
+    "stand": "16.03.2026"
+   }
+  }
+ ],
+ "quellen": [
+  {
+   "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+   "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BLE / ernaehrungsvorsorge.de: Vorratstabelle Mischkost (1 Person, 10 Tage)",
+   "u": "https://www.ernaehrungsvorsorge.de/fileadmin/SITE_MASTER/content/Dokumente/Anhang_3.1_Vorratstabelle_Mischkost_-_DIN_A4.pdf",
+   "stand": "2024"
+  },
+  {
+   "t": "DGE/ÖGE/SGE: New Reference Values for Vitamin C Intake (Ann Nutr Metab 67:13)",
+   "u": "https://karger.com/anm/article/67/1/13/41887/New-Reference-Values-for-Vitamin-C-Intake",
+   "stand": "2015"
+  },
+  {
+   "t": "DGE: FAQ Vitamin C",
+   "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Vitamin_C-2015.pdf",
+   "stand": "02/2015"
+  },
+  {
+   "t": "DGE: FAQ Energie (Richtwerte für die Energiezufuhr)",
+   "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Energie-2015.pdf",
+   "stand": "2015"
+  },
+  {
+   "t": "DGE: FAQ Protein (Referenzwerte)",
+   "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Protein-2021.pdf",
+   "stand": "2021 (Ableitung 2017)"
+  },
+  {
+   "t": "DGE: Position – Richtwerte für die Energiezufuhr aus Kohlenhydraten und Fett",
+   "u": "https://www.dge.de/fileadmin/dok/wissenschaft/positionen/DGE-Positionspapier-Richtwerte-Energiezufuhr-KH-und-Fett.pdf",
+   "stand": "01/2011"
+  },
+  {
+   "t": "DGE: FAQ Ballaststoffe",
+   "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Ballaststoffe-2021.pdf",
+   "stand": "11/2021"
+  },
+  {
+   "t": "DGE/ÖGE/SGE: New Reference Values for Calcium (Ann Nutr Metab 63:186)",
+   "u": "https://karger.com/anm/article/63/3/186/41929/New-Reference-Values-for-Calcium",
+   "stand": "2013"
+  },
+  {
+   "t": "DGE: FAQ Calcium",
+   "u": "https://www.dge.de/fileadmin/dok/gesunde-ernaehrung/faq/DGE-FAQ-Calcium-2013.pdf",
+   "stand": "2013"
+  },
+  {
+   "t": "Verbraucherzentrale NRW: Empfehlungen für die Mineralstoff-Versorgung (nach DGE/ÖGE-Referenzwerten, Stand 16.08.2024)",
+   "u": "https://www.verbraucherzentrale.de/sites/default/files/2024-08/empfehlungen-fuer-die-mineralstoff-versorgung-2024_08_ac.pdf",
+   "stand": "08/2024"
+  },
+  {
+   "t": "Apotheke adhoc: Neue DGE-Referenzwerte Eisen (Schwangere, Stillende)",
+   "u": "https://www.apotheke-adhoc.de/nachrichten/detail/pta-live/weniger-eisen-fuer-schwangere-und-stillende/",
+   "stand": "05.04.2024"
+  },
+  {
+   "t": "BfR: FAQ Vitamin C steckt nicht nur in Obst und Gemüse",
+   "u": "https://www.bfr.bund.de/fragen-und-antworten/thema/vitamin-c-steckt-nicht-nur-in-obst-und-gemuese/",
+   "stand": "16.03.2026"
+  },
+  {
+   "t": "LfL Bayern: Inhaltsstoffe Kartoffel/Süßkartoffel (Werte aus Bundeslebensmittelschlüssel BLS 3.02)",
+   "u": "https://www.lfl.bayern.de/mam/cms07/iem/dateien/inhaltsstoffe_kartoffel_süßkartoffel_kurz.pdf",
+   "stand": "27.05.2020"
+  },
+  {
+   "t": "LfL Bayern: Merkblatt Kohl/Sauerkraut",
+   "u": "https://www.lfl.bayern.de/mam/cms07/publikationen/daten/merkblaetter/p_20114.pdf",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stiftung Warentest: Wildfrüchte – Die Vitamin-C-Bomben",
+   "u": "https://www.test.de/Wildfruechte-Die-Vitamin-C-Bomben-4137000-0/",
+   "stand": "23.09.2010, geändert 26.05.2015"
+  }
+ ],
+ "hinweis": "Referenzwerte der DGE (D-A-CH) für gesunde Menschen; nicht für Kranke oder als Therapie. Feld 'gruppe' ist eine Ergänzung zum Grundformat. Energie-Richtwerte nur für die vier im DGE-FAQ genannten Gruppen; vollständige Tabelle und Eisen-Werte für Kinder fehlen (siehe OFFEN.md). Sauerkraut, Trockenfrüchte und Säfte ohne belegten Vitamin-C-Wert."
+}

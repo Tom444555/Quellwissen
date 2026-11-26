@@ -1,0 +1,493 @@
+{
+ "thema": "Wasser im Notfall",
+ "stand": "26.11.2026",
+ "eintraege": [
+  {
+   "id": "bedarf-trinken",
+   "kategorie": "Bedarf",
+   "titel": "Trinken",
+   "text": "Ein Erwachsener braucht mindestens 1,5 Liter Flüssigkeit am Tag.",
+   "wert": 1.5,
+   "einheit": "Liter je Person und Tag (Minimum)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "bedarf-kochen",
+   "kategorie": "Bedarf",
+   "titel": "Kochen",
+   "text": "Wer kochen möchte, plant 0,5 Liter Wasser zusätzlich ein.",
+   "wert": 0.5,
+   "einheit": "Liter je Person und Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "bedarf-vorrat",
+   "kategorie": "Bedarf",
+   "titel": "Vorratsrichtwert BBK",
+   "text": "Richtwert für den Vorrat: 2 Liter je Person und Tag (Trinken und Kochen). Haustiere zusätzlich einplanen.",
+   "wert": 2,
+   "einheit": "Liter je Person und Tag (Richtwert)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "bedarf-beispiel",
+   "kategorie": "Bedarf",
+   "titel": "Beispiel 3 Personen",
+   "text": "Für 3 Personen: 18 Liter für 3 Tage, 30 Liter für 5 Tage, 60 Liter für 10 Tage.",
+   "wert": 60,
+   "einheit": "Liter (3 Personen, 10 Tage)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "bedarf-ohne",
+   "kategorie": "Bedarf",
+   "titel": "Ohne Flüssigkeit",
+   "text": "Ein Mensch kann unter Umständen drei Wochen ohne Nahrung auskommen, aber nur vier Tage ohne Flüssigkeit.",
+   "wert": 4,
+   "einheit": "Tage (ohne Flüssigkeit, Größenordnung)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "bedarf-who-ueberleben",
+   "kategorie": "Bedarf",
+   "titel": "Überlebensmenge (international)",
+   "text": "Die WHO nennt als Mindestmenge für wenige Tage 7 Liter je Person und Tag: 3–4 Liter zum Trinken und 2–3 Liter für Essenszubereitung.",
+   "wert": 7,
+   "einheit": "Liter je Person und Tag (nur wenige Tage)",
+   "warnung": null,
+   "quelle": {
+    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC)",
+    "u": "https://www.slideshare.net/slideshow/who5-minimum-water-quantity-needed-for-domestic-use/48638611",
+    "stand": "ohne Jahresangabe im Dokument, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "bedarf-who-hygiene",
+   "kategorie": "Bedarf",
+   "titel": "Körperpflege",
+   "text": "Für die Körperpflege rechnet die WHO bei längerer Notlage mit 6–7 Litern je Person und Tag, für Wäsche mit 4–6 Litern.",
+   "wert": 6,
+   "einheit": "Liter je Person und Tag (6–7, Körperpflege)",
+   "warnung": null,
+   "quelle": {
+    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC)",
+    "u": "https://www.slideshare.net/slideshow/who5-minimum-water-quantity-needed-for-domestic-use/48638611",
+    "stand": "ohne Jahresangabe im Dokument, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "bedarf-sphere",
+   "kategorie": "Bedarf",
+   "titel": "Mindestmenge in Hilfseinsätzen",
+   "text": "Internationale Hilfsstandards (Sphere) sehen mindestens 15 Liter je Person und Tag für den Haushalt vor.",
+   "wert": 15,
+   "einheit": "Liter je Person und Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "Sphere-Standards: Water supply standard 1 (Mindestwassermenge)",
+    "u": "https://interactive.spherestandards.org/",
+    "stand": "ohne Jahresangabe auf der Seite, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "bedarf-notbrunnen",
+   "kategorie": "Bedarf",
+   "titel": "Notversorgung in Deutschland",
+   "text": "Die staatliche Trinkwasser-Notversorgung (z. B. Notbrunnen) plant mit 15 Litern je Person und Tag. Normal sind es etwa 120 Liter.",
+   "wert": 15,
+   "einheit": "Liter je Person und Tag (Notversorgung)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Maßnahmen der Wassersicherstellung (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Themen/Kritische-Infrastrukturen/Sektoren-Branchen/Wasser/Wassersicherstellung/wassersicherstellung_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "bedarf-toilette",
+   "kategorie": "Bedarf",
+   "titel": "Spültoilette braucht viel Wasser",
+   "text": "Toiletten mit Wasserspülung brauchen laut WHO bis zu 70 Liter je Person und Tag. In der Notlage daher sparsam spülen oder Alternativen nutzen.",
+   "wert": 70,
+   "einheit": "Liter je Person und Tag (bis zu, Spültoilette)",
+   "warnung": null,
+   "quelle": {
+    "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC)",
+    "u": "https://www.slideshare.net/slideshow/who5-minimum-water-quantity-needed-for-domestic-use/48638611",
+    "stand": "ohne Jahresangabe im Dokument, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "quelle-wannen",
+   "kategorie": "Notquellen",
+   "titel": "Wasser auffangen, solange es fließt",
+   "text": "Badewanne und saubere, lebensmittelechte Kanister füllen. Badewannenwasser vor allem für die Toilettenspülung.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Ministerium des Innern und für Kommunales Brandenburg: Wenn der Strom ausfällt … (Ratgeber)",
+    "u": "https://mik.brandenburg.de/sixcms/media.php/9/Broschure_Blackout.pdf",
+    "stand": "April 2016"
+   }
+  },
+  {
+   "id": "quelle-boiler",
+   "kategorie": "Notquellen",
+   "titel": "Warmwasserspeicher",
+   "text": "Wasser aus dem Warmwasserspeicher der Trinkwasseranlage ist eine Notquelle. Nicht gemeint ist der Kessel bzw. die Heizungsanlage.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Wasser aus Heizkörpern oder dem Heizkessel niemals zum Trinken, Kochen oder für die Körperpflege verwenden.",
+   "quelle": {
+    "t": "CDC (USA): How to Find Clean Water in an Emergency",
+    "u": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html",
+    "stand": "25.06.2025"
+   }
+  },
+  {
+   "id": "quelle-spuelkasten",
+   "kategorie": "Notquellen",
+   "titel": "Spülkasten",
+   "text": "Wasser aus dem Spülkasten (nicht aus dem WC-Becken) ist nutzbar, wenn es klar ist und keine Reinigungsmittel enthält, die das Wasser färben.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Find Clean Water in an Emergency",
+    "u": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html",
+    "stand": "25.06.2025"
+   }
+  },
+  {
+   "id": "quelle-eis",
+   "kategorie": "Notquellen",
+   "titel": "Eiswürfel",
+   "text": "Geschmolzene Eiswürfel sind nutzbar, wenn sie aus einwandfreiem Wasser hergestellt wurden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Find Clean Water in an Emergency",
+    "u": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html",
+    "stand": "25.06.2025"
+   }
+  },
+  {
+   "id": "quelle-regen",
+   "kategorie": "Notquellen",
+   "titel": "Regenwasser",
+   "text": "Regenwasser und andere Wasserquellen im Freien müssen vor dem Trinken behandelt werden, damit Krankheitserreger abgetötet werden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Find Clean Water in an Emergency",
+    "u": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html",
+    "stand": "25.06.2025"
+   }
+  },
+  {
+   "id": "quelle-pool",
+   "kategorie": "Notquellen",
+   "titel": "Pool-Wasser",
+   "text": "Wasser aus Pools und Whirlpools ist für Körperpflege und Reinigung nutzbar, aber nicht zum Trinken.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Find Clean Water in an Emergency",
+    "u": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html",
+    "stand": "25.06.2025"
+   }
+  },
+  {
+   "id": "quelle-chemie",
+   "kategorie": "Notquellen",
+   "titel": "Verunreinigtes Wasser",
+   "text": "Wasser mit Treibstoff, giftigen Chemikalien oder radioaktiven Stoffen lässt sich durch Abkochen oder Entkeimen nicht trinkbar machen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Solches Wasser nicht trinken und nicht zum Waschen verwenden; anderes Wasser nutzen und das Gesundheitsamt fragen.",
+   "quelle": {
+    "t": "CDC (USA): How to Make Water Safe in an Emergency",
+    "u": "https://cdc.gov/water-emergency/about",
+    "stand": "19.09.2024"
+   }
+  },
+  {
+   "id": "auf-abkochen",
+   "kategorie": "Aufbereitung",
+   "titel": "Abkochen",
+   "text": "Wasser einmal sprudelnd aufkochen und danach mindestens 10 Minuten abkühlen lassen. Ein Wasserkocher eignet sich gut.",
+   "wert": 10,
+   "einheit": "Minuten abkühlen (nach sprudelndem Aufkochen)",
+   "warnung": "Erst handwarm verwenden: Kinder, alte und kranke Menschen bemerken heißes Wasser oft nicht – Verbrühungsgefahr.",
+   "quelle": {
+    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot",
+    "u": "https://www.umweltbundesamt.de/system/files/document/260417_UBA_Empfehlungen_%C2%A7%C2%A762-68_nach_Freigabe_final_clean.pdf",
+    "stand": "Februar 2026 (redaktionelle Änderungen 04/2026)"
+   }
+  },
+  {
+   "id": "auf-abkochen-international",
+   "kategorie": "Aufbereitung",
+   "titel": "Abkochen – internationale Angabe",
+   "text": "Die US-Gesundheitsbehörde CDC empfiehlt, klares Wasser 1 Minute sprudelnd kochen zu lassen (oberhalb von etwa 2000 m Höhe 3 Minuten). Trübes Wasser vorher durch ein sauberes Tuch oder einen Kaffeefilter gießen.",
+   "wert": 1,
+   "einheit": "Minute sprudelnd kochen",
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Make Water Safe in an Emergency",
+    "u": "https://cdc.gov/water-emergency/about",
+    "stand": "19.09.2024"
+   }
+  },
+  {
+   "id": "auf-wofuer",
+   "kategorie": "Aufbereitung",
+   "titel": "Wofür abgekochtes Wasser",
+   "text": "Bei Abkochgebot abgekocht verwenden für: Trinken, Zähneputzen, Eiswürfel, Waschen und Zubereiten von Obst, Gemüse und ungekochten Speisen sowie Körperpflege bei Kleinkindern, Kranken und Immungeschwächten.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot",
+    "u": "https://www.umweltbundesamt.de/system/files/document/260417_UBA_Empfehlungen_%C2%A7%C2%A762-68_nach_Freigabe_final_clean.pdf",
+    "stand": "Februar 2026 (redaktionelle Änderungen 04/2026)"
+   }
+  },
+  {
+   "id": "auf-ausnahmen",
+   "kategorie": "Aufbereitung",
+   "titel": "Wofür nicht zwingend",
+   "text": "Toilettenspülung, Duschen, Wäsche ab 40 °C und Spülmaschine ab 60 °C kommen nach UBA kurzzeitig ohne Abkochen aus. Offene Wunden beim Waschen wasserdicht abdecken, Hände gründlich mit Seife waschen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot",
+    "u": "https://www.umweltbundesamt.de/system/files/document/260417_UBA_Empfehlungen_%C2%A7%C2%A762-68_nach_Freigabe_final_clean.pdf",
+    "stand": "Februar 2026 (redaktionelle Änderungen 04/2026)"
+   }
+  },
+  {
+   "id": "auf-tabletten",
+   "kategorie": "Aufbereitung",
+   "titel": "Entkeimungstabletten",
+   "text": "Chlor-, Chlordioxid- oder Iodtabletten genau nach Packungsangabe verwenden. Sie töten Bakterien und Viren, aber nicht unbedingt Parasiten; gegen Cryptosporidien wirkt nur Chlordioxid bei richtiger Anwendung.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Dosierung ausschließlich nach Packungsangabe. Iod nicht in der Schwangerschaft, bei Schilddrüsenerkrankungen oder Iod-Überempfindlichkeit, und von niemandem länger als einige Wochen.",
+   "quelle": {
+    "t": "CDC (USA): How to Make Water Safe in an Emergency",
+    "u": "https://cdc.gov/water-emergency/about",
+    "stand": "19.09.2024"
+   }
+  },
+  {
+   "id": "auf-filter",
+   "kategorie": "Aufbereitung",
+   "titel": "Wasserfilter",
+   "text": "Tragbare Filter mit absoluter Porengröße von 1 Mikrometer oder kleiner halten Parasiten zurück, 0,3 Mikrometer oder kleiner auch Bakterien. Viren entfernen sie nicht – danach zusätzlich chemisch entkeimen.",
+   "wert": 1,
+   "einheit": "Mikrometer Porengröße (höchstens, gegen Parasiten)",
+   "warnung": "Filter machen chemisch verunreinigtes Wasser nicht sicher.",
+   "quelle": {
+    "t": "CDC (USA): How to Make Water Safe in an Emergency",
+    "u": "https://cdc.gov/water-emergency/about",
+    "stand": "19.09.2024"
+   }
+  },
+  {
+   "id": "auf-gefaesse",
+   "kategorie": "Aufbereitung",
+   "titel": "Aufbereitetes Wasser aufbewahren",
+   "text": "Abgekochtes oder entkeimtes Wasser in sauberen, desinfizierten Behältern mit dicht schließendem Deckel aufbewahren.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Make Water Safe in an Emergency",
+    "u": "https://cdc.gov/water-emergency/about",
+    "stand": "19.09.2024"
+   }
+  },
+  {
+   "id": "lager-tausch",
+   "kategorie": "Lagern",
+   "titel": "Leitungswasser lagern",
+   "text": "Selbst abgefülltes Leitungswasser alle 6 Monate austauschen. Gekauftes Wasser nach Mindesthaltbarkeitsdatum.",
+   "wert": 6,
+   "einheit": "Monate (Austauschintervall)",
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Create and Store an Emergency Water Supply",
+    "u": "https://cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html",
+    "stand": "geprüft 27.06.2025"
+   }
+  },
+  {
+   "id": "lager-behaelter",
+   "kategorie": "Lagern",
+   "titel": "Geeignete Behälter",
+   "text": "Am besten lebensmittelechte Behälter mit dicht schließendem Deckel, aus bruchsicherem Material (kein Glas), möglichst mit enger Öffnung.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Keine Behälter verwenden, in denen giftige Stoffe (z. B. Bleichmittel, Pflanzenschutzmittel) waren.",
+   "quelle": {
+    "t": "CDC (USA): How to Create and Store an Emergency Water Supply",
+    "u": "https://cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html",
+    "stand": "geprüft 27.06.2025"
+   }
+  },
+  {
+   "id": "lager-ort",
+   "kategorie": "Lagern",
+   "titel": "Lagerort",
+   "text": "Kühl (etwa 10–21 °C), ohne direkte Sonne und entfernt von Benzin, Pflanzenschutzmitteln und anderen giftigen Stoffen lagern.",
+   "wert": 21,
+   "einheit": "°C (höchstens, Bereich 10–21 °C)",
+   "warnung": null,
+   "quelle": {
+    "t": "CDC (USA): How to Create and Store an Emergency Water Supply",
+    "u": "https://cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html",
+    "stand": "geprüft 27.06.2025"
+   }
+  },
+  {
+   "id": "lager-mineral",
+   "kategorie": "Lagern",
+   "titel": "Ein Teil als Mineralwasser",
+   "text": "Ein Teil des Vorrats sollte aus gekauftem (Mineral-)Wasser bestehen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "wc-beutel",
+   "kategorie": "Toilette",
+   "titel": "Toilette ohne Wasser",
+   "text": "Große, stabile Müllbeutel in die Toilette einhängen oder eine Campingtoilette nutzen. Toilettenpapier, Feuchttücher und Haushaltshandschuhe bereithalten.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "wc-spuelen",
+   "kategorie": "Toilette",
+   "titel": "Mit Brauchwasser spülen",
+   "text": "Die Toilette lässt sich mit gesammeltem Brauchwasser, z. B. aus der Badewanne, spülen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Ministerium des Innern und für Kommunales Brandenburg: Wenn der Strom ausfällt … (Ratgeber)",
+    "u": "https://mik.brandenburg.de/sixcms/media.php/9/Broschure_Blackout.pdf",
+    "stand": "April 2016"
+   }
+  },
+  {
+   "id": "wc-behaelter",
+   "kategorie": "Toilette",
+   "titel": "Wasserbehälter für Brauchwasser",
+   "text": "Das BBK nennt Wasserbehälter für Lösch- oder Brauchwasser in seiner Checkliste.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+   }
+  }
+ ],
+ "quellen": [
+  {
+   "t": "BBK: Essen und Trinken bevorraten (Webseite)",
+   "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber, 1. Auflage)",
+   "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+   "stand": "10/2025 (gelesen über inhaltsgleiche Kopie stadtarnstein.de, abgerufen 26.11.2026)"
+  },
+  {
+   "t": "WHO/SEARO Technical Note for Emergencies No. 9: Minimum water quantity needed for domestic uses (B. J. Reed, WEDC)",
+   "u": "https://www.slideshare.net/slideshow/who5-minimum-water-quantity-needed-for-domestic-use/48638611",
+   "stand": "ohne Jahresangabe im Dokument, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Sphere-Standards: Water supply standard 1 (Mindestwassermenge)",
+   "u": "https://interactive.spherestandards.org/",
+   "stand": "ohne Jahresangabe auf der Seite, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BBK: Maßnahmen der Wassersicherstellung (Webseite)",
+   "u": "https://www.bbk.bund.de/DE/Themen/Kritische-Infrastrukturen/Sektoren-Branchen/Wasser/Wassersicherstellung/wassersicherstellung_node.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Ministerium des Innern und für Kommunales Brandenburg: Wenn der Strom ausfällt … (Ratgeber)",
+   "u": "https://mik.brandenburg.de/sixcms/media.php/9/Broschure_Blackout.pdf",
+   "stand": "April 2016"
+  },
+  {
+   "t": "CDC (USA): How to Find Clean Water in an Emergency",
+   "u": "https://www.cdc.gov/water-emergency/about/how-to-find-clean-water-in-an-emergency.html",
+   "stand": "25.06.2025"
+  },
+  {
+   "t": "CDC (USA): How to Make Water Safe in an Emergency",
+   "u": "https://cdc.gov/water-emergency/about",
+   "stand": "19.09.2024"
+  },
+  {
+   "t": "Umweltbundesamt: Empfehlungen zum Umgang mit Abweichungen nach Trinkwasserverordnung (Vollzug §§ 62–68 TrinkwV), Anhang A.3 Empfehlung Abkochgebot",
+   "u": "https://www.umweltbundesamt.de/system/files/document/260417_UBA_Empfehlungen_%C2%A7%C2%A762-68_nach_Freigabe_final_clean.pdf",
+   "stand": "Februar 2026 (redaktionelle Änderungen 04/2026)"
+  },
+  {
+   "t": "CDC (USA): How to Create and Store an Emergency Water Supply",
+   "u": "https://cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html",
+   "stand": "geprüft 27.06.2025"
+  }
+ ],
+ "hinweis": "Deutsche Behörden (BBK, UBA) zuerst; wo diese zu Notquellen, Filtern und Lagerdauer keine Angaben machen, wurde die US-Gesundheitsbehörde CDC sowie WHO/Sphere herangezogen – in der App als internationale Angabe kennzeichnen. Abkochen: UBA nennt sprudelndes Aufkochen ohne Mindestdauer plus mindestens 10 Minuten Abkühlen; CDC nennt 1 Minute sprudelnd kochen. Feld 'kategorie' ist eine Ergänzung zum Grundformat. Keine Dosierangaben für Entkeimungsmittel – immer nach Packungsangabe."
+}

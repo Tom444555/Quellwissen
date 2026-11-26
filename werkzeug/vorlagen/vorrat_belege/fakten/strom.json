@@ -1,0 +1,499 @@
+{
+ "thema": "Strom ohne Netz – Verbrauch, Speicher, Solar, Notstrom",
+ "stand": "26.11.2026",
+ "eintraege": [
+  {
+   "id": "v-smartphone",
+   "kategorie": "Verbraucher",
+   "titel": "Smartphone-Ladung",
+   "text": "Eine Powerstation mit 500 Wh lädt laut Stiftung Warentest ein Smartphone rund 33-mal. Daraus ergeben sich etwa 15 Wh je Ladung einschließlich Verlusten (abgeleiteter Richtwert).",
+   "wert": 15,
+   "einheit": "Wh je Ladung (Richtwert, abgeleitet)",
+   "warnung": null,
+   "quelle": {
+    "t": "Stiftung Warentest: Mobile Stromspeicher im Test (Powerstations)",
+    "u": "https://www.test.de/news/Mobile-Stromspeicher-im-Test-Beste-Powerstation-im-Test-kostet-nur-520-Euro-6273250-0/",
+    "stand": "07.01.2026 (Tests aus 2023)"
+   }
+  },
+  {
+   "id": "v-laptop",
+   "kategorie": "Verbraucher",
+   "titel": "Laptop-Ladung",
+   "text": "Dieselbe 500-Wh-Powerstation lädt einen Laptop etwa 10-mal – rund 50 Wh je Ladung einschließlich Verlusten (abgeleiteter Richtwert). Der genaue Wert hängt vom Akku ab (auf dem Akku oder im Datenblatt in Wh angegeben).",
+   "wert": 50,
+   "einheit": "Wh je Ladung (Richtwert, abgeleitet)",
+   "warnung": null,
+   "quelle": {
+    "t": "Stiftung Warentest: Mobile Stromspeicher im Test (Powerstations)",
+    "u": "https://www.test.de/news/Mobile-Stromspeicher-im-Test-Beste-Powerstation-im-Test-kostet-nur-520-Euro-6273250-0/",
+    "stand": "07.01.2026 (Tests aus 2023)"
+   }
+  },
+  {
+   "id": "v-lichterkette",
+   "kategorie": "Verbraucher",
+   "titel": "Lichterkette",
+   "text": "Eine Lichterkette leuchtet an einer 500-Wh-Powerstation laut Warentest-Berechnung 65 Stunden.",
+   "wert": 65,
+   "einheit": "Stunden an 500 Wh",
+   "warnung": null,
+   "quelle": {
+    "t": "Stiftung Warentest: Mobile Stromspeicher im Test (Powerstations)",
+    "u": "https://www.test.de/news/Mobile-Stromspeicher-im-Test-Beste-Powerstation-im-Test-kostet-nur-520-Euro-6273250-0/",
+    "stand": "07.01.2026 (Tests aus 2023)"
+   }
+  },
+  {
+   "id": "v-led",
+   "kategorie": "Verbraucher",
+   "titel": "LED-Lampe",
+   "text": "Der Verbrauch steht auf Verpackung oder Energielabel in kWh je 1.000 Stunden; dieser Wert entspricht der Leistung in Watt. Zum Vergleich: Eine 60-W-Glühlampe gibt rund 710 Lumen ab, LED-Lampen brauchen dafür deutlich weniger.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Umweltbundesamt: Lampen und Leuchten (Energieverbrauchskennzeichnung)",
+    "u": "https://www.umweltbundesamt.de/themen/klima-energie/energiesparen/energieverbrauchskennzeichnung/lampen-leuchten",
+    "stand": "09.08.2024"
+   }
+  },
+  {
+   "id": "v-router",
+   "kategorie": "Verbraucher",
+   "titel": "WLAN-Router",
+   "text": "Ein Internetrouter braucht etwa 10 bis 20 Watt, im Dauerbetrieb rund 90 bis 180 kWh im Jahr. Das sind etwa 0,24 bis 0,48 kWh am Tag (umgerechnet).",
+   "wert": 15,
+   "einheit": "W (Bereich 10–20 W)",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Rheinland-Pfalz: Internetrouter – Netz in der Nacht?",
+    "u": "https://www.verbraucherzentrale-rlp.de/20-prozent-weniger-stromverbrauch-nr4-internetrouter-netz-in-der-nacht-82406",
+    "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "v-kgk-neu",
+   "kategorie": "Verbraucher",
+   "titel": "Kühl-Gefrier-Kombi, sparsam",
+   "text": "Eine sparsame Kühl-Gefrierkombination (250 l/90 l, alte Klasse A+++) brauchte 157 kWh im Jahr, also etwa 0,43 kWh am Tag (umgerechnet).",
+   "wert": 0.43,
+   "einheit": "kWh je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "Öko-Institut / Verbraucherzentrale RLP: Energieverbrauch von Kühl- und Gefriergeräten (Infoblatt)",
+    "u": "https://www.oeko.de/uploads/oeko/forschung_beratung/themen/nachhaltiger_konsum/infoblatt_kuehlschrank.pdf",
+    "stand": "09/2012 (alte Effizienzklassen A+++ bis A)"
+   }
+  },
+  {
+   "id": "v-kgk-alt",
+   "kategorie": "Verbraucher",
+   "titel": "Kühl-Gefrier-Kombi, Altgerät",
+   "text": "Ein etwa 12 Jahre altes Gerät gleicher Größe brauchte 392 kWh im Jahr, also etwa 1,07 kWh am Tag (umgerechnet).",
+   "wert": 1.07,
+   "einheit": "kWh je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "Öko-Institut / Verbraucherzentrale RLP: Energieverbrauch von Kühl- und Gefriergeräten (Infoblatt)",
+    "u": "https://www.oeko.de/uploads/oeko/forschung_beratung/themen/nachhaltiger_konsum/infoblatt_kuehlschrank.pdf",
+    "stand": "09/2012 (alte Effizienzklassen A+++ bis A)"
+   }
+  },
+  {
+   "id": "v-kuehl-klein",
+   "kategorie": "Verbraucher",
+   "titel": "Kleiner Kühlschrank, sparsam",
+   "text": "Kleine Kühlgeräte der besten (alten) Klasse A+++ lagen bei knapp 100 kWh im Jahr, etwa 0,27 kWh am Tag (umgerechnet).",
+   "wert": 0.27,
+   "einheit": "kWh je Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "Öko-Institut / Verbraucherzentrale RLP: Energieverbrauch von Kühl- und Gefriergeräten (Infoblatt)",
+    "u": "https://www.oeko.de/uploads/oeko/forschung_beratung/themen/nachhaltiger_konsum/infoblatt_kuehlschrank.pdf",
+    "stand": "09/2012 (alte Effizienzklassen A+++ bis A)"
+   }
+  },
+  {
+   "id": "v-gefrier-hoch",
+   "kategorie": "Verbraucher",
+   "titel": "Gefrierschrank mit hohem Verbrauch",
+   "text": "Das UBA rät, einen Gefrierschrank ab etwa 430 kWh im Jahr (ökologisch) bzw. 570 kWh (wirtschaftlich) zu ersetzen. 430 kWh entsprechen rund 1,2 kWh am Tag (umgerechnet).",
+   "wert": 1.18,
+   "einheit": "kWh je Tag (Schwellenwert, umgerechnet)",
+   "warnung": null,
+   "quelle": {
+    "t": "Umweltbundesamt: Umwelttipps Gefriertruhe, Gefrierschrank",
+    "u": "https://www.umweltbundesamt.de/umwelttipps-fuer-den-alltag/elektrogeraete/gefriertruhe-gefrierschrank",
+    "stand": "14.07.2026"
+   }
+  },
+  {
+   "id": "v-gefriertruhe",
+   "kategorie": "Verbraucher",
+   "titel": "Truhe statt Schrank",
+   "text": "Gefriertruhen sind etwa 12 % sparsamer als Gefrierschränke.",
+   "wert": 12,
+   "einheit": "% weniger Verbrauch",
+   "warnung": null,
+   "quelle": {
+    "t": "Öko-Institut / Verbraucherzentrale RLP: Energieverbrauch von Kühl- und Gefriergeräten (Infoblatt)",
+    "u": "https://www.oeko.de/uploads/oeko/forschung_beratung/themen/nachhaltiger_konsum/infoblatt_kuehlschrank.pdf",
+    "stand": "09/2012 (alte Effizienzklassen A+++ bis A)"
+   }
+  },
+  {
+   "id": "v-temp",
+   "kategorie": "Verbraucher",
+   "titel": "Temperaturen",
+   "text": "7 °C im Kühlschrank und −18 °C im Gefriergerät reichen aus.",
+   "wert": 7,
+   "einheit": "°C Kühlschrank (−18 °C Gefriergerät)",
+   "warnung": null,
+   "quelle": {
+    "t": "Umweltbundesamt: Umwelttipps Kühlschrank",
+    "u": "https://umweltbundesamt.de/umwelttipps-fuer-den-alltag/elektrogeraete/kuehlschrank",
+    "stand": "14.07.2026"
+   }
+  },
+  {
+   "id": "v-pumpe-alt",
+   "kategorie": "Verbraucher",
+   "titel": "Heizungspumpe, alt",
+   "text": "Alte, ungeregelte Heizungsumwälzpumpen brauchen 60 bis 100 Watt.",
+   "wert": 80,
+   "einheit": "W (Bereich 60–100 W)",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Rheinland-Pfalz: Energietipp Heizungspumpe (veröffentlicht von VG Lingenfeld)",
+    "u": "https://www.vg-lingenfeld.de/neuigkeiten/2025/mai/energietipp-hohes-einsparpotenzial-beim-tausch-der-alten-heizungspumpe/",
+    "stand": "Pressemitteilung 20.05.2025"
+   }
+  },
+  {
+   "id": "v-pumpe-neu",
+   "kategorie": "Verbraucher",
+   "titel": "Heizungspumpe, Hocheffizienz",
+   "text": "Hocheffizienzpumpen brauchen durchschnittlich etwa 15 Watt.",
+   "wert": 15,
+   "einheit": "W (Durchschnitt)",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale Rheinland-Pfalz: Energietipp Heizungspumpe (veröffentlicht von VG Lingenfeld)",
+    "u": "https://www.vg-lingenfeld.de/neuigkeiten/2025/mai/energietipp-hohes-einsparpotenzial-beim-tausch-der-alten-heizungspumpe/",
+    "stand": "Pressemitteilung 20.05.2025"
+   }
+  },
+  {
+   "id": "v-waermegeraete",
+   "kategorie": "Verbraucher",
+   "titel": "Wärmegeräte",
+   "text": "Wärmeerzeugende Geräte (Heizlüfter, Wasserkocher, Herdplatte) brauchen je Gerät schnell 1.500 bis 2.000 Watt – zu viel für die meisten Notstromlösungen.",
+   "wert": 2000,
+   "einheit": "W (1.500–2.000 W je Gerät)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  },
+  {
+   "id": "v-medizin",
+   "kategorie": "Verbraucher",
+   "titel": "Medizinische Geräte",
+   "text": "Wer auf strombetriebene Geräte angewiesen ist (z. B. Atemtherapie-, Sauerstoff- oder Absauggeräte), klärt Laufzeit, Akku und Notstromlösung mit Arzt, Pflegedienst und Hersteller. Die App nennt dafür bewusst keine Werte.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Keine eigenen Bastellösungen für lebenswichtige Geräte – Absprache mit Arzt und Hersteller.",
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  },
+  {
+   "id": "s-formel",
+   "kategorie": "Speicher",
+   "titel": "Powerbank: mAh in Wh",
+   "text": "Powerbanks werden meist in mAh bei 3,7 V Zellspannung angegeben. Umrechnung: Wh = mAh × 3,7 ÷ 1.000. Beispiel: 10.000 mAh = 37 Wh.",
+   "wert": 3.7,
+   "einheit": "V (Zellspannung für Umrechnung)",
+   "warnung": null,
+   "quelle": {
+    "t": "Techtest.org: mAh- und Wh-Angabe bei Powerbanks (3,7 V oder 5 V)",
+    "u": "https://techtest.org/mah-und-wh-angabe-bei-powerbanks-37v-oder-5v/",
+    "stand": "19.06.2022"
+   }
+  },
+  {
+   "id": "s-powerbank-real",
+   "kategorie": "Speicher",
+   "titel": "Powerbank: tatsächlich nutzbar",
+   "text": "Im Warentest (2022) lieferten Powerbanks mit 10.000 bzw. 20.100 mAh Nennkapazität 8.400 bis 17.680 mAh – rund 73 bis 90 % der Angabe (umgerechnet). Für Planungen etwa zwei Drittel bis drei Viertel ansetzen (Richtwert).",
+   "wert": 0.75,
+   "einheit": "Faktor nutzbar (Richtwert, gemessen 0,73–0,90)",
+   "warnung": null,
+   "quelle": {
+    "t": "Notebookcheck: Powerbanks im Warentest (Bericht über test 02/2022)",
+    "u": "https://www.notebookcheck.com/Powerbanks-im-Warentest-Das-sind-die-besten-Zusatzakkus-fuer-Handy-Tablet-und-Notebook.595602.0.html",
+    "stand": "26.01.2022"
+   }
+  },
+  {
+   "id": "s-powerstation-usb",
+   "kategorie": "Speicher",
+   "titel": "Powerstation: lieber USB als Steckdose",
+   "text": "Die Umwandlung in 230-V-Wechselstrom frisst Energie. Geräte daher möglichst per USB laden – das bedeutet geringere Wandlungsverluste.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stiftung Warentest: Mobile Stromspeicher im Test (Powerstations)",
+    "u": "https://www.test.de/news/Mobile-Stromspeicher-im-Test-Beste-Powerstation-im-Test-kostet-nur-520-Euro-6273250-0/",
+    "stand": "07.01.2026 (Tests aus 2023)"
+   }
+  },
+  {
+   "id": "s-powerstation-solar",
+   "kategorie": "Speicher",
+   "titel": "Powerstation und Solar",
+   "text": "Alle getesteten Powerstations lassen sich mit Solarmodulen laden. Als Zwischenspeicher für Balkonkraftwerke sind sie wenig geeignet, weil sie nicht ins Hausnetz einspeisen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stiftung Warentest: Mobile Stromspeicher im Test (Powerstations)",
+    "u": "https://www.test.de/news/Mobile-Stromspeicher-im-Test-Beste-Powerstation-im-Test-kostet-nur-520-Euro-6273250-0/",
+    "stand": "07.01.2026 (Tests aus 2023)"
+   }
+  },
+  {
+   "id": "pv-ertrag-jahr",
+   "kategorie": "Solar",
+   "titel": "Solarertrag im Jahr",
+   "text": "Ein 400-Wp-Modul liefert bei optimaler, unverschatteter Südausrichtung und 30° Neigung rund 400 kWh im Jahr – also etwa 100 kWh je 100 Wp bzw. 1.000 kWh je kWp (Richtwert, Deutschland).",
+   "wert": 100,
+   "einheit": "kWh je 100 Wp und Jahr (Richtwert)",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale: FAQ zu Steckersolar-Geräten",
+    "u": "https://www.verbraucherzentrale.de/wissen/energie/erneuerbare-energien/faq-zu-steckersolargeraeten-das-sind-die-haeufigsten-fragen-86652",
+    "stand": "06.03.2026"
+   }
+  },
+  {
+   "id": "pv-stromausfall",
+   "kategorie": "Solar",
+   "titel": "Balkonkraftwerk bei Stromausfall",
+   "text": "Ohne Netz funktioniert ein Steckersolargerät nicht: Der Wechselrichter braucht die Netzverbindung und schaltet ab.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale: FAQ zu Steckersolar-Geräten",
+    "u": "https://www.verbraucherzentrale.de/wissen/energie/erneuerbare-energien/faq-zu-steckersolargeraeten-das-sind-die-haeufigsten-fragen-86652",
+    "stand": "06.03.2026"
+   }
+  },
+  {
+   "id": "pv-speicher",
+   "kategorie": "Solar",
+   "titel": "Inselbetrieb nur mit Speicher",
+   "text": "Manche Batteriespeicher können bei Netzausfall in den Inselbetrieb umschalten und sich weiter mit den Modulen laden. Für Anwendungen ganz ohne Netz braucht es Inselsysteme mit Batterie und Laderegler.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale: FAQ zu Steckersolar-Geräten",
+    "u": "https://www.verbraucherzentrale.de/wissen/energie/erneuerbare-energien/faq-zu-steckersolargeraeten-das-sind-die-haeufigsten-fragen-86652",
+    "stand": "06.03.2026"
+   }
+  },
+  {
+   "id": "pv-grenzen",
+   "kategorie": "Solar",
+   "titel": "Erlaubte Größe",
+   "text": "Der Wechselrichter darf höchstens 800 Watt abgeben; die Modulleistung darf bis 2.000 Wp betragen.",
+   "wert": 800,
+   "einheit": "W Wechselrichter (Module bis 2.000 Wp)",
+   "warnung": null,
+   "quelle": {
+    "t": "Verbraucherzentrale: FAQ zu Steckersolar-Geräten",
+    "u": "https://www.verbraucherzentrale.de/wissen/energie/erneuerbare-energien/faq-zu-steckersolargeraeten-das-sind-die-haeufigsten-fragen-86652",
+    "stand": "06.03.2026"
+   }
+  },
+  {
+   "id": "g-verbrauch",
+   "kategorie": "Notstrom",
+   "titel": "Stromerzeuger: Kraftstoff je kWh",
+   "text": "Beispiel-Datenblatt eines kleinen Inverter-Stromerzeugers: 1,8 kW Dauerleistung, 3,6 l Tank, 3,35 Stunden Laufzeit bei Dauerleistung. Das ergibt rund 0,6 Liter Benzin je kWh unter Volllast (abgeleiteter Richtwert); im Sparbetrieb läuft eine Tankfüllung 10,5 Stunden.",
+   "wert": 0.6,
+   "einheit": "l Benzin je kWh (Richtwert, abgeleitet)",
+   "warnung": null,
+   "quelle": {
+    "t": "Kanton Bern, Amt für Bevölkerungsschutz, Sport und Militär: Technische Daten Notstromaggregat klein (Inverter-Benzinstromerzeuger 1,8 kW)",
+    "u": "https://www.bsm.sid.be.ch/content/dam/bsm_sid/dokumente/de/bev%C3%B6lkerungsschutz/ntp/material/Technische-Daten_Notstromaggregat_klein_Honda-EU22i-de.pdf",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "g-draussen",
+   "kategorie": "Notstrom",
+   "titel": "Stromerzeuger nur im Freien",
+   "text": "Stromerzeuger nur an einem gut belüfteten, trockenen Platz im Freien betreiben.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Niemals in Wohnung, Haus, Keller oder Garage betreiben – giftige Abgase, Erstickungsgefahr.",
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  },
+  {
+   "id": "g-tanken",
+   "kategorie": "Notstrom",
+   "titel": "Betanken",
+   "text": "Beim Betanken und durch heiße Anlagenteile besteht Brandgefahr. Im Keller höchstens 10 kg Benzin bzw. 20 kg Diesel in geeigneten Kanistern lagern, Gas gar nicht.",
+   "wert": 10,
+   "einheit": "kg Benzin im Keller höchstens (Diesel 20 kg)",
+   "warnung": "Brandgefahr beim Betanken und an heißen Anlagenteilen.",
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  },
+  {
+   "id": "g-einspeisen",
+   "kategorie": "Notstrom",
+   "titel": "Einspeisung ins Hausnetz",
+   "text": "Die Einspeisung in die Hausinstallation darf nur ein Elektrofachbetrieb einrichten, über einen Umschalter; Netzbetreiber und Stromlieferant sind vorher zu informieren. Einzelne Geräte können über Verlängerungskabel angeschlossen werden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Einspeisung ins Hausnetz nur durch einen Elektrofachbetrieb mit Umschalter.",
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  },
+  {
+   "id": "g-laerm",
+   "kategorie": "Notstrom",
+   "titel": "Lärm",
+   "text": "In dicht besiedelten Gebieten oder Mehrfamilienhäusern ein leises Gerät wählen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  },
+  {
+   "id": "g-heidelberg",
+   "kategorie": "Notstrom",
+   "titel": "Feuerwehr-Hinweis",
+   "text": "Campingkocher und Stromerzeuger nur im Freien benutzen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Feuerwehr Heidelberg: Stromausfall",
+    "u": "https://www.heidelberg.de/Feuerwehr,Len/feuerwehr/Berufsfeuerwehr/stromausfall.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "a-akkus",
+   "kategorie": "Speicher",
+   "titel": "Akkus vorab laden",
+   "text": "Akkus von Laptops, Handys und Telefonen geladen halten; Solar-Ladegeräte oder Powerbanks bereithalten.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  }
+ ],
+ "quellen": [
+  {
+   "t": "Stiftung Warentest: Mobile Stromspeicher im Test (Powerstations)",
+   "u": "https://www.test.de/news/Mobile-Stromspeicher-im-Test-Beste-Powerstation-im-Test-kostet-nur-520-Euro-6273250-0/",
+   "stand": "07.01.2026 (Tests aus 2023)"
+  },
+  {
+   "t": "Umweltbundesamt: Lampen und Leuchten (Energieverbrauchskennzeichnung)",
+   "u": "https://www.umweltbundesamt.de/themen/klima-energie/energiesparen/energieverbrauchskennzeichnung/lampen-leuchten",
+   "stand": "09.08.2024"
+  },
+  {
+   "t": "Verbraucherzentrale Rheinland-Pfalz: Internetrouter – Netz in der Nacht?",
+   "u": "https://www.verbraucherzentrale-rlp.de/20-prozent-weniger-stromverbrauch-nr4-internetrouter-netz-in-der-nacht-82406",
+   "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
+  },
+  {
+   "t": "Öko-Institut / Verbraucherzentrale RLP: Energieverbrauch von Kühl- und Gefriergeräten (Infoblatt)",
+   "u": "https://www.oeko.de/uploads/oeko/forschung_beratung/themen/nachhaltiger_konsum/infoblatt_kuehlschrank.pdf",
+   "stand": "09/2012 (alte Effizienzklassen A+++ bis A)"
+  },
+  {
+   "t": "Umweltbundesamt: Umwelttipps Gefriertruhe, Gefrierschrank",
+   "u": "https://www.umweltbundesamt.de/umwelttipps-fuer-den-alltag/elektrogeraete/gefriertruhe-gefrierschrank",
+   "stand": "14.07.2026"
+  },
+  {
+   "t": "Umweltbundesamt: Umwelttipps Kühlschrank",
+   "u": "https://umweltbundesamt.de/umwelttipps-fuer-den-alltag/elektrogeraete/kuehlschrank",
+   "stand": "14.07.2026"
+  },
+  {
+   "t": "Verbraucherzentrale Rheinland-Pfalz: Energietipp Heizungspumpe (veröffentlicht von VG Lingenfeld)",
+   "u": "https://www.vg-lingenfeld.de/neuigkeiten/2025/mai/energietipp-hohes-einsparpotenzial-beim-tausch-der-alten-heizungspumpe/",
+   "stand": "Pressemitteilung 20.05.2025"
+  },
+  {
+   "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+   "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+   "stand": "Mai 2015"
+  },
+  {
+   "t": "Techtest.org: mAh- und Wh-Angabe bei Powerbanks (3,7 V oder 5 V)",
+   "u": "https://techtest.org/mah-und-wh-angabe-bei-powerbanks-37v-oder-5v/",
+   "stand": "19.06.2022"
+  },
+  {
+   "t": "Notebookcheck: Powerbanks im Warentest (Bericht über test 02/2022)",
+   "u": "https://www.notebookcheck.com/Powerbanks-im-Warentest-Das-sind-die-besten-Zusatzakkus-fuer-Handy-Tablet-und-Notebook.595602.0.html",
+   "stand": "26.01.2022"
+  },
+  {
+   "t": "Verbraucherzentrale: FAQ zu Steckersolar-Geräten",
+   "u": "https://www.verbraucherzentrale.de/wissen/energie/erneuerbare-energien/faq-zu-steckersolargeraeten-das-sind-die-haeufigsten-fragen-86652",
+   "stand": "06.03.2026"
+  },
+  {
+   "t": "Kanton Bern, Amt für Bevölkerungsschutz, Sport und Militär: Technische Daten Notstromaggregat klein (Inverter-Benzinstromerzeuger 1,8 kW)",
+   "u": "https://www.bsm.sid.be.ch/content/dam/bsm_sid/dokumente/de/bev%C3%B6lkerungsschutz/ntp/material/Technische-Daten_Notstromaggregat_klein_Honda-EU22i-de.pdf",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Feuerwehr Heidelberg: Stromausfall",
+   "u": "https://www.heidelberg.de/Feuerwehr,Len/feuerwehr/Berufsfeuerwehr/stromausfall.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
+   "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  }
+ ],
+ "hinweis": "Werte mit 'abgeleitet' oder 'umgerechnet' sind aus den Quellangaben gerechnet (z. B. Jahres- in Tageswerte, 500 Wh ÷ 33 Ladungen) und als Richtwert zu kennzeichnen. Kühlgeräte-Werte stammen von 2012 mit alten Effizienzklassen (A+++ bis A); neue Klassen A–G (seit 2021) sind nicht direkt vergleichbar. Monatliche Solarerträge (Winter/Sommer, Südwestdeutschland) aus PVGIS fehlen noch – siehe OFFEN.md. Gerätename im Stromerzeuger-Datenblatt bewusst weggelassen (keine Markenempfehlung)."
+}

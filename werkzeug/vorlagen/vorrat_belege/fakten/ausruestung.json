@@ -1,0 +1,1125 @@
+{
+ "thema": "Ausrüstung und Checklisten (BBK)",
+ "stand": "26.11.2026",
+ "eintraege": [
+  {
+   "id": "apo-01",
+   "kategorie": "Hausapotheke",
+   "titel": "Persönliche Medikamente",
+   "text": "Bei regelmäßigem Bedarf mindestens 10 Tage Vorrat.",
+   "wert": 10,
+   "einheit": "Tage (mindestens)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-02",
+   "kategorie": "Hausapotheke",
+   "titel": "Schmerzmittel und fiebersenkende Mittel",
+   "text": "Schmerzmittel und fiebersenkende Mittel bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-03",
+   "kategorie": "Hausapotheke",
+   "titel": "Fieberthermometer",
+   "text": "Fieberthermometer bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-04",
+   "kategorie": "Hausapotheke",
+   "titel": "Mittel gegen Durchfall, Erbrechen und Übelkeit",
+   "text": "Mittel gegen Durchfall, Erbrechen und Übelkeit bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-05",
+   "kategorie": "Hausapotheke",
+   "titel": "Mittel gegen Erkältungsbeschwerden",
+   "text": "Mittel gegen Erkältungsbeschwerden bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-06",
+   "kategorie": "Hausapotheke",
+   "titel": "Elektrolyte",
+   "text": "Zum Ausgleich von Flüssigkeitsverlust.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-07",
+   "kategorie": "Hausapotheke",
+   "titel": "Wund- und Hautdesinfektionsmittel",
+   "text": "Wund- und Hautdesinfektionsmittel bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-08",
+   "kategorie": "Hausapotheke",
+   "titel": "Pflaster und Verbandsmaterial",
+   "text": "Pflaster und Verbandsmaterial bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-09",
+   "kategorie": "Hausapotheke",
+   "titel": "Verbandtuch für Brandwunden",
+   "text": "Verbandtuch für Brandwunden bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-10",
+   "kategorie": "Hausapotheke",
+   "titel": "Einmalhandschuhe",
+   "text": "Einmalhandschuhe bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-11",
+   "kategorie": "Hausapotheke",
+   "titel": "Kühlkompresse",
+   "text": "Kühlkompresse bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-12",
+   "kategorie": "Hausapotheke",
+   "titel": "Mittel gegen Sonnenbrand und Insektenstiche",
+   "text": "Mittel gegen Sonnenbrand und Insektenstiche bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-13",
+   "kategorie": "Hausapotheke",
+   "titel": "Abschwellendes, kühlendes Gel",
+   "text": "Für kleine Sportverletzungen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-14",
+   "kategorie": "Hausapotheke",
+   "titel": "Abschwellende Nasentropfen oder Nasenspray",
+   "text": "Abschwellende Nasentropfen oder Nasenspray bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-15",
+   "kategorie": "Hausapotheke",
+   "titel": "Pinzette",
+   "text": "Pinzette bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-16",
+   "kategorie": "Hausapotheke",
+   "titel": "Schere",
+   "text": "Schere bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "apo-17",
+   "kategorie": "Hausapotheke",
+   "titel": "Brand-, Wund- und Heilsalbe",
+   "text": "Brand-, Wund- und Heilsalbe bereithalten (BBK-Checkliste Hausapotheke).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-01",
+   "kategorie": "Hygiene",
+   "titel": "Zahnpasta und Zahnbürsten",
+   "text": "Zahnpasta und Zahnbürsten bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-02",
+   "kategorie": "Hygiene",
+   "titel": "Seife",
+   "text": "Seife bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-03",
+   "kategorie": "Hygiene",
+   "titel": "Persönliche Hygieneartikel",
+   "text": "Zum Beispiel Monatshygiene, Windeln.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-04",
+   "kategorie": "Hygiene",
+   "titel": "Müllbeutel",
+   "text": "Auch große, stabile Beutel zum Einhängen in die Toilette.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-05",
+   "kategorie": "Hygiene",
+   "titel": "Toilettenpapier",
+   "text": "Toilettenpapier bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-06",
+   "kategorie": "Hygiene",
+   "titel": "Feuchttücher",
+   "text": "Feuchttücher bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-07",
+   "kategorie": "Hygiene",
+   "titel": "Haushaltspapier",
+   "text": "Haushaltspapier bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-08",
+   "kategorie": "Hygiene",
+   "titel": "Desinfektionsmittel",
+   "text": "Desinfektionsmittel bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-09",
+   "kategorie": "Hygiene",
+   "titel": "Waschmittel",
+   "text": "Waschmittel bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-10",
+   "kategorie": "Hygiene",
+   "titel": "Haushaltshandschuhe",
+   "text": "Haushaltshandschuhe bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "hyg-11",
+   "kategorie": "Hygiene",
+   "titel": "Campingtoilette",
+   "text": "Campingtoilette bereithalten (BBK-Checkliste Hygiene).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-01",
+   "kategorie": "Notgepäck",
+   "titel": "Warme Kleidung, Regenschutz, feste Schuhe, Wechselkleidung",
+   "text": "Warme Kleidung, Regenschutz, feste Schuhe, Wechselkleidung bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-02",
+   "kategorie": "Notgepäck",
+   "titel": "Dokumentenmappe",
+   "text": "Dokumentenmappe bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-03",
+   "kategorie": "Notgepäck",
+   "titel": "Bargeld",
+   "text": "Bargeld bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-04",
+   "kategorie": "Notgepäck",
+   "titel": "Persönliche Medikamente",
+   "text": "Persönliche Medikamente bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-05",
+   "kategorie": "Notgepäck",
+   "titel": "Erste-Hilfe-Material",
+   "text": "Erste-Hilfe-Material bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-06",
+   "kategorie": "Notgepäck",
+   "titel": "Hygieneartikel",
+   "text": "Hygieneartikel bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-07",
+   "kategorie": "Notgepäck",
+   "titel": "Geladene Powerbank",
+   "text": "Geladene Powerbank bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-08",
+   "kategorie": "Notgepäck",
+   "titel": "Haltbare Lebensmittel",
+   "text": "Haltbare Lebensmittel bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-09",
+   "kategorie": "Notgepäck",
+   "titel": "Wiederbefüllbare Trinkflasche",
+   "text": "Wiederbefüllbare Trinkflasche bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-10",
+   "kategorie": "Notgepäck",
+   "titel": "Schlafsack oder Decke",
+   "text": "Schlafsack oder Decke bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-11",
+   "kategorie": "Notgepäck",
+   "titel": "Essgeschirr",
+   "text": "Essgeschirr bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-12",
+   "kategorie": "Notgepäck",
+   "titel": "Taschenmesser und Dosenöffner",
+   "text": "Taschenmesser und Dosenöffner bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-13",
+   "kategorie": "Notgepäck",
+   "titel": "Taschenlampe",
+   "text": "Taschenlampe bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-14",
+   "kategorie": "Notgepäck",
+   "titel": "Batterie-, Solar- oder Kurbelradio",
+   "text": "Batterie-, Solar- oder Kurbelradio bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-15",
+   "kategorie": "Notgepäck",
+   "titel": "Feuerzeug oder Streichhölzer",
+   "text": "Feuerzeug oder Streichhölzer bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-16",
+   "kategorie": "Notgepäck",
+   "titel": "Sonnencreme und Kopfbedeckung",
+   "text": "Sonnencreme und Kopfbedeckung bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-17",
+   "kategorie": "Notgepäck",
+   "titel": "Notizblock und Stift",
+   "text": "Notizblock und Stift bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-18",
+   "kategorie": "Notgepäck",
+   "titel": "Arbeitshandschuhe",
+   "text": "Arbeitshandschuhe bereithalten (BBK-Checkliste Notgepäck).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "not-19",
+   "kategorie": "Notgepäck",
+   "titel": "Ersatz für Hilfsmittel",
+   "text": "Zum Beispiel Brille oder Hörsysteme.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-01",
+   "kategorie": "Dokumente",
+   "titel": "Identität",
+   "text": "Zum Beispiel Geburtsurkunde, Personalausweis.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-02",
+   "kategorie": "Dokumente",
+   "titel": "Besitz",
+   "text": "Zum Beispiel Grundbuchauszüge, Kaufverträge.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-03",
+   "kategorie": "Dokumente",
+   "titel": "Finanzielle Ansprüche",
+   "text": "Zum Beispiel Versicherungen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-04",
+   "kategorie": "Dokumente",
+   "titel": "Qualifikationen",
+   "text": "Zum Beispiel Schul- und Arbeitszeugnisse.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-05",
+   "kategorie": "Dokumente",
+   "titel": "Rechte",
+   "text": "Zum Beispiel Vollmachten, gerichtliche Entscheidungen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-06",
+   "kategorie": "Dokumente",
+   "titel": "Persönliche Informationen",
+   "text": "Zum Beispiel Testament, Befunde, Impfausweis, Passwortlisten.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-07",
+   "kategorie": "Dokumente",
+   "titel": "Emotionaler Wert",
+   "text": "Zum Beispiel ausgewählte Fotos.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-08",
+   "kategorie": "Dokumente",
+   "titel": "Aufbewahrung",
+   "text": "In einem feuerfesten oder wasserdichten Behälter. Bei der ausstellenden Stelle klären, ob Original oder beglaubigte Kopie nötig ist.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "dok-09",
+   "kategorie": "Dokumente",
+   "titel": "Digitale Kopien",
+   "text": "Zum Beispiel in einer Cloud, auf Festplatte oder USB-Stick.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-01",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Taschenlampe mit Ersatzbatterien",
+   "text": "Taschenlampe mit Ersatzbatterien bereithalten (BBK-Checkliste Licht, Radio, Energie).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-02",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Kerzen und Feuerzeug",
+   "text": "Kerzen und Feuerzeug bereithalten (BBK-Checkliste Licht, Radio, Energie).",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Kerzen nie unbeaufsichtigt brennen lassen und für Lüftung sorgen (BBK 2015: erhöhtes Brandrisiko bei unbeaufsichtigtem Betrieb).",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-03",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Kurbel- oder batteriebetriebenes Radio",
+   "text": "Auch Solar- oder Autoradio; bleibt nutzbar, wenn Mobilfunk und Internet ausfallen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-04",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Warn-App",
+   "text": "Zum Beispiel NINA; fällt bei Netzausfall aus.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-05",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Powerbank",
+   "text": "Powerbank bereithalten (BBK-Checkliste Licht, Radio, Energie).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-06",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Papierliste mit wichtigen Telefonnummern",
+   "text": "Papierliste mit wichtigen Telefonnummern bereithalten (BBK-Checkliste Licht, Radio, Energie).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-07",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Offline-Karten",
+   "text": "Auf dem Gerät speichern.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-08",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Warme Kleidung, Decken, Schlafsäcke",
+   "text": "Warme Kleidung, Decken, Schlafsäcke bereithalten (BBK-Checkliste Licht, Radio, Energie).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-09",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Netzunabhängige Heizgelegenheit mit Brennstoff",
+   "text": "Netzunabhängige Heizgelegenheit mit Brennstoff bereithalten (BBK-Checkliste Licht, Radio, Energie).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "bra-01",
+   "kategorie": "Brandschutz",
+   "titel": "Rauchwarnmelder",
+   "text": "In allen Räumen außer Bad und Küche.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "bra-02",
+   "kategorie": "Brandschutz",
+   "titel": "Feuerlöscher oder Löschspray",
+   "text": "Brandklasse F für Fette, Wachs und flüssige Brennstoffe. Vorher mit dem Gerät vertraut machen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Fett-, Wachs- und Flüssigbrennstoffbrände niemals mit Wasser löschen – es droht eine Fettexplosion.",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "bra-03",
+   "kategorie": "Brandschutz",
+   "titel": "Kohlenmonoxid-Melder",
+   "text": "Kohlenmonoxid-Melder bereithalten (BBK-Checkliste Brandschutz).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "bra-04",
+   "kategorie": "Brandschutz",
+   "titel": "Fluchtwege kennen",
+   "text": "Zu Hause, am Arbeitsplatz und in fremden Gebäuden.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "ess-01",
+   "kategorie": "Essen und Trinken",
+   "titel": "Trinkwasser",
+   "text": "2 Liter je Person und Tag für 3, 5, 7 oder 10 Tage.",
+   "wert": 2,
+   "einheit": "Liter je Person und Tag",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "ess-02",
+   "kategorie": "Essen und Trinken",
+   "titel": "Haltbare Lebensmittel",
+   "text": "Für 3, 5, 7 oder 10 Tage.",
+   "wert": 10,
+   "einheit": "Tage (Ziel)",
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "ess-03",
+   "kategorie": "Essen und Trinken",
+   "titel": "Alternative Kochgelegenheit mit Brennstoff",
+   "text": "Alternative Kochgelegenheit mit Brennstoff bereithalten (BBK-Checkliste Essen und Trinken).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "ess-04",
+   "kategorie": "Essen und Trinken",
+   "titel": "Futtervorrat für Haustiere",
+   "text": "Futtervorrat für Haustiere bereithalten (BBK-Checkliste Essen und Trinken).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "son-01",
+   "kategorie": "Sonstiges",
+   "titel": "Wasserbehälter",
+   "text": "Für Lösch- oder Brauchwasser.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "son-02",
+   "kategorie": "Sonstiges",
+   "titel": "Atemschutzmaske",
+   "text": "Schutz vor Viren, Bakterien und Schadstoffen in der Luft.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "son-03",
+   "kategorie": "Sonstiges",
+   "titel": "Schutzhelm",
+   "text": "Schutz vor Trümmern.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "son-04",
+   "kategorie": "Sonstiges",
+   "titel": "Zusätzliches Bargeld",
+   "text": "Zusätzliches Bargeld bereithalten (BBK-Checkliste Sonstiges).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "bra-verhalten",
+   "kategorie": "Brandschutz",
+   "titel": "Verhalten im Brandfall",
+   "text": "Nur löschen, wenn keine Gefahr besteht. Sonst Raum verlassen, Tür schließen, andere warnen, Gebäude verlassen, 112 rufen, Nachbarn warnen. Nie durch verrauchte Räume flüchten; bei verrauchtem Fluchtweg am Fenster bemerkbar machen.",
+   "wert": 112,
+   "einheit": "Notruf Feuerwehr",
+   "warnung": "Niemals durch verrauchte Räume flüchten.",
+   "quelle": {
+    "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+    "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+    "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+   }
+  },
+  {
+   "id": "lic-batterien",
+   "kategorie": "Licht, Radio, Energie",
+   "titel": "Ersatzbatterien fürs Radio",
+   "text": "Batteriebetriebene Radios mit ausreichend Ersatzbatterien oder Geräte mit Dynamo- bzw. Kurbelantrieb bereithalten.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+    "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+    "stand": "Mai 2015"
+   }
+  }
+ ],
+ "quellen": [
+  {
+   "t": "BBK: Vorsorgen für Krisen und Katastrophen (Ratgeber mit Checklisten, 1. Auflage)",
+   "u": "https://www.bbk.bund.de/SharedDocs/Downloads/DE/Mediathek/Publikationen/Buergerinformationen/Ratgeber/BBK-Vorsorgen-fuer-Krisen-und-Katastrophen.pdf?__blob=publicationFile&v=44",
+   "stand": "10/2025 (gelesen über inhaltsgleiche Kopie https://stadtarnstein.de/wp-content/uploads/2026/01/Ratgeber-Vorsorgen-fuer-Krisen-und-Katastrophen-des-BBK-ext.pdf, abgerufen 26.11.2026)"
+  },
+  {
+   "t": "BBK: Stromausfall – Vorsorge und Selbsthilfe (Broschüre)",
+   "u": "https://flussgebiete.nrw.de/system/files/atoms/files/bbk_stromausfall_vorsorge_u_selbsthilfe.pdf",
+   "stand": "Mai 2015"
+  }
+ ],
+ "hinweis": "Alle Positionen aus den Checklisten des BBK-Ratgebers (10/2025), je Position eine Zeile. Der Ratgeber nennt für Hygieneartikel keine Mengen und für Lampen/Radios keine Laufzeiten – daher hier keine Werte (siehe OFFEN.md). Die Checkliste Hausapotheke ersetzt keine ärztliche Beratung; Medikamente nach Packungsbeilage bzw. ärztlicher Anweisung."
+}
