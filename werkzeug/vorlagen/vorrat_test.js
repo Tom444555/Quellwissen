@@ -2,7 +2,7 @@
    Rechnet einen erfundenen Haushalt durch und prüft Tabellen, Formeln, Reichweite, Gerichte, Abziehen, Speiseplan und Sicherung. */
 'use strict';
 var V = require('./vorrat.js'), K = V._kern, fehler = 0, n = 0;
-require('./vorrat_qr.js'); var P2 = require('./vorrat_plus.js'), I = V._i;
+require('./vorrat_qr.js'); var P2 = require('./vorrat_plus.js'), I = V._i; require('./vorrat_fakten.js'); var N2 = require('./vorrat_notfall.js'), FK = globalThis.QWVorratFakten;
 function ok(b, t) { n++; if (!b) { fehler++; console.log('✗ ' + t); } }
 function nah(a, b, tol, t) { ok(Math.abs(a - b) <= tol, t + ' (ist ' + a + ', soll ' + b + ')'); }
 var heute = new Date(2026, 10, 25, 12);
@@ -16,7 +16,7 @@ var ids = {}; K.KATALOG.forEach(function (k) { ok(!ids[k.i], 'Katalog-ID doppelt
   if (k.k > 0 && !k.kein && ['kakao', 'essig', 'zitronensaft', 'backpulver'].indexOf(k.i) < 0) { var atw = 4 * k.e + 9 * k.f + 4 * k.c; ok(atw > k.k * 0.6 && atw < k.k * 1.45, 'kcal passt nicht zu Eiweiß/Fett/KH: ' + k.i + ' ' + k.k + '/' + Math.round(atw)); }
   (k.p || []).forEach(function (p) { ok(p[1] > 0, 'Packung ohne Menge: ' + k.i); }); });
 ok(K.KATALOG.length >= 120 && K.KATALOG.length <= 160, 'Katalog: ' + K.KATALOG.length + ' Lebensmittel');
-ok(K.GERICHTE.length >= 40 && K.GERICHTE.length <= 70, 'Gerichte: ' + K.GERICHTE.length);
+ok(K.GERICHTE.length >= 40 && K.GERICHTE.length <= 90, 'Gerichte: ' + K.GERICHTE.length);
 var gids = {}; K.GERICHTE.forEach(function (r) { ok(!gids[r.id], 'Gericht doppelt: ' + r.id); gids[r.id] = 1;
   ok(['kalt', 'topf', 'glut', 'ofen'].indexOf(r.koch) >= 0, 'Kochstelle: ' + r.id); ok(r.p >= 1 && r.sch.length >= 1, 'Portionen/Schritte: ' + r.id);
   r.zut.forEach(function (z) { z.a.forEach(function (a) { ok(!!ids[a[0]], 'Zutat unbekannt: ' + r.id + ' → ' + a[0]); }); });
@@ -184,6 +184,39 @@ ok(P2.eigenMhd('fermentiert', K.katVon(S, 'kohl'), '2026-08') === '', 'Fermentie
 I.setze(JSON.parse(JSON.stringify(Bk))); var bl = P2.blattInhalt(); ok(/Wichtige Nummern/.test(bl) && /112/.test(bl) && /Checkliste/.test(bl) && /Speiseplan/.test(bl), 'Notfall-Blatt enthält Nummern, Speiseplan, Checkliste');
 ok(/vr-ampel/.test(P2.uebersichtHTML()) && (P2.uebersichtHTML().match(/class="vr-ampel /g) || []).length === 6, 'Übersicht mit 6 Ampel-Kacheln');
 ok(P2.druckMoeglich() === false, 'ohne Browser kein Drucken');
+
+/* 8. Stufe 2: Belege */
+ok(FK && FK.Q.length > 10, 'Beleg-Datei geladen: ' + Object.keys(FK.T).join(', '));
+Object.keys(FK.T).forEach(function (k) { FK.T[k].E.forEach(function (e) { ok(e[0] && e[2] && (e[3] || k === 'ausruestung'), 'Beleg vollständig: ' + k + '/' + e[0]); ok(e[7] >= 0 && FK.Q[e[7]] && FK.Q[e[7]][0], 'Beleg mit Quelle: ' + k + '/' + e[0]); }); });
+ok(Object.keys(FK.T).every(function (k) { return FK.T[k].stand; }), 'jede Beleg-Datei hat einen Stand');
+/* Ablauf */
+var Sa = JSON.parse(JSON.stringify(Bk)); ok(N2.ablaufStand(Sa).d === 0 && N2.ablaufStand(Sa).n === FK.T.ablauf.E.length, 'Ablauf: nichts abgehakt'); Sa.ablauf = {}; Sa.ablauf[FK.T.ablauf.E[0][0]] = 1; ok(N2.ablaufStand(Sa).d === 1, 'Ablauf: Haken zählt');
+/* Wasser mit Notquellen */
+var Sw = JSON.parse(JSON.stringify(Bk)), W0 = K.wasser(Sw); Sw.wasserQ = { q: { wanne: 150, boiler: 80, eis: 2, pool: 0 } };
+var W1 = K.wasser(Sw); nah(W1.l - W0.l, 2, 1e-9, 'Eiswürfel zählen direkt, Speicher nicht ohne Abkochen'); nah(W1.brauch, 230, 1e-9, 'Badewanne + Speicher (nicht abgekocht) = Brauchwasser');
+Sw.wasserQ.abkochen = true; var W2 = K.wasser(Sw); nah(W2.l - W0.l, 82, 1e-9, 'abgekocht: Speicher zählt als Trinkwasser'); ok(W2.tage > W0.tage, 'Notquellen verlängern „Wasser reicht“');
+Sw.lage.koch = 'keine'; nah(K.wasser(Sw).l - W0.l, 2, 1e-9, 'ohne Kochstelle kein Abkochen');
+Sw.lage.koch = 'gas'; Sw.wasserQ.pflege = true; Sw.wasserQ.pflegeL = 6; Sw.wasserQ.toilette = 'spuelen'; Sw.wasserQ.toiletteL = 5; nah(K.wasser(Sw).brauchBedarf, 3 * 11, 1e-9, 'Brauchwasser: Pflege + Toilette je Person');
+nah(N2.wert('wasser', 'bedarf-vorrat', 0), 2, 0, 'Beleg: 2 l je Person und Tag (BBK)');
+/* Strom */
+var sp = N2.speicherWh({ pb: [{ mah: 10000, n: 2 }], ps: 500 }); nah(sp.pb, 10000 * 3.7 / 1000 * N2.wert('strom', 's-powerbank-real', 0) * 2, 1e-9, 'Powerbank: mAh × 3,7 V × nutzbarer Anteil');
+nah(N2.solarWhTag({ wp: 365 }), 1000, 1e-6, 'Solar: 365 Wp → 1.000 Wh am Tag im Jahresmittel (100 kWh je 100 Wp)');
+var Ss = JSON.parse(JSON.stringify(Bk)); Ss.stromG = [{ typ: 'smartphone', menge: 2 }, { typ: 'router', menge: 10 }, { typ: 'kgk-neu' }]; Ss.strom = { ps: 1000 };
+var SR = N2.stromRechnung(Ss); nah(SR.bedarf, 2 * 15 + 10 * 15 + 430, 1e-9, 'Geräte: 2 Ladungen + 10 h Router + Kühl-Gefrier-Kombi'); nah(SR.tage, 1000 / 610, 1e-9, 'Strom reicht = Speicher ÷ Bedarf');
+Ss.strom.wp = 400; ok(N2.stromRechnung(Ss).tage > SR.tage, 'Solar verlängert'); ok(N2.stromRechnung(JSON.parse(JSON.stringify(Bk))).tage === null, 'ohne Geräte keine Strom-Reichweite');
+ok(N2.kochwasserProTag(Bk, heute) > 0, 'Kochwasser aus dem Speiseplan');
+/* Notfallplan, Ausrüstung */
+var Sn = JSON.parse(JSON.stringify(Bk)), np0 = N2.npStand(Sn); ok(np0.n > 5 && np0.d === 0, 'Notfallplan: Felder aus der Beleg-Datei'); Sn.notfall = { 'treffpunkt-nah': 'Spielplatz' }; ok(N2.npStand(Sn).d === 1, 'Notfallplan: Eintrag zählt');
+I.setze(Sn); ok(/Spielplatz/.test(P2.blattInhalt()) && /116117|116 117/.test(P2.blattInhalt()), 'Notfall-Blatt mit Notfallplan und Nummern aus den Belegen');
+ok(N2.ausrStand(Sn).n === FK.T.ausruestung.E.length, 'Checkliste Ausrüstung aus der Beleg-Datei');
+/* Nährstoffe */
+nah(N2.vitCBedarf({ s: 'm', a: 40 }), 110, 0, 'Vitamin C Mann 110 mg (DGE)'); nah(N2.vitCBedarf({ s: 'w', a: 9 }), 45, 0, 'Vitamin C Kind 7–10: 45 mg'); ok(N2.vitCBedarf({ s: 'w', a: 0.5 }) === null, 'Säugling: kein Wert');
+var NB = N2.naehrBedarf(Bk); nah(NB.b, 30 + 30 + 14.6 * K.bedarf(Bk.personen[2]).kcal / 1000, 1e-6, 'Ballaststoffe: 30 g Erwachsene, Kinder 14,6 g je 1.000 kcal');
+I.setze(JSON.parse(JSON.stringify(Bk))); var NC = N2.naehrCheck(I.zustand(), heute); ok(NC.tage > 0 && NC.schnitt.e > 0 && NC.schnitt.vc >= 0, 'Nährstoff-Check rechnet über die Plan-Tage');
+ok(K.KATALOG.filter(function (k) { return k.vc != null; }).length > 120 && K.KATALOG.filter(function (k) { return k.b != null; }).length > 150, 'Katalog mit Ballaststoffen und Vitamin C (USDA)');
+var nt0 = N2.naehrTag(Bk, { essen: [], extra: [{ i: 'orangen', g: 200 }] }); nah(nt0.vc, 2 * K.katVon(Bk, 'orangen').vc, 1e-9, 'Vitamin C aus Auffüllen');
+ok(K.GERICHTE.filter(function (r) { return r.art === 'kiste'; }).length >= 10 && N2.KOCH_GERICHTE.every(function (id) { return K.GERICHTE.some(function (r) { return r.id === id; }); }), 'Kochen ohne Strom: 10+ Kochkisten-Gerichte, alle in der Sammlung');
+ok(K.sichtbareTabs().indexOf('ablauf') >= 0 && K.sichtbareTabs().indexOf('naehrstoffe') >= 0 && K.sichtbareTabs().indexOf('notfallplan') >= 0, 'Notfall-Bereiche sichtbar');
 
 console.log('Vorrats-Planer: ' + n + ' Prüfungen, ' + K.KATALOG.length + ' Lebensmittel, ' + K.GERICHTE.length + ' Gerichte');
 console.log('Fehler: ' + fehler);

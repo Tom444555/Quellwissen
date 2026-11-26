@@ -195,6 +195,7 @@ function uebersichtHTML() {
   if (licht.length) { var schlecht = licht.map(function (b) { return bestandAmpel(St, b, h, z, bpt); }); lichtAmp = schlecht.indexOf('rot') >= 0 ? 'rot' : schlecht.indexOf('gelb') >= 0 ? 'gelb' : 'gruen'; lichtTxt = licht.length + ' Posten erfasst'; }
   if (H.uebersichtStrom) { var su = H.uebersichtStrom(St, h, z); if (su) { lichtAmp = su.amp; lichtTxt = su.txt; } }
   var aus = (St.bestaende || []).filter(function (b) { return b.kat === 'apotheke' || b.kat === 'hygiene' || b.kat === 'baby'; }), ausAb = aus.filter(function (b) { var d = I.mhdDatum(b.mhd); return d && I.tageBis(d, h) < 0; }).length;
+  var au = H.uebersichtAusruestung ? H.uebersichtAusruestung(St) : null; if (au) { kd = au.d; kh = au.n; }
   var ausAmp = ausAb ? 'rot' : kd / kh >= 0.8 ? 'gruen' : kd / kh >= 0.4 ? 'gelb' : 'rot';
   var nf = H.uebersichtNotfallplan ? H.uebersichtNotfallplan(St) : { amp: '', txt: 'Treffpunkte und Kontakte festlegen' };
   var ab = H.uebersichtAblauf ? H.uebersichtAblauf(St) : { amp: '', txt: 'Was in welcher Stunde zu tun ist' };
@@ -228,7 +229,7 @@ function blattInhalt() {
   var d = h.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' }), P = I.planZiel();
   var tab = function (kopf, zeilen) { return '<table class="vr-dt"><thead><tr>' + kopf.map(function (k) { return '<th>' + k + '</th>'; }).join('') + '</tr></thead><tbody>' + zeilen.map(function (z) { return '<tr>' + z.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>'; };
   var h1 = '<div class="vr-blatt"><header class="vr-bk"><h1>Notfall-Blatt</h1><p>Stand ' + esc(d) + ' · Vorrat &amp; Blackout-Planer (Quellwissen)</p></header>';
-  var nummern = NUMMERN.map(function (n) { return [esc(n[0]), esc(n[1])]; }).concat(H.blattNummern ? H.blattNummern(St) : []);
+  var nummern = H.blattNummern ? H.blattNummern(St) : NUMMERN.map(function (n) { return [esc(n[0]), esc(n[1])]; });
   h1 += '<section><h2>Wichtige Nummern</h2>' + tab(['Nummer', 'Wofür'], nummern) + '</section>';
   if (H.blattNotfallplan) h1 += H.blattNotfallplan(St);
   h1 += '<section><h2>Haushalt</h2>' + tab(['Person', 'Alter', 'kcal am Tag', 'Eiweiß'], Hh.P.map(function (x) { return [esc(x.p.n || '–'), esc(x.p.a || '–'), fz(x.b.kcal), fz(x.b.eiweiss) + ' g']; })) +
@@ -328,7 +329,7 @@ function bestaendeHTML() {
       '<div class="vr-chips">' + b[3].filter(function (n) { return !L.some(function (x) { return x.n === n; }); }).map(function (n) { return '<button type="button" class="vr-chip" data-badd="' + b[0] + '" data-n="' + esc(n) + '">＋ ' + esc(n) + '</button>'; }).join('') + '</div>' +
       '<div class="vr-pm vr-beigen"><span class="vr-ein"><input type="text" data-bneu="' + b[0] + '" placeholder="Eigener Eintrag" maxlength="40"></span><button type="button" class="vr-knopf" data-badd="' + b[0] + '">Hinzufügen</button></div>' +
       (b[0] === 'brennstoff' ? '<p class="vr-klein">Gaskartuschen: Ohne eigenen Verbrauch rechnet der Planer mit den Kochzeiten aus dem Speiseplan (' + fz(bpt) + ' Minuten am Tag) und der Brenndauer unter „Haushalt → Lage“' + (zahl((St.lage || {}).kartusche) > 0 ? ' (' + fz(zahl(St.lage.kartusche)) + ' Minuten je Kartusche)' : ' – dort noch eintragen') + '. Schätzung.</p>' : '') + '</details>'; });
-  return h1 + '<p class="vr-klein">Die Abhak-Liste nach dem BBK-Ratgeber steht unter „Vorrat → Fehlt noch“.</p></section>';
+  return h1 + (H.bestaendeUnten ? H.bestaendeUnten() : '<p class="vr-klein">Die Abhak-Liste nach dem BBK-Ratgeber steht unter „Vorrat → Fehlt noch“.</p>') + '</section>';
 }
 
 /* ---------- Lager: Strichcode, Garten, Erinnerungen ---------- */

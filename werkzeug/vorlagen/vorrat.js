@@ -44,165 +44,166 @@ var BLE_KCAL = 2200, BLE_TAGE = 10;
    q Quelle: A = Nährwert-Liste der App (S-23), U<Nr> = USDA FoodData Central SR Legacy (fdc_id), — = ohne Energie.
    ko = braucht Kochen · w = Kochwasser ml je 100 g · z = Kochzeit min · h/ht = übliche Haltbarkeit ungeöffnet (Tage, Richtwert; Text)
    p = übliche Packungen [Name, g] (Richtwert – das Etikett gilt) · st = g je Stück · l = Lagerort-Vorgabe (k Kühlschrank, t Gefriertruhe)
-   ml = Menge in ml · fl = zählt als Trinkwasser · x = Umrechnung auf die Menge der BLE-Tabelle (z. B. trockene Linsen → gekochte: Energie-Verhältnis) */
+   ml = Menge in ml · fl = zählt als Trinkwasser · x = Umrechnung auf die Menge der BLE-Tabelle (z. B. trockene Linsen → gekochte: Energie-Verhältnis)
+   b = Ballaststoffe g, vc = Vitamin C mg je 100 g (USDA SR Legacy; bei App-Einträgen b aus der App-Liste, vc vom ähnlichsten USDA-Eintrag vq) */
 var KATALOG = [
-{"i":"haferflocken","n":"Haferflocken","g":"getreide","k":370,"e":13.5,"f":7,"c":58.7,"q":"A","h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"hafer müsli porridge"},
-{"i":"nudeln","n":"Nudeln (Hartweizen), trocken","g":"getreide","k":355,"e":12.5,"f":1.5,"c":71,"q":"A","ko":1,"w":1000,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"spaghetti makkaroni penne pasta teigwaren"},
-{"i":"nudeln_vk","n":"Vollkornnudeln, trocken","g":"getreide","k":352,"e":13.9,"f":2.9,"c":73.4,"q":"U169738","ko":1,"w":1000,"z":12,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"pasta"},
-{"i":"eiernudeln","n":"Eiernudeln / Spätzle, trocken","g":"getreide","k":384,"e":14.2,"f":4.4,"c":71.3,"q":"U169731","ko":1,"w":1000,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"spätzle bandnudeln"},
-{"i":"reis","n":"Reis, weiß, trocken","g":"getreide","k":350,"e":7,"f":0.6,"c":78,"q":"A","ko":1,"w":200,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 1 kg",1000],["Kochbeutel 125 g",125]],"s":"langkorn basmati"},
-{"i":"reis_vk","n":"Vollkornreis, trocken","g":"getreide","k":350,"e":7.5,"f":2.7,"c":72,"q":"A","ko":1,"w":250,"z":35,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 1 kg",1000]]},
-{"i":"couscous","n":"Couscous, trocken","g":"getreide","k":355,"e":12.8,"f":0.6,"c":72,"q":"A","ko":1,"w":120,"z":5,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
-{"i":"bulgur","n":"Bulgur, trocken","g":"getreide","k":342,"e":12.3,"f":1.3,"c":75.9,"q":"U170688","ko":1,"w":200,"z":15,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
-{"i":"hirse","n":"Hirse, trocken","g":"getreide","k":378,"e":11.0,"f":4.2,"c":72.8,"q":"U169702","ko":1,"w":250,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
-{"i":"quinoa","n":"Quinoa, trocken","g":"getreide","k":355,"e":14,"f":6,"c":57,"q":"A","ko":1,"w":200,"z":15,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
-{"i":"griess","n":"Weichweizengrieß","g":"getreide","k":360,"e":12.7,"f":1.1,"c":72.8,"q":"U169715","ko":1,"z":5,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"grieß griessbrei"},
-{"i":"polenta","n":"Polenta / Maisgrieß","g":"getreide","k":370,"e":7.1,"f":1.8,"c":79.5,"q":"U168929","ko":1,"w":400,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"maisgriess"},
-{"i":"weizenkoerner","n":"Weizenkörner (ganz)","g":"getreide","k":327,"e":12.6,"f":1.5,"c":71.2,"q":"U168890","ko":1,"w":300,"z":60,"h":730,"ht":"2 Jahre","p":[["Sack 1 kg",1000],["Sack 5 kg",5000]],"s":"getreide korn dinkel"},
-{"i":"mehl405","n":"Weizenmehl Type 405/550","g":"getreide","k":345,"e":10,"f":1,"c":71,"q":"A","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl"},
-{"i":"vollkornmehl","n":"Weizenvollkornmehl","g":"getreide","k":330,"e":12,"f":2,"c":60,"q":"A","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl vollkorn"},
-{"i":"dinkelmehl","n":"Dinkelmehl","g":"getreide","k":338,"e":14.6,"f":2.4,"c":70.2,"q":"U169745","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl dinkel 630 vollkorn"},
-{"i":"roggenmehl","n":"Roggenmehl (Type 997/1150)","g":"getreide","k":349,"e":10.9,"f":1.5,"c":75.4,"q":"U168886","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl roggen"},
-{"i":"roggenvollkornmehl","n":"Roggenvollkornmehl","g":"getreide","k":325,"e":15.9,"f":2.2,"c":68.6,"q":"U168885","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl roggen vollkorn"},
-{"i":"staerke","n":"Speisestärke","g":"getreide","k":381,"e":0.3,"f":0.1,"c":91.3,"q":"U169698","ko":1,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 400 g",400]],"s":"maisstärke stärke"},
-{"i":"kartoffeln","n":"Kartoffeln, roh","g":"getreide","k":77,"e":2.0,"f":0.1,"c":17.5,"q":"U170026","ko":1,"w":100,"z":20,"h":180,"ht":"6–8 Monate (dunkel, 5–10 °C)","p":[["Netz 2,5 kg",2500],["Sack 10 kg",10000]],"st":150},
-{"i":"pueree","n":"Kartoffelpüree-Flocken","g":"getreide","k":354,"e":8.3,"f":0.4,"c":81.2,"q":"U170445","ko":1,"w":450,"z":2,"h":365,"ht":"1–2 Jahre","p":[["Packung 3 × 3 Port. (ca. 240 g)",240]],"s":"kartoffelbrei püree"},
-{"i":"knaecke","n":"Knäckebrot","g":"getreide","k":366,"e":7.9,"f":1.3,"c":82.2,"q":"U172739","h":365,"ht":"etwa 1 Jahr","p":[["Packung 250 g",250]],"s":"knäcke"},
-{"i":"zwieback","n":"Zwieback","g":"getreide","k":426,"e":10.1,"f":9.7,"c":74.2,"q":"U171372","h":365,"ht":"etwa 1 Jahr","p":[["Packung 225 g",225]]},
-{"i":"vkbrot","n":"Vollkornbrot (Schnittbrot, verpackt)","g":"getreide","k":200,"e":6.5,"f":1.2,"c":38,"q":"A","ht":"MHD auf der Packung","p":[["Packung 500 g",500]],"s":"pumpernickel schwarzbrot"},
-{"i":"mischbrot","n":"Brot, frisch (Mischbrot)","g":"getreide","k":220,"e":6.5,"f":1.2,"c":43,"q":"A","h":10,"ht":"10–12 Tage","p":[["Laib 1 kg",1000],["Laib 750 g",750]],"s":"brot laib"},
-{"i":"toast","n":"Toastbrot","g":"getreide","k":260,"e":8,"f":3.5,"c":47,"q":"A","ht":"MHD auf der Packung","p":[["Packung 500 g",500]]},
-{"i":"broetchen","n":"Brötchen","g":"getreide","k":260,"e":8.5,"f":1.5,"c":51,"q":"A","h":1,"ht":"1–2 Tage","st":55,"s":"semmel schrippe"},
-{"i":"tortilla","n":"Weizen-Tortillas (Fladen)","g":"getreide","k":297,"e":8.0,"f":7.6,"c":49.3,"q":"U167535","ht":"MHD auf der Packung","p":[["Packung 8 St. (ca. 320 g)",320]],"st":40,"s":"wraps fladen"},
-{"i":"reiswaffeln","n":"Reiswaffeln","g":"getreide","k":392,"e":7.1,"f":4.3,"c":81.1,"q":"U168107","ht":"MHD auf der Packung","p":[["Packung 100 g",100]]},
-{"i":"cornflakes","n":"Cornflakes","g":"getreide","k":378,"e":7,"f":0.9,"c":84,"q":"A","h":365,"ht":"etwa 1 Jahr","p":[["Packung 375 g",375]],"s":"maisflocken"},
-{"i":"muesli","n":"Müsli (mit Nüssen, gesüßt)","g":"getreide","k":489,"e":13.7,"f":24.3,"c":53.9,"q":"U171646","ht":"MHD auf der Packung","p":[["Packung 750 g",750]],"s":"granola knuspermüsli"},
-{"i":"ravioli","n":"Ravioli in Tomatensoße (Dose)","g":"getreide","k":77,"e":2.5,"f":1.4,"c":13.6,"q":"U173328","z":5,"h":365,"ht":"1–2 Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve"},
-{"i":"linsen","n":"Linsen (braun/Teller), trocken","g":"gemuese","k":352,"e":24.6,"f":1.1,"c":63.4,"q":"U172420","ko":1,"w":300,"z":30,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.03,"s":"hülsenfrüchte"},
-{"i":"rote_linsen","n":"Rote Linsen, trocken","g":"gemuese","k":358,"e":23.9,"f":2.2,"c":63.1,"q":"U174284","ko":1,"w":250,"z":12,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.09,"s":"hülsenfrüchte dal"},
-{"i":"erbsen_getr","n":"Schälerbsen (getrocknet)","g":"gemuese","k":364,"e":23.1,"f":3.9,"c":61.6,"q":"U172428","ko":1,"w":300,"z":45,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.08,"s":"erbsen hülsenfrüchte erbsensuppe"},
-{"i":"bohnen_getr","n":"Weiße Bohnen, getrocknet","g":"gemuese","k":333,"e":23.4,"f":0.8,"c":60.3,"q":"U175202","ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.4,"s":"hülsenfrüchte einweichen"},
-{"i":"kidney_getr","n":"Kidneybohnen, getrocknet","g":"gemuese","k":337,"e":22.5,"f":1.1,"c":61.3,"q":"U173744","ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.72,"s":"hülsenfrüchte rote bohnen"},
-{"i":"kicher_getr","n":"Kichererbsen, getrocknet","g":"gemuese","k":378,"e":20.5,"f":6.0,"c":63.0,"q":"U173756","ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.3,"s":"hülsenfrüchte"},
-{"i":"kidney_dose","n":"Kidneybohnen (Dose, abgetropft)","g":"gemuese","k":124,"e":8.0,"f":1.1,"c":21.5,"q":"U174285","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (250 g abgetropft)",250],["Dose 800 g (500 g abgetropft)",500]],"s":"rote bohnen konserve"},
-{"i":"kicher_dose","n":"Kichererbsen (Dose, abgetropft)","g":"gemuese","k":139,"e":7.0,"f":2.8,"c":22.5,"q":"U173800","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (240 g abgetropft)",240]],"s":"konserve hummus"},
-{"i":"bohnen_dose","n":"Weiße Bohnen (Dose)","g":"gemuese","k":114,"e":7.3,"f":0.3,"c":21.2,"q":"U175204","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (250 g abgetropft)",250]],"s":"konserve"},
-{"i":"baked_beans","n":"Bohnen in Tomatensoße (Dose)","g":"gemuese","k":94,"e":4.8,"f":0.4,"c":21.1,"q":"U175182","h":365,"ht":"1–2 Jahre","p":[["Dose 415 g",415]],"s":"baked beans konserve"},
-{"i":"gr_bohnen","n":"Grüne Bohnen (Dose, abgetropft)","g":"gemuese","k":21,"e":1.1,"f":0.4,"c":4.2,"q":"U169143","h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (220 g abgetropft)",220],["Dose 850 ml (440 g abgetropft)",440]],"s":"brechbohnen konserve"},
-{"i":"erbsen_moehren","n":"Erbsen & Möhren (Dose)","g":"gemuese","k":38,"e":2.2,"f":0.3,"c":8.5,"q":"U170424","h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (280 g abgetropft)",280],["Dose 850 ml (530 g abgetropft)",530]],"s":"karotten konserve"},
-{"i":"mais","n":"Mais (Dose, abgetropft)","g":"gemuese","k":67,"e":2.3,"f":1.2,"c":14.3,"q":"U169214","h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (285 g abgetropft)",285],["Dose 212 ml (140 g abgetropft)",140]],"s":"zuckermais konserve"},
-{"i":"rotkohl_glas","n":"Rotkohl (Glas)","g":"gemuese","k":29,"e":1.5,"f":0.1,"c":6.9,"q":"U169978","z":10,"h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (680 g)",680]],"s":"blaukraut konserve"},
-{"i":"sauerkraut","n":"Sauerkraut (Dose/Glas)","g":"gemuese","k":19,"e":0.9,"f":0.1,"c":4.3,"q":"U169279","h":365,"ht":"1–2 Jahre","p":[["Dose 850 ml (770 g)",770],["Glas 720 ml (680 g)",680]],"s":"konserve"},
-{"i":"pilze_dose","n":"Champignons (Dose, abgetropft)","g":"gemuese","k":25,"e":1.9,"f":0.3,"c":5.1,"q":"U169254","h":365,"ht":"1–2 Jahre","p":[["Dose 314 ml (170 g abgetropft)",170]],"s":"pilze konserve"},
-{"i":"gurken","n":"Gewürzgurken (Glas, abgetropft)","g":"gemuese","k":12,"e":0.5,"f":0.3,"c":2.4,"q":"U168558","h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (360 g abgetropft)",360]],"s":"essiggurken konserve"},
-{"i":"rote_bete","n":"Rote Bete (Glas, abgetropft)","g":"gemuese","k":31,"e":0.9,"f":0.1,"c":7.2,"q":"U169966","h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (350 g abgetropft)",350]],"s":"rote beete konserve"},
-{"i":"tomaten_dose","n":"Tomaten, gehackt (Dose)","g":"gemuese","k":16,"e":0.8,"f":0.2,"c":3.5,"q":"U170051","h":365,"ht":"1–2 Jahre","p":[["Dose 400 g",400],["Packung 500 g",500]],"s":"konserve tomate"},
-{"i":"passata","n":"Passierte Tomaten","g":"gemuese","k":38,"e":1.6,"f":0.2,"c":9.0,"q":"U170546","h":365,"ht":"1–2 Jahre","p":[["Packung 500 g",500],["Flasche 700 g",700]],"s":"tomatensoße konserve"},
-{"i":"tomatenmark","n":"Tomatenmark","g":"gemuese","k":82,"e":4.3,"f":0.5,"c":18.9,"q":"U170459","h":365,"ht":"1–2 Jahre","p":[["Tube 200 g",200],["Dose 70 g",70]]},
-{"i":"spargel","n":"Spargel (Glas, abgetropft)","g":"gemuese","k":19,"e":2.1,"f":0.7,"c":2.5,"q":"U169207","h":365,"ht":"1–2 Jahre","p":[["Glas 370 ml (205 g abgetropft)",205]],"s":"konserve"},
-{"i":"eintopf","n":"Erbseneintopf (Dose)","g":"gemuese","k":77,"e":4.6,"f":1.7,"c":11.2,"q":"U171555","z":5,"h":365,"ht":"1–2 Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"suppe eintopf fertiggericht konserve"},
-{"i":"pilze_getr","n":"Pilze, getrocknet","g":"gemuese","k":296,"e":9.6,"f":1.0,"c":75.4,"q":"U168436","ko":1,"w":200,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Beutel 30 g",30]],"s":"steinpilze shiitake"},
-{"i":"zwiebeln","n":"Zwiebeln","g":"gemuese","k":38,"e":1.1,"f":0.1,"c":7.6,"q":"A","ht":"MHD auf der Packung","p":[["Netz 1 kg",1000]],"st":100,"s":"zwiebel"},
-{"i":"knoblauch","n":"Knoblauch","g":"gemuese","k":149,"e":6.4,"f":0.5,"c":33.1,"q":"U169230","ht":"MHD auf der Packung","st":5,"s":"knolle zehe"},
-{"i":"moehren","n":"Möhren, frisch","g":"gemuese","k":38,"e":0.9,"f":0.2,"c":6.8,"q":"A","h":8,"ht":"etwa 8 Tage (Kühlschrank)","p":[["Beutel 1 kg",1000]],"l":"k","st":80,"s":"karotten möhre"},
-{"i":"kohl","n":"Weißkohl / Rotkohl, frisch","g":"gemuese","k":24,"e":1.3,"f":0.1,"c":3.3,"q":"A","ht":"MHD auf der Packung","l":"k","st":1000,"s":"kraut kohlkopf"},
-{"i":"erbsen_tk","n":"Erbsen (tiefgekühlt)","g":"gemuese","k":73,"e":5.4,"f":0.4,"c":9.4,"q":"A","ko":1,"w":50,"z":5,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Beutel 750 g",750]],"l":"t","s":"tk tiefkühl"},
-{"i":"spinat_tk","n":"Spinat (tiefgekühlt)","g":"gemuese","k":29,"e":3.6,"f":0.6,"c":4.2,"q":"U169287","ko":1,"z":10,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Packung 450 g",450]],"l":"t","s":"tk tiefkühl"},
-{"i":"gemuese_tk","n":"Gemüsemischung (tiefgekühlt)","g":"gemuese","k":72,"e":3.3,"f":0.5,"c":13.5,"q":"U170471","ko":1,"w":50,"z":8,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Beutel 750 g",750]],"l":"t","s":"tk tiefkühl"},
-{"i":"aepfel","n":"Äpfel","g":"obst","k":53,"e":0.3,"f":0.2,"c":11.4,"q":"A","h":90,"ht":"3–5 Monate (kühl, dunkel)","p":[["Beutel 1 kg",1000]],"st":150,"s":"apfel"},
-{"i":"bananen","n":"Bananen","g":"obst","k":93,"e":1.1,"f":0.3,"c":20.2,"q":"A","ht":"MHD auf der Packung","st":120,"s":"banane"},
-{"i":"orangen","n":"Orangen","g":"obst","k":47,"e":0.9,"f":0.1,"c":9.4,"q":"A","ht":"MHD auf der Packung","st":150,"s":"apfelsine"},
-{"i":"pfirsiche","n":"Pfirsiche (Dose)","g":"obst","k":54,"e":0.5,"f":0.0,"c":14.6,"q":"U169111","h":365,"ht":"etwa 1 Jahr","p":[["Dose 820 g",820],["Dose 410 g",410]],"s":"konserve obst"},
-{"i":"birnen","n":"Birnen (Dose)","g":"obst","k":57,"e":0.2,"f":0.0,"c":15.2,"q":"U169938","h":365,"ht":"etwa 1 Jahr","p":[["Dose 820 g",820]],"s":"konserve obst"},
-{"i":"mandarinen","n":"Mandarinen (Dose)","g":"obst","k":61,"e":0.5,"f":0.1,"c":16.2,"q":"U169924","h":365,"ht":"etwa 1 Jahr","p":[["Dose 314 ml (300 g)",300]],"s":"konserve obst"},
-{"i":"ananas","n":"Ananas (Dose, im Saft)","g":"obst","k":60,"e":0.4,"f":0.1,"c":15.7,"q":"U169126","h":365,"ht":"etwa 1 Jahr","p":[["Dose 580 ml (565 g)",565]],"s":"konserve obst"},
-{"i":"kirschen","n":"Sauerkirschen (Glas)","g":"obst","k":75,"e":0.7,"f":0.1,"c":19.3,"q":"U173956","h":365,"ht":"etwa 1 Jahr","p":[["Glas 720 ml (680 g)",680]],"s":"konserve obst"},
-{"i":"apfelmus","n":"Apfelmus (Glas)","g":"obst","k":68,"e":0.2,"f":0.2,"c":17.5,"q":"U171696","h":365,"ht":"etwa 1 Jahr","p":[["Glas 720 ml (710 g)",710],["Glas 360 ml (355 g)",355]],"s":"konserve obst"},
-{"i":"rosinen","n":"Rosinen","g":"obst","k":299,"e":3.3,"f":0.2,"c":79.3,"q":"U168165","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 250 g",250]],"s":"trockenobst sultaninen"},
-{"i":"pflaumen_getr","n":"Trockenpflaumen","g":"obst","k":240,"e":2.2,"f":0.4,"c":63.9,"q":"U168162","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 250 g",250]],"s":"trockenobst backpflaumen"},
-{"i":"aprikosen_getr","n":"Aprikosen, getrocknet","g":"obst","k":241,"e":3.4,"f":0.5,"c":62.6,"q":"U173941","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
-{"i":"feigen_getr","n":"Feigen, getrocknet","g":"obst","k":249,"e":3.3,"f":0.9,"c":63.9,"q":"U174665","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
-{"i":"datteln","n":"Datteln, getrocknet","g":"obst","k":290,"e":1.8,"f":0.2,"c":68,"q":"A","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
-{"i":"haselnuesse","n":"Haselnüsse","g":"obst","k":650,"e":15,"f":61,"c":7,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
-{"i":"walnuesse","n":"Walnüsse","g":"obst","k":690,"e":15,"f":65,"c":7,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
-{"i":"mandeln","n":"Mandeln","g":"obst","k":580,"e":21,"f":50,"c":5.7,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
-{"i":"erdnuesse","n":"Erdnüsse, geröstet","g":"obst","k":610,"e":24,"f":50,"c":13,"q":"A","ht":"MHD auf der Packung","p":[["Dose 200 g",200]],"s":"nüsse"},
-{"i":"cashew","n":"Cashewkerne","g":"obst","k":580,"e":18,"f":44,"c":27,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
-{"i":"erdnussmus","n":"Erdnussmus / Erdnussbutter","g":"obst","k":600,"e":25,"f":50,"c":14,"q":"A","ht":"MHD auf der Packung","p":[["Glas 350 g",350]],"s":"erdnussbutter nüsse"},
-{"i":"sonnenblumenkerne","n":"Sonnenblumenkerne","g":"obst","k":600,"e":21,"f":51,"c":11,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"kerne saaten"},
-{"i":"kuerbiskerne","n":"Kürbiskerne","g":"obst","k":590,"e":30,"f":49,"c":5,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"kerne saaten"},
-{"i":"leinsamen","n":"Leinsamen","g":"obst","k":510,"e":18,"f":42,"c":1.6,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 250 g",250]],"s":"kerne saaten"},
-{"i":"hmilch","n":"H-Milch 3,5 %","g":"milch","k":64,"e":3.3,"f":3.5,"c":4.8,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"milch haltbarmilch uht"},
-{"i":"hmilch15","n":"H-Milch 1,5 %","g":"milch","k":47,"e":3.4,"f":1.5,"c":4.9,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"milch haltbarmilch fettarm"},
-{"i":"frischmilch","n":"Frischmilch","g":"milch","k":64,"e":3.3,"f":3.5,"c":4.8,"q":"A","h":2,"ht":"2–5 Tage (Kühlschrank)","p":[["Flasche 1 l",1000]],"l":"k","ml":1,"s":"milch"},
-{"i":"milchpulver","n":"Vollmilchpulver","g":"milch","k":496,"e":26.3,"f":26.7,"c":38.4,"q":"U173454","ht":"MHD auf der Packung","p":[["Packung 400 g",400]],"x":8.13,"s":"trockenmilch pulver"},
-{"i":"kondensmilch","n":"Kondensmilch 7,5 %","g":"milch","k":134,"e":6.8,"f":7.6,"c":10.0,"q":"U172194","ht":"MHD auf der Packung","p":[["Dose 340 g",340],["Tube 170 g",170]],"s":"dosenmilch"},
-{"i":"hartkaese","n":"Hartkäse am Stück (z. B. Parmesan, Bergkäse)","g":"milch","k":390,"e":35,"f":26,"c":0,"q":"A","ht":"MHD auf der Packung","p":[["Stück 200 g",200]],"l":"k","s":"käse"},
-{"i":"gouda","n":"Schnittkäse (z. B. Gouda)","g":"milch","k":360,"e":25,"f":29,"c":0,"q":"A","h":8,"ht":"8–10 Tage","p":[["Packung 400 g",400]],"l":"k","s":"käse"},
-{"i":"joghurt","n":"Naturjoghurt","g":"milch","k":66,"e":3.8,"f":3.5,"c":4.6,"q":"A","h":14,"ht":"etwa 2 Wochen (Kühlschrank)","p":[["Becher 500 g",500]],"l":"k","s":"jogurt"},
-{"i":"quark","n":"Magerquark","g":"milch","k":67,"e":12,"f":0.3,"c":4,"q":"A","ht":"MHD auf der Packung","p":[["Becher 500 g",500]],"l":"k","s":"topfen"},
-{"i":"sahne","n":"Schlagsahne 30 %","g":"milch","k":290,"e":2.4,"f":30,"c":3.2,"q":"A","h":14,"ht":"etwa 2 Wochen (Kühlschrank)","p":[["Becher 200 g",200]],"l":"k","s":"sahne"},
-{"i":"hafermilch","n":"Haferdrink","g":"milch","k":46,"e":1,"f":1.5,"c":6.7,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"hafermilch pflanzendrink"},
-{"i":"sojadrink","n":"Sojadrink ungesüßt","g":"milch","k":35,"e":3.3,"f":1.9,"c":0.5,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"sojamilch pflanzendrink"},
-{"i":"thunfisch","n":"Thunfisch im eigenen Saft (Dose, abgetropft)","g":"eiweiss","k":110,"e":25,"f":1,"c":0,"q":"A","h":730,"ht":"mehrere Jahre","p":[["Dose 185 g (150 g abgetropft)",150]],"s":"fisch konserve"},
-{"i":"sardinen","n":"Sardinen in Öl (Dose, abgetropft)","g":"eiweiss","k":208,"e":24.6,"f":11.4,"c":0.0,"q":"U175139","h":730,"ht":"mehrere Jahre","p":[["Dose 125 g (90 g abgetropft)",90]],"s":"fisch konserve"},
-{"i":"makrele","n":"Makrelenfilet (Dose, abgetropft)","g":"eiweiss","k":156,"e":23.2,"f":6.3,"c":0.0,"q":"U175121","h":730,"ht":"mehrere Jahre","p":[["Dose 125 g (90 g abgetropft)",90]],"s":"fisch konserve"},
-{"i":"lachs_dose","n":"Lachs (Dose, abgetropft)","g":"eiweiss","k":138,"e":23.1,"f":5.0,"c":0.0,"q":"U175175","h":730,"ht":"mehrere Jahre","p":[["Dose 213 g (150 g abgetropft)",150]],"s":"fisch konserve"},
-{"i":"corned_beef","n":"Corned Beef (Dose)","g":"eiweiss","k":250,"e":27.1,"f":14.9,"c":0.0,"q":"U170602","h":730,"ht":"mehrere Jahre","p":[["Dose 340 g",340]],"s":"fleisch konserve rind"},
-{"i":"fruehstuecksfleisch","n":"Frühstücksfleisch (Dose)","g":"eiweiss","k":334,"e":12.5,"f":30.3,"c":2.1,"q":"U174571","h":730,"ht":"mehrere Jahre","p":[["Dose 200 g",200]],"s":"fleisch konserve schwein"},
-{"i":"leberwurst","n":"Leberwurst (Dose/Glas)","g":"eiweiss","k":300,"e":14,"f":27,"c":1.5,"q":"A","h":730,"ht":"mehrere Jahre","p":[["Dose 125 g",125],["Glas 200 g",200]],"s":"wurst konserve"},
-{"i":"wuerstchen","n":"Würstchen im Glas (Wiener/Bockwurst)","g":"eiweiss","k":280,"e":13,"f":25,"c":1,"q":"A","z":5,"h":730,"ht":"mehrere Jahre","p":[["Glas 6 St. (250 g abgetropft)",250]],"st":42,"s":"bockwurst wiener wurst konserve"},
-{"i":"salami","n":"Salami / Dauerwurst","g":"eiweiss","k":380,"e":21,"f":33,"c":1,"q":"A","ht":"MHD auf der Packung","p":[["Stück 250 g",250]],"s":"wurst dauerwurst"},
-{"i":"jagdwurst","n":"Jagdwurst / Fleischwurst","g":"eiweiss","k":308,"e":15.2,"f":24.6,"c":5.5,"q":"U172013","ht":"MHD auf der Packung","p":[["Ring 400 g",400]],"l":"k","s":"wurst lyoner"},
-{"i":"chili","n":"Chili con Carne (Dose)","g":"eiweiss","k":107,"e":5.8,"f":3.5,"c":13.1,"q":"U172097","z":5,"h":730,"ht":"mehrere Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve"},
-{"i":"gulasch","n":"Rindergulasch / Eintopf mit Fleisch (Dose)","g":"eiweiss","k":99,"e":4.4,"f":5.5,"c":7.8,"q":"U173330","z":5,"h":730,"ht":"mehrere Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve eintopf"},
-{"i":"eier","n":"Eier (Größe M)","g":"eiweiss","k":143,"e":12.6,"f":9.5,"c":0.7,"q":"A","ko":1,"w":50,"z":10,"ht":"MHD auf der Packung","p":[["Packung 10 St.",530],["Packung 6 St.",318]],"st":53,"s":"ei hühnerei"},
-{"i":"hack_tk","n":"Hackfleisch (tiefgekühlt)","g":"eiweiss","k":254,"e":17,"f":20,"c":0,"q":"A","ko":1,"z":15,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 500 g",500]],"l":"t","s":"hack fleisch tk"},
-{"i":"haehnchen_tk","n":"Hähnchenbrust (tiefgekühlt)","g":"eiweiss","k":110,"e":23,"f":1.5,"c":0,"q":"A","ko":1,"z":20,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 1 kg",1000]],"l":"t","s":"huhn fleisch tk geflügel"},
-{"i":"fisch_tk","n":"Fischfilet (tiefgekühlt)","g":"eiweiss","k":82,"e":18,"f":0.7,"c":0,"q":"A","ko":1,"z":15,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 400 g",400]],"l":"t","s":"seelachs kabeljau tk"},
-{"i":"tofu","n":"Tofu natur","g":"eiweiss","k":125,"e":13.5,"f":7.5,"c":1,"q":"A","ht":"MHD auf der Packung","p":[["Packung 200 g",200]],"l":"k","s":"soja fleischersatz"},
-{"i":"rapsoel","n":"Rapsöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"6–12 Monate","p":[["Flasche 1 l (920 g)",920],["Flasche 0,5 l (460 g)",460]],"s":"öl speiseöl"},
-{"i":"sonnenblumenoel","n":"Sonnenblumenöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"6–12 Monate","p":[["Flasche 1 l (920 g)",920]],"s":"öl speiseöl"},
-{"i":"olivenoel","n":"Olivenöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"6–12 Monate","p":[["Flasche 0,75 l (690 g)",690],["Flasche 0,5 l (460 g)",460]],"s":"öl"},
-{"i":"butter","n":"Butter","g":"fett","k":741,"e":0.7,"f":82,"c":0.6,"q":"A","h":28,"ht":"4–6 Wochen (Kühlschrank)","p":[["Stück 250 g",250]],"l":"k"},
-{"i":"margarine","n":"Margarine","g":"fett","k":720,"e":0.2,"f":80,"c":0.4,"q":"A","h":28,"ht":"4–6 Wochen (Kühlschrank)","p":[["Becher 500 g",500]],"l":"k"},
-{"i":"butterschmalz","n":"Butterschmalz","g":"fett","k":876,"e":0.3,"f":99.5,"c":0.0,"q":"U173412","h":180,"ht":"viele Monate","p":[["Glas 500 g",500],["Packung 250 g",250]],"s":"ghee"},
-{"i":"schmalz","n":"Schweineschmalz","g":"fett","k":900,"e":0,"f":100,"c":0,"q":"A","ht":"MHD auf der Packung","p":[["Becher 250 g",250]]},
-{"i":"kokosfett","n":"Kokosfett","g":"fett","k":890,"e":0,"f":100,"c":0,"q":"A","h":180,"ht":"viele Monate","p":[["Packung 250 g",250]],"s":"kokosöl palmin"},
-{"i":"wasser","n":"Mineralwasser","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","h":365,"ht":"MHD meist 1–1½ Jahre","p":[["Flasche 1,5 l",1500],["Flasche 1 l",1000],["Flasche 0,5 l",500],["Kasten 6 × 1,5 l",9000],["Kasten 12 × 0,7 l",8400]],"ml":1,"fl":1,"s":"trinkwasser sprudel flasche"},
-{"i":"wasser_kanister","n":"Trinkwasser im Kanister (selbst abgefüllt)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","ht":"MHD auf der Packung","p":[["Kanister 5 l",5000],["Kanister 10 l",10000],["Kanister 20 l",20000]],"ml":1,"fl":1,"s":"leitungswasser kanister"},
-{"i":"apfelsaft","n":"Apfelsaft","g":"trinken","k":46,"e":0.1,"f":0.1,"c":11.3,"q":"U173933","ht":"MHD auf der Packung","p":[["Flasche 1 l",1000]],"ml":1,"fl":1,"s":"saft"},
-{"i":"orangensaft","n":"Orangensaft","g":"trinken","k":43,"e":0.7,"f":0.2,"c":9,"q":"A","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"fl":1,"s":"saft"},
-{"i":"zitronensaft","n":"Zitronensaft","g":"trinken","k":17,"e":0.5,"f":0.1,"c":5.6,"q":"U167748","ht":"MHD auf der Packung","p":[["Flasche 200 ml",200]],"ml":1,"s":"zitrone"},
-{"i":"tee","n":"Tee (schwarz oder Kräuter)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 20 Beutel (40 g)",40]],"kein":1,"s":"teebeutel"},
-{"i":"kaffee","n":"Kaffee (Pulver)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","ht":"MHD auf der Packung","p":[["Packung 500 g",500],["Glas Instant 100 g",100]],"kein":1,"s":"instant"},
-{"i":"zucker","n":"Zucker","g":"sonst","k":400,"e":0,"f":0,"c":100,"q":"A","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 1 kg",1000]],"s":"zucker"},
-{"i":"honig","n":"Honig","g":"sonst","k":326,"e":0.3,"f":0,"c":81,"q":"A","ht":"MHD auf der Packung","p":[["Glas 500 g",500]]},
-{"i":"marmelade","n":"Konfitüre / Marmelade","g":"sonst","k":278,"e":0.4,"f":0.1,"c":68.9,"q":"U169641","h":365,"ht":"etwa 1 Jahr","p":[["Glas 450 g",450]],"s":"marmelade gelee"},
-{"i":"nusscreme","n":"Nuss-Nougat-Creme","g":"sonst","k":539,"e":5.4,"f":29.7,"c":62.4,"q":"U168000","ht":"MHD auf der Packung","p":[["Glas 400 g",400]],"s":"schokocreme"},
-{"i":"schoko","n":"Vollmilchschokolade","g":"sonst","k":535,"e":7,"f":30,"c":57,"q":"A","ht":"MHD auf der Packung","p":[["Tafel 100 g",100]],"s":"schokolade"},
-{"i":"zartbitter","n":"Zartbitterschokolade","g":"sonst","k":575,"e":7.8,"f":42,"c":35,"q":"A","ht":"MHD auf der Packung","p":[["Tafel 100 g",100]],"s":"schokolade"},
-{"i":"kakao","n":"Kakaopulver (ungesüßt)","g":"sonst","k":228,"e":19.6,"f":13.7,"c":57.9,"q":"U169593","ht":"MHD auf der Packung","p":[["Dose 250 g",250]]},
-{"i":"kekse","n":"Butterkekse","g":"sonst","k":435,"e":7.5,"f":11,"c":74,"q":"A","ht":"MHD auf der Packung","p":[["Packung 200 g",200]],"s":"kekse"},
-{"i":"riegel","n":"Müsliriegel","g":"sonst","k":471,"e":10.1,"f":19.8,"c":64.4,"q":"U167542","ht":"MHD auf der Packung","p":[["Packung 6 St. (150 g)",150]],"st":25,"s":"riegel"},
-{"i":"salzstangen","n":"Salzstangen / Brezeln","g":"sonst","k":384,"e":10.0,"f":2.9,"c":80.4,"q":"U167555","ht":"MHD auf der Packung","p":[["Beutel 250 g",250]]},
-{"i":"chips","n":"Kartoffelchips","g":"sonst","k":530,"e":6,"f":33,"c":50,"q":"A","ht":"MHD auf der Packung","p":[["Beutel 175 g",175]]},
-{"i":"crackers","n":"Cracker","g":"sonst","k":418,"e":9.5,"f":8.6,"c":74.0,"q":"U172746","ht":"MHD auf der Packung","p":[["Packung 200 g",200]]},
-{"i":"salz","n":"Salz","g":"sonst","k":0,"e":0,"f":0,"c":0,"q":"—","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 500 g",500]],"kein":1},
-{"i":"bruehe","n":"Gemüsebrühe (Pulver)","g":"sonst","k":267,"e":16.7,"f":13.9,"c":18.0,"q":"U171562","ht":"MHD auf der Packung","p":[["Glas 150 g (ca. 7 l)",150]],"s":"brühe bouillon suppenpulver"},
-{"i":"trockenhefe","n":"Trockenhefe","g":"sonst","k":325,"e":40.4,"f":7.6,"c":41.2,"q":"U175043","ht":"MHD auf der Packung","p":[["Päckchen 7 g",7]],"s":"hefe"},
-{"i":"frischhefe","n":"Frische Hefe","g":"sonst","k":105,"e":8.4,"f":1.9,"c":18.1,"q":"U175042","ko":1,"ht":"MHD auf der Packung","p":[["Würfel 42 g",42]],"l":"k","s":"hefe würfel"},
-{"i":"backpulver","n":"Backpulver","g":"sonst","k":51,"e":0.1,"f":0.0,"c":24.1,"q":"U172804","ko":1,"ht":"MHD auf der Packung","p":[["Päckchen 15 g",15]]},
-{"i":"puddingpulver","n":"Puddingpulver","g":"sonst","k":379,"e":0.3,"f":0.4,"c":93.5,"q":"U169609","ko":1,"z":5,"ht":"MHD auf der Packung","p":[["Päckchen 37 g",37]],"s":"pudding"},
-{"i":"essig","n":"Essig","g":"sonst","k":21,"e":0.0,"f":0.0,"c":0.9,"q":"U173469","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Flasche 750 ml",750]],"ml":1},
-{"i":"senf","n":"Senf","g":"sonst","k":60,"e":3.7,"f":3.3,"c":5.8,"q":"U172234","ht":"MHD auf der Packung","p":[["Tube 200 ml",200]]},
-{"i":"ketchup","n":"Ketchup","g":"sonst","k":101,"e":1.0,"f":0.1,"c":27.4,"q":"U168556","ht":"MHD auf der Packung","p":[["Flasche 500 ml (550 g)",550]]},
-{"i":"mayonnaise","n":"Mayonnaise","g":"sonst","k":720,"e":1,"f":79,"c":1.5,"q":"A","ht":"MHD auf der Packung","p":[["Glas 250 ml (240 g)",240]],"s":"mayo"},
-{"i":"suppe_tuete","n":"Instant-Suppe (Tüte)","g":"sonst","k":377,"e":15.4,"f":6.5,"c":62.3,"q":"U171571","ko":1,"w":500,"z":5,"ht":"MHD auf der Packung","p":[["Tüte 60 g (für 0,5 l)",60]],"s":"tütensuppe nudelsuppe"},
-{"i":"saeuglingsmilch","n":"Säuglingsmilch (Pulver)","g":"baby","k":522,"e":10.9,"f":28.9,"c":54.7,"q":"U173561","ko":1,"ht":"MHD auf der Packung","p":[["Packung 800 g",800]],"s":"pre milch anfangsnahrung baby"},
-{"i":"babybrei_getreide","n":"Getreidebrei für Babys (Pulver)","g":"baby","k":390,"e":6.7,"f":2.2,"c":83.1,"q":"U170969","ko":1,"ht":"MHD auf der Packung","p":[["Packung 250 g",250]],"s":"baby brei reisflocken"},
-{"i":"babygl_menue","n":"Baby-Menü im Glas","g":"baby","k":53,"e":2.0,"f":1.1,"c":8.7,"q":"U173513","ht":"MHD auf der Packung","p":[["Glas 190 g",190]],"s":"baby gläschen"},
-{"i":"babygl_obst","n":"Obstbrei für Babys (Glas)","g":"baby","k":41,"e":0.2,"f":0.2,"c":10.8,"q":"U173512","ht":"MHD auf der Packung","p":[["Glas 125 g",125]],"s":"baby gläschen apfel"}
+{"i":"haferflocken","n":"Haferflocken","g":"getreide","k":370,"e":13.5,"f":7,"c":58.7,"q":"A","b":10,"vc":0.0,"vq":"U169705","h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"hafer müsli porridge"},
+{"i":"nudeln","n":"Nudeln (Hartweizen), trocken","g":"getreide","k":355,"e":12.5,"f":1.5,"c":71,"q":"A","b":3,"vc":0.0,"vq":"U169736","ko":1,"w":1000,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"spaghetti makkaroni penne pasta teigwaren"},
+{"i":"nudeln_vk","n":"Vollkornnudeln, trocken","g":"getreide","k":352,"e":13.9,"f":2.9,"c":73.4,"q":"U169738","b":9.2,"ko":1,"w":1000,"z":12,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"pasta"},
+{"i":"eiernudeln","n":"Eiernudeln / Spätzle, trocken","g":"getreide","k":384,"e":14.2,"f":4.4,"c":71.3,"q":"U169731","b":3.3,"vc":0.0,"ko":1,"w":1000,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"spätzle bandnudeln"},
+{"i":"reis","n":"Reis, weiß, trocken","g":"getreide","k":350,"e":7,"f":0.6,"c":78,"q":"A","b":1.4,"vc":0.0,"vq":"U168877","ko":1,"w":200,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 1 kg",1000],["Kochbeutel 125 g",125]],"s":"langkorn basmati"},
+{"i":"reis_vk","n":"Vollkornreis, trocken","g":"getreide","k":350,"e":7.5,"f":2.7,"c":72,"q":"A","b":3.5,"vc":0.0,"vq":"U169703","ko":1,"w":250,"z":35,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 1 kg",1000]]},
+{"i":"couscous","n":"Couscous, trocken","g":"getreide","k":355,"e":12.8,"f":0.6,"c":72,"q":"A","b":5,"vc":0.0,"vq":"U169699","ko":1,"w":120,"z":5,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"bulgur","n":"Bulgur, trocken","g":"getreide","k":342,"e":12.3,"f":1.3,"c":75.9,"q":"U170688","b":12.5,"vc":0.0,"ko":1,"w":200,"z":15,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"hirse","n":"Hirse, trocken","g":"getreide","k":378,"e":11.0,"f":4.2,"c":72.8,"q":"U169702","b":8.5,"vc":0.0,"ko":1,"w":250,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"quinoa","n":"Quinoa, trocken","g":"getreide","k":355,"e":14,"f":6,"c":57,"q":"A","b":7,"vq":"U168874","ko":1,"w":200,"z":15,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]]},
+{"i":"griess","n":"Weichweizengrieß","g":"getreide","k":360,"e":12.7,"f":1.1,"c":72.8,"q":"U169715","b":3.9,"vc":0.0,"ko":1,"z":5,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"grieß griessbrei"},
+{"i":"polenta","n":"Polenta / Maisgrieß","g":"getreide","k":370,"e":7.1,"f":1.8,"c":79.5,"q":"U168929","b":3.9,"vc":0.0,"ko":1,"w":400,"z":10,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"s":"maisgriess"},
+{"i":"weizenkoerner","n":"Weizenkörner (ganz)","g":"getreide","k":327,"e":12.6,"f":1.5,"c":71.2,"q":"U168890","b":12.2,"vc":0.0,"ko":1,"w":300,"z":60,"h":730,"ht":"2 Jahre","p":[["Sack 1 kg",1000],["Sack 5 kg",5000]],"s":"getreide korn dinkel"},
+{"i":"mehl405","n":"Weizenmehl Type 405/550","g":"getreide","k":345,"e":10,"f":1,"c":71,"q":"A","b":4,"vc":0.0,"vq":"U168894","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl"},
+{"i":"vollkornmehl","n":"Weizenvollkornmehl","g":"getreide","k":330,"e":12,"f":2,"c":60,"q":"A","b":10,"vc":0.0,"vq":"U168893","ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl vollkorn"},
+{"i":"dinkelmehl","n":"Dinkelmehl","g":"getreide","k":338,"e":14.6,"f":2.4,"c":70.2,"q":"U169745","b":10.7,"vc":0.0,"ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl dinkel 630 vollkorn"},
+{"i":"roggenmehl","n":"Roggenmehl (Type 997/1150)","g":"getreide","k":349,"e":10.9,"f":1.5,"c":75.4,"q":"U168886","b":11.8,"vc":0.0,"ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl roggen"},
+{"i":"roggenvollkornmehl","n":"Roggenvollkornmehl","g":"getreide","k":325,"e":15.9,"f":2.2,"c":68.6,"q":"U168885","b":23.8,"vc":0.0,"ko":1,"ht":"MHD auf der Packung","p":[["Packung 1 kg",1000]],"s":"mehl roggen vollkorn"},
+{"i":"staerke","n":"Speisestärke","g":"getreide","k":381,"e":0.3,"f":0.1,"c":91.3,"q":"U169698","b":0.9,"vc":0.0,"ko":1,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 400 g",400]],"s":"maisstärke stärke"},
+{"i":"kartoffeln","n":"Kartoffeln, roh","g":"getreide","k":77,"e":2.0,"f":0.1,"c":17.5,"q":"U170026","b":2.1,"vc":19.7,"ko":1,"w":100,"z":20,"h":180,"ht":"6–8 Monate (dunkel, 5–10 °C)","p":[["Netz 2,5 kg",2500],["Sack 10 kg",10000]],"st":150},
+{"i":"pueree","n":"Kartoffelpüree-Flocken","g":"getreide","k":354,"e":8.3,"f":0.4,"c":81.2,"q":"U170445","b":6.6,"vc":81.0,"ko":1,"w":450,"z":2,"h":365,"ht":"1–2 Jahre","p":[["Packung 3 × 3 Port. (ca. 240 g)",240]],"s":"kartoffelbrei püree"},
+{"i":"knaecke","n":"Knäckebrot","g":"getreide","k":366,"e":7.9,"f":1.3,"c":82.2,"q":"U172739","b":16.5,"vc":0.0,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 250 g",250]],"s":"knäcke"},
+{"i":"zwieback","n":"Zwieback","g":"getreide","k":426,"e":10.1,"f":9.7,"c":74.2,"q":"U171372","b":2.5,"vc":5.3,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 225 g",225]]},
+{"i":"vkbrot","n":"Vollkornbrot (Schnittbrot, verpackt)","g":"getreide","k":200,"e":6.5,"f":1.2,"c":38,"q":"A","b":8,"vc":0.0,"vq":"U174918","ht":"MHD auf der Packung","p":[["Packung 500 g",500]],"s":"pumpernickel schwarzbrot"},
+{"i":"mischbrot","n":"Brot, frisch (Mischbrot)","g":"getreide","k":220,"e":6.5,"f":1.2,"c":43,"q":"A","b":6,"vc":0.4,"vq":"U172684","h":10,"ht":"10–12 Tage","p":[["Laib 1 kg",1000],["Laib 750 g",750]],"s":"brot laib"},
+{"i":"toast","n":"Toastbrot","g":"getreide","k":260,"e":8,"f":3.5,"c":47,"q":"A","b":3,"vc":0.0,"vq":"U174924","ht":"MHD auf der Packung","p":[["Packung 500 g",500]]},
+{"i":"broetchen","n":"Brötchen","g":"getreide","k":260,"e":8.5,"f":1.5,"c":51,"q":"A","b":3,"vc":0.0,"vq":"U175031","h":1,"ht":"1–2 Tage","st":55,"s":"semmel schrippe"},
+{"i":"tortilla","n":"Weizen-Tortillas (Fladen)","g":"getreide","k":297,"e":8.0,"f":7.6,"c":49.3,"q":"U167535","b":2.4,"vc":0.0,"ht":"MHD auf der Packung","p":[["Packung 8 St. (ca. 320 g)",320]],"st":40,"s":"wraps fladen"},
+{"i":"reiswaffeln","n":"Reiswaffeln","g":"getreide","k":392,"e":7.1,"f":4.3,"c":81.1,"q":"U168107","b":4.2,"vc":0.0,"ht":"MHD auf der Packung","p":[["Packung 100 g",100]]},
+{"i":"cornflakes","n":"Cornflakes","g":"getreide","k":378,"e":7,"f":0.9,"c":84,"q":"A","b":3,"vc":65.0,"vq":"U174648","h":365,"ht":"etwa 1 Jahr","p":[["Packung 375 g",375]],"s":"maisflocken"},
+{"i":"muesli","n":"Müsli (mit Nüssen, gesüßt)","g":"getreide","k":489,"e":13.7,"f":24.3,"c":53.9,"q":"U171646","b":8.9,"vc":1.2,"ht":"MHD auf der Packung","p":[["Packung 750 g",750]],"s":"granola knuspermüsli"},
+{"i":"ravioli","n":"Ravioli in Tomatensoße (Dose)","g":"getreide","k":77,"e":2.5,"f":1.4,"c":13.6,"q":"U173328","b":1.3,"vc":0.0,"z":5,"h":365,"ht":"1–2 Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve"},
+{"i":"linsen","n":"Linsen (braun/Teller), trocken","g":"gemuese","k":352,"e":24.6,"f":1.1,"c":63.4,"q":"U172420","b":10.7,"vc":4.5,"ko":1,"w":300,"z":30,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.03,"s":"hülsenfrüchte"},
+{"i":"rote_linsen","n":"Rote Linsen, trocken","g":"gemuese","k":358,"e":23.9,"f":2.2,"c":63.1,"q":"U174284","b":10.8,"vc":1.7,"ko":1,"w":250,"z":12,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.09,"s":"hülsenfrüchte dal"},
+{"i":"erbsen_getr","n":"Schälerbsen (getrocknet)","g":"gemuese","k":364,"e":23.1,"f":3.9,"c":61.6,"q":"U172428","b":22.2,"vc":1.8,"ko":1,"w":300,"z":45,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":3.08,"s":"erbsen hülsenfrüchte erbsensuppe"},
+{"i":"bohnen_getr","n":"Weiße Bohnen, getrocknet","g":"gemuese","k":333,"e":23.4,"f":0.8,"c":60.3,"q":"U175202","b":15.2,"vc":0.0,"ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.4,"s":"hülsenfrüchte einweichen"},
+{"i":"kidney_getr","n":"Kidneybohnen, getrocknet","g":"gemuese","k":337,"e":22.5,"f":1.1,"c":61.3,"q":"U173744","b":15.2,"vc":4.5,"ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.72,"s":"hülsenfrüchte rote bohnen"},
+{"i":"kicher_getr","n":"Kichererbsen, getrocknet","g":"gemuese","k":378,"e":20.5,"f":6.0,"c":63.0,"q":"U173756","b":12.2,"vc":4.0,"ko":1,"w":300,"z":90,"h":365,"ht":"etwa 1 Jahr","p":[["Packung 500 g",500]],"x":2.3,"s":"hülsenfrüchte"},
+{"i":"kidney_dose","n":"Kidneybohnen (Dose, abgetropft)","g":"gemuese","k":124,"e":8.0,"f":1.1,"c":21.5,"q":"U174285","b":5.5,"vc":0.2,"h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (250 g abgetropft)",250],["Dose 800 g (500 g abgetropft)",500]],"s":"rote bohnen konserve"},
+{"i":"kicher_dose","n":"Kichererbsen (Dose, abgetropft)","g":"gemuese","k":139,"e":7.0,"f":2.8,"c":22.5,"q":"U173800","b":6.4,"vc":0.1,"h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (240 g abgetropft)",240]],"s":"konserve hummus"},
+{"i":"bohnen_dose","n":"Weiße Bohnen (Dose)","g":"gemuese","k":114,"e":7.3,"f":0.3,"c":21.2,"q":"U175204","b":4.8,"vc":0.0,"h":365,"ht":"1–2 Jahre","p":[["Dose 400 g (250 g abgetropft)",250]],"s":"konserve"},
+{"i":"baked_beans","n":"Bohnen in Tomatensoße (Dose)","g":"gemuese","k":94,"e":4.8,"f":0.4,"c":21.1,"q":"U175182","b":4.1,"vc":0.0,"h":365,"ht":"1–2 Jahre","p":[["Dose 415 g",415]],"s":"baked beans konserve"},
+{"i":"gr_bohnen","n":"Grüne Bohnen (Dose, abgetropft)","g":"gemuese","k":21,"e":1.1,"f":0.4,"c":4.2,"q":"U169143","b":1.9,"vc":2.8,"h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (220 g abgetropft)",220],["Dose 850 ml (440 g abgetropft)",440]],"s":"brechbohnen konserve"},
+{"i":"erbsen_moehren","n":"Erbsen & Möhren (Dose)","g":"gemuese","k":38,"e":2.2,"f":0.3,"c":8.5,"q":"U170424","b":2.0,"vc":6.6,"h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (280 g abgetropft)",280],["Dose 850 ml (530 g abgetropft)",530]],"s":"karotten konserve"},
+{"i":"mais","n":"Mais (Dose, abgetropft)","g":"gemuese","k":67,"e":2.3,"f":1.2,"c":14.3,"q":"U169214","b":2.0,"vc":1.8,"h":365,"ht":"1–2 Jahre","p":[["Dose 425 ml (285 g abgetropft)",285],["Dose 212 ml (140 g abgetropft)",140]],"s":"zuckermais konserve"},
+{"i":"rotkohl_glas","n":"Rotkohl (Glas)","g":"gemuese","k":29,"e":1.5,"f":0.1,"c":6.9,"q":"U169978","b":2.6,"vc":34.4,"z":10,"h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (680 g)",680]],"s":"blaukraut konserve"},
+{"i":"sauerkraut","n":"Sauerkraut (Dose/Glas)","g":"gemuese","k":19,"e":0.9,"f":0.1,"c":4.3,"q":"U169279","b":2.9,"vc":14.7,"h":365,"ht":"1–2 Jahre","p":[["Dose 850 ml (770 g)",770],["Glas 720 ml (680 g)",680]],"s":"konserve"},
+{"i":"pilze_dose","n":"Champignons (Dose, abgetropft)","g":"gemuese","k":25,"e":1.9,"f":0.3,"c":5.1,"q":"U169254","b":2.4,"vc":0.0,"h":365,"ht":"1–2 Jahre","p":[["Dose 314 ml (170 g abgetropft)",170]],"s":"pilze konserve"},
+{"i":"gurken","n":"Gewürzgurken (Glas, abgetropft)","g":"gemuese","k":12,"e":0.5,"f":0.3,"c":2.4,"q":"U168558","b":1.0,"vc":2.3,"h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (360 g abgetropft)",360]],"s":"essiggurken konserve"},
+{"i":"rote_bete","n":"Rote Bete (Glas, abgetropft)","g":"gemuese","k":31,"e":0.9,"f":0.1,"c":7.2,"q":"U169966","b":1.8,"vc":4.1,"h":365,"ht":"1–2 Jahre","p":[["Glas 720 ml (350 g abgetropft)",350]],"s":"rote beete konserve"},
+{"i":"tomaten_dose","n":"Tomaten, gehackt (Dose)","g":"gemuese","k":16,"e":0.8,"f":0.2,"c":3.5,"q":"U170051","b":1.9,"vc":12.6,"h":365,"ht":"1–2 Jahre","p":[["Dose 400 g",400],["Packung 500 g",500]],"s":"konserve tomate"},
+{"i":"passata","n":"Passierte Tomaten","g":"gemuese","k":38,"e":1.6,"f":0.2,"c":9.0,"q":"U170546","b":1.9,"vc":10.6,"h":365,"ht":"1–2 Jahre","p":[["Packung 500 g",500],["Flasche 700 g",700]],"s":"tomatensoße konserve"},
+{"i":"tomatenmark","n":"Tomatenmark","g":"gemuese","k":82,"e":4.3,"f":0.5,"c":18.9,"q":"U170459","b":4.1,"vc":21.9,"h":365,"ht":"1–2 Jahre","p":[["Tube 200 g",200],["Dose 70 g",70]]},
+{"i":"spargel","n":"Spargel (Glas, abgetropft)","g":"gemuese","k":19,"e":2.1,"f":0.7,"c":2.5,"q":"U169207","b":1.6,"vc":18.4,"h":365,"ht":"1–2 Jahre","p":[["Glas 370 ml (205 g abgetropft)",205]],"s":"konserve"},
+{"i":"eintopf","n":"Erbseneintopf (Dose)","g":"gemuese","k":77,"e":4.6,"f":1.7,"c":11.2,"q":"U171555","b":1.7,"vc":2.9,"z":5,"h":365,"ht":"1–2 Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"suppe eintopf fertiggericht konserve"},
+{"i":"pilze_getr","n":"Pilze, getrocknet","g":"gemuese","k":296,"e":9.6,"f":1.0,"c":75.4,"q":"U168436","b":11.5,"vc":3.5,"ko":1,"w":200,"z":20,"h":365,"ht":"etwa 1 Jahr","p":[["Beutel 30 g",30]],"s":"steinpilze shiitake"},
+{"i":"zwiebeln","n":"Zwiebeln","g":"gemuese","k":38,"e":1.1,"f":0.1,"c":7.6,"q":"A","b":1.7,"vc":7.4,"vq":"U170000","ht":"MHD auf der Packung","p":[["Netz 1 kg",1000]],"st":100,"s":"zwiebel"},
+{"i":"knoblauch","n":"Knoblauch","g":"gemuese","k":149,"e":6.4,"f":0.5,"c":33.1,"q":"U169230","b":2.1,"vc":31.2,"ht":"MHD auf der Packung","st":5,"s":"knolle zehe"},
+{"i":"moehren","n":"Möhren, frisch","g":"gemuese","k":38,"e":0.9,"f":0.2,"c":6.8,"q":"A","b":2.8,"vc":5.9,"vq":"U170393","h":8,"ht":"etwa 8 Tage (Kühlschrank)","p":[["Beutel 1 kg",1000]],"l":"k","st":80,"s":"karotten möhre"},
+{"i":"kohl","n":"Weißkohl / Rotkohl, frisch","g":"gemuese","k":24,"e":1.3,"f":0.1,"c":3.3,"q":"A","b":2.5,"vc":36.6,"vq":"U169975","ht":"MHD auf der Packung","l":"k","st":1000,"s":"kraut kohlkopf"},
+{"i":"erbsen_tk","n":"Erbsen (tiefgekühlt)","g":"gemuese","k":73,"e":5.4,"f":0.4,"c":9.4,"q":"A","b":5.1,"vc":18.0,"vq":"U170016","ko":1,"w":50,"z":5,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Beutel 750 g",750]],"l":"t","s":"tk tiefkühl"},
+{"i":"spinat_tk","n":"Spinat (tiefgekühlt)","g":"gemuese","k":29,"e":3.6,"f":0.6,"c":4.2,"q":"U169287","b":2.9,"vc":5.5,"ko":1,"z":10,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Packung 450 g",450]],"l":"t","s":"tk tiefkühl"},
+{"i":"gemuese_tk","n":"Gemüsemischung (tiefgekühlt)","g":"gemuese","k":72,"e":3.3,"f":0.5,"c":13.5,"q":"U170471","b":4.0,"vc":10.4,"ko":1,"w":50,"z":8,"h":180,"ht":"6–12 Monate (−18 °C)","p":[["Beutel 750 g",750]],"l":"t","s":"tk tiefkühl"},
+{"i":"aepfel","n":"Äpfel","g":"obst","k":53,"e":0.3,"f":0.2,"c":11.4,"q":"A","b":2.4,"vc":4.6,"vq":"U171688","h":90,"ht":"3–5 Monate (kühl, dunkel)","p":[["Beutel 1 kg",1000]],"st":150,"s":"apfel"},
+{"i":"bananen","n":"Bananen","g":"obst","k":93,"e":1.1,"f":0.3,"c":20.2,"q":"A","b":2.6,"vc":8.7,"vq":"U173944","ht":"MHD auf der Packung","st":120,"s":"banane"},
+{"i":"orangen","n":"Orangen","g":"obst","k":47,"e":0.9,"f":0.1,"c":9.4,"q":"A","b":2.4,"vc":53.2,"vq":"U169097","ht":"MHD auf der Packung","st":150,"s":"apfelsine"},
+{"i":"pfirsiche","n":"Pfirsiche (Dose)","g":"obst","k":54,"e":0.5,"f":0.0,"c":14.6,"q":"U169111","b":1.3,"vc":2.4,"h":365,"ht":"etwa 1 Jahr","p":[["Dose 820 g",820],["Dose 410 g",410]],"s":"konserve obst"},
+{"i":"birnen","n":"Birnen (Dose)","g":"obst","k":57,"e":0.2,"f":0.0,"c":15.2,"q":"U169938","b":1.6,"vc":0.7,"h":365,"ht":"etwa 1 Jahr","p":[["Dose 820 g",820]],"s":"konserve obst"},
+{"i":"mandarinen","n":"Mandarinen (Dose)","g":"obst","k":61,"e":0.5,"f":0.1,"c":16.2,"q":"U169924","b":0.7,"vc":19.8,"h":365,"ht":"etwa 1 Jahr","p":[["Dose 314 ml (300 g)",300]],"s":"konserve obst"},
+{"i":"ananas","n":"Ananas (Dose, im Saft)","g":"obst","k":60,"e":0.4,"f":0.1,"c":15.7,"q":"U169126","b":0.8,"vc":9.5,"h":365,"ht":"etwa 1 Jahr","p":[["Dose 580 ml (565 g)",565]],"s":"konserve obst"},
+{"i":"kirschen","n":"Sauerkirschen (Glas)","g":"obst","k":75,"e":0.7,"f":0.1,"c":19.3,"q":"U173956","b":0.8,"vc":2.0,"h":365,"ht":"etwa 1 Jahr","p":[["Glas 720 ml (680 g)",680]],"s":"konserve obst"},
+{"i":"apfelmus","n":"Apfelmus (Glas)","g":"obst","k":68,"e":0.2,"f":0.2,"c":17.5,"q":"U171696","b":1.2,"vc":1.7,"h":365,"ht":"etwa 1 Jahr","p":[["Glas 720 ml (710 g)",710],["Glas 360 ml (355 g)",355]],"s":"konserve obst"},
+{"i":"rosinen","n":"Rosinen","g":"obst","k":299,"e":3.3,"f":0.2,"c":79.3,"q":"U168165","b":4.5,"vc":2.3,"h":365,"ht":"etwa 1 Jahr","p":[["Beutel 250 g",250]],"s":"trockenobst sultaninen"},
+{"i":"pflaumen_getr","n":"Trockenpflaumen","g":"obst","k":240,"e":2.2,"f":0.4,"c":63.9,"q":"U168162","b":7.1,"vc":0.6,"h":365,"ht":"etwa 1 Jahr","p":[["Beutel 250 g",250]],"s":"trockenobst backpflaumen"},
+{"i":"aprikosen_getr","n":"Aprikosen, getrocknet","g":"obst","k":241,"e":3.4,"f":0.5,"c":62.6,"q":"U173941","b":7.3,"vc":1.0,"h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
+{"i":"feigen_getr","n":"Feigen, getrocknet","g":"obst","k":249,"e":3.3,"f":0.9,"c":63.9,"q":"U174665","b":9.8,"vc":1.2,"h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
+{"i":"datteln","n":"Datteln, getrocknet","g":"obst","k":290,"e":1.8,"f":0.2,"c":68,"q":"A","b":6.7,"vc":0.4,"vq":"U171726","h":365,"ht":"etwa 1 Jahr","p":[["Beutel 200 g",200]],"s":"trockenobst"},
+{"i":"haselnuesse","n":"Haselnüsse","g":"obst","k":650,"e":15,"f":61,"c":7,"q":"A","b":9.7,"vc":6.3,"vq":"U170581","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"walnuesse","n":"Walnüsse","g":"obst","k":690,"e":15,"f":65,"c":7,"q":"A","b":6.7,"vc":1.3,"vq":"U170187","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"mandeln","n":"Mandeln","g":"obst","k":580,"e":21,"f":50,"c":5.7,"q":"A","b":12.5,"vc":0.0,"vq":"U170158","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"erdnuesse","n":"Erdnüsse, geröstet","g":"obst","k":610,"e":24,"f":50,"c":13,"q":"A","b":8,"vc":0.0,"vq":"U173806","ht":"MHD auf der Packung","p":[["Dose 200 g",200]],"s":"nüsse"},
+{"i":"cashew","n":"Cashewkerne","g":"obst","k":580,"e":18,"f":44,"c":27,"q":"A","b":3.3,"vc":0.5,"vq":"U170162","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"nüsse"},
+{"i":"erdnussmus","n":"Erdnussmus / Erdnussbutter","g":"obst","k":600,"e":25,"f":50,"c":14,"q":"A","b":6,"vc":0.0,"vq":"U172470","ht":"MHD auf der Packung","p":[["Glas 350 g",350]],"s":"erdnussbutter nüsse"},
+{"i":"sonnenblumenkerne","n":"Sonnenblumenkerne","g":"obst","k":600,"e":21,"f":51,"c":11,"q":"A","b":8.6,"vc":1.4,"vq":"U170562","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"kerne saaten"},
+{"i":"kuerbiskerne","n":"Kürbiskerne","g":"obst","k":590,"e":30,"f":49,"c":5,"q":"A","b":6,"vc":1.9,"vq":"U170556","ht":"MHD auf der Packung","p":[["Beutel 200 g",200]],"s":"kerne saaten"},
+{"i":"leinsamen","n":"Leinsamen","g":"obst","k":510,"e":18,"f":42,"c":1.6,"q":"A","b":27,"vc":0.6,"vq":"U169414","ht":"MHD auf der Packung","p":[["Beutel 250 g",250]],"s":"kerne saaten"},
+{"i":"hmilch","n":"H-Milch 3,5 %","g":"milch","k":64,"e":3.3,"f":3.5,"c":4.8,"q":"A","b":0,"vc":0.0,"vq":"U171265","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"milch haltbarmilch uht"},
+{"i":"hmilch15","n":"H-Milch 1,5 %","g":"milch","k":47,"e":3.4,"f":1.5,"c":4.9,"q":"A","b":0,"vc":0.2,"vq":"U171267","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"milch haltbarmilch fettarm"},
+{"i":"frischmilch","n":"Frischmilch","g":"milch","k":64,"e":3.3,"f":3.5,"c":4.8,"q":"A","b":0,"vc":0.0,"vq":"U171265","h":2,"ht":"2–5 Tage (Kühlschrank)","p":[["Flasche 1 l",1000]],"l":"k","ml":1,"s":"milch"},
+{"i":"milchpulver","n":"Vollmilchpulver","g":"milch","k":496,"e":26.3,"f":26.7,"c":38.4,"q":"U173454","b":0.0,"vc":8.6,"ht":"MHD auf der Packung","p":[["Packung 400 g",400]],"x":8.13,"s":"trockenmilch pulver"},
+{"i":"kondensmilch","n":"Kondensmilch 7,5 %","g":"milch","k":134,"e":6.8,"f":7.6,"c":10.0,"q":"U172194","b":0.0,"vc":1.9,"ht":"MHD auf der Packung","p":[["Dose 340 g",340],["Tube 170 g",170]],"s":"dosenmilch"},
+{"i":"hartkaese","n":"Hartkäse am Stück (z. B. Parmesan, Bergkäse)","g":"milch","k":390,"e":35,"f":26,"c":0,"q":"A","b":0,"vc":0.0,"vq":"U170848","ht":"MHD auf der Packung","p":[["Stück 200 g",200]],"l":"k","s":"käse"},
+{"i":"gouda","n":"Schnittkäse (z. B. Gouda)","g":"milch","k":360,"e":25,"f":29,"c":0,"q":"A","b":0,"vc":0.0,"vq":"U171241","h":8,"ht":"8–10 Tage","p":[["Packung 400 g",400]],"l":"k","s":"käse"},
+{"i":"joghurt","n":"Naturjoghurt","g":"milch","k":66,"e":3.8,"f":3.5,"c":4.6,"q":"A","b":0,"vc":0.5,"vq":"U171284","h":14,"ht":"etwa 2 Wochen (Kühlschrank)","p":[["Becher 500 g",500]],"l":"k","s":"jogurt"},
+{"i":"quark","n":"Magerquark","g":"milch","k":67,"e":12,"f":0.3,"c":4,"q":"A","b":0,"vc":0.0,"vq":"U172181","ht":"MHD auf der Packung","p":[["Becher 500 g",500]],"l":"k","s":"topfen"},
+{"i":"sahne","n":"Schlagsahne 30 %","g":"milch","k":290,"e":2.4,"f":30,"c":3.2,"q":"A","b":0,"vc":0.6,"vq":"U170859","h":14,"ht":"etwa 2 Wochen (Kühlschrank)","p":[["Becher 200 g",200]],"l":"k","s":"sahne"},
+{"i":"hafermilch","n":"Haferdrink","g":"milch","k":46,"e":1,"f":1.5,"c":6.7,"q":"A","b":0.8,"ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"hafermilch pflanzendrink"},
+{"i":"sojadrink","n":"Sojadrink ungesüßt","g":"milch","k":35,"e":3.3,"f":1.9,"c":0.5,"q":"A","b":0.6,"ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"s":"sojamilch pflanzendrink"},
+{"i":"thunfisch","n":"Thunfisch im eigenen Saft (Dose, abgetropft)","g":"eiweiss","k":110,"e":25,"f":1,"c":0,"q":"A","b":0,"vc":0.0,"vq":"U173709","h":730,"ht":"mehrere Jahre","p":[["Dose 185 g (150 g abgetropft)",150]],"s":"fisch konserve"},
+{"i":"sardinen","n":"Sardinen in Öl (Dose, abgetropft)","g":"eiweiss","k":208,"e":24.6,"f":11.4,"c":0.0,"q":"U175139","b":0.0,"vc":0.0,"h":730,"ht":"mehrere Jahre","p":[["Dose 125 g (90 g abgetropft)",90]],"s":"fisch konserve"},
+{"i":"makrele","n":"Makrelenfilet (Dose, abgetropft)","g":"eiweiss","k":156,"e":23.2,"f":6.3,"c":0.0,"q":"U175121","b":0.0,"vc":0.9,"h":730,"ht":"mehrere Jahre","p":[["Dose 125 g (90 g abgetropft)",90]],"s":"fisch konserve"},
+{"i":"lachs_dose","n":"Lachs (Dose, abgetropft)","g":"eiweiss","k":138,"e":23.1,"f":5.0,"c":0.0,"q":"U175175","b":0.0,"vc":0.0,"h":730,"ht":"mehrere Jahre","p":[["Dose 213 g (150 g abgetropft)",150]],"s":"fisch konserve"},
+{"i":"corned_beef","n":"Corned Beef (Dose)","g":"eiweiss","k":250,"e":27.1,"f":14.9,"c":0.0,"q":"U170602","b":0.0,"vc":0.0,"h":730,"ht":"mehrere Jahre","p":[["Dose 340 g",340]],"s":"fleisch konserve rind"},
+{"i":"fruehstuecksfleisch","n":"Frühstücksfleisch (Dose)","g":"eiweiss","k":334,"e":12.5,"f":30.3,"c":2.1,"q":"U174571","b":0.0,"vc":1.0,"h":730,"ht":"mehrere Jahre","p":[["Dose 200 g",200]],"s":"fleisch konserve schwein"},
+{"i":"leberwurst","n":"Leberwurst (Dose/Glas)","g":"eiweiss","k":300,"e":14,"f":27,"c":1.5,"q":"A","b":0,"vc":0.0,"vq":"U173870","h":730,"ht":"mehrere Jahre","p":[["Dose 125 g",125],["Glas 200 g",200]],"s":"wurst konserve"},
+{"i":"wuerstchen","n":"Würstchen im Glas (Wiener/Bockwurst)","g":"eiweiss","k":280,"e":13,"f":25,"c":1,"q":"A","b":0,"z":5,"h":730,"ht":"mehrere Jahre","p":[["Glas 6 St. (250 g abgetropft)",250]],"st":42,"s":"bockwurst wiener wurst konserve"},
+{"i":"salami","n":"Salami / Dauerwurst","g":"eiweiss","k":380,"e":21,"f":33,"c":1,"q":"A","b":0,"vc":0.0,"vq":"U172938","ht":"MHD auf der Packung","p":[["Stück 250 g",250]],"s":"wurst dauerwurst"},
+{"i":"jagdwurst","n":"Jagdwurst / Fleischwurst","g":"eiweiss","k":308,"e":15.2,"f":24.6,"c":5.5,"q":"U172013","b":0.0,"vc":0.8,"ht":"MHD auf der Packung","p":[["Ring 400 g",400]],"l":"k","s":"wurst lyoner"},
+{"i":"chili","n":"Chili con Carne (Dose)","g":"eiweiss","k":107,"e":5.8,"f":3.5,"c":13.1,"q":"U172097","b":3.3,"vc":0.2,"z":5,"h":730,"ht":"mehrere Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve"},
+{"i":"gulasch","n":"Rindergulasch / Eintopf mit Fleisch (Dose)","g":"eiweiss","k":99,"e":4.4,"f":5.5,"c":7.8,"q":"U173330","b":0.9,"vc":0.7,"z":5,"h":730,"ht":"mehrere Jahre","p":[["Dose 800 g",800],["Dose 400 g",400]],"s":"fertiggericht konserve eintopf"},
+{"i":"eier","n":"Eier (Größe M)","g":"eiweiss","k":143,"e":12.6,"f":9.5,"c":0.7,"q":"A","b":0,"vc":0.0,"vq":"U171287","ko":1,"w":50,"z":10,"ht":"MHD auf der Packung","p":[["Packung 10 St.",530],["Packung 6 St.",318]],"st":53,"s":"ei hühnerei"},
+{"i":"hack_tk","n":"Hackfleisch (tiefgekühlt)","g":"eiweiss","k":254,"e":17,"f":20,"c":0,"q":"A","b":0,"vc":0.0,"vq":"U174036","ko":1,"z":15,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 500 g",500]],"l":"t","s":"hack fleisch tk"},
+{"i":"haehnchen_tk","n":"Hähnchenbrust (tiefgekühlt)","g":"eiweiss","k":110,"e":23,"f":1.5,"c":0,"q":"A","b":0,"vc":0.0,"vq":"U171077","ko":1,"z":20,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 1 kg",1000]],"l":"t","s":"huhn fleisch tk geflügel"},
+{"i":"fisch_tk","n":"Fischfilet (tiefgekühlt)","g":"eiweiss","k":82,"e":18,"f":0.7,"c":0,"q":"A","b":0,"vc":1.0,"vq":"U171955","ko":1,"z":15,"h":90,"ht":"3–12 Monate (−18 °C)","p":[["Packung 400 g",400]],"l":"t","s":"seelachs kabeljau tk"},
+{"i":"tofu","n":"Tofu natur","g":"eiweiss","k":125,"e":13.5,"f":7.5,"c":1,"q":"A","b":1,"vc":0.2,"vq":"U172475","ht":"MHD auf der Packung","p":[["Packung 200 g",200]],"l":"k","s":"soja fleischersatz"},
+{"i":"rapsoel","n":"Rapsöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","b":0,"h":180,"ht":"6–12 Monate","p":[["Flasche 1 l (920 g)",920],["Flasche 0,5 l (460 g)",460]],"s":"öl speiseöl"},
+{"i":"sonnenblumenoel","n":"Sonnenblumenöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","b":0,"h":180,"ht":"6–12 Monate","p":[["Flasche 1 l (920 g)",920]],"s":"öl speiseöl"},
+{"i":"olivenoel","n":"Olivenöl","g":"fett","k":884,"e":0,"f":100,"c":0,"q":"A","b":0,"h":180,"ht":"6–12 Monate","p":[["Flasche 0,75 l (690 g)",690],["Flasche 0,5 l (460 g)",460]],"s":"öl"},
+{"i":"butter","n":"Butter","g":"fett","k":741,"e":0.7,"f":82,"c":0.6,"q":"A","b":0,"h":28,"ht":"4–6 Wochen (Kühlschrank)","p":[["Stück 250 g",250]],"l":"k"},
+{"i":"margarine","n":"Margarine","g":"fett","k":720,"e":0.2,"f":80,"c":0.4,"q":"A","b":0,"h":28,"ht":"4–6 Wochen (Kühlschrank)","p":[["Becher 500 g",500]],"l":"k"},
+{"i":"butterschmalz","n":"Butterschmalz","g":"fett","k":876,"e":0.3,"f":99.5,"c":0.0,"q":"U173412","b":0.0,"vc":0.0,"h":180,"ht":"viele Monate","p":[["Glas 500 g",500],["Packung 250 g",250]],"s":"ghee"},
+{"i":"schmalz","n":"Schweineschmalz","g":"fett","k":900,"e":0,"f":100,"c":0,"q":"A","b":0,"ht":"MHD auf der Packung","p":[["Becher 250 g",250]]},
+{"i":"kokosfett","n":"Kokosfett","g":"fett","k":890,"e":0,"f":100,"c":0,"q":"A","b":0,"h":180,"ht":"viele Monate","p":[["Packung 250 g",250]],"s":"kokosöl palmin"},
+{"i":"wasser","n":"Mineralwasser","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","b":0,"vc":0,"h":365,"ht":"MHD meist 1–1½ Jahre","p":[["Flasche 1,5 l",1500],["Flasche 1 l",1000],["Flasche 0,5 l",500],["Kasten 6 × 1,5 l",9000],["Kasten 12 × 0,7 l",8400]],"ml":1,"fl":1,"s":"trinkwasser sprudel flasche"},
+{"i":"wasser_kanister","n":"Trinkwasser im Kanister (selbst abgefüllt)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","b":0,"vc":0,"ht":"MHD auf der Packung","p":[["Kanister 5 l",5000],["Kanister 10 l",10000],["Kanister 20 l",20000]],"ml":1,"fl":1,"s":"leitungswasser kanister"},
+{"i":"apfelsaft","n":"Apfelsaft","g":"trinken","k":46,"e":0.1,"f":0.1,"c":11.3,"q":"U173933","b":0.2,"vc":0.9,"ht":"MHD auf der Packung","p":[["Flasche 1 l",1000]],"ml":1,"fl":1,"s":"saft"},
+{"i":"orangensaft","n":"Orangensaft","g":"trinken","k":43,"e":0.7,"f":0.2,"c":9,"q":"A","b":0.2,"vc":50.0,"vq":"U169098","ht":"MHD auf der Packung","p":[["Packung 1 l",1000]],"ml":1,"fl":1,"s":"saft"},
+{"i":"zitronensaft","n":"Zitronensaft","g":"trinken","k":17,"e":0.5,"f":0.1,"c":5.6,"q":"U167748","b":0.7,"vc":14.3,"ht":"MHD auf der Packung","p":[["Flasche 200 ml",200]],"ml":1,"s":"zitrone"},
+{"i":"tee","n":"Tee (schwarz oder Kräuter)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","b":0,"vc":0,"h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 20 Beutel (40 g)",40]],"kein":1,"s":"teebeutel"},
+{"i":"kaffee","n":"Kaffee (Pulver)","g":"trinken","k":0,"e":0,"f":0,"c":0,"q":"—","b":0,"vc":0,"ht":"MHD auf der Packung","p":[["Packung 500 g",500],["Glas Instant 100 g",100]],"kein":1,"s":"instant"},
+{"i":"zucker","n":"Zucker","g":"sonst","k":400,"e":0,"f":0,"c":100,"q":"A","b":0,"vc":0.0,"vq":"U169655","h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 1 kg",1000]],"s":"zucker"},
+{"i":"honig","n":"Honig","g":"sonst","k":326,"e":0.3,"f":0,"c":81,"q":"A","b":0,"ht":"MHD auf der Packung","p":[["Glas 500 g",500]]},
+{"i":"marmelade","n":"Konfitüre / Marmelade","g":"sonst","k":278,"e":0.4,"f":0.1,"c":68.9,"q":"U169641","b":1.1,"vc":8.8,"h":365,"ht":"etwa 1 Jahr","p":[["Glas 450 g",450]],"s":"marmelade gelee"},
+{"i":"nusscreme","n":"Nuss-Nougat-Creme","g":"sonst","k":539,"e":5.4,"f":29.7,"c":62.4,"q":"U168000","b":5.4,"vc":0.0,"ht":"MHD auf der Packung","p":[["Glas 400 g",400]],"s":"schokocreme"},
+{"i":"schoko","n":"Vollmilchschokolade","g":"sonst","k":535,"e":7,"f":30,"c":57,"q":"A","b":2,"vc":0.0,"vq":"U167587","ht":"MHD auf der Packung","p":[["Tafel 100 g",100]],"s":"schokolade"},
+{"i":"zartbitter","n":"Zartbitterschokolade","g":"sonst","k":575,"e":7.8,"f":42,"c":35,"q":"A","b":11,"vq":"U170273","ht":"MHD auf der Packung","p":[["Tafel 100 g",100]],"s":"schokolade"},
+{"i":"kakao","n":"Kakaopulver (ungesüßt)","g":"sonst","k":228,"e":19.6,"f":13.7,"c":57.9,"q":"U169593","b":37.0,"vc":0.0,"ht":"MHD auf der Packung","p":[["Dose 250 g",250]]},
+{"i":"kekse","n":"Butterkekse","g":"sonst","k":435,"e":7.5,"f":11,"c":74,"q":"A","b":2.5,"vc":0.0,"vq":"U172819","ht":"MHD auf der Packung","p":[["Packung 200 g",200]],"s":"kekse"},
+{"i":"riegel","n":"Müsliriegel","g":"sonst","k":471,"e":10.1,"f":19.8,"c":64.4,"q":"U167542","b":5.3,"vc":0.9,"ht":"MHD auf der Packung","p":[["Packung 6 St. (150 g)",150]],"st":25,"s":"riegel"},
+{"i":"salzstangen","n":"Salzstangen / Brezeln","g":"sonst","k":384,"e":10.0,"f":2.9,"c":80.4,"q":"U167555","b":3.4,"vc":2.1,"ht":"MHD auf der Packung","p":[["Beutel 250 g",250]]},
+{"i":"chips","n":"Kartoffelchips","g":"sonst","k":530,"e":6,"f":33,"c":50,"q":"A","b":4.5,"vc":21.6,"vq":"U169677","ht":"MHD auf der Packung","p":[["Beutel 175 g",175]]},
+{"i":"crackers","n":"Cracker","g":"sonst","k":418,"e":9.5,"f":8.6,"c":74.0,"q":"U172746","b":2.8,"vc":0.0,"ht":"MHD auf der Packung","p":[["Packung 200 g",200]]},
+{"i":"salz","n":"Salz","g":"sonst","k":0,"e":0,"f":0,"c":0,"q":"—","b":0,"vc":0,"h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Packung 500 g",500]],"kein":1},
+{"i":"bruehe","n":"Gemüsebrühe (Pulver)","g":"sonst","k":267,"e":16.7,"f":13.9,"c":18.0,"q":"U171562","b":0.0,"vc":1.1,"ht":"MHD auf der Packung","p":[["Glas 150 g (ca. 7 l)",150]],"s":"brühe bouillon suppenpulver"},
+{"i":"trockenhefe","n":"Trockenhefe","g":"sonst","k":325,"e":40.4,"f":7.6,"c":41.2,"q":"U175043","b":26.9,"vc":0.3,"ht":"MHD auf der Packung","p":[["Päckchen 7 g",7]],"s":"hefe"},
+{"i":"frischhefe","n":"Frische Hefe","g":"sonst","k":105,"e":8.4,"f":1.9,"c":18.1,"q":"U175042","b":8.1,"vc":0.1,"ko":1,"ht":"MHD auf der Packung","p":[["Würfel 42 g",42]],"l":"k","s":"hefe würfel"},
+{"i":"backpulver","n":"Backpulver","g":"sonst","k":51,"e":0.1,"f":0.0,"c":24.1,"q":"U172804","b":0.2,"vc":0.0,"ko":1,"ht":"MHD auf der Packung","p":[["Päckchen 15 g",15]]},
+{"i":"puddingpulver","n":"Puddingpulver","g":"sonst","k":379,"e":0.3,"f":0.4,"c":93.5,"q":"U169609","b":0.6,"vc":0.0,"ko":1,"z":5,"ht":"MHD auf der Packung","p":[["Päckchen 37 g",37]],"s":"pudding"},
+{"i":"essig","n":"Essig","g":"sonst","k":21,"e":0.0,"f":0.0,"c":0.9,"q":"U173469","b":0.0,"vc":0.0,"h":3650,"ht":"praktisch unbegrenzt (trocken)","p":[["Flasche 750 ml",750]],"ml":1},
+{"i":"senf","n":"Senf","g":"sonst","k":60,"e":3.7,"f":3.3,"c":5.8,"q":"U172234","b":4.0,"vc":0.3,"ht":"MHD auf der Packung","p":[["Tube 200 ml",200]]},
+{"i":"ketchup","n":"Ketchup","g":"sonst","k":101,"e":1.0,"f":0.1,"c":27.4,"q":"U168556","b":0.3,"vc":4.1,"ht":"MHD auf der Packung","p":[["Flasche 500 ml (550 g)",550]]},
+{"i":"mayonnaise","n":"Mayonnaise","g":"sonst","k":720,"e":1,"f":79,"c":1.5,"q":"A","b":0,"ht":"MHD auf der Packung","p":[["Glas 250 ml (240 g)",240]],"s":"mayo"},
+{"i":"suppe_tuete","n":"Instant-Suppe (Tüte)","g":"sonst","k":377,"e":15.4,"f":6.5,"c":62.3,"q":"U171571","b":3.2,"vc":0.0,"ko":1,"w":500,"z":5,"ht":"MHD auf der Packung","p":[["Tüte 60 g (für 0,5 l)",60]],"s":"tütensuppe nudelsuppe"},
+{"i":"saeuglingsmilch","n":"Säuglingsmilch (Pulver)","g":"baby","k":522,"e":10.9,"f":28.9,"c":54.7,"q":"U173561","b":0.0,"vc":47.3,"ko":1,"ht":"MHD auf der Packung","p":[["Packung 800 g",800]],"s":"pre milch anfangsnahrung baby"},
+{"i":"babybrei_getreide","n":"Getreidebrei für Babys (Pulver)","g":"baby","k":390,"e":6.7,"f":2.2,"c":83.1,"q":"U170969","b":1.3,"vc":2.4,"ko":1,"ht":"MHD auf der Packung","p":[["Packung 250 g",250]],"s":"baby brei reisflocken"},
+{"i":"babygl_menue","n":"Baby-Menü im Glas","g":"baby","k":53,"e":2.0,"f":1.1,"c":8.7,"q":"U173513","b":1.1,"vc":0.2,"ht":"MHD auf der Packung","p":[["Glas 190 g",190]],"s":"baby gläschen"},
+{"i":"babygl_obst","n":"Obstbrei für Babys (Glas)","g":"baby","k":41,"e":0.2,"f":0.2,"c":10.8,"q":"U173512","b":1.7,"vc":38.3,"ht":"MHD auf der Packung","p":[["Glas 125 g",125]],"s":"baby gläschen apfel"}
 ];
 var KAT = {}; KATALOG.forEach(function (k) { KAT[k.i] = k; });
 
@@ -301,6 +302,21 @@ var GERICHTE_ROH = [
   ['porridge_wasser', 'Haferbrei mit Wasser und Obst', 'warm', 'topf', 1, 250, 5, [['haferflocken', 70], ['pfirsiche|apfelmus|rosinen|aepfel|bananen|kirschen|pflaumen_getr', 60], ['zucker|honig', 10, 1]], ['Haferflocken mit 250 ml Wasser und einer Prise Salz aufkochen.', '2–3 Minuten köcheln, Obst unterrühren, nach Geschmack süßen.'], { fr: 1 }],
   ['bohnensalat', 'Bohnensalat mit Zwiebeln', 'kalt', 'kalt', 2, 0, 10, [['kidney_dose|bohnen_dose|kicher_dose|gr_bohnen', 300], ['rapsoel|olivenoel|sonnenblumenoel', 20], ['zwiebeln', 50, 1], ['essig|zitronensaft', 15, 1]], ['Bohnen abtropfen lassen.', 'Mit Öl, Essig, Salz, Pfeffer und Zwiebelwürfeln mischen, kurz durchziehen lassen.'], {}],
   ['suppe_tuete', 'Instant-Suppe mit Zwieback', 'warm', 'topf', 2, 500, 5, [['suppe_tuete', 60], ['zwieback|knaecke|mischbrot', 60]], ['Suppenpulver nach Packung in 500 ml Wasser einrühren und aufkochen.', 'Zwieback dazu.'], {}],
+  /* ---- Kochkiste: kurz ankochen, im geschlossenen Topf in einer gut isolierten Kiste ohne weitere Energie nachgaren (BZfE „Energie sparen mit der Kochkiste“, 03.01.2023).
+     Belegte Zeiten nur für Erbsensuppe (15 min kochen, 2–3 h Kiste) und Milchreis (1 h Kiste); geeignet laut BZfE u. a. Reis, Hirse, Quinoa, Maisgrieß, Kartoffeln, Rotkohl, Hülsenfrüchte, Suppen, Gulasch.
+     Flammzeit (z) sonst = geschätzte Zeit bis zum Aufkochen. ---- */
+  ['kk_erbsen', 'Erbsensuppe aus der Kochkiste', 'kiste', 'topf', 4, 1500, 15, [['erbsen_getr', 300], ['kartoffeln', 300], ['moehren', 150, 1], ['zwiebeln', 80, 1], ['bruehe', 10]], ['Alles mit 1,5 l Wasser aufkochen und etwa 15 Minuten kochen.', 'Topf fest verschlossen in die Kochkiste stellen und 2 bis 3 Stunden ohne Flamme garen lassen.', 'Abschmecken; ist es noch nicht weich, kurz aufkochen und zurück in die Kiste.'], { beleg: 'kk-erbsen' }],
+  ['kk_milchreis', 'Milchreis aus der Kochkiste', 'kiste', 'topf', 4, 0, 8, [['reis', 200], ['hmilch|hmilch15|frischmilch', 1000], ['zucker', 40], ['apfelmus|kirschen|pfirsiche', 300, 1]], ['Milch mit Zucker aufkochen, Reis einrühren und kurz aufkochen lassen.', 'Topf fest verschlossen etwa 1 Stunde in der Kochkiste garen.', 'Mit Apfelmus oder Kirschen essen.'], { beleg: 'kk-milchreis' }],
+  ['kk_reis', 'Reis aus der Kochkiste', 'kiste', 'topf', 3, 500, 8, [['reis|reis_vk', 250], ['bruehe', 6, 1], ['butter|rapsoel', 15, 1]], ['Reis mit 500 ml Wasser und etwas Brühe aufkochen und kurz kochen lassen.', 'Fest verschlossen in die Kochkiste stellen und ohne Flamme fertig quellen lassen.', 'Vor dem Essen probieren; Garzeit in der Kiste ist länger als auf dem Herd.'], { beleg: 'kk-geeignet' }],
+  ['kk_hirse', 'Hirse mit Gemüse aus der Kochkiste', 'kiste', 'topf', 3, 600, 8, [['hirse', 250], ['erbsen_moehren|gemuese_tk|mais', 280], ['bruehe', 8]], ['Hirse heiß abspülen, mit 600 ml Wasser und Brühe aufkochen.', 'Gemüse dazu, fest verschlossen in der Kochkiste nachgaren.', 'Mit der Gabel auflockern.'], { beleg: 'kk-geeignet' }],
+  ['kk_quinoa', 'Quinoa-Bohnen-Topf aus der Kochkiste', 'kiste', 'topf', 3, 500, 8, [['quinoa', 200], ['kidney_dose|bohnen_dose|kicher_dose', 250], ['tomaten_dose|passata', 400], ['bruehe', 6]], ['Quinoa gründlich abspülen, mit 500 ml Wasser, Tomaten und Brühe aufkochen.', 'Bohnen dazu, fest verschlossen in die Kochkiste stellen und nachgaren.'], { beleg: 'kk-geeignet' }],
+  ['kk_polenta', 'Polenta aus der Kochkiste', 'kiste', 'topf', 4, 1000, 8, [['polenta', 250], ['bruehe', 8], ['hartkaese|gouda', 50, 1]], ['1 l Wasser mit Brühe aufkochen, Maisgrieß unter Rühren einrieseln lassen und kurz aufkochen.', 'Fest verschlossen in der Kochkiste quellen lassen, danach durchrühren, Käse unterziehen.'], { beleg: 'kk-geeignet' }],
+  ['kk_kartoffeln', 'Pellkartoffeln aus der Kochkiste', 'kiste', 'topf', 4, 1000, 10, [['kartoffeln', 1000], ['quark|joghurt|butter', 250, 1]], ['Kartoffeln mit Schale in wenig Wasser zugedeckt aufkochen und ein paar Minuten kochen.', 'Topf fest verschlossen in die Kochkiste stellen und garen lassen.', 'Mit einer Gabel prüfen, ob sie weich sind.'], { beleg: 'kk-geeignet' }],
+  ['kk_rotkohl', 'Rotkohl mit Kartoffeln aus der Kochkiste', 'kiste', 'topf', 4, 600, 10, [['kohl|rotkohl_glas', 700], ['kartoffeln', 800], ['zwiebeln', 80, 1], ['essig|apfelmus', 30, 1]], ['Kohl fein schneiden (oder Glasware nehmen), mit gewürfelten Kartoffeln, etwas Wasser, Essig und Zwiebel aufkochen.', 'Fest verschlossen in der Kochkiste garen lassen.'], { beleg: 'kk-geeignet' }],
+  ['kk_linsen', 'Linseneintopf aus der Kochkiste', 'kiste', 'topf', 4, 1500, 10, [['linsen|rote_linsen', 250], ['kartoffeln', 300], ['moehren|erbsen_moehren', 150, 1], ['bruehe', 10], ['essig', 15, 1]], ['Linsen, Kartoffel- und Gemüsewürfel mit 1,5 l Wasser und Brühe aufkochen und ein paar Minuten kochen.', 'Fest verschlossen in die Kochkiste stellen und nachgaren.', 'Mit Essig abschmecken.'], { beleg: 'kk-geeignet' }],
+  ['kk_bohnen', 'Weiße-Bohnen-Eintopf aus der Kochkiste', 'kiste', 'topf', 4, 1800, 20, [['bohnen_getr', 300], ['tomaten_dose|passata', 400], ['kartoffeln', 300], ['bruehe', 10]], ['Bohnen über Nacht einweichen, Einweichwasser weggießen.', 'Mit frischem Wasser, Tomaten, Kartoffeln und Brühe aufkochen und gut durchkochen lassen.', 'Fest verschlossen in der Kochkiste weich garen; vor dem Essen noch einmal aufkochen.'], { beleg: 'kk-geeignet', hinweis: 'Getrocknete Bohnen immer gut durchkochen, nie roh oder halb gar essen.' }],
+  ['kk_huehnersuppe', 'Hühnersuppe aus der Kochkiste (Gefriergut zuerst)', 'kiste', 'topf', 4, 1500, 15, [['haehnchen_tk', 400], ['moehren|erbsen_moehren|gemuese_tk', 250], ['nudeln|eiernudeln|reis', 150], ['bruehe', 10]], ['Hähnchen auftauen lassen, klein schneiden und mit Gemüse und 1,5 l Wasser aufkochen, bis das Fleisch durch ist.', 'Nudeln dazu, fest verschlossen in der Kochkiste nachgaren.'], { beleg: 'kk-geeignet' }],
+  ['kk_gulasch', 'Gulasch mit Kartoffeln aus der Kochkiste', 'kiste', 'topf', 4, 800, 15, [['gulasch|chili', 800], ['kartoffeln', 800]], ['Kartoffeln würfeln, mit dem Gulasch und etwas Wasser aufkochen.', 'Fest verschlossen in der Kochkiste garen, bis die Kartoffeln weich sind.'], { beleg: 'kk-geeignet' }],
   /* ---- Brot ohne Backofen ---- */
   ['pfannenbrot', 'Pfannenbrot mit Hefe', 'brot', 'topf', 6, 300, 30, [['mehl405|dinkelmehl|vollkornmehl', 500], ['trockenhefe|frischhefe*3', 7], ['rapsoel|olivenoel', 30], ['zucker', 5, 1]], ['Mehl, Hefe, 1½ TL Salz, Öl und 300 ml lauwarmes Wasser zu einem weichen Teig kneten.', 'Zugedeckt 45–60 Minuten gehen lassen.', 'In 6 Stücke teilen, flach drücken und in der Pfanne mit Deckel bei kleiner Hitze je Seite 5–7 Minuten backen.'], {}],
   ['fladen_backpulver', 'Schnelle Fladen ohne Hefe', 'brot', 'topf', 4, 0, 15, [['mehl405|dinkelmehl|vollkornmehl', 300], ['backpulver', 10], ['joghurt|hmilch|frischmilch|quark', 200], ['rapsoel|olivenoel', 20]], ['Mehl, Backpulver und eine Prise Salz mischen, Joghurt und Öl unterkneten.', 'In 4 Teile teilen, dünn ausrollen.', 'In der heißen Pfanne ohne Fett je Seite 2–3 Minuten backen.'], {}],
@@ -319,8 +335,8 @@ var GERICHTE_ROH = [
   ['ruehrkuchen', 'Einfacher Rührkuchen', 'ofen', 'ofen', 12, 0, 50, [['mehl405|dinkelmehl', 300], ['zucker', 150], ['eier', 212], ['rapsoel|sonnenblumenoel|butter', 150], ['hmilch|hmilch15|frischmilch', 125], ['backpulver', 15]], ['Eier mit Zucker schaumig rühren, Öl und Milch dazu.', 'Mehl mit Backpulver unterrühren, in eine gefettete Form füllen.', 'Bei 175 °C etwa 45–50 Minuten backen (Stäbchenprobe).'], {}]
 ];
 function zutatLesen(z) { return { a: z[0].split('|').map(function (s) { var m = s.split('*'); return [m[0], m[1] ? +m[1] : 1]; }), g: z[1], opt: !!z[2] }; }
-var GERICHTE = GERICHTE_ROH.map(function (r) { return { id: r[0], n: r[1], art: r[2], koch: r[3], p: r[4], wa: r[5], z: r[6], zut: r[7].map(zutatLesen), sch: r[8], rz: r[9].rz, fr: !!r[9].fr, hinweis: r[9].hinweis || '' }; });
-var ARTEN = [['alle', 'Alle'], ['kalt', 'Ohne Kochen'], ['warm', 'Topf & Pfanne'], ['brot', 'Brot ohne Ofen'], ['ofen', 'Backofen']];
+var GERICHTE = GERICHTE_ROH.map(function (r) { return { id: r[0], n: r[1], art: r[2], koch: r[3], p: r[4], wa: r[5], z: r[6], zut: r[7].map(zutatLesen), sch: r[8], rz: r[9].rz, fr: !!r[9].fr, hinweis: r[9].hinweis || '', beleg: r[9].beleg || '' }; });
+var ARTEN = [['alle', 'Alle'], ['kalt', 'Ohne Kochen'], ['warm', 'Topf & Pfanne'], ['kiste', 'Kochkiste'], ['brot', 'Brot ohne Ofen'], ['ofen', 'Backofen']];
 
 /* Abhak-Liste nach den Checklisten des BBK-Ratgebers (Stand 11/2025) – alles außer Essen und Trinken */
 var CHECK = [
@@ -442,11 +458,23 @@ function reichweite(S, heute, opt) {
   X.forEach(function (x) { if (x.r > 1e-9 && strom && (x.ort === 'k' || x.ort === 't')) verloren += x.r; });
   return { D: D, tage: tage, verlauf: verlauf, start: start, verloren: verloren, spaet: spaet.map(function (x) { return x.it.u; }), max: d >= MAX };
 }
+/* Notquellen (S.wasserQ.q, Liter): Spülkasten, Warmwasserspeicher, Regen nur abgekocht trinkbar (CDC/UBA, siehe Bereich „Wasser“);
+   Eiswürfel aus einwandfreiem Wasser direkt; Badewanne und Pool nur als Brauchwasser (Toilette, Körperpflege) */
+var WQ = [['wanne', 'Badewanne', 'brauch'], ['boiler', 'Warmwasserspeicher (Trinkwasseranlage)', 'abkochen'], ['spuelkasten', 'Spülkasten (klar, ohne Reiniger)', 'abkochen'], ['eis', 'Eiswürfel aus Trinkwasser', 'trink'], ['regen', 'Regenwasser', 'abkochen'], ['pool', 'Pool', 'brauch']];
+function notquellen(S) {
+  var W = S.wasserQ || {}, q = W.q || {}, r = { trink: 0, abkochen: 0, brauch: 0 };
+  WQ.forEach(function (x) { var l = zahl(q[x[0]]); if (isFinite(l) && l > 0) r[x[2]] += l; });
+  return r;
+}
 function wasser(S) {
-  var H = haushalt(S), L = S.lage || {}, l = 0;
+  var H = haushalt(S), L = S.lage || {}, l = 0, Wq = S.wasserQ || {}, nq = notquellen(S), kochen = (L.koch || 'gas') !== 'keine';
   (S.lager || []).forEach(function (it) { var k = katVon(S, it.k); if (k && k.fl) l += gramm(S, it) / 1000; });
+  var vorrat = l, dazu = nq.trink + (Wq.abkochen && kochen ? nq.abkochen : 0); l += dazu;
   var tage = L.leitung ? Infinity : (H.wasser > 0 ? l / H.wasser : 0);
-  return { l: l, bedarf: H.wasser, tage: tage, leitung: !!L.leitung };
+  /* Brauchwasser: Körperpflege und Toilette (nur wenn eingestellt) */
+  var n = H.n, brauchBedarf = n * ((Wq.pflege ? zahl(Wq.pflegeL) || 0 : 0) + (Wq.toilette === 'spuelen' ? zahl(Wq.toiletteL) || 0 : 0));
+  var brauch = nq.brauch + (Wq.abkochen && kochen ? 0 : nq.abkochen);
+  return { l: l, vorrat: vorrat, notquellen: dazu, bedarf: H.wasser, tage: tage, leitung: !!L.leitung, brauch: brauch, brauchBedarf: brauchBedarf, brauchTage: L.leitung ? Infinity : brauchBedarf > 0 ? brauch / brauchBedarf : null };
 }
 function gruppenStand(S, heute) {
   var H = haushalt(S), z = zielTage(S), fak = H.kcal / BLE_KCAL * z / BLE_TAGE, R = {};
@@ -645,7 +673,7 @@ function beispiel(heute) {
     eigene: [], haken: {} });
 }
 function leer() { return { v: 2, beispiel: false, tab: 'uebersicht', personen: [], tiere: [], lage: { strom: true, leitung: false, koch: 'gas', ziel: 10, zielFrei: 21, spar: 100, hyg: 0, kartusche: '' }, lager: [], eigene: [], haken: {},
-  orte: klon(ORTE_STD), preise: {}, ean: {}, plan: { modus: 'satt' }, budget: '', bestaende: [], notfall: {}, ablauf: {}, region: {}, stromG: [], wasserQ: {} }; }
+  orte: klon(ORTE_STD), preise: {}, ean: {}, plan: { modus: 'satt' }, budget: '', bestaende: [], notfall: {}, ablauf: {}, region: {}, stromG: [], wasserQ: {}, strom: {} }; }
 function pruefeStand(x) {
   if (!x || typeof x !== 'object' || !Array.isArray(x.personen) || !Array.isArray(x.lager)) return null;
   var S = leer(); Object.keys(S).forEach(function (k) { if (x[k] != null) S[k] = x[k]; });
@@ -655,7 +683,7 @@ function pruefeStand(x) {
   if (!Array.isArray(S.orte) || !S.orte.length) S.orte = klon(ORTE_STD);
   ORTE_STD.forEach(function (o) { if (!S.orte.some(function (x) { return x.id === o.id; })) S.orte.push(klon(o)); });
   S.lager.forEach(function (it) { if (!S.orte.some(function (o) { return o.id === it.o; })) it.o = 'v'; });
-  ['preise', 'ean', 'notfall', 'ablauf', 'region', 'wasserQ', 'haken'].forEach(function (k) { if (!S[k] || typeof S[k] !== 'object' || Array.isArray(S[k])) S[k] = {}; });
+  ['preise', 'ean', 'notfall', 'ablauf', 'region', 'wasserQ', 'haken', 'strom'].forEach(function (k) { if (!S[k] || typeof S[k] !== 'object' || Array.isArray(S[k])) S[k] = {}; });
   ['bestaende', 'stromG', 'eigene', 'tiere'].forEach(function (k) { if (!Array.isArray(S[k])) S[k] = []; });
   if (!S.plan || typeof S.plan !== 'object') S.plan = { modus: 'satt' };
   if (!(x.v >= 2)) { S.tab = 'uebersicht'; } S.v = 2;
@@ -664,14 +692,14 @@ function pruefeStand(x) {
 
 var KERN = { KATALOG: KATALOG, GERICHTE: GERICHTE, GRUPPEN: GRUPPEN, DGE_E: DGE_E, QUELLEN: QUELLEN, CHECK: CHECK, bedarf: bedarf, haushalt: haushalt, reichweite: reichweite, wasser: wasser, gruppenStand: gruppenStand,
   eiweissTage: eiweissTage, alltag: alltag, dateiMoeglich: dateiMoeglich, reichtFuer: reichtFuer, portionenHaushalt: portionenHaushalt, auffuellMax: auffuellMax, PORTION_KCAL: PORTION_KCAL, bestand: bestand, gerichtWerte: gerichtWerte, gerichtStatus: gerichtStatus, abziehen: abziehen, speiseplan: speiseplan, fehltListe: fehltListe, vorschlag: vorschlag,
-  beispiel: beispiel, leer: leer, pruefeStand: pruefeStand, ampel: ampel, sichtbareTabs: function () { return sichtbareTabs(); }, NAV: NAV, nachkauf: nachkauf, preisJeG: preisJeG, planSparsam: planSparsam, auffuellOk: auffuellOk, ortTyp: ortTyp, ortName: ortName, MAHLZEITEN: MAHLZEITEN, einheitG: einheitG, stdEinheit: stdEinheit, gramm: gramm, einheiten: einheiten, zielTage: zielTage, posten: posten, katVon: katVon, kannKochen: kannKochen };
+  beispiel: beispiel, leer: leer, pruefeStand: pruefeStand, ampel: ampel, notquellen: notquellen, WQ: WQ, sichtbareTabs: function () { return sichtbareTabs(); }, NAV: NAV, nachkauf: nachkauf, preisJeG: preisJeG, planSparsam: planSparsam, auffuellOk: auffuellOk, ortTyp: ortTyp, ortName: ortName, MAHLZEITEN: MAHLZEITEN, einheitG: einheitG, stdEinheit: stdEinheit, gramm: gramm, einheiten: einheiten, zielTage: zielTage, posten: posten, katVon: katVon, kannKochen: kannKochen };
 
 /* ===================================================================== 4. Oberfläche */
 var S = null, R = null, FIG = null, UNDO = null, TOAST_T = null, SPEICHER_T = null, SUCHE = '', GF = { st: 'alle', art: 'alle', meine: true, ohneW: false }, PLAN = null, OFFEN = {};
 /* Navigation: vier Gruppen, darin die Bereiche. Bereiche ohne Darstellung (z. B. wenn vorrat_plus.js fehlt) werden nicht gezeigt. */
-var NAV = [['start', 'Übersicht', '⌂', ['uebersicht']], ['vorrat', 'Vorrat', '🥫', ['reichweite', 'lager', 'gerichte', 'fehlt', 'haltbar']],
+var NAV = [['start', 'Übersicht', '⌂', ['uebersicht']], ['vorrat', 'Vorrat', '🥫', ['reichweite', 'lager', 'gerichte', 'naehrstoffe', 'fehlt', 'haltbar']],
   ['plan', 'Haushalt & Plan', '👪', ['haushalt', 'vergleich', 'kosten', 'vorlage', 'blatt']], ['notfall', 'Notfall', '🔦', ['ablauf', 'bestaende', 'strom', 'wasser', 'kochen', 'notfallplan', 'region']]];
-var TABNAME = { uebersicht: ['Übersicht', '⌂'], reichweite: ['Reichweite', '◔'], lager: ['Lager', '🥫'], gerichte: ['Gerichte', '🍲'], fehlt: ['Fehlt noch', '🛒'], haltbar: ['Haltbarkeit', '📅'],
+var TABNAME = { uebersicht: ['Übersicht', '⌂'], reichweite: ['Reichweite', '◔'], lager: ['Lager', '🥫'], gerichte: ['Gerichte', '🍲'], fehlt: ['Fehlt noch', '🛒'], haltbar: ['Haltbarkeit', '📅'], naehrstoffe: ['Nährstoffe', '🥕'],
   haushalt: ['Haushalt', '👪'], vergleich: ['Vergleich', '⚖'], kosten: ['Kosten', '€'], vorlage: ['Startvorlage', '📋'], blatt: ['Notfall-Blatt', '🖨'],
   ablauf: ['Ablauf', '⏱'], bestaende: ['Ausrüstung', '🩹'], strom: ['Strom & Wärme', '🔋'], wasser: ['Wasser', '💧'], kochen: ['Kochen ohne Strom', '🔥'], notfallplan: ['Notfallplan', '📞'], region: ['Region', '📍'] };
 /* Erweiterungen (vorrat_plus.js) hängen sich hier ein */
@@ -936,12 +964,13 @@ function reichtFuer(max, PH, n) {
 function gerichtHTML(r, st, B) {
   var wv = gerichtWerte(S, r), H = haushalt(S), PH = portionenHaushalt(S), open = OFFEN['g:' + r.id];
   var badge = !st.koch ? '<span class="vr-badge vr-grau">braucht ' + KNAME[r.koch] + '</span>' : st.st === 'geht' ? '<span class="vr-badge vr-gut">geht jetzt · ' + reichtFuer(st.max, PH, H.n) + '</span>' : st.st === 'fast' ? '<span class="vr-badge vr-mittel">fast</span>' : '<span class="vr-badge vr-grau">fehlt einiges</span>';
-  var h = '<article class="vr-karte vr-gericht" data-g="' + r.id + '"><button type="button" class="vr-gk" data-auf="g:' + r.id + '" aria-expanded="' + !!open + '"><span class="vr-gi" aria-hidden="true">' + ({ kalt: '🥣', warm: '🍲', brot: '🫓', ofen: '🍞' })[r.art] + '</span><span class="vr-gtx"><b>' + esc(r.n) + '</b><small>' + fz(wv.kcal) + ' kcal · ' + (r.wa ? fz(wv.wasser) + ' ml Wasser' : 'ohne Wasser') + ' · ' + r.z + ' min · ' + KNAME[r.koch] + '</small></span>' + badge + '</button>';
+  var h = '<article class="vr-karte vr-gericht" data-g="' + r.id + '"><button type="button" class="vr-gk" data-auf="g:' + r.id + '" aria-expanded="' + !!open + '"><span class="vr-gi" aria-hidden="true">' + ({ kalt: '🥣', warm: '🍲', brot: '🫓', ofen: '🍞', kiste: '🧺' })[r.art] + '</span><span class="vr-gtx"><b>' + esc(r.n) + '</b><small>' + fz(wv.kcal) + ' kcal · ' + (r.wa ? fz(wv.wasser) + ' ml Wasser' : 'ohne Wasser') + ' · ' + r.z + ' min · ' + KNAME[r.koch] + '</small></span>' + badge + '</button>';
   if (st.st === 'fast' && st.koch) h += '<p class="vr-fehlt">Fehlt: ' + st.fehlt.map(function (f) { return esc(zutatName(S, f.z)) + ' (' + kg(f.g) + ')'; }).join(', ') + '</p>';
   if (open) {
     h += '<div class="vr-gd"><h4>Zutaten für ' + r.p + ' ' + (r.p === 1 ? 'Portion' : 'Portionen') + '</h4><ul class="vr-zut">' + r.zut.map(function (z) { var da = zutatDa(z, B), ok = da >= z.g / r.p;
       return '<li class="' + (ok ? 'vr-da' : 'vr-nicht') + '"><span aria-hidden="true">' + (ok ? '✓' : '○') + '</span>' + fz(z.g) + ' g ' + esc(zutatName(S, z)) + (z.a.some(function (a) { return a[1] !== 1; }) ? ' (Frischhefe: dreifache Menge)' : '') + (z.opt ? ' <small>(nach Belieben)</small>' : '') + '</li>'; }).join('') + '<li class="vr-da"><span aria-hidden="true">·</span>Salz, Pfeffer, Gewürze nach Geschmack</li>' + (r.wa ? '<li><span aria-hidden="true">💧</span>' + fz(r.wa) + ' ml Wasser (Kochen und Teig)</li>' : '') + '</ul>' +
       '<h4>So geht es</h4><ol class="vr-schritte">' + r.sch.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>' + (r.hinweis ? '<p class="vr-warn">' + esc(r.hinweis) + '</p>' : '') +
+      (r.art === 'kiste' ? '<p class="vr-klein">Kochkiste: kurz ankochen, im fest verschlossenen Topf in einer gut isolierten Kiste ohne weitere Energie nachgaren (BZfE, „Energie sparen mit der Kochkiste“, Stand 03.01.2023)' + (r.beleg === 'kk-geeignet' ? '; die Zeit in der Kiste ist nicht belegt – vor dem Essen prüfen, ob es gar ist. Die Flammzeit ist geschätzt.' : '.') + ' Mehr unter „Notfall → Kochen ohne Strom“.</p>' : '') +
       (r.rz ? '<p><a class="vr-link" href="#r-' + r.rz + '">Ausführliches Rezept in der App öffnen ›</a></p>' : '') +
       '<p class="vr-klein">' + fz(wv.kcal) + ' kcal und ' + fz(wv.eiweiss) + ' g Eiweiß je Portion, gerechnet aus dem Katalog (erste genannte Zutat). 1 Portion = Mahlzeit für jemanden mit 2.200 kcal Tagesbedarf; euer Haushalt braucht ' + portText(PH) + ' je Mahlzeit (Kinder und Menschen mit kleinem Bedarf entsprechend weniger). Richtwert.</p>' +
       (st.max >= 0.5 ? '<div class="vr-koch"><span class="vr-fl">Gekocht für</span><div class="vr-pm"><button type="button" class="vr-rund" data-port="-0.5" aria-label="weniger Portionen">−</button><b class="vr-port" data-portw="' + Math.min(PH, st.max) + '" data-max="' + st.max + '">' + fz(Math.min(PH, st.max), 1) + '</b><button type="button" class="vr-rund" data-port="0.5" aria-label="mehr Portionen">＋</button></div><span class="vr-klein vr-portinfo">' + (st.max >= PH ? 'Portionen = alle ' + H.n + ' Personen' : 'reicht nicht für alle') + '</span><button type="button" class="vr-knopf vr-haupt" data-gekocht="' + r.id + '">Gekocht – vom Lager abziehen</button></div>' : '') + '</div>';
@@ -1179,7 +1208,7 @@ function seite(el, opt) {
 }
 
 /* Schnittstelle für Erweiterungen (vorrat_plus.js) – nur innerhalb der App benutzen */
-var INTERN = { HAKEN: HAKEN, BEREICH: BEREICH, TABNAME: TABNAME, NAV: NAV, QUELLEN: QUELLEN, CHECK: CHECK, KATALOG: KATALOG, KAT: KAT, GERICHTE: GERICHTE, GERICHTE_ROH: GERICHTE_ROH, GRUPPEN: GRUPPEN, GR: GR, ORTE_STD: ORTE_STD, KOCHT: KOCHT, MZN: MZN,
+var INTERN = { WQ: WQ, ARTEN: ARTEN, HAKEN: HAKEN, BEREICH: BEREICH, TABNAME: TABNAME, NAV: NAV, QUELLEN: QUELLEN, CHECK: CHECK, KATALOG: KATALOG, KAT: KAT, GERICHTE: GERICHTE, GERICHTE_ROH: GERICHTE_ROH, GRUPPEN: GRUPPEN, GR: GR, ORTE_STD: ORTE_STD, KOCHT: KOCHT, MZN: MZN,
   zustand: function () { return S; }, setze: function (n) { S = n; }, wurzel: function () { return R; }, offen: function () { return OFFEN; }, undo: function (x) { UNDO = x; },
   sichern: function () { sichern(); }, sichernJetzt: function () { sichernJetzt(); }, zeichnen: function (r) { zeichnen(r); }, nachAenderung: function (n) { nachAenderung(n); }, toast: function (t, u) { toast(t, u); }, tab: function (t) { tab(t); },
   heute: heute, esc: esc, fz: fz, kg: kg, liter: liter, zahl: zahl, uid: uid, klon: klon, feld: feld, zahlIn: zahlIn, seg: seg, balken: balken, leerText: leerText, tageText: tageText, tageZahl: tageZahl,
