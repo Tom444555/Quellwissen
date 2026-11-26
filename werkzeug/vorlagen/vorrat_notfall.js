@@ -99,12 +99,28 @@ function speicherWh(st) {
   var ps = zahl(st.ps) > 0 ? zahl(st.ps) : 0, lkwh = wert('strom', 'g-verbrauch', null), gen = zahl(st.benzin) > 0 && lkwh ? zahl(st.benzin) / lkwh * 1000 : 0;
   return { pb: pb, ps: ps, gen: gen, summe: pb + ps + gen };
 }
-/* Solar: Jahresmittel aus Richtwert kWh je Wp und Jahr (nur mit Speicher nutzbar) */
-function solarWhTag(st) { var wp = zahl((st || {}).wp), r = wert('strom', 'pv-ertrag-jahr', null); if (!(wp > 0) || !r) return 0; return wp * (r / 100) * 1000 / 365; }
+/* Solar: Ertrag am Tag im gewählten Monat (Monatswerte kWh je kWp aus den Belegen, Simulation); ohne Monat das Jahresmittel. Nur mit Speicher nutzbar. */
+var MONAT = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'], MTAGE = [31, 28.25, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+var NEIG = [['30', 'geneigt 30°', 'Dach, Aufständerung'], ['60', 'steil 60°', 'steile Aufständerung'], ['90', 'senkrecht 90°', 'Balkongeländer, Fassade']];
+function solarMonate(st) { var e = E('strom', 'pv-monat'), x = e && e[8], n = String((st || {}).neig || '30'), m = x && ((x.neigung && x.neigung[n]) || x.monate); return m && m.length === 12 ? m : null; }
+function solarMonat(st) { var m = (st || {}).monat; return m === '' || m == null || !(+m >= 0 && +m <= 11) ? I.heute().getMonth() : +m; }
+function solarWhTag(st, monat) { var wp = zahl((st || {}).wp), M = solarMonate(st); if (!(wp > 0)) return 0;
+  if (monat != null && M) return wp * M[monat] / MTAGE[monat];
+  var r = wert('strom', 'pv-ertrag-jahr', null); return r ? wp * (r / 100) * 1000 / 365 : 0; }
 function stromRechnung(St) {
   var st = St.strom || {}, G = St.stromG || [], bedarf = 0; G.forEach(function (g) { bedarf += geraetWh(g); });
-  var sp = speicherWh(st), sol = sp.pb + sp.ps > 0 ? solarWhTag(st) : 0, netto = bedarf - sol;
-  return { bedarf: bedarf, speicher: sp, solar: sol, tage: bedarf <= 0 ? null : netto <= 0 ? Infinity : sp.summe / netto };
+  var sp = speicherWh(st), mo = solarMonate(st) ? solarMonat(st) : null, sol = sp.pb + sp.ps > 0 ? solarWhTag(st, mo) : 0, netto = bedarf - sol;
+  return { bedarf: bedarf, speicher: sp, solar: sol, monat: mo, tage: bedarf <= 0 ? null : netto <= 0 ? Infinity : sp.summe / netto };
+}
+function solarHTML(st) {
+  var M = solarMonate(st), wp = zahl(st.wp); if (!(wp > 0)) return '';
+  if (!M) return '<p class="vr-klein">Solar: ' + esc((E('strom', 'pv-ertrag-jahr') || [])[3] || '') + ' Das ist ein Jahresmittel – im Winter deutlich weniger. Nutzbar nur mit Speicher. ' + quelleHTML((E('strom', 'pv-ertrag-jahr') || [])[7]) + '</p>';
+  var mo = solarMonat(st), jetzt = I.heute().getMonth(), max = Math.max.apply(null, M.map(function (v, i) { return v / MTAGE[i]; })), e = E('strom', 'pv-monat'), ng = String(st.neig || '30');
+  return '<div class="vr-solar"><div class="vr-felder">' + feld('Solar rechnen für', '<select class="vr-wahl" data-stz="monat"><option value="">aktueller Monat (' + MONAT[jetzt] + ')</option>' + MONAT.map(function (n, i) { return '<option value="' + i + '"' + (String(st.monat) === String(i) ? ' selected' : '') + '>' + n + '</option>'; }).join('') + '</select>') + feld('Aufstellung (nach Süden)', '<select class="vr-wahl" data-stz="neig">' + NEIG.map(function (n) { return '<option value="' + n[0] + '"' + (ng === n[0] ? ' selected' : '') + '>' + n[1] + ' – ' + n[2] + '</option>'; }).join('') + '</select>') + '</div>' +
+    '<p class="vr-klein"><b>' + fz(wp) + ' Wp bringen im ' + MONAT[mo] + ' im Mittel rund ' + fz(solarWhTag(st, mo)) + ' Wh am Tag.</b> Nutzbar nur mit Speicher.</p>' +
+    '<ul class="vr-monate" role="list" aria-label="Solarertrag je Monat in Wattstunden am Tag">' + M.map(function (v, i) { var w = wp * v / MTAGE[i]; return '<li' + (i === mo ? ' class="is-an"' : '') + '><span>' + MONAT[i].slice(0, 3) + '</span><i style="--b:' + Math.round(v / MTAGE[i] / max * 100) + '%"></i><b>' + fz(w) + '</b></li>'; }).join('') + '</ul>' +
+    '<p class="vr-klein">Wh am Tag je Monat. ' + esc(e[3]) + ' ' + quelleHTML(e[7]) + '</p>' + (e[6] ? '<p class="vr-klein">' + esc(e[6]) + '</p>' : '') +
+    '</div>';
 }
 /* Kochwasser aus dem Speiseplan (Liter je Tag) und theoretischer Gasbedarf (g je Liter, ohne Verluste) */
 function kochwasserProTag(St, h) { var A = K.alltag(St, h), z = K.zielTage(St), Tg = A.tage.slice(0, z), l = 0;
@@ -116,13 +132,13 @@ function stromHTML() {
   if (!t) return h + fehltHTML() + '</section>';
   h += '<div class="vr-karte vr-zahlkarte ' + (R.tage == null ? '' : R.tage >= z ? 'vr-gut' : R.tage >= Math.min(3, z) ? 'vr-mittel' : 'vr-schlecht') + '"><span class="vr-fl">Strom reicht</span>' +
     (R.tage == null ? '<b class="vr-gz vr-gz-t">–</b><small>Unten Geräte und Speicher eintragen.</small>' : '<b class="vr-gz">' + (isFinite(R.tage) ? I.tageZahl(R.tage) : '∞') + '</b><span class="vr-ge">' + (isFinite(R.tage) ? 'Tage' : 'solange die Sonne reicht') + '</span>' + balken(isFinite(R.tage) ? R.tage : z, z) +
-      '<small>Bedarf ' + fz(R.bedarf) + ' Wh am Tag · Speicher ' + fz(R.speicher.summe) + ' Wh' + (R.solar ? ' · Solar Ø ' + fz(R.solar) + ' Wh am Tag (Jahresmittel)' : '') + '</small>') + '</div>';
+      '<small>Bedarf ' + fz(R.bedarf) + ' Wh am Tag · Speicher ' + fz(R.speicher.summe) + ' Wh' + (R.solar ? ' · Solar Ø ' + fz(R.solar) + ' Wh am Tag (' + (R.monat != null ? MONAT[R.monat] : 'Jahresmittel') + ')' : '') + '</small>') + '</div>';
   /* Speicher */
   var pb = st.pb && st.pb.length ? st.pb : [{ mah: '', n: 1 }];
   h += '<h3>Speicher</h3><div class="vr-karte"><h4>Powerbanks</h4><ul class="vr-pbl" role="list">' + pb.map(function (p, i) { return '<li data-pb="' + i + '">' + feld('Kapazität', zahlIn('data-pbf="mah"', p.mah || '', 'mAh', 'z. B. 10.000', 'numeric')) + feld('Anzahl', zahlIn('data-pbf="n"', p.n || 1, '', '', 'numeric')) + (i ? '<button type="button" class="vr-x" data-pbweg aria-label="entfernen">✕</button>' : '') + '</li>'; }).join('') + '</ul>' +
     '<div class="vr-knoepfe"><button type="button" class="vr-knopf" data-pbneu>＋ weitere Powerbank</button></div><p class="vr-klein">' + esc((E('strom', 's-formel') || [])[3] || '') + ' ' + esc((E('strom', 's-powerbank-real') || [])[3] || '') + ' Gerechnet mit ' + fz(wert('strom', 's-powerbank-real', 0.75) * 100) + ' %. ' + quelleHTML((E('strom', 's-powerbank-real') || [])[7]) + '</p>' +
     '<div class="vr-felder">' + feld('Powerstation', zahlIn('data-stz="ps"', st.ps || '', 'Wh', 'laut Gerät')) + feld('Solarmodul(e)', zahlIn('data-stz="wp"', st.wp || '', 'Wp', 'Nennleistung')) + feld('Benzin für Stromerzeuger', zahlIn('data-stz="benzin"', st.benzin || '', 'l', '0')) + '</div>' +
-    (zahl(st.wp) > 0 ? '<p class="vr-klein">Solar: ' + esc((E('strom', 'pv-ertrag-jahr') || [])[3] || '') + ' Das ist ein Jahresmittel – im Winter deutlich weniger. Nutzbar nur mit Speicher. ' + quelleHTML((E('strom', 'pv-ertrag-jahr') || [])[7]) + '</p>' : '') +
+    solarHTML(st) +
     (zahl(st.benzin) > 0 ? '<p class="vr-klein">Stromerzeuger: ' + esc((E('strom', 'g-verbrauch') || [])[3] || '') + ' ' + quelleHTML((E('strom', 'g-verbrauch') || [])[7]) + '</p>' + ['g-draussen', 'g-tanken', 'g-einspeisen'].map(function (id) { var e = E('strom', id); return e && e[6] ? '<p class="vr-warnung"><span aria-hidden="true">⚠</span> ' + esc(e[6]) + '</p>' : ''; }).join('') : '') + '</div>';
   /* Geräte */
   var G = St.stromG || [];
@@ -200,37 +216,45 @@ H.uebersichtAusruestung = function (St) { var a = ausrStand(St); return a ? { d:
 function vitCBedarf(p) { var a = zahl(p.a), m = p.s !== 'w', id = null; if (!isFinite(a) || a < 1) return null;
   id = a < 4 ? 'c-1-4' : a < 7 ? 'c-4-7' : a < 10 ? 'c-7-10' : a < 13 ? 'c-10-13' : a < 15 ? 'c-13-15' : a < 19 ? (m ? 'c-15-19-m' : 'c-15-19-w') : (m ? 'c-m' : 'c-w'); return wert('naehrstoffe', id, null); }
 function ballaststoffBedarf(p, kcal) { var a = zahl(p.a); if (isFinite(a) && a < 19) { var w = wert('naehrstoffe', 'b-kind', null); return w != null ? w * kcal / 1000 : null; } return wert('naehrstoffe', 'b-erw', null); }
-function naehrBedarf(St) { var Hh = K.haushalt(St), r = { e: Hh.eiweiss, f: 0, b: 0, vc: 0, fehlt: [] }, fa = wert('naehrstoffe', 'f-erw', null);
-  Hh.P.forEach(function (x) { if (fa != null) r.f += x.b.kcal * fa / 100 / 9; var b = ballaststoffBedarf(x.p, x.b.kcal); if (b != null) r.b += b; var c = vitCBedarf(x.p); if (c != null) r.vc += c; else r.fehlt.push(x.p.n || 'Person'); });
+/* Calcium nach Alter (DGE); für 7 bis unter 10 Jahre fehlt ein belegter Wert → null. Eisen nur Erwachsene: Männer, Frauen bis 50 (Wert vor den Wechseljahren, Annahme) und ab 51. */
+function calciumBedarf(p) { var a = zahl(p.a); if (!isFinite(a) || a < 1) return null; var id = a < 4 ? 'ca-1-4' : a < 7 ? 'ca-4-7' : a < 10 ? null : a < 13 ? 'ca-10-13' : a < 19 ? 'ca-13-19' : 'ca-erw'; return id ? wert('naehrstoffe', id, null) : null; }
+function eisenBedarf(p) { var a = zahl(p.a); if (!isFinite(a) || a < 19) return null; return wert('naehrstoffe', p.s !== 'w' ? 'fe-m' : a < 51 ? 'fe-w-prae' : 'fe-w-post', null); }
+function naehrBedarf(St) { var Hh = K.haushalt(St), r = { e: Hh.eiweiss, f: 0, b: 0, vc: 0, ca: 0, fe: 0, fehlt: [], fehltCa: [], fehltFe: [] }, fa = wert('naehrstoffe', 'f-erw', null);
+  Hh.P.forEach(function (x) { if (fa != null) r.f += x.b.kcal * fa / 100 / 9; var b = ballaststoffBedarf(x.p, x.b.kcal); if (b != null) r.b += b; var c = vitCBedarf(x.p); if (c != null) r.vc += c; else r.fehlt.push(x.p.n || 'Person'); var ca = calciumBedarf(x.p); if (ca != null) r.ca += ca; else r.fehltCa.push(x.p.n || 'Person'); var fe = eisenBedarf(x.p); if (fe != null) r.fe += fe; else r.fehltFe.push(x.p.n || 'Person'); });
   return r; }
 /* Nährstoffe eines Tages aus dem Plan (Gerichte: erste genannte Zutat je Portion; Auffüllen: tatsächliches Lebensmittel) */
-function naehrTag(St, t) { var r = { e: 0, f: 0, b: 0, vc: 0, kcal: 0, unbekanntVc: 0 };
-  var dazu = function (k, g) { if (!k) return; var f = g / 100; r.e += (k.e || 0) * f; r.f += (k.f || 0) * f; r.b += (k.b || 0) * f; r.kcal += (k.k || 0) * f; if (k.vc != null) r.vc += k.vc * f; else if (k.k > 0) r.unbekanntVc += (k.k || 0) * f; };
+function naehrTag(St, t) { var r = { e: 0, f: 0, b: 0, vc: 0, ca: 0, fe: 0, kcal: 0, unbekanntVc: 0, unbekanntCa: 0, unbekanntFe: 0 };
+  var dazu = function (k, g) { if (!k) return; var f = g / 100; r.e += (k.e || 0) * f; r.f += (k.f || 0) * f; r.b += (k.b || 0) * f; r.kcal += (k.k || 0) * f; if (k.vc != null) r.vc += k.vc * f; else if (k.k > 0) r.unbekanntVc += (k.k || 0) * f; if (k.ca != null) r.ca += k.ca * f; else if (k.k > 0) r.unbekanntCa += (k.k || 0) * f; if (k.fe != null) r.fe += k.fe * f; else if (k.k > 0) r.unbekanntFe += (k.k || 0) * f; };
   t.essen.forEach(function (e) { var g0 = K.GERICHTE.filter(function (x) { return x.id === e.id; })[0]; if (!g0) return; g0.zut.forEach(function (z) { if (z.opt) return; dazu(K.katVon(St, z.a[0][0]), z.g / g0.p * e.port); }); });
   t.extra.forEach(function (x) { dazu(K.katVon(St, x.i), x.g); });
   return r; }
 function naehrCheck(St, h, P) {
-  var B = naehrBedarf(St), T0 = (P || I.planZiel()).tage.filter(function (t) { return t.kcal > 0; }), sum = { e: 0, f: 0, b: 0, vc: 0, kcal: 0, unbekanntVc: 0 }, unter = { e: 0, f: 0, b: 0, vc: 0 };
-  T0.forEach(function (t) { var n = naehrTag(St, t); Object.keys(sum).forEach(function (k) { sum[k] += n[k]; }); ['e', 'f', 'b', 'vc'].forEach(function (k) { if (B[k] > 0 && n[k] < B[k] * 0.9) unter[k]++; }); });
-  var d = T0.length || 1; return { bedarf: B, schnitt: { e: sum.e / d, f: sum.f / d, b: sum.b / d, vc: sum.vc / d }, tage: T0.length, unter: unter, unbekanntVc: sum.kcal ? sum.unbekanntVc / sum.kcal : 0 };
+  var B = naehrBedarf(St), T0 = (P || I.planZiel()).tage.filter(function (t) { return t.kcal > 0; }), sum = { e: 0, f: 0, b: 0, vc: 0, ca: 0, fe: 0, kcal: 0, unbekanntVc: 0, unbekanntCa: 0, unbekanntFe: 0 }, unter = { e: 0, f: 0, b: 0, vc: 0, ca: 0, fe: 0 };
+  T0.forEach(function (t) { var n = naehrTag(St, t); Object.keys(sum).forEach(function (k) { sum[k] += n[k]; }); ['e', 'f', 'b', 'vc', 'ca', 'fe'].forEach(function (k) { if (B[k] > 0 && n[k] < B[k] * 0.9) unter[k]++; }); });
+  var d = T0.length || 1; return { bedarf: B, schnitt: { e: sum.e / d, f: sum.f / d, b: sum.b / d, vc: sum.vc / d, ca: sum.ca / d, fe: sum.fe / d }, tage: T0.length, unter: unter, unbekanntVc: sum.kcal ? sum.unbekanntVc / sum.kcal : 0, unbekanntCa: sum.kcal ? sum.unbekanntCa / sum.kcal : 0, unbekanntFe: sum.kcal ? sum.unbekanntFe / sum.kcal : 0 };
 }
 /* Womit aus dem Vorrat ausgleichen: Lebensmittel im Lager mit dem höchsten Gehalt je 100 kcal */
 function ausgleich(St, h, key) { return K.posten(St, h).filter(function (x) { return x.k[key] > 0 && x.k.k > 0 && x.k.g !== 'baby'; }).sort(function (a, b) { return b.k[key] / b.k.k - a.k[key] / a.k.k; }).filter(function (x, i, A) { return A.findIndex(function (y) { return y.k.i === x.k.i; }) === i; }).slice(0, 3); }
-var NAEHR = [['e', 'Eiweiß', 'g', 'p-19-65'], ['f', 'Fett', 'g', 'f-erw'], ['b', 'Ballaststoffe', 'g', 'b-erw'], ['vc', 'Vitamin C', 'mg', 'c-m']];
+var NAEHR = [['e', 'Eiweiß', 'g', 'p-19-65'], ['f', 'Fett', 'g', 'f-erw'], ['b', 'Ballaststoffe', 'g', 'b-erw'], ['vc', 'Vitamin C', 'mg', 'c-m'], ['ca', 'Calcium', 'mg', 'ca-erw'], ['fe', 'Eisen', 'mg', 'fe-m']];
 function naehrHTML() {
   var St = S(), h0 = I.heute(), t = T('naehrstoffe'), z = K.zielTage(St);
-  var h = kopf('naehrstoffe', 'Nährstoff-Check', 'Deckt der Speiseplan der nächsten ' + z + ' Tage Eiweiß, Fett, Ballaststoffe und Vitamin C? Und womit lässt sich aus dem Vorrat ausgleichen?');
+  var h = kopf('naehrstoffe', 'Nährstoff-Check', 'Deckt der Speiseplan der nächsten ' + z + ' Tage Eiweiß, Fett, Ballaststoffe, Vitamin C, Calcium und Eisen? Und womit lässt sich aus dem Vorrat ausgleichen?');
   if (!t) return h + fehltHTML() + '</section>';
   if (!St.personen.length || !St.lager.length) return h + '<div class="vr-leer"><p>Dafür braucht es Personen und Vorrat.</p></div></section>';
   var P = I.planZiel(), C = naehrCheck(St, h0, P);
   h += '<p class="vr-klein">Grundlage: ' + (P.sparsam ? 'sparsamer' : 'satter') + ' Speiseplan, ' + C.tage + ' Tage mit Essen. Gerichte mit der ersten genannten Zutat gerechnet, Werte roh (ohne Kochverluste). Bedarf: DGE-Referenzwerte für gesunde Menschen.</p>';
-  h += '<div class="vr-naehr">' + NAEHR.map(function (n) { var ist = C.schnitt[n[0]], soll = C.bedarf[n[0]], p = soll ? ist / soll : 0, A = ausgleich(St, h0, n[0]);
+  h += '<div class="vr-naehr">' + NAEHR.filter(function (n) { return C.bedarf[n[0]] > 0; }).map(function (n) { var ist = C.schnitt[n[0]], soll = C.bedarf[n[0]], p = soll ? ist / soll : 0, A = ausgleich(St, h0, n[0]);
     return '<div class="vr-karte ' + (p >= 0.9 ? 'vr-gut' : p >= 0.6 ? 'vr-mittel' : 'vr-schlecht') + '"><span class="vr-fl">' + n[1] + '</span><b class="vr-nz">' + fz(ist, ist < 10 ? 1 : 0) + ' ' + n[2] + ' <small>von ' + fz(soll) + ' ' + n[2] + ' am Tag</small></b>' + balken(ist, soll) +
       '<small>' + fz(p * 100) + ' % im Schnitt · ' + C.unter[n[0]] + ' von ' + C.tage + ' Tagen unter 90 %</small>' + (p < 0.9 && A.length ? '<small class="vr-ausgl">Ausgleichen mit: ' + A.map(function (x) { return esc(x.it.n || x.k.n.replace(/ \(.*\)$/, '')); }).join(', ') + '</small>' : '') + '</div>'; }).join('') + '</div>';
   if (C.unbekanntVc > 0.05) h += '<p class="vr-klein">Für ' + fz(C.unbekanntVc * 100) + ' % der Kalorien fehlt ein belegter Vitamin-C-Wert (z. B. Öle, Honig); sie zählen mit 0.</p>';
+  var ohne = Math.max(C.unbekanntCa, C.unbekanntFe);
+  if (ohne > 0.05) h += '<p class="vr-klein">Calcium und Eisen: Für ' + fz(ohne * 100) + ' % der Kalorien fehlt ein belegter Wert (Öle, Brot und Backwaren, Nudeln, Reis, Weißmehl – die Vergleichsdaten aus den USA gelten dort für angereicherte Ware); sie zählen mit 0. Der Vorrat kann also mehr liefern, als hier steht.</p>';
+  if (C.bedarf.fehltCa.length) h += '<p class="vr-klein">Ohne Calcium-Bedarf (kein belegter Wert für 7 bis unter 10 Jahre und für Säuglinge): ' + C.bedarf.fehltCa.map(esc).join(', ') + '.</p>';
+  if (C.bedarf.fehltFe.length) h += '<p class="vr-klein">Ohne Eisen-Bedarf (belegte Werte nur für Erwachsene): ' + C.bedarf.fehltFe.map(esc).join(', ') + '. [Ergänzung] Für Frauen bis 50 Jahre rechnet der Check mit dem Wert vor den Wechseljahren, ab 51 mit dem danach; Schwangere brauchen mehr (siehe Referenzwerte).</p>';
+  h += '<p class="vr-klein">Calcium- und Eisengehalte: USDA FoodData Central, SR Legacy (2018), je 100 g. Der Check zählt die enthaltene Menge, nicht, wie viel der Körper davon aufnimmt.</p>';
   if (C.bedarf.fehlt.length) h += '<p class="vr-klein">Ohne Vitamin-C-Bedarf (Säugling oder Alter fehlt): ' + C.bedarf.fehlt.map(esc).join(', ') + '.</p>';
   h += '<h3>Einordnen: Was in 10 Tagen zählt</h3>' + faktenHTML('naehrstoffe', ['Einordnung'], 4) + faktenHTML('naehrstoffe', ['Vitamin-C-Quellen'], 4);
-  h += '<details class="vr-mehr"><summary>Alle Referenzwerte mit Quellen</summary>' + faktenHTML('naehrstoffe', ['Energie', 'Eiweiß', 'Makronährstoffe', 'Vitamin C', 'Calcium', 'Eisen'], 4) + '<p class="vr-klein">Calcium und Eisen stehen nur zur Information da – dafür fehlen belegte Werte für die Lebensmittel im Katalog.</p></details>';
+  h += '<details class="vr-mehr"><summary>Alle Referenzwerte mit Quellen</summary>' + faktenHTML('naehrstoffe', ['Energie', 'Eiweiß', 'Makronährstoffe', 'Vitamin C', 'Calcium', 'Eisen'], 4) + '</details>';
   return h + '</section>';
 }
 
@@ -309,6 +333,6 @@ H.eingabe.push(function (t) {
 
 var B = I.BEREICH;
 B.ablauf = ablaufHTML; B.wasser = wasserHTML; B.strom = stromHTML; B.kochen = kochenHTML; B.notfallplan = notfallplanHTML; B.naehrstoffe = naehrHTML; B.region = regionHTML;
-V._notfall = { F: F, T: T, E: E, wert: wert, ablaufStand: ablaufStand, geraetWh: geraetWh, speicherWh: speicherWh, solarWhTag: solarWhTag, stromRechnung: stromRechnung, kochwasserProTag: kochwasserProTag, npStand: npStand, regionEintraege: regionEintraege, regionGebiete: regionGebiete, telNummer: telNummer, naehrBedarf: naehrBedarf, naehrTag: naehrTag, naehrCheck: naehrCheck, vitCBedarf: vitCBedarf, ausgleich: ausgleich, ausrStand: ausrStand, GERAETE: GERAETE, KOCH_GERICHTE: KOCH_GERICHTE, eintragHTML: eintragHTML };
+V._notfall = { F: F, T: T, E: E, wert: wert, ablaufStand: ablaufStand, geraetWh: geraetWh, speicherWh: speicherWh, solarWhTag: solarWhTag, solarMonate: solarMonate, stromRechnung: stromRechnung, kochwasserProTag: kochwasserProTag, npStand: npStand, regionEintraege: regionEintraege, regionGebiete: regionGebiete, telNummer: telNummer, naehrBedarf: naehrBedarf, calciumBedarf: calciumBedarf, eisenBedarf: eisenBedarf, naehrTag: naehrTag, naehrCheck: naehrCheck, vitCBedarf: vitCBedarf, ausgleich: ausgleich, ausrStand: ausrStand, GERAETE: GERAETE, KOCH_GERICHTE: KOCH_GERICHTE, eintragHTML: eintragHTML };
 if (typeof module !== 'undefined' && module.exports) module.exports = V._notfall;
 })(typeof window !== 'undefined' ? window : globalThis);

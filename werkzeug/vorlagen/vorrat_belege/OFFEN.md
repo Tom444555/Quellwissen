@@ -78,3 +78,7 @@ Stand: 26.11.2026
 - Versionen von barcode-detector, zxing-wasm, lean-qr und jsqr (Lizenz unverändert?)
 - Steckersolar-Regeln (800 W / 2.000 Wp) und VZ-Angaben
 - Gefahrenhinweise (CO, Stromerzeuger) unverändert übernehmen, falls BBK-Texte neu formuliert werden
+
+## Nachtrag 26.11.2026, 10 Uhr
+- **Solarertrag je Monat – erledigt:** PVGIS 5.3 direkt abgerufen (Saarbrücken 49,234° N, 6,996° O; 1 kWp, Süd, 14 % Verluste; 30°, 60°, 90°), Rohdaten in `pvgis/sb_*.json`. `curl` auf re.jrc.ec.europa.eu geht aus der Shell; WebFetch dorthin braucht Toms Freigabe. Offen: andere Orte, Ost/West-Ausrichtung.
+- **Calcium und Eisen – erledigt:** aus USDA SR Legacy (Datei `FoodData_Central_sr_legacy_food_csv_2018-04.zip` von fdc.nal.usda.gov, aus der Shell ladbar), Liste und Weglassungen in `usda_calcium_eisen.json`. Ohne Wert: US-angereicherte Ware (Weißmehl, Nudeln, Reis, Grieß), US-Backwaren, Cornflakes, Tofu (Calcium), Babybrei, dazu 17 Einträge ohne USDA-Nummer. Offen: Abgleich mit BLS 4.0 (hiesige Ware), Calcium-Referenzwert 7 bis unter 10 Jahre, Eisen-Referenzwerte für Kinder, weitere Nährstoffe (Magnesium, Zink, Folat, B12 – Gehalte lägen in derselben USDA-Datei, es fehlen belegte Referenzwerte in `naehrstoffe.json`).

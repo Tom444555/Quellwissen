@@ -201,6 +201,7 @@ nah(N2.wert('wasser', 'bedarf-vorrat', 0), 2, 0, 'Beleg: 2 l je Person und Tag (
 /* Strom */
 var sp = N2.speicherWh({ pb: [{ mah: 10000, n: 2 }], ps: 500 }); nah(sp.pb, 10000 * 3.7 / 1000 * N2.wert('strom', 's-powerbank-real', 0) * 2, 1e-9, 'Powerbank: mAh × 3,7 V × nutzbarer Anteil');
 nah(N2.solarWhTag({ wp: 365 }), 1000, 1e-6, 'Solar: 365 Wp → 1.000 Wh am Tag im Jahresmittel (100 kWh je 100 Wp)');
+nah(N2.solarWhTag({ wp: 310 }, 11), 310 * 29.49 / 31, 1e-6, 'Solar Dezember (Saarbrücken, 30°): 310 Wp × 29,49 kWh/kWp ÷ 31 Tage = 295 Wh am Tag'); nah(N2.solarWhTag({ wp: 300, neig: '90' }, 5), 300 * 64.2 / 30, 1e-6, 'Solar Juni senkrecht: 642 Wh am Tag'); ok(N2.solarWhTag({ wp: 300, neig: '90' }, 11) > N2.solarWhTag({ wp: 300 }, 11), 'Solar: senkrecht bringt im Dezember mehr als 30°'); nah(N2.solarMonate().reduce(function (a, b) { return a + b; }, 0), 1077.22, 0.02, 'Solar: Monatswerte ergeben den Jahreswert 1.077');
 var Ss = JSON.parse(JSON.stringify(Bk)); Ss.stromG = [{ typ: 'smartphone', menge: 2 }, { typ: 'router', menge: 10 }, { typ: 'kgk-neu' }]; Ss.strom = { ps: 1000 };
 var SR = N2.stromRechnung(Ss); nah(SR.bedarf, 2 * 15 + 10 * 15 + 430, 1e-9, 'Geräte: 2 Ladungen + 10 h Router + Kühl-Gefrier-Kombi'); nah(SR.tage, 1000 / 610, 1e-9, 'Strom reicht = Speicher ÷ Bedarf');
 Ss.strom.wp = 400; ok(N2.stromRechnung(Ss).tage > SR.tage, 'Solar verlängert'); ok(N2.stromRechnung(JSON.parse(JSON.stringify(Bk))).tage === null, 'ohne Geräte keine Strom-Reichweite');
@@ -211,8 +212,11 @@ I.setze(Sn); ok(/Spielplatz/.test(P2.blattInhalt()) && /116117|116 117/.test(P2.
 ok(N2.ausrStand(Sn).n === FK.T.ausruestung.E.length, 'Checkliste Ausrüstung aus der Beleg-Datei');
 /* Nährstoffe */
 nah(N2.vitCBedarf({ s: 'm', a: 40 }), 110, 0, 'Vitamin C Mann 110 mg (DGE)'); nah(N2.vitCBedarf({ s: 'w', a: 9 }), 45, 0, 'Vitamin C Kind 7–10: 45 mg'); ok(N2.vitCBedarf({ s: 'w', a: 0.5 }) === null, 'Säugling: kein Wert');
+ok(N2.calciumBedarf({ a: 40 }) === 1000 && N2.calciumBedarf({ a: 3 }) === 600 && N2.calciumBedarf({ a: 8 }) === null && N2.calciumBedarf({ a: 15 }) === 1200, 'Calcium-Bedarf nach Alter; 7 bis unter 10 ohne belegten Wert');
+ok(N2.eisenBedarf({ a: 40, s: 'm' }) === 11 && N2.eisenBedarf({ a: 40, s: 'w' }) === 16 && N2.eisenBedarf({ a: 60, s: 'w' }) === 14 && N2.eisenBedarf({ a: 9, s: 'm' }) === null, 'Eisen-Bedarf: nur Erwachsene belegt');
+(function () { var L = K.KATALOG.filter(function (x) { return x.i === 'linsen'; })[0], Nu = K.KATALOG.filter(function (x) { return x.i === 'nudeln'; })[0]; ok(L.fe === 6.51 && L.ca === 35 && Nu.fe === undefined && Nu.ca === 21, 'Katalog: Linsen 6,51 mg Eisen (USDA 172420); Nudeln ohne Eisenwert (US-Ware angereichert)'); })();
 var NB = N2.naehrBedarf(Bk); nah(NB.b, 30 + 30 + 14.6 * K.bedarf(Bk.personen[2]).kcal / 1000, 1e-6, 'Ballaststoffe: 30 g Erwachsene, Kinder 14,6 g je 1.000 kcal');
-I.setze(JSON.parse(JSON.stringify(Bk))); var NC = N2.naehrCheck(I.zustand(), heute); ok(NC.tage > 0 && NC.schnitt.e > 0 && NC.schnitt.vc >= 0, 'Nährstoff-Check rechnet über die Plan-Tage');
+I.setze(JSON.parse(JSON.stringify(Bk))); var NC = N2.naehrCheck(I.zustand(), heute); ok(NC.tage > 0 && NC.schnitt.e > 0 && NC.schnitt.vc >= 0, 'Nährstoff-Check rechnet über die Plan-Tage'); ok(NC.schnitt.ca > 0 && NC.schnitt.fe > 0 && NC.bedarf.ca === 2000 && NC.bedarf.fe === 27 && NC.bedarf.fehltCa.length === 1 && NC.bedarf.fehltFe.length === 1 && NC.unbekanntFe >= NC.unbekanntCa, 'Nährstoff-Check: Calcium und Eisen, Kind ohne belegten Bedarf');
 ok(K.KATALOG.filter(function (k) { return k.vc != null; }).length > 120 && K.KATALOG.filter(function (k) { return k.b != null; }).length > 150, 'Katalog mit Ballaststoffen und Vitamin C (USDA)');
 var nt0 = N2.naehrTag(Bk, { essen: [], extra: [{ i: 'orangen', g: 200 }] }); nah(nt0.vc, 2 * K.katVon(Bk, 'orangen').vc, 1e-9, 'Vitamin C aus Auffüllen');
 ok(K.GERICHTE.filter(function (r) { return r.art === 'kiste'; }).length >= 10 && N2.KOCH_GERICHTE.every(function (id) { return K.GERICHTE.some(function (r) { return r.id === id; }); }), 'Kochen ohne Strom: 10+ Kochkisten-Gerichte, alle in der Sammlung');

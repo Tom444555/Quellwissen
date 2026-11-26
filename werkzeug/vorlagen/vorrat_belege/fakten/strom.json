@@ -283,6 +283,127 @@
    }
   },
   {
+   "id": "pv-monat",
+   "kategorie": "Solar",
+   "titel": "Solarertrag je Monat (Saarbrücken)",
+   "text": "Berechnung des EU-Rechners PVGIS für Saarbrücken: 1 kWp nach Süden, 30° geneigt, 14 % Systemverluste, Mittel der Jahre 2005 bis 2023. Im Jahr 1.077 kWh je kWp; im Juli 137 kWh, im Dezember 29 kWh – der Dezember bringt gut ein Fünftel eines Sommermonats. Senkrecht am Balkon (90°) sind es im Jahr 751 kWh, im Dezember aber 34 kWh: Steil stehende Module liefern im Winter etwas mehr, im Sommer deutlich weniger. Von Jahr zu Jahr schwankt der Dezember-Wert um rund 7 kWh (Standardabweichung). Es sind gerechnete Mittelwerte, keine Messwerte; einzelne trübe Tage liegen weit darunter.",
+   "wert": 1077,
+   "einheit": "kWh je kWp und Jahr (30° Süd, Simulation)",
+   "warnung": "[Ergänzung] Gerechnet ist eine freie, unverschattete Aufstellung nach Süden. Ein Modul, das eine Powerstation lädt, steht oft schattiger, hinter Glas oder nicht nach Süden und liefert dann weniger – die Rechnung ist eine Obergrenze.",
+   "quelle": {
+    "t": "PVGIS 5.3 © Europäische Union (Gemeinsame Forschungsstelle JRC): Abruf für Saarbrücken (49,234° N, 6,996° O), Datenbank PVGIS-SARAH3, Jahre 2005–2023",
+    "u": "https://re.jrc.ec.europa.eu/pvg_tools/de/",
+    "stand": "abgerufen 26.11.2026"
+   },
+   "monate": [
+    35.62,
+    55.7,
+    95.64,
+    121.75,
+    129.63,
+    134.22,
+    136.54,
+    122.53,
+    106.31,
+    71.82,
+    37.97,
+    29.49
+   ],
+   "neigung": {
+    "30": [
+     35.62,
+     55.7,
+     95.64,
+     121.75,
+     129.63,
+     134.22,
+     136.54,
+     122.53,
+     106.31,
+     71.82,
+     37.97,
+     29.49
+    ],
+    "60": [
+     42.39,
+     62.37,
+     97.71,
+     112.32,
+     109.95,
+     109.63,
+     113.42,
+     108.95,
+     104.82,
+     77.79,
+     43.9,
+     35.99
+    ],
+    "90": [
+     39.6,
+     55.37,
+     78.93,
+     79.47,
+     69.03,
+     64.2,
+     68.61,
+     73.35,
+     80.89,
+     66.94,
+     40.17,
+     34.23
+    ]
+   },
+   "streuung": {
+    "30": [
+     8.35,
+     14.96,
+     18.82,
+     21.0,
+     19.48,
+     15.19,
+     15.84,
+     12.51,
+     10.59,
+     11.52,
+     8.13,
+     7.18
+    ],
+    "60": [
+     11.3,
+     18.76,
+     21.3,
+     20.68,
+     16.62,
+     12.14,
+     13.06,
+     11.73,
+     11.41,
+     14.06,
+     10.65,
+     9.86
+    ],
+    "90": [
+     11.33,
+     17.77,
+     18.25,
+     14.54,
+     9.51,
+     5.84,
+     6.6,
+     7.6,
+     9.14,
+     12.97,
+     10.46,
+     10.0
+    ]
+   },
+   "jahr": {
+    "30": 1077.22,
+    "60": 1019.26,
+    "90": 750.79
+   }
+  },
+  {
    "id": "pv-stromausfall",
    "kategorie": "Solar",
    "titel": "Balkonkraftwerk bei Stromausfall",
@@ -493,6 +614,11 @@
    "t": "BBK: Vorsorge und Handeln bei Stromausfall (Webseite)",
    "u": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/Stromausfall/stromausfall_node.html",
    "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "PVGIS 5.3 © Europäische Union (Gemeinsame Forschungsstelle JRC): Abruf für Saarbrücken (49,234° N, 6,996° O), Datenbank PVGIS-SARAH3, Jahre 2005–2023",
+   "u": "https://re.jrc.ec.europa.eu/pvg_tools/de/",
+   "stand": "abgerufen 26.11.2026"
   }
  ],
  "hinweis": "Werte mit 'abgeleitet' oder 'umgerechnet' sind aus den Quellangaben gerechnet (z. B. Jahres- in Tageswerte, 500 Wh ÷ 33 Ladungen) und als Richtwert zu kennzeichnen. Kühlgeräte-Werte stammen von 2012 mit alten Effizienzklassen (A+++ bis A); neue Klassen A–G (seit 2021) sind nicht direkt vergleichbar. Monatliche Solarerträge (Winter/Sommer, Südwestdeutschland) aus PVGIS fehlen noch – siehe OFFEN.md. Gerätename im Stromerzeuger-Datenblatt bewusst weggelassen (keine Markenempfehlung)."
