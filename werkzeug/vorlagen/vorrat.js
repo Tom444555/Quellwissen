@@ -227,6 +227,11 @@ var WASSER_TAG = 2, WASSER_KOCHEN = 0.5;
 
 var ORTE = [['v', 'Vorrat'], ['k', 'Kühlschrank'], ['t', 'Gefriertruhe']];
 var ORT = { v: 'Vorrat', k: 'Kühlschrank', t: 'Gefriertruhe' };
+/* Lagerorte sind frei benennbar (S.orte: {id, n, typ}); typ v = ungekühlt, k = gekühlt, t = gefroren – zählt für „Strom weg“ */
+var ORTE_STD = [{ id: 'v', n: 'Vorrat', typ: 'v' }, { id: 'k', n: 'Kühlschrank', typ: 'k' }, { id: 't', n: 'Gefriertruhe', typ: 't' }];
+function ortVon(S, id) { var L = (S && S.orte) || ORTE_STD; for (var i = 0; i < L.length; i++) if (L[i].id === id) return L[i]; return ORTE_STD.filter(function (o) { return o.id === id; })[0] || ORTE_STD[0]; }
+function ortTyp(S, id) { return ortVon(S, id || 'v').typ; }
+function ortName(S, id) { return ortVon(S, id || 'v').n; }
 var KOCH = [['keine', 'Keine', 'keine Kochstelle'], ['gas', 'Gaskocher', 'Campingkocher mit Kartusche'], ['feuer', 'Grill / Feuer', 'Grill, Feuerstelle'], ['holzofen', 'Holzofen', 'mit Backfach'], ['herd', 'Herd normal', 'Herd und Backofen gehen']];
 var KOCHT = {}; KOCH.forEach(function (k) { KOCHT[k[0]] = k[1]; });
 /* welche Kochstelle reicht für welches Gericht */
@@ -405,7 +410,7 @@ function posten(S, heute) {
   return (S.lager || []).map(function (it) {
     var k = katVon(S, it.k); if (!k) return null;
     var g = gramm(S, it), d = mhdDatum(it.mhd);
-    return { it: it, k: k, g: g, kcal: g * (k.k || 0) / 100, eiw: g * (k.e || 0) / 100, ort: it.o || 'v', mhd: d, rest: d ? tageBis(d, heute) : null, ko: !!k.ko };
+    return { it: it, k: k, g: g, kcal: g * (k.k || 0) / 100, eiw: g * (k.e || 0) / 100, ort: ortTyp(S, it.o), ortId: it.o || 'v', mhd: d, rest: d ? tageBis(d, heute) : null, ko: !!k.ko };
   }).filter(Boolean);
 }
 /* Reihenfolge beim Essen: Kühlschrank, Gefriertruhe, dann was zuerst abläuft */
@@ -505,43 +510,60 @@ function auffuellMax(k) {
   if (k.g === 'getreide') return /haferflocken|muesli|cornflakes/.test(k.i) ? 80 : 120;
   return 100;
 }
-/* Speiseplan: je Tag drei Mahlzeiten und bis zu zwei kleine kalte Zwischenmahlzeiten aus dem Lager, Portionen nach Bedarf;
-   Lücken mit pur essbaren Lebensmitteln in alltagsnahen Mengen füllen; was dann fehlt, bleibt als Lücke stehen.
-   opt.koch = andere Kochmöglichkeit, opt.stopp = früh aufhören, wenn nichts mehr da ist */
+/* Darf ein Tag damit aufgefüllt werden? Nur, was man üblicherweise pur isst: Brot, Flocken, Obst (auch aus der Dose als Nachtisch),
+   Nüsse, Milchprodukte, Süßes, Dauerwurst – keine Gemüse- oder Fleischkonserven pur, keine Zutaten. */
+function auffuellOk(k) {
+  if (!pur(k) || k.ko || k.fl) return false;
+  if (k.g === 'gemuese') return false;
+  if (k.g === 'getreide') return k.i !== 'ravioli' && k.i !== 'kartoffeln';
+  if (k.g === 'eiweiss') return ['salami', 'leberwurst', 'jagdwurst'].indexOf(k.i) >= 0;
+  return ['obst', 'milch', 'sonst'].indexOf(k.g) >= 0 || (k.q === 'eigen' && k.g !== 'baby');
+}
+/* Mahlzeiten eines Tages mit Anteil am Tagesbedarf (Richtwert für die Verteilung) */
+var MAHLZEITEN = [['frueh', 'Frühstück', 0.25], ['mittag', 'Mittag', 0.35], ['abend', 'Abend', 0.30], ['zwischen', 'Zwischenmahlzeit', 0.10]];
+var MZN = {}; MAHLZEITEN.forEach(function (m) { MZN[m[0]] = m[1]; });
+/* Speiseplan: je Tag Frühstück, Mittag, Abend und eine kalte Zwischenmahlzeit aus dem Lager; Portionen nach Bedarf und passend zum Anteil
+   der Mahlzeit; Lücken nur mit pur Essbarem in alltagsnahen Mengen füllen; was dann fehlt, bleibt als Lücke stehen.
+   opt.koch = andere Kochmöglichkeit · opt.stopp = früh aufhören, wenn nichts mehr da ist · opt.anteil = Tagesziel als Anteil des Bedarfs („sparsam“) */
 function speiseplan(S0, heute, tage, opt) {
   opt = opt || {};
   var S = klon(S0); if (opt.koch) S.lage.koch = opt.koch;
-  var H = haushalt(S), D = H.kcalSpar, PH = D / PORTION_KCAL, strom = !!(S.lage || {}).strom, leitung = !!(S.lage || {}).leitung;
+  var H = haushalt(S), D = H.kcalSpar, PH = D / PORTION_KCAL, T = D * Math.min(1, opt.anteil || 1), strom = !!(S.lage || {}).strom, leitung = !!(S.lage || {}).leitung;
   var W = wasser(S0), wasserFrei = leitung ? Infinity : W.l * 1000, tageL = [], zuletzt = {}, knapp = 0, brennMin = 0, leer = 0;
-  if (D <= 0 || !H.n) return { tage: [], knapp: 0, brennMin: 0, reicht: 0, rest: 0, PH: 0 };
+  if (D <= 0 || !H.n) return { tage: [], knapp: 0, brennMin: 0, reicht: 0, rest: 0, PH: 0, anteil: 1 };
   for (var d = 1; d <= tage; d++) {
-    if (strom) S.lager = (S.lager || []).filter(function (it) { return !((it.o === 'k' && d > 1) || (it.o === 't' && d > 2)); });
+    if (strom) S.lager = (S.lager || []).filter(function (it) { var ty = ortTyp(S, it.o); return !((ty === 'k' && d > 1) || (ty === 't' && d > 2)); });
     var B = bestand(S, heute), X = posten(S, heute), dringend = {};
     X.forEach(function (x) { var w = 0; if (strom && x.ort === 'k') w = 3; else if (strom && x.ort === 't') w = 2; else if (x.rest != null && x.rest - d < 30) w = 1; if (w) dringend[x.it.k] = Math.max(dringend[x.it.k] || 0, w); });
-    var tag = { d: d, essen: [], extra: [], kcal: 0, brenn: 0 }, heuteGenutzt = {};
-    for (var slot = 0; slot < 5 && tag.kcal < D * 0.95; slot++) {
-      var klein = slot >= 3, soll = klein ? PH * 0.5 : PH, best = null, bs = -1e9;
+    var tag = { d: d, essen: [], extra: [], kcal: 0, brenn: 0 }, heuteGenutzt = {}, anteilBis = 0;
+    MAHLZEITEN.forEach(function (m) {
+      anteilBis += m[2];
+      var ziel = T * anteilBis - tag.kcal; if (ziel < T * 0.04) return;
+      var zw = m[0] === 'zwischen', best = null, bs = -1e9;
       GERICHTE.forEach(function (r) {
         if (!kannKochen(S, r.koch) || heuteGenutzt[r.id]) return;
-        if (klein && r.koch !== 'kalt') return;
-        var st = gerichtStatus(S, r, B); if (st.max < Math.min(soll, 1) * 0.5) return;
-        var port = Math.min(soll, st.max), wv = gerichtWerte(S, r), wbed = wv.wasser * port; if (!leitung && wbed > wasserFrei * 0.5) return;
-        var luecke = D - tag.kcal, kc = wv.kcal * port;
-        var s = Math.min(kc, luecke) / D * 40 - Math.max(0, kc - luecke) / D * 20;
-        r.zut.forEach(function (z) { z.a.forEach(function (a) { if (dringend[a[0]] && zutatDa({ a: [a] }, B) > 0) s += 25 * dringend[a[0]]; }); });
-        if (zuletzt[r.id] && d - zuletzt[r.id] < 3) s -= 30; if (slot === 0) s += r.fr ? 20 : -60; else if (r.fr && !klein) s -= 10;
-        if (port < soll - 1e-9) s -= 15; s -= r.z / 10;
+        if (zw && r.koch !== 'kalt') return;
+        var st = gerichtStatus(S, r, B), wv = gerichtWerte(S, r); if (st.max <= 0 || wv.kcal <= 0) return;
+        var port = Math.min(st.max, Math.max(PH * (zw ? 0.2 : 0.5), Math.min(PH * 1.4, ziel / wv.kcal)));
+        if (port < PH * (zw ? 0.15 : 0.4)) return;
+        if (!leitung && wv.wasser * port > wasserFrei * 0.5) return;
+        var kc = wv.kcal * port, s = 40 - Math.abs(kc - ziel) / Math.max(ziel, 1) * 40;
+        r.zut.forEach(function (z) { if (z.opt) return; var w = 0; z.a.forEach(function (a) { if (dringend[a[0]] && zutatDa({ a: [a] }, B) > 0) w = Math.max(w, dringend[a[0]]); }); s += 12 * w; });
+        if (zuletzt[r.id] && d - zuletzt[r.id] < 3) s -= 30;
+        if (m[0] === 'frueh') s += r.fr ? 20 : -90; else if (r.fr && !zw) s -= 15;
+        if ((m[0] === 'mittag' || m[0] === 'abend') && r.koch !== 'kalt') s += 8;
+        s -= r.z / 10;
         if (s > bs) { bs = s; best = { r: r, port: Math.floor(port * 10 + 1e-6) / 10, wv: wv }; }
       });
-      if (!best) continue;
+      if (!best || best.port <= 0) return;
       abziehen(S, best.r, best.port, heute); B = bestand(S, heute); heuteGenutzt[best.r.id] = 1; zuletzt[best.r.id] = d;
       if (!leitung) wasserFrei -= best.wv.wasser * best.port;
-      brennMin += best.r.koch === 'kalt' ? 0 : best.r.z; tag.brenn += best.r.koch === 'kalt' ? 0 : best.r.z;
-      tag.essen.push({ id: best.r.id, n: best.r.n, port: best.port, kcal: best.wv.kcal * best.port, klein: klein }); tag.kcal += best.wv.kcal * best.port;
-    }
-    if (tag.kcal < D * 0.95) {
-      var F = posten(S, heute).filter(function (x) { return x.kcal > 0 && pur(x.k) && !x.ko; }).sort(function (a, b) { return rang(a, strom) - rang(b, strom); });
-      F.forEach(function (x) { var gap = D - tag.kcal; if (gap <= 1) return; var gmax = auffuellMax(x.k) * PH, schon = 0;
+      var bz = best.r.koch === 'kalt' ? 0 : best.r.z; brennMin += bz; tag.brenn += bz;
+      tag.essen.push({ id: best.r.id, n: best.r.n, port: best.port, kcal: best.wv.kcal * best.port, mz: m[0], klein: zw }); tag.kcal += best.wv.kcal * best.port;
+    });
+    if (tag.kcal < T * 0.95) {
+      var F = posten(S, heute).filter(function (x) { return x.kcal > 0 && auffuellOk(x.k); }).sort(function (a, b) { return rang(a, strom) - rang(b, strom); });
+      F.forEach(function (x) { var gap = T - tag.kcal; if (gap <= 1) return; var gmax = auffuellMax(x.k) * PH, schon = 0;
         tag.extra.forEach(function (e) { if (e.i === x.k.i) schon += e.g; });
         var g = Math.min(x.g, gmax - schon, gap / x.k.k * 100); if (g < 5) return;
         var eg = einheitG(x.k, x.it.e); x.it.m = Math.max(0, Math.round((x.g - g) / eg * 1000) / 1000); tag.kcal += g * x.k.k / 100;
@@ -553,21 +575,45 @@ function speiseplan(S0, heute, tage, opt) {
     if (opt.stopp && tag.deckung < 0.02) { if (++leer >= 2) break; } else leer = 0;
   }
   /* reicht = volle Tage (mindestens 90 % gedeckt) vor dem ersten knappen Tag, plus der Anteil dieses Tages */
-  var reicht = knapp ? knapp - 1 + tageL[knapp - 1].deckung : tageL.length, rest = 0;
-  tageL.forEach(function (t, i) { if (knapp && i >= knapp) rest += Math.min(1, t.deckung); });
-  return { tage: tageL, knapp: knapp, brennMin: brennMin, reicht: reicht, rest: rest, PH: PH, voll: !knapp && tageL.length >= tage };
+  var reicht = knapp ? knapp - 1 + tageL[knapp - 1].deckung : tageL.length, rest = 0, summe = 0;
+  tageL.forEach(function (t, i) { summe += t.kcal; if (knapp && i >= knapp) rest += Math.min(1, t.deckung); });
+  return { tage: tageL, knapp: knapp, brennMin: brennMin, reicht: reicht, rest: rest, PH: PH, voll: !knapp && tageL.length >= tage, summe: summe, anteil: T / D };
+}
+/* „Sparsam“: das, was sich insgesamt als Mahlzeiten machen lässt, gleichmäßig auf die Ziel-Tage verteilen (höchstens 100 %) */
+var SPAR_MIN = 0.6; /* nie unter 60 % planen – wie die kleinste Ration */
+function planSparsam(S, heute, z) {
+  var A = alltag(S, heute), D = haushalt(S).kcalSpar; if (!D) return A;
+  var anteil = Math.max(SPAR_MIN, Math.min(1, A.summe / (D * z)));
+  if (anteil >= 0.999) return speiseplan(S, heute, z);
+  var best = null;
+  for (var i = 0; i < 4; i++) { var P = speiseplan(S, heute, z, { anteil: anteil }), letzte = P.tage[z - 1];
+    best = P; if (!letzte || letzte.deckung >= anteil * 0.8 || anteil <= SPAR_MIN) break; anteil = Math.max(SPAR_MIN, anteil * 0.9); }
+  return best;
 }
 /* Alltagsnahe Reichweite: der Speiseplan, so lange, bis nichts mehr da ist (höchstens 90 Tage) */
 var ALLTAG_MAX = 90, MEMO = {};
 function alltag(S, heute, opt) {
-  opt = opt || {}; var key = JSON.stringify([S.personen, S.lage, S.lager, S.eigene, opt.koch || '', heute.toDateString()]);
+  opt = opt || {}; var key = JSON.stringify([S.personen, S.lage, S.lager, S.eigene, S.orte, opt.koch || '', heute.toDateString()]);
   if (MEMO[key]) return MEMO[key];
   var keys = Object.keys(MEMO); if (keys.length > 12) MEMO = {};
-  var P = speiseplan(S, heute, ALLTAG_MAX, { koch: opt.koch, stopp: true });
+  var P = speiseplan(S, heute, ALLTAG_MAX, { koch: opt.koch, stopp: true }); 
   P.max = !P.knapp && P.tage.length >= ALLTAG_MAX;
   return (MEMO[key] = P);
 }
 
+/* Mindestbestand (lebender Vorrat): it.min in derselben Einheit wie die Menge. Ampel: grün ≥ Mindest, gelb ≥ halb, rot darunter */
+function ampel(it) { var mi = +it.min || 0; if (!mi) return ''; var m = +it.m || 0; return m >= mi ? 'gruen' : m >= mi / 2 ? 'gelb' : 'rot'; }
+/* Preis je Einheit des Postens: S.preise[katId] = Preis je Standard-Packung (bzw. je kg/l/Stück) */
+function preisJeG(S, k) { var p = zahl((S.preise || {})[k.i]); if (!isFinite(p) || p <= 0) return null; return p / einheitG(k, stdEinheit(k)); }
+/* Nachkauf-Liste: alle Posten unter Mindestbestand, gleiche Lebensmittel zusammengefasst */
+function nachkauf(S) {
+  var M = {};
+  (S.lager || []).forEach(function (it) { var mi = +it.min || 0; if (!mi) return; var k = katVon(S, it.k); if (!k) return; var eg = einheitG(k, it.e);
+    var fehltG = Math.max(0, (mi - (+it.m || 0)) * eg); if (fehltG <= 0) return; var x = M[k.i] || (M[k.i] = { k: k, g: 0, e: it.e });
+    x.g += fehltG; });
+  return Object.keys(M).map(function (id) { var x = M[id], eg = einheitG(x.k, x.e), pj = preisJeG(S, x.k);
+    return { k: x.k, g: x.g, anzahl: Math.ceil(x.g / eg - 1e-9), einheit: einheitT(x.k, x.e), kosten: pj != null ? Math.ceil(x.g / eg - 1e-9) * eg * pj : null }; });
+}
 /* Einkaufsliste bis zum Ziel */
 function fehltListe(S, heute) {
   var H = haushalt(S), z = zielTage(S), R = gruppenStand(S, heute), W = wasser(S), out = [];
@@ -587,7 +633,7 @@ function vorschlag(S, gk, gap) {
 function beispiel(heute) {
   var y = heute.getFullYear(), mo = heute.getMonth() + 1, m = function (plus) { var t = (mo - 1) + plus, yy = y + Math.floor(t / 12), mm = (t % 12 + 12) % 12 + 1; return yy + '-' + (mm < 10 ? '0' : '') + mm; };
   var L = function (k, mm, e, mhd, o) { return { u: uid(), k: k, m: mm, e: e, mhd: mhd || '', o: o || (KAT[k].l || 'v') }; };
-  return { v: 1, beispiel: true, tab: 'reichweite',
+  var B0 = leer(); return Object.assign(B0, { beispiel: true, tab: 'uebersicht',
     personen: [{ id: uid(), n: 'Erwachsener', s: 'm', a: 42, kg: 84, cm: 180, t: 'normal' }, { id: uid(), n: 'Erwachsene', s: 'w', a: 39, kg: 64, cm: 168, t: 'normal' }, { id: uid(), n: 'Kind', s: 'm', a: 9, kg: 30, cm: 136, t: 'normal' }],
     tiere: [], lage: { strom: true, leitung: false, koch: 'gas', ziel: 10, zielFrei: 21, spar: 100, hyg: 0, kartusche: '' },
     lager: [L('nudeln', 4, 'p0', m(14)), L('reis', 1, 'p0', m(10)), L('haferflocken', 2, 'p0', m(5)), L('knaecke', 2, 'p0', m(8)), L('kartoffeln', 1, 'p0', ''),
@@ -596,24 +642,42 @@ function beispiel(heute) {
       L('hmilch', 4, 'p0', m(3)), L('hartkaese', 1, 'p0', '', 'k'), L('joghurt', 1, 'p0', m(0), 'k'),
       L('thunfisch', 3, 'p0', m(36)), L('wuerstchen', 1, 'p0', m(20)), L('eier', 1, 'p0', m(0), 'k'), L('hack_tk', 1, 'p0', m(4), 't'),
       L('rapsoel', 1, 'p0', m(9)), L('butter', 1, 'p0', m(1), 'k'), L('wasser', 2, 'p3', m(14)), L('zucker', 1, 'p0', ''), L('honig', 1, 'p0', m(24)), L('bruehe', 1, 'p0', m(12))],
-    eigene: [], haken: {} };
+    eigene: [], haken: {} });
 }
-function leer() { return { v: 1, beispiel: false, tab: 'haushalt', personen: [], tiere: [], lage: { strom: true, leitung: false, koch: 'gas', ziel: 10, zielFrei: 21, spar: 100, hyg: 0, kartusche: '' }, lager: [], eigene: [], haken: {} }; }
+function leer() { return { v: 2, beispiel: false, tab: 'uebersicht', personen: [], tiere: [], lage: { strom: true, leitung: false, koch: 'gas', ziel: 10, zielFrei: 21, spar: 100, hyg: 0, kartusche: '' }, lager: [], eigene: [], haken: {},
+  orte: klon(ORTE_STD), preise: {}, ean: {}, plan: { modus: 'satt' }, budget: '', bestaende: [], notfall: {}, ablauf: {}, region: {}, stromG: [], wasserQ: {} }; }
 function pruefeStand(x) {
   if (!x || typeof x !== 'object' || !Array.isArray(x.personen) || !Array.isArray(x.lager)) return null;
   var S = leer(); Object.keys(S).forEach(function (k) { if (x[k] != null) S[k] = x[k]; });
   S.lage = Object.assign(leer().lage, x.lage || {}); S.lager = S.lager.filter(function (it) { return it && it.k && (KAT[it.k] || (S.eigene || []).some(function (e) { return e.i === it.k; })); });
   S.lager.forEach(function (it) { if (!it.u) it.u = uid(); });
+  /* Umstellung von Fassung 1: Orte, neue Felder, Startansicht „Übersicht“ */
+  if (!Array.isArray(S.orte) || !S.orte.length) S.orte = klon(ORTE_STD);
+  ORTE_STD.forEach(function (o) { if (!S.orte.some(function (x) { return x.id === o.id; })) S.orte.push(klon(o)); });
+  S.lager.forEach(function (it) { if (!S.orte.some(function (o) { return o.id === it.o; })) it.o = 'v'; });
+  ['preise', 'ean', 'notfall', 'ablauf', 'region', 'wasserQ', 'haken'].forEach(function (k) { if (!S[k] || typeof S[k] !== 'object' || Array.isArray(S[k])) S[k] = {}; });
+  ['bestaende', 'stromG', 'eigene', 'tiere'].forEach(function (k) { if (!Array.isArray(S[k])) S[k] = []; });
+  if (!S.plan || typeof S.plan !== 'object') S.plan = { modus: 'satt' };
+  if (!(x.v >= 2)) { S.tab = 'uebersicht'; } S.v = 2;
   return S;
 }
 
 var KERN = { KATALOG: KATALOG, GERICHTE: GERICHTE, GRUPPEN: GRUPPEN, DGE_E: DGE_E, QUELLEN: QUELLEN, CHECK: CHECK, bedarf: bedarf, haushalt: haushalt, reichweite: reichweite, wasser: wasser, gruppenStand: gruppenStand,
   eiweissTage: eiweissTage, alltag: alltag, dateiMoeglich: dateiMoeglich, reichtFuer: reichtFuer, portionenHaushalt: portionenHaushalt, auffuellMax: auffuellMax, PORTION_KCAL: PORTION_KCAL, bestand: bestand, gerichtWerte: gerichtWerte, gerichtStatus: gerichtStatus, abziehen: abziehen, speiseplan: speiseplan, fehltListe: fehltListe, vorschlag: vorschlag,
-  beispiel: beispiel, leer: leer, pruefeStand: pruefeStand, gramm: gramm, einheiten: einheiten, zielTage: zielTage, posten: posten, katVon: katVon, kannKochen: kannKochen };
+  beispiel: beispiel, leer: leer, pruefeStand: pruefeStand, ampel: ampel, sichtbareTabs: function () { return sichtbareTabs(); }, NAV: NAV, nachkauf: nachkauf, preisJeG: preisJeG, planSparsam: planSparsam, auffuellOk: auffuellOk, ortTyp: ortTyp, ortName: ortName, MAHLZEITEN: MAHLZEITEN, einheitG: einheitG, stdEinheit: stdEinheit, gramm: gramm, einheiten: einheiten, zielTage: zielTage, posten: posten, katVon: katVon, kannKochen: kannKochen };
 
 /* ===================================================================== 4. Oberfläche */
 var S = null, R = null, FIG = null, UNDO = null, TOAST_T = null, SPEICHER_T = null, SUCHE = '', GF = { st: 'alle', art: 'alle', meine: true, ohneW: false }, PLAN = null, OFFEN = {};
-var TABS = [['reichweite', 'Reichweite', '◔'], ['haushalt', 'Haushalt', '👪'], ['lager', 'Lager', '🥫'], ['gerichte', 'Gerichte', '🍲'], ['fehlt', 'Fehlt noch', '🛒'], ['haltbar', 'Haltbarkeit', '📅']];
+/* Navigation: vier Gruppen, darin die Bereiche. Bereiche ohne Darstellung (z. B. wenn vorrat_plus.js fehlt) werden nicht gezeigt. */
+var NAV = [['start', 'Übersicht', '⌂', ['uebersicht']], ['vorrat', 'Vorrat', '🥫', ['reichweite', 'lager', 'gerichte', 'fehlt', 'haltbar']],
+  ['plan', 'Haushalt & Plan', '👪', ['haushalt', 'vergleich', 'kosten', 'vorlage', 'blatt']], ['notfall', 'Notfall', '🔦', ['ablauf', 'bestaende', 'strom', 'wasser', 'kochen', 'notfallplan', 'region']]];
+var TABNAME = { uebersicht: ['Übersicht', '⌂'], reichweite: ['Reichweite', '◔'], lager: ['Lager', '🥫'], gerichte: ['Gerichte', '🍲'], fehlt: ['Fehlt noch', '🛒'], haltbar: ['Haltbarkeit', '📅'],
+  haushalt: ['Haushalt', '👪'], vergleich: ['Vergleich', '⚖'], kosten: ['Kosten', '€'], vorlage: ['Startvorlage', '📋'], blatt: ['Notfall-Blatt', '🖨'],
+  ablauf: ['Ablauf', '⏱'], bestaende: ['Ausrüstung', '🩹'], strom: ['Strom & Wärme', '🔋'], wasser: ['Wasser', '💧'], kochen: ['Kochen ohne Strom', '🔥'], notfallplan: ['Notfallplan', '📞'], region: ['Region', '📍'] };
+/* Erweiterungen (vorrat_plus.js) hängen sich hier ein */
+var HAKEN = { klick: [], eingabe: [], aenderung: [], postenMehr: [], lagerOben: [], fehltOben: [], haushaltUnten: [], nachZeichnen: [] };
+function sichtbareTabs() { var L = []; NAV.forEach(function (g) { g[3].forEach(function (t) { if (BEREICH[t]) L.push(t); }); }); return L; }
+function gruppeVon(t) { for (var i = 0; i < NAV.length; i++) if (NAV[i][3].indexOf(t) >= 0) return NAV[i]; return NAV[1]; }
 function heute() { var d = new Date(); d.setHours(12, 0, 0, 0); return d; }
 function laden() { try { var x = JSON.parse(localStorage.getItem(SPEICHER) || 'null'); return pruefeStand(x); } catch (e) { return null; } }
 function sichern() { if (SPEICHER_T) clearTimeout(SPEICHER_T); SPEICHER_T = setTimeout(function () { try { localStorage.setItem(SPEICHER, JSON.stringify(S)); } catch (e) { toast('Speichern ging nicht – ist der Speicher voll oder gesperrt?'); } }, 250); }
@@ -631,9 +695,13 @@ function kopfHTML() {
     '<p class="vr-intro">Wie lange reichen Essen und Wasser für deinen Haushalt? Was kannst du daraus kochen und backen, was fehlt noch und was läuft bald ab?</p>' +
     (FIG ? '<div class="vr-bild">' + FIG + '</div>' : '') + '</header>';
 }
-function leisteHTML() {
-  return '<div class="vr-leiste"><div class="vr-kurz" aria-live="polite"></div><nav class="vr-tabs" role="tablist" aria-label="Bereiche">' +
-    TABS.map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + (S.tab === t[0]) + '"><span aria-hidden="true">' + t[2] + '</span>' + t[1] + '</button>'; }).join('') + '</nav></div>';
+function leisteHTML() { return '<div class="vr-leiste">' + leisteInnen() + '</div>'; }
+function leisteInnen() {
+  var G = gruppeVon(S.tab), unter = G[3].filter(function (t) { return BEREICH[t]; });
+  return '<div class="vr-kurz" aria-live="polite">' + kurzZeile() + '</div><nav class="vr-gnav" aria-label="Bereiche">' + NAV.filter(function (g) { return g[3].some(function (t) { return BEREICH[t]; }); }).map(function (g) {
+      var erst = g[3].filter(function (t) { return BEREICH[t]; })[0];
+      return '<button type="button" data-tab="' + (g === G ? S.tab : (OFFEN['g:' + g[0]] && BEREICH[OFFEN['g:' + g[0]]] ? OFFEN['g:' + g[0]] : erst)) + '" aria-current="' + (g === G) + '"><span aria-hidden="true">' + g[2] + '</span>' + esc(g[1]) + '</button>'; }).join('') + '</nav>' +
+    (unter.length > 1 ? '<nav class="vr-tabs" role="tablist" aria-label="' + esc(G[1]) + '">' + unter.map(function (t) { return '<button type="button" role="tab" data-tab="' + t + '" aria-selected="' + (S.tab === t) + '"><span aria-hidden="true">' + TABNAME[t][1] + '</span>' + TABNAME[t][0] + '</button>'; }).join('') + '</nav>' : '');
 }
 function kurzZeile() {
   var h = heute(), H = haushalt(S), A = alltag(S, h), W = wasser(S), z = zielTage(S), rw = { tage: A.max ? 730 : A.reicht };
@@ -704,6 +772,7 @@ function sicherungHTML() {
     '<div class="vr-knoepfe">' + (datei ? '<button type="button" class="vr-knopf" data-sich="datei">Als Datei speichern</button><label class="vr-knopf vr-datei">Datei laden<input type="file" accept=".json,application/json,text/plain" data-sich-datei></label>' : '') +
     '<button type="button" class="vr-knopf" data-sich="kopie">Als Text kopieren</button></div>' +
     '<details class="vr-mehr"><summary>Text einfügen</summary><textarea class="vr-text" rows="4" placeholder="Hier den kopierten Text einfügen" aria-label="Sicherungstext"></textarea><div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-sich="einfuegen">Übernehmen</button></div></details>' +
+    HAKEN.haushaltUnten.map(function (f) { return f(); }).join('') +
     '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-gefahr" data-sich="alles-weg">Alles löschen</button></div></div>';
 }
 
@@ -729,12 +798,17 @@ function mhdSel(it) {
 }
 function postenHTML(x, h) {
   var it = x.it, k = x.k, warn = x.rest != null && x.rest < 0 ? ' vr-ab' : x.rest != null && x.rest < 30 ? ' vr-bald' : '';
-  return '<li class="vr-posten' + warn + '" data-u="' + esc(it.u) + '"><div class="vr-pk"><b>' + esc(k.n) + '</b><span>' + fz(x.kcal) + ' kcal' + (k.fl ? ' · ' + liter(x.g / 1000) : ' · ' + kg(x.g)) + '</span></div>' +
+  var amp = ampel(it);
+  return '<li class="vr-posten' + warn + '" data-u="' + esc(it.u) + '"><div class="vr-pk"><b>' + (amp ? '<i class="vr-amp vr-amp-' + amp + '" title="Mindestbestand ' + (amp === 'gruen' ? 'erreicht' : 'unterschritten') + '"></i>' : '') + esc(it.n || k.n) + (it.art ? ' <small class="vr-art">' + esc(it.art) + '</small>' : '') + '</b><span>' + fz(x.kcal) + ' kcal' + (k.fl ? ' · ' + liter(x.g / 1000) : ' · ' + kg(x.g)) + ' · ' + esc(ortName(S, it.o)) + '</span></div>' +
     '<div class="vr-pm"><button type="button" class="vr-rund" data-minus aria-label="weniger">−</button><span class="vr-ein vr-menge"><input type="text" inputmode="decimal" data-lf2="m" value="' + esc(String(Math.round((+it.m || 0) * 100) / 100).replace('.', ',')) + '" aria-label="Menge"></span>' +
     '<button type="button" class="vr-rund" data-plus aria-label="mehr">＋</button>' +
     '<select data-lf2="e" aria-label="Einheit">' + einheiten(k).map(function (e) { return '<option value="' + e.k + '"' + (e.k === it.e ? ' selected' : '') + '>' + esc(e.t.replace(/ \((ca\. )?(\d[^)]*abgetropft|\d+ g)\)$/, '')) + '</option>'; }).join('') + '</select></div>' +
-    '<div class="vr-pd">' + mhdSel(it) + '<select data-lf2="o" aria-label="Lagerort">' + ORTE.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === (it.o || 'v') ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
+    '<div class="vr-pd">' + mhdSel(it) + '<select data-lf2="o" aria-label="Lagerort">' + S.orte.map(function (o) { return '<option value="' + esc(o.id) + '"' + (o.id === (it.o || 'v') ? ' selected' : '') + '>' + esc(o.n) + '</option>'; }).join('') + '</select>' +
     '<button type="button" class="vr-x" data-weg-l aria-label="' + esc(k.n) + ' entfernen">✕</button></div>' +
+    '<details class="vr-pmehr"' + (OFFEN['pm:' + it.u] ? ' open' : '') + ' data-pm="' + esc(it.u) + '"><summary>Mindestbestand, Preis' + (HAKEN.postenMehr.length ? ', Erinnerung, Strichcode' : '') + '</summary><div class="vr-felder">' +
+    feld('Mindestens da (in ' + esc(einheitT(k, it.e).replace(/ \(.*\)$/, '')) + ')', zahlIn('data-lf2="min"', it.min || '', '', 'leer = egal')) +
+    feld('Preis je ' + esc(einheitT(k, stdEinheit(k)).replace(/ \(.*\)$/, '')) + ' (freiwillig)', zahlIn('data-preis="' + esc(k.i) + '"', (S.preise || {})[k.i] || '', '€')) + '</div>' +
+    HAKEN.postenMehr.map(function (f) { return f(x); }).join('') + '</details>' +
     (warn ? '<p class="vr-klein vr-pw">' + (x.rest < 0 ? 'MHD überschritten – prüfen (Aussehen, Geruch, Geschmack).' : 'Läuft in ' + x.rest + ' Tagen ab – bald verbrauchen.') + '</p>' : '') + '</li>';
 }
 function lagerHTML() {
@@ -746,14 +820,35 @@ function lagerHTML() {
       var K = alleKat().filter(function (k) { return k.g === g.k; }); if (!K.length) return '';
       return '<details class="vr-kg"><summary>' + g.i + ' ' + esc(g.n) + ' <span>' + K.length + '</span></summary><div class="vr-chips">' + K.map(function (k) { return '<button type="button" class="vr-chip" data-add="' + esc(k.i) + '">' + esc(k.n) + '</button>'; }).join('') + '</div></details>'; }).join('') + '</details>' +
     '<details class="vr-mehr"><summary>Eigenes Lebensmittel anlegen</summary>' + eigenFormHTML() + '</details>';
+  h += HAKEN.lagerOben.map(function (f) { return f(); }).join('') + orteHTML();
   if (!X.length) h += leerText('Noch nichts im Lager – tippe oben ins Suchfeld oder auf „Aus der Liste wählen“.');
   else {
-    h += '<p class="vr-summezeile">' + X.length + ' Posten · zusammen <b>' + fz(sum) + ' kcal</b> (ohne Babynahrung)</p>';
-    GRUPPEN.forEach(function (g) { var G = X.filter(function (x) { return x.k.g === g.k; }); if (!G.length) return;
-      h += '<h3 class="vr-gt">' + g.i + ' ' + esc(g.n) + '</h3><ul class="vr-liste" role="list">' + G.map(function (x) { return postenHTML(x, h0); }).join('') + '</ul>'; });
+    var LF = OFFEN.lf || { ort: '', q: '', ansicht: 'liste' }, q = (LF.q || '').toLowerCase().trim();
+    var Y = X.filter(function (x) { return (!LF.ort || (x.it.o || 'v') === LF.ort) && (!q || (x.k.n + ' ' + (x.k.s || '') + ' ' + ortName(S, x.it.o)).toLowerCase().indexOf(q) >= 0); });
+    h += '<div class="vr-lfilter"><h3>Im Lager <small class="vr-zaehl">' + X.length + ' Posten · ' + fz(sum) + ' kcal</small></h3>' +
+      '<div class="vr-such vr-such-klein"><label class="vr-vh" for="vr-finde">Im Lager finden</label><span aria-hidden="true">⌕</span><input id="vr-finde" type="search" placeholder="Wo liegt was? z. B. Reis" autocomplete="off" value="' + esc(LF.q || '') + '"></div>' +
+      '<div class="vr-chips vr-kein-wisch"><button type="button" class="vr-chip" data-lort="" aria-pressed="' + !LF.ort + '">Alle Orte</button>' + S.orte.map(function (o) { var n = X.filter(function (x) { return (x.it.o || 'v') === o.id; }).length;
+        return n ? '<button type="button" class="vr-chip" data-lort="' + esc(o.id) + '" aria-pressed="' + (LF.ort === o.id) + '">' + esc(o.n) + ' <small>' + n + '</small></button>' : ''; }).join('') + '</div>' +
+      seg('lf:ansicht', [['liste', 'Alles bearbeiten'], ['alltag', 'Alltag: verbraucht']], LF.ansicht || 'liste') + '</div><div class="vr-lliste">' + lagerListeHTML(Y, LF, h0) + '</div>';
   }
   h += '<p class="vr-klein">Nährwerte je 100 g aus der Nährwert-Liste der App bzw. USDA FoodData Central (gerundet); Packungsgrößen und Haltbarkeiten sind Richtwerte – maßgeblich ist das Etikett.</p>';
   return h + '</section>';
+}
+function lagerListeHTML(Y, LF, h0) {
+  if (!Y.length) return '<p class="vr-klein">Nichts gefunden.</p>';
+  if (LF.ansicht === 'alltag') return '<p class="vr-klein">Für den Alltag: Was ihr aus dem Vorrat nehmt, mit „verbraucht“ abziehen. Steht ein Mindestbestand fest, zeigt die Ampel, wann nachgekauft werden muss (Liste unter „Fehlt noch“).</p><ul class="vr-alltag" role="list">' +
+    Y.slice().sort(function (a, b) { var o = { rot: 0, gelb: 1, gruen: 2, '': 3 }; return o[ampel(a.it)] - o[ampel(b.it)] || a.k.n.localeCompare(b.k.n, 'de'); }).map(function (x) { var it = x.it, amp = ampel(it);
+      return '<li data-u="' + esc(it.u) + '" class="vr-posten vr-posten-kurz"><span class="vr-amp ' + (amp ? 'vr-amp-' + amp : 'vr-amp-leer') + '" aria-label="' + (amp === 'rot' ? 'nachkaufen' : amp === 'gelb' ? 'bald nachkaufen' : amp ? 'genug' : 'kein Mindestbestand') + '"></span><span class="vr-ak"><b>' + esc(x.k.n) + '</b><small>' + fz(+it.m || 0, 2) + ' × ' + esc(einheitT(x.k, it.e).replace(/ \(.*\)$/, '')) + (it.min ? ' · mindestens ' + fz(+it.min, 2) : '') + ' · ' + esc(ortName(S, it.o)) + '</small></span><button type="button" class="vr-knopf vr-verbr" data-minus>− 1 verbraucht</button></li>'; }).join('') + '</ul>';
+  var h = ''; GRUPPEN.forEach(function (g) { var G = Y.filter(function (x) { return x.k.g === g.k; }); if (!G.length) return;
+    h += '<h3 class="vr-gt">' + g.i + ' ' + esc(g.n) + '</h3><ul class="vr-liste" role="list">' + G.map(function (x) { return postenHTML(x, h0); }).join('') + '</ul>'; });
+  return h;
+}
+function orteHTML() {
+  return '<details class="vr-mehr vr-orte"' + (OFFEN.orte ? ' open' : '') + '><summary>Lagerorte verwalten (' + S.orte.length + ')</summary><div class="vr-karte"><ul class="vr-ortliste" role="list">' + S.orte.map(function (o) {
+    return '<li data-ort="' + esc(o.id) + '"><span class="vr-ein"><input type="text" data-ortn value="' + esc(o.n) + '" maxlength="30" aria-label="Name des Lagerorts"></span><select data-ortt aria-label="Art des Lagerorts">' + [['v', 'ungekühlt'], ['k', 'gekühlt'], ['t', 'gefroren']].map(function (t) { return '<option value="' + t[0] + '"' + (o.typ === t[0] ? ' selected' : '') + '>' + t[1] + '</option>'; }).join('') + '</select>' +
+      (['v', 'k', 't'].indexOf(o.id) < 0 ? '<button type="button" class="vr-x" data-ortweg aria-label="Lagerort entfernen">✕</button>' : '<span class="vr-x vr-x-leer"></span>') + '</li>'; }).join('') + '</ul>' +
+    '<div class="vr-pm"><span class="vr-ein"><input type="text" id="vr-ortneu" placeholder="z. B. Keller, Garage, Speisekammer" maxlength="30"></span><button type="button" class="vr-knopf" data-ortneu>Hinzufügen</button></div>' +
+    '<p class="vr-klein">„gekühlt“ und „gefroren“ zählen bei Stromausfall wie Kühlschrank bzw. Gefriertruhe (nur Tag 1 bzw. Tag 1–2).</p></div></details>';
 }
 function eigenFormHTML() {
   return '<div class="vr-eigen"><div class="vr-felder">' + feld('Name', '<span class="vr-ein"><input type="text" data-ef="n" maxlength="50" placeholder="z. B. Bohnensuppe vom Markt"></span>', 'vr-voll') +
@@ -869,17 +964,21 @@ function gerichteHTML() {
   h += L2.length ? gruppe('geht', 'Geht jetzt', Lg, true) + gruppe('fast', 'Fast – es fehlt nur wenig', Lf, GF.st === 'fast' || !Lg.length) + gruppe('rest', 'Fehlt mehr oder andere Kochstelle', Lr, false) : leerText(S.lager.length ? 'Mit diesen Filtern passt kein Gericht. Tippe auf „Alle“ oder ändere die Kochstelle.' : 'Noch nichts im Lager – dann kann auch nichts passen. Trage unter „Lager“ ein, was du hast.');
   return h + '</section>';
 }
-function planZiel() { var A = alltag(S, heute()), z = zielTage(S), T = A.tage.slice(0, z), D = haushalt(S).kcalSpar;
+function planZiel() { var h0 = heute(), z = zielTage(S), D = haushalt(S).kcalSpar, sp = (S.plan || {}).modus === 'sparsam';
+  var A = sp ? planSparsam(S, h0, z) : alltag(S, h0), T = A.tage.slice(0, z);
   while (T.length < z && T.length) T.push({ d: T.length + 1, essen: [], extra: [], kcal: 0, deckung: 0, luecke: D, brenn: 0 });
-  return { tage: T, knapp: A.knapp && A.knapp <= z ? A.knapp : 0, PH: A.PH }; }
+  var knapp = 0; T.forEach(function (t) { if (!knapp && t.deckung < (sp ? A.anteil * 0.9 : 0.9)) knapp = t.d; });
+  return { tage: T, knapp: knapp, PH: A.PH, sparsam: sp, anteil: A.anteil || 1 }; }
 function planHTML() {
   var P = PLAN, z = P.tage.length;
   if (!z) return leerText('Für einen Speiseplan braucht es Personen und Vorrat.');
   return '<div class="vr-karte vr-plan"><div class="vr-kh"><h3>Speiseplan-Vorschlag</h3><button type="button" class="vr-x" data-plan-zu aria-label="Speiseplan schließen">✕</button></div>' +
-    '<p class="' + (P.knapp ? 'vr-warn' : 'vr-ok') + '">' + (P.knapp ? 'Ab <b>Tag ' + P.knapp + '</b> wird es knapp (weniger als 90 % des Tagesbedarfs).' : 'Der Vorrat deckt alle ' + z + ' Tage.') + '</p>' +
+    seg('plan:modus', [['satt', 'Satt (100 %)'], ['sparsam', 'Sparsam strecken']], P.sparsam ? 'sparsam' : 'satt') +
+    (P.sparsam ? '<p class="vr-warn">Sparsam: jeden Tag etwa <b>' + fz(P.anteil * 100) + ' %</b> des Bedarfs, damit der Vorrat gleichmäßiger über ' + z + ' Tage reicht (nie unter 60 %). Nur kurz und nur für gesunde Erwachsene – nicht für Kinder, Schwangere, Stillende, Kranke oder Ältere. Wasser nie kürzen.</p>' : '') +
+    '<p class="' + (P.knapp ? 'vr-warn' : 'vr-ok') + '">' + (P.knapp ? 'Ab <b>Tag ' + P.knapp + '</b> wird es knapp (' + (P.sparsam ? 'weniger als geplant' : 'weniger als 90 % des Tagesbedarfs') + ').' : P.sparsam ? 'So reicht der Vorrat gleichmäßig für alle ' + z + ' Tage.' : 'Der Vorrat deckt alle ' + z + ' Tage.') + '</p>' +
     '<ol class="vr-plantage">' + P.tage.map(function (t) { return '<li class="' + (t.deckung < 0.9 ? 'vr-knapp' : '') + '"><div class="vr-pt"><b>Tag ' + t.d + '</b><span>' + fz(Math.min(999, t.deckung * 100)) + ' %</span></div>' + balken(t.deckung, 1, t.deckung >= 0.9 ? 'vr-gut' : t.deckung >= 0.6 ? 'vr-mittel' : 'vr-schlecht') +
-      '<ul>' + t.essen.map(function (e) { return '<li>' + esc(e.n) + ' <small>· ' + fz(e.port, 1) + ' Port.' + (e.klein ? ' · Zwischenmahlzeit' : '') + '</small></li>'; }).join('') + (t.extra.length ? '<li class="vr-klein">dazu: ' + t.extra.map(function (x) { return esc(x.n.replace(/ \(.*\)$/, '')) + ' ' + kg(x.g); }).join(', ') + '</li>' : '') + (!t.essen.length && !t.extra.length ? '<li class="vr-klein">nichts mehr da</li>' : '') + (t.luecke > 0.1 * haushalt(S).kcalSpar ? '<li class="vr-luecke">Lücke: ' + fz(Math.round(t.luecke / 10) * 10) + ' kcal</li>' : '') + '</ul></li>'; }).join('') + '</ol>' +
-    '<p class="vr-klein">Zuerst Kühlschrank und Gefriertruhe, dann was bald abläuft; möglichst Abwechslung. Portionen nach Bedarf (' + portText(P.PH) + ' je Mahlzeit). Lücken werden nur mit Fertigem in alltagsnahen Mengen gefüllt – was dann fehlt, steht als Lücke da. Derselbe Plan liegt der Zahl „Essen reicht“ zugrunde. Er ändert das Lager nicht – erst „Gekocht“ zieht ab.</p></div>';
+      '<ul>' + t.essen.map(function (e) { return '<li><span class="vr-mz">' + (MZN[e.mz] || '') + '</span>' + esc(e.n) + ' <small>· ' + fz(e.port, 1) + ' Port.</small></li>'; }).join('') + (t.extra.length ? '<li class="vr-klein">dazu: ' + t.extra.map(function (x) { return esc(x.n.replace(/ \(.*\)$/, '')) + ' ' + kg(x.g); }).join(', ') + '</li>' : '') + (!t.essen.length && !t.extra.length ? '<li class="vr-klein">nichts mehr da</li>' : '') + (t.luecke > 0.1 * haushalt(S).kcalSpar ? '<li class="vr-luecke">Lücke: ' + fz(Math.round(t.luecke / 10) * 10) + ' kcal</li>' : '') + '</ul></li>'; }).join('') + '</ol>' +
+    '<p class="vr-klein">Frühstück, Mittag, Abend und eine kalte Zwischenmahlzeit (Richtwert 25 · 35 · 30 · 10 % des Tagesbedarfs). Zuerst Kühlschrank und Gefriertruhe, dann was bald abläuft; möglichst Abwechslung. Portionen nach Bedarf (Haushalt: ' + portText(P.PH) + ' = eine normale Mahlzeit für alle). Lücken werden nur mit pur Essbarem (Brot, Flocken, Obst, Nüsse, Milchprodukte, Süßes – keine Gemüse- oder Fleischkonserven pur) in alltagsnahen Mengen gefüllt – was dann fehlt, steht als Lücke da. Derselbe Plan liegt der Zahl „Essen reicht“ zugrunde. Er ändert das Lager nicht – erst „Gekocht“ zieht ab.</p></div>';
 }
 
 /* ---------- 5. Fehlt noch ---------- */
@@ -890,7 +989,12 @@ function fehltHTML() {
   var A = alltag(S, h0), fehltT = A.max ? 0 : Math.max(0, F.ziel - Math.floor(A.reicht + 1e-9));
   h += '<div class="vr-kacheln"><div class="vr-karte ' + (fehltT > 0 ? 'vr-mittel' : 'vr-gut') + '"><span class="vr-fl">Essen</span><b>' + (fehltT > 0 ? 'noch ' + fehltT + (fehltT === 1 ? ' Tag' : ' Tage') : 'reicht') + '</b><small>' + (fehltT > 0 ? '≈ ' + fz(fehltT * H.kcal) + ' kcal als Mahlzeiten · rechnerisch nach Kalorien fehlen ' + (F.kcal > 0 ? fz(F.kcal / H.kcal, 1) + ' Tagesrationen' : 'keine') : 'für das Ziel') + '</small></div>' +
     '<div class="vr-karte ' + (F.wasserL > 0 ? 'vr-mittel' : 'vr-gut') + '"><span class="vr-fl">Wasser</span><b>' + (F.wasserL > 0 ? 'noch ' + liter(F.wasserL) : (S.lage.leitung ? 'Leitung läuft' : 'reicht')) + '</b><small>' + (F.wasserL > 0 ? '≈ ' + Math.ceil(F.wasserL / 1.5) + ' Flaschen à 1,5 l' : 'Ziel ' + liter(F.wasserZiel)) + '</small></div></div>';
-  var liste = [];
+  var liste = [], NK = nachkauf(S);
+  h += HAKEN.fehltOben.map(function (f) { return f(); }).join('');
+  if (NK.length) { var nkSum = 0, nkOhne = 0; NK.forEach(function (x) { if (x.kosten != null) nkSum += x.kosten; else nkOhne++; });
+    h += '<h3>Nachkaufen (unter Mindestbestand)</h3><div class="vr-karte"><ul class="vr-fl-liste" role="list">' + NK.map(function (x) { liste.push(x.k.n + ': ' + x.anzahl + ' × ' + x.einheit.replace(/ \(.*\)$/, ''));
+      return '<li><b><i class="vr-amp vr-amp-rot"></i>' + esc(x.k.n) + '</b><small>' + x.anzahl + ' × ' + esc(x.einheit.replace(/ \(.*\)$/, '')) + (x.kosten != null ? ' · ca. ' + fz(x.kosten, 2) + ' €' : '') + '</small></li>'; }).join('') + '</ul>' +
+      (nkSum ? '<p class="vr-klein">Zusammen ca. <b>' + fz(nkSum, 2) + ' €</b>' + (nkOhne ? ' (ohne ' + nkOhne + ' Posten ohne Preis)' : '') + ' – nach deinen eigenen Preisen.</p>' : '') + '</div>'; }
   if (F.gruppen.length) { h += '<h3>Nach Lebensmittelgruppen</h3><div class="vr-karte"><ul class="vr-fl-liste" role="list">' + F.gruppen.map(function (x) { var v = vorschlag(S, x.g.k, x.gap); liste.push(x.g.kurz + ': noch ' + kg(x.gap) + ' – z. B. ' + v.join(' + '));
     return '<li><b>' + x.g.i + ' ' + esc(x.g.kurz) + ': noch ' + kg(x.gap) + '</b><small>z. B. ' + esc(v.join(' + ')) + '</small>' + balken(x.ist, x.ziel, 'vr-mittel') + '</li>'; }).join('') + '</ul><p class="vr-klein">Nach der Vorratstabelle der BLE, umgerechnet auf euren Bedarf. Vorschläge sind Beispiele – nimm, was ihr gern esst.</p></div>'; }
   else if (S.lager.length) h += '<p class="vr-ok">Alle Lebensmittelgruppen sind für ' + F.ziel + ' Tage gut gefüllt.</p>';
@@ -938,14 +1042,14 @@ function zeichnen(rollen) {
   if (!R) return;
   var ort = R.querySelector('.vr-inhalt'), y = window.scrollY;
   ort.innerHTML = (S.beispiel ? '<div class="vr-beispiel"><p><b>Das ist ein Beispiel-Haushalt</b> mit 3 Personen und einem kleinen Lager – zum Ausprobieren.</p><button type="button" class="vr-knopf" data-beispiel-weg>Beispiel löschen</button></div>' : '') + BEREICH[S.tab]();
-  R.querySelector('.vr-kurz').innerHTML = kurzZeile();
-  var T = R.querySelectorAll('.vr-tabs [data-tab]'); for (var i = 0; i < T.length; i++) T[i].setAttribute('aria-selected', T[i].getAttribute('data-tab') === S.tab);
+  R.querySelector('.vr-leiste').innerHTML = leisteInnen();
+  HAKEN.nachZeichnen.forEach(function (f) { f(R); });
   if (rollen) { var nb = R.querySelector('.vr-tabs [aria-selected="true"]'); if (nb && nb.scrollIntoView) try { nb.scrollIntoView({ block: 'nearest', inline: 'center' }); } catch (e) { /* alt */ }
     var top = R.querySelector('.vr-leiste').getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--qw-oben')) || 0);
     if (window.scrollY > top) window.scrollTo(0, top); }
   else window.scrollTo(0, y);
 }
-function tab(t) { if (!BEREICH[t] || t === S.tab) return; S.tab = t; PLAN = null; sichern(); zeichnen(true); }
+function tab(t) { if (!BEREICH[t] || t === S.tab) return; S.tab = t; OFFEN['g:' + gruppeVon(t)[0]] = t; PLAN = null; sichern(); zeichnen(true); }
 function toast(t, undo) {
   var el = R && R.querySelector('.vr-toast'); if (!el) return;
   el.innerHTML = '<span>' + t + '</span>' + (undo ? '<button type="button" data-undo>Rückgängig</button>' : ''); el.hidden = false;
@@ -960,19 +1064,22 @@ function altKopie(text) { var t = document.createElement('textarea'); t.value = 
 function sicherungText() { return JSON.stringify({ app: 'Quellwissen Vorrat', v: 1, datum: new Date().toISOString().slice(0, 10), daten: S }); }
 function sicherungLesen(text) {
   try { var x = JSON.parse(String(text || '').trim()); if (x && x.daten) x = x.daten; var n = pruefeStand(x); if (!n) throw new Error('x');
-    UNDO = klon(S); S = n; S.beispiel = false; S.tab = 'reichweite'; sichernJetzt(); PLAN = null; zeichnen(true); toast('Sicherung übernommen.', true); } catch (e) { toast('Das ist keine gültige Sicherung.'); }
+    UNDO = klon(S); S = n; S.beispiel = false; S.tab = BEREICH.uebersicht ? 'uebersicht' : 'reichweite'; sichernJetzt(); PLAN = null; zeichnen(true); toast('Sicherung übernommen.', true); } catch (e) { toast('Das ist keine gültige Sicherung.'); }
 }
 
 function binden() {
   R.addEventListener('click', function (ev) {
-    var t = ev.target.closest('button, [data-tab]'); if (!t || !R.contains(t)) return;
+    var t = ev.target.closest('button, [data-tab], [data-klick]'); if (!t || !R.contains(t)) return;
     var a = function (n) { return t.getAttribute(n); };
     if (t.hasAttribute('data-tab')) { tab(a('data-tab')); return; }
+    for (var hk = 0; hk < HAKEN.klick.length; hk++) if (HAKEN.klick[hk](t, a, ev)) return;
     if (t.hasAttribute('data-undo')) { if (UNDO) { S = UNDO; UNDO = null; sichernJetzt(); PLAN = null; zeichnen(false); toast('Rückgängig gemacht.'); } return; }
     if (t.hasAttribute('data-beispiel-weg')) { UNDO = klon(S); S = leer(); sichernJetzt(); PLAN = null; zeichnen(true); toast('Beispiel gelöscht.', true); return; }
     if (t.hasAttribute('data-set')) { var k = a('data-set'), w = a('data-wert'), p = k.split(':');
       if (p[0] === 'lage') { if (p[1] === 'strom' || p[1] === 'leitung') S.lage[p[1]] = w === '1'; else if (p[1] === 'ziel') S.lage.ziel = w === 'frei' ? 'frei' : +w; else if (p[1] === 'spar') S.lage.spar = +w; else S.lage[p[1]] = w; PLAN = null; nachAenderung(true); return; }
       if (p[0] === 'gf') { GF[p[1]] = w; zeichnen(false); return; }
+      if (p[0] === 'lf') { OFFEN.lf = Object.assign(OFFEN.lf || { ort: '', q: '' }, { ansicht: w }); zeichnen(false); return; }
+      if (p[0] === 'plan') { S.plan = S.plan || {}; S.plan[p[1]] = w; PLAN = planZiel(); nachAenderung(true); return; }
       if (p[0] === 'ef') { var sg = t.parentNode.querySelectorAll('button'); for (var i = 0; i < sg.length; i++) sg[i].setAttribute('aria-pressed', sg[i] === t); return; }
       if (p[0].charAt(0) === 'p') { var pi = +p[0].slice(1); if (S.personen[pi]) { S.personen[pi][p[1]] = w; nachAenderung(true); } return; }
       return; }
@@ -986,7 +1093,11 @@ function binden() {
       toast(esc(kk.n) + ' hinzugefügt – Menge und Datum anpassen.'); return; }
     var li = t.closest('.vr-posten');
     if (li && (t.hasAttribute('data-minus') || t.hasAttribute('data-plus'))) { var it2 = lagerItem(li); if (!it2) return; var kat = katVon(S, it2.k), st = /^(g|ml)$/.test(it2.e) ? 100 : /^(kg|l)$/.test(it2.e) ? 0.5 : 1;
-      it2.m = Math.max(0, Math.round(((+it2.m || 0) + (t.hasAttribute('data-plus') ? st : -st)) * 100) / 100); void kat; nachAenderung(true); return; }
+      it2.m = Math.max(0, Math.round(((+it2.m || 0) + (t.hasAttribute('data-plus') ? st : -st)) * 100) / 100); void kat; nachAenderung(true);
+      if (t.classList.contains('vr-verbr')) { var am = ampel(it2); toast(esc(kat.n) + ': noch ' + fz(it2.m, 2) + (am === 'rot' || am === 'gelb' ? ' – unter dem Mindestbestand, steht auf der Nachkauf-Liste.' : '.')); } return; }
+    if (t.hasAttribute('data-lort')) { OFFEN.lf = Object.assign(OFFEN.lf || { ansicht: 'liste' }, { ort: a('data-lort') }); zeichnen(false); return; }
+    if (t.hasAttribute('data-ortneu')) { var inp = R.querySelector('#vr-ortneu'), nm = inp && inp.value.trim(); if (!nm) { toast('Bitte einen Namen eingeben.'); return; } S.orte.push({ id: 'o_' + uid(), n: nm, typ: 'v' }); OFFEN.orte = true; nachAenderung(true); return; }
+    if (t.hasAttribute('data-ortweg')) { var oid = t.closest('[data-ort]').getAttribute('data-ort'); UNDO = klon(S); S.lager.forEach(function (it) { if (it.o === oid) it.o = 'v'; }); S.orte = S.orte.filter(function (o) { return o.id !== oid; }); OFFEN.orte = true; nachAenderung(true); toast('Lagerort entfernt – die Posten liegen jetzt unter „Vorrat“.', true); return; }
     if (li && t.hasAttribute('data-weg-l')) { UNDO = klon(S); var u = li.getAttribute('data-u'); S.lager = S.lager.filter(function (x) { return x.u !== u; }); nachAenderung(true); toast('Entfernt.', true); return; }
     if (t.hasAttribute('data-eigen-neu')) { eigenAnlegen(t.closest('.vr-eigen')); return; }
     if (t.hasAttribute('data-auf')) { OFFEN[a('data-auf')] = !OFFEN[a('data-auf')]; zeichnen(false); return; }
@@ -1009,6 +1120,11 @@ function binden() {
   });
   R.addEventListener('input', function (ev) {
     var t = ev.target;
+    for (var hk = 0; hk < HAKEN.eingabe.length; hk++) if (HAKEN.eingabe[hk](t, ev)) return;
+    if (t.id === 'vr-finde') { OFFEN.lf = Object.assign(OFFEN.lf || { ort: '', ansicht: 'liste' }, { q: t.value }); var h0 = heute(), LF = OFFEN.lf, q = t.value.toLowerCase().trim();
+      var Y = posten(S, h0).filter(function (x) { return (!LF.ort || (x.it.o || 'v') === LF.ort) && (!q || (x.k.n + ' ' + (x.k.s || '') + ' ' + ortName(S, x.it.o)).toLowerCase().indexOf(q) >= 0); }); R.querySelector('.vr-lliste').innerHTML = lagerListeHTML(Y, LF, h0); return; }
+    if (t.hasAttribute('data-preis')) { var pv = zahl(t.value); S.preise = S.preise || {}; if (isFinite(pv) && pv > 0) S.preise[t.getAttribute('data-preis')] = pv; else delete S.preise[t.getAttribute('data-preis')]; nachAenderung(false); return; }
+    if (t.getAttribute('data-lf2') === 'min') { var itm = lagerItem(t.closest('.vr-posten')), mv = zahl(t.value); if (itm) { if (isFinite(mv) && mv > 0) itm.min = mv; else delete itm.min; nachAenderung(false); } return; }
     if (t.id === 'vr-such') { SUCHE = t.value; R.querySelector('.vr-treffer-ort').innerHTML = trefferHTML(); return; }
     if (t.hasAttribute('data-pf')) { var c = t.closest('[data-p]'), i = +c.getAttribute('data-p'), p = S.personen[i]; if (!p) return; var f = t.getAttribute('data-pf'); p[f] = f === 'n' ? t.value : t.value.trim();
       var e = c.querySelector('[data-perg="' + i + '"]'); if (e) e.innerHTML = personErg(p, bedarf(p)); nachAenderung(false); return; }
@@ -1016,12 +1132,17 @@ function binden() {
     if (t.hasAttribute('data-lf')) { S.lage[t.getAttribute('data-lf')] = t.value.trim(); PLAN = null; nachAenderung(false); return; }
     if (t.getAttribute('data-lf2') === 'm') { var it = lagerItem(t.closest('.vr-posten')); var v = zahl(t.value); if (it && isFinite(v) && v >= 0) { it.m = v; nachAenderung(false); } return; }
   });
-  R.addEventListener('toggle', function (ev) { var d = ev.target; if (d && d.getAttribute && d.getAttribute('data-gl')) OFFEN['gl:' + d.getAttribute('data-gl')] = d.open; }, true);
+  R.addEventListener('toggle', function (ev) { var d = ev.target; if (!d || !d.getAttribute) return; if (d.getAttribute('data-gl')) OFFEN['gl:' + d.getAttribute('data-gl')] = d.open;
+    if (d.getAttribute('data-pm')) OFFEN['pm:' + d.getAttribute('data-pm')] = d.open; if (d.classList.contains('vr-orte')) OFFEN.orte = d.open; }, true);
   R.addEventListener('change', function (ev) {
     var t = ev.target;
+    for (var hk = 0; hk < HAKEN.aenderung.length; hk++) if (HAKEN.aenderung[hk](t, ev)) return;
     if (t.hasAttribute('data-haken')) { var k = t.getAttribute('data-haken'); if (t.checked) S.haken[k] = 1; else delete S.haken[k]; nachAenderung(true); return; }
     if (t.hasAttribute('data-sich-datei')) { var f = t.files && t.files[0]; if (!f) return; var rd = new FileReader(); rd.onload = function () { sicherungLesen(rd.result); }; rd.readAsText(f); t.value = ''; return; }
     if (t.hasAttribute('data-pf') || t.hasAttribute('data-tf') || t.hasAttribute('data-lf')) { nachAenderung(true); return; }
+    if (t.hasAttribute('data-ortn') || t.hasAttribute('data-ortt')) { var o = S.orte.filter(function (x) { return x.id === t.closest('[data-ort]').getAttribute('data-ort'); })[0]; if (!o) return;
+      if (t.hasAttribute('data-ortn')) o.n = t.value.trim() || o.n; else o.typ = t.value; OFFEN.orte = true; nachAenderung(true); return; }
+    if (t.hasAttribute('data-preis') || t.getAttribute('data-lf2') === 'min') { nachAenderung(true); return; }
     var l2 = t.getAttribute('data-lf2'); if (!l2) return; var it = lagerItem(t.closest('.vr-posten')); if (!it) return;
     if (l2 === 'm') { var v = zahl(t.value); if (isFinite(v) && v >= 0) it.m = v; }
     else if (l2 === 'e') { var kat = katVon(S, it.k), g = gramm(S, it); it.e = t.value; it.m = Math.round(g / einheitG(kat, it.e) * 100) / 100; }
@@ -1031,10 +1152,10 @@ function binden() {
   });
   /* Wischen zwischen den Bereichen (Handy, Tablet) */
   var x0 = null, y0 = 0, t0 = 0;
-  R.addEventListener('touchstart', function (e) { var t = e.target; if (t.closest('input, select, textarea, .vr-tabs, .vr-tab-wrap, .vr-kurs, .vr-seg, .vr-chips')) { x0 = null; return; } x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); }, { passive: true });
+  R.addEventListener('touchstart', function (e) { var t = e.target; if (t.closest('input, select, textarea, .vr-tabs, .vr-gnav, .vr-tab-wrap, .vr-kurs, .vr-seg, .vr-chips, .vr-kein-wisch')) { x0 = null; return; } x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); }, { passive: true });
   R.addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
     if (Math.abs(dx) < 80 || Math.abs(dy) > Math.abs(dx) * 0.6 || Date.now() - t0 > 700) return;
-    var i = TABS.map(function (t) { return t[0]; }).indexOf(S.tab), n = i + (dx < 0 ? 1 : -1); if (n >= 0 && n < TABS.length) tab(TABS[n][0]); }, { passive: true });
+    var TB = sichtbareTabs(), i = TB.indexOf(S.tab), n = i + (dx < 0 ? 1 : -1); if (n >= 0 && n < TB.length) tab(TB[n]); }, { passive: true });
 }
 function lagerItem(li) { if (!li) return null; var u = li.getAttribute('data-u'); return S.lager.filter(function (x) { return x.u === u; })[0] || null; }
 function eigenAnlegen(box) {
@@ -1050,13 +1171,20 @@ function eigenAnlegen(box) {
 function seite(el, opt) {
   if (!el) return; opt = opt || {};
   S = laden(); if (!S) { S = beispiel(heute()); sichernJetzt(); }
-  if (!BEREICH[S.tab]) S.tab = 'reichweite';
+  if (!BEREICH[S.tab]) S.tab = BEREICH.uebersicht ? 'uebersicht' : 'reichweite';
   FIG = opt.figur || null; PLAN = null; SUCHE = ''; OFFEN = {};
-  el.innerHTML = '<div class="vr-seite">' + kopfHTML() + leisteHTML() + '<div class="vr-inhalt"></div>' + quellenHTML() + '<div class="vr-toast" role="status" aria-live="polite" hidden></div></div>';
+  el.innerHTML = '<div class="vr-seite">' + kopfHTML() + '<div class="vr-leiste"></div>' + '<div class="vr-inhalt"></div>' + quellenHTML() + '<div class="vr-toast" role="status" aria-live="polite" hidden></div></div>';
   R = el.querySelector('.vr-seite'); binden(); zeichnen(false);
   return R;
 }
 
-root.QWVorrat = { seite: seite, _kern: KERN };
+/* Schnittstelle für Erweiterungen (vorrat_plus.js) – nur innerhalb der App benutzen */
+var INTERN = { HAKEN: HAKEN, BEREICH: BEREICH, TABNAME: TABNAME, NAV: NAV, QUELLEN: QUELLEN, CHECK: CHECK, KATALOG: KATALOG, KAT: KAT, GERICHTE: GERICHTE, GERICHTE_ROH: GERICHTE_ROH, GRUPPEN: GRUPPEN, GR: GR, ORTE_STD: ORTE_STD, KOCHT: KOCHT, MZN: MZN,
+  zustand: function () { return S; }, setze: function (n) { S = n; }, wurzel: function () { return R; }, offen: function () { return OFFEN; }, undo: function (x) { UNDO = x; },
+  sichern: function () { sichern(); }, sichernJetzt: function () { sichernJetzt(); }, zeichnen: function (r) { zeichnen(r); }, nachAenderung: function (n) { nachAenderung(n); }, toast: function (t, u) { toast(t, u); }, tab: function (t) { tab(t); },
+  heute: heute, esc: esc, fz: fz, kg: kg, liter: liter, zahl: zahl, uid: uid, klon: klon, feld: feld, zahlIn: zahlIn, seg: seg, balken: balken, leerText: leerText, tageText: tageText, tageZahl: tageZahl,
+  mhdText: mhdText, mhdDatum: mhdDatum, tageBis: tageBis, kopieren: function (t, o) { kopieren(t, o); }, dateiMoeglich: dateiMoeglich, sicherungText: function () { return sicherungText(); }, sicherungLesen: function (t) { sicherungLesen(t); },
+  planZiel: function () { return planZiel(); }, mhdSel: mhdSel, einheitT: einheitT, stdEinheit: stdEinheit, kurzZeile: function () { return kurzZeile(); } };
+root.QWVorrat = { seite: seite, _kern: KERN, _i: INTERN };
 if (typeof module !== 'undefined' && module.exports) module.exports = root.QWVorrat;
 })(typeof window !== 'undefined' ? window : globalThis);
