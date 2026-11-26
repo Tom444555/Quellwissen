@@ -286,14 +286,14 @@
    "id": "nr-gift-saar",
    "feldtyp": "nummer",
    "titel": "Giftnotruf (Saarland)",
-   "text": "Laut BfR ist für das Saarland das Giftinformationszentrum Mainz zuständig: 06131 19240.",
+   "text": "Für das Saarland berät das Giftinformationszentrum Mainz rund um die Uhr: 06131 19240. Die frühere Giftzentrale in Homburg hat ihre Beratung zum 31.03.2021 beendet; seit dem 01.04.2021 ist Mainz zuständig (Universitätsmedizin Mainz, Umweltministerium des Saarlandes, BfR-Liste).",
    "wert": "06131 19240",
    "einheit": null,
-   "warnung": "Das BfR (Stand 22.07.2026) nennt für das Saarland nur das GIZ Mainz (06131 19240). Einige Kreis- und Gemeindeseiten nennen noch 06841 19240 (Homburg); in der aktuellen BfR-Liste steht Homburg nicht. Bei lebensbedrohlichen Anzeichen immer den Notruf 112 wählen.",
+   "warnung": "Die Homburger Nummer 06841 19240 steht noch auf einigen Kreis- und Gemeindeseiten, gehört aber zu der 2021 beendeten Beratung. Bei lebensbedrohlichen Anzeichen immer den Notruf 112 wählen.",
    "quelle": {
-    "t": "BfR: Giftinformationszentren in Deutschland",
-    "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
-    "stand": "22.07.2026"
+    "t": "Universitätsmedizin Mainz: Giftinformationszentrum – Über uns",
+    "u": "https://www.unimedizin-mainz.de/giz/ueber-uns.html",
+    "stand": "abgerufen 26.11.2026"
    }
   },
   {
@@ -412,6 +412,11 @@
    "t": "Bundesregierung: Hilfs- und Krisentelefone (Telefonseelsorge)",
    "u": "https://www.bundesregierung.de/breg-de/service/fragen-und-anworten/hilfs-und-krisentelefone-2009712",
    "stand": "ohne Datum (© 2026), abgerufen 26.11.2026"
+  },
+  {
+   "t": "Universitätsmedizin Mainz: Giftinformationszentrum – Über uns",
+   "u": "https://www.unimedizin-mainz.de/giz/ueber-uns.html",
+   "stand": "abgerufen 26.11.2026"
   }
  ],
  "hinweis": "Feld 'feldtyp' (text, liste, person, nummer, haken) ist ein Vorschlag für die Eingabemaske und eine Ergänzung zum Grundformat. Das DRK-Angebot zum Notfallplan konnte nicht geöffnet werden; ersatzweise Johanniter und ASB (ebenfalls anerkannte Hilfsorganisationen). Die Empfehlung einer Kontaktperson außerhalb der Region ist in den gelesenen Quellen nicht enthalten."

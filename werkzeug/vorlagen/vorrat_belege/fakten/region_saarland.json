@@ -48,6 +48,21 @@
    }
   },
   {
+   "id": "w-ukw",
+   "gebiet": "Saarland",
+   "kategorie": "Warnwege",
+   "titel": "UKW: SR 1 und SR 3 vom Sender Göttelborner Höhe",
+   "text": "Laut Wikipedia sendet der Saarländische Rundfunk vom Sender Göttelborner Höhe SR 1 auf 88,0 MHz und SR 3 Saarlandwelle auf 95,5 MHz (je 100 kW). [Ergänzung] Eine Frequenzliste des SR selbst wurde nicht gefunden; drei nicht amtliche Frequenzlisten nennen dieselben Werte. Passt der Empfang nicht, den Sendersuchlauf nutzen.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Wikipedia: Sender Göttelborner Höhe (nicht amtlich)",
+    "u": "https://de.wikipedia.org/wiki/Sender_G%C3%B6ttelborner_H%C3%B6he",
+    "stand": "abgerufen 26.11.2026"
+   }
+  },
+  {
    "id": "w-nina",
    "gebiet": "Saarland",
    "kategorie": "Warnwege",
@@ -67,7 +82,7 @@
    "gebiet": "Saarland",
    "kategorie": "Warnwege",
    "titel": "Warn-App KATWARN",
-   "text": "Übermittelt amtliche Warnungen und Verhaltenshinweise für selbst eingestellte Orte. Wird in der App die Funktion „Kritischer Alarm“ aktiviert, umgehen Meldungen der hohen Warnstufe (violett) die Ton-Einstellungen des Smartphones; Unwetterwarnungen sind davon ausgenommen. Ob die saarländischen Behörden KATWARN nutzen, ist nicht belegt (Angaben der Stadt Nürnberg).",
+   "text": "Übermittelt amtliche Warnungen und Verhaltenshinweise für selbst eingestellte Orte. Wird in der App die Funktion „Kritischer Alarm“ aktiviert, umgehen Meldungen der hohen Warnstufe (violett) die Ton-Einstellungen des Smartphones; Unwetterwarnungen sind davon ausgenommen (Angaben der Stadt Nürnberg). Im Saarland nennt der Landkreis St. Wendel in seinem Faltblatt zur Warnung der Bevölkerung die Warn-Apps NINA, KATWARN und BIWAPP (Faltblatt ohne Datum). Eine Angabe des Landes dazu wurde nicht gefunden.",
    "wert": null,
    "einheit": null,
    "warnung": null,
@@ -75,6 +90,21 @@
     "t": "Stadt Nürnberg: Warn-Apps (NINA, KATWARN)",
     "u": "https://www.nuernberg.de/internet/notfallvorsorge_katastrophenschutz/warn_apps.html",
     "stand": "25.06.2026"
+   }
+  },
+  {
+   "id": "w-wnd-apps",
+   "gebiet": "Landkreis St. Wendel",
+   "kategorie": "Warnwege",
+   "titel": "Landkreis St. Wendel: Warnmittel",
+   "text": "Der Kreis warnt über Sirenen, Lautsprecherfahrzeuge, soziale Medien, Warn-Apps (NINA, KATWARN, BIWAPP) sowie Radio und Fernsehen. Sirenen: auf- und abschwellender Ton = Warnung, Dauerton = Entwarnung.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Landkreis St. Wendel: Faltblatt „Warnung der Bevölkerung im Landkreis Sankt Wendel“",
+    "u": "https://www.landkreis-st-wendel.de/fileadmin/user_upload/1_Landkreis/1.4_Landratsamt/1.4.6_Aktuelle_Meldungen/Neue_Sirenen.pdf",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
    }
   },
   {
@@ -202,14 +232,59 @@
    "gebiet": "Saarland",
    "kategorie": "Notrufnummern",
    "titel": "Giftnotruf für das Saarland",
-   "text": "Laut BfR ist das Giftinformationszentrum Mainz für das Saarland zuständig: 06131 19240.",
+   "text": "Für das Saarland berät das Giftinformationszentrum Mainz rund um die Uhr: 06131 19240. Die frühere Giftzentrale in Homburg hat ihre Beratung zum 31.03.2021 beendet; seit dem 01.04.2021 ist Mainz zuständig (Universitätsmedizin Mainz, Umweltministerium des Saarlandes, BfR-Liste).",
    "wert": "06131 19240",
    "einheit": null,
-   "warnung": "Das BfR (Stand 22.07.2026) nennt für das Saarland nur das GIZ Mainz (06131 19240). Einige Kreis- und Gemeindeseiten nennen noch 06841 19240 (Homburg); in der aktuellen BfR-Liste steht Homburg nicht. Bei lebensbedrohlichen Anzeichen immer den Notruf 112 wählen.",
+   "warnung": "Die Homburger Nummer 06841 19240 steht noch auf einigen Kreis- und Gemeindeseiten, gehört aber zu der 2021 beendeten Beratung. Bei lebensbedrohlichen Anzeichen immer den Notruf 112 wählen.",
    "quelle": {
-    "t": "BfR: Giftinformationszentren in Deutschland",
-    "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
-    "stand": "22.07.2026"
+    "t": "Universitätsmedizin Mainz: Giftinformationszentrum – Über uns",
+    "u": "https://www.unimedizin-mainz.de/giz/ueber-uns.html",
+    "stand": "abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "st-energis-strom",
+   "gebiet": "Saarland",
+   "kategorie": "Störungsnummern",
+   "titel": "energis-Netzgesellschaft: Störung Strom",
+   "text": "Rund um die Uhr, für Orte im Netz der energis-Netzgesellschaft. Welcher Netzbetreiber zuständig ist, steht auf der Stromrechnung.",
+   "wert": "0681 4030-2611",
+   "einheit": null,
+   "warnung": "Auf der Seite der Gemeinde Heusweiler (Stand 02.05.2024) stehen noch die Nummern mit 9069 statt 4030; die Netzgesellschaft selbst nennt die hier gezeigte.",
+   "quelle": {
+    "t": "energis-Netzgesellschaft: Störungen melden",
+    "u": "https://www.energis-netzgesellschaft.de/energis-netzgesellschaft-mbh/presse-kontakt/stoerungen-melden",
+    "stand": "abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "st-energis-gas",
+   "gebiet": "Saarland",
+   "kategorie": "Störungsnummern",
+   "titel": "energis-Netzgesellschaft: Störung Erdgas",
+   "text": "Rund um die Uhr. Bei Gasgeruch von außerhalb des Gebäudes anrufen.",
+   "wert": "0681 4030-2610",
+   "einheit": null,
+   "warnung": "Auf der Seite der Gemeinde Heusweiler (Stand 02.05.2024) stehen noch die Nummern mit 9069 statt 4030; die Netzgesellschaft selbst nennt die hier gezeigte.",
+   "quelle": {
+    "t": "energis-Netzgesellschaft: Störungen melden",
+    "u": "https://www.energis-netzgesellschaft.de/energis-netzgesellschaft-mbh/presse-kontakt/stoerungen-melden",
+    "stand": "abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "st-energis-wasser",
+   "gebiet": "Saarland",
+   "kategorie": "Störungsnummern",
+   "titel": "energis-Netzgesellschaft: Störung Wasser",
+   "text": "Rund um die Uhr, für Orte, deren Wasser die energis-Netzgesellschaft betreibt.",
+   "wert": "0681 4030-2613",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "energis-Netzgesellschaft: Störungen melden",
+    "u": "https://www.energis-netzgesellschaft.de/energis-netzgesellschaft-mbh/presse-kontakt/stoerungen-melden",
+    "stand": "abgerufen 26.11.2026"
    }
   },
   {
@@ -295,7 +370,7 @@
    "text": "0681 9069-2611.",
    "wert": "0681 9069-2611",
    "einheit": null,
-   "warnung": null,
+   "warnung": "Die energis-Netzgesellschaft nennt auf ihrer eigenen Seite (abgerufen 26.11.2026) die Nummer mit 4030 statt 9069 – siehe den Eintrag „energis-Netzgesellschaft“.",
    "quelle": {
     "t": "Gemeinde Heusweiler: Wichtige Rufnummern",
     "u": "https://www.heusweiler.de/rathaus-service/buergerservice/wichtige-rufnummern/",
@@ -310,7 +385,7 @@
    "text": "0681 9069-2610.",
    "wert": "0681 9069-2610",
    "einheit": null,
-   "warnung": null,
+   "warnung": "Die energis-Netzgesellschaft nennt auf ihrer eigenen Seite (abgerufen 26.11.2026) die Nummer mit 4030 statt 9069 – siehe den Eintrag „energis-Netzgesellschaft“.",
    "quelle": {
     "t": "Gemeinde Heusweiler: Wichtige Rufnummern",
     "u": "https://www.heusweiler.de/rathaus-service/buergerservice/wichtige-rufnummern/",
@@ -520,7 +595,7 @@
    "text": "Der Landkreis nennt „Giftnotruf 06841 19240“ und „Giftinformationszentrum 06131 19240“ (Seite ohne Datum). Zentrale Landkreis: 06824 906-0.",
    "wert": "06824 906-0",
    "einheit": null,
-   "warnung": "Das BfR (Stand 22.07.2026) nennt für das Saarland nur das GIZ Mainz (06131 19240). Einige Kreis- und Gemeindeseiten nennen noch 06841 19240 (Homburg); in der aktuellen BfR-Liste steht Homburg nicht. Bei lebensbedrohlichen Anzeichen immer den Notruf 112 wählen.",
+   "warnung": "Die Homburger Nummer 06841 19240 steht noch auf einigen Kreis- und Gemeindeseiten, gehört aber zu der 2021 beendeten Beratung. Bei lebensbedrohlichen Anzeichen immer den Notruf 112 wählen.",
    "quelle": {
     "t": "Landkreis Neunkirchen: Notfallnummern",
     "u": "https://www.landkreis-neunkirchen.de/familien-kinder-jugendliche-senioren/notfallnummern",
@@ -728,7 +803,32 @@
    "t": "Bundesregierung: Warn-App NINA mit lokalen Hinweisen zu Gefahrenlagen",
    "u": "https://www.bundesregierung.de/breg-de/aktuelles/warn-app-nina-1942330",
    "stand": "15.07.2021"
+  },
+  {
+   "t": "Universitätsmedizin Mainz: Giftinformationszentrum – Über uns",
+   "u": "https://www.unimedizin-mainz.de/giz/ueber-uns.html",
+   "stand": "abgerufen 26.11.2026"
+  },
+  {
+   "t": "Saarland, Umweltministerium: Gemeinsames Giftinformationszentrum in Mainz (Pressemitteilung 30.03.2021)",
+   "u": "https://www.saarland.de/mukmav/DE/aktuelles/aktuelle-meldungen/2021/gentechnikundchemikalien/q1/pm_2021-03-30_055_Giftinformationszentrum",
+   "stand": "30.03.2021"
+  },
+  {
+   "t": "Landkreis St. Wendel: Faltblatt „Warnung der Bevölkerung im Landkreis Sankt Wendel“",
+   "u": "https://www.landkreis-st-wendel.de/fileadmin/user_upload/1_Landkreis/1.4_Landratsamt/1.4.6_Aktuelle_Meldungen/Neue_Sirenen.pdf",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "energis-Netzgesellschaft: Störungen melden",
+   "u": "https://www.energis-netzgesellschaft.de/energis-netzgesellschaft-mbh/presse-kontakt/stoerungen-melden",
+   "stand": "abgerufen 26.11.2026"
+  },
+  {
+   "t": "Wikipedia: Sender Göttelborner Höhe (nicht amtlich)",
+   "u": "https://de.wikipedia.org/wiki/Sender_G%C3%B6ttelborner_H%C3%B6he",
+   "stand": "abgerufen 26.11.2026"
   }
  ],
- "hinweis": "Felder 'gebiet' und 'kategorie' sind Ergänzungen zum Grundformat. Amtliche SR-Frequenzangaben konnten nicht geöffnet werden – daher keine UKW-Frequenzen in dieser Datei (Kandidaten aus nicht-amtlicher Liste in OFFEN.md). Für Saarlouis, St. Wendel, Merzig-Wadern, Neunkirchen und die meisten Gemeinden des Regionalverbands wurde keine veröffentlichte Treffpunkt-Liste gefunden. Telefonnummern vor Veröffentlichung jährlich prüfen."
+ "hinweis": "Felder 'gebiet' und 'kategorie' sind Ergänzungen zum Grundformat. UKW-Frequenzen: nur SR 1 und SR 3 vom Sender Göttelborner Höhe, nach Wikipedia und nicht amtlich (keine Liste des SR gefunden). Für Saarlouis, St. Wendel, Merzig-Wadern, Neunkirchen und die meisten Gemeinden des Regionalverbands wurde keine veröffentlichte Treffpunkt-Liste gefunden. Telefonnummern vor Veröffentlichung jährlich prüfen."
 }

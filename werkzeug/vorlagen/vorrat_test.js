@@ -224,13 +224,13 @@ if (FK.T.region_saarland) { ok(N2.regionEintraege({}).length === 0, 'Region: ohn
   ok(rs.length > 3 && rs.every(function (e) { return e[8].gebiet === 'Saarland'; }), 'Region Saarland allgemein');
   ok(rq.some(function (e) { return e[8].gebiet === 'Quierschied'; }) && rq.some(function (e) { return e[8].gebiet === 'Regionalverband Saarbrücken'; }) && !rq.some(function (e) { return e[8].gebiet === 'Saarpfalz-Kreis'; }), 'Ort zeigt Ort + Kreis + Land, keinen fremden Kreis');
   ok(ra.length > 0 && ra.every(function (e) { return e[8].gebiet === 'andere Bundesländer'; }), 'anderes Bundesland: allgemeiner Block');
-  var Sr = JSON.parse(JSON.stringify(Bk)); Sr.region = { land: 'SL', gebiet: 'Heusweiler' }; I.setze(Sr); ok(/0681 9069-2611/.test(P2.blattInhalt()), 'Notfall-Blatt übernimmt Störungsnummern der Region');
+  var Sr = JSON.parse(JSON.stringify(Bk)); Sr.region = { land: 'SL', gebiet: 'Heusweiler' }; I.setze(Sr); ok(/0681 4030-2611/.test(P2.blattInhalt()), 'Notfall-Blatt übernimmt Störungsnummern der Region');
   ok(!/Quierschied|Heusweiler/.test(JSON.stringify(K.leer())) && !/Quierschied/.test(JSON.stringify(K.beispiel(heute))), 'keine persönlichen Angaben fest im Programm'); }
 
 /* Widersprüche nebeneinander, Lücken ehrlich */
 var Sx = JSON.parse(JSON.stringify(Bk)); Sx.region = { land: 'SL', gebiet: 'Quierschied' }; I.setze(Sx); var rh = I.BEREICH.region();
-ok(/06131 19240/.test(rh) && /06841 19240/.test(rh), 'Giftnotruf: beide Angaben nebeneinander'); ok(/10 Tage/.test(rh) && /14 Tage/.test(rh), 'Vorratsdauer: BBK und Region nebeneinander');
-ok(/bei der Gemeinde nachfragen/.test(rh) && !/\d{2,3},\d MHz|UKW \d/.test(rh) && /sr\.de/.test(rh), 'keine Treffpunkt-Liste → Gemeinde fragen; keine Frequenzen erfunden');
+ok(/06131 19240/.test(rh) && /06841 19240/.test(rh), 'Giftnotruf: Mainz gilt, Homburg als beendet genannt'); ok(/10 Tage/.test(rh) && /14 Tage/.test(rh), 'Vorratsdauer: BBK und Region nebeneinander');
+ok(/bei der Gemeinde nachfragen/.test(rh) && /nicht amtlich/.test(rh) && /sr\.de/.test(rh), 'keine Treffpunkt-Liste → Gemeinde fragen; Frequenzen als nicht amtlich gekennzeichnet');
 var wh = I.BEREICH.wasser(); ok(/Umweltbundesamt/.test(wh) && /CDC/.test(wh), 'Abkochen: UBA und CDC nebeneinander');
 ok(typeof globalThis.QWVorratQR.generate === 'function', 'QR mit lean-qr');
 

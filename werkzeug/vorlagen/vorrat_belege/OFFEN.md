@@ -45,14 +45,11 @@ Stand: 26.11.2026
 - Vollmacht zur Abholung von Kindern aus Kita oder Schule: nicht belegt.
 
 ### region_saarland.json
-- **UKW-Frequenzen der SR-Programme: keine amtliche SR-Seite gefunden.** Kandidaten aus einer nicht amtlichen Liste (bandscan.de, ohne Datum) sind NICHT in die JSON übernommen und müssen vor der Nutzung mit sr.de abgeglichen werden:
-  - SR 1: 88,0 (Göttelborner Höhe), 89,3 (Merzig), 91,9 (Moseltal), 92,3 (Bliestal), 98,2 (Saarbrücken/Halberg), 98,6 (Mettlach)
-  - SR kultur/SR 2: 91,3 (Göttelborner Höhe), 88,5 (Mettlach), 88,6 (Moseltal), 92,1 (Merzig)
-  - SR 3: 95,5 (Göttelborner Höhe), 89,1 (Bliestal), 96,0 (Mettlach), 96,1 (Moseltal), 98,0 (Merzig)
-  - UNSERDING: 103,7 (Saarbrücken/Schoksberg), 90,3 (St. Wendel), 98,6 (Homburg)
+- UKW-Frequenzen: Eine Liste des SR selbst wurde weiter nicht gefunden (Suche 26.11.2026). Eingetragen sind nur SR 1 (88,0) und SR 3 (95,5) vom Sender Göttelborner Höhe nach Wikipedia, als „nicht amtlich“ gekennzeichnet; bandscan.de und radyotara.com (Stand 05.11.2026) nennen dieselben Werte. Die übrigen Füllsender (Bliestal, Moseltal, Merzig, Mettlach) bleiben weg.
 - Notfalltreffpunkte bzw. Katastrophenschutz-Leuchttürme: Für Saarlouis, St. Wendel, Merzig-Wadern, Neunkirchen und für die Gemeinden des Regionalverbands außer Homburg (Saarpfalz) wurde keine veröffentlichte Liste gefunden. Regionalverband, Landeshauptstadt Saarbrücken, Quierschied und Heusweiler veröffentlichen auf den geprüften Seiten keine Liste.
-- saarland.de (Innenministerium) war nicht abrufbar (Client-Fehler). Ob das Land KATWARN nutzt und wie der aktuelle Ministeriumsname lautet, ist nicht geprüft.
-- Störungsnummern der Netzbetreiber: Belegt sind nur Stadtwerke Saarbrücken Netz (0681 587-0) sowie energis Strom und Gas (über die Gemeinde Heusweiler). Nicht belegt sind VSE Verteilnetz, Pfalzwerke Netz, KEW Neunkirchen, Stadtwerke Saarlouis, Völklingen, St. Ingbert und Wasserversorger anderer Gemeinden.
+- KATWARN: Der Landkreis St. Wendel nennt NINA, KATWARN und BIWAPP (Faltblatt ohne Datum). Eine Aussage des Landes selbst und der aktuelle Ministeriumsname sind weiter nicht geprüft.
+- Störungsnummern: Belegt sind Stadtwerke Saarbrücken Netz (0681 587-0) und die energis-Netzgesellschaft (Strom 0681 4030-2611, Gas -2610, Wasser -2613, eigene Seite, abgerufen 26.11.2026). Nicht aus eigener Quelle belegt: VSE Verteilnetz, Pfalzwerke Netz (0800 7977777 nur über ein Branchenbuch gefunden, nicht übernommen), KEW Neunkirchen, Stadtwerke Saarlouis, Völklingen, St. Ingbert und Wasserversorger anderer Gemeinden.
+- Notfalltreffpunkte: Zwei weitere Suchen am 26.11.2026 brachten keine neue Liste.
 - Die Merzig-Wadern-Dokumente „Notfallplan zur Evakuierung“ und „Notfallplan für die saarländische Umgebung“ (vermutlich zum Kernkraftwerk Cattenom) wurden nicht geöffnet. Sie könnten Sammelstellen enthalten.
 
 ### technik.json
@@ -65,7 +62,7 @@ Stand: 26.11.2026
 - **Trinkwasser je Person:** Das BBK nennt 2 l/Tag (1,5 l Trinken + 0,5 l Kochen). Die WHO nennt 7 l/Tag als Überleben für wenige Tage (3–4 l Trinken). Sphere und die staatliche Notversorgung nennen 15 l/Tag (alle Zwecke). Die CDC rechnet mit 1 Gallone ≈ 3,8 l/Tag. Das sind unterschiedliche Bezugsgrößen, kein echter Fehler.
 - **Abkochen:** Das UBA nennt „einmal sprudelnd aufkochen, mindestens 10 Minuten abkühlen“ ohne Kochdauer. Die CDC nennt „1 Minute sprudelnd kochen (über ~2.000 m: 3 Minuten)“.
 - **Skorbut-Schwelle:** Die DGE-FAQ (2015) nennt **10 mg/Tag**, die DGE/ÖGE/SGE-Fachveröffentlichung (2015) **7 mg/Tag**.
-- **Giftnotruf Saarland:** Das BfR (Stand 22.07.2026) nennt für das Saarland nur **GIZ Mainz 06131 19240**. Der Landkreis Neunkirchen und die Gemeinde Heusweiler nennen zusätzlich bzw. stattdessen **06841 19240** (Homburg). Vor der Veröffentlichung beim Land oder beim BfR klären. Die App nutzt vorerst den BfR-Wert.
+- **Giftnotruf Saarland – geklärt 26.11.2026:** Die Giftzentrale Homburg beendete ihre Beratung zum 31.03.2021, seit 01.04.2021 berät das GIZ Mainz (06131 19240) das Saarland (Universitätsmedizin Mainz „Über uns“; Pressemitteilung des saarländischen Umweltministeriums vom 30.03.2021; BfR-Liste). 06841 19240 auf Kreis- und Gemeindeseiten ist ein alter Stand. **Widerspruch energis:** Die Gemeinde Heusweiler (02.05.2024) nennt 0681 9069-2611/-2610, die Netzgesellschaft selbst 0681 4030-2611/-2610; die App zeigt die Angabe der Netzgesellschaft und nennt die andere als Hinweis.
 - **Medikamentenvorrat:** Das BBK (2025) nennt mindestens 10 Tage, Brandenburg (2016) mindestens eine Woche.
 - **Gefriergerät:** Die VZ Niedersachsen nennt „bis zu 48 Stunden“ für ein geschlossenes, volles Gerät. Andere amtliche Zahlen wurden nicht gefunden. Die Angabe ist nicht widersprüchlich, aber nur eine einzige Quelle.
 
