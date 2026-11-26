@@ -611,11 +611,12 @@ function speiseplan(S0, heute, tage, opt) {
 var SPAR_MIN = 0.6; /* nie unter 60 % planen – wie die kleinste Ration */
 function planSparsam(S, heute, z) {
   var A = alltag(S, heute), D = haushalt(S).kcalSpar; if (!D) return A;
-  var anteil = Math.max(SPAR_MIN, Math.min(1, A.summe / (D * z)));
-  if (anteil >= 0.999) return speiseplan(S, heute, z);
-  var best = null;
-  for (var i = 0; i < 4; i++) { var P = speiseplan(S, heute, z, { anteil: anteil }), letzte = P.tage[z - 1];
-    best = P; if (!letzte || letzte.deckung >= anteil * 0.8 || anteil <= SPAR_MIN) break; anteil = Math.max(SPAR_MIN, anteil * 0.9); }
+  var voll = speiseplan(S, heute, z); if (!voll.knapp && voll.tage.length >= z) return voll;
+  /* größter Anteil, bei dem jeder der z Tage diesen Anteil auch erreicht (Suche in Halbschritten) – so bleibt am Ende nichts liegen */
+  var reichtFuer = function (P) { return P.tage.length >= z && P.tage.every(function (t) { return t.deckung >= P.anteil * 0.95; }); };
+  var lo = SPAR_MIN, Pl = speiseplan(S, heute, z, { anteil: lo }); if (!reichtFuer(Pl)) return Pl;
+  var hi = 1, best = Pl;
+  for (var i = 0; i < 6; i++) { var mi = (lo + hi) / 2, P = speiseplan(S, heute, z, { anteil: mi }); if (reichtFuer(P)) { lo = mi; best = P; } else hi = mi; }
   return best;
 }
 /* Alltagsnahe Reichweite: der Speiseplan, so lange, bis nichts mehr da ist (höchstens 90 Tage) */
@@ -1070,7 +1071,9 @@ var BEREICH = { reichweite: reichweiteHTML, haushalt: haushaltHTML, lager: lager
 function zeichnen(rollen) {
   if (!R) return;
   var ort = R.querySelector('.vr-inhalt'), y = window.scrollY;
-  ort.innerHTML = (S.beispiel ? '<div class="vr-beispiel"><p><b>Das ist ein Beispiel-Haushalt</b> mit 3 Personen und einem kleinen Lager – zum Ausprobieren.</p><button type="button" class="vr-knopf" data-beispiel-weg>Beispiel löschen</button></div>' : '') + BEREICH[S.tab]();
+  var start = S.tab === 'uebersicht' || !BEREICH.uebersicht;
+  R.classList.toggle('vr-unter', !start); /* Unterseiten: Kopf ohne Einleitung und Bild, damit der Inhalt gleich oben steht */
+  ort.innerHTML = (S.beispiel ? (start ? '<div class="vr-beispiel"><p><b>Das ist ein Beispiel-Haushalt</b> mit 3 Personen und einem kleinen Lager – zum Ausprobieren.</p><button type="button" class="vr-knopf" data-beispiel-weg>Beispiel löschen</button></div>' : '<div class="vr-beispiel vr-beispiel-kurz"><p>Beispiel-Haushalt zum Ausprobieren</p><button type="button" class="vr-knopf" data-beispiel-weg>löschen</button></div>') : '') + BEREICH[S.tab]();
   R.querySelector('.vr-leiste').innerHTML = leisteInnen();
   HAKEN.nachZeichnen.forEach(function (f) { f(R); });
   if (rollen) { var nb = R.querySelector('.vr-tabs [aria-selected="true"]'); if (nb && nb.scrollIntoView) try { nb.scrollIntoView({ block: 'nearest', inline: 'center' }); } catch (e) { /* alt */ }

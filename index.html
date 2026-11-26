@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Quellwissen">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="qw-stand" content="202611260818">
+<meta name="qw-stand" content="202611260822">
 <script>
 if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
 addEventListener("load",function(){try{var s=document.querySelector("meta[name=qw-stand]").content,a=localStorage.getItem("qw-stand");if(a&&a!==s){var d=document.createElement("div");d.id="qw-neu";d.textContent="Neue Version geladen";document.body.appendChild(d);setTimeout(function(){d.remove();},4000);}localStorage.setItem("qw-stand",s);}catch(e){}});
@@ -1833,6 +1833,21 @@ i.fv-b{background:var(--tc,var(--accent))!important}
 .vr-widerspruch{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
 .vr-widerspruch .vr-karte{margin:0;border-top:4px solid var(--vr-mittel)}.vr-widerspruch b{font-family:var(--display)}.vr-widerspruch p{margin:6px 0}
 .vr-hinweis2{margin:12px 0;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:.9rem}
+/* Übersichtlichkeit (26.11.2026): Unterseiten mit knappem Kopf, Beispiel-Hinweis einzeilig, Reiter-Leiste zeigt am Rand, dass es weitergeht */
+.vr-unter .vr-intro,.vr-unter .vr-bild,.vr-unter .vr-ober{display:none}
+.vr-unter .vr-kopf{padding:6px 2px 0}
+.vr-unter .vr-kopf h1{font-size:1.15rem;letter-spacing:0;margin:0;color:var(--muted)}
+.vr-beispiel-kurz{padding:4px 6px 4px 14px;margin-bottom:10px;font-size:.9rem}
+.vr-beispiel-kurz .vr-knopf{min-height:36px;padding:0 12px;font-size:.88rem}
+.vr-tabs{padding-right:30px;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 30px),transparent)}
+.vr-mehr{margin:6px 0;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.vr-mehr>summary{padding:0 14px;list-style:none;justify-content:space-between;gap:10px}
+.vr-mehr>summary::-webkit-details-marker{display:none}
+.vr-mehr>summary::after{content:"›";flex:none;font-size:1.3rem;line-height:1;color:var(--muted);transform:rotate(90deg);transition:transform .15s}
+.vr-mehr[open]>summary::after{transform:rotate(-90deg)}
+.vr-mehr[open]{padding-bottom:12px}
+.vr-mehr>:not(summary){margin-left:12px !important;margin-right:12px !important}
+.vr-mehr .vr-mehr{background:transparent}
 /* VORRAT-ENDE */
 </style>
 
@@ -4872,11 +4887,12 @@ function speiseplan(S0, heute, tage, opt) {
 var SPAR_MIN = 0.6; /* nie unter 60 % planen – wie die kleinste Ration */
 function planSparsam(S, heute, z) {
   var A = alltag(S, heute), D = haushalt(S).kcalSpar; if (!D) return A;
-  var anteil = Math.max(SPAR_MIN, Math.min(1, A.summe / (D * z)));
-  if (anteil >= 0.999) return speiseplan(S, heute, z);
-  var best = null;
-  for (var i = 0; i < 4; i++) { var P = speiseplan(S, heute, z, { anteil: anteil }), letzte = P.tage[z - 1];
-    best = P; if (!letzte || letzte.deckung >= anteil * 0.8 || anteil <= SPAR_MIN) break; anteil = Math.max(SPAR_MIN, anteil * 0.9); }
+  var voll = speiseplan(S, heute, z); if (!voll.knapp && voll.tage.length >= z) return voll;
+  /* größter Anteil, bei dem jeder der z Tage diesen Anteil auch erreicht (Suche in Halbschritten) – so bleibt am Ende nichts liegen */
+  var reichtFuer = function (P) { return P.tage.length >= z && P.tage.every(function (t) { return t.deckung >= P.anteil * 0.95; }); };
+  var lo = SPAR_MIN, Pl = speiseplan(S, heute, z, { anteil: lo }); if (!reichtFuer(Pl)) return Pl;
+  var hi = 1, best = Pl;
+  for (var i = 0; i < 6; i++) { var mi = (lo + hi) / 2, P = speiseplan(S, heute, z, { anteil: mi }); if (reichtFuer(P)) { lo = mi; best = P; } else hi = mi; }
   return best;
 }
 /* Alltagsnahe Reichweite: der Speiseplan, so lange, bis nichts mehr da ist (höchstens 90 Tage) */
@@ -5331,7 +5347,9 @@ var BEREICH = { reichweite: reichweiteHTML, haushalt: haushaltHTML, lager: lager
 function zeichnen(rollen) {
   if (!R) return;
   var ort = R.querySelector('.vr-inhalt'), y = window.scrollY;
-  ort.innerHTML = (S.beispiel ? '<div class="vr-beispiel"><p><b>Das ist ein Beispiel-Haushalt</b> mit 3 Personen und einem kleinen Lager – zum Ausprobieren.</p><button type="button" class="vr-knopf" data-beispiel-weg>Beispiel löschen</button></div>' : '') + BEREICH[S.tab]();
+  var start = S.tab === 'uebersicht' || !BEREICH.uebersicht;
+  R.classList.toggle('vr-unter', !start); /* Unterseiten: Kopf ohne Einleitung und Bild, damit der Inhalt gleich oben steht */
+  ort.innerHTML = (S.beispiel ? (start ? '<div class="vr-beispiel"><p><b>Das ist ein Beispiel-Haushalt</b> mit 3 Personen und einem kleinen Lager – zum Ausprobieren.</p><button type="button" class="vr-knopf" data-beispiel-weg>Beispiel löschen</button></div>' : '<div class="vr-beispiel vr-beispiel-kurz"><p>Beispiel-Haushalt zum Ausprobieren</p><button type="button" class="vr-knopf" data-beispiel-weg>löschen</button></div>') : '') + BEREICH[S.tab]();
   R.querySelector('.vr-leiste').innerHTML = leisteInnen();
   HAKEN.nachZeichnen.forEach(function (f) { f(R); });
   if (rollen) { var nb = R.querySelector('.vr-tabs [aria-selected="true"]'); if (nb && nb.scrollIntoView) try { nb.scrollIntoView({ block: 'nearest', inline: 'center' }); } catch (e) { /* alt */ }

@@ -354,6 +354,8 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - Noch offen aus früheren Übergaben: Skill `quellwissen` um A-11, A-12 und Nehls als Sammelstelle ergänzen (propose_skills); Veröffentlichungsdaten der REALTALK-Videos; sonst wie „Übergabe 12.11.2026 (Vormittag 2)“.
 
 ## Übergabe für einen neuen Chat (Stand 26.11.2026)
+
+**Nachtrag 26.11.2026, 09 Uhr:** Live (main b740f8b, Artefakt, Pages geprüft): Giftnotruf geklärt (Homburg endete am 31.03.2021, seit 01.04.2021 Mainz 06131 19240), Störungsnummern der energis-Netzgesellschaft (Strom 0681 4030-2611, Gas -2610, Wasser -2613; Heusweiler nennt noch 9069-…), Warn-Apps im Landkreis St. Wendel (NINA, KATWARN, BIWAPP), SR 1 88,0 und SR 3 95,5 MHz nach Wikipedia als „nicht amtlich“. **Nur in der Vorschau** (Zweig `vorschau4`, Vorschau-Artefakt; wartet auf Toms „Veröffentliche“): Planer übersichtlicher – Unterseiten ohne Einleitung und Bild, Beispiel-Hinweis einzeilig, Reiter-Leiste mit Auslauf am Rand, Aufklapp-Zeilen als Listenzeilen mit Pfeil; sparsamer Speiseplan sucht den größten gleichmäßigen Anteil (`planSparsam`). Weiter offen aus der Liste unten: Notfalltreffpunkte, Solarertrag (PVGIS nicht erreichbar), übrige Netzbetreiber, Nährstoff-Check (Nährwert-Quellen BLS/USDA nicht erreichbar), alle Themen-Lücken, Geräte-Test. Abrufe unbekannter Adressen brauchen Toms Freigabe – ist er nicht da, bleiben sie liegen.
 **Alles ist live** (main, Artefakt, Pages geprüft; zuletzt 26.11.2026 08:07 Uhr). Es gibt keine offene Vorschau. Die Zweige `vorschau3` und `welt-vorschau` auf GitHub sind überholt (Tom kann sie löschen). App-Größe 14,0 MB.
 
 Neu seit 25.11.2026 (Einzelheiten im Abschnitt „Übergabe 25.11.2026“ direkt darunter und in den Pflege-Abschnitten):
