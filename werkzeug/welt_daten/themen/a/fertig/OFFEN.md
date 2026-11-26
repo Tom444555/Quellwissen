@@ -1,5 +1,10 @@
 # Offen, unsicher, nur stichprobenhaft geprüft
 
+## Nachtrag 26.11.2026 (geht den älteren Angaben unten vor)
+- **Jetzt geliefert:** Sonnenscheindauer, Globalstrahlung (je Jahr und Monat), Frosttage und Winterhärtezone je Landkreis (DWD 1991–2020, CC BY 4.0, Felder in `kreise.json`, Verfahren `prep/klima_de/PRUEF.md`); Böden weltweit (`boeden.json`, ISRIC SoilGrids CC BY 4.0, 2°-Zellen, häufigste Klasse); Sonneneinstrahlung weltweit (`sonneneinstrahlung.json`, NASA POWER CC BY 4.0, Jahr/Juni/Dezember); Naturparks (`naturparks.json`, Wikidata CC0, 105 Lagepunkte, alle 104 VDN-Parks + Pfälzerwald); Heilbäder um Hessen, Thüringen (Stand 2017), Sachsen-Anhalt und Brandenburg ergänzt (100 Orte; Prüfbericht `../b/prep/wikidata/PRUEF.md`).
+- **Weiter offen:** Sonnenstunden weltweit (CRU = ODbL, keine freie Quelle; stattdessen Einstrahlung); Winterhärtezonen außerhalb Deutschlands; Heilbäder Baden-Württemberg, Rheinland-Pfalz, Saarland, Schleswig-Holstein, Mecklenburg-Vorpommern (keine abrufbare amtliche Liste), Saalfeld (TH); europäische Fernwanderwege (nur ODbL-Quellen); Winterhärte ist Kreismittel – Tal- und Hochlagen siehe `zone_kalt`/`zone_mild`.
+
+
 ## Nicht geliefert
 - **Sonnenstunden:** keine freie, über GitHub/pip erreichbare Quelle gefunden (WorldClim/CRU nicht frei bzw. nicht erreichbar). Fehlt.
 - **Böden:** keine freie erreichbare Weltquelle (SoilGrids/HWSD nicht über GitHub/pip). Bestehendes Schema `BODEN` bleibt.

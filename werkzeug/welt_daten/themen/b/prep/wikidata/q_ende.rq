@@ -1,0 +1,1 @@
+SELECT ?i ?id ?l ?ende ?rank WHERE { ?i wdt:P757 ?id . ?i p:P1435 ?st . ?st ps:P1435 wd:Q9259 ; wikibase:rank ?rank . OPTIONAL{?st pq:P582 ?ende} FILTER(BOUND(?ende) || ?rank=wikibase:DeprecatedRank) OPTIONAL{?i rdfs:label ?l FILTER(lang(?l)="en")} }

@@ -1,0 +1,1 @@
+SELECT ?i (SAMPLE(?l) AS ?lab) WHERE { ?i wdt:P757 ?id . ?i rdfs:label ?l . FILTER NOT EXISTS { ?i rdfs:label ?x FILTER(lang(?x)="en" || lang(?x)="de") } } GROUP BY ?i

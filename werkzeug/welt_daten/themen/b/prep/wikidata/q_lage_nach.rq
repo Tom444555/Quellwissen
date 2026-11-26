@@ -1,0 +1,3 @@
+SELECT ?i ?p ?o ?ol ?coord WHERE { VALUES ?i { wd:Q139989268 wd:Q16333723 wd:Q64685453 wd:Q127518238 wd:Q140698900 wd:Q140697603 wd:Q140697538 wd:Q127466372 }
+ VALUES ?p { wdt:P276 wdt:P131 wdt:P706 wdt:P527 }
+ ?i ?p ?o . ?o wdt:P625 ?coord . OPTIONAL { ?o rdfs:label ?ol FILTER(lang(?ol)="en") } }

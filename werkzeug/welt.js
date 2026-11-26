@@ -188,6 +188,9 @@ const DIV=['#2a6ab8','#7fb4e0','#e8e2d0','#f5a55a','#d2462a'];
 const TEAL=['#0e2a3a','#145a6a','#1a8a8a','#4ac0a0','#b8f0b0'];
 const GRN=['#2a2420','#3a4a2a','#4a7a3a','#6ab04a','#c8f07a'];
 const ROT=['#2a1a2a','#5a2048','#9a2a4a','#d8503a','#ffb05a'];
+const SONNE=['#1e2240','#4a3a6a','#9a5a4a','#e09a3a','#ffe27a'];
+const ZONE=['#2a3a9a','#3a7ad0','#4ab0a8','#e8c050','#e0602a'];
+const FROST=['#f5e8c8','#b8d0e8','#6a9ad8','#3a5ab8','#24246a'];
 const BLAU=['#3a1a1a','#7a3a2a','#c08040','#80c0a0','#5ad0ff'];
 /* Deutschland nach Bundesländern (amtliche Zahlen): [Suizidrate 2024, Männer, Frauen, Suizide 2024, Demenz 65+ in Tsd., Straftaten je 100.000 (PKS 2024), Aufklärungsquote %] */
 const DE={MV:[16.6,27.2,6.3,261,38,6661,64.4],SN:[15.9,24.1,8.0,645,104,7287,60.5],ST:[15.7,23.9,7.7,335,55,8447,55.3],HB:[15.3,20.4,10.4,108,14,15235,45.5],SH:[14.6,19.8,9.6,431,64,7196,60.6],BY:[14.0,20.0,8.2,1854,253,4635,67.9],BE:[13.7,16.5,11.1,505,67,14252,45.5],HE:[12.9,18.9,7.1,811,120,6046,61.9],TH:[12.8,20.8,4.9,269,52,7355,60.9],BB:[12.2,18.7,5.9,312,61,6842,58.4],RP:[12.0,18.1,6.1,496,83,5735,64.3],BW:[11.9,16.7,7.2,1336,219,5180,62.6],NI:[11.1,16.3,6.0,888,165,6485,62.8],HH:[10.9,13.1,8.8,202,32,11775,47.9],NW:[10.2,15.1,5.4,1835,353,7689,53.5],SL:[8.3,14.0,2.7,84,22,6597,61.2]};
@@ -888,13 +891,28 @@ const THK={
    {k:'klima_kalt',sub:'t_kalt',n:'Temperatur · kältester Monat',e:'❄️',f:b=>b-70,u:'°C'},
    {k:'klima_warm',sub:'t_warm',n:'Temperatur · wärmster Monat',e:'☀️',f:b=>b-70,u:'°C'},
    {k:'niederschlag',sub:'niederschlag',n:'Niederschlag · Jahr',e:'🌧️',f:b=>b*20,u:'mm/Jahr'}]},
+ boeden:{e:'🟫',k:'Vorherrschende Bodengruppe (WRB) im 2°-Raster · ISRIC SoilGrids',land:1},
+ sonneneinstrahlung:{e:'🔆',k:'Globalstrahlung im 2°-Raster · NASA POWER',teile:[
+   {k:'sonneneinstrahlung',sub:'jahr',n:'Sonneneinstrahlung · Jahresmittel',e:'🔆',f:b=>b/20,u:'kWh/m² pro Tag'},
+   {k:'sonne_juni',sub:'jun',n:'Sonneneinstrahlung · Juni',e:'☀️',f:b=>b/20,u:'kWh/m² pro Tag'},
+   {k:'sonne_dez',sub:'dez',n:'Sonneneinstrahlung · Dezember',e:'🌥️',f:b=>b/20,u:'kWh/m² pro Tag'}]},
  biome:{e:'🌿',k:'14 Großlebensräume (RESOLVE 2017) im 2°-Raster',land:1},
  waldanteil:{e:'🌲',k:'Waldfläche in % der Landfläche je Land'},
  pflanzen_heimat:{e:'🌱',k:'Ursprüngliche Heimat und Einbürgerung der Heilpflanzen (WCVP)'},
  kreise:{e:'🏘️',k:'401 Landkreise und kreisfreie Städte',de:1,teile:[
    {k:'kreise',n:'Landkreise · Einwohnerdichte',e:'🏘️',grund:1,wert:'dichte',u:'Einwohner je km² · 31.12.2024',kurz:'Einwohner je km² je Kreis (Destatis 31.12.2024)',p:MAGMA,s:v=>Math.log10(Math.max(v,35)/35)/Math.log10(4800/35),lg:['35','400','4.800']},
    {k:'kreise_ew',n:'Landkreise · Einwohner',e:'👥',grund:1,wert:'ew',u:'Einwohner · 31.12.2024',kurz:'Einwohnerzahl je Kreis (Destatis 31.12.2024)',p:TEAL,s:v=>Math.log10(Math.max(v,30000)/30000)/Math.log10(3.9e6/30000),lg:['30.000','340.000','3,9 Mio.']},
+   {k:'kreise_sonne',n:'Landkreise · Sonnenstunden',e:'🌤️',grund:1,wert:'sonne_h',u:'Sonnenstunden je Jahr · Mittel 1991–2020 (DWD)',kurz:'Sonnenscheindauer je Kreis, Jahr und Monate (DWD 1991–2020)',p:SONNE,s:v=>(v-1450)/400,lg:['1.450 h','1.650 h','1.850 h'],lin:1,fw:v=>fmt(v)+' h'},
+   {k:'kreise_strahl',n:'Landkreise · Globalstrahlung',e:'🔆',grund:1,wert:'strahl_kwh',u:'Globalstrahlung kWh/m² je Jahr · Mittel (DWD)',kurz:'Sonnenenergie auf die waagrechte Fläche je Kreis (DWD)',p:SONNE,s:v=>(v-960)/260,lg:['960','1.090','1.220 kWh/m²'],lin:1,fw:v=>fmt(v)+' kWh/m²'},
+   {k:'kreise_zone',n:'Landkreise · Winterhärtezone',e:'🌱',grund:1,wert:'tmin_abs_c',u:'USDA-Winterhärtezone · mittleres Jahres-Tiefstminimum 1991–2020 (DWD)',kurz:'Winterhärtezone für Pflanzen je Kreis (aus DWD-Messungen 1991–2020)',p:ZONE,s:v=>(v+21)/13,lg:['6b','7a','7b','8a','8b'],lin:1,fw:(v,x)=>(x&&x.zone?x.zone+' · ':'')+fmt(v,1)+' °C'},
+   {k:'kreise_frost',n:'Landkreise · Frosttage',e:'🧊',grund:1,wert:'frosttage',u:'Frosttage je Jahr · Mittel 1991–2020 (DWD)',kurz:'Tage mit Tiefstwert unter 0 °C je Kreis (DWD 1991–2020)',p:FROST,s:v=>(v-40)/110,lg:['40','95','150 Tage'],lin:1,fw:v=>fmt(v)+' Tage'},
    {k:'lkreise',n:'Landkreisgrenzen',e:'🗺️',grund:0,kurz:'Grenzen und Namen der Kreise (VG250, vereinfacht)'}],leg:()=>'<span><i class="l" style="border-top:2px solid #ffecc8"></i>Kreisgrenze (vereinfacht)</span>',hin:e=>thSatz1(String(e.hinweis||'').replace(/^Gebietsstand[^:]*:\s*\d+ Kreise\.\s*/,''))},
+ naturparks:{e:'🌳',k:'105 Naturparks (Lagepunkt laut Wikidata)',ov:1,de:1,rz:[0,0,0],nz:[6,6,6],sym:'kreis',
+  c:(r,e)=>thLeg(e,r.vdn===false?1:0),r:r=>Math.min(5,2.2+Math.sqrt(r.km2||0)/40),name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:['Naturpark',thBLs(r.laender||r.land),r.jahr?'seit '+r.jahr:''].filter(Boolean).join(' · '),kpi:[['Fläche',r.km2!=null?fmt(r.km2)+' km²':'–'],['Gegründet',r.jahr||'–']],txt:r.vdn===false?'Steht in Wikidata, nicht in der Liste des Verbands Deutscher Naturparke.':''})},
+ welterbe_staetten:{e:'🏛️',k:'1.273 Welterbestätten mit Lage (Wikidata)',ov:1,rz:[0,0,0],nz:[5,5,5],sym:'kreis',
+  c:(r,e)=>thLeg(e,r.art==='Kultur'?0:r.art==='Natur'?1:r.art==='gemischt'?2:3),r:()=>2.8,name:r=>r.n,
+  info:(r,e)=>({t:r.n,u:[r.art?(r.art==='gemischt'?'Kultur- und Naturerbe':r.art+'erbe'):'',(r.iso3||[]).map(thLand).join(', ')].filter(Boolean).join(' · '),kpi:[['Eingetragen',r.jahr||'–'],['Welterbe-Nr.',r.id]].concat(r.teile?[['Bestandteile',fmt(r.teile)]]:[]),txt:r.lage?'Punkt eines Bestandteils (Hauptobjekt ohne Koordinate).':''})},
  schutzgebiete:{e:'🦌',k:'Nationalparks und Biosphärenreservate',ov:1,de:1,rz:[0,0,0],nz:[5,5,5],
   f:r=>/national/i.test(r.art)?'quadrat':'kreis',c:(r,e)=>thLeg(e,/national/i.test(r.art)?0:r.unesco?1:2),r:r=>Math.min(8,2.4+Math.sqrt(r.ha||0)/120),name:r=>r.n,
   info:(r,e)=>({t:r.n,u:[r.art,thBLs(r.land),r.jahr?'seit '+r.jahr:''].filter(Boolean).join(' · '),kpi:[['Fläche',r.ha!=null?fmt(r.ha)+' ha':'–']].concat(r.unesco!=null&&/bios/i.test(r.art)?[['UNESCO',r.unesco?'anerkannt':'nicht anerkannt']]:[]),txt:r.text||''}),
@@ -988,7 +1006,7 @@ function thInit(){ if(THS.length) return; const I=thIdx(); THS=[];
   if(!(TH_STRITTIG&&I.strittig&&I.strittig.g)) S.ov.strittig=false;
   const ord=Object.keys(THK); THS.sort((a,b)=>{ const x=ord.indexOf(a.id), y=ord.indexOf(b.id); return (x<0?999:x)-(y<0?999:y)||a.teil-b.teil; });
   if(!S.thw) S.thw={}; }
-function thGrundDef(x,K,t){ if(x.typ==='kreise') return {kre:1,wert:t.wert,p:t.p,s:t.s,lg:t.lg,seite:1}; if(x.typ==='raster') return {thr:1,sub:t.sub,f:t.f}; if(x.typ==='land-wert') return {thw:1}; if(x.typ==='land-liste') return {thl:1}; return {thk:1}; }
+function thGrundDef(x,K,t){ if(x.typ==='kreise') return {kre:1,wert:t.wert,p:t.p,s:v=>Math.max(0,Math.min(1,t.s(v))),lg:t.lg,lin:t.lin,fw:t.fw,seite:1}; if(x.typ==='raster') return {thr:1,sub:t.sub,f:t.f}; if(x.typ==='land-wert') return {thw:1}; if(x.typ==='land-liste') return {thl:1}; return {thk:1}; }
 function thSchalter(k){ return THS.find(s=>s.k===k); }
 function thAn_(s){ return s.art==='grund'?S.grund===s.k:!!S.ov[s.k]; }
 
@@ -1093,7 +1111,10 @@ function infoStrittig(){ const box=$('.qwk-info',wrap), g=strGebiete()[S.str], I
   const b=$('[data-land]',box); if(b) b.onclick=()=>{ S.str=null; waehle(c,S.klick); };
   $('.qwk-x',box).onclick=()=>{ S.str=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 /* ---------- Landkreise ---------- */
-function krWert(r,w){ if(r.einwohner_2024==null) return null; return w==='ew'?r.einwohner_2024:(r.flaeche_km2?r.einwohner_2024/r.flaeche_km2:null); }
+function krWert(r,w){ if(w==='ew'||w==='dichte'){ if(r.einwohner_2024==null) return null; return w==='ew'?r.einwohner_2024:(r.flaeche_km2?r.einwohner_2024/r.flaeche_km2:null); } const v=r[w]; return typeof v==='number'?v:null; }
+function krFmt(G,v,x){ return G&&G.fw?G.fw(v,x):fmt(v); }
+const MON=['J','F','M','A','M','J','J','A','S','O','N','D'];
+function krMonate(t,A,ein,farbe){ if(!Array.isArray(A)||A.length!==12) return ''; const mx=Math.max(...A)||1; return `<h4>${esc(t)}</h4><div style="display:flex;gap:3px;align-items:flex-end;height:74px;margin:4px 0 2px">${A.map((v,i)=>`<div title="${esc(fmt(v)+' '+ein)}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><span style="font-size:9px;opacity:.75">${fmt(v)}</span><b style="display:block;width:100%;height:${(v/mx*52).toFixed(1)}px;background:${farbe};border-radius:3px 3px 0 0"></b><small style="font-size:9px;opacity:.7">${MON[i]}</small></div>`).join('')}</div><p class="qwk-mini">${esc(ein)} je Monat · Mittel</p>`; }
 function krZeichnen(G){ const e=th('kreise'); if(!e) return; const L=e.daten||[], mitWert=G&&G.kre, zf=Math.min(1.3,.6+S.zoom/20);
   ctx.lineJoin='round';
   L.forEach((r,i)=>{ const R=r.ringe||[]; if(!R.length) return; let ok=false; ctx.beginPath(); for(const rg of R){ if(rg.bb&&sichtbar(rg.bb)){ pfad(rg); ok=true; } } if(!ok) return;
@@ -1106,13 +1127,16 @@ function infoKreis(){ const box=$('.qwk-info',wrap), e=th('kreise'), L=e.daten, 
   const d=krWert(r,'dichte'), rang=k=>{ const a=L.map(x=>krWert(x,k)).filter(v=>v!=null).sort((x,y)=>y-x); const v=krWert(r,k); return v==null?'–':(a.indexOf(v)+1)+' von '+a.length; };
   const imLand=L.map((x,i)=>[x,i]).filter(([x])=>x.land===r.land&&krWert(x,w)!=null).sort((a,b)=>krWert(b[0],w)-krWert(a[0],w)), mx=imLand.length?krWert(imLand[0][0],w):1;
   let h=thKopf('🏘️',r.name,[r.art,thBL(r.land),r.ags?'AGS '+r.ags:''].filter(Boolean).join(' · '))+thKpi([['Einwohner',r.einwohner_2024!=null?fmt(r.einwohner_2024):'–'],['Fläche',r.flaeche_km2!=null?fmt(r.flaeche_km2,0)+' km²':'–'],['Einwohner je km²',d!=null?fmt(d):'–'],['Rang Dichte',rang('dichte')]]);
+  if(r.sonne_h!=null||r.zone){ const K=[]; if(r.sonne_h!=null) K.push(['Sonnenstunden/Jahr',fmt(r.sonne_h)+' h']); if(r.strahl_kwh!=null) K.push(['Globalstrahlung/Jahr',fmt(r.strahl_kwh)+' kWh/m²']); if(r.zone) K.push(['Winterhärtezone',r.zone+(r.tmin_abs_c!=null?' ('+fmt(r.tmin_abs_c,1)+' °C)':'')]); if(r.frosttage!=null) K.push(['Frosttage/Jahr',fmt(r.frosttage)]);
+    h+=`<h4>Klima (DWD, Mittel 1991–2020)</h4>`+thKpi(K); if(r.zone&&(r.zone_kalt!==r.zone||r.zone_mild!==r.zone)) h+=`<p class="qwk-mini">Spanne im Kreis: ${esc(r.zone_kalt||r.zone)} (kälteste Lage) bis ${esc(r.zone_mild||r.zone)} (mildeste Lage). In Tälern und Senken kann es kälter sein.</p>`;
+    h+=krMonate('Sonnenstunden je Monat',r.sonne_mon_h,'Stunden','#f0b040')+krMonate('Globalstrahlung je Monat',r.strahl_m,'kWh/m²','#ffd860'); }
   if(r.einwohner_2024==null) h+=`<p class="qwk-hin2">${esc(thSatz1(String(e.hinweis||'').replace(/^Gebietsstand[^:]*:\s*\d+ Kreise\.\s*/,'')))}</p>`;
-  if(imLand.length) h+=`<h4>${esc(G.n.split(' · ')[1]||G.n)} – ${esc(thBL(r.land))}</h4><div class="qwk-bars">${imLand.slice(0,24).map(([x,i])=>{ const v=krWert(x,w); return `<div class="${i===S.kr?'hl':''}" data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${fmt(v)}</em></div>`; }).join('')}</div>${imLand.length>24?`<p class="qwk-mini">… und ${imLand.length-24} weitere</p>`:''}`;
+  if(imLand.length) h+=`<h4>${esc(G.n.split(' · ')[1]||G.n)} – ${esc(thBL(r.land))}</h4><div class="qwk-bars">${imLand.slice(0,24).map(([x,i])=>{ const v=krWert(x,w); return `<div class="${i===S.kr?'hl':''}" data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${esc(krFmt(G,v,x))}</em></div>`; }).join('')}</div>${imLand.length>24?`<p class="qwk-mini">… und ${imLand.length-24} weitere</p>`:''}`;
   h+=`<h4>Quelle</h4>${thQuellenHtml(e)}`; box.innerHTML=h;
   box.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{ S.kr=+b.dataset.kr; const x=L[S.kr]; info(); flieg(x.lon,x.lat,Math.max(S.zoom,8)); });
   $('.qwk-x',box).onclick=()=>{ S.kr=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 function krUebersicht(G){ const box=$('.qwk-info',wrap), e=th('kreise'), L=e.daten, w=G.wert, A=L.map((x,i)=>[x,i]).filter(([x])=>krWert(x,w)!=null).sort((a,b)=>krWert(b[0],w)-krWert(a[0],w));
-  const zeile=([x,i])=>{ const v=krWert(x,w); return `<div data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${fmt(v)}</em></div>`; };
+  const zeile=([x,i])=>{ const v=krWert(x,w); return `<div data-kr="${i}"><span>${esc(x.name)}</span><i><b style="width:${(Math.max(.04,G.s(v))*100).toFixed(1)}%;background:${ramp(G.p,G.s(v))}"></b></i><em>${esc(krFmt(G,v,x))}</em></div>`; };
   box.innerHTML=`<div class="qwk-kopf"><span class="qwk-flag">${G.e}</span><div><h2>${esc(G.n)}</h2><small>${esc(G.u)}</small></div></div><h4>Höchste Werte</h4><div class="qwk-bars">${A.slice(0,12).map(zeile).join('')}</div><h4>Niedrigste Werte</h4><div class="qwk-bars">${A.slice(-6).map(zeile).join('')}</div><p class="qwk-hin2">Kreis antippen für alle Werte und die Rangliste im Bundesland. ${esc(thHin(THK.kreise,e))}</p><h4>Quelle</h4>${thQuellenHtml(e)}`;
   box.querySelectorAll('[data-kr]').forEach(b=>b.onclick=()=>{ S.kr=+b.dataset.kr; const x=L[S.kr]; info(); flieg(x.lon,x.lat,Math.max(S.zoom,8)); }); }
 /* ---------- Zeichen ---------- */
@@ -1221,8 +1245,8 @@ function infoThema(){ const box=$('.qwk-info',wrap), [id,i,t,seg]=S.thi, e=th(id
   box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.thi=null; info(); zeichne(); wrap.classList.remove('qwk-info-auf'); }; }
 /* Info-Teil für Landes-Ebenen (über den Länderdaten) bzw. Übersicht ohne gewähltes Land */
 function thLandBlock(G,i){ const id=G.th, e=th(id); if(!e) return ''; let h=`<div class="qwk-box qwk-thbox"><small>${G.e} ${esc(G.n)}</small>`;
-  if(G.thr){ const ll=S.klick; if(ll){ if(id==='klima_raster'){ const w=THS.filter(s=>s.id===id).map(s=>{ const v=thRasterWert(GRUND[s.k],ll[0],ll[1]); return v==null?null:`${s.n.split(' · ')[1]||s.n}: <b>${fmt(v)} ${s.u}</b>`; }).filter(Boolean); h+=`<div>${w.join('<br>')||'keine Angabe'}</div>`; }
-      else { const v=thRasterWert(G,ll[0],ll[1]); const k=e.klassen&&e.klassen[v]; h+=`<div><b>${k?esc(k[0]):'keine Angabe'}</b></div>`; } h+=`<div class="qwk-mini">an der angetippten Stelle (${koord(ll)})</div>`; } }
+  if(G.thr){ const ll=S.klick; if(ll){ if(!e.klassen){ const w=THS.filter(s=>s.id===id).map(s=>{ const v=thRasterWert(GRUND[s.k],ll[0],ll[1]); return v==null?null:`${s.n.split(' · ')[1]||s.n}: <b>${fmt(v,/kWh/.test(s.u)?2:0)} ${s.u}</b>`; }).filter(Boolean); h+=`<div>${w.join('<br>')||'keine Angabe'}</div>`; }
+      else { const v=thRasterWert(G,ll[0],ll[1]); const k=e.klassen&&e.klassen[v]; h+=`<div><b>${k?esc(k[0]):'keine Angabe'}</b>${k&&k[2]?`<br><small>${esc(k[2])}</small>`:''}</div>`; } h+=`<div class="qwk-mini">an der angetippten Stelle (${koord(ll)})</div>`; } }
   else if(G.thw){ const d=e.daten[i], v=thLandWert(G,i), K=THK[id]||{}; h+=`<div><b>${v==null?'keine Angabe':(K.text?K.text(d,v):fmt(v,v<100?1:0)+' '+esc(G.u||''))}</b></div>`; }
   else if(G.thl){ const L=thListe(id), r=thRolle(L,i); h+=`<div><b>${esc(L.n)}</b>: ${r==='m'?(L.mitglieder&&L.mitglieder[i]!=null?'Mitglied seit '+thJahr(L.mitglieder[i]):'gehörte (ganz oder teilweise) dazu'):r==='a'?'Mitglied, ausgesetzt: '+esc(L.ausgesetzt[i]):r==='p'?esc(thRolleName(L,i,e)):'kein Mitglied'}</div>`; if(L.ehemalig&&L.ehemalig[i]) h+=`<div class="qwk-mini">früher: ${esc(L.ehemalig[i])}</div>`; const K=THK[id]||{}; if(K.landPlus) h+=K.landPlus(e,i); }
   else if(id==='pflanzen_heimat'){ const P=e.daten[thWahl(id)]; const rh=(P.heimat||[]).includes(i)?'ursprünglich heimisch':(P.eingeb||[]).includes(i)?'eingeführt / eingebürgert':'nicht als heimisch oder eingebürgert geführt'; h+=`<div><b>${esc(P.n)}</b>: ${rh}</div>`; }
@@ -1260,7 +1284,7 @@ function thLegVoll(){ const box=$('.qwk-info',wrap), G=GRUND[S.grund]; let h=thK
     h+=`<h4>${s.e} ${esc(s.n)}${thWahlName(s)}</h4><div class="qwk-kl">${K.leg?K.leg(e):E.map(([n,c])=>`<span><i class="r" style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>${thHin(K,e)?`<div class="qwk-hin">${esc(thHin(K,e))}</div>`:''}<div class="qwk-hin">Quelle: ${esc(thQk(e))}${thQ(e).stand?' · '+esc(thQ(e).stand):''}</div>`; }
   box.innerHTML=h; $('.qwk-x',box).onclick=()=>{ S.legvoll=false; info(); wrap.classList.remove('qwk-info-auf'); }; }
 function thLegGrund(G){ const e=th(G.th), K=THK[G.th]||{}; if(!e) return ''; let h='';
-  if(G.kre){ h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${G.p.join(',')})"></div><div class="qwk-rl">${G.lg.map(x=>`<span>${x}</span>`).join('')}</div><div class="qwk-hin">logarithmische Skala · Kreis antippen</div>`; }
+  if(G.kre){ h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${G.p.join(',')})"></div><div class="qwk-rl">${G.lg.map(x=>`<span>${x}</span>`).join('')}</div><div class="qwk-hin">${G.lin?'':'logarithmische Skala · '}Kreis antippen</div>`; }
   else if(G.thr){ if(e.klassen) h+=`<div class="qwk-kl">${Object.values(e.klassen).map(([n,c])=>`<span><i style="background:${c}"></i>${esc(n)}</span>`).join('')}</div>`;
     else { const st=(e.legende&&(e.legende[G.sub]||e.legende.t_jahr))||[]; h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${st.map(x=>x[1]).join(',')})"></div><div class="qwk-rl">${[st[0],st[st.length>>1],st[st.length-1]].filter(Boolean).map(x=>`<span>${fmt(x[0])}</span>`).join('')}</div>`; } }
   else if(G.thw){ if(K.p) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${K.p.join(',')})"></div><div class="qwk-rl">${(K.lg||[]).map(x=>`<span>${esc(x)}</span>`).join('')}</div>`; else if(Array.isArray(e.legende)&&Array.isArray(e.legende[0])) h+=`<div class="qwk-ramp" style="background:linear-gradient(90deg,${e.legende.map(x=>x[1]).join(',')})"></div><div class="qwk-rl">${e.legende.map(x=>`<span>${fmt(x[0])}</span>`).join('')}</div>`; }

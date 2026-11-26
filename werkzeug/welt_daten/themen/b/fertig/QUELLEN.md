@@ -133,3 +133,8 @@ Aus den Köpfen der JSON-Dateien in `fertig/` erzeugt (`quellen`-Feld und Belege
 - „Global Power Plant Database, World Resources Institute (WRI), CC BY 4.0“
 - „Glottolog 5.4 (Hammarström, Forkel, Haspelmath, Bank), CC BY 4.0“
 - „Unicode CLDR, © Unicode, Inc., Unicode License v3“
+- „SoilGrids, ISRIC – World Soil Information (CC BY 4.0)“; „NASA LaRC POWER Project (CC BY 4.0)“; „Datenbasis: Deutscher Wetterdienst (CC BY 4.0)“
+
+## Nachtrag 26.11.2026
+- **welterbe_staetten:** Wikidata (CC0 1.0), Objekte mit Welterbe-Kennung P757, Abruf 26.11.2026 – keine UNESCO-Daten übernommen.
+- **goldreserven:** International Monetary Fund, International Liquidity (IL), Reihe RGV_REVS, https://api.imf.org – Abruf 26.11.2026; Weitergabe mit Quellenangabe erlaubt, kommerzielle Nutzung nur mit Genehmigung (copyright@imf.org).

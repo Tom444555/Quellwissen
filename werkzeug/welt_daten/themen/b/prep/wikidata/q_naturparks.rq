@@ -1,0 +1,10 @@
+SELECT ?i ?de ?en ?coord ?flaeche ?einheit ?gruend ?aufl ?klasse ?land ?landl WHERE {
+  { ?i wdt:P31 wd:Q20354035 . BIND("DE" AS ?klasse) } UNION { ?i wdt:P31 wd:Q728904 ; wdt:P17 wd:Q183 . BIND("allg" AS ?klasse) }
+  OPTIONAL { ?i rdfs:label ?de FILTER(lang(?de)="de") }
+  OPTIONAL { ?i rdfs:label ?en FILTER(lang(?en)="en") }
+  OPTIONAL { ?i wdt:P625 ?coord }
+  OPTIONAL { ?i p:P2046/psv:P2046 [ wikibase:quantityAmount ?flaeche ; wikibase:quantityUnit ?einheit ] }
+  OPTIONAL { ?i wdt:P571 ?gruend }
+  OPTIONAL { ?i wdt:P576 ?aufl }
+  OPTIONAL { ?i wdt:P131 ?land . ?land wdt:P31 wd:Q1221156 . ?land rdfs:label ?landl FILTER(lang(?landl)="de") }
+}

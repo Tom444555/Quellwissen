@@ -2,6 +2,10 @@
 
 Einzelheiten der Gegenprüfung (geprüft/bestätigt/korrigiert/entfernt je Ebene, mit Quellen): `PRUEFBERICHT.md`.
 
+## Nachtrag 26.11.2026 (geht den älteren Angaben unten vor)
+- **Jetzt geliefert:** Welterbestätten mit Lage (`welterbe_staetten.json`, 1.273 Punkte aus Wikidata CC0, ohne UNESCO-Daten; Prüfbericht `../prep/wikidata/PRUEF.md`); Goldreserven von 157 Ländern (IWF International Liquidity, Reihe RGV_REVS, über api.imf.org; Institutionen getrennt; kommerzielle Nutzung nur mit IWF-Genehmigung, wie Staatsschulden).
+- **Weiter offen:** Seekabel (erneut geprüft: TeleGeography CC BY-NC-SA, EMODnet beruht darauf, NOAA nur US-Gewässer, OSM ODbL – keine freie Weltkarte).
+
 ## Nicht geliefert
 - **Welterbe-Einzelstätten mit Lage:** UNESCO verlangt für Weiterveröffentlichung ihrer Daten eine schriftliche Genehmigung (FAQ <https://whc.unesco.org/en/faq/126>). Wikidata (CC0) war nicht abrufbar. Geliefert wird nur die **Anzahl je Land** (Factbook, gegen UNESCO-Statistik geprüft, Stand nach der 48. Sitzung Juli 2026).
 - **Seekabel:** TeleGeography steht unter CC BY-NC-SA → ausgeschlossen; keine frei lizenzierte Alternative gefunden.

@@ -1,0 +1,1 @@
+SELECT ?i ?c ?iso ?cl WHERE { ?i wdt:P757 ?id . ?i wdt:P17 ?c . OPTIONAL { ?c wdt:P298 ?iso } OPTIONAL { ?c rdfs:label ?cl FILTER(lang(?cl)="en") } }

@@ -1,0 +1,1 @@
+SELECT ?i ?d ?inst ?instl WHERE { VALUES ?i { wd:Q123581313 wd:Q1970670 wd:Q787952 wd:Q1650236 } OPTIONAL { ?i schema:description ?d FILTER(lang(?d)="de") } OPTIONAL { ?i wdt:P31 ?inst . ?inst rdfs:label ?instl FILTER(lang(?instl)="de") } }

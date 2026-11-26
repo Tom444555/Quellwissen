@@ -42,3 +42,12 @@ Rohdaten liegen unter `roh/<thema>/`, Aufbereitung unter `prep/<thema>.py`. Alle
 | heilbaeder | Sachsen: Staatlich anerkannte Kurorte im Freistaat Sachsen (REVOSax, Anlage) | https://revosax.sachsen.de/attachments/32309 | 11.09.2019 | amtl. Verzeichnis | Orte, Prädikate |
 
 Nicht verwendet (Lizenz): Smithsonian GVP direkt (Nutzungsbedingungen verbieten kommerzielle Nutzung), Berkeley-Earth-Länderwerte (CC BY-NC), WorldClim (nur nicht kommerziell), Stellarium-Sternnamen-Übersetzungen (GPL; deshalb eigene deutsche Formen nur für 10 bekannte Sterne).
+
+## Nachtrag 26.11.2026
+| Ebene | Quelle | Adresse | Stand | Lizenz | Was daraus stammt |
+|---|---|---|---|---|---|
+| kreise (Klima) | DWD Climate Data Center, vieljährige Raster 1991–2020: Sonnenscheindauer, Globalstrahlung, Frosttage, Januar-Tmin; Stationswerte KL jährlich (JA_MX_TN) | https://opendata.dwd.de/climate_environment/CDC/ | 1991–2020 | CC BY 4.0 – „Datenbasis: Deutscher Wetterdienst, Einzelwerte gemittelt“ | Kreismittel, Winterhärtezone (USDA-Definition) |
+| boeden | ISRIC – World Soil Information, SoilGrids WRB MostProbable (Hengl et al. 2017, PLoS ONE 12(2): e0169748) | https://files.isric.org/soilgrids/latest/data/wrb/ | Modell 2017, Dateien 2023 | CC BY 4.0 – „SoilGrids, ISRIC – World Soil Information (CC BY 4.0)“ | häufigste Bodengruppe je 2°-Zelle |
+| sonneneinstrahlung | NASA LaRC POWER, Klimatologie ALLSKY_SFC_SW_DWN (CERES SYN1deg) | https://power.larc.nasa.gov/ | 2001–2025 | CC BY 4.0 – „These data were obtained from the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science Program.“ | Tagesmittel Jahr/Juni/Dezember |
+| naturparks, heilbaeder (Lage) | Wikidata | https://www.wikidata.org/ | 26.11.2026 | CC0 1.0 | Lagepunkte, Fläche, Gründungsjahr |
+| heilbaeder (HE, TH, ST, BB) | Amtliche Listen laut Kopf der Datei (RP Kassel, Thüringer Landtag Drs. 6/3368, Landesverwaltungsamt Sachsen-Anhalt, MSGIV Brandenburg) | siehe `heilbaeder.json` | 2017–2026 | amtliche Verzeichnisse (Fakten) | Orte und Prädikate |

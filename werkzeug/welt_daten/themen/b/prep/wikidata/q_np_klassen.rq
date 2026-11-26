@@ -1,0 +1,1 @@
+SELECT ?c ?l (COUNT(?i) AS ?n) WHERE { VALUES ?l { "Naturpark in Deutschland"@de "Naturpark"@de "nature park in Germany"@en "nature park"@en "Naturpark (Deutschland)"@de } ?c rdfs:label ?l . OPTIONAL { ?i wdt:P31 ?c } } GROUP BY ?c ?l
