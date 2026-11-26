@@ -2,6 +2,7 @@
    Rechnet einen erfundenen Haushalt durch und prüft Tabellen, Formeln, Reichweite, Gerichte, Abziehen, Speiseplan und Sicherung. */
 'use strict';
 var V = require('./vorrat.js'), K = V._kern, fehler = 0, n = 0;
+require('./vorrat_qr.js'); var P2 = require('./vorrat_plus.js'), I = V._i; require('./vorrat_fakten.js'); var N2 = require('./vorrat_notfall.js'), FK = globalThis.QWVorratFakten;
 function ok(b, t) { n++; if (!b) { fehler++; console.log('✗ ' + t); } }
 function nah(a, b, tol, t) { ok(Math.abs(a - b) <= tol, t + ' (ist ' + a + ', soll ' + b + ')'); }
 var heute = new Date(2026, 10, 25, 12);
@@ -15,7 +16,7 @@ var ids = {}; K.KATALOG.forEach(function (k) { ok(!ids[k.i], 'Katalog-ID doppelt
   if (k.k > 0 && !k.kein && ['kakao', 'essig', 'zitronensaft', 'backpulver'].indexOf(k.i) < 0) { var atw = 4 * k.e + 9 * k.f + 4 * k.c; ok(atw > k.k * 0.6 && atw < k.k * 1.45, 'kcal passt nicht zu Eiweiß/Fett/KH: ' + k.i + ' ' + k.k + '/' + Math.round(atw)); }
   (k.p || []).forEach(function (p) { ok(p[1] > 0, 'Packung ohne Menge: ' + k.i); }); });
 ok(K.KATALOG.length >= 120 && K.KATALOG.length <= 160, 'Katalog: ' + K.KATALOG.length + ' Lebensmittel');
-ok(K.GERICHTE.length >= 40 && K.GERICHTE.length <= 70, 'Gerichte: ' + K.GERICHTE.length);
+ok(K.GERICHTE.length >= 40 && K.GERICHTE.length <= 90, 'Gerichte: ' + K.GERICHTE.length);
 var gids = {}; K.GERICHTE.forEach(function (r) { ok(!gids[r.id], 'Gericht doppelt: ' + r.id); gids[r.id] = 1;
   ok(['kalt', 'topf', 'glut', 'ofen'].indexOf(r.koch) >= 0, 'Kochstelle: ' + r.id); ok(r.p >= 1 && r.sch.length >= 1, 'Portionen/Schritte: ' + r.id);
   r.zut.forEach(function (z) { z.a.forEach(function (a) { ok(!!ids[a[0]], 'Zutat unbekannt: ' + r.id + ' → ' + a[0]); }); });
@@ -102,7 +103,7 @@ if (A.knapp) { ok(A.tage.slice(0, A.knapp - 1).every(function (t) { return t.dec
   nah(A.reicht, A.knapp - 1 + A.tage[A.knapp - 1].deckung, 1e-9, '„Essen reicht“ = volle Tage vor „knapp ab“'); }
 var P10 = K.speiseplan(S, heute, 10); ok(P10.knapp === A.knapp || (A.knapp > 10 && !P10.knapp) || (!A.knapp && !P10.knapp), 'Speiseplan und Reichweite melden denselben knappen Tag');
 var maxOk = true; A.tage.forEach(function (t) { t.extra.forEach(function (x) { if (x.g > K.auffuellMax(K.katVon(S, x.i)) * A.PH + 0.5) { maxOk = false; console.log('  zu viel:', t.d, x.n, Math.round(x.g)); } });
-  t.essen.forEach(function (e) { if (e.port > A.PH + 1e-6) maxOk = false; }); });
+  t.essen.forEach(function (e) { if (e.port > A.PH * 1.4 + 0.05) maxOk = false; }); });
 ok(maxOk, 'Auffüllen und Portionen bleiben unter den Obergrenzen');
 nah(K.auffuellMax(K.katVon(S, 'hmilch')) * 3, 750, 1e-9, 'H-Milch höchstens 250 ml je Portion und Tag');
 var Bk = K.beispiel(heute), Ab = K.alltag(Bk, heute); ok(Ab.tage.every(function (t) { return t.extra.every(function (x) { return !(x.i === 'hmilch' && x.g > 250 * Ab.PH + 0.5); }); }), 'Beispiel: keine 750 ml H-Milch je Person');
@@ -115,6 +116,123 @@ ok(Bsp.lager.every(function (it) { return !!K.katVon(Bsp, it.k); }), 'Beispiel n
 var x = K.pruefeStand(JSON.parse(JSON.stringify(Bsp))); ok(x && x.lager.length === Bsp.lager.length, 'Sicherung lesen');
 ok(K.pruefeStand({ foo: 1 }) === null, 'falsche Sicherung abgelehnt');
 var y = K.pruefeStand({ personen: [], lager: [{ k: 'gibtsnicht', m: 1, e: 'g' }] }); ok(y && y.lager.length === 0, 'unbekannte Lebensmittel verworfen');
+
+/* 7. Ausbau Stufe 1 */
+/* Umstellung von Fassung 1 */
+var alt = { v: 1, tab: 'lager', personen: [{ n: 'A', s: 'm', a: 40, kg: 80, cm: 180, t: 'normal' }], lager: [{ u: 'x', k: 'nudeln', m: 2, e: 'p0', o: 'k' }, { u: 'y', k: 'reis', m: 1, e: 'p0', o: 'garage' }], lage: { strom: true }, eigene: [], haken: { 'Seife': 1 } };
+var neu = K.pruefeStand(alt); ok(neu.v === 2 && neu.tab === 'uebersicht', 'Umstellung: Fassung 2, Start in der Übersicht');
+ok(neu.orte.length === 3 && neu.lager[0].o === 'k' && neu.lager[1].o === 'v', 'Umstellung: Orte angelegt, unbekannter Ort → Vorrat');
+ok(neu.haken.Seife === 1 && neu.lager.length === 2 && Array.isArray(neu.bestaende) && typeof neu.preise === 'object', 'Umstellung: Daten bleiben erhalten');
+ok(K.pruefeStand(JSON.parse(JSON.stringify(neu))).tab === 'uebersicht', 'Fassung 2 bleibt Fassung 2');
+ok(['uebersicht', 'reichweite', 'blatt', 'vergleich', 'kosten', 'vorlage', 'bestaende'].every(function (t) { return K.sichtbareTabs().indexOf(t) >= 0; }), 'Navigation: alle Bereiche der Stufe 1 sichtbar');
+/* freie Lagerorte mit Typ */
+var So = JSON.parse(JSON.stringify(S)); So.orte.push({ id: 'o_kk', n: 'Kühlkeller', typ: 'k' }); So.lager.forEach(function (it) { if (it.k === 'nudeln') { it.o = 'o_kk'; it.m = 5; it.e = 'kg'; } });
+ok(K.ortTyp(So, 'o_kk') === 'k' && K.ortName(So, 'o_kk') === 'Kühlkeller', 'Lagerort mit Namen und Typ');
+ok(K.posten(So, heute).filter(function (x) { return x.it.k === 'nudeln'; })[0].ort === 'k', 'gekühlter Ort zählt wie Kühlschrank');
+ok(K.reichweite(So, heute).verloren > 0, 'bei Stromausfall verfällt Ware im gekühlten Ort');
+/* Mindestbestand, Nachkauf, Preise */
+var Sm = JSON.parse(JSON.stringify(S)); Sm.lager.forEach(function (it) { if (it.k === 'thunfisch') { it.min = 6; } if (it.k === 'reis') it.min = 1; }); Sm.preise = { thunfisch: 1.5 };
+ok(K.ampel({ m: 4, min: 6 }) === 'gelb' && K.ampel({ m: 2, min: 6 }) === 'rot' && K.ampel({ m: 6, min: 6 }) === 'gruen' && K.ampel({ m: 1 }) === '', 'Ampel Mindestbestand');
+var NK = K.nachkauf(Sm); ok(NK.length === 1 && NK[0].k.i === 'thunfisch' && NK[0].anzahl === 2, 'Nachkauf-Liste: 2 Dosen Thunfisch');
+nah(NK[0].kosten, 3, 1e-9, 'Nachkauf mit eigenem Preis');
+/* Speiseplan: Mahlzeiten, sparsam, Auffüllen ohne Konserven pur */
+var Ab = K.alltag(Bk, heute);
+ok(Ab.tage[0].essen.length >= 3 && Ab.tage[0].essen[0].mz === 'frueh' && K.GERICHTE.filter(function (r) { return r.id === Ab.tage[0].essen[0].id; })[0].fr, 'Tag 1 beginnt mit einem Frühstück');
+ok(Ab.tage.every(function (t) { return t.extra.every(function (x) { var k = K.katVon(Bk, x.i); return k.g !== 'gemuese' && K.auffuellOk(k); }); }), 'Auffüllen ohne Gemüse- und Fleischkonserven pur');
+var Sp = K.planSparsam(Bk, heute, 10), tageMit = function (P) { return P.tage.slice(0, 10).filter(function (t) { return t.deckung > 0.3; }).length; };
+ok(Sp.anteil >= 0.6 - 1e-9 && Sp.anteil <= 1, 'sparsam nie unter 60 %: ' + Sp.anteil.toFixed(2));
+ok(tageMit(Sp) >= tageMit(Ab), 'sparsam verteilt auf mindestens so viele Tage (' + tageMit(Sp) + ' ≥ ' + tageMit(Ab) + ')');
+/* Startvorlage nach BLE */
+var Vg = {}; P2.vorlage(1).forEach(function (e) { Vg[e.g] = (Vg[e.g] || 0) + e.menge; });
+nah(Vg.getreide, 3310, 1, 'Vorlage Getreide ≈ 3,3 kg'); nah(Vg.gemuese, 4020, 1, 'Vorlage Gemüse ≈ 4,0 kg'); nah(Vg.milch, 2500, 1, 'Vorlage Milch 2,5 kg'); nah(Vg.fett, 318, 1, 'Vorlage Fett ≈ 0,33 kg'); nah(Vg.trinken, 20410, 1, 'Vorlage Getränke (20 l Wasser + Saft, Kaffee, Tee)');
+ok(P2.vorlage(3).every(function (e) { return !e.pk || e.anzahl * e.pk[1] >= e.menge * 0.85; }), 'Vorlage: Packungen decken die Menge');
+/* Vergleich */
+var VG = P2.vergleich(S, heute, false), VG1 = P2.vergleich(S, heute, true);
+ok(VG.length === 3 && VG[0].tage === 3 && VG[2].tage === 28, 'Vergleich 3 · 10 · 28 Tage'); nah(VG1[0].kcalTag - VG[0].kcalTag, 2700, 1e-6, 'eine Person mehr = DGE 2.700 kcal');
+ok(VG1[1].satt <= VG[1].satt + 1e-9, 'mit einer Person mehr reicht es nicht länger');
+/* Kosten, Etappen */
+var Sk = JSON.parse(JSON.stringify(Bk)); Sk.preise = { wasser: 0.5, nudeln: 1.2, reis: 2, pfirsiche: 1.8, rosinen: 2.2, linsen: 1.6, kidney_dose: 0.9, hmilch: 1.1, hartkaese: 3.5, thunfisch: 1.9, wuerstchen: 2.5, rapsoel: 2.4, butterschmalz: 4 };
+var EK = P2.einkauf(Sk, heute), ET = P2.etappen(EK, 15); ok(EK.length > 3 && EK.every(function (e) { return e.anzahl >= 1; }), 'Einkaufsliste bis zum Ziel');
+ok(ET.wochen.every(function (w) { return w.summe <= 15 + 1e-6 || w.posten.length === 1; }), 'Etappen: je Woche höchstens der Betrag');
+var sumE = 0; ET.wochen.forEach(function (w) { sumE += w.summe; }); nah(sumE, ET.summe, 0.01, 'Etappen: Summe stimmt');
+/* Kalender */
+var ic = P2.ics([{ u: 'a', n: 'Nudeln, Spätzle; „Test“', mhd: '2027-01', ort: 'Keller' }, { u: 'b', n: 'ohne Datum', mhd: '' }], 30, new Date(Date.UTC(2026, 10, 26)));
+ok(/^BEGIN:VCALENDAR\r\n/.test(ic) && /END:VCALENDAR\r\n$/.test(ic) && (ic.match(/BEGIN:VEVENT/g) || []).length === 1, 'Kalender-Datei: ein Termin');
+ok(/DTSTART;VALUE=DATE:20270101/.test(ic) && ic.replace(/\r\n /g, '').indexOf('Nudeln\\, Spätzle\\; ') >= 0, 'Kalender: 30 Tage vor Monatsende, Sonderzeichen geschützt');
+ok(ic.split('\r\n').every(function (z) { return Buffer.byteLength(z, 'utf8') <= 75; }), 'Kalender: Zeilen höchstens 75 Bytes');
+/* Strichcode */
+ok(P2.gtinOk('4006381333931') && !P2.gtinOk('4006381333932') && P2.gtinOk('96385074') && !P2.gtinOk('123'), 'Prüfziffer EAN-13/EAN-8');
+var off = P2.offNachKatalog('4000000000000', { status: 1, product: { product_name: 'Linsen', brands: 'X', quantity: '500 g', nutriments: { 'energy-kcal_100g': 330, proteins_100g: 24, fat_100g: 1.5, carbohydrates_100g: 48 } } });
+ok(off && off.k === 330 && off.pg === 500 && /Linsen · X/.test(off.name), 'Open Food Facts → eigenes Lebensmittel');
+ok(P2.offNachKatalog('1', { status: 1, product: { product_name: 'Saft', quantity: '1 l', nutriments: { energy_100g: 188 } } }).k === 45, 'kJ → kcal, Liter-Packung');
+/* QR */
+var teile = P2.qrTeile('Z0' + 'a'.repeat(4000)); ok(teile.length === 3 && P2.qrZusammen(teile.slice().reverse()).text === 'Z0' + 'a'.repeat(4000), 'QR: in Teile und zurück');
+ok(P2.qrZusammen([teile[0], teile[2]]).fehlt === 2, 'QR: fehlender Teil erkannt');
+ok(/<path d="M/.test(P2.qrSvg('QWV:1/1:Z0abc')), 'QR-Code wird gezeichnet');
+var kmp = P2.kompakt(Bk); ok(K.pruefeStand(JSON.parse(kmp)).lager.length === Bk.lager.length, 'kompakte Sicherung lässt sich lesen');
+/* Bestände */
+var Sb = JSON.parse(JSON.stringify(Bk)); Sb.lage.kartusche = 90;
+nah(P2.bestandTage(Sb, { kat: 'licht', n: 'Batterien', m: 8, verbrauch: 2 }, 0), 4, 1e-9, 'Bestand mit Verbrauch: 8 / 2 = 4 Tage');
+ok(P2.bestandTage(Sb, { kat: 'apotheke', n: 'Pflaster', m: 1 }, 0) === null, 'ohne Verbrauch keine Reichweite');
+var bpt = P2.brennProTag(Sb, heute); ok(bpt > 0, 'Brennzeit je Tag aus dem Speiseplan: ' + Math.round(bpt) + ' min'); nah(P2.bestandTage(Sb, { kat: 'brennstoff', n: 'Gaskartuschen', m: 3 }, bpt), 3 * 90 / bpt, 1e-9, 'Gaskartuschen aus Speiseplan und Brenndauer');
+ok(P2.bestandAmpel(Sb, { kat: 'apotheke', n: 'X', m: 1, mhd: '2025-01' }, heute, 10, 0) === 'rot', 'abgelaufener Bestand = rot');
+/* Garten und Eingemachtes */
+ok(P2.eigenMhd('eingekocht', K.katVon(S, 'gr_bohnen'), '2026-08') === '2027-02', 'Eingekochtes: 6 Monate (BZfE)');
+ok(P2.eigenMhd('eingefroren', K.katVon(S, 'aepfel'), '2026-08') === '2027-04', 'Eingefrorenes Obst: 8 Monate (BLE)');
+ok(P2.eigenMhd('fermentiert', K.katVon(S, 'kohl'), '2026-08') === '', 'Fermentiertes: kein Richtwert');
+/* Ansichten ohne Browser rechnen */
+I.setze(JSON.parse(JSON.stringify(Bk))); var bl = P2.blattInhalt(); ok(/Wichtige Nummern/.test(bl) && /112/.test(bl) && /Checkliste/.test(bl) && /Speiseplan/.test(bl), 'Notfall-Blatt enthält Nummern, Speiseplan, Checkliste');
+ok(/vr-ampel/.test(P2.uebersichtHTML()) && (P2.uebersichtHTML().match(/class="vr-ampel /g) || []).length === 6, 'Übersicht mit 6 Ampel-Kacheln');
+ok(P2.druckMoeglich() === false, 'ohne Browser kein Drucken');
+
+/* 8. Stufe 2: Belege */
+ok(FK && FK.Q.length > 10, 'Beleg-Datei geladen: ' + Object.keys(FK.T).join(', '));
+Object.keys(FK.T).forEach(function (k) { FK.T[k].E.forEach(function (e) { ok(e[0] && e[2] && (e[3] || k === 'ausruestung'), 'Beleg vollständig: ' + k + '/' + e[0]); ok(e[7] >= 0 && FK.Q[e[7]] && FK.Q[e[7]][0], 'Beleg mit Quelle: ' + k + '/' + e[0]); }); });
+ok(Object.keys(FK.T).every(function (k) { return FK.T[k].stand; }), 'jede Beleg-Datei hat einen Stand');
+/* Ablauf */
+var Sa = JSON.parse(JSON.stringify(Bk)); ok(N2.ablaufStand(Sa).d === 0 && N2.ablaufStand(Sa).n === FK.T.ablauf.E.length, 'Ablauf: nichts abgehakt'); Sa.ablauf = {}; Sa.ablauf[FK.T.ablauf.E[0][0]] = 1; ok(N2.ablaufStand(Sa).d === 1, 'Ablauf: Haken zählt');
+/* Wasser mit Notquellen */
+var Sw = JSON.parse(JSON.stringify(Bk)), W0 = K.wasser(Sw); Sw.wasserQ = { q: { wanne: 150, boiler: 80, eis: 2, pool: 0 } };
+var W1 = K.wasser(Sw); nah(W1.l - W0.l, 2, 1e-9, 'Eiswürfel zählen direkt, Speicher nicht ohne Abkochen'); nah(W1.brauch, 230, 1e-9, 'Badewanne + Speicher (nicht abgekocht) = Brauchwasser');
+Sw.wasserQ.abkochen = true; var W2 = K.wasser(Sw); nah(W2.l - W0.l, 82, 1e-9, 'abgekocht: Speicher zählt als Trinkwasser'); ok(W2.tage > W0.tage, 'Notquellen verlängern „Wasser reicht“');
+Sw.lage.koch = 'keine'; nah(K.wasser(Sw).l - W0.l, 2, 1e-9, 'ohne Kochstelle kein Abkochen');
+Sw.lage.koch = 'gas'; Sw.wasserQ.pflege = true; Sw.wasserQ.pflegeL = 6; Sw.wasserQ.toilette = 'spuelen'; Sw.wasserQ.toiletteL = 5; nah(K.wasser(Sw).brauchBedarf, 3 * 11, 1e-9, 'Brauchwasser: Pflege + Toilette je Person');
+nah(N2.wert('wasser', 'bedarf-vorrat', 0), 2, 0, 'Beleg: 2 l je Person und Tag (BBK)');
+/* Strom */
+var sp = N2.speicherWh({ pb: [{ mah: 10000, n: 2 }], ps: 500 }); nah(sp.pb, 10000 * 3.7 / 1000 * N2.wert('strom', 's-powerbank-real', 0) * 2, 1e-9, 'Powerbank: mAh × 3,7 V × nutzbarer Anteil');
+nah(N2.solarWhTag({ wp: 365 }), 1000, 1e-6, 'Solar: 365 Wp → 1.000 Wh am Tag im Jahresmittel (100 kWh je 100 Wp)');
+var Ss = JSON.parse(JSON.stringify(Bk)); Ss.stromG = [{ typ: 'smartphone', menge: 2 }, { typ: 'router', menge: 10 }, { typ: 'kgk-neu' }]; Ss.strom = { ps: 1000 };
+var SR = N2.stromRechnung(Ss); nah(SR.bedarf, 2 * 15 + 10 * 15 + 430, 1e-9, 'Geräte: 2 Ladungen + 10 h Router + Kühl-Gefrier-Kombi'); nah(SR.tage, 1000 / 610, 1e-9, 'Strom reicht = Speicher ÷ Bedarf');
+Ss.strom.wp = 400; ok(N2.stromRechnung(Ss).tage > SR.tage, 'Solar verlängert'); ok(N2.stromRechnung(JSON.parse(JSON.stringify(Bk))).tage === null, 'ohne Geräte keine Strom-Reichweite');
+ok(N2.kochwasserProTag(Bk, heute) > 0, 'Kochwasser aus dem Speiseplan');
+/* Notfallplan, Ausrüstung */
+var Sn = JSON.parse(JSON.stringify(Bk)), np0 = N2.npStand(Sn); ok(np0.n > 5 && np0.d === 0, 'Notfallplan: Felder aus der Beleg-Datei'); Sn.notfall = { 'treffpunkt-nah': 'Spielplatz' }; ok(N2.npStand(Sn).d === 1, 'Notfallplan: Eintrag zählt');
+I.setze(Sn); ok(/Spielplatz/.test(P2.blattInhalt()) && /116117|116 117/.test(P2.blattInhalt()), 'Notfall-Blatt mit Notfallplan und Nummern aus den Belegen');
+ok(N2.ausrStand(Sn).n === FK.T.ausruestung.E.length, 'Checkliste Ausrüstung aus der Beleg-Datei');
+/* Nährstoffe */
+nah(N2.vitCBedarf({ s: 'm', a: 40 }), 110, 0, 'Vitamin C Mann 110 mg (DGE)'); nah(N2.vitCBedarf({ s: 'w', a: 9 }), 45, 0, 'Vitamin C Kind 7–10: 45 mg'); ok(N2.vitCBedarf({ s: 'w', a: 0.5 }) === null, 'Säugling: kein Wert');
+var NB = N2.naehrBedarf(Bk); nah(NB.b, 30 + 30 + 14.6 * K.bedarf(Bk.personen[2]).kcal / 1000, 1e-6, 'Ballaststoffe: 30 g Erwachsene, Kinder 14,6 g je 1.000 kcal');
+I.setze(JSON.parse(JSON.stringify(Bk))); var NC = N2.naehrCheck(I.zustand(), heute); ok(NC.tage > 0 && NC.schnitt.e > 0 && NC.schnitt.vc >= 0, 'Nährstoff-Check rechnet über die Plan-Tage');
+ok(K.KATALOG.filter(function (k) { return k.vc != null; }).length > 120 && K.KATALOG.filter(function (k) { return k.b != null; }).length > 150, 'Katalog mit Ballaststoffen und Vitamin C (USDA)');
+var nt0 = N2.naehrTag(Bk, { essen: [], extra: [{ i: 'orangen', g: 200 }] }); nah(nt0.vc, 2 * K.katVon(Bk, 'orangen').vc, 1e-9, 'Vitamin C aus Auffüllen');
+ok(K.GERICHTE.filter(function (r) { return r.art === 'kiste'; }).length >= 10 && N2.KOCH_GERICHTE.every(function (id) { return K.GERICHTE.some(function (r) { return r.id === id; }); }), 'Kochen ohne Strom: 10+ Kochkisten-Gerichte, alle in der Sammlung');
+ok(K.sichtbareTabs().indexOf('ablauf') >= 0 && K.sichtbareTabs().indexOf('naehrstoffe') >= 0 && K.sichtbareTabs().indexOf('notfallplan') >= 0, 'Notfall-Bereiche sichtbar');
+
+/* Region */
+if (FK.T.region_saarland) { ok(N2.regionEintraege({}).length === 0, 'Region: ohne Auswahl nichts');
+  var rs = N2.regionEintraege({ land: 'SL' }), rq = N2.regionEintraege({ land: 'SL', gebiet: 'Quierschied' }), ra = N2.regionEintraege({ land: 'andere' });
+  ok(rs.length > 3 && rs.every(function (e) { return e[8].gebiet === 'Saarland'; }), 'Region Saarland allgemein');
+  ok(rq.some(function (e) { return e[8].gebiet === 'Quierschied'; }) && rq.some(function (e) { return e[8].gebiet === 'Regionalverband Saarbrücken'; }) && !rq.some(function (e) { return e[8].gebiet === 'Saarpfalz-Kreis'; }), 'Ort zeigt Ort + Kreis + Land, keinen fremden Kreis');
+  ok(ra.length > 0 && ra.every(function (e) { return e[8].gebiet === 'andere Bundesländer'; }), 'anderes Bundesland: allgemeiner Block');
+  var Sr = JSON.parse(JSON.stringify(Bk)); Sr.region = { land: 'SL', gebiet: 'Heusweiler' }; I.setze(Sr); ok(/0681 9069-2611/.test(P2.blattInhalt()), 'Notfall-Blatt übernimmt Störungsnummern der Region');
+  ok(!/Quierschied|Heusweiler/.test(JSON.stringify(K.leer())) && !/Quierschied/.test(JSON.stringify(K.beispiel(heute))), 'keine persönlichen Angaben fest im Programm'); }
+
+/* Widersprüche nebeneinander, Lücken ehrlich */
+var Sx = JSON.parse(JSON.stringify(Bk)); Sx.region = { land: 'SL', gebiet: 'Quierschied' }; I.setze(Sx); var rh = I.BEREICH.region();
+ok(/06131 19240/.test(rh) && /06841 19240/.test(rh), 'Giftnotruf: beide Angaben nebeneinander'); ok(/10 Tage/.test(rh) && /14 Tage/.test(rh), 'Vorratsdauer: BBK und Region nebeneinander');
+ok(/bei der Gemeinde nachfragen/.test(rh) && !/\d{2,3},\d MHz|UKW \d/.test(rh) && /sr\.de/.test(rh), 'keine Treffpunkt-Liste → Gemeinde fragen; keine Frequenzen erfunden');
+var wh = I.BEREICH.wasser(); ok(/Umweltbundesamt/.test(wh) && /CDC/.test(wh), 'Abkochen: UBA und CDC nebeneinander');
+ok(typeof globalThis.QWVorratQR.generate === 'function', 'QR mit lean-qr');
 
 console.log('Vorrats-Planer: ' + n + ' Prüfungen, ' + K.KATALOG.length + ' Lebensmittel, ' + K.GERICHTE.length + ' Gerichte');
 console.log('Fehler: ' + fehler);

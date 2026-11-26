@@ -1,4 +1,4 @@
-"""Setzt den „Vorrat & Blackout-Planer“ (werkzeug/vorlagen/vorrat.js + vorrat.css + werkzeug/z_vorrat.js) in die Quelle ein.
+"""Setzt den „Vorrat & Blackout-Planer“ (werkzeug/vorlagen/vorrat.js + vorrat_qr.js + vorrat_plus.js + vorrat_fakten.js + vorrat_notfall.js + vorrat.css + werkzeug/z_vorrat.js) in die Quelle ein.
 Aufruf aus dem Repo-Hauptordner: python3 werkzeug/vorlagen/vorrat_einbauen.py [pfad/zur/quelle.html]
 Ohne Angabe wird quelle/gruenwissen.html geändert. Darf beliebig oft laufen. Danach: bash werkzeug/alles.sh
 
@@ -15,7 +15,8 @@ basis = os.path.dirname(os.path.abspath(__file__))
 werkzeug = os.path.dirname(basis)
 Q = sys.argv[1] if len(sys.argv) > 1 else 'quelle/gruenwissen.html'
 h = open(Q, encoding='utf-8').read()
-js = open(os.path.join(basis, 'vorrat.js'), encoding='utf-8').read().strip('\n')
+# Modul = Kern + QR-Bibliothek + Erweiterungen (in dieser Reihenfolge, ein gemeinsames <script>)
+js = '\n'.join(open(os.path.join(basis, f), encoding='utf-8').read().strip('\n') for f in ('vorrat.js', 'vorrat_qr.js', 'vorrat_plus.js', 'vorrat_fakten.js', 'vorrat_notfall.js'))
 css = open(os.path.join(basis, 'vorrat.css'), encoding='utf-8').read().strip('\n')
 zei = open(os.path.join(werkzeug, 'z_vorrat.js'), encoding='utf-8').read().rstrip('\n')
 assert css.startswith('/* VORRAT-ANFANG */') and css.endswith('/* VORRAT-ENDE */') and '</script' not in js and '</script' not in zei
