@@ -4,7 +4,7 @@ Erwartet je Datei {thema, stand, eintraege:[{id, titel, text, wert, einheit, war
 Quellen werden in einer gemeinsamen Tabelle gesammelt (spart Platz). Inhalte werden nicht verändert."""
 import sys, os, json, glob
 basis = os.path.dirname(os.path.abspath(__file__))
-ordner = sys.argv[1] if len(sys.argv) > 1 else '/home/claude/scratch/vorrat2/fakten'
+ordner = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), 'vorrat_belege', 'fakten')   # Belege liegen im Repo
 Q, QI, out = [], {}, {}
 def qidx(q):
     if not q: return -1

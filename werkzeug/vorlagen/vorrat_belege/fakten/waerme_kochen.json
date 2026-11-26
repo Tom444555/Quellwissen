@@ -269,6 +269,20 @@
    }
   },
   {
+   "id": "kk-hygiene",
+   "kategorie": "Kochkiste",
+   "titel": "Kochkiste: Hygiene",
+   "text": "Eine Kochkiste hält die Hitze nur begrenzt. Gut isolieren, die Garzeit einhalten und das Essen danach gleich essen. Was länger gestanden hat, vor dem Essen noch einmal durcherhitzen (mindestens 70 °C für 2 Minuten an allen Stellen).",
+   "wert": 60,
+   "einheit": "°C",
+   "warnung": "Speisen, die lange nur lauwarm stehen, können krank machen. Das BfR rät, erhitzte Speisen bis zum Essen an allen Stellen mindestens 60 °C heiß zu halten. Reste nicht in der Kiste stehen lassen.",
+   "quelle": {
+    "t": "BfR: Schutz vor lebensmittelbedingten Erkrankungen beim Heißhalten von Speisen (Stellungnahme 016/2024)",
+    "u": "https://www.bfr.bund.de/cm/343/schutz-vor-lebensmittelbedingten-erkrankungen-beim-heisshalten-von-speisen.50649936.pdf",
+    "stand": "19.03.2024"
+   }
+  },
+  {
    "id": "kk-erbsen",
    "kategorie": "Kochkiste",
    "titel": "Kochkiste: Erbsensuppe",
@@ -520,6 +534,11 @@
    "t": "Kreisbrandinspektion Dachau: Gefahren durch Kohlenstoffmonoxid",
    "u": "https://www.kbi-dachau.de/gefahren-durch-kohlenmonoxid.html",
    "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "BfR: Schutz vor lebensmittelbedingten Erkrankungen beim Heißhalten von Speisen (Stellungnahme 016/2024)",
+   "u": "https://www.bfr.bund.de/cm/343/schutz-vor-lebensmittelbedingten-erkrankungen-beim-heisshalten-von-speisen.50649936.pdf",
+   "stand": "19.03.2024"
   }
  ],
  "hinweis": "Energieinhalte der Kartuschen und der Wasserbedarf sind aus Heizwert bzw. Wärmekapazität gerechnet (Richtwert); tatsächliche Brenndauern hängen vom Brenner ab und stehen im Herstellerdatenblatt. Heizwerte sind untere Heizwerte. Für Trockenbrennstoff, Thermoskannen-Garen und Topf über Glut fand sich keine seriöse Quelle (siehe OFFEN.md)."
