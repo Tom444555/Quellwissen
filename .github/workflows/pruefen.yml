@@ -1,5 +1,7 @@
 name: Quellwissen prüfen
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   pruefen:
     runs-on: ubuntu-latest
