@@ -1303,6 +1303,11 @@
    "t": "DGE: Referenzwerte Vitamin B12",
    "u": "https://www.dge.de/wissenschaft/referenzwerte/vitamin-b12/",
    "stand": "Ableitung 2018, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Max Rubner-Institut (2025): Bundeslebensmittelschlüssel (BLS), Version 4.0, DOI 10.25826/Data20251217-134202-0 – Lizenz CC BY 4.0; Werte ausgewählt und gerundet, ohne Unterstützung durch das MRI",
+   "u": "https://www.blsdb.de/download",
+   "stand": "Dezember 2025, abgerufen 26.11.2026"
   }
  ],
  "hinweis": "Referenzwerte der DGE (D-A-CH) für gesunde Menschen; nicht für Kranke oder als Therapie. Feld 'gruppe' ist eine Ergänzung zum Grundformat. Energie-Richtwerte nur für die vier im DGE-FAQ genannten Gruppen; vollständige Tabelle und Eisen-Werte für Kinder fehlen (siehe OFFEN.md). Sauerkraut, Trockenfrüchte und Säfte ohne belegten Vitamin-C-Wert."

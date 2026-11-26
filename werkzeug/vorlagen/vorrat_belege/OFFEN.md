@@ -86,3 +86,7 @@ Stand: 26.11.2026
 ## Nachtrag 26.11.2026, nachmittags
 - **Weitere Nährstoffe – erledigt:** Magnesium, Zink, Folat, Vitamin B12 (Bedarf: DGE-Referenzwert-Seiten, abgerufen 26.11.2026; Gehalte: USDA SR Legacy, `usda_mikro.json`). Calcium 7 bis unter 10 Jahre (900 mg) und Eisen für Kinder ergänzt (DGE, Ableitung 2023). Offen: Abgleich mit BLS 4.0.
 - **Solar für andere Orte und Ost/West – erledigt:** PVGIS je Landeshauptstadt, Rohdaten `pvgis/laender/`. Innerhalb eines Landes nicht unterschieden.
+
+## Nachtrag 26.11.2026, später Nachmittag
+- **BLS 4.0 – erledigt:** Lizenz CC BY 4.0 (blsdb.de/download), Lücken gefüllt (`bls_ergaenzung.json`), Abgleich dokumentiert (`bls_abgleich.json`, `BLS_ABGLEICH.md`). Offen: ob bei großen Abweichungen BLS-Werte die USDA-Werte ersetzen sollen; Dinkelmehl (Katalog meint Vollkorn, Abgleich nutzte Type 630).
+- **Region:** 11 Versorger, Saarwellingen, SR-Frequenzen, Ministeriumsname ergänzt (Recherche-Bericht und Suchwege in der Sitzung; Kurzfassung in HANDBUCH-Übergabe). Offen: Landesaussage Warn-Apps, WVW St. Wendel.

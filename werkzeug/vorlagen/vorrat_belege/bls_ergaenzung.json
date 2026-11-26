@@ -1,0 +1,291 @@
+{
+ "quelle": "Max Rubner-Institut (2025): Bundeslebensmittelschlüssel (BLS), Version 4.0, DOI 10.25826/Data20251217-134202-0, Lizenz CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/deed.de); Werte ausgewählt und gerundet; keine Unterstützung durch das MRI",
+ "abgerufen": "26.11.2026",
+ "regel": "Nur Felder, für die USDA keinen übertragbaren Wert hat, aus dem BLS ergänzt. Nicht übernommen: Kaffee und Tee (BLS nur als Getränk), Mineral- und Trinkwasser (Gehalte je Quelle sehr verschieden), Zink bei Reis (BLS 3,0 mg auffällig hoch).",
+ "ergaenzt": {
+  "nudeln": {
+   "bls": "E401000",
+   "name": "Teigwaren eifrei, roh",
+   "felder": {
+    "fe": 2.7
+   }
+  },
+  "nudeln_vk": {
+   "bls": "E510000",
+   "name": "Vollkornteigwaren eifrei, roh",
+   "felder": {
+    "vc": 0.0
+   }
+  },
+  "eiernudeln": {
+   "bls": "E432000",
+   "name": "Eierteigwaren roh",
+   "felder": {
+    "fe": 2.7
+   }
+  },
+  "reis": {
+   "bls": "C352000",
+   "name": "Reis poliert, roh",
+   "felder": {
+    "fe": 0.291
+   }
+  },
+  "griess": {
+   "bls": "C218000",
+   "name": "Weichweizen Grieß",
+   "felder": {
+    "fe": 0.607
+   }
+  },
+  "mehl405": {
+   "bls": "C214100",
+   "name": "Weizen Mehl, Type 405",
+   "felder": {
+    "fe": 0.654
+   }
+  },
+  "vkbrot": {
+   "bls": "B121000",
+   "name": "Roggenvollkornbrot",
+   "felder": {
+    "ca": 25.5,
+    "fe": 1.61,
+    "zn": 1.35
+   }
+  },
+  "mischbrot": {
+   "bls": "B271000",
+   "name": "Roggenmischbrot",
+   "felder": {
+    "ca": 29.0,
+    "fe": 1.24,
+    "zn": 1.15
+   }
+  },
+  "toast": {
+   "bls": "B314000",
+   "name": "Weizentoastbrot/Buttertoastbrot",
+   "felder": {
+    "ca": 15.8,
+    "fe": 0.85,
+    "zn": 0.66
+   }
+  },
+  "broetchen": {
+   "bls": "B511000",
+   "name": "Weizenbrötchen",
+   "felder": {
+    "ca": 48.5,
+    "fe": 0.97,
+    "zn": 0.8
+   }
+  },
+  "tortilla": {
+   "bls": "B783012",
+   "name": "Weizentortilla",
+   "felder": {
+    "ca": 66.1,
+    "fe": 0.87,
+    "zn": 0.534
+   }
+  },
+  "cornflakes": {
+   "bls": "C515000",
+   "name": "Cornflakes gesüßt",
+   "felder": {
+    "ca": 2.4,
+    "fe": 0.14,
+    "zn": 0.16,
+    "fol": 3.4,
+    "b12": 0.0
+   }
+  },
+  "hafermilch": {
+   "bls": "C660000",
+   "name": "Haferdrink ungesüßt",
+   "felder": {
+    "ca": 4.373,
+    "fe": 0.053,
+    "mg": 3.692,
+    "zn": 0.056,
+    "fol": 0.72,
+    "b12": 0.0
+   }
+  },
+  "sojadrink": {
+   "bls": "H841100",
+   "name": "Sojadrink ungesüßt",
+   "felder": {
+    "ca": 14.6,
+    "fe": 0.414,
+    "mg": 16.4,
+    "zn": 0.285,
+    "fol": 10.1
+   }
+  },
+  "wuerstchen": {
+   "bls": "W874300",
+   "name": "Wiener Würstchen Konserve",
+   "felder": {
+    "vc": 23.0,
+    "ca": 9.5,
+    "fe": 2.7,
+    "mg": 13.2,
+    "zn": 1.15,
+    "fol": 0.99,
+    "b12": 0.072
+   }
+  },
+  "tofu": {
+   "bls": "H861000",
+   "name": "Tofu",
+   "felder": {
+    "ca": 185.0
+   }
+  },
+  "rapsoel": {
+   "bls": "Q180000",
+   "name": "Rapsöl/Rüböl",
+   "felder": {
+    "vc": 0.0,
+    "ca": 0.442,
+    "fe": 0.116,
+    "mg": 0.445,
+    "zn": 0.04,
+    "fol": 0.0,
+    "b12": 0.0
+   }
+  },
+  "sonnenblumenoel": {
+   "bls": "Q320000",
+   "name": "Sonnenblumenöl",
+   "felder": {
+    "vc": 0.0,
+    "ca": 0.512,
+    "fe": 0.071,
+    "mg": 0.339,
+    "zn": 0.055,
+    "fol": 0.0,
+    "b12": 0.0
+   }
+  },
+  "olivenoel": {
+   "bls": "Q120000",
+   "name": "Olivenöl",
+   "felder": {
+    "vc": 0.0,
+    "ca": 0.232,
+    "fe": 0.132,
+    "mg": 0.81,
+    "zn": 0.045,
+    "fol": 0.0,
+    "b12": 0.0
+   }
+  },
+  "butter": {
+   "bls": "Q630000",
+   "name": "Süßrahmbutter",
+   "felder": {
+    "ca": 14.5,
+    "fe": 0.1,
+    "mg": 2.05,
+    "zn": 0.042,
+    "fol": 0.0
+   }
+  },
+  "margarine": {
+   "bls": "Q400000",
+   "name": "Pflanzenmargarine Vollfett, angereichert mit Vitaminen",
+   "felder": {
+    "vc": 0.0,
+    "ca": 16.1,
+    "fe": 0.05,
+    "mg": 2.4,
+    "zn": 0.018,
+    "fol": 0.0
+   }
+  },
+  "schmalz": {
+   "bls": "Q860000",
+   "name": "Schweinefett/Schweineschmalz",
+   "felder": {
+    "fe": 0.0,
+    "fol": 0.0
+   }
+  },
+  "kokosfett": {
+   "bls": "Q550000",
+   "name": "Kokosöl",
+   "felder": {
+    "fe": 0.02,
+    "mg": 0.2,
+    "zn": 0.0,
+    "fol": 0.0,
+    "b12": 0.0
+   }
+  },
+  "honig": {
+   "bls": "S120000",
+   "name": "Honig",
+   "felder": {
+    "vc": 0.389,
+    "ca": 5.0,
+    "fe": 0.3,
+    "mg": 4.0,
+    "zn": 0.2,
+    "fol": 0.0,
+    "b12": 0.0
+   }
+  },
+  "zartbitter": {
+   "bls": "S560000",
+   "name": "Zartbitter-/Halbbitterschokolade",
+   "felder": {
+    "fol": 15.5
+   }
+  },
+  "salzstangen": {
+   "bls": "D064000",
+   "name": "Salzbrezeln/Salzstangen (Laugendauergebäck)",
+   "felder": {
+    "ca": 27.8,
+    "fe": 1.0,
+    "zn": 0.82
+   }
+  },
+  "crackers": {
+   "bls": "D050000",
+   "name": "Cracker",
+   "felder": {
+    "ca": 16.0,
+    "fe": 0.582,
+    "zn": 0.395,
+    "b12": 0.1
+   }
+  },
+  "salz": {
+   "bls": "R111000",
+   "name": "Speisesalz/Siedesalz/Tafelsalz",
+   "felder": {
+    "ca": 51.9,
+    "mg": 4.825,
+    "zn": 0.086,
+    "fol": 0.0,
+    "b12": 0.0
+   }
+  },
+  "mayonnaise": {
+   "bls": "Q991000",
+   "name": "Mayonnaise (Fertigprodukt)",
+   "felder": {
+    "ca": 7.0,
+    "fe": 0.23,
+    "mg": 1.0,
+    "zn": 0.16,
+    "fol": 9.0,
+    "b12": 0.3
+   }
+  }
+ }
+}

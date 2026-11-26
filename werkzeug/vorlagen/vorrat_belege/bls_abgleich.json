@@ -1,0 +1,5169 @@
+[
+ {
+  "i": "haferflocken",
+  "n": "Haferflocken",
+  "bls_code": "C133000",
+  "bls_name": "Hafer Flocken",
+  "werte_bls": {
+   "k": 348.0,
+   "e": 13.22,
+   "f": 6.65,
+   "b": 10.983,
+   "vc": null,
+   "ca": 44.0,
+   "fe": 4.43663,
+   "mg": 121.305,
+   "zn": 3.64214,
+   "fol": 92.8,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -5.9,
+   "e": -2.1,
+   "f": -5.0,
+   "b": 9.8,
+   "ca": -18.5,
+   "fe": -6.0,
+   "mg": -31.5,
+   "zn": -8.3,
+   "fol": 65.7
+  },
+  "markiert": [
+   "mg",
+   "fol"
+  ]
+ },
+ {
+  "i": "nudeln",
+  "n": "Nudeln (Hartweizen), trocken",
+  "bls_code": "E401000",
+  "bls_name": "Teigwaren eifrei, roh",
+  "werte_bls": {
+   "k": 346.0,
+   "e": 12.4,
+   "f": 1.6,
+   "b": 3.406,
+   "vc": null,
+   "ca": 27.9,
+   "fe": 2.7,
+   "mg": 53.0,
+   "zn": 2.6,
+   "fol": 19.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -2.5,
+   "e": -0.8,
+   "f": 6.7,
+   "b": 13.5,
+   "ca": 32.9,
+   "mg": 0.0,
+   "zn": 84.4,
+   "fol": 5.6
+  },
+  "markiert": [
+   "zn"
+  ]
+ },
+ {
+  "i": "nudeln_vk",
+  "n": "Vollkornnudeln, trocken",
+  "bls_code": "E510000",
+  "bls_name": "Vollkornteigwaren eifrei, roh",
+  "werte_bls": {
+   "k": 356.0,
+   "e": 14.3,
+   "f": 2.93,
+   "b": 10.2,
+   "vc": 0.0,
+   "ca": 36.0,
+   "fe": 3.4,
+   "mg": 116.0,
+   "zn": 2.9,
+   "fol": 50.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.1,
+   "e": 2.9,
+   "f": 1.0,
+   "b": 10.9,
+   "ca": 24.1,
+   "fe": -6.1,
+   "mg": -9.4,
+   "zn": -2.4,
+   "fol": -27.5
+  },
+  "markiert": [
+   "fol"
+  ]
+ },
+ {
+  "i": "eiernudeln",
+  "n": "Eiernudeln / Spätzle, trocken",
+  "bls_code": "E432000",
+  "bls_name": "Eierteigwaren roh",
+  "werte_bls": {
+   "k": 342.0,
+   "e": 13.2,
+   "f": 2.0,
+   "b": 3.38,
+   "vc": null,
+   "ca": 73.0,
+   "fe": 2.7,
+   "mg": 49.0,
+   "zn": 1.3,
+   "fol": 19.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -10.9,
+   "e": -7.0,
+   "f": -54.5,
+   "b": 2.4,
+   "ca": 108.6,
+   "mg": -15.5,
+   "zn": -32.3,
+   "fol": -34.5,
+   "b12": -100.0
+  },
+  "markiert": [
+   "f",
+   "ca",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "reis",
+  "n": "Reis, weiß, trocken",
+  "bls_code": "C352000",
+  "bls_name": "Reis poliert, roh",
+  "werte_bls": {
+   "k": 351.0,
+   "e": 7.931,
+   "f": 0.62,
+   "b": 2.5,
+   "vc": null,
+   "ca": 5.0,
+   "fe": 0.29149,
+   "mg": 40.48,
+   "zn": 3.03311,
+   "fol": 11.3,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 0.3,
+   "e": 13.3,
+   "f": 3.3,
+   "b": 78.6,
+   "ca": -82.1,
+   "mg": 61.9,
+   "zn": 178.3,
+   "fol": 41.3
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "mg",
+   "zn"
+  ]
+ },
+ {
+  "i": "reis_vk",
+  "n": "Vollkornreis, trocken",
+  "bls_code": "C351000",
+  "bls_name": "Reis unpoliert, roh",
+  "werte_bls": {
+   "k": 360.0,
+   "e": 8.384,
+   "f": 2.7,
+   "b": 4.0,
+   "vc": null,
+   "ca": 13.8,
+   "fe": 1.522,
+   "mg": 114.3,
+   "zn": 2.4,
+   "fol": 20.2,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 2.9,
+   "e": 11.8,
+   "f": 0.0,
+   "b": 14.3,
+   "ca": 53.3,
+   "fe": 18.0,
+   "mg": -1.5,
+   "zn": 12.7,
+   "fol": -12.2
+  },
+  "markiert": []
+ },
+ {
+  "i": "couscous",
+  "n": "Couscous, trocken",
+  "bls_code": "C119200",
+  "bls_name": "Couscous (Hartweizen) roh",
+  "werte_bls": {
+   "k": 350.0,
+   "e": 11.692,
+   "f": 1.7,
+   "b": 6.17,
+   "vc": 0.0,
+   "ca": 25.8,
+   "fe": 2.5767,
+   "mg": 71.2,
+   "zn": 2.051,
+   "fol": 33.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -1.4,
+   "e": -8.7,
+   "f": 183.3,
+   "b": 23.4,
+   "ca": 7.5,
+   "fe": 138.6,
+   "mg": 61.8,
+   "zn": 147.1,
+   "fol": 65.0
+  },
+  "markiert": [
+   "f",
+   "fe",
+   "mg",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "bulgur",
+  "n": "Bulgur, trocken",
+  "bls_code": "C119100",
+  "bls_name": "Bulgur (Hartweizen) roh",
+  "werte_bls": {
+   "k": 353.0,
+   "e": 12.4,
+   "f": 2.0,
+   "b": 6.7,
+   "vc": 0.0,
+   "ca": 32.0,
+   "fe": 1.1,
+   "mg": 124.0,
+   "zn": 1.38,
+   "fol": 27.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 3.2,
+   "e": 0.8,
+   "f": 53.8,
+   "b": -46.4,
+   "ca": -8.6,
+   "fe": -55.3,
+   "mg": -24.4,
+   "zn": -28.5,
+   "fol": 0.0
+  },
+  "markiert": [
+   "b",
+   "fe",
+   "zn"
+  ]
+ },
+ {
+  "i": "hirse",
+  "n": "Hirse, trocken",
+  "bls_code": "C332000",
+  "bls_name": "Hirse roh",
+  "werte_bls": {
+   "k": 352.0,
+   "e": 11.79,
+   "f": 3.13,
+   "b": 3.3,
+   "vc": null,
+   "ca": 8.2,
+   "fe": 2.7308,
+   "mg": 94.2,
+   "zn": 2.9047,
+   "fol": 34.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -6.9,
+   "e": 7.2,
+   "f": -25.5,
+   "b": -61.2,
+   "ca": 2.5,
+   "fe": -9.3,
+   "mg": -17.4,
+   "zn": 72.9,
+   "fol": -60.0
+  },
+  "markiert": [
+   "f",
+   "b",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "quinoa",
+  "n": "Quinoa, trocken",
+  "bls_code": "C118000",
+  "bls_name": "Quinoa weiß, roh",
+  "werte_bls": {
+   "k": 361.0,
+   "e": 12.56,
+   "f": 6.29,
+   "b": 7.6,
+   "vc": null,
+   "ca": 35.9,
+   "fe": 3.6021,
+   "mg": 195.0,
+   "zn": 2.5926,
+   "fol": 140.6,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.7,
+   "e": -10.3,
+   "f": 4.8,
+   "b": 8.6,
+   "ca": -23.6,
+   "fe": -21.2,
+   "mg": -1.0,
+   "zn": -16.4,
+   "fol": -23.6
+  },
+  "markiert": []
+ },
+ {
+  "i": "griess",
+  "n": "Weichweizengrieß",
+  "bls_code": "C218000",
+  "bls_name": "Weichweizen Grieß",
+  "werte_bls": {
+   "k": 355.0,
+   "e": 10.72,
+   "f": 0.88,
+   "b": 4.06,
+   "vc": null,
+   "ca": 15.2,
+   "fe": 0.6069,
+   "mg": 14.0,
+   "zn": 0.4609,
+   "fol": 13.7,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -1.4,
+   "e": -15.6,
+   "f": -20.0,
+   "b": 4.1,
+   "ca": -10.6,
+   "mg": -70.2,
+   "zn": -56.1,
+   "fol": -81.0
+  },
+  "markiert": [
+   "mg",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "polenta",
+  "n": "Polenta / Maisgrieß",
+  "bls_code": "C346000",
+  "bls_name": "Mais Grieß",
+  "werte_bls": {
+   "k": 330.0,
+   "e": 8.663,
+   "f": 2.82,
+   "b": 9.42,
+   "vc": 0.0,
+   "ca": 18.0,
+   "fe": 2.4,
+   "mg": 47.0,
+   "zn": 0.68,
+   "fol": 10.1,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -10.8,
+   "e": 22.0,
+   "f": 56.7,
+   "b": 141.5,
+   "ca": 500.0,
+   "fe": 118.2,
+   "mg": 46.9,
+   "zn": 3.0,
+   "fol": -66.3
+  },
+  "markiert": [
+   "f",
+   "b",
+   "fe",
+   "mg",
+   "fol"
+  ]
+ },
+ {
+  "i": "weizenkoerner",
+  "n": "Weizenkörner (ganz)",
+  "bls_code": "C111000",
+  "bls_name": "Weizen ganzes Korn, roh",
+  "werte_bls": {
+   "k": 331.0,
+   "e": 12.8125,
+   "f": 1.833,
+   "b": 13.26,
+   "vc": null,
+   "ca": 29.4,
+   "fe": 4.4,
+   "mg": 119.0,
+   "zn": 2.63,
+   "fol": 91.3,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.2,
+   "e": 1.7,
+   "f": 22.2,
+   "b": 8.7,
+   "ca": 1.4,
+   "fe": 37.9,
+   "mg": -5.6,
+   "zn": -0.8,
+   "fol": 140.3
+  },
+  "markiert": [
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "mehl405",
+  "n": "Weizenmehl Type 405/550",
+  "bls_code": "C214100",
+  "bls_name": "Weizen Mehl, Type 405",
+  "werte_bls": {
+   "k": 348.0,
+   "e": 10.46,
+   "f": 0.93,
+   "b": 5.3,
+   "vc": null,
+   "ca": 10.8,
+   "fe": 0.6539,
+   "mg": 14.5,
+   "zn": 0.4695,
+   "fol": 13.8,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 0.9,
+   "e": 4.6,
+   "f": -7.0,
+   "b": 32.5,
+   "ca": -28.0,
+   "mg": -34.1,
+   "zn": -32.9,
+   "fol": -52.4
+  },
+  "markiert": [
+   "b",
+   "fol"
+  ]
+ },
+ {
+  "i": "vollkornmehl",
+  "n": "Weizenvollkornmehl",
+  "bls_code": "C211000",
+  "bls_name": "Weizen Vollkornmehl",
+  "werte_bls": {
+   "k": 339.0,
+   "e": 12.76,
+   "f": 1.78,
+   "b": 12.27,
+   "vc": null,
+   "ca": 32.9,
+   "fe": 3.2835,
+   "mg": 94.6,
+   "zn": 2.3318,
+   "fol": 56.2,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 2.7,
+   "e": 6.3,
+   "f": -11.0,
+   "b": 22.7,
+   "ca": -3.2,
+   "fe": -8.8,
+   "mg": -30.9,
+   "zn": -10.3,
+   "fol": 27.7
+  },
+  "markiert": [
+   "mg",
+   "fol"
+  ]
+ },
+ {
+  "i": "dinkelmehl",
+  "n": "Dinkelmehl",
+  "bls_code": "C234000",
+  "bls_name": "Dinkel Mehl, Type 630",
+  "werte_bls": {
+   "k": 352.0,
+   "e": 13.17,
+   "f": 1.38,
+   "b": 6.52,
+   "vc": null,
+   "ca": 17.9,
+   "fe": 1.0831,
+   "mg": 28.1,
+   "zn": 1.076,
+   "fol": 26.3,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 4.1,
+   "e": -9.8,
+   "f": -42.5,
+   "b": -39.1,
+   "ca": -33.7,
+   "fe": -75.6,
+   "mg": -79.3,
+   "zn": -67.2,
+   "fol": -41.6
+  },
+  "markiert": [
+   "f",
+   "b",
+   "fe",
+   "mg",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "roggenmehl",
+  "n": "Roggenmehl (Type 997/1150)",
+  "bls_code": "C223200",
+  "bls_name": "Roggen Mehl, Type 997",
+  "werte_bls": {
+   "k": 321.0,
+   "e": 7.74,
+   "f": 1.05,
+   "b": 12.7,
+   "vc": null,
+   "ca": 26.7,
+   "fe": 1.4688,
+   "mg": 44.6,
+   "zn": 1.5648,
+   "fol": 32.4,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -8.0,
+   "e": -29.0,
+   "f": -30.0,
+   "b": 7.6,
+   "ca": 11.2,
+   "fe": -42.2,
+   "mg": -29.2,
+   "zn": -27.9,
+   "fol": -4.7
+  },
+  "markiert": [
+   "e",
+   "fe",
+   "mg",
+   "zn"
+  ]
+ },
+ {
+  "i": "roggenvollkornmehl",
+  "n": "Roggenvollkornmehl",
+  "bls_code": "C221000",
+  "bls_name": "Roggen Vollkornmehl",
+  "werte_bls": {
+   "k": 312.0,
+   "e": 9.0,
+   "f": 1.33,
+   "b": 18.98,
+   "vc": null,
+   "ca": 35.6,
+   "fe": 2.3495,
+   "mg": 81.4,
+   "zn": 2.3517,
+   "fol": 38.8,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -4.0,
+   "e": -43.4,
+   "f": -39.5,
+   "b": -20.3,
+   "ca": -3.8,
+   "fe": -52.7,
+   "mg": -49.1,
+   "zn": -53.3,
+   "fol": 17.6
+  },
+  "markiert": [
+   "e",
+   "fe",
+   "mg",
+   "zn"
+  ]
+ },
+ {
+  "i": "staerke",
+  "n": "Speisestärke",
+  "bls_code": "C446000",
+  "bls_name": "Mais Stärke",
+  "werte_bls": {
+   "k": 348.0,
+   "e": 0.431,
+   "f": 0.08,
+   "b": 1.0,
+   "vc": 0.0,
+   "ca": 10.0,
+   "fe": 0.5,
+   "mg": 2.0,
+   "zn": 0.06,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -8.7,
+   "e": 43.7,
+   "f": -20.0,
+   "b": 11.1,
+   "ca": 400.0,
+   "fe": 6.4,
+   "mg": -33.3,
+   "zn": 0.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "kartoffeln",
+  "n": "Kartoffeln, roh",
+  "bls_code": "K110100",
+  "bls_name": "Kartoffel geschält, roh",
+  "werte_bls": {
+   "k": 83.0,
+   "e": 1.94,
+   "f": 0.1,
+   "b": 1.42,
+   "vc": 18.76,
+   "ca": 9.0,
+   "fe": 0.8903,
+   "mg": 21.7,
+   "zn": 0.4231,
+   "fol": 14.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 7.8,
+   "e": -3.0,
+   "f": 0.0,
+   "b": -32.4,
+   "vc": -4.8,
+   "ca": -25.0,
+   "fe": 9.9,
+   "mg": -5.7,
+   "zn": 41.0,
+   "fol": -6.7
+  },
+  "markiert": []
+ },
+ {
+  "i": "pueree",
+  "n": "Kartoffelpüree-Flocken",
+  "bls_code": "K213000",
+  "bls_name": "Kartoffelpüree Instantpulver",
+  "werte_bls": {
+   "k": 329.0,
+   "e": 7.4,
+   "f": 0.467,
+   "b": 6.05,
+   "vc": 0.0,
+   "ca": 34.0,
+   "fe": 1.8,
+   "mg": 69.0,
+   "zn": 0.78,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -7.1,
+   "e": -10.8,
+   "f": 16.8,
+   "b": -8.3,
+   "vc": -100.0,
+   "ca": 25.9,
+   "fe": 48.8,
+   "mg": 4.5,
+   "zn": 11.4,
+   "fol": -100.0
+  },
+  "markiert": [
+   "vc",
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "knaecke",
+  "n": "Knäckebrot",
+  "bls_code": "B6A2100",
+  "bls_name": "Roggenvollkornknäckebrot",
+  "werte_bls": {
+   "k": 327.0,
+   "e": 9.44,
+   "f": 1.39,
+   "b": 19.91,
+   "vc": 0.0,
+   "ca": 38.7,
+   "fe": 2.4643,
+   "mg": 85.5,
+   "zn": 2.468,
+   "fol": 24.4,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -10.7,
+   "e": 19.5,
+   "f": 6.9,
+   "b": 20.7,
+   "ca": 24.8,
+   "fe": 1.4,
+   "mg": 9.6,
+   "zn": 3.3,
+   "fol": 10.9
+  },
+  "markiert": []
+ },
+ {
+  "i": "zwieback",
+  "n": "Zwieback",
+  "bls_code": "D038000",
+  "bls_name": "Zwieback eifrei",
+  "werte_bls": {
+   "k": 414.0,
+   "e": 11.05,
+   "f": 7.86,
+   "b": 4.62,
+   "vc": null,
+   "ca": 30.7,
+   "fe": 1.22,
+   "mg": 29.2,
+   "zn": 0.92,
+   "fol": 21.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -2.8,
+   "e": 9.4,
+   "f": -19.0,
+   "b": 84.8,
+   "ca": 53.5,
+   "fe": 103.3,
+   "mg": 108.6,
+   "zn": 70.4,
+   "fol": 5.0
+  },
+  "markiert": [
+   "b",
+   "fe",
+   "mg"
+  ]
+ },
+ {
+  "i": "vkbrot",
+  "n": "Vollkornbrot (Schnittbrot, verpackt)",
+  "bls_code": "B121000",
+  "bls_name": "Roggenvollkornbrot",
+  "werte_bls": {
+   "k": 193.0,
+   "e": 6.04,
+   "f": 1.81,
+   "b": 9.62,
+   "vc": null,
+   "ca": 25.5,
+   "fe": 1.61,
+   "mg": 55.7,
+   "zn": 1.35,
+   "fol": 16.7,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -3.5,
+   "e": -7.1,
+   "f": 50.8,
+   "b": 20.2,
+   "mg": 3.1,
+   "fol": -50.9
+  },
+  "markiert": [
+   "fol"
+  ]
+ },
+ {
+  "i": "mischbrot",
+  "n": "Brot, frisch (Mischbrot)",
+  "bls_code": "B271000",
+  "bls_name": "Roggenmischbrot",
+  "werte_bls": {
+   "k": 218.0,
+   "e": 7.38,
+   "f": 0.97,
+   "b": 6.1,
+   "vc": null,
+   "ca": 29.0,
+   "fe": 1.24,
+   "mg": 33.0,
+   "zn": 1.15,
+   "fol": 25.6,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -0.9,
+   "e": 13.5,
+   "f": -19.2,
+   "b": 1.7,
+   "mg": -17.5,
+   "fol": -49.8
+  },
+  "markiert": [
+   "fol"
+  ],
+  "hinweis": "Näherung: Roggenmischbrot"
+ },
+ {
+  "i": "toast",
+  "n": "Toastbrot",
+  "bls_code": "B314000",
+  "bls_name": "Weizentoastbrot/Buttertoastbrot",
+  "werte_bls": {
+   "k": 261.0,
+   "e": 8.29,
+   "f": 3.59,
+   "b": 3.947,
+   "vc": null,
+   "ca": 15.8,
+   "fe": 0.85,
+   "mg": 18.6,
+   "zn": 0.66,
+   "fol": 19.3,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 0.4,
+   "e": 3.6,
+   "f": 2.6,
+   "b": 31.6,
+   "mg": -19.1,
+   "fol": -22.8
+  },
+  "markiert": []
+ },
+ {
+  "i": "broetchen",
+  "n": "Brötchen",
+  "bls_code": "B511000",
+  "bls_name": "Weizenbrötchen",
+  "werte_bls": {
+   "k": 280.0,
+   "e": 10.09,
+   "f": 1.81,
+   "b": 3.6,
+   "vc": null,
+   "ca": 48.5,
+   "fe": 0.97,
+   "mg": 22.2,
+   "zn": 0.8,
+   "fol": 44.4,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 7.7,
+   "e": 18.7,
+   "f": 20.7,
+   "b": 20.0,
+   "mg": -17.8,
+   "fol": 196.0
+  },
+  "markiert": [
+   "fol"
+  ]
+ },
+ {
+  "i": "tortilla",
+  "n": "Weizen-Tortillas (Fladen)",
+  "bls_code": "B783012",
+  "bls_name": "Weizentortilla",
+  "werte_bls": {
+   "k": 296.0,
+   "e": 8.85,
+   "f": 7.85,
+   "b": 1.2,
+   "vc": null,
+   "ca": 66.1,
+   "fe": 0.87,
+   "mg": 15.6,
+   "zn": 0.534,
+   "fol": 9.3,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -0.3,
+   "e": 10.6,
+   "f": 3.3,
+   "b": -50.0,
+   "mg": -25.7,
+   "fol": -51.1
+  },
+  "markiert": [
+   "b"
+  ]
+ },
+ {
+  "i": "reiswaffeln",
+  "n": "Reiswaffeln",
+  "bls_code": "C532700",
+  "bls_name": "Reiswaffeln ungesalzen",
+  "werte_bls": {
+   "k": 371.0,
+   "e": 8.0,
+   "f": 2.42,
+   "b": 3.63,
+   "vc": null,
+   "ca": 9.4,
+   "fe": 0.73,
+   "mg": 83.6,
+   "zn": 1.52,
+   "fol": 14.5,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -5.4,
+   "e": 12.7,
+   "f": -43.7,
+   "b": -13.6,
+   "ca": -14.5,
+   "fe": -51.0,
+   "mg": -36.2,
+   "zn": -49.3,
+   "fol": -31.0
+  },
+  "markiert": [
+   "f",
+   "fe",
+   "mg",
+   "zn"
+  ]
+ },
+ {
+  "i": "cornflakes",
+  "n": "Cornflakes",
+  "bls_code": "C515000",
+  "bls_name": "Cornflakes gesüßt",
+  "werte_bls": {
+   "k": 366.0,
+   "e": 6.24,
+   "f": 1.75,
+   "b": 4.19,
+   "vc": null,
+   "ca": 2.4,
+   "fe": 0.14,
+   "mg": 10.0,
+   "zn": 0.16,
+   "fol": 3.4,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -3.2,
+   "e": -10.9,
+   "f": 94.4,
+   "b": 39.7,
+   "mg": 42.9
+  },
+  "markiert": [
+   "b"
+  ]
+ },
+ {
+  "i": "muesli",
+  "n": "Müsli (mit Nüssen, gesüßt)",
+  "bls_code": "C514200",
+  "bls_name": "Knuspermüslimischung, klassisch, gesüßt",
+  "werte_bls": {
+   "k": 421.0,
+   "e": 9.0,
+   "f": 15.95,
+   "b": 7.7,
+   "vc": 0.018,
+   "ca": 33.0,
+   "fe": 3.1,
+   "mg": 81.0,
+   "zn": 2.3,
+   "fol": 61.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -13.9,
+   "e": -34.3,
+   "f": -34.4,
+   "b": -13.5,
+   "vc": -98.5,
+   "ca": -56.6,
+   "fe": -21.5,
+   "mg": -51.8,
+   "zn": -44.8,
+   "fol": -27.4
+  },
+  "markiert": [
+   "e",
+   "f",
+   "ca",
+   "mg",
+   "zn",
+   "fol"
+  ],
+  "hinweis": "Näherung: Knuspermüsli gesüßt"
+ },
+ {
+  "i": "ravioli",
+  "n": "Ravioli in Tomatensoße (Dose)",
+  "bls_code": "E901000",
+  "bls_name": "Teigwaren eifrei, Ravioli (Fleischfüllung) in Tomatensoße, Konserve",
+  "werte_bls": {
+   "k": 101.0,
+   "e": 3.3,
+   "f": 2.2,
+   "b": 1.7,
+   "vc": 7.0,
+   "ca": 19.0,
+   "fe": 1.0,
+   "mg": 17.0,
+   "zn": 0.49,
+   "fol": 5.0,
+   "b12": 0.01
+  },
+  "abweichung": {
+   "k": 31.2,
+   "e": 32.0,
+   "f": 57.1,
+   "b": 30.8,
+   "vc": "neu>0",
+   "ca": -42.4,
+   "fe": 35.1,
+   "mg": 13.3,
+   "zn": 36.1,
+   "fol": -54.5,
+   "b12": -66.7
+  },
+  "markiert": [
+   "k",
+   "vc"
+  ]
+ },
+ {
+  "i": "linsen",
+  "n": "Linsen (braun/Teller), trocken",
+  "bls_code": "H725100",
+  "bls_name": "Linse reif",
+  "werte_bls": {
+   "k": 323.0,
+   "e": 23.357,
+   "f": 1.7,
+   "b": 17.6,
+   "vc": 7.0,
+   "ca": 64.667,
+   "fe": 8.03,
+   "mg": 129.0,
+   "zn": 3.7,
+   "fol": 116.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -8.2,
+   "e": -5.1,
+   "f": 54.5,
+   "b": 64.5,
+   "vc": 55.6,
+   "ca": 84.8,
+   "fe": 23.3,
+   "mg": 174.5,
+   "zn": 13.1,
+   "fol": -75.8
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "mg",
+   "fol"
+  ]
+ },
+ {
+  "i": "rote_linsen",
+  "n": "Rote Linsen, trocken",
+  "bls_code": "H730000",
+  "bls_name": "Linse rot reif",
+  "werte_bls": {
+   "k": 334.0,
+   "e": 25.6,
+   "f": 2.17,
+   "b": 8.5,
+   "vc": 1.7,
+   "ca": 45.0,
+   "fe": 7.39,
+   "mg": 59.0,
+   "zn": 3.6,
+   "fol": 178.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -6.7,
+   "e": 7.1,
+   "f": -1.4,
+   "b": -21.3,
+   "vc": 0.0,
+   "ca": -6.2,
+   "fe": 0.0,
+   "mg": 0.0,
+   "zn": 0.0,
+   "fol": -12.7
+  },
+  "markiert": []
+ },
+ {
+  "i": "erbsen_getr",
+  "n": "Schälerbsen (getrocknet)",
+  "bls_code": "G760400",
+  "bls_name": "Erbse reif",
+  "werte_bls": {
+   "k": 311.0,
+   "e": 23.023,
+   "f": 1.44,
+   "b": 22.03,
+   "vc": 1.6,
+   "ca": 59.0,
+   "fe": 5.624,
+   "mg": 63.0,
+   "zn": 2.808,
+   "fol": 19.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -14.6,
+   "e": -0.3,
+   "f": -63.1,
+   "b": -0.8,
+   "vc": -11.1,
+   "ca": 28.3,
+   "fe": 18.9,
+   "mg": 0.0,
+   "zn": -19.5,
+   "fol": 26.7
+  },
+  "markiert": [
+   "f"
+  ]
+ },
+ {
+  "i": "bohnen_getr",
+  "n": "Weiße Bohnen, getrocknet",
+  "bls_code": "H739400",
+  "bls_name": "Gartenbohne reif",
+  "werte_bls": {
+   "k": 344.0,
+   "e": 22.6185,
+   "f": 1.6,
+   "b": 23.24,
+   "vc": 2.5,
+   "ca": 113.0,
+   "fe": 6.46,
+   "mg": 140.0,
+   "zn": 2.52,
+   "fol": 130.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 3.3,
+   "e": -3.3,
+   "f": 100.0,
+   "b": 52.9,
+   "vc": "neu>0",
+   "ca": -52.9,
+   "fe": -38.1,
+   "mg": -26.3,
+   "zn": -31.3,
+   "fol": -66.5
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "fe",
+   "mg",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "kidney_getr",
+  "n": "Kidneybohnen, getrocknet",
+  "bls_code": "H742100",
+  "bls_name": "Kidneybohne reif",
+  "werte_bls": {
+   "k": 316.0,
+   "e": 22.8,
+   "f": 0.83,
+   "b": 24.9,
+   "vc": 4.5,
+   "ca": 106.5,
+   "fe": 6.15,
+   "mg": 170.0,
+   "zn": 3.05,
+   "fol": 172.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -6.2,
+   "e": 1.3,
+   "f": -24.5,
+   "b": 63.8,
+   "vc": 0.0,
+   "ca": 28.3,
+   "fe": -8.1,
+   "mg": 23.2,
+   "zn": 9.3,
+   "fol": -56.3
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "fol"
+  ]
+ },
+ {
+  "i": "kicher_getr",
+  "n": "Kichererbsen, getrocknet",
+  "bls_code": "G770400",
+  "bls_name": "Kichererbse reif",
+  "werte_bls": {
+   "k": 317.0,
+   "e": 18.583,
+   "f": 5.915,
+   "b": 15.51,
+   "vc": 5.08,
+   "ca": 124.0,
+   "fe": 4.9,
+   "mg": 79.0,
+   "zn": 2.373,
+   "fol": 212.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -16.1,
+   "e": -9.4,
+   "f": -1.4,
+   "b": 27.1,
+   "vc": 27.0,
+   "ca": 117.5,
+   "fe": 13.7,
+   "mg": 0.0,
+   "zn": -14.0,
+   "fol": -61.9
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "fol"
+  ]
+ },
+ {
+  "i": "kidney_dose",
+  "n": "Kidneybohnen (Dose, abgetropft)",
+  "bls_code": "H742902",
+  "bls_name": "Kidneybohne reif, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 128.0,
+   "e": 8.5,
+   "f": 1.0,
+   "b": 11.23,
+   "vc": 0.01,
+   "ca": 41.0,
+   "fe": 2.12,
+   "mg": 39.0,
+   "zn": 0.88,
+   "fol": 33.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 3.2,
+   "e": 6.2,
+   "f": -9.1,
+   "b": 104.2,
+   "vc": -95.0,
+   "ca": -28.1,
+   "fe": 41.3,
+   "mg": 30.0,
+   "zn": 17.3,
+   "fol": 17.9
+  },
+  "markiert": [
+   "b",
+   "fe"
+  ]
+ },
+ {
+  "i": "kicher_dose",
+  "n": "Kichererbsen (Dose, abgetropft)",
+  "bls_code": "H720902",
+  "bls_name": "Kichererbse reif, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 136.0,
+   "e": 7.5,
+   "f": 2.7,
+   "b": 9.8,
+   "vc": 0.281,
+   "ca": 46.0,
+   "fe": 1.7,
+   "mg": 38.0,
+   "zn": 1.02,
+   "fol": 52.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -2.2,
+   "e": 7.1,
+   "f": -3.6,
+   "b": 53.1,
+   "vc": 181.0,
+   "ca": 2.2,
+   "fe": 58.9,
+   "mg": 46.2,
+   "zn": 61.9,
+   "fol": 8.3
+  },
+  "markiert": [
+   "b",
+   "fe",
+   "mg"
+  ]
+ },
+ {
+  "i": "bohnen_dose",
+  "n": "Weiße Bohnen (Dose)",
+  "bls_code": "H740902",
+  "bls_name": "Gartenbohne reif, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 130.0,
+   "e": 9.0383,
+   "f": 0.597,
+   "b": 7.136,
+   "vc": 0.143,
+   "ca": 39.0,
+   "fe": 1.974,
+   "mg": 43.0,
+   "zn": 0.9,
+   "fol": 26.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 14.0,
+   "e": 23.8,
+   "f": 99.0,
+   "b": 48.7,
+   "vc": "neu>0",
+   "ca": -46.6,
+   "fe": -34.0,
+   "mg": -15.7,
+   "zn": -19.6,
+   "fol": -60.0
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "baked_beans",
+  "n": "Bohnen in Tomatensoße (Dose)",
+  "bls_code": "H900900",
+  "bls_name": "Bohnen weiß, in Tomatensoße, Konserve",
+  "werte_bls": {
+   "k": 94.0,
+   "e": 5.08,
+   "f": 1.33,
+   "b": 4.1,
+   "vc": 3.313,
+   "ca": 23.0,
+   "fe": 1.1,
+   "mg": 26.0,
+   "zn": 0.5,
+   "fol": 17.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 0.0,
+   "e": 5.8,
+   "f": 232.5,
+   "b": 0.0,
+   "vc": "neu>0",
+   "ca": -32.4,
+   "fe": -7.6,
+   "mg": -3.7,
+   "zn": -78.1,
+   "fol": 41.7
+  },
+  "markiert": [
+   "vc",
+   "zn"
+  ]
+ },
+ {
+  "i": "gr_bohnen",
+  "n": "Grüne Bohnen (Dose, abgetropft)",
+  "bls_code": "G710902",
+  "bls_name": "Bohne grün, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 21.0,
+   "e": 1.662,
+   "f": 0.138,
+   "b": 2.72,
+   "vc": 0.2,
+   "ca": 47.0,
+   "fe": 1.6,
+   "mg": 18.0,
+   "zn": 0.234,
+   "fol": 28.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 0.0,
+   "e": 51.1,
+   "f": -65.5,
+   "b": 43.2,
+   "vc": -92.9,
+   "ca": 27.0,
+   "fe": 79.8,
+   "mg": 38.5,
+   "zn": 23.2,
+   "fol": 16.7
+  },
+  "markiert": [
+   "fe"
+  ]
+ },
+ {
+  "i": "erbsen_moehren",
+  "n": "Erbsen & Möhren (Dose)",
+  "bls_code": "G992902",
+  "bls_name": "Gemüsemischung Erbsen-Karotten, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 49.0,
+   "e": 2.9,
+   "f": 0.368,
+   "b": 3.6,
+   "vc": 2.115,
+   "ca": 23.0,
+   "fe": 0.56,
+   "mg": 15.0,
+   "zn": 0.451,
+   "fol": 6.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 28.9,
+   "e": 31.8,
+   "f": 22.7,
+   "b": 80.0,
+   "vc": -68.0,
+   "ca": 0.0,
+   "fe": -25.3,
+   "mg": 7.1,
+   "zn": -22.2,
+   "fol": -66.7
+  },
+  "markiert": [
+   "b",
+   "vc",
+   "fol"
+  ]
+ },
+ {
+  "i": "mais",
+  "n": "Mais (Dose, abgetropft)",
+  "bls_code": "G570902",
+  "bls_name": "Zuckermais Konserve, abgetropft",
+  "werte_bls": {
+   "k": 79.0,
+   "e": 2.71,
+   "f": 1.94,
+   "b": 3.59,
+   "vc": null,
+   "ca": 2.9,
+   "fe": 0.26,
+   "mg": 18.0,
+   "zn": 0.3,
+   "fol": 55.1,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 17.9,
+   "e": 17.8,
+   "f": 61.7,
+   "b": 79.5,
+   "ca": -3.3,
+   "fe": -3.7,
+   "mg": 38.5,
+   "zn": -6.3,
+   "fol": 41.3
+  },
+  "markiert": [
+   "b",
+   "fol"
+  ]
+ },
+ {
+  "i": "rotkohl_glas",
+  "n": "Rotkohl (Glas)",
+  "bls_code": "G341900",
+  "bls_name": "Rotkohlgemüse (küchenfertig) Konserve",
+  "werte_bls": {
+   "k": 56.0,
+   "e": 1.3,
+   "f": 0.15,
+   "b": 3.21,
+   "vc": 20.0,
+   "ca": 46.0,
+   "fe": 0.345,
+   "mg": 11.6,
+   "zn": 0.13,
+   "fol": 32.1,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 93.1,
+   "e": -13.3,
+   "f": 50.0,
+   "b": 23.5,
+   "vc": -41.9,
+   "ca": 9.5,
+   "fe": -47.7,
+   "mg": -31.8,
+   "zn": -48.0,
+   "fol": 33.8
+  },
+  "markiert": [
+   "k",
+   "vc"
+  ]
+ },
+ {
+  "i": "sauerkraut",
+  "n": "Sauerkraut (Dose/Glas)",
+  "bls_code": "G345902",
+  "bls_name": "Sauerkraut Konserve, abgetropft",
+  "werte_bls": {
+   "k": 34.0,
+   "e": 1.15,
+   "f": 0.41,
+   "b": 3.95,
+   "vc": 31.5,
+   "ca": 55.0,
+   "fe": 0.32,
+   "mg": 8.9,
+   "zn": 0.15,
+   "fol": 17.4,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 78.9,
+   "e": 27.8,
+   "f": 310.0,
+   "b": 36.2,
+   "vc": 114.3,
+   "ca": 83.3,
+   "fe": -78.2,
+   "mg": -31.5,
+   "zn": -21.1,
+   "fol": -27.5
+  },
+  "markiert": [
+   "b",
+   "vc",
+   "ca",
+   "fe"
+  ]
+ },
+ {
+  "i": "pilze_dose",
+  "n": "Champignons (Dose, abgetropft)",
+  "bls_code": "K701902",
+  "bls_name": "Champignon Konserve, abgetropft",
+  "werte_bls": {
+   "k": 43.0,
+   "e": 5.518,
+   "f": 0.818,
+   "b": 2.536,
+   "vc": 2.164,
+   "ca": 33.0,
+   "fe": 1.382,
+   "mg": 25.0,
+   "zn": 0.61,
+   "fol": 4.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 72.0,
+   "e": 190.4,
+   "f": 172.7,
+   "b": 5.7,
+   "vc": "neu>0",
+   "ca": 200.0,
+   "fe": 74.9,
+   "mg": 66.7,
+   "zn": -15.3,
+   "fol": -66.7
+  },
+  "markiert": [
+   "e",
+   "ca",
+   "fe",
+   "mg"
+  ]
+ },
+ {
+  "i": "gurken",
+  "n": "Gewürzgurken (Glas, abgetropft)",
+  "bls_code": "G520802",
+  "bls_name": "Gurke gesäuert (Gewürzgurke) abgetropft",
+  "werte_bls": {
+   "k": 33.0,
+   "e": 0.9,
+   "f": null,
+   "b": 0.88,
+   "vc": null,
+   "ca": 22.0,
+   "fe": 0.25,
+   "mg": 11.2,
+   "zn": 0.1,
+   "fol": 14.6,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 175.0,
+   "e": 80.0,
+   "b": -12.0,
+   "ca": -61.4,
+   "fe": -3.8,
+   "mg": 60.0,
+   "zn": 0.0,
+   "fol": 82.5
+  },
+  "markiert": [
+   "k",
+   "ca"
+  ]
+ },
+ {
+  "i": "rote_bete",
+  "n": "Rote Bete (Glas, abgetropft)",
+  "bls_code": "G613802",
+  "bls_name": "Rote Rübe/Rote Bete, gesäuert, abgetropft",
+  "werte_bls": {
+   "k": 70.0,
+   "e": 1.6,
+   "f": 0.3,
+   "b": 2.7,
+   "vc": 2.0,
+   "ca": 29.0,
+   "fe": 0.28,
+   "mg": 11.0,
+   "zn": 0.3,
+   "fol": 29.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 125.8,
+   "e": 77.8,
+   "f": 200.0,
+   "b": 50.0,
+   "vc": -51.2,
+   "ca": 93.3,
+   "fe": -84.6,
+   "mg": -35.3,
+   "zn": 42.9,
+   "fol": -3.3
+  },
+  "markiert": [
+   "k",
+   "fe"
+  ]
+ },
+ {
+  "i": "tomaten_dose",
+  "n": "Tomaten, gehackt (Dose)",
+  "bls_code": "G568900",
+  "bls_name": "Tomate geschält, Konserve",
+  "werte_bls": {
+   "k": 24.0,
+   "e": 1.2,
+   "f": 0.3,
+   "b": 0.9,
+   "vc": 11.3,
+   "ca": 10.0,
+   "fe": 0.2,
+   "mg": 12.0,
+   "zn": 0.14,
+   "fol": 24.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 50.0,
+   "e": 50.0,
+   "f": 50.0,
+   "b": -52.6,
+   "vc": -10.3,
+   "ca": -69.7,
+   "fe": -64.9,
+   "mg": 20.0,
+   "zn": 16.7,
+   "fol": 200.0
+  },
+  "markiert": [
+   "ca",
+   "fol"
+  ]
+ },
+ {
+  "i": "passata",
+  "n": "Passierte Tomaten",
+  "bls_code": "R161200",
+  "bls_name": "Tomaten passiert/Tomatenpüree",
+  "werte_bls": {
+   "k": 29.0,
+   "e": 1.18,
+   "f": 0.1,
+   "b": 1.81,
+   "vc": 9.0,
+   "ca": 17.83,
+   "fe": 0.60046,
+   "mg": 17.18,
+   "zn": 0.16578,
+   "fol": 33.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -23.7,
+   "e": -26.3,
+   "f": -50.0,
+   "b": -4.7,
+   "vc": -15.1,
+   "ca": -0.9,
+   "fe": -66.3,
+   "mg": -25.3,
+   "zn": -53.9,
+   "fol": 200.0
+  },
+  "markiert": [
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "tomatenmark",
+  "n": "Tomatenmark",
+  "bls_code": "R160000",
+  "bls_name": "Tomatenmark",
+  "werte_bls": {
+   "k": 81.0,
+   "e": 3.4,
+   "f": 0.2,
+   "b": 4.7,
+   "vc": 67.54,
+   "ca": 52.0,
+   "fe": 3.146,
+   "mg": 44.0,
+   "zn": 0.46,
+   "fol": 39.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -1.2,
+   "e": -20.9,
+   "f": -60.0,
+   "b": 14.6,
+   "vc": 208.4,
+   "ca": 44.4,
+   "fe": 5.6,
+   "mg": 4.8,
+   "zn": -27.0,
+   "fol": 225.0
+  },
+  "markiert": [
+   "vc",
+   "fol"
+  ]
+ },
+ {
+  "i": "spargel",
+  "n": "Spargel (Glas, abgetropft)",
+  "bls_code": "G450902",
+  "bls_name": "Spargel Konserve, abgetropft",
+  "werte_bls": {
+   "k": 18.0,
+   "e": 1.9,
+   "f": 0.3,
+   "b": 1.095,
+   "vc": 15.0,
+   "ca": 17.133,
+   "fe": 0.694,
+   "mg": 8.125,
+   "zn": 0.346,
+   "fol": 55.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -5.3,
+   "e": -9.5,
+   "f": -57.1,
+   "b": -31.6,
+   "vc": -18.5,
+   "ca": 7.1,
+   "fe": -62.1,
+   "mg": -18.8,
+   "zn": -13.5,
+   "fol": -42.7
+  },
+  "markiert": [
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "eintopf",
+  "n": "Erbseneintopf (Dose)",
+  "bls_code": "X4A8010",
+  "bls_name": "Erbsen-Eintopf mit Gemüsebrühe, Suppengrün und Kartoffeln",
+  "werte_bls": {
+   "k": 83.0,
+   "e": 5.09,
+   "f": 1.4,
+   "b": 5.0,
+   "vc": 12.0,
+   "ca": 29.0,
+   "fe": 1.4,
+   "mg": 18.0,
+   "zn": 0.6,
+   "fol": 15.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 7.8,
+   "e": 10.7,
+   "f": -17.6,
+   "b": 194.1,
+   "vc": 313.8,
+   "ca": 107.1,
+   "fe": 57.3,
+   "mg": 12.5,
+   "zn": -53.8,
+   "fol": 650.0,
+   "b12": -100.0
+  },
+  "markiert": [
+   "b",
+   "vc",
+   "fe",
+   "zn",
+   "fol"
+  ],
+  "hinweis": "Näherung: Rezeptur (selbstgekocht), keine Konserve"
+ },
+ {
+  "i": "pilze_getr",
+  "n": "Pilze, getrocknet",
+  "bls_code": "K750400",
+  "bls_name": "Mischpilze getrocknet",
+  "werte_bls": {
+   "k": 257.0,
+   "e": 26.8,
+   "f": 2.2,
+   "b": 38.86,
+   "vc": 4.435,
+   "ca": 80.0,
+   "fe": 6.3,
+   "mg": 87.0,
+   "zn": 4.95,
+   "fol": 132.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -13.2,
+   "e": 179.2,
+   "f": 120.0,
+   "b": 237.9,
+   "vc": 26.7,
+   "ca": 627.3,
+   "fe": 266.3,
+   "mg": -34.1,
+   "zn": -35.4,
+   "fol": -19.0
+  },
+  "markiert": [
+   "e",
+   "f",
+   "b",
+   "ca",
+   "fe",
+   "mg",
+   "zn"
+  ],
+  "hinweis": "Näherung: Mischpilze getrocknet"
+ },
+ {
+  "i": "zwiebeln",
+  "n": "Zwiebeln",
+  "bls_code": "G480100",
+  "bls_name": "Speisezwiebel roh",
+  "werte_bls": {
+   "k": 34.0,
+   "e": 1.156,
+   "f": 0.15,
+   "b": 1.4,
+   "vc": 7.4,
+   "ca": 25.0,
+   "fe": 0.685,
+   "mg": 10.0,
+   "zn": 0.21,
+   "fol": 15.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -10.5,
+   "e": 5.1,
+   "f": 50.0,
+   "b": -17.6,
+   "vc": 0.0,
+   "ca": 8.7,
+   "fe": 226.2,
+   "mg": 0.0,
+   "zn": 23.5,
+   "fol": -21.1
+  },
+  "markiert": []
+ },
+ {
+  "i": "knoblauch",
+  "n": "Knoblauch",
+  "bls_code": "G490100",
+  "bls_name": "Knoblauch roh",
+  "werte_bls": {
+   "k": 97.0,
+   "e": 6.05,
+   "f": 0.42,
+   "b": 28.297,
+   "vc": 14.0,
+   "ca": 14.42,
+   "fe": 0.6958,
+   "mg": 16.382,
+   "zn": 0.88,
+   "fol": 81.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -34.9,
+   "e": -5.5,
+   "f": -16.0,
+   "b": 1247.5,
+   "vc": -55.1,
+   "ca": -92.0,
+   "fe": -59.1,
+   "mg": -34.5,
+   "zn": -24.1,
+   "fol": 2600.0
+  },
+  "markiert": [
+   "k",
+   "b",
+   "vc",
+   "ca",
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "moehren",
+  "n": "Möhren, frisch",
+  "bls_code": "G620100",
+  "bls_name": "Karotte/Möhre, roh",
+  "werte_bls": {
+   "k": 40.0,
+   "e": 0.84,
+   "f": 0.4,
+   "b": 2.9,
+   "vc": 3.22,
+   "ca": 21.1,
+   "fe": 0.3553,
+   "mg": 12.0,
+   "zn": 0.25581,
+   "fol": 22.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 5.3,
+   "e": -6.7,
+   "f": 100.0,
+   "b": 3.6,
+   "vc": -45.4,
+   "ca": -36.1,
+   "fe": 18.4,
+   "mg": 0.0,
+   "zn": 6.6,
+   "fol": 15.8
+  },
+  "markiert": []
+ },
+ {
+  "i": "kohl",
+  "n": "Weißkohl / Rotkohl, frisch",
+  "bls_code": "G342100",
+  "bls_name": "Weißkohl roh",
+  "werte_bls": {
+   "k": 32.0,
+   "e": 1.382,
+   "f": 0.19,
+   "b": 3.0,
+   "vc": 47.455,
+   "ca": 44.0,
+   "fe": 0.312,
+   "mg": 12.0,
+   "zn": 0.16,
+   "fol": 49.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 33.3,
+   "e": 6.3,
+   "f": 90.0,
+   "b": 20.0,
+   "vc": 29.7,
+   "ca": 10.0,
+   "fe": -33.6,
+   "mg": 0.0,
+   "zn": -11.1,
+   "fol": 14.0
+  },
+  "markiert": [
+   "vc"
+  ]
+ },
+ {
+  "i": "erbsen_tk",
+  "n": "Erbsen (tiefgekühlt)",
+  "bls_code": "G760200",
+  "bls_name": "Erbse grün, tiefgefroren",
+  "werte_bls": {
+   "k": 77.0,
+   "e": 4.9,
+   "f": 0.7,
+   "b": 5.3,
+   "vc": 25.0,
+   "ca": 32.0,
+   "fe": 1.825,
+   "mg": 28.0,
+   "zn": 0.95,
+   "fol": 56.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 5.5,
+   "e": -9.3,
+   "f": 75.0,
+   "b": 3.9,
+   "vc": 38.9,
+   "ca": 45.5,
+   "fe": 19.3,
+   "mg": 7.7,
+   "zn": 15.9,
+   "fol": 5.7
+  },
+  "markiert": [
+   "vc"
+  ]
+ },
+ {
+  "i": "spinat_tk",
+  "n": "Spinat (tiefgekühlt)",
+  "bls_code": "G211200",
+  "bls_name": "Spinat tiefgefroren",
+  "werte_bls": {
+   "k": 20.0,
+   "e": 2.313,
+   "f": 0.316,
+   "b": 1.9,
+   "vc": 58.788,
+   "ca": 150.0,
+   "fe": 2.2,
+   "mg": 31.0,
+   "zn": 0.66,
+   "fol": 105.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -31.0,
+   "e": -35.8,
+   "f": -47.3,
+   "b": -34.5,
+   "vc": 968.9,
+   "ca": 16.3,
+   "fe": 16.4,
+   "mg": -58.7,
+   "zn": 17.9,
+   "fol": -27.6
+  },
+  "markiert": [
+   "e",
+   "b",
+   "vc",
+   "mg",
+   "fol"
+  ]
+ },
+ {
+  "i": "gemuese_tk",
+  "n": "Gemüsemischung (tiefgekühlt)",
+  "bls_code": "G920200",
+  "bls_name": "Gemüsemischung Leipziger Allerlei, tiefgefroren",
+  "werte_bls": {
+   "k": 57.0,
+   "e": 3.2,
+   "f": 0.398,
+   "b": 3.6,
+   "vc": 12.442,
+   "ca": 23.0,
+   "fe": 0.8,
+   "mg": 23.0,
+   "zn": 0.63,
+   "fol": 47.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -20.8,
+   "e": -3.0,
+   "f": -20.4,
+   "b": -10.0,
+   "vc": 19.6,
+   "ca": -8.0,
+   "fe": -15.8,
+   "mg": -4.2,
+   "zn": 40.0,
+   "fol": 62.1
+  },
+  "markiert": [
+   "fol"
+  ],
+  "hinweis": "Näherung: Leipziger Allerlei TK"
+ },
+ {
+  "i": "aepfel",
+  "n": "Äpfel",
+  "bls_code": "F110100",
+  "bls_name": "Apfel roh",
+  "werte_bls": {
+   "k": 58.0,
+   "e": 0.424,
+   "f": 0.5,
+   "b": 2.275,
+   "vc": 10.16,
+   "ca": 5.0,
+   "fe": 0.1,
+   "mg": 5.0,
+   "zn": 0.03,
+   "fol": 5.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 9.4,
+   "e": 41.3,
+   "f": 150.0,
+   "b": -5.2,
+   "vc": 120.9,
+   "ca": -16.7,
+   "fe": -16.7,
+   "mg": 0.0,
+   "zn": -25.0,
+   "fol": 66.7
+  },
+  "markiert": [
+   "vc"
+  ]
+ },
+ {
+  "i": "bananen",
+  "n": "Bananen",
+  "bls_code": "F503100",
+  "bls_name": "Banane roh",
+  "werte_bls": {
+   "k": 79.0,
+   "e": 1.319,
+   "f": 0.4,
+   "b": 2.0,
+   "vc": 11.0,
+   "ca": 6.0,
+   "fe": 0.4,
+   "mg": 28.0,
+   "zn": 0.18,
+   "fol": 14.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -15.1,
+   "e": 19.9,
+   "f": 33.3,
+   "b": -23.1,
+   "vc": 26.4,
+   "ca": 20.0,
+   "fe": 53.8,
+   "mg": 3.7,
+   "zn": 20.0,
+   "fol": -30.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "orangen",
+  "n": "Orangen",
+  "bls_code": "F603100",
+  "bls_name": "Orange roh",
+  "werte_bls": {
+   "k": 49.0,
+   "e": 1.0,
+   "f": 0.2,
+   "b": 2.2,
+   "vc": 62.354,
+   "ca": 39.0,
+   "fe": 0.181,
+   "mg": 11.0,
+   "zn": 0.08,
+   "fol": 34.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 4.3,
+   "e": 11.1,
+   "f": 100.0,
+   "b": -8.3,
+   "vc": 17.2,
+   "ca": -2.5,
+   "fe": 81.0,
+   "mg": 10.0,
+   "zn": 14.3,
+   "fol": 13.3
+  },
+  "markiert": []
+ },
+ {
+  "i": "pfirsiche",
+  "n": "Pfirsiche (Dose)",
+  "bls_code": "F203902",
+  "bls_name": "Pfirsich gezuckert, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 65.0,
+   "e": 0.54,
+   "f": null,
+   "b": 1.34,
+   "vc": 2.6,
+   "ca": 9.5,
+   "fe": 0.13,
+   "mg": 5.2,
+   "zn": 0.08,
+   "fol": 9.3,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 20.4,
+   "e": 8.0,
+   "b": 3.1,
+   "vc": 8.3,
+   "ca": 216.7,
+   "fe": -63.9,
+   "mg": 4.0,
+   "zn": -11.1,
+   "fol": 210.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "birnen",
+  "n": "Birnen (Dose)",
+  "bls_code": "F130902",
+  "bls_name": "Birne gezuckert, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 84.0,
+   "e": 0.475,
+   "f": 0.176,
+   "b": 2.6,
+   "vc": 1.667,
+   "ca": 13.0,
+   "fe": 0.667,
+   "mg": 7.0,
+   "zn": 0.11,
+   "fol": 4.9,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 47.4,
+   "e": 137.5,
+   "f": "neu>0",
+   "b": 62.5,
+   "vc": 138.1,
+   "ca": 160.0,
+   "fe": 138.2,
+   "mg": 75.0,
+   "zn": 37.5,
+   "fol": 390.0
+  },
+  "markiert": [
+   "k",
+   "b"
+  ]
+ },
+ {
+  "i": "mandarinen",
+  "n": "Mandarinen (Dose)",
+  "bls_code": "F606902",
+  "bls_name": "Mandarine gezuckert, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 72.0,
+   "e": 0.51,
+   "f": 0.31,
+   "b": 0.51,
+   "vc": 12.5,
+   "ca": 14.9,
+   "fe": 0.19,
+   "mg": 6.8,
+   "zn": 0.04,
+   "fol": 10.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 18.0,
+   "e": 2.0,
+   "f": 210.0,
+   "b": -27.1,
+   "vc": -36.9,
+   "ca": 112.9,
+   "fe": -48.6,
+   "mg": -15.0,
+   "zn": -83.3,
+   "fol": 100.0
+  },
+  "markiert": [
+   "vc"
+  ]
+ },
+ {
+  "i": "ananas",
+  "n": "Ananas (Dose, im Saft)",
+  "bls_code": "F5A1902",
+  "bls_name": "Ananas in Fruchtsaft, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 41.0,
+   "e": 0.7,
+   "f": 0.1,
+   "b": 1.3,
+   "vc": 7.0,
+   "ca": 23.0,
+   "fe": 0.42,
+   "mg": 15.0,
+   "zn": 0.21,
+   "fol": 2.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -31.7,
+   "e": 75.0,
+   "f": 0.0,
+   "b": 62.5,
+   "vc": -26.3,
+   "ca": 64.3,
+   "fe": 50.0,
+   "mg": 7.1,
+   "zn": 110.0,
+   "fol": -60.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "kirschen",
+  "n": "Sauerkirschen (Glas)",
+  "bls_code": "F212902",
+  "bls_name": "Sauerkirsche gezuckert, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 52.0,
+   "e": 0.84,
+   "f": 0.21,
+   "b": 1.08,
+   "vc": null,
+   "ca": 17.2,
+   "fe": 0.17,
+   "mg": 8.3,
+   "zn": 0.04,
+   "fol": 5.3,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -30.7,
+   "e": 20.0,
+   "f": 110.0,
+   "b": 35.0,
+   "ca": 72.0,
+   "fe": -87.1,
+   "mg": 38.3,
+   "zn": -42.9,
+   "fol": -33.8
+  },
+  "markiert": [
+   "k",
+   "fe"
+  ]
+ },
+ {
+  "i": "apfelmus",
+  "n": "Apfelmus (Glas)",
+  "bls_code": "F921900",
+  "bls_name": "Apfelkompott/Apfelmus, gezuckert, Konserve",
+  "werte_bls": {
+   "k": 86.0,
+   "e": 0.22,
+   "f": 0.1,
+   "b": 1.827,
+   "vc": 2.0,
+   "ca": 4.4,
+   "fe": 0.3,
+   "mg": 9.8,
+   "zn": 0.1,
+   "fol": 4.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 26.5,
+   "e": 10.0,
+   "f": -50.0,
+   "b": 52.3,
+   "vc": 17.6,
+   "ca": 46.7,
+   "fe": 150.0,
+   "mg": 226.7,
+   "zn": 233.3,
+   "fol": 300.0
+  },
+  "markiert": [],
+  "hinweis": "Näherung: Apfelmus gezuckert (Konserve)"
+ },
+ {
+  "i": "rosinen",
+  "n": "Rosinen",
+  "bls_code": "F840100",
+  "bls_name": "Rosine/Sultanine (Weinbeere getrocknet)",
+  "werte_bls": {
+   "k": 288.0,
+   "e": 2.7,
+   "f": 1.0,
+   "b": 5.4,
+   "vc": 1.0,
+   "ca": 52.0,
+   "fe": 2.36,
+   "mg": 32.0,
+   "zn": 0.25,
+   "fol": 32.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -3.7,
+   "e": -18.2,
+   "f": 400.0,
+   "b": 20.0,
+   "vc": -56.5,
+   "ca": -16.1,
+   "fe": 31.8,
+   "mg": -11.1,
+   "zn": -30.6,
+   "fol": 540.0
+  },
+  "markiert": [
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "pflaumen_getr",
+  "n": "Trockenpflaumen",
+  "bls_code": "F220400",
+  "bls_name": "Pflaume getrocknet",
+  "werte_bls": {
+   "k": 205.0,
+   "e": 2.29,
+   "f": null,
+   "b": 6.12,
+   "vc": 4.0,
+   "ca": 42.2,
+   "fe": 0.885,
+   "mg": 34.8,
+   "zn": 0.38,
+   "fol": 0.7,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -14.6,
+   "e": 4.1,
+   "b": -13.8,
+   "vc": 566.7,
+   "ca": -1.9,
+   "fe": -4.8,
+   "mg": -15.1,
+   "zn": -13.6,
+   "fol": -82.5
+  },
+  "markiert": [
+   "vc"
+  ]
+ },
+ {
+  "i": "aprikosen_getr",
+  "n": "Aprikosen, getrocknet",
+  "bls_code": "F201400",
+  "bls_name": "Aprikose getrocknet",
+  "werte_bls": {
+   "k": 216.0,
+   "e": 2.66,
+   "f": 0.23,
+   "b": 6.04,
+   "vc": 11.0,
+   "ca": 63.4,
+   "fe": 1.19,
+   "mg": 34.4,
+   "zn": 0.55,
+   "fol": 6.5,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -10.4,
+   "e": -21.8,
+   "f": -54.0,
+   "b": -17.3,
+   "vc": 1000.0,
+   "ca": 15.3,
+   "fe": -55.3,
+   "mg": 7.5,
+   "zn": 41.0,
+   "fol": -35.0
+  },
+  "markiert": [
+   "vc",
+   "fe"
+  ]
+ },
+ {
+  "i": "feigen_getr",
+  "n": "Feigen, getrocknet",
+  "bls_code": "F505400",
+  "bls_name": "Feige getrocknet",
+  "werte_bls": {
+   "k": 276.0,
+   "e": 3.54,
+   "f": 1.28,
+   "b": 13.0,
+   "vc": 2.2,
+   "ca": 229.0,
+   "fe": 1.415,
+   "mg": 67.0,
+   "zn": 0.55,
+   "fol": 3.7,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 10.8,
+   "e": 7.3,
+   "f": 42.2,
+   "b": 32.7,
+   "vc": 83.3,
+   "ca": 41.4,
+   "fe": -30.3,
+   "mg": -1.5,
+   "zn": 0.0,
+   "fol": -58.9
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "fe"
+  ]
+ },
+ {
+  "i": "datteln",
+  "n": "Datteln, getrocknet",
+  "bls_code": "F504400",
+  "bls_name": "Dattel getrocknet",
+  "werte_bls": {
+   "k": 356.0,
+   "e": 2.64,
+   "f": 0.36,
+   "b": 11.16,
+   "vc": 3.0,
+   "ca": 50.6,
+   "fe": 0.625,
+   "mg": 51.2,
+   "zn": 0.26,
+   "fol": 7.4,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 22.8,
+   "e": 46.7,
+   "f": 80.0,
+   "b": 66.6,
+   "vc": 650.0,
+   "ca": 29.7,
+   "fe": -38.7,
+   "mg": 19.1,
+   "zn": -10.3,
+   "fol": -61.1
+  },
+  "markiert": [
+   "b",
+   "fol"
+  ]
+ },
+ {
+  "i": "haselnuesse",
+  "n": "Haselnüsse",
+  "bls_code": "H130100",
+  "bls_name": "Haselnuss",
+  "werte_bls": {
+   "k": 667.0,
+   "e": 16.25,
+   "f": 63.3,
+   "b": 7.6,
+   "vc": null,
+   "ca": 149.0,
+   "fe": 3.43,
+   "mg": 163.0,
+   "zn": 2.08,
+   "fol": 89.6,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 2.6,
+   "e": 8.3,
+   "f": 3.8,
+   "b": -21.6,
+   "ca": 30.7,
+   "fe": -27.0,
+   "mg": 0.0,
+   "zn": -15.1,
+   "fol": -20.7
+  },
+  "markiert": [
+   "ca",
+   "fe"
+  ]
+ },
+ {
+  "i": "walnuesse",
+  "n": "Walnüsse",
+  "bls_code": "H120100",
+  "bls_name": "Walnuss",
+  "werte_bls": {
+   "k": 721.0,
+   "e": 16.07,
+   "f": 70.6,
+   "b": 4.6,
+   "vc": null,
+   "ca": 87.3,
+   "fe": 2.78,
+   "mg": 140.0,
+   "zn": 2.64,
+   "fol": 72.8,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 4.5,
+   "e": 7.1,
+   "f": 8.6,
+   "b": -31.3,
+   "ca": -10.9,
+   "fe": -4.5,
+   "mg": -11.4,
+   "zn": -14.6,
+   "fol": -25.7
+  },
+  "markiert": [
+   "b",
+   "fol"
+  ]
+ },
+ {
+  "i": "mandeln",
+  "n": "Mandeln",
+  "bls_code": "H210100",
+  "bls_name": "Mandel süß",
+  "werte_bls": {
+   "k": 544.0,
+   "e": 22.333,
+   "f": 46.6,
+   "b": 10.0,
+   "vc": 1.0,
+   "ca": 84.864,
+   "fe": 3.11033,
+   "mg": 217.984,
+   "zn": 3.15574,
+   "fol": 45.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -6.2,
+   "e": 6.3,
+   "f": -6.8,
+   "b": -20.0,
+   "vc": "neu>0",
+   "ca": -68.3,
+   "fe": -16.6,
+   "mg": -21.9,
+   "zn": -4.7,
+   "fol": -18.2
+  },
+  "markiert": [
+   "ca"
+  ]
+ },
+ {
+  "i": "erdnuesse",
+  "n": "Erdnüsse, geröstet",
+  "bls_code": "H110600",
+  "bls_name": "Erdnuss geröstet",
+  "werte_bls": {
+   "k": 620.0,
+   "e": 29.0,
+   "f": 49.7,
+   "b": 8.4,
+   "vc": null,
+   "ca": 59.2,
+   "fe": 1.528,
+   "mg": 165.1,
+   "zn": 3.4,
+   "fol": 77.5,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.6,
+   "e": 20.8,
+   "f": -0.6,
+   "b": 5.0,
+   "ca": 2.1,
+   "fe": -3.3,
+   "mg": -7.2,
+   "zn": 22.7,
+   "fol": -20.1
+  },
+  "markiert": []
+ },
+ {
+  "i": "cashew",
+  "n": "Cashewkerne",
+  "bls_code": "H170100",
+  "bls_name": "Cashewkern",
+  "werte_bls": {
+   "k": 618.0,
+   "e": 21.01,
+   "f": 47.1,
+   "b": 3.0,
+   "vc": null,
+   "ca": 38.0,
+   "fe": 6.41,
+   "mg": 258.0,
+   "zn": 5.15,
+   "fol": 67.7,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 6.6,
+   "e": 16.7,
+   "f": 7.0,
+   "b": -9.1,
+   "ca": 2.7,
+   "fe": -4.0,
+   "mg": -11.6,
+   "zn": -10.9,
+   "fol": 170.8
+  },
+  "markiert": [
+   "fol"
+  ]
+ },
+ {
+  "i": "erdnussmus",
+  "n": "Erdnussmus / Erdnussbutter",
+  "bls_code": "H880200",
+  "bls_name": "Erdnussbutter/Erdnusscreme",
+  "werte_bls": {
+   "k": 606.0,
+   "e": 24.08,
+   "f": 47.78,
+   "b": 7.44,
+   "vc": null,
+   "ca": 49.0,
+   "fe": 2.58,
+   "mg": 163.0,
+   "zn": 2.64,
+   "fol": 53.7,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.0,
+   "e": -3.7,
+   "f": -4.4,
+   "b": 24.0,
+   "ca": 0.0,
+   "fe": 48.3,
+   "mg": -3.0,
+   "zn": 5.2,
+   "fol": -38.3
+  },
+  "markiert": [
+   "fe",
+   "fol"
+  ]
+ },
+ {
+  "i": "sonnenblumenkerne",
+  "n": "Sonnenblumenkerne",
+  "bls_code": "H430100",
+  "bls_name": "Sonnenblumenkern",
+  "werte_bls": {
+   "k": 564.0,
+   "e": 26.11,
+   "f": 47.6,
+   "b": 5.8,
+   "vc": null,
+   "ca": 85.7,
+   "fe": 5.72,
+   "mg": 336.0,
+   "zn": 5.76,
+   "fol": 121.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -6.0,
+   "e": 24.3,
+   "f": -6.7,
+   "b": -32.6,
+   "ca": 9.9,
+   "fe": 9.0,
+   "mg": 3.4,
+   "zn": 15.2,
+   "fol": -46.7
+  },
+  "markiert": [
+   "b",
+   "fol"
+  ]
+ },
+ {
+  "i": "kuerbiskerne",
+  "n": "Kürbiskerne",
+  "bls_code": "H310100",
+  "bls_name": "Kürbiskern",
+  "werte_bls": {
+   "k": 588.0,
+   "e": 35.49,
+   "f": 46.34,
+   "b": 8.66,
+   "vc": null,
+   "ca": 9.943,
+   "fe": 4.891695,
+   "mg": 284.823,
+   "zn": 6.150391,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -0.3,
+   "e": 18.3,
+   "f": -5.4,
+   "b": 44.3,
+   "ca": -78.4,
+   "fe": -44.5,
+   "mg": -51.9,
+   "zn": -21.2,
+   "fol": -100.0
+  },
+  "markiert": [
+   "b",
+   "ca",
+   "fe",
+   "mg",
+   "fol"
+  ]
+ },
+ {
+  "i": "leinsamen",
+  "n": "Leinsamen",
+  "bls_code": "H410100",
+  "bls_name": "Leinsamen",
+  "werte_bls": {
+   "k": 470.0,
+   "e": 22.27,
+   "f": 36.5,
+   "b": 22.7,
+   "vc": null,
+   "ca": 206.0,
+   "fe": 6.75,
+   "mg": 323.0,
+   "zn": 4.17,
+   "fol": 73.3,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -7.8,
+   "e": 23.7,
+   "f": -13.1,
+   "b": -15.9,
+   "ca": -19.2,
+   "fe": 17.8,
+   "mg": -17.6,
+   "zn": -3.9,
+   "fol": -15.7
+  },
+  "markiert": []
+ },
+ {
+  "i": "hmilch",
+  "n": "H-Milch 3,5 %",
+  "bls_code": "M113300",
+  "bls_name": "H-Vollmilch 3,5 % Fett, ultrahocherhitzt",
+  "werte_bls": {
+   "k": 62.0,
+   "e": 3.18,
+   "f": 3.49,
+   "b": 0.0,
+   "vc": 0.92311,
+   "ca": 111.7,
+   "fe": 0.02,
+   "mg": 10.6,
+   "zn": 0.32,
+   "fol": 3.3,
+   "b12": 0.599
+  },
+  "abweichung": {
+   "k": -3.1,
+   "e": -3.6,
+   "f": -0.3,
+   "vc": "neu>0",
+   "ca": -1.2,
+   "fe": -33.3,
+   "mg": 6.0,
+   "zn": -13.5,
+   "fol": -34.0,
+   "b12": 33.1
+  },
+  "markiert": []
+ },
+ {
+  "i": "hmilch15",
+  "n": "H-Milch 1,5 %",
+  "bls_code": "M113200",
+  "bls_name": "H-Milch fettarm, 1,5 % Fett, ultrahocherhitzt",
+  "werte_bls": {
+   "k": 44.0,
+   "e": 3.16,
+   "f": 1.45,
+   "b": 0.0,
+   "vc": 1.0,
+   "ca": 116.3,
+   "fe": 0.017,
+   "mg": 11.1,
+   "zn": 0.32,
+   "fol": 3.2,
+   "b12": 0.764
+  },
+  "abweichung": {
+   "k": -6.4,
+   "e": -7.1,
+   "f": -3.3,
+   "vc": 400.0,
+   "ca": -3.1,
+   "fe": -15.0,
+   "mg": 0.9,
+   "zn": -33.3,
+   "fol": -36.0,
+   "b12": 44.2
+  },
+  "markiert": []
+ },
+ {
+  "i": "frischmilch",
+  "n": "Frischmilch",
+  "bls_code": "M111300",
+  "bls_name": "Vollmilch frisch, 3,5 % Fett, pasteurisiert",
+  "werte_bls": {
+   "k": 62.0,
+   "e": 3.55,
+   "f": 3.49,
+   "b": 0.0,
+   "vc": 0.95572,
+   "ca": 117.0,
+   "fe": 0.018,
+   "mg": 11.2,
+   "zn": 0.34,
+   "fol": 4.5,
+   "b12": 0.37
+  },
+  "abweichung": {
+   "k": -3.1,
+   "e": 7.6,
+   "f": -0.3,
+   "vc": "neu>0",
+   "ca": 3.5,
+   "fe": -40.0,
+   "mg": 12.0,
+   "zn": -8.1,
+   "fol": -10.0,
+   "b12": -17.8
+  },
+  "markiert": []
+ },
+ {
+  "i": "milchpulver",
+  "n": "Vollmilchpulver",
+  "bls_code": "M882000",
+  "bls_name": "Vollmilchpulver",
+  "werte_bls": {
+   "k": 483.0,
+   "e": 24.687,
+   "f": 26.2,
+   "b": 0.0,
+   "vc": 11.0,
+   "ca": 1000.0,
+   "fe": 0.29,
+   "mg": 83.0,
+   "zn": 3.6,
+   "fol": 40.0,
+   "b12": 1.48
+  },
+  "abweichung": {
+   "k": -2.6,
+   "e": -6.1,
+   "f": -1.9,
+   "vc": 27.9,
+   "ca": 9.6,
+   "fe": -38.3,
+   "mg": -2.4,
+   "zn": 7.8,
+   "fol": 8.1,
+   "b12": -54.5
+  },
+  "markiert": [
+   "b12"
+  ]
+ },
+ {
+  "i": "kondensmilch",
+  "n": "Kondensmilch 7,5 %",
+  "bls_code": "M182400",
+  "bls_name": "Kondensmilch mind. 7,5 % Fett",
+  "werte_bls": {
+   "k": 132.0,
+   "e": 6.358,
+   "f": 7.57,
+   "b": 0.0,
+   "vc": 2.1,
+   "ca": 242.0,
+   "fe": 0.094,
+   "mg": 27.0,
+   "zn": 0.78,
+   "fol": 6.0,
+   "b12": 0.41
+  },
+  "abweichung": {
+   "k": -1.5,
+   "e": -6.5,
+   "f": -0.4,
+   "vc": 10.5,
+   "ca": -7.3,
+   "fe": -50.5,
+   "mg": 12.5,
+   "zn": 1.3,
+   "fol": -25.0,
+   "b12": 156.2
+  },
+  "markiert": []
+ },
+ {
+  "i": "hartkaese",
+  "n": "Hartkäse am Stück (z. B. Parmesan, Bergkäse)",
+  "bls_code": "M302600",
+  "bls_name": "Bergkäse mind. 45 % Fett i. Tr.",
+  "werte_bls": {
+   "k": 395.0,
+   "e": 28.9,
+   "f": 30.805,
+   "b": 0.0,
+   "vc": 0.875,
+   "ca": 1100.0,
+   "fe": 0.3,
+   "mg": 43.0,
+   "zn": 5.1,
+   "fol": 20.0,
+   "b12": 2.7
+  },
+  "abweichung": {
+   "k": 1.3,
+   "e": -17.4,
+   "f": 18.5,
+   "vc": "neu>0",
+   "ca": -7.1,
+   "fe": -63.4,
+   "mg": -2.3,
+   "zn": 85.5,
+   "fol": 185.7,
+   "b12": 125.0
+  },
+  "markiert": [
+   "fe",
+   "zn",
+   "fol",
+   "b12"
+  ],
+  "hinweis": "Näherung: Bergkäse 45 % F.i.Tr."
+ },
+ {
+  "i": "gouda",
+  "n": "Schnittkäse (z. B. Gouda)",
+  "bls_code": "M402600",
+  "bls_name": "Gouda 48 % Fett i. Tr.",
+  "werte_bls": {
+   "k": 379.0,
+   "e": 22.47,
+   "f": 31.58,
+   "b": 0.0,
+   "vc": 1.06,
+   "ca": 862.7,
+   "fe": 0.196,
+   "mg": 31.1,
+   "zn": 3.59,
+   "fol": 43.6,
+   "b12": 1.78
+  },
+  "abweichung": {
+   "k": 5.3,
+   "e": -10.1,
+   "f": 8.9,
+   "vc": "neu>0",
+   "ca": 23.2,
+   "fe": -18.3,
+   "mg": 7.2,
+   "zn": -7.9,
+   "fol": 107.6,
+   "b12": 15.6
+  },
+  "markiert": [
+   "fol"
+  ]
+ },
+ {
+  "i": "joghurt",
+  "n": "Naturjoghurt",
+  "bls_code": "M141300",
+  "bls_name": "Joghurt mild, mind. 3,5 % Fett",
+  "werte_bls": {
+   "k": 67.0,
+   "e": 3.98,
+   "f": 3.46,
+   "b": 0.0,
+   "vc": null,
+   "ca": 110.5,
+   "fe": 0.022,
+   "mg": 11.2,
+   "zn": 0.39,
+   "fol": 6.4,
+   "b12": 0.208
+  },
+  "abweichung": {
+   "k": 1.5,
+   "e": 4.7,
+   "f": -1.1,
+   "ca": -8.7,
+   "fe": -56.0,
+   "mg": -6.7,
+   "zn": -33.9,
+   "fol": -8.6,
+   "b12": -43.8
+  },
+  "markiert": []
+ },
+ {
+  "i": "quark",
+  "n": "Magerquark",
+  "bls_code": "M713100",
+  "bls_name": "Speisequark Magerstufe, Magerquark < 10 % Fett i. Tr.",
+  "werte_bls": {
+   "k": 66.0,
+   "e": 11.85,
+   "f": 0.18,
+   "b": 0.0,
+   "vc": 4.205,
+   "ca": 132.0,
+   "fe": 0.035,
+   "mg": 11.6,
+   "zn": 0.56,
+   "fol": 21.9,
+   "b12": 0.61
+  },
+  "abweichung": {
+   "k": -1.5,
+   "e": -1.3,
+   "f": -40.0,
+   "vc": "neu>0",
+   "ca": 53.5,
+   "fe": -76.7,
+   "mg": 5.5,
+   "zn": 19.1,
+   "fol": 143.3,
+   "b12": 32.6
+  },
+  "markiert": [
+   "vc",
+   "ca",
+   "fol"
+  ]
+ },
+ {
+  "i": "sahne",
+  "n": "Schlagsahne 30 %",
+  "bls_code": "M173800",
+  "bls_name": "Schlagsahne mind. 30 % Fett",
+  "werte_bls": {
+   "k": 308.0,
+   "e": 2.312,
+   "f": 31.7,
+   "b": 0.0,
+   "vc": 1.0,
+   "ca": 80.0,
+   "fe": 0.03,
+   "mg": 10.0,
+   "zn": 0.26,
+   "fol": 4.0,
+   "b12": 0.4
+  },
+  "abweichung": {
+   "k": 6.2,
+   "e": -3.7,
+   "f": 5.7,
+   "vc": 66.7,
+   "ca": 21.2,
+   "fe": -70.0,
+   "mg": 42.9,
+   "zn": 8.3,
+   "fol": 0.0,
+   "b12": 150.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "hafermilch",
+  "n": "Haferdrink",
+  "bls_code": "C660000",
+  "bls_name": "Haferdrink ungesüßt",
+  "werte_bls": {
+   "k": 29.0,
+   "e": 0.74,
+   "f": 1.01,
+   "b": 0.45,
+   "vc": null,
+   "ca": 4.37334,
+   "fe": 0.053257,
+   "mg": 3.691846,
+   "zn": 0.056324,
+   "fol": 0.72,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -37.0,
+   "e": -26.0,
+   "f": -32.7,
+   "b": -43.8
+  },
+  "markiert": []
+ },
+ {
+  "i": "sojadrink",
+  "n": "Sojadrink ungesüßt",
+  "bls_code": "H841100",
+  "bls_name": "Sojadrink ungesüßt",
+  "werte_bls": {
+   "k": 30.0,
+   "e": 3.22,
+   "f": 1.297,
+   "b": 1.75,
+   "vc": null,
+   "ca": 14.557839,
+   "fe": 0.414427,
+   "mg": 16.35172,
+   "zn": 0.28473,
+   "fol": 10.11,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -14.3,
+   "e": -2.4,
+   "f": -31.7,
+   "b": 191.7
+  },
+  "markiert": [
+   "b"
+  ]
+ },
+ {
+  "i": "thunfisch",
+  "n": "Thunfisch im eigenen Saft (Dose, abgetropft)",
+  "bls_code": "T121902",
+  "bls_name": "Thunfisch im eigenen Saft, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 95.0,
+   "e": 22.87,
+   "f": 0.41,
+   "b": null,
+   "vc": null,
+   "ca": 10.0,
+   "fe": 1.34,
+   "mg": 26.6,
+   "zn": 0.73,
+   "fol": 8.15,
+   "b12": 2.2
+  },
+  "abweichung": {
+   "k": -13.6,
+   "e": -8.5,
+   "f": -59.0,
+   "ca": -41.2,
+   "fe": -17.8,
+   "mg": 15.7,
+   "zn": 5.8,
+   "fol": 103.8,
+   "b12": -13.7
+  },
+  "markiert": []
+ },
+ {
+  "i": "sardinen",
+  "n": "Sardinen in Öl (Dose, abgetropft)",
+  "bls_code": "T105100",
+  "bls_name": "Sardine roh",
+  "werte_bls": {
+   "k": 151.0,
+   "e": 19.4,
+   "f": 8.15,
+   "b": 0.0,
+   "vc": null,
+   "ca": 50.0,
+   "fe": 1.55,
+   "mg": 32.0,
+   "zn": 1.16,
+   "fol": 7.0,
+   "b12": 8.31
+  },
+  "abweichung": {
+   "k": -27.4,
+   "e": -21.1,
+   "f": -28.5,
+   "ca": -86.9,
+   "fe": -46.9,
+   "mg": -17.9,
+   "zn": -11.5,
+   "fol": -30.0,
+   "b12": -7.0
+  },
+  "markiert": [
+   "k",
+   "f",
+   "ca",
+   "fe"
+  ],
+  "hinweis": "Näherung: BLS hat keine Sardinen in Öl; Sardine roh"
+ },
+ {
+  "i": "makrele",
+  "n": "Makrelenfilet (Dose, abgetropft)",
+  "bls_code": "T107902",
+  "bls_name": "Makrele im eigenen Saft, Konserve, abgetropft",
+  "werte_bls": {
+   "k": 114.0,
+   "e": 13.8,
+   "f": 6.54,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 17.0,
+   "fe": 0.592,
+   "mg": 24.0,
+   "zn": 0.376,
+   "fol": 6.0,
+   "b12": 6.44
+  },
+  "abweichung": {
+   "k": -26.9,
+   "e": -40.5,
+   "f": 3.8,
+   "vc": -100.0,
+   "ca": -92.9,
+   "fe": -71.0,
+   "mg": -35.1,
+   "zn": -63.1,
+   "fol": 20.0,
+   "b12": -7.2
+  },
+  "markiert": [
+   "k",
+   "e",
+   "ca",
+   "fe",
+   "mg",
+   "zn"
+  ],
+  "hinweis": "Näherung: Makrele im eigenen Saft statt in Öl/Aufguss"
+ },
+ {
+  "i": "lachs_dose",
+  "n": "Lachs (Dose, abgetropft)",
+  "bls_code": "T410902",
+  "bls_name": "Lachs Konserve, abgetropft",
+  "werte_bls": {
+   "k": 165.0,
+   "e": 21.1,
+   "f": 8.93,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 10.0,
+   "fe": 1.07,
+   "mg": 17.0,
+   "zn": 0.26,
+   "fol": 13.6,
+   "b12": 4.5
+  },
+  "abweichung": {
+   "k": 19.6,
+   "e": -8.7,
+   "f": 78.6,
+   "ca": -96.5,
+   "fe": 39.0,
+   "mg": -46.9,
+   "zn": -72.9,
+   "fol": 240.0,
+   "b12": -9.1
+  },
+  "markiert": [
+   "f",
+   "ca",
+   "mg",
+   "zn"
+  ]
+ },
+ {
+  "i": "corned_beef",
+  "n": "Corned Beef (Dose)",
+  "bls_code": "U931900",
+  "bls_name": "Corned Beef, deutsches, mit Schweineschwarten Konserve",
+  "werte_bls": {
+   "k": 159.0,
+   "e": 25.1,
+   "f": 6.4,
+   "b": 0.08,
+   "vc": 0.0,
+   "ca": 12.0,
+   "fe": 2.0,
+   "mg": 21.0,
+   "zn": 3.8,
+   "fol": 3.0,
+   "b12": 3.0
+  },
+  "abweichung": {
+   "k": -36.4,
+   "e": -7.4,
+   "f": -57.0,
+   "b": "neu>0",
+   "ca": 0.0,
+   "fe": -3.8,
+   "mg": 50.0,
+   "zn": 6.4,
+   "fol": -66.7,
+   "b12": 85.2
+  },
+  "markiert": [
+   "k",
+   "f",
+   "b12"
+  ]
+ },
+ {
+  "i": "fruehstuecksfleisch",
+  "n": "Frühstücksfleisch (Dose)",
+  "bls_code": "W872800",
+  "bls_name": "Frühstücksfleisch Konserve",
+  "werte_bls": {
+   "k": 198.0,
+   "e": 14.01,
+   "f": 15.68,
+   "b": 0.05,
+   "vc": 0.0,
+   "ca": 4.4,
+   "fe": 0.57,
+   "mg": 10.6,
+   "zn": 1.38,
+   "fol": 0.3,
+   "b12": 0.21
+  },
+  "abweichung": {
+   "k": -40.7,
+   "e": 12.1,
+   "f": -48.3,
+   "b": "neu>0",
+   "vc": -100.0,
+   "ca": -26.7,
+   "fe": -20.8,
+   "mg": 6.0,
+   "zn": -6.8,
+   "fol": -95.0,
+   "b12": -76.7
+  },
+  "markiert": [
+   "k",
+   "f",
+   "b12"
+  ]
+ },
+ {
+  "i": "leberwurst",
+  "n": "Leberwurst (Dose/Glas)",
+  "bls_code": "W880100",
+  "bls_name": "Leberwurst Konserve",
+  "werte_bls": {
+   "k": 357.0,
+   "e": 12.3,
+   "f": 33.15,
+   "b": 0.0,
+   "vc": 10.488,
+   "ca": 5.6,
+   "fe": 5.88,
+   "mg": 10.7,
+   "zn": 2.36,
+   "fol": 40.8,
+   "b12": 2.605
+  },
+  "abweichung": {
+   "k": 19.0,
+   "e": -12.1,
+   "f": 22.8,
+   "vc": "neu>0",
+   "ca": -78.5,
+   "fe": -8.1,
+   "mg": -10.8,
+   "zn": 2.6,
+   "fol": 36.0,
+   "b12": -80.6
+  },
+  "markiert": [
+   "vc",
+   "ca",
+   "fol",
+   "b12"
+  ]
+ },
+ {
+  "i": "wuerstchen",
+  "n": "Würstchen im Glas (Wiener/Bockwurst)",
+  "bls_code": "W874300",
+  "bls_name": "Wiener Würstchen Konserve",
+  "werte_bls": {
+   "k": 228.0,
+   "e": 12.5,
+   "f": 19.5,
+   "b": 0.0,
+   "vc": 23.0,
+   "ca": 9.5,
+   "fe": 2.7,
+   "mg": 13.2,
+   "zn": 1.15,
+   "fol": 0.99,
+   "b12": 0.072
+  },
+  "abweichung": {
+   "k": -18.6,
+   "e": -3.8,
+   "f": -22.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "salami",
+  "n": "Salami / Dauerwurst",
+  "bls_code": "W140000",
+  "bls_name": "Salami",
+  "werte_bls": {
+   "k": 374.0,
+   "e": 23.54,
+   "f": 30.9,
+   "b": 0.0,
+   "vc": 14.0,
+   "ca": 25.0,
+   "fe": 1.95,
+   "mg": 18.0,
+   "zn": 2.96,
+   "fol": 9.67,
+   "b12": 0.6877
+  },
+  "abweichung": {
+   "k": -1.6,
+   "e": 12.1,
+   "f": -6.4,
+   "vc": "neu>0",
+   "ca": 92.3,
+   "fe": 50.0,
+   "mg": -18.2,
+   "zn": -29.5,
+   "fol": 383.5,
+   "b12": -75.4
+  },
+  "markiert": [
+   "vc",
+   "fe",
+   "zn",
+   "b12"
+  ]
+ },
+ {
+  "i": "jagdwurst",
+  "n": "Jagdwurst / Fleischwurst",
+  "bls_code": "W254000",
+  "bls_name": "Jagdwurst/Schinkenwurst grob",
+  "werte_bls": {
+   "k": 204.0,
+   "e": 15.3,
+   "f": 15.8,
+   "b": 0.05,
+   "vc": 40.4,
+   "ca": 14.0,
+   "fe": 2.9,
+   "mg": 19.0,
+   "zn": 1.35,
+   "fol": 0.29,
+   "b12": 0.18
+  },
+  "abweichung": {
+   "k": -33.8,
+   "e": 0.7,
+   "f": -35.8,
+   "b": "neu>0",
+   "vc": 4950.0,
+   "ca": -83.5,
+   "fe": 139.7,
+   "mg": 11.8,
+   "zn": -41.3,
+   "fol": -95.2,
+   "b12": -90.1
+  },
+  "markiert": [
+   "k",
+   "f",
+   "vc",
+   "ca",
+   "fe",
+   "zn",
+   "b12"
+  ]
+ },
+ {
+  "i": "chili",
+  "n": "Chili con Carne (Dose)",
+  "bls_code": "X469753",
+  "bls_name": "Chili con carne (mit Rinderhackfleisch)",
+  "werte_bls": {
+   "k": 158.0,
+   "e": 9.9,
+   "f": 7.9,
+   "b": 4.9,
+   "vc": 28.0,
+   "ca": 29.0,
+   "fe": 1.5,
+   "mg": 27.0,
+   "zn": 1.67,
+   "fol": 20.0,
+   "b12": 1.0
+  },
+  "abweichung": {
+   "k": 47.7,
+   "e": 70.7,
+   "f": 125.7,
+   "b": 48.5,
+   "vc": 13900.0,
+   "ca": -12.1,
+   "fe": 11.9,
+   "mg": -3.6,
+   "zn": 87.6,
+   "fol": -4.8,
+   "b12": 257.1
+  },
+  "markiert": [
+   "k",
+   "e",
+   "f",
+   "b",
+   "vc",
+   "zn",
+   "b12"
+  ],
+  "hinweis": "Näherung: Rezeptur Chili con carne"
+ },
+ {
+  "i": "gulasch",
+  "n": "Rindergulasch / Eintopf mit Fleisch (Dose)",
+  "bls_code": "Y141823",
+  "bls_name": "Rindergulasch mit Gemüse",
+  "werte_bls": {
+   "k": 100.0,
+   "e": 8.0,
+   "f": 4.0,
+   "b": 1.6,
+   "vc": 21.7,
+   "ca": 14.0,
+   "fe": 1.3,
+   "mg": 19.0,
+   "zn": 1.98,
+   "fol": 16.0,
+   "b12": 0.4
+  },
+  "abweichung": {
+   "k": 1.0,
+   "e": 81.8,
+   "f": -27.3,
+   "b": 77.8,
+   "vc": 3000.0,
+   "ca": 16.7,
+   "fe": -47.6,
+   "mg": 137.5,
+   "zn": 98.0,
+   "fol": 14.3,
+   "b12": -20.0
+  },
+  "markiert": [
+   "e",
+   "f",
+   "vc",
+   "fe",
+   "mg",
+   "zn"
+  ],
+  "hinweis": "Näherung: Rezeptur Rindergulasch mit Gemüse"
+ },
+ {
+  "i": "eier",
+  "n": "Eier (Größe M)",
+  "bls_code": "E111100",
+  "bls_name": "Hühnerei roh",
+  "werte_bls": {
+   "k": 135.0,
+   "e": 13.175,
+   "f": 9.0,
+   "b": 0.0,
+   "vc": null,
+   "ca": 52.0,
+   "fe": 1.8,
+   "mg": 13.0,
+   "zn": 1.28,
+   "fol": 76.0,
+   "b12": 2.7
+  },
+  "abweichung": {
+   "k": -5.6,
+   "e": 4.6,
+   "f": -5.3,
+   "ca": -7.1,
+   "fe": 2.9,
+   "mg": 8.3,
+   "zn": -0.8,
+   "fol": 61.7,
+   "b12": 203.4
+  },
+  "markiert": [
+   "fol",
+   "b12"
+  ]
+ },
+ {
+  "i": "hack_tk",
+  "n": "Hackfleisch (tiefgekühlt)",
+  "bls_code": "U050100",
+  "bls_name": "Rind/Schwein, Hackfleisch gemischt, roh",
+  "werte_bls": {
+   "k": 236.0,
+   "e": 18.8,
+   "f": 17.83,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 20.2,
+   "fe": 1.53,
+   "mg": 18.5,
+   "zn": 3.576,
+   "fol": 2.0,
+   "b12": 3.3
+  },
+  "abweichung": {
+   "k": -7.1,
+   "e": 10.6,
+   "f": -10.9,
+   "ca": 12.2,
+   "fe": -21.1,
+   "mg": 8.8,
+   "zn": -14.4,
+   "fol": -71.4,
+   "b12": 54.2
+  },
+  "markiert": [
+   "b12"
+  ],
+  "hinweis": "Näherung: Hack gemischt Rind/Schwein, roh (nicht TK)"
+ },
+ {
+  "i": "haehnchen_tk",
+  "n": "Hähnchenbrust (tiefgekühlt)",
+  "bls_code": "V416100",
+  "bls_name": "Hähnchen Brustfilet, roh",
+  "werte_bls": {
+   "k": 109.0,
+   "e": 23.25,
+   "f": 1.81,
+   "b": 0.0,
+   "vc": 2.5,
+   "ca": 4.5,
+   "fe": 0.6195,
+   "mg": 31.5,
+   "zn": 0.623,
+   "fol": 8.2,
+   "b12": 0.1
+  },
+  "abweichung": {
+   "k": -0.9,
+   "e": 1.1,
+   "f": 20.7,
+   "vc": "neu>0",
+   "ca": -10.0,
+   "fe": 67.4,
+   "mg": 12.5,
+   "zn": -8.4,
+   "fol": -8.9,
+   "b12": -52.4
+  },
+  "markiert": [],
+  "hinweis": "Näherung: Brustfilet roh (nicht TK)"
+ },
+ {
+  "i": "fisch_tk",
+  "n": "Fischfilet (tiefgekühlt)",
+  "bls_code": "T213200",
+  "bls_name": "Alaska-Pollack/Alaska-Seelachs, tiefgefroren",
+  "werte_bls": {
+   "k": 72.0,
+   "e": 16.4,
+   "f": 0.7,
+   "b": 0.0,
+   "vc": null,
+   "ca": 12.0,
+   "fe": 0.18,
+   "mg": 30.0,
+   "zn": 0.39,
+   "fol": 5.0,
+   "b12": 2.32
+  },
+  "abweichung": {
+   "k": -12.2,
+   "e": -8.9,
+   "f": 0.0,
+   "ca": -25.0,
+   "fe": -52.6,
+   "mg": -6.2,
+   "zn": -13.3,
+   "fol": -28.6,
+   "b12": 154.9
+  },
+  "markiert": [
+   "b12"
+  ]
+ },
+ {
+  "i": "tofu",
+  "n": "Tofu natur",
+  "bls_code": "H861000",
+  "bls_name": "Tofu",
+  "werte_bls": {
+   "k": 115.0,
+   "e": 15.51,
+   "f": 5.63,
+   "b": 1.3,
+   "vc": null,
+   "ca": 185.0,
+   "fe": 2.84,
+   "mg": 77.7,
+   "zn": 1.46,
+   "fol": 21.8,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -8.0,
+   "e": 14.9,
+   "f": -24.9,
+   "b": 30.0,
+   "fe": 6.8,
+   "mg": 34.0,
+   "zn": -7.0,
+   "fol": -24.8
+  },
+  "markiert": [
+   "mg"
+  ]
+ },
+ {
+  "i": "rapsoel",
+  "n": "Rapsöl",
+  "bls_code": "Q180000",
+  "bls_name": "Rapsöl/Rüböl",
+  "werte_bls": {
+   "k": 900.0,
+   "e": 0.0,
+   "f": 100.0,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 0.441701,
+   "fe": 0.115572,
+   "mg": 0.445471,
+   "zn": 0.0401098,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.8,
+   "f": 0.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "sonnenblumenoel",
+  "n": "Sonnenblumenöl",
+  "bls_code": "Q320000",
+  "bls_name": "Sonnenblumenöl",
+  "werte_bls": {
+   "k": 900.0,
+   "e": 0.0,
+   "f": 100.0,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 0.511833,
+   "fe": 0.0711941,
+   "mg": 0.339229,
+   "zn": 0.0552731,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.8,
+   "f": 0.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "olivenoel",
+  "n": "Olivenöl",
+  "bls_code": "Q120000",
+  "bls_name": "Olivenöl",
+  "werte_bls": {
+   "k": 899.0,
+   "e": 0.0,
+   "f": 99.9,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 0.231528,
+   "fe": 0.131709,
+   "mg": 0.809997,
+   "zn": 0.04469,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.7,
+   "f": -0.1
+  },
+  "markiert": []
+ },
+ {
+  "i": "butter",
+  "n": "Butter",
+  "bls_code": "Q630000",
+  "bls_name": "Süßrahmbutter",
+  "werte_bls": {
+   "k": 747.0,
+   "e": 0.59,
+   "f": 82.5,
+   "b": null,
+   "vc": null,
+   "ca": 14.5,
+   "fe": 0.1,
+   "mg": 2.05,
+   "zn": 0.042,
+   "fol": 0.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 0.8,
+   "e": -15.7,
+   "f": 0.6
+  },
+  "markiert": []
+ },
+ {
+  "i": "margarine",
+  "n": "Margarine",
+  "bls_code": "Q400000",
+  "bls_name": "Pflanzenmargarine Vollfett, angereichert mit Vitaminen",
+  "werte_bls": {
+   "k": 718.0,
+   "e": 0.11,
+   "f": 79.6,
+   "b": null,
+   "vc": 0.0,
+   "ca": 16.1,
+   "fe": 0.0498,
+   "mg": 2.4,
+   "zn": 0.0179,
+   "fol": 0.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -0.3,
+   "e": -45.0,
+   "f": -0.5
+  },
+  "markiert": []
+ },
+ {
+  "i": "butterschmalz",
+  "n": "Butterschmalz",
+  "bls_code": "Q683000",
+  "bls_name": "Butterschmalz",
+  "werte_bls": {
+   "k": 897.0,
+   "e": 0.25,
+   "f": 99.5,
+   "b": 0.0,
+   "vc": null,
+   "ca": 1.0,
+   "fe": 0.0,
+   "mg": 0.0,
+   "zn": 0.01,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 2.4,
+   "e": -16.7,
+   "f": 0.0,
+   "ca": -75.0,
+   "zn": 0.0,
+   "b12": -100.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "schmalz",
+  "n": "Schweineschmalz",
+  "bls_code": "Q860000",
+  "bls_name": "Schweinefett/Schweineschmalz",
+  "werte_bls": {
+   "k": 900.0,
+   "e": null,
+   "f": 100.0,
+   "b": 0.0,
+   "vc": null,
+   "ca": null,
+   "fe": 0.0,
+   "mg": null,
+   "zn": null,
+   "fol": 0.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 0.0,
+   "f": 0.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "kokosfett",
+  "n": "Kokosfett",
+  "bls_code": "Q550000",
+  "bls_name": "Kokosöl",
+  "werte_bls": {
+   "k": 900.0,
+   "e": null,
+   "f": 100.0,
+   "b": 0.0,
+   "vc": null,
+   "ca": null,
+   "fe": 0.02,
+   "mg": 0.2,
+   "zn": 0.0,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 1.1,
+   "f": 0.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "wasser",
+  "n": "Mineralwasser",
+  "bls_code": "N128000",
+  "bls_name": "Natürliches Mineralwasser still",
+  "werte_bls": {
+   "k": 0.0,
+   "e": 0.0,
+   "f": 0.0,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 10.0,
+   "fe": 0.0001,
+   "mg": 3.3,
+   "zn": 0.0012,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {},
+  "markiert": []
+ },
+ {
+  "i": "wasser_kanister",
+  "n": "Trinkwasser im Kanister (selbst abgefüllt)",
+  "bls_code": "N110000",
+  "bls_name": "Trinkwasser",
+  "werte_bls": {
+   "k": 0.0,
+   "e": 0.0,
+   "f": 0.0,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 5.3,
+   "fe": 0.0001,
+   "mg": 0.9,
+   "zn": 0.0012,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {},
+  "markiert": []
+ },
+ {
+  "i": "apfelsaft",
+  "n": "Apfelsaft",
+  "bls_code": "F110600",
+  "bls_name": "Apfelsaft",
+  "werte_bls": {
+   "k": 44.0,
+   "e": 0.097,
+   "f": null,
+   "b": 0.31,
+   "vc": null,
+   "ca": 5.0,
+   "fe": 0.2,
+   "mg": 4.0,
+   "zn": 0.03,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -4.3,
+   "e": -3.0,
+   "b": 55.0,
+   "ca": -37.5,
+   "fe": 66.7,
+   "mg": -20.0,
+   "zn": 50.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "orangensaft",
+  "n": "Orangensaft",
+  "bls_code": "F603600",
+  "bls_name": "Orangensaft",
+  "werte_bls": {
+   "k": 41.0,
+   "e": 0.75,
+   "f": null,
+   "b": 0.31,
+   "vc": 39.9,
+   "ca": 20.0,
+   "fe": 0.1,
+   "mg": 10.0,
+   "zn": 0.03,
+   "fol": 19.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -4.7,
+   "e": 7.1,
+   "b": 55.0,
+   "vc": -20.2,
+   "ca": 81.8,
+   "fe": -50.0,
+   "mg": -9.1,
+   "zn": -40.0,
+   "fol": -36.7
+  },
+  "markiert": [
+   "fol"
+  ]
+ },
+ {
+  "i": "zitronensaft",
+  "n": "Zitronensaft",
+  "bls_code": "F601600",
+  "bls_name": "Zitronensaft",
+  "werte_bls": {
+   "k": 30.0,
+   "e": 0.63,
+   "f": 0.3,
+   "b": 0.129,
+   "vc": 40.6,
+   "ca": 14.0,
+   "fe": 0.142,
+   "mg": 9.9,
+   "zn": 0.1,
+   "fol": 3.8,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 76.5,
+   "e": 26.0,
+   "f": 200.0,
+   "b": -81.6,
+   "vc": 183.9,
+   "ca": 40.0,
+   "fe": 136.7,
+   "mg": 41.4,
+   "zn": -47.4,
+   "fol": -57.8
+  },
+  "markiert": [
+   "vc"
+  ]
+ },
+ {
+  "i": "tee",
+  "n": "Tee (schwarz oder Kräuter)",
+  "bls_code": "N630000",
+  "bls_name": "Schwarztee (Getränk)",
+  "werte_bls": {
+   "k": 0.0,
+   "e": null,
+   "f": 0.0,
+   "b": 0.0,
+   "vc": null,
+   "ca": 5.0,
+   "fe": 0.0026,
+   "mg": 1.5,
+   "zn": 0.0176,
+   "fol": 0.0,
+   "b12": null
+  },
+  "abweichung": {},
+  "markiert": [],
+  "hinweis": "Näherung: Schwarztee-Getränk"
+ },
+ {
+  "i": "kaffee",
+  "n": "Kaffee (Pulver)",
+  "bls_code": "N410100",
+  "bls_name": "Kaffee (Getränk)",
+  "werte_bls": {
+   "k": 1.0,
+   "e": 0.12,
+   "f": 0.0,
+   "b": 0.31425,
+   "vc": 0.0,
+   "ca": 7.0,
+   "fe": 0.02,
+   "mg": 8.3,
+   "zn": 0.01,
+   "fol": 0.29,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": "neu>0",
+   "e": "neu>0",
+   "b": "neu>0"
+  },
+  "markiert": [],
+  "hinweis": "Näherung: BLS nur Kaffee-Getränk (kein Röstkaffee-Pulver); Katalog rechnet ohnehin 0"
+ },
+ {
+  "i": "zucker",
+  "n": "Zucker",
+  "bls_code": "S111000",
+  "bls_name": "Zucker weiß (Raffinadezucker/Weißzucker)",
+  "werte_bls": {
+   "k": 400.0,
+   "e": 0.0,
+   "f": 0.0,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 0.6,
+   "fe": 0.17,
+   "mg": null,
+   "zn": null,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 0.0,
+   "ca": -40.0,
+   "fe": 240.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "honig",
+  "n": "Honig",
+  "bls_code": "S120000",
+  "bls_name": "Honig",
+  "werte_bls": {
+   "k": 305.0,
+   "e": 0.4,
+   "f": 0.0,
+   "b": null,
+   "vc": 0.389,
+   "ca": 5.0,
+   "fe": 0.3,
+   "mg": 4.0,
+   "zn": 0.2,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -6.4,
+   "e": 33.3
+  },
+  "markiert": []
+ },
+ {
+  "i": "marmelade",
+  "n": "Konfitüre / Marmelade",
+  "bls_code": "S132000",
+  "bls_name": "Konfitüre extra",
+  "werte_bls": {
+   "k": 234.0,
+   "e": 0.4,
+   "f": 0.2,
+   "b": 1.1,
+   "vc": 19.902,
+   "ca": 8.0,
+   "fe": 0.305,
+   "mg": 6.0,
+   "zn": 0.06,
+   "fol": 24.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -15.8,
+   "e": 0.0,
+   "f": 100.0,
+   "b": 0.0,
+   "vc": 126.2,
+   "ca": -60.0,
+   "fe": -37.8,
+   "mg": 50.0,
+   "zn": 0.0,
+   "fol": 118.2
+  },
+  "markiert": [
+   "vc",
+   "fol"
+  ]
+ },
+ {
+  "i": "nusscreme",
+  "n": "Nuss-Nougat-Creme",
+  "bls_code": "S145000",
+  "bls_name": "Nuss-Nougat-Creme",
+  "werte_bls": {
+   "k": 530.0,
+   "e": 6.9,
+   "f": 30.55,
+   "b": 3.52,
+   "vc": null,
+   "ca": 121.5,
+   "fe": 2.66,
+   "mg": 69.4,
+   "zn": 0.99,
+   "fol": 13.3,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -1.7,
+   "e": 27.8,
+   "f": 2.9,
+   "b": -34.8,
+   "ca": 12.5,
+   "fe": -39.3,
+   "mg": 8.4,
+   "zn": -6.6,
+   "fol": -5.0
+  },
+  "markiert": [
+   "e",
+   "b",
+   "fe"
+  ]
+ },
+ {
+  "i": "schoko",
+  "n": "Vollmilchschokolade",
+  "bls_code": "S539900",
+  "bls_name": "Vollmilchschokolade",
+  "werte_bls": {
+   "k": 555.0,
+   "e": 6.34,
+   "f": 35.13,
+   "b": 2.52,
+   "vc": 1.0,
+   "ca": 196.4,
+   "fe": 2.7931,
+   "mg": 53.1,
+   "zn": 1.0557,
+   "fol": 13.5,
+   "b12": 0.79
+  },
+  "abweichung": {
+   "k": 3.7,
+   "e": -9.4,
+   "f": 17.1,
+   "b": 26.0,
+   "vc": "neu>0",
+   "ca": 3.9,
+   "fe": 18.9,
+   "mg": -15.7,
+   "zn": -54.1,
+   "fol": 22.7,
+   "b12": 5.3
+  },
+  "markiert": [
+   "zn"
+  ]
+ },
+ {
+  "i": "zartbitter",
+  "n": "Zartbitterschokolade",
+  "bls_code": "S560000",
+  "bls_name": "Zartbitter-/Halbbitterschokolade",
+  "werte_bls": {
+   "k": 534.0,
+   "e": 6.62,
+   "f": 32.26,
+   "b": 9.27,
+   "vc": null,
+   "ca": 49.9,
+   "fe": 10.0903,
+   "mg": 140.0,
+   "zn": 2.006,
+   "fol": 15.5,
+   "b12": 0.52
+  },
+  "abweichung": {
+   "k": -7.1,
+   "e": -15.1,
+   "f": -23.2,
+   "b": -15.7,
+   "ca": -31.6,
+   "fe": -15.2,
+   "mg": -38.6,
+   "zn": -39.4,
+   "b12": 85.7
+  },
+  "markiert": [
+   "ca",
+   "mg",
+   "zn"
+  ]
+ },
+ {
+  "i": "kakao",
+  "n": "Kakaopulver (ungesüßt)",
+  "bls_code": "S713000",
+  "bls_name": "Kakaopulver stark entölt",
+  "werte_bls": {
+   "k": 311.0,
+   "e": 25.503,
+   "f": 11.2,
+   "b": 29.688,
+   "vc": 0.0,
+   "ca": 174.0,
+   "fe": 52.789,
+   "mg": 615.0,
+   "zn": 7.727,
+   "fol": 50.0,
+   "b12": 1.4
+  },
+  "abweichung": {
+   "k": 36.4,
+   "e": 30.1,
+   "f": -18.2,
+   "b": -19.8,
+   "ca": 35.9,
+   "fe": 280.9,
+   "mg": 23.2,
+   "zn": 13.5,
+   "fol": 56.2,
+   "b12": "neu>0"
+  },
+  "markiert": [
+   "k",
+   "e",
+   "ca",
+   "fe",
+   "fol",
+   "b12"
+  ]
+ },
+ {
+  "i": "kekse",
+  "n": "Butterkekse",
+  "bls_code": "D630400",
+  "bls_name": "Butterkekse/Butterplätzchen (Mürbeteig)",
+  "werte_bls": {
+   "k": 456.0,
+   "e": 7.54,
+   "f": 16.12,
+   "b": 2.41,
+   "vc": null,
+   "ca": 28.3,
+   "fe": 0.825,
+   "mg": 17.8,
+   "zn": 0.5,
+   "fol": 6.9,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 4.8,
+   "e": 0.5,
+   "f": 46.5,
+   "b": -3.6,
+   "ca": -2.4,
+   "fe": 184.5,
+   "mg": 48.3,
+   "zn": 31.6,
+   "fol": 15.0
+  },
+  "markiert": [
+   "f",
+   "fe"
+  ]
+ },
+ {
+  "i": "riegel",
+  "n": "Müsliriegel",
+  "bls_code": "S830000",
+  "bls_name": "Müsli-Riegel",
+  "werte_bls": {
+   "k": 428.0,
+   "e": 8.4,
+   "f": 15.4,
+   "b": 6.1,
+   "vc": 0.0,
+   "ca": 34.0,
+   "fe": 2.2,
+   "mg": 68.0,
+   "zn": 1.21,
+   "fol": 43.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -9.1,
+   "e": -16.8,
+   "f": -22.2,
+   "b": 15.1,
+   "vc": -100.0,
+   "ca": -44.3,
+   "fe": -25.4,
+   "mg": -29.9,
+   "zn": -40.4,
+   "fol": 87.0
+  },
+  "markiert": [
+   "ca",
+   "fe",
+   "mg",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "salzstangen",
+  "n": "Salzstangen / Brezeln",
+  "bls_code": "D064000",
+  "bls_name": "Salzbrezeln/Salzstangen (Laugendauergebäck)",
+  "werte_bls": {
+   "k": 389.0,
+   "e": 11.54,
+   "f": 4.3,
+   "b": 4.17,
+   "vc": 1.185,
+   "ca": 27.8,
+   "fe": 1.0,
+   "mg": 31.2,
+   "zn": 0.82,
+   "fol": 0.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 1.3,
+   "e": 15.4,
+   "f": 48.3,
+   "b": 22.6,
+   "vc": -43.6,
+   "mg": 7.6,
+   "fol": -100.0
+  },
+  "markiert": [
+   "f",
+   "fol"
+  ]
+ },
+ {
+  "i": "chips",
+  "n": "Kartoffelchips",
+  "bls_code": "K280100",
+  "bls_name": "Kartoffelchips/Stapelchips, diverse Sorten",
+  "werte_bls": {
+   "k": 526.0,
+   "e": 5.5,
+   "f": 34.3,
+   "b": 4.8,
+   "vc": 13.675,
+   "ca": 31.2,
+   "fe": 1.42,
+   "mg": 63.0,
+   "zn": 0.86,
+   "fol": 46.3,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -0.8,
+   "e": -8.3,
+   "f": 3.9,
+   "b": 6.7,
+   "vc": -36.7,
+   "ca": 48.6,
+   "fe": 10.9,
+   "mg": 0.0,
+   "zn": -21.1,
+   "fol": 59.7
+  },
+  "markiert": [
+   "vc",
+   "fol"
+  ]
+ },
+ {
+  "i": "crackers",
+  "n": "Cracker",
+  "bls_code": "D050000",
+  "bls_name": "Cracker",
+  "werte_bls": {
+   "k": 495.0,
+   "e": 8.84,
+   "f": 24.13,
+   "b": 4.31,
+   "vc": 0.057,
+   "ca": 16.0,
+   "fe": 0.582,
+   "mg": 12.7,
+   "zn": 0.395,
+   "fol": 6.7,
+   "b12": 0.1
+  },
+  "abweichung": {
+   "k": 18.4,
+   "e": -6.9,
+   "f": 180.6,
+   "b": 53.9,
+   "vc": "neu>0",
+   "mg": -44.8,
+   "fol": -60.6
+  },
+  "markiert": [
+   "f",
+   "b",
+   "mg",
+   "fol"
+  ]
+ },
+ {
+  "i": "salz",
+  "n": "Salz",
+  "bls_code": "R111000",
+  "bls_name": "Speisesalz/Siedesalz/Tafelsalz",
+  "werte_bls": {
+   "k": 0.0,
+   "e": 0.0,
+   "f": 0.0,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 51.9,
+   "fe": null,
+   "mg": 4.825,
+   "zn": 0.086,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {},
+  "markiert": []
+ },
+ {
+  "i": "bruehe",
+  "n": "Gemüsebrühe (Pulver)",
+  "bls_code": "R821000",
+  "bls_name": "Gemüse Bouillon/Brühe/Suppe (Brühwürfel, Pulver)",
+  "werte_bls": {
+   "k": 195.0,
+   "e": 5.82,
+   "f": 5.8,
+   "b": 2.9,
+   "vc": 7.9,
+   "ca": 63.9,
+   "fe": 1.692,
+   "mg": 29.0,
+   "zn": 0.64,
+   "fol": 26.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -27.0,
+   "e": -65.1,
+   "f": -58.3,
+   "b": "neu>0",
+   "vc": 618.2,
+   "ca": -65.8,
+   "fe": 64.3,
+   "mg": -48.2,
+   "zn": 611.1,
+   "fol": -18.8
+  },
+  "markiert": [
+   "k",
+   "e",
+   "f",
+   "b",
+   "vc",
+   "ca",
+   "fe",
+   "mg",
+   "zn"
+  ]
+ },
+ {
+  "i": "trockenhefe",
+  "n": "Trockenhefe",
+  "bls_code": "R458000",
+  "bls_name": "Backhefe getrocknet (Trockenbackhefe)",
+  "werte_bls": {
+   "k": 334.0,
+   "e": 40.4,
+   "f": 7.61,
+   "b": 23.3,
+   "vc": 0.3,
+   "ca": 30.0,
+   "fe": 9.1,
+   "mg": 54.0,
+   "zn": 7.94,
+   "fol": 2340.0,
+   "b12": 0.07
+  },
+  "abweichung": {
+   "k": 2.8,
+   "e": 0.0,
+   "f": 0.1,
+   "b": -13.4,
+   "vc": 0.0,
+   "ca": 0.0,
+   "fe": 319.4,
+   "mg": 0.0,
+   "zn": 0.0,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "markiert": [
+   "fe"
+  ]
+ },
+ {
+  "i": "frischhefe",
+  "n": "Frische Hefe",
+  "bls_code": "R459000",
+  "bls_name": "Backhefe frisch (Frischbackhefe)",
+  "werte_bls": {
+   "k": 128.0,
+   "e": 16.7,
+   "f": 1.2,
+   "b": 5.18,
+   "vc": null,
+   "ca": 22.667,
+   "fe": 3.5,
+   "mg": 29.5,
+   "zn": 5.9,
+   "fol": 293.0,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 21.9,
+   "e": 98.8,
+   "f": -36.8,
+   "b": -36.0,
+   "ca": 19.3,
+   "fe": 7.7,
+   "mg": -26.2,
+   "zn": -40.8,
+   "fol": -62.7
+  },
+  "markiert": [
+   "e",
+   "b",
+   "mg",
+   "zn",
+   "fol"
+  ]
+ },
+ {
+  "i": "backpulver",
+  "n": "Backpulver",
+  "bls_code": "R421100",
+  "bls_name": "Backpulver",
+  "werte_bls": {
+   "k": 88.0,
+   "e": 0.09,
+   "f": 0.124,
+   "b": 0.0,
+   "vc": null,
+   "ca": 17.68,
+   "fe": 0.911,
+   "mg": 2.508,
+   "zn": 0.12,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 72.5,
+   "e": -10.0,
+   "f": "neu>0",
+   "b": -100.0,
+   "ca": -99.8,
+   "fe": -91.9,
+   "mg": -93.6,
+   "zn": 500.0
+  },
+  "markiert": [
+   "k",
+   "ca",
+   "fe",
+   "mg"
+  ]
+ },
+ {
+  "i": "puddingpulver",
+  "n": "Puddingpulver",
+  "bls_code": "R481100",
+  "bls_name": "Puddingpulver Vanille, ungezuckert",
+  "werte_bls": {
+   "k": 344.0,
+   "e": 0.426,
+   "f": 0.079,
+   "b": 0.988,
+   "vc": 0.0,
+   "ca": 10.0,
+   "fe": 0.494,
+   "mg": 2.0,
+   "zn": 0.06,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": -9.2,
+   "e": 42.0,
+   "f": -80.2,
+   "b": 64.7,
+   "ca": 100.0,
+   "fe": 517.5,
+   "mg": "neu>0",
+   "zn": 200.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "essig",
+  "n": "Essig",
+  "bls_code": "R122000",
+  "bls_name": "Branntweinessig",
+  "werte_bls": {
+   "k": 25.0,
+   "e": 0.0,
+   "f": 0.0,
+   "b": 0.0,
+   "vc": 0.0,
+   "ca": 9.9,
+   "fe": 0.03,
+   "mg": 1.0,
+   "zn": 0.01,
+   "fol": 0.0,
+   "b12": 0.0
+  },
+  "abweichung": {
+   "k": 19.0,
+   "ca": 41.4,
+   "fe": -85.0,
+   "mg": -80.0,
+   "zn": -75.0
+  },
+  "markiert": []
+ },
+ {
+  "i": "senf",
+  "n": "Senf",
+  "bls_code": "R132000",
+  "bls_name": "Senf mittelscharf",
+  "werte_bls": {
+   "k": 111.0,
+   "e": 5.51,
+   "f": 6.96,
+   "b": 4.5,
+   "vc": null,
+   "ca": 98.3,
+   "fe": 1.635,
+   "mg": 62.2,
+   "zn": 0.81,
+   "fol": 11.7,
+   "b12": null
+  },
+  "abweichung": {
+   "k": 85.0,
+   "e": 48.9,
+   "f": 110.9,
+   "b": 12.5,
+   "ca": 56.0,
+   "fe": 1.6,
+   "mg": 29.6,
+   "zn": 26.6,
+   "fol": 67.1
+  },
+  "markiert": [
+   "k",
+   "e",
+   "f",
+   "ca",
+   "mg"
+  ]
+ },
+ {
+  "i": "ketchup",
+  "n": "Ketchup",
+  "bls_code": "R141100",
+  "bls_name": "Tomatenketchup",
+  "werte_bls": {
+   "k": 98.0,
+   "e": 1.4,
+   "f": 0.1,
+   "b": 1.81,
+   "vc": null,
+   "ca": 18.6,
+   "fe": 0.454,
+   "mg": 15.8,
+   "zn": 0.13,
+   "fol": 14.6,
+   "b12": null
+  },
+  "abweichung": {
+   "k": -3.0,
+   "e": 40.0,
+   "f": 0.0,
+   "b": 503.3,
+   "ca": 24.0,
+   "fe": 29.7,
+   "mg": 21.5,
+   "zn": -23.5,
+   "fol": 62.2
+  },
+  "markiert": [
+   "b"
+  ]
+ },
+ {
+  "i": "mayonnaise",
+  "n": "Mayonnaise",
+  "bls_code": "Q991000",
+  "bls_name": "Mayonnaise (Fertigprodukt)",
+  "werte_bls": {
+   "k": 750.0,
+   "e": 1.49,
+   "f": 81.2,
+   "b": 0.64,
+   "vc": null,
+   "ca": 7.0,
+   "fe": 0.23,
+   "mg": 1.0,
+   "zn": 0.16,
+   "fol": 9.0,
+   "b12": 0.3
+  },
+  "abweichung": {
+   "k": 4.2,
+   "e": 49.0,
+   "f": 2.8,
+   "b": "neu>0"
+  },
+  "markiert": []
+ },
+ {
+  "i": "suppe_tuete",
+  "n": "Instant-Suppe (Tüte)",
+  "bls_code": "G850100",
+  "bls_name": "Gemüsecremesuppe Instantpulver",
+  "werte_bls": {
+   "k": 337.0,
+   "e": 8.09,
+   "f": 3.4,
+   "b": 6.7,
+   "vc": 4.454,
+   "ca": 127.0,
+   "fe": 1.2,
+   "mg": 65.0,
+   "zn": 1.02,
+   "fol": 31.0,
+   "b12": 0.1
+  },
+  "abweichung": {
+   "k": -10.6,
+   "e": -47.5,
+   "f": -47.7,
+   "b": 109.4,
+   "vc": "neu>0",
+   "ca": 130.9,
+   "fe": -50.8,
+   "mg": 71.1,
+   "zn": -38.2,
+   "fol": 244.4,
+   "b12": -86.7
+  },
+  "markiert": [
+   "e",
+   "f",
+   "b",
+   "vc",
+   "ca",
+   "fe",
+   "mg",
+   "zn",
+   "fol",
+   "b12"
+  ],
+  "hinweis": "Näherung: Gemüsecremesuppe Instantpulver"
+ },
+ {
+  "i": "saeuglingsmilch",
+  "n": "Säuglingsmilch (Pulver)",
+  "bls_code": null,
+  "bls_name": null,
+  "werte_bls": null,
+  "abweichung": {},
+  "markiert": [],
+  "hinweis": "kein passender BLS-Eintrag (BLS 4.0 enthält keine Säuglingsnahrung/Babynahrung-Fertigprodukte dieses Typs)"
+ },
+ {
+  "i": "babybrei_getreide",
+  "n": "Getreidebrei für Babys (Pulver)",
+  "bls_code": null,
+  "bls_name": null,
+  "werte_bls": null,
+  "abweichung": {},
+  "markiert": [],
+  "hinweis": "kein passender BLS-Eintrag (BLS 4.0 enthält keine Säuglingsnahrung/Babynahrung-Fertigprodukte dieses Typs)"
+ },
+ {
+  "i": "babygl_menue",
+  "n": "Baby-Menü im Glas",
+  "bls_code": "X5B1010",
+  "bls_name": "Gemüse-Kartoffel-Fleisch-Brei, mit Karotte und Hühnerfleisch (ohne Salz, geeignet für Beikost)",
+  "werte_bls": {
+   "k": 110.0,
+   "e": 3.142,
+   "f": 6.986,
+   "b": 1.6,
+   "vc": 4.813,
+   "ca": 13.0,
+   "fe": 0.5,
+   "mg": 12.0,
+   "zn": 0.35,
+   "fol": 9.0,
+   "b12": 0.01
+  },
+  "abweichung": {
+   "k": 107.5,
+   "e": 57.1,
+   "f": 535.1,
+   "b": 45.5,
+   "vc": 2306.5,
+   "ca": -51.9,
+   "fe": 51.5,
+   "mg": 50.0,
+   "zn": 16.7,
+   "fol": 200.0,
+   "b12": -50.0
+  },
+  "markiert": [
+   "k",
+   "e",
+   "f",
+   "vc"
+  ],
+  "hinweis": "Näherung: Beikost-Rezeptur Gemüse-Kartoffel-Hühnchen-Brei"
+ },
+ {
+  "i": "babygl_obst",
+  "n": "Obstbrei für Babys (Glas)",
+  "bls_code": null,
+  "bls_name": null,
+  "werte_bls": null,
+  "abweichung": {},
+  "markiert": [],
+  "hinweis": "kein passender BLS-Eintrag (BLS 4.0 enthält keine Säuglingsnahrung/Babynahrung-Fertigprodukte dieses Typs)"
+ }
+]

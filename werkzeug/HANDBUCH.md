@@ -353,7 +353,22 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - Erledigt am 12.11. spät: Regenauer-Reiter „Kernideen“ (jetzt 11 Leitgedanken) und „Seine Sicht“ um die drei REALTALK-Gespräche ergänzt (`werkzeug/gen/regenauer/ergaenzen_kernideen.py`, nur aus den vorhandenen Auswertungen, keine neue Recherche).
 - Noch offen aus früheren Übergaben: Skill `quellwissen` um A-11, A-12 und Nehls als Sammelstelle ergänzen (propose_skills); Veröffentlichungsdaten der REALTALK-Videos; sonst wie „Übergabe 12.11.2026 (Vormittag 2)“.
 
-## Übergabe für einen neuen Chat (Stand 26.11.2026, nachmittags)
+## Übergabe für einen neuen Chat (Stand 26.11.2026, später Nachmittag)
+
+**Alles ist live** (main, Artefakt, Pages geprüft). Planer-Test 0 Fehler. Toms Vorgabe: **nur lizenzfreie Daten** (gemeinfrei, CC0, CC BY, amtlich) – ODbL/CC BY-SA nicht.
+
+Erledigt zusätzlich zum Stand „nachmittags“ (Toms „Mach alles fertig“):
+- **BLS 4.0** (MRI, CC BY 4.0, Namensnennung „Max Rubner-Institut (2025): Bundeslebensmittelschlüssel (BLS), Version 4.0, DOI 10.25826/Data20251217-134202-0“, Werte ausgewählt/gerundet): fehlende Mikronährstoffe bei 29 Lebensmitteln (Brot, Nudeln, Reis, Mehl, Öle, Fette, Würstchen, Pflanzendrinks …) ergänzt, Katalogfeld `bq` = BLS-Code; nicht übernommen Kaffee, Tee, Wasser, Reis-Zink. Abgleich aller 157 Einträge in `vorrat_belege/bls_abgleich.json` + `BLS_ABGLEICH.md` (109 Abweichungen > 25 %, v. a. Folat, Eisen, Ballaststoffe – nur dokumentiert, Werte nicht ersetzt).
+- **Region Saarland:** Störungsnummern VSE, Pfalzwerke Netz, KEW, Stadtwerke Saarlouis, Völklingen, Homburg, St. Ingbert, Dillingen, Merzig, Bexbach, Sulzbach; Leuchttürme Saarwellingen (3 Feuerwehrgerätehäuser); SR-UKW je Sender laut sr.de (ersetzt den Wikipedia-Eintrag `w-ukw`); Ministerium heißt „Ministerium für Inneres, Bauen und Sport“ (`z-oberste`); Warnwege der Kreise RV, NK, MZG. Neue Orte in `REGION_OBER`. Unabhängige Gegenprüfung der Nummern: siehe `vorrat_belege/OFFEN.md`.
+- **Karte:** Heilbäder BW 34, RP 10, SH 4, MV 4 (Seeheil-/Kneipp-/Felke-Orte wie bisher weggelassen) nach dem Beihilfe-Verzeichnis Berlin (Stand 10/2026), Skript `a/prep/heilbaeder_rest.py` mit `hb_rest/daten.py` + `BERICHT.md`; Saarland hat keinen Ort mit Heilmittel-Prädikat; jetzt 152 Orte. Harz 909 km² durch NLWKN bestätigt (2.825 = Summe der drei Naturparke des Regionalverbands).
+
+**Offen:**
+1. Aussage des Landes Saarland zu Warn-Apps (saarland.de blockiert den Abruf, von Hand im Browser prüfen); WVW St. Wendel nur mit „24h-Service-Hotline“ (nicht ausdrücklich für Störungen); Erreichbarkeitszeiten bei VSE, Pfalzwerke, Homburg, Merzig, Bexbach nicht angegeben. Gegenprüfung: `vorrat_belege/GEGENPRUEFUNG_REGION.md` (17 von 19 bestätigt, Rest berichtigt), Recherche-Bericht `BERICHT_REGION.md`.
+2. Notfalltreffpunkte: außer Homburg und Saarwellingen keine veröffentlichte Liste (49 von 52 Gemeinde-Seiten geprüft, Amtsblätter nicht vollständig).
+3. Nicht lizenzfrei, daher dauerhaft weggelassen: Seekabel, europäische Fernwanderwege, Sonnenstunden weltweit.
+4. Toms Test am echten iPhone/iPad/Android.
+
+## Übergabe 26.11.2026 (nachmittags)
 
 **Alles ist live** (main, Artefakt, Pages geprüft). Keine offene Vorschau. Planer-Test 2.854 Prüfungen, 0 Fehler; geprüft nur am Rechner in Handy-Breite.
 

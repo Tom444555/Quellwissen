@@ -48,21 +48,6 @@
    }
   },
   {
-   "id": "w-ukw",
-   "gebiet": "Saarland",
-   "kategorie": "Warnwege",
-   "titel": "UKW: SR 1 und SR 3 vom Sender Göttelborner Höhe",
-   "text": "Laut Wikipedia sendet der Saarländische Rundfunk vom Sender Göttelborner Höhe SR 1 auf 88,0 MHz und SR 3 Saarlandwelle auf 95,5 MHz (je 100 kW). [Ergänzung] Eine Frequenzliste des SR selbst wurde nicht gefunden; drei nicht amtliche Frequenzlisten nennen dieselben Werte. Passt der Empfang nicht, den Sendersuchlauf nutzen.",
-   "wert": null,
-   "einheit": null,
-   "warnung": null,
-   "quelle": {
-    "t": "Wikipedia: Sender Göttelborner Höhe (nicht amtlich)",
-    "u": "https://de.wikipedia.org/wiki/Sender_G%C3%B6ttelborner_H%C3%B6he",
-    "stand": "abgerufen 26.11.2026"
-   }
-  },
-  {
    "id": "w-nina",
    "gebiet": "Saarland",
    "kategorie": "Warnwege",
@@ -186,15 +171,15 @@
    "id": "z-oberste",
    "gebiet": "Saarland",
    "kategorie": "Zuständigkeit",
-   "titel": "Oberste Katastrophenschutzbehörde",
-   "text": "Das für Inneres zuständige Ministerium des Saarlandes (im Gesetzestext von 2013: Ministerium für Inneres und Sport).",
-   "wert": null,
+   "titel": "Katastrophenschutz: zuständige Behörden",
+   "text": "Oberste Katastrophenschutzbehörde ist das Ministerium für Inneres, Bauen und Sport. Untere Katastrophenschutzbehörden sind die Landkreise und im Regionalverband Saarbrücken die Landeshauptstadt Saarbrücken.",
+   "wert": "Ministerium für Inneres, Bauen und Sport",
    "einheit": null,
-   "warnung": "Ministeriumsname kann sich geändert haben – beim Land prüfen.",
+   "warnung": "Ministeriumsname zusätzlich auf saarland.de/mibs (Startseite) bestätigt, abgerufen 26.11.2026.",
    "quelle": {
-    "t": "SBKG – Saarländisches Brand- und Katastrophenschutzgesetz, §§ 2, 17 (nicht-amtliche Fassung, sadaba.de)",
-    "u": "https://www.sadaba.de/GSLT_SBKG.html",
-    "stand": "Fassung nach Änderung vom 26.06.2013, Seite aktualisiert 01.02.2014"
+    "t": "Landkreis Neunkirchen: Katastrophenschutz",
+    "u": "https://www.landkreis-neunkirchen.de/recht-ordnung/katastrophenschutz",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
    }
   },
   {
@@ -622,14 +607,14 @@
    "gebiet": "Landkreis St. Wendel",
    "kategorie": "Anlaufstellen",
    "titel": "Landkreis St. Wendel",
-   "text": "Untere Katastrophenschutzbehörde ist der Landkreis. Eine amtliche Liste von Notfalltreffpunkten wurde nicht gefunden (Stand 26.11.2026).",
+   "text": "Untere Katastrophenschutzbehörde ist der Landkreis. Auf der Kreis-Website wurde keine Liste von Notfalltreffpunkten gefunden; auch der Blackout-Flyer der Kreisstadt St. Wendel nennt keine Anlaufstellen (Stand 26.11.2026) – bei Kreis oder Gemeinde nachfragen.",
    "wert": null,
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "SBKG – Saarländisches Brand- und Katastrophenschutzgesetz, §§ 2, 17 (nicht-amtliche Fassung, sadaba.de)",
-    "u": "https://www.sadaba.de/GSLT_SBKG.html",
-    "stand": "Fassung nach Änderung vom 26.06.2013, Seite aktualisiert 01.02.2014"
+    "t": "Kreisstadt St. Wendel: Was tun bei Stromausfall? (mit Flyer „Strom weg? – Was nun?“)",
+    "u": "https://www.sankt-wendel.de/was-tun-bei-stromausfall/",
+    "stand": "ohne Datum (Flyer-PDF erstellt 10/2022), abgerufen 26.11.2026"
    }
   },
   {
@@ -637,29 +622,29 @@
    "gebiet": "Landkreis Merzig-Wadern",
    "kategorie": "Anlaufstellen",
    "titel": "Landkreis Merzig-Wadern",
-   "text": "Untere Katastrophenschutzbehörde ist der Landkreis. Eine amtliche Liste von Notfalltreffpunkten bei Stromausfall wurde nicht gefunden (Stand 26.11.2026).",
+   "text": "Untere Katastrophenschutzbehörde ist der Landkreis. Keine Liste von Notfalltreffpunkten gefunden (Stand 26.11.2026). Laut Kreis-Website sind besondere Katastrophenschutzpläne u. a. zu flächendeckenden Stromausfällen „in Bearbeitung“; der öffentliche Teil des allgemeinen KatS-Plans enthält keine Treffpunkte.",
    "wert": null,
    "einheit": null,
-   "warnung": null,
+   "warnung": "Seitenstand unbekannt; Angabe „in Bearbeitung“ kann veraltet sein.",
    "quelle": {
-    "t": "SBKG – Saarländisches Brand- und Katastrophenschutzgesetz, §§ 2, 17 (nicht-amtliche Fassung, sadaba.de)",
-    "u": "https://www.sadaba.de/GSLT_SBKG.html",
-    "stand": "Fassung nach Änderung vom 26.06.2013, Seite aktualisiert 01.02.2014"
+    "t": "Landkreis Merzig-Wadern: Katastrophenschutz",
+    "u": "https://www.merzig-wadern.de/Verwaltung-Politik/Sicherheit-Ordnung/Brand-und-Bev%C3%B6lkerungsschutz-Rettungswesen/Katastrophenschutz/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
    }
   },
   {
    "id": "nk-liste",
    "gebiet": "Landkreis Neunkirchen",
    "kategorie": "Anlaufstellen",
-   "titel": "Landkreis Neunkirchen: Treffpunkte",
-   "text": "Eine amtliche Liste von Notfalltreffpunkten wurde nicht gefunden (Stand 26.11.2026).",
+   "titel": "Landkreis Neunkirchen",
+   "text": "Untere Katastrophenschutzbehörde ist der Landkreis. Auf der Katastrophenschutz-Seite des Kreises wurde keine Liste von Notfalltreffpunkten gefunden (Stand 26.11.2026) – bei Kreis oder Gemeinde nachfragen.",
    "wert": null,
    "einheit": null,
    "warnung": null,
    "quelle": {
-    "t": "SBKG – Saarländisches Brand- und Katastrophenschutzgesetz, §§ 2, 17 (nicht-amtliche Fassung, sadaba.de)",
-    "u": "https://www.sadaba.de/GSLT_SBKG.html",
-    "stand": "Fassung nach Änderung vom 26.06.2013, Seite aktualisiert 01.02.2014"
+    "t": "Landkreis Neunkirchen: Katastrophenschutz",
+    "u": "https://www.landkreis-neunkirchen.de/recht-ordnung/katastrophenschutz",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
    }
   },
   {
@@ -720,6 +705,381 @@
     "t": "BfR: Giftinformationszentren in Deutschland",
     "u": "https://www.bfr.bund.de/deutsches-produktregister-depro/giftinformationszentren-in-deutschland/",
     "stand": "22.07.2026"
+   }
+  },
+  {
+   "id": "swl-leuchtturm-saarwellingen",
+   "gebiet": "Saarwellingen",
+   "kategorie": "Anlaufstellen",
+   "titel": "Saarwellingen: Leuchtturm Feuerwehrgerätehaus Saarwellingen",
+   "text": "Feuerwehrgerätehaus Löschbezirk Saarwellingen, Schloßstraße 31-33, 66793 Saarwellingen. Bei großflächigem Stromausfall über einen Zeitraum ab 1 Stunde sind die notstromgespeisten Gerätehäuser der Feuerwehr Saarwellingen im betroffenen Ortsteil als Leuchttürme besetzt (Ansprechpartner im Notfall).",
+   "wert": "Schloßstraße 31-33, 66793 Saarwellingen",
+   "einheit": null,
+   "warnung": "Nur bei großflächigem Stromausfall ab ca. 1 Stunde und nur im betroffenen Ortsteil besetzt (laut Handakte Stand 03/2022). Adresse laut feuerwehrsaarwellingen.de/kontakt (ohne Datum, abgerufen 26.11.2026).",
+   "quelle": {
+    "t": "Gemeinde Saarwellingen / Feuerwehr Saarwellingen: Handakte Stromausfall (Leuchtturmprojekt), PDF",
+    "u": "https://www.saarwellingen.de/fileadmin/user_upload/3_Gemeindeleben/Freiwillige_Feuerwehr/Stromausfall_oeffentlich.pdf",
+    "stand": "Stand: März 2022, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swl-leuchtturm-schwarzenholz",
+   "gebiet": "Saarwellingen",
+   "kategorie": "Anlaufstellen",
+   "titel": "Saarwellingen: Leuchtturm Feuerwehrgerätehaus Schwarzenholz",
+   "text": "Feuerwehrgerätehaus Löschbezirk Schwarzenholz, Dorfstraße 20, 66793 Saarwellingen. Bei großflächigem Stromausfall über einen Zeitraum ab 1 Stunde sind die notstromgespeisten Gerätehäuser der Feuerwehr Saarwellingen im betroffenen Ortsteil als Leuchttürme besetzt (Ansprechpartner im Notfall).",
+   "wert": "Dorfstraße 20, 66793 Saarwellingen",
+   "einheit": null,
+   "warnung": "Nur bei großflächigem Stromausfall ab ca. 1 Stunde und nur im betroffenen Ortsteil besetzt (laut Handakte Stand 03/2022). Adresse laut feuerwehrsaarwellingen.de/kontakt (ohne Datum, abgerufen 26.11.2026).",
+   "quelle": {
+    "t": "Gemeinde Saarwellingen / Feuerwehr Saarwellingen: Handakte Stromausfall (Leuchtturmprojekt), PDF",
+    "u": "https://www.saarwellingen.de/fileadmin/user_upload/3_Gemeindeleben/Freiwillige_Feuerwehr/Stromausfall_oeffentlich.pdf",
+    "stand": "Stand: März 2022, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swl-leuchtturm-reisbach",
+   "gebiet": "Saarwellingen",
+   "kategorie": "Anlaufstellen",
+   "titel": "Saarwellingen: Leuchtturm Feuerwehrgerätehaus Reisbach",
+   "text": "Feuerwehrgerätehaus Löschbezirk Reisbach, Kirchenstraße 73, 66793 Saarwellingen. Bei großflächigem Stromausfall über einen Zeitraum ab 1 Stunde sind die notstromgespeisten Gerätehäuser der Feuerwehr Saarwellingen im betroffenen Ortsteil als Leuchttürme besetzt (Ansprechpartner im Notfall).",
+   "wert": "Kirchenstraße 73, 66793 Saarwellingen",
+   "einheit": null,
+   "warnung": "Nur bei großflächigem Stromausfall ab ca. 1 Stunde und nur im betroffenen Ortsteil besetzt (laut Handakte Stand 03/2022). Adresse laut feuerwehrsaarwellingen.de/kontakt (ohne Datum, abgerufen 26.11.2026).",
+   "quelle": {
+    "t": "Gemeinde Saarwellingen / Feuerwehr Saarwellingen: Handakte Stromausfall (Leuchtturmprojekt), PDF",
+    "u": "https://www.saarwellingen.de/fileadmin/user_upload/3_Gemeindeleben/Freiwillige_Feuerwehr/Stromausfall_oeffentlich.pdf",
+    "stand": "Stand: März 2022, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "spk-liste",
+   "gebiet": "Saarpfalz-Kreis",
+   "kategorie": "Anlaufstellen",
+   "titel": "Saarpfalz-Kreis",
+   "text": "Untere Katastrophenschutzbehörde ist der Kreis. Auf der Bevölkerungsschutz-Seite wurde keine Liste von Notfalltreffpunkten gefunden; sie verweist zum Stromausfall auf das BBK. Der frühere Kreis-Flyer „Stromausfall – Was nun?“ ist unter der alten Adresse nicht mehr abrufbar (Stand 26.11.2026). Homburg siehe eigener Eintrag.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Saarpfalz-Kreis: Bevölkerungsschutz",
+    "u": "https://www.saarpfalz-kreis.de/sicherheit-ordnung/bevoelkerungsschutz/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "rv-liste",
+   "gebiet": "Regionalverband Saarbrücken",
+   "kategorie": "Anlaufstellen",
+   "titel": "Regionalverband Saarbrücken",
+   "text": "Untere Katastrophenschutzbehörde im Regionalverband ist die Landeshauptstadt Saarbrücken. Die Seiten des Regionalverbands zu Strom- und Gasausfall und Notfallvorsorge enthalten Verhaltenstipps, aber keine Liste von Notfalltreffpunkten (Stand 26.11.2026).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Regionalverband Saarbrücken: Strom- und Gasausfall",
+    "u": "https://www.regionalverband-saarbruecken.de/verwaltung-politik/energie/strom-und-gasausfall",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "sb-liste",
+   "gebiet": "Landeshauptstadt Saarbrücken",
+   "kategorie": "Anlaufstellen",
+   "titel": "Landeshauptstadt Saarbrücken",
+   "text": "Die Seite „Bevölkerungsschutz und Notfallvorsorge“ der Landeshauptstadt enthält Vorsorge-Tipps und Angaben zum Sirenennetz, aber keine Liste von Notfalltreffpunkten (Stand 26.11.2026).",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Landeshauptstadt Saarbrücken: Bevölkerungsschutz und Notfallvorsorge",
+    "u": "https://www.saarbruecken.de/leben_in_saarbruecken/gesundheit_sicherheit/bevoelkerungsschutz_notfallvorsorge",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "vse-netz",
+   "gebiet": "Saarland",
+   "kategorie": "Störungsnummern",
+   "titel": "VSE Verteilnetz GmbH: Störungsnummern",
+   "text": "Fragen bei Störungen: Strom 0681 4030-2611, Gas 0681 4030-2610, Wasser 0681 4030-2613.",
+   "wert": "0681 4030-2611",
+   "einheit": null,
+   "warnung": "Die Seite nennt keine Erreichbarkeitszeiten (rund um die Uhr nicht ausdrücklich angegeben).",
+   "quelle": {
+    "t": "VSE Verteilnetz GmbH: Startseite (Abschnitt „Fragen bei Störungen?“)",
+    "u": "https://www.vse-verteilnetz.de/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "pfw-netz",
+   "gebiet": "Saarland",
+   "kategorie": "Störungsnummern",
+   "titel": "Pfalzwerke Netz AG: Auskunft bei Stromausfall",
+   "text": "Ihre Auskunft bei Stromausfall – Hotline: 0800 797 77 77. Störung kann auch online gemeldet werden.",
+   "wert": "0800 797 77 77",
+   "einheit": null,
+   "warnung": "Erreichbarkeitszeiten nicht angegeben.",
+   "quelle": {
+    "t": "Pfalzwerke Netz AG: Kontakt",
+    "u": "https://www.pfalzwerke-netz.de/kontakt",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "kew-nk",
+   "gebiet": "Neunkirchen",
+   "kategorie": "Störungsnummern",
+   "titel": "KEW Neunkirchen: Störfallhotline",
+   "text": "Bereitschaftsdienst rund um die Uhr bei Störungen: Gas +49 6821 200-100, Strom +49 6821 200-101, Wasser +49 6821 200-102, Fernwärme +49 6821 200-103.",
+   "wert": "+49 6821 200-101",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "KEW AG Neunkirchen: Startseite (Störfallhotline)",
+    "u": "https://kew.de/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swsls",
+   "gebiet": "Saarlouis",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke Saarlouis: Störung melden",
+   "text": "Bereitschaftsdienst rund um die Uhr (24 Stunden am Tag) für Strom, Erdgas und Trinkwasser: Gas 06831 9596-301, Strom 06831 9596-302, Wasser 06831 9596-303. Außerdem Glasfaser 06831 9596-304 und E-Ladesäulen 0800 0670 000.",
+   "wert": "06831 9596-302",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadtwerke Saarlouis: Störung melden",
+    "u": "https://www.swsls.de/service/stoerung-melden",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swvk-netz",
+   "gebiet": "Völklingen",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke Völklingen Netz: Notfallnummer",
+   "text": "Bei Störungen und Notfällen jederzeit erreichbar: +49 6898 150-222 (bei akuten Störungen telefonisch melden; E-Mail stoerung@swvk.de).",
+   "wert": "+49 6898 150-222",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadtwerke Völklingen (Netz): Notfallnummer / Störung melden",
+    "u": "https://swvk-netz.de/notfallnummer-stoerung-melden/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swh-hom",
+   "gebiet": "Homburg (Saarpfalz-Kreis)",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke Homburg: Störungshotline",
+   "text": "Störungshotline 0800 / 789 4662; Telefonzentrale 06841 / 694-0.",
+   "wert": "0800 / 789 4662",
+   "einheit": null,
+   "warnung": "Sparten und Erreichbarkeitszeiten der Hotline auf der Seite nicht angegeben.",
+   "quelle": {
+    "t": "Stadtwerke Homburg GmbH: Kontakt",
+    "u": "https://www.stadtwerke-homburg.de/kontakt",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swigb",
+   "gebiet": "St. Ingbert",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke St. Ingbert: Störungs-Hotline",
+   "text": "In Not- und Störungsfällen Hotline rund um die Uhr: 06894 9552-400; Kundenservice 06894 9552-0 (Reinhold-Becker-Straße 1, 66386 St. Ingbert).",
+   "wert": "06894 9552-400",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadtwerke St. Ingbert: Notfallnummer",
+    "u": "https://www.sw-igb.de/notfallnummer/",
+    "stand": "abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swd-dil",
+   "gebiet": "Dillingen/Saar",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke Dillingen/Saar: Bereitschaftsdienst",
+   "text": "Bei Störungen in den Bereichen Strom, Erdgas oder Wasser ist der Bereitschaftsdienst rund um die Uhr erreichbar: 06831 9747-0.",
+   "wert": "06831 9747-0",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadtwerke Dillingen/Saar: Startseite",
+    "u": "https://swd-saar.de/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swm-mzg",
+   "gebiet": "Merzig",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke Merzig: Störungsmeldung",
+   "text": "Erdgas, Wasser und Wärme: 06861 7006-111. Strom (Netz energis): 0681 9069-2611.",
+   "wert": "06861 7006-111",
+   "einheit": null,
+   "warnung": "Erreichbarkeitszeiten nicht angegeben.",
+   "quelle": {
+    "t": "Stadtwerke Merzig: Startseite (Störungsmeldung)",
+    "u": "https://www.stadtwerke-merzig.de/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "swb-bex",
+   "gebiet": "Bexbach",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke Bexbach: Notfallnummer",
+   "text": "Für Notfälle 06826 9202-300; Kundenservice 06826-9202-333.",
+   "wert": "06826 9202-300",
+   "einheit": null,
+   "warnung": "Sparten und Erreichbarkeitszeiten nicht angegeben.",
+   "quelle": {
+    "t": "Stadtwerke Bexbach: Startseite",
+    "u": "https://www.stadtwerke-bexbach.de/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "sws-sul",
+   "gebiet": "Sulzbach/Saar",
+   "kategorie": "Störungsnummern",
+   "titel": "Stadtwerke Sulzbach: Rufbereitschaft",
+   "text": "Rufbereitschaft für alle Störungsfälle rund um die Uhr: 06897 / 575-0. Bei Gasgeruch von außerhalb des Hauses anrufen.",
+   "wert": "06897 / 575-0",
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Stadtwerke Sulzbach/Saar: Störung melden",
+    "u": "https://www.stadtwerke-sulzbach.de/simplecontentpage/10",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "wvw-wnd",
+   "gebiet": "Landkreis St. Wendel",
+   "kategorie": "Störungsnummern",
+   "titel": "WVW Kreis St. Wendel: 24h-Service-Hotline",
+   "text": "WVW Wasser- und Energieversorgung Kreis St. Wendel: „24h-Service-Hotline“ +49 (0) 6851 - 8003-0. Telefonzentrale laut Kontaktseite Mo–Do 8–16 Uhr, Fr 8–13 Uhr.",
+   "wert": "06851 8003-0",
+   "einheit": null,
+   "warnung": "Die Seite nennt die Hotline nicht ausdrücklich als Störungsnummer.",
+   "quelle": {
+    "t": "WVW Wasser- und Energieversorgung Kreis St. Wendel: Kontakt",
+    "u": "https://wvw-wnd.de/kontakt/",
+    "stand": "abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "rv-warnwege",
+   "gebiet": "Regionalverband Saarbrücken",
+   "kategorie": "Warnwege",
+   "titel": "Regionalverband: Warnmöglichkeiten",
+   "text": "Genannt werden Cell Broadcast, Warn-App NINA (bzw. warnung.bund.de), KATWARN, Sirene und Radio sowie Lautsprecherdurchsagen. Sirenensignale: Warnung = 1 Minute auf- und abschwellender Heulton; Entwarnung = 1 Minute Dauerton; Feueralarm = 1 Minute Dauerton mit 2 Unterbrechungen; Probealarm = 15 Sekunden Dauerton.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Regionalverband Saarbrücken: Warnmöglichkeiten",
+    "u": "https://www.regionalverband-saarbruecken.de/verwaltung-politik/energie/warnmoeglichkeiten",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "nk-warnwege",
+   "gebiet": "Landkreis Neunkirchen",
+   "kategorie": "Warnwege",
+   "titel": "Landkreis Neunkirchen: Warnung der Bevölkerung",
+   "text": "Der Kreis verweist auf die Warn-Apps NINA und KATWARN sowie warnung.bund.de. Sirenenton „Warnung“ (einminütiger auf- und abschwellender Heulton): Rundfunkgerät einschalten und auf Durchsagen im regionalen Radiosender achten.",
+   "wert": null,
+   "einheit": null,
+   "warnung": null,
+   "quelle": {
+    "t": "Landkreis Neunkirchen: Katastrophenschutz",
+    "u": "https://www.landkreis-neunkirchen.de/recht-ordnung/katastrophenschutz",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "mzg-warnwege",
+   "gebiet": "Landkreis Merzig-Wadern",
+   "kategorie": "Warnwege",
+   "titel": "Landkreis Merzig-Wadern: Sirenen und NINA",
+   "text": "Der Landkreis hat das Sirenennetz des Bundes übernommen und nutzt es zur Alarmierung der Feuerwehr und zur Warnung der Bevölkerung. Signal „Katastrophenalarm“: Radio einschalten. Zusätzlich Warn-App NINA, die von den unteren Katastrophenschutzbehörden direkt gesteuert werden kann.",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Die Seite bezeichnet Merzig-Wadern als einzigen Kreis mit flächendeckendem Sirenennetz – ohne Datum, wegen neuer Sirenenprojekte in anderen Kreisen möglicherweise veraltet.",
+   "quelle": {
+    "t": "Landkreis Merzig-Wadern: Zivilschutz",
+    "u": "https://www.merzig-wadern.de/Verwaltung-Politik/Sicherheit-Ordnung/Brand-und-Bev%C3%B6lkerungsschutz-Rettungswesen/Zivilschutz/",
+    "stand": "ohne Datum, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "sr-ukw-sr1",
+   "gebiet": "Saarland",
+   "kategorie": "Warnwege",
+   "titel": "SR 1: UKW-Frequenzen",
+   "text": "Göttelborner Höhe 88,0 MHz (100 kW); Bliestal 92,3 MHz (5 kW); Moseltal 91,9 MHz (5 kW); Merzig 89,3 MHz (100 W); Mettlach 98,6 MHz (10 W); Saarbrücken-Halberg 98,2 MHz (10 W). Digitalradio DAB+ Block 9A. Verkehrsfunk auf SR 1 und SR 3.",
+   "wert": "88,0",
+   "einheit": "MHz",
+   "warnung": "Seitenstand 02.03.2022; Frequenzen vor Ort prüfen.",
+   "quelle": {
+    "t": "SR: SR 1 Frequenzen",
+    "u": "https://www.sr.de/sr/sr1/programm/sr1_frequenzen100.html",
+    "stand": "DC.date 02.03.2022, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "sr-ukw-sr3",
+   "gebiet": "Saarland",
+   "kategorie": "Warnwege",
+   "titel": "SR 3 Saarlandwelle: UKW-Frequenzen",
+   "text": "Göttelborner Höhe 95,5 MHz (100 kW); Bliestal 89,1 MHz (5 kW); Moseltal 96,1 MHz (5 kW); Merzig 98,0 MHz (100 W); Mettlach 96,0 MHz (10 W). Digitalradio DAB+ Block 9A.",
+   "wert": "95,5",
+   "einheit": "MHz",
+   "warnung": null,
+   "quelle": {
+    "t": "SR: SR 3 Saarlandwelle Frequenzen",
+    "u": "https://www.sr.de/sr/sr3/programm/frequenzen/sr3_frequenzen100.html",
+    "stand": "DC.date 27.10.2026, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "sr-ukw-kultur",
+   "gebiet": "Saarland",
+   "kategorie": "Warnwege",
+   "titel": "SR kultur: UKW-Frequenzen",
+   "text": "Göttelborner Höhe 91,3 MHz (100 kW); Saarbrücken 91,3 MHz (100 kW); Homburg 98,6 MHz (200 W); Moseltal 88,6 MHz (5 kW); Merzig 92,1 MHz (100 W); Mettlach 88,5 MHz (10 W). Digitalradio DAB+ Block 9A.",
+   "wert": "91,3",
+   "einheit": "MHz",
+   "warnung": null,
+   "quelle": {
+    "t": "SR: SR kultur empfangen",
+    "u": "https://www.sr.de/sr/srkultur/radio/sr2_frequenzen_seite100.html",
+    "stand": "DC.date 21.01.2026, abgerufen 26.11.2026"
+   }
+  },
+  {
+   "id": "sr-antennesaar",
+   "gebiet": "Saarland",
+   "kategorie": "Warnwege",
+   "titel": "AntenneSaar: Empfang",
+   "text": "AntenneSaar ist laut SR über DAB+ Block 9A und als Online-Stream empfangbar; eine UKW-Frequenz wird nicht genannt. Über DAB sind Nachrichten inkl. Verkehrsmeldungen auch zwischen 18 und 8 Uhr zu hören (laut SR-1-/SR-3-Frequenzseite).",
+   "wert": null,
+   "einheit": null,
+   "warnung": "Ohne Strom/Internet nur mit DAB+-fähigem Batterieradio empfangbar.",
+   "quelle": {
+    "t": "SR: Empfang von AntenneSaar",
+    "u": "https://www.sr.de/sr/antennesaar/empfang/empfang_antennesaar_100.html",
+    "stand": "DC.date 23.10.2022, abgerufen 26.11.2026"
    }
   }
  ],
@@ -827,6 +1187,141 @@
   {
    "t": "Wikipedia: Sender Göttelborner Höhe (nicht amtlich)",
    "u": "https://de.wikipedia.org/wiki/Sender_G%C3%B6ttelborner_H%C3%B6he",
+   "stand": "abgerufen 26.11.2026"
+  },
+  {
+   "t": "Landkreis Neunkirchen: Katastrophenschutz",
+   "u": "https://www.landkreis-neunkirchen.de/recht-ordnung/katastrophenschutz",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Kreisstadt St. Wendel: Was tun bei Stromausfall? (mit Flyer „Strom weg? – Was nun?“)",
+   "u": "https://www.sankt-wendel.de/was-tun-bei-stromausfall/",
+   "stand": "ohne Datum (Flyer-PDF erstellt 10/2022), abgerufen 26.11.2026"
+  },
+  {
+   "t": "Landkreis Merzig-Wadern: Katastrophenschutz",
+   "u": "https://www.merzig-wadern.de/Verwaltung-Politik/Sicherheit-Ordnung/Brand-und-Bev%C3%B6lkerungsschutz-Rettungswesen/Katastrophenschutz/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Gemeinde Saarwellingen / Feuerwehr Saarwellingen: Handakte Stromausfall (Leuchtturmprojekt), PDF",
+   "u": "https://www.saarwellingen.de/fileadmin/user_upload/3_Gemeindeleben/Freiwillige_Feuerwehr/Stromausfall_oeffentlich.pdf",
+   "stand": "Stand: März 2022, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Saarpfalz-Kreis: Bevölkerungsschutz",
+   "u": "https://www.saarpfalz-kreis.de/sicherheit-ordnung/bevoelkerungsschutz/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Regionalverband Saarbrücken: Strom- und Gasausfall",
+   "u": "https://www.regionalverband-saarbruecken.de/verwaltung-politik/energie/strom-und-gasausfall",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Landeshauptstadt Saarbrücken: Bevölkerungsschutz und Notfallvorsorge",
+   "u": "https://www.saarbruecken.de/leben_in_saarbruecken/gesundheit_sicherheit/bevoelkerungsschutz_notfallvorsorge",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "VSE Verteilnetz GmbH: Startseite (Abschnitt „Fragen bei Störungen?“)",
+   "u": "https://www.vse-verteilnetz.de/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Pfalzwerke Netz AG: Kontakt",
+   "u": "https://www.pfalzwerke-netz.de/kontakt",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "KEW AG Neunkirchen: Startseite (Störfallhotline)",
+   "u": "https://kew.de/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke Saarlouis: Störung melden",
+   "u": "https://www.swsls.de/service/stoerung-melden",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke Völklingen (Netz): Notfallnummer / Störung melden",
+   "u": "https://swvk-netz.de/notfallnummer-stoerung-melden/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke Homburg GmbH: Kontakt",
+   "u": "https://www.stadtwerke-homburg.de/kontakt",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke St. Ingbert: Startseite",
+   "u": "https://www.sw-igb.de/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke Dillingen/Saar: Startseite",
+   "u": "https://swd-saar.de/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke Merzig: Startseite (Störungsmeldung)",
+   "u": "https://www.stadtwerke-merzig.de/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke Bexbach: Startseite",
+   "u": "https://www.stadtwerke-bexbach.de/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke Sulzbach/Saar: Störung melden",
+   "u": "https://www.stadtwerke-sulzbach.de/simplecontentpage/10",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Gemeinde Tholey: Kundeninformation der WVW zur Trinkwasserqualität (PDF)",
+   "u": "https://www.tholey.de/wp-content/uploads/2020/06/Wasserh%C3%A4rte.pdf",
+   "stand": "Stand Mai 2020, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Regionalverband Saarbrücken: Warnmöglichkeiten",
+   "u": "https://www.regionalverband-saarbruecken.de/verwaltung-politik/energie/warnmoeglichkeiten",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Landkreis Merzig-Wadern: Zivilschutz",
+   "u": "https://www.merzig-wadern.de/Verwaltung-Politik/Sicherheit-Ordnung/Brand-und-Bev%C3%B6lkerungsschutz-Rettungswesen/Zivilschutz/",
+   "stand": "ohne Datum, abgerufen 26.11.2026"
+  },
+  {
+   "t": "SR: SR 1 Frequenzen",
+   "u": "https://www.sr.de/sr/sr1/programm/sr1_frequenzen100.html",
+   "stand": "DC.date 02.03.2022, abgerufen 26.11.2026"
+  },
+  {
+   "t": "SR: SR 3 Saarlandwelle Frequenzen",
+   "u": "https://www.sr.de/sr/sr3/programm/frequenzen/sr3_frequenzen100.html",
+   "stand": "DC.date 27.10.2026, abgerufen 26.11.2026"
+  },
+  {
+   "t": "SR: SR kultur empfangen",
+   "u": "https://www.sr.de/sr/srkultur/radio/sr2_frequenzen_seite100.html",
+   "stand": "DC.date 21.01.2026, abgerufen 26.11.2026"
+  },
+  {
+   "t": "SR: Empfang von AntenneSaar",
+   "u": "https://www.sr.de/sr/antennesaar/empfang/empfang_antennesaar_100.html",
+   "stand": "DC.date 23.10.2022, abgerufen 26.11.2026"
+  },
+  {
+   "t": "Stadtwerke St. Ingbert: Notfallnummer",
+   "u": "https://www.sw-igb.de/notfallnummer/",
+   "stand": "abgerufen 26.11.2026"
+  },
+  {
+   "t": "WVW Wasser- und Energieversorgung Kreis St. Wendel: Kontakt",
+   "u": "https://wvw-wnd.de/kontakt/",
    "stand": "abgerufen 26.11.2026"
   }
  ],

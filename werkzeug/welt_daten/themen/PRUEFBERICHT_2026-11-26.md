@@ -71,7 +71,7 @@ Abkürzungen: ✔ = bestätigt, ✘ = Abweichung, ⚠ = Hinweis bzw. Empfehlung.
 |---|---|---|---|---|
 | Saar-Hunsrück | SL (+RP) | 2.061 / 2.055 | 1980 / 1980 | ✔ Lagepunkt 6,76/49,56 bei Weiskirchen (SL) |
 | Pfälzerwald | RP | 1.798 / – | 1958 / – | ✘ siehe oben |
-| Harz (NI) | NI | 909 / 2.825 | 1960 / 1960 | ⚠ VDN-Seite nennt 2.825 km² (wohl Geopark bzw. ganzer Harz); 909 km² für den NI-Park ist plausibel, nicht weiter belegt |
+| Harz (NI) | NI | 909 / 2.825 | 1960 / 1960 | ✔ 909 km² laut NLWKN (90.856 ha, 31.12.2025) und Regionalverband Harz; 2.825 km² = Summe der drei Naturparke des Regionalverbands (Nachtrag 26.11.2026 nachmittags) |
 | Wendland.Elbe | NI | 1.159 / 1.159 | 2006 / **1968** | ✘ Jahr: VDN 1968 (Wikidata 2006 = Umbenennung bzw. Neugründung) |
 | Vulkanregion Vogelsberg | HE | 883 / 880 | 1956 / **1957** | ✘ kleine Abweichung (Jahr) |
 | Lüneburger Heide | NI | 1.078 / 1.070 | 1956 / 1956 | ✔ |
