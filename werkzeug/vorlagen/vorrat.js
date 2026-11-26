@@ -781,7 +781,7 @@ function haushaltHTML() {
     (+L.spar < 100 ? '<p class="vr-warn vr-voll">Weniger essen geht nur für kurze Zeit und nur für gesunde Erwachsene – nicht für Kinder, Schwangere, Stillende, Kranke oder ältere Menschen. Wasser nie kürzen. Das ist eine Rechenhilfe, keine Empfehlung.</p>' : '') +
     feld('Zusätzlich Wasser zum Waschen', zahlIn('data-lf="hyg"', L.hyg || '', 'l je Person/Tag', '0 = aus'), 'vr-voll') +
     (L.koch === 'gas' ? feld('Brenndauer einer Gaskartusche (steht auf der Packung)', zahlIn('data-lf="kartusche"', L.kartusche, 'Minuten', 'leer = keine Schätzung', 'numeric'), 'vr-voll') : '') +
-    '</div><p class="vr-klein">Der BBK rät, sich möglichst 10 Tage selbst versorgen zu können – aber auch ein Vorrat für 3 Tage hilft schon sehr.</p></div>';
+    '</div><p class="vr-klein">Der BBK rät, sich möglichst 10 Tage selbst versorgen zu können – aber auch ein Vorrat für 3 Tage hilft schon sehr.</p>' + (HAKEN.lageHinweis ? HAKEN.lageHinweis(S) : '') + '</div>';
   h += sicherungHTML();
   return h + '</section>';
 }

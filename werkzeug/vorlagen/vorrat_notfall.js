@@ -13,7 +13,7 @@ function E(n, id) { var t = T(n); if (!t) return null; for (var i = 0; i < t.E.l
 function wert(n, id, ersatz) { var e = E(n, id); return e && e[4] != null ? +e[4] : ersatz; }
 function stufe(t, z) { return t >= z ? 'gruen' : t >= Math.min(3, z) ? 'gelb' : 'rot'; }
 /* Quellen der Belege in den Abschnitt „Quellen und Stand“ übernehmen */
-Object.keys(F.T).forEach(function (n) { (F.T[n].q || []).forEach(function (qi) { var q = F.Q[qi]; if (q && q[1] && !I.QUELLEN.some(function (x) { return x[1] === q[1]; })) I.QUELLEN.push([q[0] + (q[2] ? ' (Stand: ' + q[2] + ')' : ''), q[1], F.T[n].thema]); }); });
+Object.keys(F.T).forEach(function (n) { if (n === 'technik') return; (F.T[n].q || []).forEach(function (qi) { var q = F.Q[qi]; if (q && q[1] && !I.QUELLEN.some(function (x) { return x[1] === q[1]; })) I.QUELLEN.push([q[0] + (q[2] ? ' (Stand: ' + q[2] + ')' : ''), q[1], F.T[n].thema]); }); });
 
 /* ---------- Bausteine ---------- */
 /* Stand kurz: ohne Links und Zusatzbemerkungen */
@@ -64,6 +64,8 @@ function wasserHTML() {
     I.WQ.map(function (q) { return feld(esc(q[1]) + ' <small>(' + ({ brauch: 'Brauchwasser', abkochen: 'nur abgekocht', trink: 'trinkbar' })[q[2]] + ')</small>', zahlIn('data-wqq="' + q[0] + '"', (Wq.q || {})[q[0]] || '', 'l', '0')); }).join('') + '</div>' +
     '<label class="vr-schalter"><input type="checkbox" data-wq="abkochen"' + (Wq.abkochen ? ' checked' : '') + (kochen ? '' : ' disabled') + '><span>Spülkasten, Speicher und Regenwasser abkochen und trinken' + (kochen ? '' : ' (geht nur mit einer Kochstelle)') + '</span></label>' +
     (E('wasser', 'auf-abkochen') ? '<p class="vr-warnung"><span aria-hidden="true">⚠</span> ' + esc(E('wasser', 'auf-abkochen')[6]) + '</p>' : '') + '</div>';
+  var ab1 = E('wasser', 'auf-abkochen'), ab2 = E('wasser', 'auf-abkochen-international');
+  if (ab1 && ab2) h += '<h3>Abkochen: zwei Angaben</h3><div class="vr-widerspruch"><div class="vr-karte"><b>Umweltbundesamt</b><p>' + esc(ab1[3]) + '</p>' + quelleHTML(ab1[7]) + '</div><div class="vr-karte"><b>CDC (USA, international)</b><p>' + esc(ab2[3]) + '</p>' + quelleHTML(ab2[7]) + '</div></div><p class="vr-klein">Die Angaben unterscheiden sich in der Kochdauer; der Planer entscheidet das nicht.</p>';
   h += t ? faktenHTML('wasser', ['Notquellen', 'Aufbereitung', 'Lagern', 'Toilette', 'Bedarf']) : fehltHTML();
   return h + '</section>';
 }
@@ -232,10 +234,50 @@ function naehrHTML() {
   return h + '</section>';
 }
 
+
+/* ===================================================================== Region (region_saarland.json): Warnwege, Zuständigkeit, Anlaufstellen, Störungsnummern */
+var REGION_OBER = { 'Landeshauptstadt Saarbrücken': 'Regionalverband Saarbrücken', 'Heusweiler': 'Regionalverband Saarbrücken', 'Quierschied': 'Regionalverband Saarbrücken', 'Homburg (Saarpfalz-Kreis)': 'Saarpfalz-Kreis' };
+function regionGebiete() { var t = T('region_saarland'), G = []; if (!t) return G; t.E.forEach(function (e) { var g = e[8] && e[8].gebiet; if (g && g !== 'Saarland' && g !== 'andere Bundesländer' && G.indexOf(g) < 0) G.push(g); }); return G; }
+/* Einträge für die Auswahl: Saarland allgemein + Kreis + Ort; anderes Bundesland: nur der allgemeine Block */
+function regionEintraege(r) { var t = T('region_saarland'); if (!t || !r || !r.land) return [];
+  if (r.land !== 'SL') return t.E.filter(function (e) { return e[8] && e[8].gebiet === 'andere Bundesländer'; });
+  var G = ['Saarland']; if (r.gebiet) { G.push(r.gebiet); if (REGION_OBER[r.gebiet]) G.push(REGION_OBER[r.gebiet]); }
+  return t.E.filter(function (e) { return e[8] && G.indexOf(e[8].gebiet) >= 0; }); }
+function telNummer(w) { return typeof w === 'string' && /^[0-9 ()\/+-]{3,}$/.test(w) && /\d{3}/.test(w); }
+function regionHTML() {
+  var St = S(), t = T('region_saarland'), r = St.region || {};
+  var h = kopf('region', 'Region', 'Wie ihr gewarnt werdet, wer zuständig ist, wo es Anlaufstellen gibt und welche Störungsnummern gelten. Für das Saarland nach Kreis und Ort, für andere Länder der allgemeine Teil.');
+  if (!t) return h + fehltHTML() + '</section>';
+  var G = regionGebiete(), kreise = G.filter(function (g) { return /kreis|verband/i.test(g); }), orte = G.filter(function (g) { return kreise.indexOf(g) < 0; });
+  h += '<div class="vr-karte"><div class="vr-felder">' + feld('Bundesland', seg('rg:land', [['SL', 'Saarland'], ['andere', 'anderes Bundesland']], r.land || ''), 'vr-voll') +
+    (r.land === 'SL' ? feld('Kreis oder Ort (freiwillig)', '<select data-rg="gebiet"><option value="">nur Saarland allgemein</option><optgroup label="Kreise">' + kreise.map(function (g) { return '<option' + (r.gebiet === g ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('') + '</optgroup><optgroup label="Orte mit eigenen Angaben">' + orte.map(function (g) { return '<option' + (r.gebiet === g ? ' selected' : '') + '>' + esc(g) + '</option>'; }).join('') + '</optgroup></select>', 'vr-voll') : '') + '</div>' +
+    '<p class="vr-klein">Die Auswahl bleibt auf diesem Gerät. Für andere Orte im Saarland gelten der Kreis und die allgemeinen Angaben.</p></div>';
+  if (!r.land) return h + '<div class="vr-leer"><p>Wähle oben dein Bundesland.</p></div></section>';
+  var L = regionEintraege(r), nr = L.filter(function (e) { return telNummer(e[4]); });
+  if (nr.length) h += '<h3>Nummern</h3><ul class="vr-nummern" role="list">' + nr.map(function (e) { return '<li><a class="vr-tel" href="tel:' + esc(String(e[4]).replace(/[^0-9+]/g, '')) + '">' + esc(e[4]) + '</a><span><b>' + esc(e[2]) + '</b><small>' + esc(e[3]) + '</small>' + (e[6] ? '<span class="vr-warnung"><span aria-hidden="true">⚠</span> ' + esc(e[6]) + '</span>' : '') + quelleHTML(e[7]) + '</span></li>'; }).join('') + '</ul>';
+  var Gr = []; L.filter(function (e) { return !telNummer(e[4]); }).forEach(function (e) { var g = Gr.filter(function (x) { return x.t === e[1]; })[0]; if (!g) { g = { t: e[1], E: [] }; Gr.push(g); } g.E.push(e); });
+  h += Gr.map(function (g) { return '<h3>' + esc(g.t) + '</h3><ul class="vr-fakten" role="list">' + g.E.map(function (e) { return eintragHTML(e); }).join('') + '</ul>'; }).join('');
+  if (r.land === 'SL') {
+    /* Eine veröffentlichte Liste von Anlaufstellen liegt laut Belegen nur für Homburg bzw. den Saarpfalz-Kreis vor (Feuerwehrgerätehäuser) */
+    var mitListe = r.gebiet === 'Homburg (Saarpfalz-Kreis)' || r.gebiet === 'Saarpfalz-Kreis';
+    if (!mitListe) h += '<p class="vr-hinweis2">Notfalltreffpunkte: Für ' + esc(r.gebiet || 'das Saarland allgemein') + ' liegt keine veröffentlichte amtliche Liste vor – bitte bei der Gemeinde nachfragen (Behördennummer 115).</p>';
+    h += '<h3>Abweichende Angaben</h3><div class="vr-widerspruch">' +
+      '<div class="vr-karte"><b>Wie lange vorsorgen?</b><p>BBK: möglichst <b>10 Tage</b> (mindestens 3). Regionalverband Saarbrücken und Saarpfalz-Kreis: <b>14 Tage</b>.</p><p class="vr-klein">Beide Angaben stehen nebeneinander; das Ziel stellst du unter „Haushalt → Lage“ ein (14 Tage ist wählbar).</p>' + quelleHTML((E('region_saarland', 'rv-vorrat') || [])[7]) + '</div>' +
+      '<div class="vr-karte"><b>Giftnotruf</b><p>BfR: für das Saarland <b>06131 19240</b> (Giftinformationszentrum Mainz). Der Landkreis Neunkirchen und die Gemeinde Heusweiler nennen zusätzlich bzw. stattdessen <b>06841 19240</b> (Homburg).</p><p class="vr-klein">Der Planer nimmt den BfR-Wert; im Zweifel 112.</p>' + quelleHTML((E('notfallplan', 'nr-gift-saar') || [])[7]) + '</div></div>';
+    h += '<h3>Radio</h3><p class="vr-klein">UKW-Frequenzen des Saarländischen Rundfunks sind hier bewusst nicht eingetragen – es gab keine amtliche Liste. Am Radio den Sendersuchlauf nutzen; die aktuellen Frequenzen stehen bei <a href="https://www.sr.de/" target="_blank" rel="noopener">sr.de</a>.</p>';
+    h += '<p class="vr-klein">Das Notfall-Blatt übernimmt die Nummern dieser Auswahl.</p>'; }
+  return h + '</section>';
+}
+H.lageHinweis = function (St) { var r = St.region || {}; return r.land === 'SL' && E('region_saarland', 'rv-vorrat') ? '<p class="vr-klein">Regionalverband Saarbrücken und Saarpfalz-Kreis empfehlen 14 Tage (BBK: 10 Tage) – siehe „Notfall → Region“.</p>' : ''; };
+H.regionNummern = function (St) { return regionEintraege(St.region || {}).filter(function (e) { return telNummer(e[4]); }).map(function (e) { return [esc(e[4]), esc(e[2])]; }); };
+H.blattRegion = function (St) { var L = regionEintraege(St.region || {}).filter(function (e) { return !telNummer(e[4]) && /Warnwege|Anlaufstellen/.test(e[1]); }); if (!L.length) return '';
+  return '<section><h2>Region: Warnung und Anlaufstellen</h2><ul>' + L.map(function (e) { return '<li><b>' + esc(e[2]) + ':</b> ' + esc(e[3]) + '</li>'; }).join('') + '</ul></section>'; };
+
 /* ===================================================================== Ereignisse */
 H.klick.push(function (t, a) {
   var St = S(), O = OF();
   if (t.hasAttribute('data-ablauf-neu')) { I.undo(I.klon(St)); St.ablauf = {}; I.nachAenderung(true); I.toast('Haken entfernt.', true); return true; }
+  if (t.hasAttribute('data-set') && a('data-set') === 'rg:land') { St.region = St.region || {}; St.region.land = a('data-wert'); if (St.region.land !== 'SL') St.region.gebiet = ''; I.nachAenderung(true); return true; }
   if (t.hasAttribute('data-set') && a('data-set') === 'wq:toilette') { St.wasserQ = St.wasserQ || {}; St.wasserQ.toilette = a('data-wert'); I.nachAenderung(true); return true; }
   if (t.hasAttribute('data-pbneu')) { St.strom = St.strom || {}; St.strom.pb = (St.strom.pb && St.strom.pb.length ? St.strom.pb : [{ mah: '', n: 1 }]).concat([{ mah: '', n: 1 }]); I.nachAenderung(true); return true; }
   if (t.hasAttribute('data-pbweg')) { var i = +t.closest('[data-pb]').getAttribute('data-pb'); St.strom.pb.splice(i, 1); I.nachAenderung(true); return true; }
@@ -246,6 +288,7 @@ H.klick.push(function (t, a) {
 });
 H.aenderung.push(function (t) {
   var St = S();
+  if (t.hasAttribute('data-rg')) { St.region = St.region || {}; St.region[t.getAttribute('data-rg')] = t.value; I.nachAenderung(true); return true; }
   if (t.hasAttribute('data-np')) { St.notfall = St.notfall || {}; St.notfall[t.getAttribute('data-np')] = t.type === 'checkbox' ? t.checked : t.value; I.nachAenderung(true); return true; }
   if (t.hasAttribute('data-aus')) { St.haken = St.haken || {}; if (t.checked) St.haken['aus:' + t.getAttribute('data-aus')] = 1; else delete St.haken['aus:' + t.getAttribute('data-aus')]; var d = t.closest('[data-au]'); if (d) OF()['au:' + d.getAttribute('data-au')] = true; I.nachAenderung(true); return true; }
   if (t.hasAttribute('data-ablauf')) { St.ablauf = St.ablauf || {}; if (t.checked) St.ablauf[t.getAttribute('data-ablauf')] = 1; else delete St.ablauf[t.getAttribute('data-ablauf')]; I.nachAenderung(true); return true; }
@@ -265,7 +308,7 @@ H.eingabe.push(function (t) {
 });
 
 var B = I.BEREICH;
-B.ablauf = ablaufHTML; B.wasser = wasserHTML; B.strom = stromHTML; B.kochen = kochenHTML; B.notfallplan = notfallplanHTML; B.naehrstoffe = naehrHTML;
-V._notfall = { F: F, T: T, E: E, wert: wert, ablaufStand: ablaufStand, geraetWh: geraetWh, speicherWh: speicherWh, solarWhTag: solarWhTag, stromRechnung: stromRechnung, kochwasserProTag: kochwasserProTag, npStand: npStand, naehrBedarf: naehrBedarf, naehrTag: naehrTag, naehrCheck: naehrCheck, vitCBedarf: vitCBedarf, ausgleich: ausgleich, ausrStand: ausrStand, GERAETE: GERAETE, KOCH_GERICHTE: KOCH_GERICHTE, eintragHTML: eintragHTML };
+B.ablauf = ablaufHTML; B.wasser = wasserHTML; B.strom = stromHTML; B.kochen = kochenHTML; B.notfallplan = notfallplanHTML; B.naehrstoffe = naehrHTML; B.region = regionHTML;
+V._notfall = { F: F, T: T, E: E, wert: wert, ablaufStand: ablaufStand, geraetWh: geraetWh, speicherWh: speicherWh, solarWhTag: solarWhTag, stromRechnung: stromRechnung, kochwasserProTag: kochwasserProTag, npStand: npStand, regionEintraege: regionEintraege, regionGebiete: regionGebiete, telNummer: telNummer, naehrBedarf: naehrBedarf, naehrTag: naehrTag, naehrCheck: naehrCheck, vitCBedarf: vitCBedarf, ausgleich: ausgleich, ausrStand: ausrStand, GERAETE: GERAETE, KOCH_GERICHTE: KOCH_GERICHTE, eintragHTML: eintragHTML };
 if (typeof module !== 'undefined' && module.exports) module.exports = V._notfall;
 })(typeof window !== 'undefined' ? window : globalThis);

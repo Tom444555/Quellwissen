@@ -325,7 +325,7 @@
 .vr-ortliste{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:6px}
 .vr-ortliste li{display:grid;grid-template-columns:1fr minmax(110px,auto) 44px;gap:6px;align-items:center}
 .vr-x-leer{visibility:hidden}
-.vr-mz{display:inline-block;min-width:7.5em;color:var(--muted);font-size:.78rem;font-weight:600}
+.vr-mz{display:block;color:var(--muted);font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
 .vr-vgl{width:100%;border-collapse:collapse;margin-top:10px;font-variant-numeric:tabular-nums}
 .vr-vgl th,.vr-vgl td{padding:8px;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);text-align:left;vertical-align:top;font-size:.9rem}
 .vr-vgl thead th{font:700 1rem var(--display)}
@@ -430,4 +430,7 @@
 .vr-nz{font:800 1.3rem var(--display)}.vr-nz small{font:400 .82rem var(--body);color:var(--muted)}
 .vr-naehr .vr-gut .vr-nz{color:var(--vr-gut)}.vr-naehr .vr-mittel .vr-nz{color:var(--vr-mittel)}.vr-naehr .vr-schlecht .vr-nz{color:var(--vr-schlecht)}
 .vr-naehr small{color:var(--muted);font-size:.8rem}.vr-ausgl{color:var(--ink)!important}
+.vr-widerspruch{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.vr-widerspruch .vr-karte{margin:0;border-top:4px solid var(--vr-mittel)}.vr-widerspruch b{font-family:var(--display)}.vr-widerspruch p{margin:6px 0}
+.vr-hinweis2{margin:12px 0;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:.9rem}
 /* VORRAT-ENDE */

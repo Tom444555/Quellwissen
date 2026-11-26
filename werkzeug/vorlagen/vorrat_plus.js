@@ -21,6 +21,11 @@ function datei(name, inhalt, typ) {
   var bl = new Blob([inhalt], { type: typ }), url = URL.createObjectURL(bl), a = document.createElement('a');
   a.href = url; a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 800);
 }
+/* Kamera-Scan nur, wo der Browser BarcodeDetector wirklich kann (Safari auf iPhone/iPad: standardmäßig aus – Beleg technik.json) */
+var SCAN = [];
+if (typeof window !== 'undefined' && 'BarcodeDetector' in window && window.isSecureContext && window.BarcodeDetector.getSupportedFormats) {
+  try { window.BarcodeDetector.getSupportedFormats().then(function (L) { SCAN = L || []; }).catch(function () { SCAN = []; }); } catch (e) { SCAN = []; } }
+function kannScannen(f) { return typeof navigator !== 'undefined' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && f.some(function (x) { return SCAN.indexOf(x) >= 0; }); }
 var QPLUS = [];  // weitere Quellen für den Abschnitt „Quellen und Stand“
 function quelle(t, u, z) { if (!QPLUS.some(function (q) { return q[1] === u; })) { QPLUS.push([t, u, z || '']); I.QUELLEN.push([t, u, z || '']); } }
 
@@ -116,7 +121,7 @@ function offNachKatalog(code, d) {
 }
 
 /* ===================================================================== QR-Übertragung */
-var QR_MAX = 1800;  // Zeichen je QR-Code (Version ≤ 40, Fehlerstufe L; bewusst Luft für ältere Kameras)
+var QR_MAX = 1800;  // Zeichen je QR-Code: ein Code fasst höchstens 2.953 Byte (Version 40, Fehlerstufe L, Beleg technik.json) – bewusst Luft für Handy-Kameras
 function b64(u8) { var s = ''; for (var i = 0; i < u8.length; i++) s += String.fromCharCode(u8[i]); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
 function unb64(t) { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; var s = atob(t), u = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
 function zip(text, aus) {
@@ -138,9 +143,9 @@ function qrZusammen(texte) {
   if (!n) return null; var out = ''; for (var i = 1; i <= n; i++) { if (T[i] == null) return { fehlt: i, von: n, da: Object.keys(T).length }; out += T[i]; } return { text: out, von: n };
 }
 function qrSvg(text) {
-  if (!root.QWVorratQR) return '';
-  var q = root.QWVorratQR(0, 'L'); q.addData(text, 'Byte'); q.make(); var n = q.getModuleCount(), d = '';
-  for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) d += 'M' + c + ',' + r + 'h1v1h-1z';
+  if (!root.QWVorratQR || !root.QWVorratQR.generate) return '';
+  var q = root.QWVorratQR.generate(text), n = q.size, d = '';
+  for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.get(c, r)) d += 'M' + c + ',' + r + 'h1v1h-1z';
   return '<svg class="vr-qr" viewBox="-4 -4 ' + (n + 8) + ' ' + (n + 8) + '" role="img" aria-label="QR-Code" shape-rendering="crispEdges"><rect x="-4" y="-4" width="' + (n + 8) + '" height="' + (n + 8) + '" fill="#fff"/><path d="' + d + '" fill="#000"/></svg>';
 }
 /* kompakte Sicherung ohne Beispiel-Hinweis und ohne leere Felder */
@@ -334,12 +339,12 @@ function bestaendeHTML() {
 
 /* ---------- Lager: Strichcode, Garten, Erinnerungen ---------- */
 function strichcodeHTML() {
-  var O = OF(), sc = O.sc || {}, kamera = typeof window !== 'undefined' && 'BarcodeDetector' in window && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+  var O = OF(), sc = O.sc || {}, kamera = kannScannen(['ean_13', 'ean_8', 'upc_a']);
   var h1 = '<details class="vr-mehr vr-strich"' + (sc.offen ? ' open' : '') + '><summary>Mit Strichcode erfassen</summary><div class="vr-karte">' +
     '<div class="vr-pm"><span class="vr-ein"><input type="text" inputmode="numeric" id="vr-ean" placeholder="Nummer unter dem Strichcode, z. B. 4000400000000" value="' + esc(sc.code || '') + '" autocomplete="off"></span><button type="button" class="vr-knopf vr-haupt" data-ean-los>Suchen</button></div>' +
     (kamera ? '<div class="vr-knoepfe"><button type="button" class="vr-knopf" data-ean-kamera>📷 Mit der Kamera scannen</button></div>' : '<p class="vr-klein">Scannen mit der Kamera kann dieser Browser nicht (z. B. Safari auf iPhone und iPad) – bitte die Nummer unter dem Strichcode abtippen.</p>') +
     '<div class="vr-ean-video"></div><div class="vr-ean-erg" aria-live="polite">' + (sc.erg || '') + '</div>' +
-    '<p class="vr-klein">Bekannte Nummern merkt sich der Planer auf diesem Gerät. Nachschlagen bei Open Food Facts geht nur mit Internet und nur, wenn du auf den Knopf tippst; ohne Netz bleibt alles andere benutzbar.</p></div></details>';
+    '<p class="vr-klein">Bekannte Nummern merkt sich der Planer auf diesem Gerät. Nachschlagen bei Open Food Facts geht nur mit Internet und nur, wenn du auf den Knopf tippst (Open Food Facts erlaubt höchstens 15 Abrufe je Minute); ohne Netz bleibt alles andere benutzbar.</p></div></details>';
   return h1;
 }
 function gartenHTML() {
@@ -365,13 +370,13 @@ function erinnerungHTML() {
   var St = S(), n = St.lager.filter(function (it) { return it.mhd; }).length, ok = I.dateiMoeglich();
   return '<details class="vr-mehr vr-erinn"><summary>Erinnerungen vor dem Ablaufdatum (Kalender)</summary><div class="vr-karte">' + (ok ?
     '<p class="vr-klein">Eine Kalender-Datei (.ics) mit einem Termin je Posten – ' + fz(+(St.erinnVorlauf || 30)) + ' Tage vor Monatsende des MHD, mit Hinweis um 9 Uhr. Auf iPhone/iPad öffnet sie der Kalender, auf Android die Kalender-App.</p>' +
-    '<div class="vr-felder">' + feld('Vorlauf', zahlIn('data-erinn', St.erinnVorlauf || 30, 'Tage', '30', 'numeric')) + '</div><div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-ics-alle' + (n ? '' : ' disabled') + '>Alle ' + n + ' als Kalender-Datei</button></div><p class="vr-klein">Einzeln: im Posten unter „Mindestbestand, Preis …“.</p>'
+    '<div class="vr-felder">' + feld('Vorlauf', zahlIn('data-erinn', St.erinnVorlauf || 30, 'Tage', '30', 'numeric')) + '</div><div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-ics-alle' + (n ? '' : ' disabled') + '>Alle ' + n + ' als Kalender-Datei</button><button type="button" class="vr-knopf" data-ics-text' + (n ? '' : ' disabled') + '>Termine als Text kopieren</button></div><p class="vr-klein">Einzeln: im Posten unter „Mindestbestand, Preis …“. iPhone/iPad: Datei öffnen und „Zum Kalender hinzufügen“ – ob die Erinnerung aus der Datei übernommen wird, kann je nach Weg abweichen. Android: Google Kalender übernimmt .ics-Dateien laut Google-Hilfe nur am Computer über die Kalender-Webseite – am Handy die Termine lieber von Hand anlegen („als Text kopieren“).</p>'
     : '<p class="vr-warn">In dieser Vorschau gehen keine Dateien. In der installierten App kannst du hier Kalender-Erinnerungen (.ics) speichern.</p>') + '</div></details>';
 }
 
 /* ---------- QR in der Sicherung ---------- */
 function qrHTML() {
-  var O = OF(), q = O.qr || {}, kamera = typeof window !== 'undefined' && 'BarcodeDetector' in window && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+  var O = OF(), q = O.qr || {}, kamera = kannScannen(['qr_code']);
   return '<details class="vr-mehr vr-qrbox"' + (q.offen ? ' open' : '') + '><summary>Per QR-Code aufs andere Gerät</summary>' +
     '<div class="vr-knoepfe"><button type="button" class="vr-knopf" data-qr-zeigen>QR-Code anzeigen</button>' + (kamera ? '<button type="button" class="vr-knopf" data-qr-lesen>QR-Code einlesen</button>' : '') + '</div>' +
     (kamera ? '' : '<p class="vr-klein">Einlesen: Dieses Gerät kann im Browser nicht scannen. Auf dem iPhone/iPad die Kamera-App auf den Code richten, den angezeigten Text kopieren und oben unter „Text einfügen“ einsetzen (bei mehreren Codes alle nacheinander, je eine Zeile).</p>') +
@@ -408,7 +413,7 @@ function offHolen(code) {
     O.sc.erg = '<div class="vr-off"><p><b>' + esc(x.name) + '</b><br><small>' + (x.k != null ? fz(x.k) + ' kcal' : 'kcal unbekannt') + (x.e != null ? ' · Eiweiß ' + fz(x.e, 1) + ' g' : '') + (x.f != null ? ' · Fett ' + fz(x.f, 1) + ' g' : '') + (x.c != null ? ' · KH ' + fz(x.c, 1) + ' g' : '') + ' je 100 ' + (x.ml ? 'ml' : 'g') + (x.pg ? ' · Packung ' + fz(x.pg) + (x.ml ? ' ml' : ' g') : '') + '</small></p>' +
       '<div class="vr-felder">' + feld('Gruppe', '<select data-offg>' + K.GRUPPEN.map(function (g) { return '<option value="' + g.k + '">' + esc(g.kurz) + '</option>'; }).join('') + '</select>') + '</div>' +
       '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-off-anlegen' + (x.k == null ? ' disabled' : '') + '>Anlegen und ins Lager</button></div>' +
-      '<p class="vr-klein">Daten von Open Food Facts (openfoodfacts.org), Datenbank unter der Open Database License (ODbL), Inhalte unter Database Contents License. Angaben ohne Gewähr – mit der Packung vergleichen.</p></div>';
+      '<p class="vr-klein">Daten von Open Food Facts (openfoodfacts.org): Datenbank unter Open Database License (ODbL), Einzelinhalte unter Database Contents License (DbCL) – Namensnennung, Weitergabe unter gleichen Bedingungen. Angaben ohne Gewähr – mit der Packung vergleichen.</p></div>';
     I.zeichnen(false);
   }).catch(function () { O.sc.erg = '<p class="vr-warn">Kein Netz oder Open Food Facts nicht erreichbar. Ohne Netz: Lebensmittel selbst anlegen.</p>'; I.zeichnen(false); });
 }
@@ -468,6 +473,8 @@ H.klick.push(function (t, a) {
     O.ga = { art: ga.art, offen: true }; I.nachAenderung(true); I.toast('Eingebucht.'); return true; }
   if (t.hasAttribute('data-ics-alle')) { var P = St.lager.filter(function (it) { return it.mhd; }).map(function (it) { var k = K.katVon(St, it.k); return { u: it.u, n: it.n || (k ? k.n : ''), mhd: it.mhd, ort: K.ortName(St, it.o) }; });
     datei('vorrat-erinnerungen.ics', ics(P, +zahl(St.erinnVorlauf) || 30), 'text/calendar'); I.toast('Kalender-Datei wird gespeichert – öffnen, um die Termine zu übernehmen.'); return true; }
+  if (t.hasAttribute('data-ics-text')) { var TX = St.lager.filter(function (it) { return it.mhd; }).map(function (it) { var k = K.katVon(St, it.k), m = /^(\d{4})-(\d{2})$/.exec(it.mhd), ende = new Date(+m[1], +m[2], 0, 12), tag = new Date(ende.getTime() - (+zahl(St.erinnVorlauf) || 30) * 86400000);
+      return tag.toLocaleDateString('de-DE') + ' – ' + (it.n || k.n) + ' läuft ab (MHD ' + I.mhdText(it.mhd) + ', ' + K.ortName(St, it.o) + ')'; }).sort(); I.kopieren(TX.join('\n'), 'Termine kopiert.'); return true; }
   if (t.hasAttribute('data-ics')) { var it = St.lager.filter(function (x) { return x.u === a('data-ics'); })[0]; if (!it) return true; var k2 = K.katVon(St, it.k);
     datei('vorrat-' + (it.n || k2.n).replace(/[^a-z0-9äöüß]+/gi, '-').slice(0, 30) + '.ics', ics([{ u: it.u, n: it.n || k2.n, mhd: it.mhd, ort: K.ortName(St, it.o) }], +zahl(St.erinnVorlauf) || 30), 'text/calendar'); return true; }
   if (t.hasAttribute('data-qr-zeigen')) { qrZeigen(); return true; }
@@ -509,7 +516,7 @@ var B = I.BEREICH;
 B.uebersicht = uebersichtHTML; B.blatt = blattHTML; B.vergleich = vergleichHTML; B.kosten = kostenHTML; B.vorlage = vorlageHTML; B.bestaende = bestaendeHTML;
 quelle('BZfE: Haltbarkeit von Lebensmitteln (Stand 20.02.2025)', 'https://www.bzfe.de/kueche-und-alltag/kochen/haltbarkeit-von-lebensmitteln', 'Eingekochtes 6–12 Monate (Garten und Eingemachtes)');
 quelle('Open Food Facts – offene Lebensmitteldatenbank (ODbL)', 'https://world.openfoodfacts.org/', 'Nachschlagen per Strichcode, nur auf Knopfdruck mit Netz');
-quelle('qrcode-generator von Kazuhiko Arase (MIT-Lizenz)', 'https://github.com/kazuhikoarase/qrcode-generator', 'QR-Codes zum Übertragen');
+quelle('lean-qr von David Evans (MIT-Lizenz)', 'https://github.com/davidje13/lean-qr', 'QR-Codes zum Übertragen');
 
 V._plus = { vorlage: vorlage, BLE_VORLAGE: BLE_VORLAGE, vergleich: vergleich, einkauf: einkauf, etappen: etappen, ics: ics, gtinOk: gtinOk, offNachKatalog: offNachKatalog, qrTeile: qrTeile, qrZusammen: qrZusammen, qrSvg: qrSvg, zip: zip, unzip: unzip, kompakt: kompakt,
   bestandTage: bestandTage, bestandAmpel: bestandAmpel, brennProTag: brennProTag, eigenMhd: eigenMhd, plusMonate: plusMonate, blattInhalt: blattInhalt, uebersichtHTML: uebersichtHTML, BKAT: BKAT, quelle: quelle, druckMoeglich: druckMoeglich, eingebettet: eingebettet, stufe: stufe, ampelKlasse: ampelKlasse, weg: weg, monatJahr: monatJahr };
