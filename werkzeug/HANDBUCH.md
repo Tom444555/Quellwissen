@@ -353,7 +353,18 @@ Alles steht an **einer** Stelle: `quelle/gruenwissen.html`, Skript `<script id="
 - Erledigt am 12.11. spät: Regenauer-Reiter „Kernideen“ (jetzt 11 Leitgedanken) und „Seine Sicht“ um die drei REALTALK-Gespräche ergänzt (`werkzeug/gen/regenauer/ergaenzen_kernideen.py`, nur aus den vorhandenen Auswertungen, keine neue Recherche).
 - Noch offen aus früheren Übergaben: Skill `quellwissen` um A-11, A-12 und Nehls als Sammelstelle ergänzen (propose_skills); Veröffentlichungsdaten der REALTALK-Videos; sonst wie „Übergabe 12.11.2026 (Vormittag 2)“.
 
-## Übergabe für einen neuen Chat (Stand 26.11.2026, später Nachmittag)
+## Übergabe für einen neuen Chat (Stand 27.11.2026, früh)
+
+**Live** (main e5a0029, Artefakt, Pages geprüft), Planer-Test 0 Fehler:
+- **Notfall-Blatt Kurzfassung** (Schalter „Kurz · 1 Seite“ / „Ausführlich“, Standard kurz, Zustand `offen().blattLang`): `blattKurz()` in `vorrat_plus.js`, Hooks `H.blattKurzRegion` (SR 1/SR 3 Göttelborner Höhe aus `sr-ukw-*`, Anlaufstellen nur für gewählten Ort bzw. Kreis) und `H.blattErsteStunde` (erste zwei Ablauf-Gruppen) in `vorrat_notfall.js`; doppelte Nummern werden zusammengefasst. Druckprobe als PDF: Quierschied, Homburg, Saarwellingen, Merzig-Wadern und voll ausgefüllter Notfallplan je **1 Seite A4**. Vorher irrtümlich als „fehlt“ notiert – Notfall-Blatt und Ampel-Übersicht gab es schon seit 26.11.
+- **BLS 4.0 für 36 Fertigprodukte** (`q: 'B'`, `bq`, alte USDA-Nummer `qu`; Ballaststoffe bleiben USDA), Werte `vorrat_belege/bls_fertigprodukte.json`, Skript `vorrat_belege/tools/bls_fertig.py`, Bericht `BLS_ABGLEICH.md` Abschnitt 3. **Dinkelmehl getrennt:** `dinkelmehl` = Type 630 (BLS C234000), neu `dinkelvk` = Dinkel-Vollkorn (USDA). Katalog jetzt 158.
+- Radio-Hinweis in „Region“ nennt jetzt die SR-Frequenzseiten statt Wikipedia.
+
+**Wartet auf Toms Freigabe:** kompakte Ampel-Übersicht (Zusammenfassung „x fehlt · y knapp · z gut“, am Handy zwei Kacheln nebeneinander, neue Kacheln „Nährstoffe“ und „Haltbarkeit“). Stand im Zweig `vorschau-ampel` (auf main aufgebaut) und im Vorschau-Artefakt; live mit `git merge --ff-only vorschau-ampel` (vorher ggf. auf main neu aufsetzen), einbauen, Test, Artefakt.
+
+**Offen wie bisher:** Warn-App-Aussage des Landes (saarland.de blockt), weitere Notfalltreffpunkte, Störungsnummern weiterer Netzbetreiber, Test am echten iPhone/iPad/Android, Druck aus der installierten App am Gerät (nur im Browser-Test geprüft).
+
+## Übergabe 26.11.2026 (später Nachmittag)
 
 **Alles ist live** (main, Artefakt, Pages geprüft). Planer-Test 0 Fehler. Toms Vorgabe: **nur lizenzfreie Daten** (gemeinfrei, CC0, CC BY, amtlich) – ODbL/CC BY-SA nicht.
 
@@ -478,7 +489,7 @@ Arbeitsweise, die sich bewährt hat, steht im Skill `quellwissen` (Regeln 25 und
 - Sicherung als Datei nur, wenn `dateiMoeglich()` (nicht im Rahmen/Claude-Artefakt); sonst nur Text kopieren/einfügen mit Hinweis. App-Suche: Einbau-Skript setzt `/* VORRAT-SUCHE */ add(…)` vor `function suchen(q)`.
 - Rechnung: Erwachsene ab 18 Mifflin-St Jeor × PAL 1,4/1,6/1,8, Kinder DGE-Tabelle; Wasser 2 l/Person/Tag (BBK) + Tiere + Waschwasser. Reichweite Tag für Tag: bei „Strom weg“ Kühlware nur Tag 1, Gefriergut Tag 1–2; Fett/Zucker/Zutaten höchstens 30 % je Tag (`ZUTAT_ANTEIL`); Babynahrung zählt nicht mit.
 - Jährlich prüfen: BLE-Vorratstabelle (ernaehrungsvorsorge.de, derzeit © 2024: 3,3 · 4,0 · 2,5 · 2,5 · 1,2 · 0,33 kg, 20 l), BBK-Ratgeber (derzeit 2. Aufl. 11/2025), DGE-Referenzwerte Energie/Protein, Stand-Angaben der Verbraucherzentrale-/BZfE-Seiten in `QUELLEN` und im Bereich „Haltbarkeit“.
-- Lücken: Dinkelmehl/Weizenkörner nutzen USDA „Spelt/Wheat“-Werte; Packungsgrößen, Kochwasser und Kochzeiten sind übliche Angaben (Richtwerte).
+- Lücken: Weizenkörner nutzen USDA „Wheat“-Werte (Dinkel seit 27.11.2026 getrennt: Type 630 nach BLS, Vollkorn nach USDA); Packungsgrößen, Kochwasser und Kochzeiten sind übliche Angaben (Richtwerte).
 - **Ausbau 26.11.2026 (zwei Stufen):** Das Modul besteht jetzt aus fünf Dateien, die das Einbau-Skript in dieser Reihenfolge in ein `<script id="vorrat-modul">` setzt: `vorrat.js` (Kern, Navigation, Schnittstelle `QWVorrat._i` mit `HAKEN`), `vorrat_qr.js` (qrcode-generator 2.0.4, MIT, minifiziert), `vorrat_plus.js` (Stufe 1: Übersicht mit Ampeln, Notfall-Blatt/Druck, Vergleich, Kosten/Etappen, Startvorlage nach BLE, Kalender .ics, Strichcode + Open Food Facts auf Knopfdruck, QR-Übertragung, Bestände, Garten & Eingemachtes), `vorrat_fakten.js` (Belege, **erzeugt**), `vorrat_notfall.js` (Stufe 2: Ablauf, Wasser, Strom & Wärme, Kochen ohne Strom, Notfallplan, Region, Nährstoff-Check). CSS bleibt in `vorrat.css`.
 - **Belege neu bauen:** `python3 werkzeug/vorlagen/vorrat_fakten_bauen.py <ordner-mit-json>` (Format je Datei `{thema, stand, eintraege:[{id,titel,text,wert,einheit,warnung,quelle:{t,u,stand}}], quellen, hinweis}`; Zusatzfelder wie `abschnitt`, `kategorie`, `feldtyp`, `gebiet` bleiben erhalten). In der App nur Inhalte aus diesen Dateien, jede Angabe mit Quelle und Stand; `hinweis` ist Bau-Information und wird nicht angezeigt; `technik` erscheint nicht unter „Quellen“.
 - Navigation: `NAV` (Gruppen Übersicht · Vorrat · Haushalt & Plan · Notfall) und `TABNAME`; ein Bereich erscheint nur, wenn `BEREICH[id]` existiert. Speicherstand Fassung 2 (`v: 2`): `pruefeStand()` stellt Fassung 1 beim Laden um (Orte, neue Felder, Start „Übersicht“).
