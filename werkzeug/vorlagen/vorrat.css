@@ -370,12 +370,17 @@
 .vr-dt th{background:#eee}
 .vr-dcheck{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px 16px;font-size:12px}
 .vr-blatt footer{margin-top:12px;font-size:11px;color:#444}
+.vr-kspalten{columns:2 260px;column-gap:20px}.vr-kspalten section{break-inside:avoid}
+.vr-kurz .vr-dt{min-width:0;width:100%;table-layout:auto}.vr-kurz .vr-dt td{white-space:normal}.vr-kurz h2{margin-top:8px}.vr-knr td{padding:1px 4px}.vr-knr td:first-child{white-space:nowrap}.vr-kgross{font-size:1.1em}
 #vr-druck{display:none}
 @media print{
   html.vr-drucken body>*:not(#vr-druck){display:none!important}
   html.vr-drucken #vr-druck{display:block!important}
   html.vr-drucken,html.vr-drucken body{background:#fff!important;color:#000!important}
   #vr-druck .vr-blatt{font-size:10.5pt}
+  #vr-druck .vr-kurz{font-size:10pt;line-height:1.3}
+  #vr-druck .vr-kurz h1{font-size:18pt}#vr-druck .vr-kurz h2{font-size:12pt;margin:8px 0 3px}#vr-druck .vr-kurz footer{font-size:8pt}
+  #vr-druck .vr-kspalten{columns:2;column-gap:7mm}
   #vr-druck section{break-inside:auto}
   #vr-druck h2{break-after:avoid}
   #vr-druck tr{break-inside:avoid}

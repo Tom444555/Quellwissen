@@ -251,16 +251,34 @@ function blattInhalt() {
   h1 += '<footer><p>Richtwerte ohne Gewähr. Wasser: 2 l je Person und Tag, davon 0,5 l zum Kochen (BBK-Ratgeber, Stand 11/2025). Gaskocher mit Kartusche nur im Freien, außer für Innenräume zugelassen.</p></footer></div>';
   return h1;
 }
+/* Kurzfassung: alles Wichtige auf einer A4-Seite (zweispaltig) */
+function blattKurz() {
+  var St = S(), h = heute(), Hh = K.haushalt(St), z = K.zielTage(St), A = K.alltag(St, h), W = K.wasser(St), L = St.lage || {};
+  var d = h.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+  var nummern = H.blattNummern ? H.blattNummern(St) : NUMMERN.map(function (n) { return [esc(n[0]), esc(n[1])]; }), schon = {};
+  nummern = nummern.filter(function (n) { var k = String(n[0]).replace(/\D/g, ''); if (schon[k]) return false; schon[k] = 1; return true; });
+  var h1 = '<div class="vr-blatt vr-kurz"><header class="vr-bk"><h1>Notfall-Blatt</h1><p>Stand ' + esc(d) + ' · ' + Hh.n + (Hh.n === 1 ? ' Person' : ' Personen') + (St.tiere.length ? ' · ' + St.tiere.length + (St.tiere.length === 1 ? ' Tier' : ' Tiere') : '') + ' · Kurzfassung</p></header><div class="vr-kspalten">';
+  h1 += '<section><h2>Nummern</h2><table class="vr-dt vr-knr"><tbody>' + nummern.map(function (n) { return '<tr><td><b>' + n[0] + '</b></td><td>' + n[1] + '</td></tr>'; }).join('') + '</tbody></table></section>';
+  h1 += '<section><h2>Vorrat reicht</h2><p class="vr-kgross">Essen: <b>' + esc(A.max ? 'über 90 Tage' : tageText(A.reicht)) + '</b> · Wasser: <b>' + esc(W.leitung ? 'Leitung läuft' : tageText(W.tage)) + '</b></p><p>' + liter(W.l) + ' Wasser da, ' + liter(W.bedarf) + ' am Tag · Ziel ' + z + ' Tage · Kochstelle: ' + esc(I.KOCHT[L.koch]) + '</p>' +
+    (Hh.P.length ? '<p>' + Hh.P.map(function (x) { return esc(x.p.n || 'Person') + (x.p.a ? ' (' + esc(x.p.a) + ')' : ''); }).join(', ') + '</p>' : '') + '</section>';
+  if (H.blattNotfallplan) h1 += H.blattNotfallplan(St);
+  if (H.blattKurzRegion) h1 += H.blattKurzRegion(St);
+  if (H.blattErsteStunde) h1 += H.blattErsteStunde(St);
+  h1 += '</div><footer><p>Wasser: 2 l je Person und Tag (BBK-Ratgeber, Stand 11/2025). Gaskocher mit Kartusche nur im Freien, außer für Innenräume zugelassen. Kein Ersatz für Anweisungen der Behörden – Radio und Warn-App beachten. Ausführliche Fassung mit Vorrat, Speiseplan und Checkliste im Planer.</p></footer></div>';
+  return h1;
+}
+function blattAktuell() { return OF().blattLang ? blattInhalt() : blattKurz(); }
 function blattHTML() {
   var ok = druckMoeglich();
   return '<section class="vr-bereich" data-b="blatt"><h2>Notfall-Blatt</h2><p class="vr-unter">Alles Wichtige auf einem Blatt Papier – für den Fall, dass Handy und Strom ausfallen. Am besten ausdrucken und zu den Dokumenten legen; nach größeren Änderungen neu drucken.</p>' +
     (ok ? '<div class="vr-knoepfe"><button type="button" class="vr-knopf vr-haupt" data-drucken>🖨 Drucken / als PDF sichern</button></div><p class="vr-klein">Im Druckfenster „Als PDF sichern“ bzw. „PDF“ wählen, wenn kein Drucker da ist. A4, schwarz-weiß.</p>'
       : '<p class="vr-warn">In dieser Vorschau kann nicht gedruckt werden. Öffne den Planer in der installierten App (oder im Browser) und tippe dort auf „Drucken / als PDF sichern“. Bis dahin: Bildschirmfotos dieser Ansicht machen.</p>') +
-    '<div class="vr-blatt-vorschau">' + blattInhalt() + '</div></section>';
+    '<div class="vr-seg" role="group" aria-label="Umfang"><button type="button" data-blatt="kurz" aria-pressed="' + !OF().blattLang + '">Kurz · 1 Seite</button><button type="button" data-blatt="lang" aria-pressed="' + !!OF().blattLang + '">Ausführlich</button></div>' +
+    '<div class="vr-blatt-vorschau">' + blattAktuell() + '</div></section>';
 }
 function drucken() {
   var alt = document.getElementById('vr-druck'); if (alt) alt.remove();
-  var d = document.createElement('div'); d.id = 'vr-druck'; d.innerHTML = blattInhalt(); document.body.appendChild(d);
+  var d = document.createElement('div'); d.id = 'vr-druck'; d.innerHTML = blattAktuell(); document.body.appendChild(d);
   document.documentElement.classList.add('vr-drucken');
   var fertig = function () { document.documentElement.classList.remove('vr-drucken'); var x = document.getElementById('vr-druck'); if (x) x.remove(); window.removeEventListener('afterprint', fertig); };
   window.addEventListener('afterprint', fertig);
@@ -441,6 +459,7 @@ var QR_GESAMMELT = [];
 H.klick.push(function (t, a) {
   var St = S(), O = OF();
   if (t.hasAttribute('data-drucken')) { drucken(); return true; }
+  if (t.hasAttribute('data-blatt')) { OF().blattLang = a('data-blatt') === 'lang'; I.zeichnen(); return true; }
   if (t.hasAttribute('data-set')) { var p = a('data-set').split(':'), w = a('data-wert');
     if (p[0] === 'vg') { O.zusatz = w === '1'; I.zeichnen(false); return true; }
     if (p[0] === 'vl') { O.vlArt = w; I.zeichnen(false); return true; }
@@ -519,6 +538,6 @@ quelle('Open Food Facts – offene Lebensmitteldatenbank (ODbL)', 'https://world
 quelle('lean-qr von David Evans (MIT-Lizenz)', 'https://github.com/davidje13/lean-qr', 'QR-Codes zum Übertragen');
 
 V._plus = { vorlage: vorlage, BLE_VORLAGE: BLE_VORLAGE, vergleich: vergleich, einkauf: einkauf, etappen: etappen, ics: ics, gtinOk: gtinOk, offNachKatalog: offNachKatalog, qrTeile: qrTeile, qrZusammen: qrZusammen, qrSvg: qrSvg, zip: zip, unzip: unzip, kompakt: kompakt,
-  bestandTage: bestandTage, bestandAmpel: bestandAmpel, brennProTag: brennProTag, eigenMhd: eigenMhd, plusMonate: plusMonate, blattInhalt: blattInhalt, uebersichtHTML: uebersichtHTML, BKAT: BKAT, quelle: quelle, druckMoeglich: druckMoeglich, eingebettet: eingebettet, stufe: stufe, ampelKlasse: ampelKlasse, weg: weg, monatJahr: monatJahr };
+  bestandTage: bestandTage, bestandAmpel: bestandAmpel, brennProTag: brennProTag, eigenMhd: eigenMhd, plusMonate: plusMonate, blattInhalt: blattInhalt, blattKurz: blattKurz, uebersichtHTML: uebersichtHTML, BKAT: BKAT, quelle: quelle, druckMoeglich: druckMoeglich, eingebettet: eingebettet, stufe: stufe, ampelKlasse: ampelKlasse, weg: weg, monatJahr: monatJahr };
 if (typeof module !== 'undefined' && module.exports) module.exports = V._plus;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -11,9 +11,9 @@ var heute = new Date(2026, 10, 25, 12);
 var ids = {}; K.KATALOG.forEach(function (k) { ok(!ids[k.i], 'Katalog-ID doppelt: ' + k.i); ids[k.i] = 1;
   ok(K.GRUPPEN.some(function (g) { return g.k === k.g; }), 'Gruppe unbekannt: ' + k.i);
   ok(k.k >= 0 && k.k <= 900 && k.e >= 0 && k.f >= 0 && k.c >= 0 && k.e + k.f + k.c <= 101, 'Nährwerte unplausibel: ' + k.i);
-  ok(k.q === 'A' || k.q === '—' || /^U\d+$/.test(k.q), 'Quelle fehlt: ' + k.i);
+  ok(k.q === 'A' || k.q === '—' || (/^U\d+$/.test(k.q) || (k.q === 'B' && !!k.bq)), 'Quelle fehlt: ' + k.i);
   /* USDA-Eigenheiten: KH „by difference“ inkl. Ballaststoffe (Kakao), Säuren (Essig, Zitrone), Mineralstoffe (Backpulver) */
-  if (k.k > 0 && !k.kein && ['kakao', 'essig', 'zitronensaft', 'backpulver'].indexOf(k.i) < 0) { var atw = 4 * k.e + 9 * k.f + 4 * k.c; ok(atw > k.k * 0.6 && atw < k.k * 1.45, 'kcal passt nicht zu Eiweiß/Fett/KH: ' + k.i + ' ' + k.k + '/' + Math.round(atw)); }
+  if (k.k > 0 && !k.kein && ['kakao', 'essig', 'zitronensaft', 'backpulver'].indexOf(k.i) < 0) { var atw = 4 * k.e + 9 * k.f + 4 * k.c + (k.q === 'B' ? 2 * (k.b || 0) : 0); /* BLS: KH verfügbar, Ballaststoffe zählen mit 2 kcal/g */ ok(atw > k.k * 0.6 && atw < k.k * 1.45, 'kcal passt nicht zu Eiweiß/Fett/KH: ' + k.i + ' ' + k.k + '/' + Math.round(atw)); }
   (k.p || []).forEach(function (p) { ok(p[1] > 0, 'Packung ohne Menge: ' + k.i); }); });
 ok(K.KATALOG.length >= 120 && K.KATALOG.length <= 160, 'Katalog: ' + K.KATALOG.length + ' Lebensmittel');
 ok(K.GERICHTE.length >= 40 && K.GERICHTE.length <= 90, 'Gerichte: ' + K.GERICHTE.length);
@@ -242,5 +242,9 @@ var wh = I.BEREICH.wasser(); ok(/Umweltbundesamt/.test(wh) && /CDC/.test(wh), 'A
 ok(typeof globalThis.QWVorratQR.generate === 'function', 'QR mit lean-qr');
 
 console.log('Vorrats-Planer: ' + n + ' Prüfungen, ' + K.KATALOG.length + ' Lebensmittel, ' + K.GERICHTE.length + ' Gerichte');
+(function () { var R = K.KATALOG.filter(function (x) { return x.i === 'ravioli'; })[0], D = K.KATALOG.filter(function (x) { return x.i === 'dinkelmehl'; })[0], DV = K.KATALOG.filter(function (x) { return x.i === 'dinkelvk'; })[0];
+  ok(R.q === 'B' && R.bq === 'E901000' && R.k === 101 && R.qu === 'U173328' && R.b === 1.3, 'Fertigprodukt Ravioli nach BLS 4.0, Ballaststoffe USDA');
+  ok(D.bq === 'C234000' && D.fe === 1.08 && DV && DV.q === 'U169745', 'Dinkelmehl 630 (BLS) und Dinkel-Vollkorn (USDA) getrennt');
+  ok(K.KATALOG.filter(function (x) { return x.q === 'B'; }).length === 36, 'BLS-Fertigprodukte: 36'); })();
 console.log('Fehler: ' + fehler);
 process.exitCode = fehler ? 1 : 0;

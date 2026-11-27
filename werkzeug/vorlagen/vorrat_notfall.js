@@ -274,7 +274,7 @@ function naehrHTML() {
   var ohneP = {}; MIKRO_K.forEach(function (k) { C.bedarf.fehltM[k].forEach(function (n) { ohneP[n] = 1; }); });
   if (Object.keys(ohneP).length) h += '<p class="vr-klein">Ohne Bedarf für Mineralstoffe und B-Vitamine (Säugling oder Alter fehlt): ' + Object.keys(ohneP).map(esc).join(', ') + '.</p>';
   h += '<p class="vr-klein">[Ergänzung] Eisen: Für Frauen bis 50 Jahre rechnet der Check mit dem Wert vor den Wechseljahren, ab 51 mit dem danach. Zink: Wert bei mittlerer Phytatzufuhr (viel Vollkorn und Hülsenfrüchte → mehr nötig). Schwangere und Stillende brauchen teils mehr (siehe Referenzwerte).</p>';
-  h += '<p class="vr-klein">Gehalte: USDA FoodData Central, SR Legacy (2018), je 100 g, Folat ohne zugesetzte Folsäure; wo USDA nur angereicherte US-Ware führt oder keinen Wert hat (Brot, Nudeln, Reis, Mehl, Öle, Fette u. a.), ergänzt aus Max Rubner-Institut (2025): Bundeslebensmittelschlüssel (BLS) 4.0, CC BY 4.0, Werte ausgewählt und gerundet. Der Check zählt die enthaltene Menge, nicht, wie viel der Körper davon aufnimmt. Vitamin B12 steckt fast nur in tierischen Lebensmitteln.</p>';
+  h += '<p class="vr-klein">Gehalte: USDA FoodData Central, SR Legacy (2018), je 100 g, Folat ohne zugesetzte Folsäure; wo USDA nur angereicherte US-Ware führt oder keinen Wert hat (Brot, Nudeln, Reis, Mehl, Öle, Fette u. a.), ergänzt aus Max Rubner-Institut (2025): Bundeslebensmittelschlüssel (BLS) 4.0, CC BY 4.0, Werte ausgewählt und gerundet. Fertigprodukte (Dosengerichte, Wurstkonserven, Obstkonserven, Brot- und Knabberwaren, Brühe, Soßen) und Dinkelmehl Type 630 ganz aus dem BLS, weil deutsche Rezepturen von US-Ware abweichen; Ballaststoffe dort weiter nach USDA. Der Check zählt die enthaltene Menge, nicht, wie viel der Körper davon aufnimmt. Vitamin B12 steckt fast nur in tierischen Lebensmitteln.</p>';
   if (C.bedarf.fehlt.length) h += '<p class="vr-klein">Ohne Vitamin-C-Bedarf (Säugling oder Alter fehlt): ' + C.bedarf.fehlt.map(esc).join(', ') + '.</p>';
   h += '<h3>Einordnen: Was in 10 Tagen zählt</h3>' + faktenHTML('naehrstoffe', ['Einordnung'], 4) + faktenHTML('naehrstoffe', ['Vitamin-C-Quellen'], 4);
   h += '<details class="vr-mehr"><summary>Alle Referenzwerte mit Quellen</summary>' + faktenHTML('naehrstoffe', ['Energie', 'Eiweiß', 'Makronährstoffe', 'Vitamin C', 'Calcium', 'Eisen', 'Magnesium', 'Zink', 'Folat', 'Vitamin B12'], 4) + '</details>';
@@ -311,12 +311,22 @@ function regionHTML() {
     h += '<h3>Abweichende Angaben</h3><div class="vr-widerspruch">' +
       '<div class="vr-karte"><b>Wie lange vorsorgen?</b><p>BBK: möglichst <b>10 Tage</b> (mindestens 3). Regionalverband Saarbrücken und Saarpfalz-Kreis: <b>14 Tage</b>.</p><p class="vr-klein">Beide Angaben stehen nebeneinander; das Ziel stellst du unter „Haushalt → Lage“ ein (14 Tage ist wählbar).</p>' + quelleHTML((E('region_saarland', 'rv-vorrat') || [])[7]) + '</div>' +
       '<div class="vr-karte"><b>Giftnotruf</b><p>Für das Saarland gilt <b>06131 19240</b> (Giftinformationszentrum Mainz, seit 01.04.2021). Die Nummer <b>06841 19240</b> (Homburg) steht noch auf einigen Kreis- und Gemeindeseiten; die Beratung dort endete am 31.03.2021.</p><p class="vr-klein">Im Zweifel 112.</p>' + quelleHTML((E('notfallplan', 'nr-gift-saar') || [])[7]) + '</div></div>';
-    h += '<h3>Radio</h3><p class="vr-klein">Vom Sender Göttelborner Höhe: <b>SR 1 auf 88,0 MHz</b>, <b>SR 3 Saarlandwelle auf 95,5 MHz</b> (laut Wikipedia, nicht amtlich – eine Liste des SR wurde nicht gefunden). Passt der Empfang nicht: Sendersuchlauf. Aktuelles bei <a href="https://www.sr.de/" target="_blank" rel="noopener">sr.de</a>.</p>';
+    h += '<h3>Radio</h3><p class="vr-klein">Vom Sender Göttelborner Höhe: <b>SR 1 auf 88,0 MHz</b>, <b>SR 3 Saarlandwelle auf 95,5 MHz</b> (laut den Frequenz-Seiten des SR, nicht amtlich; alle Sender unter „Warnwege“). Passt der Empfang nicht: Sendersuchlauf. Aktuelles bei <a href="https://www.sr.de/" target="_blank" rel="noopener">sr.de</a>.</p>';
     h += '<p class="vr-klein">Das Notfall-Blatt übernimmt die Nummern dieser Auswahl.</p>'; }
   return h + '</section>';
 }
 H.lageHinweis = function (St) { var r = St.region || {}; return r.land === 'SL' && E('region_saarland', 'rv-vorrat') ? '<p class="vr-klein">Regionalverband Saarbrücken und Saarpfalz-Kreis empfehlen 14 Tage (BBK: 10 Tage) – siehe „Notfall → Region“.</p>' : ''; };
 H.regionNummern = function (St) { return regionEintraege(St.region || {}).filter(function (e) { return telNummer(e[4]); }).map(function (e) { return [esc(e[4]), esc(e[2])]; }); };
+/* Kurzfassung des Notfall-Blatts: Radio (laut sr.de) und Anlaufstellen nur für den gewählten Ort bzw. Kreis */
+H.blattKurzRegion = function (St) { var r = St.region || {}, h = '';
+  if (r.land === 'SL') { var R = ['sr-ukw-sr1', 'sr-ukw-sr3'].map(function (id) { var e = E('region_saarland', id); if (!e) return ''; var m = /Göttelborner Höhe ([\d,]+ MHz)/.exec(e[3]); return m ? esc(e[2].replace(/: UKW-Frequenzen$/, '')) + ' ' + m[1] : ''; }).filter(Boolean);
+    if (R.length) h += '<section><h2>Radio</h2><p><b>' + R.join(' · ') + '</b> (Sender Göttelborner Höhe, laut sr.de). Anderswo: Sendersuchlauf. Autoradio geht auch ohne Strom im Haus.</p></section>'; }
+  var G = r.gebiet ? [r.gebiet, REGION_OBER[r.gebiet]].filter(Boolean) : [], L = [];
+  G.some(function (g) { L = regionEintraege(r).filter(function (e) { return e[1] === 'Anlaufstellen' && e[8] && e[8].gebiet === g; }); return L.length; });
+  h += '<section><h2>Anlaufstellen</h2>' + (L.length ? '<ul>' + L.slice(0, 4).map(function (e) { var t2 = e[2].replace(/^[^:]*: /, ''); return '<li>' + (t2 === 'Anlaufstellen' || t2 === e[2] ? '' : '<b>' + esc(t2) + ':</b> ') + esc(e[3]) + '</li>'; }).join('') + '</ul>' : '<p>Nächste Anlaufstelle: ______________________________</p><p class="vr-klein">Keine veröffentlichte Liste gefunden – bei der Gemeinde nachfragen (115).</p>') + '</section>';
+  return h; };
+H.blattErsteStunde = function () { return gruppen('ablauf').slice(0, 2).map(function (g) {
+  return '<section><h2>' + esc(g.t) + '</h2><ul>' + g.E.map(function (e) { return '<li>☐ ' + esc(e[2]) + '</li>'; }).join('') + '</ul></section>'; }).join(''); };
 H.blattRegion = function (St) { var L = regionEintraege(St.region || {}).filter(function (e) { return !telNummer(e[4]) && /Warnwege|Anlaufstellen/.test(e[1]); }); if (!L.length) return '';
   return '<section><h2>Region: Warnung und Anlaufstellen</h2><ul>' + L.map(function (e) { return '<li><b>' + esc(e[2]) + ':</b> ' + esc(e[3]) + '</li>'; }).join('') + '</ul></section>'; };
 

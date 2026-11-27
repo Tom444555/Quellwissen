@@ -109,3 +109,12 @@ Kürbiskerne (Folat 58 → 0) und Salzstangen zeigen außerdem: Eine **0 im BLS 
 - `/home/claude/scratch/bls/roh/`: Rohdaten (ZIP, entpackt, HTML-Seiten)
 - `/home/claude/scratch/bls/skripte/`: Umwandlungs- und Abgleichskript (Zuordnungstabelle im Skript)
 - `/home/claude/scratch/bls/zwischen/`: BLS als JSON und Namensliste
+
+## 3. Umstellung Fertigprodukte (27.11.2026)
+
+36 Einträge stehen jetzt ganz auf BLS 4.0 (Katalog `q: 'B'`, Code in `bq`, alte USDA-Nummer in `qu`): Dosengerichte (Ravioli, Erbseneintopf, Chili, Gulasch), Fleisch- und Wurstkonserven (Corned Beef, Frühstücksfleisch, Jagdwurst), Gemüse- und Obstkonserven mit Zubereitung (Rotkohl, Bohnen in Tomatensoße, Erbsen & Möhren, Sauerkraut, Gewürzgurken, Rote Bete, Apfelmus, Pfirsiche, Birnen, Mandarinen, Sauerkirschen, Ananas), Instant-Suppe, Brühe, Müsli, Müsliriegel, Konfitüre, Nuss-Nougat-Creme, Ketchup, Senf, Kartoffelpüree-Flocken, Zwieback, Knäckebrot, Cracker, Salzstangen, Puddingpulver, Tortillas, Reiswaffeln.
+- Übernommen: Energie (kcal), Eiweiß, Fett, Kohlenhydrate (verfügbar), Vitamin C, Calcium, Eisen, Magnesium, Zink, Folat (FOLFD, ohne Folsäure), Vitamin B12. Werte unter Nachweis-/Bestimmungsgrenze (<LOD, <LOQ, TR) = 0; fehlende Werte (Salzstangen Folat) bleiben USDA.
+- **Ballaststoffe bleiben USDA** (BLS misst nach neuer Methode, nicht mischen).
+- Grundzutaten (Mehl, Reis, Hülsenfrüchte, Konserven ohne Zubereitung, Milch, Fisch) bleiben wie bisher.
+- **Dinkelmehl:** USDA führt nur Dinkel als Vollkorn. Deshalb getrennt: `dinkelmehl` = Dinkelmehl Type 630 ganz nach BLS (C234000, auch Ballaststoffe – kein USDA-Gegenstück), neu `dinkelvk` = Dinkel-Vollkornmehl mit den bisherigen USDA-Werten (U169745). Vorhandene Vorräte „Dinkelmehl“ zählen jetzt als Type 630.
+- Werte und Codes: `bls_fertigprodukte.json`, Skript `tools/bls_fertig.py` (liest `BLS_4_0_Daten_2025_DE.xlsx` aus der ZIP von blsdb.de).
