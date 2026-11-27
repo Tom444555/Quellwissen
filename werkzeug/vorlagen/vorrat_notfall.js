@@ -258,6 +258,13 @@ function naehrCheck(St, h, P) {
 /* Womit aus dem Vorrat ausgleichen: Lebensmittel im Lager mit dem höchsten Gehalt je 100 kcal */
 function ausgleich(St, h, key) { return K.posten(St, h).filter(function (x) { return x.k[key] > 0 && x.k.k > 0 && x.k.g !== 'baby'; }).sort(function (a, b) { return b.k[key] / b.k.k - a.k[key] / a.k.k; }).filter(function (x, i, A) { return A.findIndex(function (y) { return y.k.i === x.k.i; }) === i; }).slice(0, 3); }
 var NAEHR = [['e', 'Eiweiß', 'g', 'p-19-65'], ['f', 'Fett', 'g', 'f-erw'], ['b', 'Ballaststoffe', 'g', 'b-erw'], ['vc', 'Vitamin C', 'mg', 'c-m'], ['ca', 'Calcium', 'mg', 'ca-erw'], ['fe', 'Eisen', 'mg', 'fe-m'], ['mg', 'Magnesium', 'mg', 'mg-m'], ['zn', 'Zink', 'mg', 'zn-m'], ['fol', 'Folat', 'µg', 'fol-13'], ['b12', 'Vitamin B12', 'µg', 'b12-13']];
+/* Kachel „Nährstoffe“ in der Übersicht: wie viele Stoffe der Speiseplan im Schnitt zu mindestens 90 % deckt */
+H.uebersichtNaehr = function (St, h) { if (!T('naehrstoffe') || !St.personen.length || !St.lager.length) return { amp: '', gross: 'noch offen', txt: 'braucht Personen und Vorrat' };
+  var C = naehrCheck(St, h), L = NAEHR.filter(function (n) { return C.bedarf[n[0]] > 0; }), rot = [], gelb = [];
+  if (!L.length || !C.tage) return { amp: '', gross: 'noch offen', txt: 'kein Speiseplan möglich' };
+  L.forEach(function (n) { var p = C.schnitt[n[0]] / C.bedarf[n[0]]; if (p < 0.6) rot.push(n[1]); else if (p < 0.9) gelb.push(n[1]); });
+  var gut = L.length - rot.length - gelb.length, zu = rot.concat(gelb);
+  return { amp: rot.length ? 'rot' : gelb.length ? 'gelb' : 'gruen', gross: gut + ' von ' + L.length + ' gedeckt', txt: zu.length ? 'zu wenig: ' + zu.slice(0, 3).join(', ') + (zu.length > 3 ? ' +' + (zu.length - 3) : '') : 'Speiseplan deckt alles' }; };
 function naehrHTML() {
   var St = S(), h0 = I.heute(), t = T('naehrstoffe'), z = K.zielTage(St);
   var h = kopf('naehrstoffe', 'Nährstoff-Check', 'Deckt der Speiseplan der nächsten ' + z + ' Tage Eiweiß, Fett, Ballaststoffe, Vitamin C, Calcium, Eisen, Magnesium, Zink, Folat und Vitamin B12? Und womit lässt sich aus dem Vorrat ausgleichen?');

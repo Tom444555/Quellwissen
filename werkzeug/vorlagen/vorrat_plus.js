@@ -205,20 +205,26 @@ function uebersichtHTML() {
   var nf = H.uebersichtNotfallplan ? H.uebersichtNotfallplan(St) : { amp: '', txt: 'Treffpunkte und Kontakte festlegen' };
   var ab = H.uebersichtAblauf ? H.uebersichtAblauf(St) : { amp: '', txt: 'Was in welcher Stunde zu tun ist' };
   var wg = W.leitung ? 'gruen' : stufe(W.tage, z);
+  /* Haltbarkeit: abgelaufene und in 30 Tagen ablaufende Vorräte (MHD) */
+  var PX = K.posten(St, h).filter(function (x) { return x.rest != null; }), hbWeg = PX.filter(function (x) { return x.rest < 0; }).length, hbBald = PX.filter(function (x) { return x.rest >= 0 && x.rest < 30; }).length;
+  var hb = !PX.length ? { amp: '', gross: 'noch offen', txt: 'kein MHD eingetragen' } : hbWeg ? { amp: 'rot', gross: hbWeg + ' abgelaufen', txt: hbBald ? hbBald + ' weitere in 30 Tagen' : 'prüfen oder ersetzen' } : hbBald ? { amp: 'gelb', gross: hbBald + ' bald fällig', txt: 'in den nächsten 30 Tagen zuerst verbrauchen' } : { amp: 'gruen', gross: 'alles frisch', txt: 'nichts läuft in 30 Tagen ab' };
   h1 += '<p class="vr-unter">' + Hh.n + (Hh.n === 1 ? ' Person' : ' Personen') + ' · Ziel ' + z + ' Tage · ' + (L.strom ? 'Strom weg' : 'Strom da') + ' · ' + (L.leitung ? 'Leitungswasser da' : 'kein Leitungswasser') + ' · ' + I.KOCHT[L.koch] + '</p>';
-  h1 += '<div class="vr-ampeln">' +
+  var KA = '<div class="vr-ampeln">' +
     kachel('essen', 'reichweite', 'Essen', '🥫', stufe(satt, z), (A.max ? '90+' : I.tageZahl(satt)) + ' Tage satt', 'Ziel ' + z + ' Tage' + (A.knapp ? ' · knapp ab Tag ' + A.knapp : '')) +
     kachel('wasser', I.BEREICH.wasser ? 'wasser' : 'reichweite', 'Wasser', '💧', wg, W.leitung ? 'Leitung läuft' : I.tageZahl(W.tage) + ' Tage', liter(W.l) + ' da · ' + liter(W.bedarf) + ' am Tag') +
+    (H.uebersichtNaehr ? (function () { var n = H.uebersichtNaehr(St, h); return kachel('naehr', 'naehrstoffe', 'Nährstoffe', '🥦', n.amp, n.gross, n.txt); })() : '') +
+    kachel('mhd', 'haltbar', 'Haltbarkeit', '📅', hb.amp, hb.gross, hb.txt) +
     kachel('strom', I.BEREICH.strom ? 'strom' : 'bestaende', 'Strom & Wärme', '🔋', lichtAmp, lichtAmp ? ({ gruen: 'gut versorgt', gelb: 'knapp', rot: 'fehlt' })[lichtAmp] : 'noch offen', lichtTxt) +
     kachel('ausr', 'bestaende', 'Ausrüstung & Apotheke', '🩹', ausAmp, kd + ' von ' + kh + ' abgehakt', ausAb ? ausAb + ' Posten abgelaufen' : 'Checkliste nach BBK') +
     kachel('plan', I.BEREICH.notfallplan ? 'notfallplan' : 'blatt', 'Notfallplan', '📞', nf.amp, nf.gross || (nf.amp ? ({ gruen: 'steht', gelb: 'angefangen', rot: 'fehlt' })[nf.amp] : 'noch offen'), nf.txt) +
     kachel('ablauf', I.BEREICH.ablauf ? 'ablauf' : 'reichweite', 'Ablauf', '⏱', ab.amp, ab.gross || (ab.amp ? ({ gruen: 'erledigt', gelb: 'begonnen', rot: 'offen' })[ab.amp] : 'Stunde 0 bis Tag 10'), ab.txt) + '</div>';
+  var zr = (KA.match(/vr-ampel vr-schlecht/g) || []).length, zg = (KA.match(/vr-ampel vr-mittel/g) || []).length, zgr = (KA.match(/vr-ampel vr-gut/g) || []).length;
+  h1 += '<p class="vr-azus">' + (zr ? '<span><i class="vr-amp vr-schlecht"></i>' + zr + ' fehlt</span>' : '') + (zg ? '<span><i class="vr-amp vr-mittel"></i>' + zg + ' knapp</span>' : '') + (zgr ? '<span><i class="vr-amp vr-gut"></i>' + zgr + ' gut</span>' : '') + (zr + zg + zgr ? '' : '<span>Noch nichts bewertet</span>') + '</p>' + KA;
   /* schnelle Wege */
   var NK = K.nachkauf(St), X = K.posten(St, h), bald = X.filter(function (x) { return x.rest != null && x.rest < 30; }).length;
   h1 += '<h3>Als Nächstes</h3><div class="vr-wege">' +
     weg('fehlt', '🛒', 'Fehlt noch', (NK.length ? NK.length + ' unter Mindestbestand · ' : '') + 'Einkaufsliste bis zum Ziel') +
     weg('gerichte', '🍲', 'Speiseplan', 'Was ihr aus dem Vorrat kochen könnt') +
-    (bald ? weg('haltbar', '📅', bald + ' Posten laufen bald ab', 'zuerst verbrauchen') : '') +
     weg('blatt', '🖨', 'Notfall-Blatt', 'Alles Wichtige auf Papier') +
     weg('vergleich', '⚖', '3 · 10 · 28 Tage', 'Fälle vergleichen, eine Person mehr') +
     (St.lager.length < 5 ? weg('vorlage', '📋', 'Startvorlage', 'Vorrat nach der BLE-Tabelle vorschlagen lassen') : '') + '</div>';

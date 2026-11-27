@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Quellwissen">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="qw-stand" content="202611270750">
+<meta name="qw-stand" content="202611270752">
 <script>
 if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
 addEventListener("load",function(){try{var s=document.querySelector("meta[name=qw-stand]").content,a=localStorage.getItem("qw-stand");if(a&&a!==s){var d=document.createElement("div");d.id="qw-neu";d.textContent="Neue Version geladen";document.body.appendChild(d);setTimeout(function(){d.remove();},4000);}localStorage.setItem("qw-stand",s);}catch(e){}});
@@ -1705,6 +1705,9 @@ i.fv-b{background:var(--tc,var(--accent))!important}
 .vr-adot{position:absolute;top:12px;right:12px;width:14px;height:14px;border-radius:50%;background:var(--line)}
 .vr-ampel.vr-gut{border-left-color:var(--vr-gut)}.vr-ampel.vr-gut .vr-adot{background:var(--vr-gut)}.vr-ampel.vr-gut b{color:var(--vr-gut)}
 .vr-ampel.vr-mittel{border-left-color:var(--vr-mittel)}.vr-ampel.vr-mittel .vr-adot{background:var(--vr-mittel)}.vr-ampel.vr-mittel b{color:var(--vr-mittel)}
+.vr-azus{display:flex;flex-wrap:wrap;gap:6px 16px;margin:4px 0 10px;font-weight:700}.vr-azus span{display:inline-flex;align-items:center}
+.vr-azus .vr-amp.vr-gut{background:var(--vr-gut)}.vr-azus .vr-amp.vr-mittel{background:var(--vr-mittel)}.vr-azus .vr-amp.vr-schlecht{background:var(--vr-schlecht)}
+@media (max-width:599px){.vr-ampeln{grid-template-columns:1fr 1fr;gap:8px}.vr-ampel{flex-direction:column;align-items:flex-start;gap:4px;min-height:0;padding:10px 26px 10px 10px;border-left-width:5px}.vr-ai{font-size:1.25rem}.vr-at b{font-size:1rem}.vr-at small{font-size:.74rem}.vr-at .vr-fl{font-size:.7rem}.vr-adot{top:10px;right:10px;width:11px;height:11px}}
 .vr-ampel.vr-schlecht{border-left-color:var(--vr-schlecht)}.vr-ampel.vr-schlecht .vr-adot{background:var(--vr-schlecht)}.vr-ampel.vr-schlecht b{color:var(--vr-schlecht)}
 .vr-wege{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:8px}
 .vr-weg{display:flex;align-items:center;gap:12px;min-height:56px;padding:10px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-align:left}
@@ -5734,20 +5737,26 @@ function uebersichtHTML() {
   var nf = H.uebersichtNotfallplan ? H.uebersichtNotfallplan(St) : { amp: '', txt: 'Treffpunkte und Kontakte festlegen' };
   var ab = H.uebersichtAblauf ? H.uebersichtAblauf(St) : { amp: '', txt: 'Was in welcher Stunde zu tun ist' };
   var wg = W.leitung ? 'gruen' : stufe(W.tage, z);
+  /* Haltbarkeit: abgelaufene und in 30 Tagen ablaufende Vorräte (MHD) */
+  var PX = K.posten(St, h).filter(function (x) { return x.rest != null; }), hbWeg = PX.filter(function (x) { return x.rest < 0; }).length, hbBald = PX.filter(function (x) { return x.rest >= 0 && x.rest < 30; }).length;
+  var hb = !PX.length ? { amp: '', gross: 'noch offen', txt: 'kein MHD eingetragen' } : hbWeg ? { amp: 'rot', gross: hbWeg + ' abgelaufen', txt: hbBald ? hbBald + ' weitere in 30 Tagen' : 'prüfen oder ersetzen' } : hbBald ? { amp: 'gelb', gross: hbBald + ' bald fällig', txt: 'in den nächsten 30 Tagen zuerst verbrauchen' } : { amp: 'gruen', gross: 'alles frisch', txt: 'nichts läuft in 30 Tagen ab' };
   h1 += '<p class="vr-unter">' + Hh.n + (Hh.n === 1 ? ' Person' : ' Personen') + ' · Ziel ' + z + ' Tage · ' + (L.strom ? 'Strom weg' : 'Strom da') + ' · ' + (L.leitung ? 'Leitungswasser da' : 'kein Leitungswasser') + ' · ' + I.KOCHT[L.koch] + '</p>';
-  h1 += '<div class="vr-ampeln">' +
+  var KA = '<div class="vr-ampeln">' +
     kachel('essen', 'reichweite', 'Essen', '🥫', stufe(satt, z), (A.max ? '90+' : I.tageZahl(satt)) + ' Tage satt', 'Ziel ' + z + ' Tage' + (A.knapp ? ' · knapp ab Tag ' + A.knapp : '')) +
     kachel('wasser', I.BEREICH.wasser ? 'wasser' : 'reichweite', 'Wasser', '💧', wg, W.leitung ? 'Leitung läuft' : I.tageZahl(W.tage) + ' Tage', liter(W.l) + ' da · ' + liter(W.bedarf) + ' am Tag') +
+    (H.uebersichtNaehr ? (function () { var n = H.uebersichtNaehr(St, h); return kachel('naehr', 'naehrstoffe', 'Nährstoffe', '🥦', n.amp, n.gross, n.txt); })() : '') +
+    kachel('mhd', 'haltbar', 'Haltbarkeit', '📅', hb.amp, hb.gross, hb.txt) +
     kachel('strom', I.BEREICH.strom ? 'strom' : 'bestaende', 'Strom & Wärme', '🔋', lichtAmp, lichtAmp ? ({ gruen: 'gut versorgt', gelb: 'knapp', rot: 'fehlt' })[lichtAmp] : 'noch offen', lichtTxt) +
     kachel('ausr', 'bestaende', 'Ausrüstung & Apotheke', '🩹', ausAmp, kd + ' von ' + kh + ' abgehakt', ausAb ? ausAb + ' Posten abgelaufen' : 'Checkliste nach BBK') +
     kachel('plan', I.BEREICH.notfallplan ? 'notfallplan' : 'blatt', 'Notfallplan', '📞', nf.amp, nf.gross || (nf.amp ? ({ gruen: 'steht', gelb: 'angefangen', rot: 'fehlt' })[nf.amp] : 'noch offen'), nf.txt) +
     kachel('ablauf', I.BEREICH.ablauf ? 'ablauf' : 'reichweite', 'Ablauf', '⏱', ab.amp, ab.gross || (ab.amp ? ({ gruen: 'erledigt', gelb: 'begonnen', rot: 'offen' })[ab.amp] : 'Stunde 0 bis Tag 10'), ab.txt) + '</div>';
+  var zr = (KA.match(/vr-ampel vr-schlecht/g) || []).length, zg = (KA.match(/vr-ampel vr-mittel/g) || []).length, zgr = (KA.match(/vr-ampel vr-gut/g) || []).length;
+  h1 += '<p class="vr-azus">' + (zr ? '<span><i class="vr-amp vr-schlecht"></i>' + zr + ' fehlt</span>' : '') + (zg ? '<span><i class="vr-amp vr-mittel"></i>' + zg + ' knapp</span>' : '') + (zgr ? '<span><i class="vr-amp vr-gut"></i>' + zgr + ' gut</span>' : '') + (zr + zg + zgr ? '' : '<span>Noch nichts bewertet</span>') + '</p>' + KA;
   /* schnelle Wege */
   var NK = K.nachkauf(St), X = K.posten(St, h), bald = X.filter(function (x) { return x.rest != null && x.rest < 30; }).length;
   h1 += '<h3>Als Nächstes</h3><div class="vr-wege">' +
     weg('fehlt', '🛒', 'Fehlt noch', (NK.length ? NK.length + ' unter Mindestbestand · ' : '') + 'Einkaufsliste bis zum Ziel') +
     weg('gerichte', '🍲', 'Speiseplan', 'Was ihr aus dem Vorrat kochen könnt') +
-    (bald ? weg('haltbar', '📅', bald + ' Posten laufen bald ab', 'zuerst verbrauchen') : '') +
     weg('blatt', '🖨', 'Notfall-Blatt', 'Alles Wichtige auf Papier') +
     weg('vergleich', '⚖', '3 · 10 · 28 Tage', 'Fälle vergleichen, eine Person mehr') +
     (St.lager.length < 5 ? weg('vorlage', '📋', 'Startvorlage', 'Vorrat nach der BLE-Tabelle vorschlagen lassen') : '') + '</div>';
@@ -6335,6 +6344,13 @@ function naehrCheck(St, h, P) {
 /* Womit aus dem Vorrat ausgleichen: Lebensmittel im Lager mit dem höchsten Gehalt je 100 kcal */
 function ausgleich(St, h, key) { return K.posten(St, h).filter(function (x) { return x.k[key] > 0 && x.k.k > 0 && x.k.g !== 'baby'; }).sort(function (a, b) { return b.k[key] / b.k.k - a.k[key] / a.k.k; }).filter(function (x, i, A) { return A.findIndex(function (y) { return y.k.i === x.k.i; }) === i; }).slice(0, 3); }
 var NAEHR = [['e', 'Eiweiß', 'g', 'p-19-65'], ['f', 'Fett', 'g', 'f-erw'], ['b', 'Ballaststoffe', 'g', 'b-erw'], ['vc', 'Vitamin C', 'mg', 'c-m'], ['ca', 'Calcium', 'mg', 'ca-erw'], ['fe', 'Eisen', 'mg', 'fe-m'], ['mg', 'Magnesium', 'mg', 'mg-m'], ['zn', 'Zink', 'mg', 'zn-m'], ['fol', 'Folat', 'µg', 'fol-13'], ['b12', 'Vitamin B12', 'µg', 'b12-13']];
+/* Kachel „Nährstoffe“ in der Übersicht: wie viele Stoffe der Speiseplan im Schnitt zu mindestens 90 % deckt */
+H.uebersichtNaehr = function (St, h) { if (!T('naehrstoffe') || !St.personen.length || !St.lager.length) return { amp: '', gross: 'noch offen', txt: 'braucht Personen und Vorrat' };
+  var C = naehrCheck(St, h), L = NAEHR.filter(function (n) { return C.bedarf[n[0]] > 0; }), rot = [], gelb = [];
+  if (!L.length || !C.tage) return { amp: '', gross: 'noch offen', txt: 'kein Speiseplan möglich' };
+  L.forEach(function (n) { var p = C.schnitt[n[0]] / C.bedarf[n[0]]; if (p < 0.6) rot.push(n[1]); else if (p < 0.9) gelb.push(n[1]); });
+  var gut = L.length - rot.length - gelb.length, zu = rot.concat(gelb);
+  return { amp: rot.length ? 'rot' : gelb.length ? 'gelb' : 'gruen', gross: gut + ' von ' + L.length + ' gedeckt', txt: zu.length ? 'zu wenig: ' + zu.slice(0, 3).join(', ') + (zu.length > 3 ? ' +' + (zu.length - 3) : '') : 'Speiseplan deckt alles' }; };
 function naehrHTML() {
   var St = S(), h0 = I.heute(), t = T('naehrstoffe'), z = K.zielTage(St);
   var h = kopf('naehrstoffe', 'Nährstoff-Check', 'Deckt der Speiseplan der nächsten ' + z + ' Tage Eiweiß, Fett, Ballaststoffe, Vitamin C, Calcium, Eisen, Magnesium, Zink, Folat und Vitamin B12? Und womit lässt sich aus dem Vorrat ausgleichen?');

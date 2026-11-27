@@ -182,7 +182,7 @@ ok(P2.eigenMhd('eingefroren', K.katVon(S, 'aepfel'), '2026-08') === '2027-04', '
 ok(P2.eigenMhd('fermentiert', K.katVon(S, 'kohl'), '2026-08') === '', 'Fermentiertes: kein Richtwert');
 /* Ansichten ohne Browser rechnen */
 I.setze(JSON.parse(JSON.stringify(Bk))); var bl = P2.blattInhalt(); ok(/Wichtige Nummern/.test(bl) && /112/.test(bl) && /Checkliste/.test(bl) && /Speiseplan/.test(bl), 'Notfall-Blatt enthält Nummern, Speiseplan, Checkliste');
-ok(/vr-ampel/.test(P2.uebersichtHTML()) && (P2.uebersichtHTML().match(/class="vr-ampel /g) || []).length === 6, 'Übersicht mit 6 Ampel-Kacheln');
+ok(/vr-ampel/.test(P2.uebersichtHTML()) && (P2.uebersichtHTML().match(/class="vr-ampel /g) || []).length === 8, "Übersicht mit 8 Ampel-Kacheln");
 ok(P2.druckMoeglich() === false, 'ohne Browser kein Drucken');
 
 /* 8. Stufe 2: Belege */
