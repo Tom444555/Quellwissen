@@ -368,6 +368,12 @@ Erledigt zusätzlich zum Stand „nachmittags“ (Toms „Mach alles fertig“):
 3. Nicht lizenzfrei, daher dauerhaft weggelassen: Seekabel, europäische Fernwanderwege, Sonnenstunden weltweit.
 4. Toms Test am echten iPhone/iPad/Android.
 
+**Nächstes Paket (von Claude am 27.11.2026 vorgeschlagen, Toms Freigabe offen – vor dem Bau einmal fragen):**
+1. **Notfallblatt zum Ausdrucken** (fehlt bisher, kein `window.print` im Planer): eine Seite mit Störungs- und Notrufnummern der gewählten Region, Anlaufstellen, SR-Frequenzen, Personen und Bedarf, Wasser/Essen in Tagen; Druck-CSS, im Artefakt ohne Download-Link.
+2. **Schnell-Übersicht oben (Ampel):** Wasser/Essen in Tagen, unterdeckte Nährstoffe, bald ablaufende Vorräte (MHD), je mit Sprung zur Stelle – vorher Beispielbild ins Vorschau-Artefakt (Regel 21).
+3. **Eine Quelle für Fertigprodukte:** bei verarbeiteter Ware BLS 4.0 statt USDA (Grundlage `vorrat_belege/bls_abgleich.json`, 109 Abweichungen), Grundzutaten bleiben USDA; Ballaststoffe nicht mischen (BLS misst nach neuer Methode); Dinkelmehl-Zuordnung (Vollkorn) klären.
+Nicht nötig: Solar feiner als je Bundesland.
+
 ## Übergabe 26.11.2026 (nachmittags)
 
 **Alles ist live** (main, Artefakt, Pages geprüft). Keine offene Vorschau. Planer-Test 2.854 Prüfungen, 0 Fehler; geprüft nur am Rechner in Handy-Breite.
